@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block og_title %}{{ article.title }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<article class="article">
+  <header class="article-hero">
+    {% if article.hero %}<div class="article-hero-img" style="background-image:url('{{ (asset ~ 'static/img/' ~ article.hero) if article.hero_is_local else article.hero }}')"></div>{% endif %}
+    <div class="wrap article-hero-inner">
+      {% if article.tag %}<span class="pill accent">{{ article.tag }}</span>{% endif %}
+      <h1>{{ article.title }}</h1>
+      {% if article.excerpt %}<p class="article-lead">{{ article.excerpt }}</p>{% endif %}
+      <div class="article-meta">
+        {% if article.author %}<span>{{ article.author }}</span>{% endif %}
+        {% if article.date_display %}<time>{{ article.date_display }}</time>{% endif %}
+      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    {{ article.html|safe }}
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="{{ rel }}articles/">← {{ t('articles.back') }}</a>
+  </div>
+</article>
+{% endblock %}

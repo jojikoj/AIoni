@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ t('search.title') }}{% endblock %}
+{% block og_title %}{{ t('search.title') }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ t('search.title') }}</h1>
+    <p class="page-sub">{{ t('search.subtitle') }}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <form class="search-form" role="search" onsubmit="return false">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 20 20" fill="none"
+           stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <circle cx="9" cy="9" r="6.2"/><path d="M13.5 13.5 L18 18" stroke-linecap="round"/>
+      </svg>
+      <input type="search" id="q" name="q" autocomplete="off" autofocus
+             placeholder="{{ t('search.placeholder') }}" aria-label="{{ t('search.title') }}">
+    </form>
+    <p class="search-status" id="search-status"></p>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</section>
+<script>
+  window.AIONI_SEARCH = {
+    index: "{{ asset }}static/search-{{ lang }}.json",
+    strings: {
+      hits: "{{ t('search.hits') }}",
+      none: "{{ t('search.none') }}",
+      prompt: "{{ t('search.prompt') }}",
+      loading: "{{ t('search.loading') }}"
+    },
+    kinds: {
+      news: "{{ t('nav.news') }}",
+      paper: "{{ t('nav.papers') }}", article: "{{ t('nav.articles') }}"
+    },
+    rel: "{{ rel }}"
+  };
+</script>
+<script src="{{ asset }}static/js/search.js?v={{ asset_ver }}" defer></script>
+{% endblock %}

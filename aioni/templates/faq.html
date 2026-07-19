@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ faq_title }}{% endblock %}
+{% block og_title %}{{ faq_title }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ faq_title }}</h1>
+    <p class="page-sub">{{ faq_excerpt }}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap faq-wrap">
+    {% for f in faqs %}
+    <details class="faq-item"{% if loop.first %} open{% endif %}>
+      <summary><span class="faq-q">{{ f.q }}</span></summary>
+      <div class="faq-a"><p>{{ f.a }}</p></div>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

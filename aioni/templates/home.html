@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% from "macros.html" import news_tile, paper_card %}
+{% block title %}{{ t('home.title') }}{% endblock %}
+{% block og_title %}{{ site_name }} — {{ site_tagline }}{% endblock %}
+
+{% macro sec_head(eyebrow, ja, more_href, more_label) %}
+<div class="sec-head">
+  <span class="sec-en">{{ eyebrow }}</span>
+  <span class="sec-ja">{{ ja }}</span>
+  {% if more_href %}<a class="sec-more" href="{{ more_href }}">{{ more_label }} →</a>{% endif %}
+</div>
+{% endmacro %}
+
+{% macro article_tile(a, rel, asset, size) %}
+<a class="atile {{ size }}" href="{{ rel }}articles/{{ a.slug }}/">
+  {% if a.hero %}
+  <span class="atile-media">
+    <img src="{{ asset }}static/img/{{ a.hero }}" alt="" loading="lazy">
+  </span>
+  {% endif %}
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">{{ a.category_name }}</span>
+      {% if a.date_display %}<time>{{ a.date_display }}</time>{% endif %}
+      <span class="dim">{{ a.read_min }}分</span>
+    </span>
+    <span class="atile-title">{{ a.title }}</span>
+    <span class="atile-excerpt">{{ a.excerpt }}</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+{% endmacro %}
+
+{% block content %}
+
+{#
+  ========================================================================
+  1. HERO — ニュース一覧から始めない（指示書9章）。
+  主CTAは問い合わせではなく「実践記録を見る」。
+  読む前に売り込むと、実践記録そのものの説得力が落ちるため。
+  ========================================================================
+#}
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-copy">AIをニュースで<br class="sp-br">終わらせない。</h1>
+    <p class="hero-sub">
+      株式会社TOEが自社の仕事でAIを実際に動かし、<br>
+      うまくいったことも、失敗したことも公開しています。<br>
+      中小企業のためのAI実践メディアです。
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ rel }}jissen/">AIの実践記録を見る</a>
+      <a class="btn btn-ghost" href="{{ rel }}shippai/">失敗の記録を見る</a>
+    </div>
+  </div>
+</section>
+
+{#
+  ========================================================================
+  2. HERO直下 — 実際に動かしていることを数字で示す（指示書10章）。
+  数字は実際に確認できる事実だけを使う。
+  ========================================================================
+#}
+{% if proof_stats %}
+<section class="proof">
+  <div class="proof-grid">
+    {% for p in proof_stats %}
+    <div class="proof-item">
+      <span class="proof-n">{{ p.n }}</span>
+      <span class="proof-label">{{ p.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{#
+  ========================================================================
+  3. 実践記録 — サイトの主役（指示書11章）。
+  記事数を多く見せるより、本当に読んでほしい記事を大きく見せる。
+  ========================================================================
+#}
+{% if practice %}
+<section class="block">
+  {{ sec_head('実践', 'AIの鬼 実践記録', rel ~ 'jissen/', 'すべて見る') }}
+  <p class="block-lead">
+    TOEが自社の業務でAIをどう動かしているかの記録です。
+    処理件数・所要時間・失敗件数を、そのまま載せています。
+  </p>
+  <div class="atile-grid">
+    {{ article_tile(practice[0], rel, asset, 'lead') }}
+    {% for a in practice[1:4] %}{{ article_tile(a, rel, asset, '') }}{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{#
+  ========================================================================
+  4. 今週のAI — 情報量ではなく選択力を見せる（指示書12章）。
+  600件から数件だけ選ぶ。件数の多さを価値として訴求しない。
+  ========================================================================
+#}
+{% if latest %}
+<section class="block block-tint">
+  {{ sec_head('選別', '今週、これだけ知ればいいAI', rel ~ 'news/', 'ニュース一覧') }}
+  <p class="block-lead">
+    集約した{{ news_count }}件から、中小企業に関係するものだけを選んでいます。
+  </p>
+  <div class="tile-grid">
+    {% for n in latest %}{{ news_tile(n, lang, t, rel) }}{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{#
+  ========================================================================
+  5. AI検索観測所 — 独自調査（指示書13章）。
+  「必ず表示される」等の断定は書かない。測る・観測する立場を取る。
+  ========================================================================
+#}
+<section class="block">
+  {{ sec_head('実測', 'AI検索観測所', rel ~ 'kansoku/', 'すべて見る') }}
+  <p class="block-lead">
+    ChatGPT・Perplexity・Google AI Overviews に実際に質問を投げ、
+    どのサイトが引用元になっているかを測っています。意見ではなく、測った数字を置きます。
+  </p>
+  {% if observation %}
+  <div class="atile-grid">
+    {% for a in observation[:3] %}{{ article_tile(a, rel, asset, '') }}{% endfor %}
+  </div>
+  {% else %}
+  <p class="empty">観測結果は順次公開します。</p>
+  {% endif %}
+</section>
+
+{#
+  ========================================================================
+  6. サービス導線 — ここで初めて売る（指示書14章）。
+  3サービスを横並びにしない。AI研修・AI活用相談を主導線とする。
+  ========================================================================
+#}
+<section class="block block-tint">
+  {{ sec_head('相談', '御社でもAIを使ってみませんか', '', '') }}
+
+  <a class="svc-main" href="{{ rel }}contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">AIを社内で使いたい</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="{{ rel }}contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="{{ rel }}contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+{#
+  ========================================================================
+  7. 資料 — 集約データはここまで下げる。主役にしない（指示書19章）。
+  ========================================================================
+#}
+{% if topic_nav %}
+<section class="block">
+  {{ sec_head('資料', 'トピックから探す', rel ~ 'papers/', '研究動向を見る') }}
+  <p class="block-lead">
+    集約したニュースは編集部の情報収集用ですが、そのまま公開しています。
+  </p>
+  <div class="topic-grid">
+    {% for tp in topic_nav %}
+    <a class="topic-card" href="{{ rel }}topics/{{ tp.id }}/">
+      <span class="topic-card-name">#{{ tp.name }}</span>
+      <span class="topic-card-count">{{ tp.count }}</span>
+      <span class="topic-card-desc">{{ tp.desc }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

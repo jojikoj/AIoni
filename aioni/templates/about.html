@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ t('about.title') }}{% endblock %}
+{% block og_title %}{{ t('about.title') }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ t('about.title') }}</h1>
+    <p class="page-sub">{{ t('about.subtitle') }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap ad-wrap">
+
+    {# 運営の動機を最初に置く。
+       誰が何のために書いているかが分かるメディアほど、
+       検索エンジンにもAIにも、そして読者にも信頼される。 #}
+    <div class="ad-block">
+      <h2>{{ t('about.why') }}</h2>
+      {% for p in about_why %}<p class="ad-lead">{{ p }}</p>{% endfor %}
+    </div>
+
+    <div class="ad-block">
+      <h2>{{ t('about.policy') }}</h2>
+      <ul class="ad-list">
+        {% for p in about_policy %}<li>{{ p }}</li>{% endfor %}
+      </ul>
+    </div>
+
+    <div class="ad-block">
+      <h2>{{ t('about.profile') }}</h2>
+      <table class="about-table">
+        <tbody>
+          {% for label, value in company_profile %}
+          <tr>
+            <th>{{ label }}</th>
+            <td>
+              {% if value.startswith('http') %}
+              <a href="{{ value }}" target="_blank" rel="noopener">{{ value }}</a>
+              {% else %}{{ value }}{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ad-cta">
+      <h2>{{ t('nav.contact') }}</h2>
+      <p>{{ t('about.contact_lead') }}</p>
+      <a class="btn btn-primary" href="{{ rel }}contact/">{{ t('nav.contact') }}</a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

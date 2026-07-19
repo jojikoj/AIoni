@@ -1,0 +1,162 @@
+{# 再利用カード類 #}
+
+{% macro news_card(item, lang, t, rel='') %}
+<article class="card news-card">
+  {% set title = item.get('title_' ~ lang) or item.title %}
+  {% set summary = item.get('summary_' ~ lang) or item.summary %}
+  {% if item.image %}
+  <a class="card-media" href="{{ rel }}a/{{ item.slug }}/">
+    <img src="{{ item.image }}" alt="" loading="lazy" onerror="this.closest('.card-media').classList.add('no-img')">
+  </a>
+  {% endif %}
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="pill">{{ item.source }}</span>
+      {% if item.is_translated %}<span class="pill mt" title="{{ item.title }}">{{ t('meta.machine_translated') }}</span>{% endif %}
+      {% if item.published_display %}<time datetime="{{ item.published }}">{{ item.published_display }}</time>{% endif %}
+    </div>
+    <h3 class="card-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    {% if summary %}<p class="card-summary">{{ summary }}</p>{% endif %}
+    <a class="card-link" href="{{ rel }}a/{{ item.slug }}/">{{ t('articles.read') }} →</a>
+  </div>
+</article>
+{% endmacro %}
+
+
+{% macro paper_card(item, lang, t) %}
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+      {% for c in item.categories %}<span class="pill ghost mono">{{ c }}</span>{% endfor %}
+      {% if item.published_display %}<time datetime="{{ item.published }}">{{ item.published_display }}</time>{% endif %}
+    </div>
+    <h3 class="card-title"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+    {% if item.authors %}<p class="paper-authors">{{ item.authors|join(', ') }}{% if item.authors|length >= 8 %} et al.{% endif %}</p>{% endif %}
+    {% if item.summary %}<p class="card-summary">{{ item.summary }}</p>{% endif %}
+    <div class="card-actions">
+      <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener">arXiv →</a>
+      {% if item.pdf %}<a class="card-link ghost" href="{{ item.pdf }}" target="_blank" rel="noopener">{{ t('papers.pdf') }}</a>{% endif %}
+    </div>
+  </div>
+</article>
+{% endmacro %}
+
+
+{% macro article_card(a, lang, t, rel) %}
+<article class="card article-card">
+  <a class="article-card-inner" href="{{ rel }}articles/{{ a.slug }}/">
+    {% if a.hero %}<div class="card-media"><img src="{{ (rel ~ 'static/img/' ~ a.hero) if a.hero_is_local else a.hero }}" alt="" loading="lazy"></div>{% endif %}
+    <div class="card-body">
+      {% if a.tag %}<span class="pill accent">{{ a.tag }}</span>{% endif %}
+      <h3 class="card-title">{{ a.title }}</h3>
+      {% if a.excerpt %}<p class="card-summary">{{ a.excerpt }}</p>{% endif %}
+      <span class="card-link">{{ t('articles.read') }} →</span>
+    </div>
+  </a>
+</article>
+{% endmacro %}
+
+
+{% macro pager(p, t) %}
+{% if p and p.total > 1 %}
+<nav class="pager" aria-label="pagination">
+  {% if p.prev %}<a class="pager-btn" href="{{ p.prev }}" rel="prev">← {{ t('pager.prev') }}</a>
+  {% else %}<span class="pager-btn disabled">← {{ t('pager.prev') }}</span>{% endif %}
+  <span class="pager-nums">
+    {% for e in p.entries %}
+      {% if e.gap %}<span class="pager-gap">…</span>
+      {% elif e.current %}<span class="pager-num on" aria-current="page">{{ e.num }}</span>
+      {% else %}<a class="pager-num" href="{{ e.href }}">{{ e.num }}</a>{% endif %}
+    {% endfor %}
+  </span>
+  {% if p.next %}<a class="pager-btn" href="{{ p.next }}" rel="next">{{ t('pager.next') }} →</a>
+  {% else %}<span class="pager-btn disabled">{{ t('pager.next') }} →</span>{% endif %}
+</nav>
+{% endif %}
+{% endmacro %}
+
+
+{#
+  注目トップ記事。強弱は「大きな画像＋リード文」だけで付ける。
+  通常記事にはリード文を付けないので、この差だけで序列が伝わる。
+#}
+{% macro news_lead(item, lang, t, rel='') %}
+{% set title = item.get('title_' ~ lang) or item.title %}
+{% set summary = item.get('summary_' ~ lang) or item.summary %}
+<article class="lead-card">
+  {% if item.image %}
+  <a class="lead-media" href="{{ rel }}a/{{ item.slug }}/">
+    <img src="{{ item.image }}" alt="" loading="eager"
+         onerror="this.closest('.lead-media').classList.add('no-img')">
+  </a>
+  {% endif %}
+  <div class="lead-body">
+    <div class="card-meta">
+      <span class="src">{{ item.source }}</span>
+      {% if item.is_translated %}<span class="mt-mark" title="{{ item.title }}">{{ t('meta.machine_translated') }}</span>{% endif %}
+      {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}
+    </div>
+    <h3 class="lead-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    {% if summary %}<p class="lead-summary">{{ summary }}</p>{% endif %}
+  </div>
+</article>
+{% endmacro %}
+
+
+{#
+  一覧用の1行。要約は出さない。
+  調査した5サイト中4サイトが一覧に要約を出しておらず、
+  要約2行は1記事あたり約40pxを消費してスキャン速度を落とすため。
+#}
+{% macro news_row(item, lang, t, rel='') %}
+{% set title = item.get('title_' ~ lang) or item.title %}
+<article class="news-row">
+  {% if item.image %}
+  <a class="row-thumb" href="{{ rel }}a/{{ item.slug }}/">
+    <img src="{{ item.image if item.image else (rel ~ '../static/img/' ~ item.stock_image) }}"
+         alt="" loading="lazy" onerror="this.closest('.row-thumb').classList.add('no-img')">
+  </a>
+  {% endif %}
+  <div class="row-body">
+    <h3 class="row-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    <div class="card-meta">
+      <span class="src">{{ item.source }}</span>
+      {% if item.is_translated %}<span class="mt-mark" title="{{ item.title }}">{{ t('meta.machine_translated') }}</span>{% endif %}
+      {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}
+      {% for tp in item.topic_labels or [] %}<span class="tag-hash">#{{ tp }}</span>{% endfor %}
+    </div>
+  </div>
+</article>
+{% endmacro %}
+
+
+{#
+  カード型のニュース。サムネイルを主役にし、要約は出さない。
+  一覧のスキャン速度を落とさずに視覚的な情報量を上げる。
+#}
+{% macro news_tile(item, lang, t, rel='') %}
+{% set title = item.get('title_' ~ lang) or item.title %}
+<article class="news-tile">
+  <a class="tile-media" href="{{ rel }}a/{{ item.slug }}/">
+    {% if item.image %}
+    <img src="{{ item.image }}" alt="" loading="lazy"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+    {% elif item.stock_image %}
+    {# 元記事に画像がない場合のイメージ写真。実際の被写体ではない #}
+    <img src="{{ rel }}../static/img/{{ item.stock_image }}" alt="" loading="lazy">
+    <span class="stock-mark">{{ t('meta.stock_image') }}</span>
+    {% endif %}
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    <div class="tile-meta">
+      {% for tp in item.topic_labels or [] %}<span class="tag-hash">#{{ tp }}</span>{% endfor %}
+      {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}
+    </div>
+    <div class="tile-src">
+      <span class="src">{{ item.source }}</span>
+      {% if item.is_translated %}<span class="mt-mark">{{ t('meta.machine_translated') }}</span>{% endif %}
+    </div>
+  </div>
+</article>
+{% endmacro %}

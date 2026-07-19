@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "macros.html" import pager, news_tile %}
+{% block title %}{{ topic_name }}{% endblock %}
+{% block og_title %}{{ topic_name }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ topic_name }}</h1>
+    <p class="page-sub">{{ topic_desc }}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    {# 他トピックへの横移動導線。関心が確定した読者に隣接領域を提示する #}
+    <div class="filter-bar">
+      {% for tp in all_topics %}
+      <a class="chip {{ 'on' if tp.current }}" href="{{ tp.href }}">#{{ tp.name }}</a>
+      {% endfor %}
+    </div>
+    {% if news %}
+    <div class="tile-grid">
+      {% for n in news %}{{ news_tile(n, lang, t, rel) }}{% endfor %}
+    </div>
+    {{ pager(pagination, t) }}
+    {% else %}
+    <p class="empty">{{ t('meta.no_data') }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

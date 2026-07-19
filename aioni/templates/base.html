@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site_name }}{% endblock %} · {{ site_name }}</title>
+  <meta name="description" content="{{ page_description or site_description }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <!-- Alternate languages -->
+  {% for l, href in alternates.items() %}
+  <link rel="alternate" hreflang="{{ l }}" href="{{ href }}">
+  {% endfor %}
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <!-- OGP -->
+  <meta property="og:type" content="{{ og_type or 'website' }}">
+  <meta property="og:site_name" content="{{ site_name }}">
+  <meta property="og:title" content="{% block og_title %}{{ site_name }}{% endblock %}">
+  <meta property="og:description" content="{{ page_description or site_description }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:locale" content="{{ 'ja_JP' if lang == 'ja' else 'en_US' }}">
+  <meta property="og:locale:alternate" content="{{ 'en_US' if lang == 'ja' else 'ja_JP' }}">
+  <meta property="og:image" content="{{ site_base_url }}/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ self.og_title() }}">
+  <meta name="twitter:description" content="{{ page_description or site_description }}">
+  <meta name="twitter:image" content="{{ site_base_url }}/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="{{ site_name }}"
+        href="{{ site_base_url }}/{{ '' if lang == 'ja' else 'en/' }}feed.xml">
+  {% if jsonld %}
+  <script type="application/ld+json">{{ jsonld|safe }}</script>
+  {% endif %}
+  <link rel="icon" href="{{ asset }}static/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ asset }}static/css/style.css?v={{ asset_ver }}">
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "{{ lang }}";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "{{ alternates['ja'] }}" : "{{ alternates['en'] }}";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="{{ lang }}">
+
+{#
+  左サイドバー固定レイアウト。
+  ロゴ・タグ導線・検索・縦ナビをサイドに寄せ、本文の横幅を最大限使う。
+  情報メディアでは上部ナビより縦ナビの方が項目を増やしても破綻しない。
+#}
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="{{ home_url }}">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="44" height="44"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="16" cy="16" rx="14" ry="5.2" fill="none" stroke="currentColor" stroke-width="1.5" transform="rotate(28 16 16)"/><circle cx="16" cy="16" r="4" fill="currentColor"/></svg>
+      </span>
+      <span class="side-name">{{ site_name }}</span>
+      <span class="side-tag">{{ t('brand.tagline') }}</span>
+    </a>
+
+    <form class="side-search" action="{{ rel }}search/" method="get" role="search">
+      <input type="search" name="q" placeholder="{{ t('side.search_ph') }}"
+             aria-label="{{ t('nav.search') }}">
+    </form>
+
+    {#
+      ナビの並び順は、そのままサイトの主張になる。
+      自社の実践記録を上に、集約データ（ニュース・論文）を「資料」として下に置く。
+      件数の多い集約を上に出すと「ニュースサイト」に見えてしまうため。
+    #}
+    <nav class="side-nav">
+      <a href="{{ home_url }}" class="{{ 'on' if active == 'home' }}">{{ t('nav.home') }}</a>
+
+      <span class="side-navhead">{{ t('nav.group_practice') }}</span>
+      {% for c in article_categories %}
+      <a href="{{ rel }}{{ c.id }}/" class="{{ 'on' if active == c.id }}">{{ c.name }}</a>
+      {% endfor %}
+
+      <span class="side-navhead">{{ t('nav.group_archive') }}</span>
+      <a href="{{ rel }}news/" class="{{ 'on' if active == 'news' }}">{{ t('nav.news') }}</a>
+      <a href="{{ rel }}papers/" class="{{ 'on' if active == 'papers' }}">{{ t('nav.papers') }}</a>
+
+      <span class="side-navsep"></span>
+      <a href="{{ rel }}about/" class="{{ 'on' if active == 'about' }}">{{ t('about.title') }}</a>
+      <a href="{{ rel }}faq/" class="{{ 'on' if active == 'faq' }}">{{ t('nav.faq') }}</a>
+      <a href="{{ rel }}advertise/" class="{{ 'on' if active == 'advertise' }}">{{ t('nav.advertise') }}</a>
+      <a href="{{ rel }}contact/" class="cta {{ 'on' if active == 'contact' }}">{{ t('nav.contact') }}</a>
+    </nav>
+
+    {% if alternates|length > 1 %}
+    <div class="side-lang">
+      {% for l, href in alternates.items() %}
+      <a href="{{ href }}" class="{{ 'on' if l == lang }}" hreflang="{{ l }}">{{ l|upper }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="{{ home_url }}">{{ site_name }}</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">{{ site_name }}</div>
+          <p class="footer-tagline">{{ site_tagline }}</p>
+          <p class="footer-desc">{{ t('footer.desc') }}</p>
+        </div>
+        <div class="footer-col">
+          <h4>{{ t('nav.group_practice') }}</h4>
+          {% for c in article_categories %}
+          <a href="{{ rel }}{{ c.id }}/">{{ c.name }}</a>
+          {% endfor %}
+        </div>
+        <div class="footer-col">
+          <h4>{{ t('nav.group_archive') }}</h4>
+          <a href="{{ rel }}news/">{{ t('nav.news') }}</a>
+          <a href="{{ rel }}papers/">{{ t('nav.papers') }}</a>
+          <a href="{{ rel }}topics/models/">{{ t('nav.topics') }}</a>
+          <a href="{{ rel }}search/">{{ t('nav.search') }}</a>
+          <a href="{{ rel }}about/">{{ t('about.title') }}</a>
+        </div>
+        <div class="footer-col">
+          <h4>{{ t('footer.sources') }}</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© {{ year }} {{ site_name }} · {{ t('footer.built') }}</span>
+        <span class="footer-updated">{{ t('meta.updated') }}: {{ build_time }}</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="{{ asset }}static/js/main.js?v={{ asset_ver }}" defer></script>
+</body>
+</html>

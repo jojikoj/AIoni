@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}{{ t('contact.title') }}{% endblock %}
+{% block og_title %}{{ t('contact.title') }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ t('contact.title') }}</h1>
+    <p class="page-sub">{{ t('contact.subtitle') }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap contact-wrap">
+    {% if google_form_url %}
+    {# Googleフォームが設定されていればそれを埋め込む。
+       送信・集計・通知をGoogle側に任せられ、静的サイトの制約を受けない。 #}
+    <div class="gform-wrap">
+      <iframe src="{{ google_form_url }}" width="100%" height="{{ google_form_height }}"
+              frameborder="0" marginheight="0" marginwidth="0"
+              title="{{ t('contact.title') }}" loading="lazy">読み込んでいます…</iframe>
+    </div>
+    {% else %}
+    <form id="inquiry-form" class="inquiry-form" novalidate>
+      <div class="field">
+        <label for="f-kind">{{ t('form.kind') }} <span class="req">*</span></label>
+        <select id="f-kind" name="kind" required>
+          {% for k in form_kinds %}<option value="{{ k }}">{{ k }}</option>{% endfor %}
+        </select>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-company">{{ t('form.company') }} <span class="req">*</span></label>
+          <input id="f-company" name="company" type="text" required autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="f-name">{{ t('form.name') }} <span class="req">*</span></label>
+          <input id="f-name" name="name" type="text" required autocomplete="name">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-email">{{ t('form.email') }} <span class="req">*</span></label>
+          <input id="f-email" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-tel">{{ t('form.tel') }}</label>
+          <input id="f-tel" name="tel" type="tel" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-site">{{ t('form.site') }}</label>
+        <input id="f-site" name="site" type="url" placeholder="https://">
+      </div>
+
+      <div class="field">
+        <label for="f-message">{{ t('form.message') }} <span class="req">*</span></label>
+        <textarea id="f-message" name="message" rows="7" required
+                  placeholder="{{ t('form.message_ph') }}"></textarea>
+      </div>
+
+      {# ボット対策。人間には見えないので常に空。埋まっていたら破棄する #}
+      <div class="hp-field" aria-hidden="true">
+        <label for="f-hp">この欄は入力しないでください</label>
+        <input id="f-hp" name="hp" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="form-foot">
+        <button type="submit" class="btn btn-primary">{{ t('form.submit') }}</button>
+        <p class="form-status" id="form-status"></p>
+      </div>
+      <p class="contact-note">{{ t('form.privacy') }}</p>
+    </form>
+    {% endif %}
+
+    {# メールアドレスは掲載しない。スパム収集を招くうえ、
+       フォーム(GAS)で受けられるため掲載する必要がない。 #}
+    <div class="contact-direct">
+      <p class="contact-note">{{ t('contact.note') }}</p>
+    </div>
+
+    {# 運営情報は独立した /about/ に集約した。
+       ここに置くと問い合わせ動線から目を逸らすため置かない。 #}
+    <p class="contact-note">
+      <a href="{{ rel }}about/">{{ t('about.title') }}</a>
+    </p>
+  </div>
+</section>
+
+<script>
+  window.AIONI_FORM = {
+    endpoint: {{ (form_endpoint or '')|tojson }},
+    site_key: "aioni",
+    site_origin: "https://aioni.tech",
+    access_key: {{ (form_access_key or '')|tojson }},
+    labels: {
+      kind: "{{ t('form.kind') }}", company: "{{ t('form.company') }}",
+      name: "{{ t('form.name') }}", email: "{{ t('form.email') }}",
+      tel: "{{ t('form.tel') }}", site: "{{ t('form.site') }}",
+      message: "{{ t('form.message') }}",
+      sent_from: "{{ t('form.sent_from') }}"
+    },
+    strings: {
+      sending: "{{ t('form.sending') }}", sent: "{{ t('form.sent') }}",
+      failed: "{{ t('form.failed') }}", mail_opened: "{{ t('form.mail_opened') }}"
+    }
+  };
+</script>
+<script src="{{ asset }}static/js/contact-form.js?v={{ asset_ver }}" defer></script>
+{% endblock %}

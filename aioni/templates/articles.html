@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "macros.html" import pager, article_card %}
+{% set head_title = category.name if category else t('articles.title') %}
+{% set head_sub = category.desc if category else t('articles.subtitle') %}
+{% block title %}{{ head_title }}{% endblock %}
+{% block og_title %}{{ head_title }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    {% if category %}<span class="page-eyebrow">{{ category.eyebrow }}</span>{% endif %}
+    <h1>{{ head_title }}</h1>
+    <p class="page-sub">{{ head_sub }}</p>
+  </div>
+</section>
+
+{#
+  カテゴリ間の行き来。記事数が少ないうちは、1カテゴリだけ見て
+  「記事が少ないサイト」と判断されやすいため、他の入口を必ず見せる。
+#}
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="cat-chips">
+      {% for c in article_categories %}
+      <a class="cat-chip {{ 'on' if category and c.id == category.id }}"
+         href="{{ rel }}{{ c.id }}/">{{ c.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {% if articles %}
+    <div class="grid grid-articles">
+      {% for a in articles %}{{ article_card(a, lang, t, rel) }}{% endfor %}
+    </div>
+    {{ pager(pagination, t) }}
+    {% else %}
+    <p class="empty">{{ t('articles.empty') }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ t('ad.title') }}{% endblock %}
+{% block og_title %}{{ t('ad.title') }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ t('ad.title') }}</h1>
+    <p class="page-sub">{{ t('ad.subtitle') }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap ad-wrap">
+
+    {# 誰に届くかを最初に置く。広告主が買うのはPVではなく到達先の質のため #}
+    <div class="ad-block">
+      <h2>{{ t('ad.audience') }}</h2>
+      <p class="ad-lead">{{ t('ad.audience_lead') }}</p>
+      <ul class="ad-list">
+        {% for a in ad_audience %}<li>{{ a }}</li>{% endfor %}
+      </ul>
+    </div>
+
+    <div class="ad-block">
+      <h2>{{ t('ad.content') }}</h2>
+      <div class="ad-stats">
+        {% for s in ad_stats %}
+        <div class="ad-stat"><strong>{{ s.n }}</strong><span>{{ s.label }}</span></div>
+        {% endfor %}
+      </div>
+      <p class="contact-note">{{ t('ad.stats_note') }}</p>
+    </div>
+
+    <div class="ad-block">
+      <h2>{{ t('ad.menu') }}</h2>
+      <div class="ad-menu">
+        {% for m in ad_menu %}
+        <article class="ad-plan">
+          <h3>{{ m.name }}</h3>
+          <p class="ad-plan-price">{{ m.price }}</p>
+          <p class="ad-plan-desc">{{ m.desc }}</p>
+        </article>
+        {% endfor %}
+      </div>
+      <p class="contact-note">{{ t('ad.menu_note') }}</p>
+    </div>
+
+    <div class="ad-cta">
+      <h2>{{ t('ad.cta_title') }}</h2>
+      <p>{{ t('ad.cta_body') }}</p>
+      <a class="btn btn-primary" href="{{ ad_mailto }}">{{ t('ad.cta_button') }}</a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

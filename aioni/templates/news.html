@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "macros.html" import pager, news_tile %}
+{% block title %}{{ t('news.title') }}{% endblock %}
+{% block og_title %}{{ t('news.title') }} · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{% if source_name %}{{ source_name }}{% else %}{{ t('news.title') }}{% endif %}</h1>
+    <p class="page-sub">{{ t('news.subtitle') }}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    {% if news %}
+    {% if news | selectattr('is_translated') | first %}
+    <div class="mt-note">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="6.6"/><path d="M8 7.4v4M8 4.9v.1" stroke-linecap="round"/>
+      </svg>
+      <span>{{ t('meta.mt_note') }}</span>
+    </div>
+    {% endif %}
+    {# ソースが28件あり全部並べると3行を占有するため折りたたむ #}
+    <details class="filter-fold"{% if source_name %} open{% endif %}>
+      <summary>{{ t('news.filter_by_source') }}</summary>
+      <div class="filter-bar">
+        {% for c in source_chips %}
+        <a class="chip {{ 'on' if c.current }}" href="{{ c.href }}">{{ c.name }}</a>
+        {% endfor %}
+      </div>
+    </details>
+    <div class="tile-grid">
+      {% for n in news %}{{ news_tile(n, lang, t, rel) }}{% endfor %}
+    </div>
+    {{ pager(pagination, t) }}
+    {% else %}
+    <p class="empty">{{ t('meta.no_data') }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
