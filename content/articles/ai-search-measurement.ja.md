@@ -5,6 +5,8 @@ tag: AI検索観測所
 author: AIの鬼 編集部
 date: 2026-07-19
 order: 5
+hero: article-ai-search-measurement.jpg
+image_prompt: A person at a desk comparing search results on two laptop screens side by side, a handwritten tally sheet with rows of marks on paper beside the keyboard, a small office at night, desk lamp as the main light source
 ---
 
 ## はじめに、こちらの立場を明かします

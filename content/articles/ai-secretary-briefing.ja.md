@@ -5,6 +5,8 @@ tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-19
 order: 2
+hero: article-ai-secretary-briefing.jpg
+image_prompt: A single printed one-page report lying on an otherwise empty desk in a quiet office at 8am, low morning sunlight coming in sideways through blinds, a closed laptop at the edge of the frame
 ---
 
 株式会社TOEでは、社内の定型業務を「AIエージェント基盤」と呼ぶ仕組みに載せて自動で回しています。その中で毎日動くのが、平日の朝に経営状況を1枚にまとめる「日次ブリーフィング」です。

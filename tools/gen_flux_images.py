@@ -224,12 +224,42 @@ def generate(key: str, prompt: str, out: pathlib.Path) -> bool:
     return False
 
 
-def main() -> int:
-    force = "--force" in sys.argv
-    key = api_key()
-    OUT.mkdir(parents=True, exist_ok=True)
+def article_jobs() -> list[tuple[str, str]]:
+    """オリジナル記事の front matter から hero / image_prompt を集める。
+
+    fallback と違ってジョブをここに書かない。記事側の front matter が正。
+    記事を足せば、次の実行で自動的にその1枚だけが生成される。
+    """
+    jobs: list[tuple[str, str]] = []
+    art_dir = ROOT / "content" / "articles"
+    if not art_dir.exists():
+        return jobs
+    for md in sorted(art_dir.glob("*.md")):
+        text = md.read_text(encoding="utf-8")
+        if not text.startswith("---"):
+            continue
+        fm = text.split("---", 2)[1]
+        hero = prompt = ""
+        for line in fm.splitlines():
+            if line.startswith("hero:"):
+                hero = line.split(":", 1)[1].strip()
+            elif line.startswith("image_prompt:"):
+                prompt = line.split(":", 1)[1].strip()
+        if not hero:
+            continue
+        if not prompt:
+            print(f"  ⚠️ image_prompt なし: {md.name}", file=sys.stderr)
+            continue
+        # 記事側で毎回書き忘れないよう、写実指定はここで必ず足す
+        if "realistic" not in prompt:
+            prompt = f"{prompt}, {REALISM}"
+        jobs.append((hero, prompt))
+    return jobs
+
+
+def run(key: str, jobs: list[tuple[str, str]], force: bool) -> tuple[int, int, int]:
     ok = skip = fail = 0
-    for name, prompt in JOBS:
+    for name, prompt in jobs:
         path = OUT / name
         if path.exists() and not force:
             print(f"skip  {name}（既存）")
@@ -241,6 +271,26 @@ def main() -> int:
             ok += 1
         else:
             fail += 1
+    return ok, skip, fail
+
+
+def main() -> int:
+    force = "--force" in sys.argv
+    only_articles = "--articles" in sys.argv
+    only_fallback = "--fallback" in sys.argv
+
+    key = api_key()
+    OUT.mkdir(parents=True, exist_ok=True)
+
+    jobs: list[tuple[str, str]] = []
+    if not only_articles:
+        jobs += JOBS
+    if not only_fallback:
+        arts = article_jobs()
+        print(f"記事hero: {len(arts)}件を対象にします")
+        jobs += arts
+
+    ok, skip, fail = run(key, jobs, force)
     print(f"\n=== 生成{ok} / スキップ{skip} / 失敗{fail} ===")
     return 0 if fail == 0 else 1
 

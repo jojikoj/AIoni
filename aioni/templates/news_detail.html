@@ -2,6 +2,14 @@
 {% block title %}{{ item.display_title }}{% endblock %}
 {% block og_title %}{{ item.display_title }} · {{ site_name }}{% endblock %}
 
+{# 集約の中間ページは noindex。
+   中身は他社記事の見出し＋短い要約＋関連リンクで、独自の情報量がない。
+   これを600ページぶんインデックスさせると大量生成コンテンツと見なされ、
+   サイト全体の評価が落ちてオリジナル記事まで巻き添えになる。
+   follow は残すので、サイト内の回遊とリンク評価の受け渡しは効く。
+   → 03_集約要約ルール.md「個別記事ページを作らない」 #}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
 {% block content %}
 <article class="ndetail">
 

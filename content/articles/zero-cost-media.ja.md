@@ -5,6 +5,8 @@ tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-19
 order: 4
+hero: article-zero-cost-media.jpg
+image_prompt: A small headless computer sitting on a shelf with a single power LED and an ethernet cable running off frame, a quiet room, early morning daylight, shallow depth of field
 ---
 
 株式会社TOEでは、自社メディアを2本運営しています。宇宙産業の情報メディア「UchUchU」（uchuchu.tech）と、補助金情報の「補助金の鬼」（hojokin.website）です。

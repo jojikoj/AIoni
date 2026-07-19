@@ -5,6 +5,8 @@ tag: 失敗の鬼
 author: AIの鬼 編集部
 date: 2026-07-19
 order: 3
+hero: article-batch-414-failure.jpg
+image_prompt: A single monitor on a desk filled with a long scrolling terminal log, an empty chair pushed back from the desk, a cold cup of coffee beside the keyboard, dim office late at night
 ---
 
 AIの導入事例は、うまくいった話ばかりが世に出ます。しかし実際に手を動かしている現場では、地味な設定ミス一つで数百件の処理が吹き飛びます。

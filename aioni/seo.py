@@ -96,7 +96,13 @@ def _article(base: str, a: dict, url: str, lang: str) -> dict:
         node["datePublished"] = a["date"]
         node["dateModified"] = a["date"]
     if a.get("hero"):
-        node["image"] = a["hero"]
+        # schema.org の image は絶対URLでないと読まれない。
+        # front matter には "article-xxx.jpg" とファイル名だけ書くので、
+        # ここで static/img/ を付けた絶対URLに直す。
+        hero = a["hero"]
+        if not hero.startswith(("http://", "https://")):
+            hero = f"{base}/static/img/{hero.lstrip('/')}"
+        node["image"] = hero
     return node
 
 
@@ -426,9 +432,21 @@ def build_sitemap(base: str, paths_by_lang: dict[str, list[str]],
             return "0.5"     # ソース別一覧
         return "0.4"         # 2ページ目以降
 
+    def indexable(p: str) -> bool:
+        """集約の中間ページ（a/<slug>/）は sitemap に載せない。
+
+        テンプレート側で noindex にしているページを sitemap で申告すると
+        矛盾したシグナルになる。また 600件の薄いページが sitemap の大半を
+        占めると、クロールバジェットがオリジナル記事に回らなくなる。
+        → 03_集約要約ルール.md「個別記事ページを作らない」
+        """
+        return not (p == "a" or p.startswith("a/"))
+
     for lang, paths in paths_by_lang.items():
         prefix = "" if lang == config.DEFAULT_LANG else f"{lang}/"
         for p in sorted(paths):
+            if not indexable(p):
+                continue
             out.append("  <url>")
             out.append(f"    <loc>{base}/{prefix}{p}</loc>")
             out.append(f"    <lastmod>{lastmod}</lastmod>")
