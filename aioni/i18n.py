@@ -80,7 +80,7 @@ STRINGS = {
 
     "about.title": {"ja": "運営会社", "en": "About us"},
     "about.subtitle": {
-        "ja": "AIの鬼は株式会社TOEが運営する、AI情報の集約メディアです。",
+        "ja": "AIの鬼は、株式会社TOEが自社でAIを動かした記録と、国内外のAI情報をまとめて公開しているメディアです。",
         "en": "AIoni is an AI news aggregation media operated by TOE Inc."},
     "about.why": {"ja": "なぜこのメディアを運営しているのか", "en": "Why we run this media"},
     "about.policy": {"ja": "編集方針", "en": "Editorial policy"},
@@ -89,7 +89,7 @@ STRINGS = {
         "ja": "広告・取材のご相談はフォームから承っています。",
         "en": "Please use the form for advertising and press inquiries."},
     "contact.operator_note": {
-        "ja": "AIの鬼は株式会社TOEが運営するAI情報の集約メディアです。",
+        "ja": "AIの鬼は株式会社TOEが運営しています。AI研修・AI活用支援・Web制作を手がける会社です。",
         "en": "AIoni is an AI news aggregation media operated by TOE Inc."},
 
     "ad.title": {"ja": "広告掲載のご案内", "en": "Advertise with AIoni"},

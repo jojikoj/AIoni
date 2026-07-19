@@ -139,15 +139,24 @@ _FALLBACK_BY_TOPIC = {
 }
 
 
+# 集約ニュースで画像が無いものに割り当てる図解SVG。
+# 収集600件のうち画像を持つのは85件（14%）だけ。残りに Flux 写真24枚を
+# 配ると同じ写真が1枚あたり20回以上出て、量産サイトに見える。
+# SVGは1枚1.5KBで144枚あるため、同じ絵が並びにくい。
+# → tools/gen_news_svg.py で生成。オリジナル記事のヒーローは Flux 写真のまま。
+_NEWS_SVG_VARIANTS = 16
+
+
 def _fallback_image(topics: list[str], seed: str = "") -> str:
-    base = "fallback-default"
+    """ニュース用の図解SVGを1枚選ぶ（決定的）。"""
+    topic = "default"
     for t in topics:
         if t in _FALLBACK_BY_TOPIC:
-            base = _FALLBACK_BY_TOPIC[t]
+            topic = t
             break
     h = hashlib.sha1(seed.encode("utf-8")).hexdigest()
-    variant = _FALLBACK_VARIANTS[int(h[:8], 16) % len(_FALLBACK_VARIANTS)]
-    return f"{base}-{variant}.jpg"
+    v = int(h[:8], 16) % _NEWS_SVG_VARIANTS
+    return f"news-{topic}-{v:02d}.svg"
 
 
 # 記事カテゴリ → ニュース用トピック（イメージ写真の使い回しに使う）
@@ -264,6 +273,16 @@ def load_articles(lang: str) -> list[dict]:
             "read_min": max(1, round(text_len / 600)),
             "html": html,
         })
+    # 公開予定日（front matter の date）が未来の記事は、その日が来るまで出さない。
+    # プレイブックの「まとめて生成し、publishedAt で1日N本ずつ出す」運用。
+    # 日次cron（tools/daily.sh）が毎日ビルドし直すので、日付が来た記事が
+    # 自動的に一覧・sitemap・feed に現れる。人手の操作は要らない。
+    today = datetime.now(timezone.utc).astimezone().date().isoformat()
+    scheduled = [a for a in articles if a["date"] and a["date"] > today]
+    if scheduled:
+        print(f"  公開待ち {len(scheduled)}本（最短 {min(a['date'] for a in scheduled)}）")
+    articles = [a for a in articles if not (a["date"] and a["date"] > today)]
+
     articles.sort(key=lambda a: (a["order"], a["date"]), reverse=False)
     return articles
 
@@ -451,6 +470,8 @@ class Builder:
             "site_tagline": config.SITE_TAGLINE[lang],
             "site_description": config.SITE_DESCRIPTION[lang],
             "page_description": page_description,
+            # GA4。空なら base.html 側で計測タグを出力しない
+            "ga4_id": config.GA4_MEASUREMENT_ID,
             "rel": rel,
             "asset": asset,
             "asset_ver": self.asset_ver,
@@ -536,6 +557,7 @@ class Builder:
         observation = [a for a in articles if a.get("category") == "kansoku"]
         ctx.update(news=news, papers=papers, articles=articles,
                    featured=featured, latest=latest[:6], topic_nav=topic_nav,
+                   hero_copy=config.HERO_COPY, hero_sub=config.HERO_SUB,
                    practice=practice, observation=observation,
                    proof_stats=config.PROOF_STATS,
                    news_count=len(news))
@@ -704,44 +726,16 @@ class Builder:
                 topic_pages += 1
         total_pages_built += topic_pages
 
-        # ニュース詳細ページ（a/<slug>/）
-        # 一覧から直接外部サイトへ飛ばすと、読者が即座に離脱して
-        # 回遊も問い合わせも起きない。必ず自サイトのページを経由させ、
-        # 関連記事と企業DBへの導線をそこで提示する。
-        by_topic: dict[str, list[dict]] = {}
-        for n in news:
-            for tid in n.get("topics", []):
-                by_topic.setdefault(tid, []).append(n)
-
-        for n in news:
-            # 同じ主題の記事を関連として出す（自分自身は除く）
-            rel_items: list[dict] = []
-            seen_slugs = {n["slug"]}
-            for tid in n.get("topics", []):
-                for cand in by_topic.get(tid, []):
-                    if cand["slug"] in seen_slugs:
-                        continue
-                    seen_slugs.add(cand["slug"])
-                    rel_items.append(cand)
-                    if len(rel_items) >= 6:
-                        break
-                if len(rel_items) >= 6:
-                    break
-
-            path = f"a/{n['slug']}/"
-            ctx = self._ctx(lang, depth=2, active="news", path=path,
-                            page_description=(n.get("display_summary") or "")[:150])
-            ctx["item"] = n
-            ctx["related"] = rel_items
-            ctx["jsonld"] = seo.build_jsonld(
-                self.base_url, lang, "news",
-                trail=[(home_label, self._url_for(lang, "")),
-                       (_t("nav.news", lang), self._url_for(lang, "news/")),
-                       (n["display_title"][:60], self._url_for(lang, path))],
-                news=[n])
-            self._write(lang, path.rstrip("/"),
-                        self.env.get_template("news_detail.html").render(**ctx))
-        total_pages_built += len(news)
+        # ニュース個別ページは生成しない（2026-07-19 方針変更）。
+        #
+        # 以前は a/<slug>/ に600件分のページを作り、要約を載せて自サイトを
+        # 経由させていた。これをやめる。理由:
+        #   1. 他社記事の要約を膨らませたページを大量に持つと、
+        #      大量生成コンテンツと見なされ、サイト全体の評価が落ちる。
+        #      オリジナル記事まで巻き添えになる。
+        #   2. 要約を長くすると引用の範囲を超え、元記事の代替物になる。
+        # 集約ニュースは一覧に留め、クリックは元記事へ直接送る。
+        # このサイトの主役は集約ではなく自社の実践記録である。
 
         # 問い合わせ・広告ページ（収益導線。受け皿がなければ成果はゼロになる）
         ctx = self._ctx(lang, depth=1, active="contact", path="contact/",

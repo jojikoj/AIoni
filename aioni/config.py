@@ -5,6 +5,7 @@
 """
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 # --- パス ---------------------------------------------------------------
@@ -19,20 +20,42 @@ DIST_DIR = ROOT / "dist"
 # --- サイト情報 ---------------------------------------------------------
 SITE_NAME = "AIの鬼"
 SITE_TAGLINE = {
-    "ja": "AIの動きを、毎日ぜんぶ。",
+    "ja": "AI情報ポータル",
 }
 SITE_DESCRIPTION = {
-    "ja": "AIの最新ニュース・論文・ツールを国内外から毎日集約する情報ポータル。"
-          "OpenAI・Google DeepMind・Hugging Face などの一次情報と、"
-          "国内の実務向け記事をまとめて追える。",
+    "ja": "国内外15の情報源からAIニュースを1日2回集約し、arXiv の研究動向とあわせて"
+          "トピック別に整理しています。運営する株式会社TOEが自社でAIを動かした記録も、"
+          "うまくいった話と失敗した話の両方を公開。中小企業の経営者・情報システム担当向け。",
 }
+
+# --- アクセス解析 -------------------------------------------------------
+# GA4 の測定ID（G-XXXXXXXXXX）。空のままなら計測タグを出力しない。
+# 環境変数 GA4_ID でも上書きできる（本番だけ計測する場合に使う）。
+# 値を入れてビルドすれば、全ページの <head> に gtag が入る。
+# 2026-07-19 設定。GA4プロパティ「AIの鬼」のウェブストリーム。
+# 環境変数 GA4_ID があればそちらが優先（検証用に空にして計測を止められる）。
+# cron には環境変数が渡らないため、既定値をここに直接持たせる。
+GA4_MEASUREMENT_ID = os.environ.get("GA4_ID", "G-SNQPGVMWWW")
+
+# ヒーロー帯のコピー（2026-07-19 決定）。
+# 「鬼」を擬人化した編集者として置き、読者の状態（情報が多すぎて追えない）から入る。
+# 主張を述べるのではなく、このサイトが何をしているかを言う。
+# 1要素ずつ改行して表示する。テンプレート側で <br> を組むので、
+# ここに HTML を書かない（自動エスケープされるため）。
+HERO_COPY = [
+    "今日もAIが騒がしい",
+    "鬼が仕分けておきました",
+]
+HERO_SUB = ("拾ったものは、うまくいった話も、失敗した話も、そのまま置いています。"
+            "国内外15の情報源から1日2回。")
 # 独自ドメイン。dist/CNAME に書き出され、GitHub Pages がこのドメインで配信する。
 # 空文字にすると CNAME を出力しない（github.io のURLで公開）。
-# ドメインは中身が立ってから決める（HANDOFF 参照）。
-SITE_DOMAIN = ""
+# 2026-07-19 取得（ムームードメイン）。ムームーDNSのカスタム設定で
+# GitHub Pages の A 4件 ＋ www CNAME を登録済み。
+SITE_DOMAIN = "ai-oni.com"
 
 # 公開URL。デプロイ時に環境変数 SITE_BASE_URL で上書き可。
-SITE_BASE_URL = "https://jojikoj.github.io/AIoni"
+SITE_BASE_URL = "https://ai-oni.com"
 
 # --- 問い合わせ ---------------------------------------------------------
 # 静的サイトのためサーバー側フォーム処理を持てない。
@@ -55,7 +78,9 @@ GOOGLE_FORM_URL = ""
 # コンテンツ部 共通GAS（全メディアの問い合わせを1つのデプロイで受ける）。
 # 第三者サービスを経由せず、自社のGoogleアカウント内で完結する。
 # 実体: claude_AIR/TOEcompany/コンテンツ部/共通/gas/受付.gs
-FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxqiGT4qGvWQf7Ip3IQyVLLSf8cfpBdl6ehGaIKucg8H0aMmywALYG24J0s58LneeBx/exec"
+# 2026-07-19 修正: 別デプロイのURLを指していたため、共通GASの本番URLへ統一。
+# 共通GAS = コンテンツ部/共通/gas/受付.gs（バージョン2・アクセス「全員」）
+FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxRrZrhqiFlm3g0EcJl2pBVFowFrOMglLSWw_9FvalF532vj6xBTtnVALDQOcM2jl5NRg/exec"
 GOOGLE_FORM_HEIGHT = 1200
 COMPANY_NAME = "株式会社TOE"
 COMPANY_URL = "https://gtoe.info/"

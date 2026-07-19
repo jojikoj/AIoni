@@ -16,8 +16,8 @@ image_prompt: A small office manager reviewing a spreadsheet of costs on a lapto
 まず土台になるのが、AIツールそのものの利用料金です。公式サイトを確認できた範囲では、以下のような相場になっています（2026年7月19日確認）。
 
 - **Claude**（Anthropic）：Pro プランは年間契約で月17ドル、月払いで月20ドル。Team プランは年間契約で1席あたり月20ドル、月払いで月25ドル（[claude.com/pricing](https://claude.com/pricing)）
-- **Microsoft 365 Copilot**：年間契約でCopilot単体アドオンが1人あたり月18ドル（通常21ドルからの割引価格）、Business Standardに組み込まれたプランで月23.50ドル、Business Premiumに組み込まれたプランで月32ドル（[microsoft.com Copilotプラン](https://www.microsoft.com/en-us/microsoft-365/copilot/pricing)）
-- **Gemini for Google Workspace**：Business Standardプランが1ユーザーあたり月1,600〜1,900円（年間契約で16%割引）。Gemini アプリやGmail・スプレッドシートでのAI機能が含まれます（[workspace.google.com](https://workspace.google.com/solutions/ai/)）
+- **Microsoft 365 Copilot**：年間契約でCopilot単体アドオンが1人あたり月18ドル（通常21ドルからの割引価格。ページ上では2026年9月30日までの提供と記載）、Business Standardに組み込まれたプランで月23.50ドル、Business Premiumに組み込まれたプランで月32ドル（[microsoft.com Copilotプラン](https://www.microsoft.com/en-us/microsoft-365/copilot/pricing)）
+- **Gemini for Google Workspace**：Business Standardプランが1ユーザーあたり月1,900円、1年契約の年間プランなら16%割引で月1,600円。Gemini アプリやGmail・スプレッドシートなどでのAI機能が含まれます（[workspace.google.com](https://workspace.google.com/solutions/ai/)）
 
 この3社以外にも、ChatGPTを含め法人向けの段階制プラン（個人向け・チーム向け・エンタープライズ向け）を用意している主要サービスは多く、料金は概ね「個人向けが月数千円、チーム向けはそれより1人あたりやや高く、エンタープライズは個別見積もり」という構造は共通しています。ただし本記事執筆時点でChatGPTの公式料金ページには直接アクセスできなかったため、具体的な数字はここでは割愛します。契約前に必ず各社の公式ページで最新価格を確認してください。
 
@@ -40,7 +40,7 @@ image_prompt: A small office manager reviewing a spreadsheet of costs on a lapto
 
 ## 補助金は費用の一部を軽くする選択肢
 
-初期導入費用の負担を軽くする手段として、公的な補助金が使える場合があります。「デジタル化・AI導入補助金2026」の通常枠では、対象経費に該当すれば補助率1/2以内（一定の賃上げ要件を満たすと2/3以内）で、5万円〜450万円の範囲の補助が受けられる仕組みになっています（[it-shien.smrj.go.jp](https://it-shien.smrj.go.jp/applicant/subsidy/normal/)、2026年7月19日確認）。ただし審査があり必ず採択されるわけではなく、交付決定前の発注は対象外になるなど、順序に注意が必要な制度です。
+初期導入費用の負担を軽くする手段として、公的な補助金が使える場合があります。「中小企業デジタル化・AI導入支援事業（デジタル化・AI導入補助金2026）」の通常枠では、対象経費に該当すれば補助率1/2以内で、補助額は5万円以上450万円以下の範囲で補助が受けられる仕組みになっています。補助額は導入するプロセス数によって区分され、1プロセス以上で5万円以上150万円未満、4プロセス以上で150万円以上450万円以下となっています。また、最低賃金近傍の従業員が一定割合以上を占めるなどの要件を満たす事業者は、補助率が2/3以内に引き上げられます（[it-shien.smrj.go.jp](https://it-shien.smrj.go.jp/applicant/subsidy/normal/)、2026年7月19日確認）。ただし審査があり必ず採択されるわけではなく、交付決定前の発注は対象外になるなど、順序に注意が必要な制度です。
 
 ## では自社では何から始めるか
 

@@ -93,8 +93,11 @@
 <script>
   window.AIONI_FORM = {
     endpoint: {{ (form_endpoint or '')|tojson }},
+    {# 共通GAS（コンテンツ部/共通/gas/受付.gs）の SITES に登録したキーと
+       完全に一致させること。ここがズレると受付側で弾かれ、
+       送信は成功したように見えて誰にも届かない。 #}
     site_key: "aioni",
-    site_origin: "https://aioni.tech",
+    site_origin: "https://ai-oni.com",
     access_key: {{ (form_access_key or '')|tojson }},
     labels: {
       kind: "{{ t('form.kind') }}", company: "{{ t('form.company') }}",

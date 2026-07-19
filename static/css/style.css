@@ -21,9 +21,16 @@
   --text-3: #7b869c;
 
   /* アクセント */
-  --accent: #2f5fe0;
-  --accent-ink: #1e3fa8;
-  --accent-soft: #eaf0ff;
+  /* メインカラー: ピンク（2026-07-19。青 #2f5fe0 → #d6336c → #dd0f68）
+     彩度を上げた版。白背景でのコントラストは 4.71:1 で、
+     本文リンクの基準（4.5:1）を満たす。これ以上鮮やかにすると割る。
+     「鬼」の赤に寄せつつ、業務メディアとして落ち着く濃度を選ぶ。
+     accent      … リンク・ボタン・強調
+     accent-ink  … 文字に使う濃い側（白背景でコントラスト確保）
+     accent-soft … 背景の淡い面 */
+  --accent: #dd0f68;
+  --accent-ink: #9c0044;
+  --accent-soft: #ffe5ee;
   --violet: #6d4fe0;
   --violet-soft: #f0ebff;
   --teal: #0e9d8a;
@@ -47,6 +54,11 @@
   --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
           "Noto Sans JP", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: "SF Mono", ui-monospace, "Roboto Mono", Menlo, Consolas, monospace;
+  /* 見出し用。Zen Kaku Gothic New の最太（900）。
+     Zenゴシックには ExtraBold(800) が無いため、最も太い Black(900) を使う。
+     読み込み前は本文と同じ和文ゴシックで代替する（レイアウトのズレを最小化）。 */
+  --font-display: "Zen Kaku Gothic New", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+                  "Noto Sans JP", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -76,7 +88,7 @@ h1, h2, h3, h4 {
 .backdrop {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(760px 420px at 78% -6%, rgba(47,95,224,.10), transparent 62%),
+    radial-gradient(760px 420px at 78% -6%, rgba(221,15,104,.10), transparent 62%),
     radial-gradient(620px 400px at 6% 2%, rgba(109,79,224,.07), transparent 58%),
     linear-gradient(180deg, #ffffff 0%, var(--bg) 46%);
 }
@@ -134,7 +146,7 @@ h1, h2, h3, h4 {
   font-size: .73rem; font-weight: 650; letter-spacing: .01em;
   padding: 3px 9px; border-radius: 7px;
   background: var(--accent-soft); color: var(--accent-ink);
-  border: 1px solid rgba(47,95,224,.16);
+  border: 1px solid rgba(221,15,104,.16);
 }
 .pill.ghost { background: var(--surface-2); color: var(--text-2); border-color: var(--line); }
 .pill.accent { background: var(--violet-soft); color: #4b32b0; border-color: rgba(109,79,224,.18); }
@@ -142,7 +154,7 @@ h1, h2, h3, h4 {
 .pill.status-go { background: var(--teal-soft); color: var(--teal); border-color: rgba(14,157,138,.2); }
 .pill.status-tbd { background: var(--amber-soft); color: var(--amber); border-color: rgba(180,118,26,.2); }
 .pill.status-hold { background: var(--rose-soft); color: var(--rose); border-color: rgba(208,69,94,.2); }
-.pill.status-success { background: var(--accent-soft); color: var(--accent-ink); border-color: rgba(47,95,224,.16); }
+.pill.status-success { background: var(--accent-soft); color: var(--accent-ink); border-color: rgba(221,15,104,.16); }
 
 /* 自動翻訳バッジ（機械翻訳であることを明示する） */
 .pill.mt {
@@ -157,7 +169,7 @@ h1, h2, h3, h4 {
   display: inline-block; font-family: var(--mono); font-size: .74rem;
   letter-spacing: .18em; color: var(--accent-ink); margin: 0 0 20px;
   text-transform: uppercase; background: var(--accent-soft);
-  padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(47,95,224,.14);
+  padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(221,15,104,.14);
 }
 .hero-title {
   font-size: clamp(2.2rem, 6vw, 4.1rem); margin: 0 0 22px;
@@ -390,7 +402,7 @@ h1, h2, h3, h4 {
   transition: border-color .18s, box-shadow .18s;
 }
 .faq-item:hover { border-color: var(--line-strong); box-shadow: var(--sh-1); }
-.faq-item[open] { border-color: rgba(47,95,224,.28); box-shadow: var(--sh-2); }
+.faq-item[open] { border-color: rgba(221,15,104,.28); box-shadow: var(--sh-2); }
 .faq-item summary {
   list-style: none; cursor: pointer; padding: 17px 52px 17px 20px;
   position: relative; font-weight: 650; color: var(--text); font-size: 1.01rem;
@@ -421,7 +433,7 @@ h1, h2, h3, h4 {
 }
 .search-form input:focus {
   outline: none; border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(47,95,224,.14), var(--sh-2);
+  box-shadow: 0 0 0 3px rgba(221,15,104,.14), var(--sh-2);
 }
 .search-status { color: var(--text-3); font-size: .88rem; margin: 0 0 20px; }
 .search-results { display: grid; gap: 12px; }
@@ -430,7 +442,7 @@ h1, h2, h3, h4 {
   border: 1px solid var(--line); border-radius: var(--r-md); transition: .18s;
 }
 .search-hit:hover {
-  border-color: rgba(47,95,224,.4); box-shadow: var(--sh-2); transform: translateY(-2px);
+  border-color: rgba(221,15,104,.4); box-shadow: var(--sh-2); transform: translateY(-2px);
 }
 .search-hit-meta { display: flex; align-items: center; gap: 9px; margin-bottom: 7px; }
 .search-hit-src { font-size: .76rem; color: var(--text-3); }
@@ -540,7 +552,7 @@ h1, h2, h3, h4 {
   transition: .18s; box-shadow: var(--sh-1);
 }
 .topic-card:hover {
-  border-color: rgba(47,95,224,.4); box-shadow: var(--sh-2); transform: translateY(-2px);
+  border-color: rgba(221,15,104,.4); box-shadow: var(--sh-2); transform: translateY(-2px);
 }
 .topic-card-name { font-size: 1.02rem; font-weight: 700; letter-spacing: -.015em; }
 .topic-card-count {
@@ -605,7 +617,7 @@ h1, h2, h3, h4 {
   border-radius: var(--r-md); box-shadow: var(--sh-1); transition: .18s;
 }
 .contact-card:hover {
-  border-color: rgba(47,95,224,.4); box-shadow: var(--sh-2); transform: translateY(-2px);
+  border-color: rgba(221,15,104,.4); box-shadow: var(--sh-2); transform: translateY(-2px);
 }
 .contact-kind { font-size: 1.03rem; font-weight: 700; letter-spacing: -.015em; }
 .contact-desc { font-size: .86rem; color: var(--text-2); line-height: 1.7; flex: 1; }
@@ -642,7 +654,7 @@ h1, h2, h3, h4 {
 
 .ad-cta {
   padding: 30px; background: var(--accent-soft);
-  border: 1px solid rgba(47,95,224,.2); border-radius: var(--r-lg); text-align: center;
+  border: 1px solid rgba(221,15,104,.2); border-radius: var(--r-lg); text-align: center;
 }
 .ad-cta h2 { font-size: 1.3rem; margin: 0 0 10px; }
 .ad-cta p { color: var(--text-2); margin: 0 0 20px; line-height: 1.8; }
@@ -693,7 +705,7 @@ h1, h2, h3, h4 {
   background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--r-md); box-shadow: var(--sh-1); transition: .18s;
 }
-.db-cat:hover { border-color: rgba(47,95,224,.42); box-shadow: var(--sh-2); transform: translateY(-2px); }
+.db-cat:hover { border-color: rgba(221,15,104,.42); box-shadow: var(--sh-2); transform: translateY(-2px); }
 .db-cat-n { font-size: 1.6rem; font-weight: 750; letter-spacing: -.03em; color: var(--accent-ink); }
 .db-cat-name { font-size: .84rem; color: var(--text-2); font-weight: 600; }
 .db-preview { display: flex; gap: 7px; flex-wrap: wrap; }
@@ -703,7 +715,7 @@ h1, h2, h3, h4 {
   transition: .16s;
 }
 .db-chip:hover { border-color: var(--accent); color: var(--accent-ink); }
-.db-chip-more { background: var(--accent-soft); border-color: rgba(47,95,224,.2); color: var(--accent-ink); font-weight: 650; }
+.db-chip-more { background: var(--accent-soft); border-color: rgba(221,15,104,.2); color: var(--accent-ink); font-weight: 650; }
 
 /* --- 参入ガイド --- */
 .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 16px; }
@@ -712,7 +724,7 @@ h1, h2, h3, h4 {
   background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--r-lg); box-shadow: var(--sh-1); transition: .2s;
 }
-.guide-card:hover { border-color: rgba(47,95,224,.42); box-shadow: var(--sh-3); transform: translateY(-3px); }
+.guide-card:hover { border-color: rgba(221,15,104,.42); box-shadow: var(--sh-3); transform: translateY(-3px); }
 .guide-num {
   font-family: var(--mono); font-size: 1.5rem; font-weight: 750;
   color: var(--accent); opacity: .32; line-height: 1;
@@ -729,8 +741,8 @@ h1, h2, h3, h4 {
 .cta-band {
   display: flex; align-items: center; justify-content: space-between; gap: 26px;
   padding: 32px 36px; border-radius: var(--r-lg); flex-wrap: wrap;
-  background: linear-gradient(135deg, #eaf0ff, #f2edff);
-  border: 1px solid rgba(47,95,224,.18);
+  background: linear-gradient(135deg, #ffe5ee, #f2edff);
+  border: 1px solid rgba(221,15,104,.18);
 }
 .cta-band h2 { font-size: 1.32rem; margin: 0 0 8px; letter-spacing: -.025em; }
 .cta-band p { margin: 0; color: var(--text-2); line-height: 1.8; max-width: 52em; }
@@ -748,7 +760,7 @@ h1, h2, h3, h4 {
   border-radius: var(--r-sm); transition: .16s; width: 100%;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(47,95,224,.13);
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(221,15,104,.13);
 }
 .field textarea { resize: vertical; line-height: 1.7; }
 .form-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -874,7 +886,7 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
   border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface);
   color: var(--text);
 }
-.side-search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(47,95,224,.12); }
+.side-search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(221,15,104,.12); }
 
 .side-nav { display: flex; flex-direction: column; gap: 1px; margin-top: 4px; }
 .side-nav a {
@@ -1010,8 +1022,8 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
   background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--r-md); box-shadow: var(--sh-1); transition: .18s;
 }
-.cat-card:hover { border-color: rgba(47,95,224,.42); box-shadow: var(--sh-2); transform: translateY(-2px); }
-.cat-card.on { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(47,95,224,.18), var(--sh-2); }
+.cat-card:hover { border-color: rgba(221,15,104,.42); box-shadow: var(--sh-2); transform: translateY(-2px); }
+.cat-card.on { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(221,15,104,.18), var(--sh-2); }
 .cat-media { display: block; aspect-ratio: 16/9; overflow: hidden; background: var(--surface-3); }
 .cat-media img { width: 100%; height: 100%; object-fit: cover; }
 .cat-body { display: flex; align-items: baseline; gap: 7px; padding: 10px 13px 12px; }
@@ -1055,8 +1067,8 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
 
 .ndetail-cta {
   padding: 26px 28px; border-radius: var(--r-lg); margin-bottom: 26px;
-  background: linear-gradient(135deg, #eaf0ff, #f2edff);
-  border: 1px solid rgba(47,95,224,.18);
+  background: linear-gradient(135deg, #ffe5ee, #f2edff);
+  border: 1px solid rgba(221,15,104,.18);
 }
 .ndetail-cta p { margin: 0 0 18px; color: var(--text-2); line-height: 1.8; }
 .ndetail-cta-actions { display: flex; gap: 11px; flex-wrap: wrap; }
@@ -1294,4 +1306,83 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
   .svc-sub { grid-template-columns: 1fr; }
   .sp-br { display: block; }
   .proof-item { padding: 20px 14px 22px; }
+}
+
+/* ── ヒーロー帯（2026-07-19 追加） ───────────────────────────────
+   高さ369px固定。直下のニュースを1画面に残すための上限。
+   背景画像は static/img/hero-bg.jpg を差し替えるだけで変わる。
+   画像の上に文字を置くので、暗いオーバーレイで可読性を確保する。 */
+.hero-band {
+  position: relative;
+  height: 369px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: #0d1526;
+  /* 画像は左が暗く空いていて、右に鬼が入っている。
+     そこへ強いオーバーレイを重ねると鬼まで潰れるので、
+     文字を置く左側だけ軽く沈め、右は素通しにする。 */
+  background-image:
+    linear-gradient(90deg, rgba(10,14,26,.62) 0%, rgba(10,14,26,.30) 46%, rgba(10,14,26,0) 68%),
+    url("../img/hero-bg.jpg");
+  background-size: cover;
+  /* 幅が狭いときに切り落とすのは左の余白側。鬼は残す。 */
+  background-position: right center;
+  background-repeat: no-repeat;
+  margin-bottom: 28px;
+}
+.hero-band-inner {
+  position: relative;
+  max-width: 760px;
+  padding: 0 clamp(20px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hero-band-copy {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+  line-height: 1.28;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  text-shadow: 0 2px 18px rgba(0,0,0,.35);
+}
+.hero-band-sub {
+  margin: 0;
+  color: rgba(255,255,255,.82);
+  font-size: clamp(.92rem, 1.4vw, 1.04rem);
+  line-height: 1.75;
+  max-width: 46ch;
+}
+@media (max-width: 720px) {
+  .hero-band {
+    height: 300px;
+    /* 文字と鬼が重なるため、鬼は右端に逃がし、左の暗い面を広く取る */
+    background-position: 78% center;
+    background-image:
+      linear-gradient(90deg, rgba(10,14,26,.80) 0%, rgba(10,14,26,.55) 60%, rgba(10,14,26,.15) 100%),
+      url("../img/hero-bg.jpg");
+  }
+}
+
+
+/* ── 見出しは Zen Kaku Gothic New 900（2026-07-19 指定） ─────────────
+   本文は従来のシステムフォントのまま。見出しだけ差し替える。
+   font-weight は 900 を明示する（可変フォントではないため、
+   指定しないと合成太字がかかって字形が崩れる）。 */
+.hero-band-copy,
+.hero-title,
+.sec-ja,
+.atile-title,
+.tile-title,
+.topic-card-name,
+.svc-title,
+.svc-card-title,
+.prose h2,
+.prose h3,
+.article-hero-inner h1,
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 900;
 }

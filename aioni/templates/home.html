@@ -35,44 +35,19 @@
 
 {#
   ========================================================================
-  1. HERO — ニュース一覧から始めない（指示書9章）。
-  主CTAは問い合わせではなく「実践記録を見る」。
-  読む前に売り込むと、実践記録そのものの説得力が落ちるため。
+  0. ヒーロー帯 — 高さ369px（指定）。背景画像は static/img/hero-bg.jpg。
+  2026-07-19: 実績4項目（27本／毎朝8:00／2媒体／0円）は削除。
+  コピーは config.HERO_COPY に1行ずつ入れる。改行位置は原稿どおりに保つ。
   ========================================================================
 #}
-<section class="hero">
-  <div class="hero-inner">
-    <h1 class="hero-copy">AIをニュースで<br class="sp-br">終わらせない。</h1>
-    <p class="hero-sub">
-      株式会社TOEが自社の仕事でAIを実際に動かし、<br>
-      うまくいったことも、失敗したことも公開しています。<br>
-      中小企業のためのAI実践メディアです。
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="{{ rel }}jissen/">AIの実践記録を見る</a>
-      <a class="btn btn-ghost" href="{{ rel }}shippai/">失敗の記録を見る</a>
-    </div>
+<section class="hero-band">
+  <div class="hero-band-inner">
+    <h1 class="hero-band-copy">
+      {%- for line in hero_copy %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+    </h1>
+    <p class="hero-band-sub">{{ hero_sub }}</p>
   </div>
 </section>
-
-{#
-  ========================================================================
-  2. HERO直下 — 実際に動かしていることを数字で示す（指示書10章）。
-  数字は実際に確認できる事実だけを使う。
-  ========================================================================
-#}
-{% if proof_stats %}
-<section class="proof">
-  <div class="proof-grid">
-    {% for p in proof_stats %}
-    <div class="proof-item">
-      <span class="proof-n">{{ p.n }}</span>
-      <span class="proof-label">{{ p.label }}</span>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
 
 {#
   ========================================================================
@@ -174,6 +149,7 @@
   </div>
 </section>
 
+
 {#
   ========================================================================
   7. 資料 — 集約データはここまで下げる。主役にしない（指示書19章）。
@@ -183,7 +159,7 @@
 <section class="block">
   {{ sec_head('資料', 'トピックから探す', rel ~ 'papers/', '研究動向を見る') }}
   <p class="block-lead">
-    集約したニュースは編集部の情報収集用ですが、そのまま公開しています。
+    国内外15の情報源から集めたニュースと、arXiv の研究動向をトピック別に整理しています。
   </p>
   <div class="topic-grid">
     {% for tp in topic_nav %}

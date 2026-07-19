@@ -13,17 +13,17 @@ image_prompt: A small business meeting room with several people talking around a
 
 ## 文字起こしAIの主な選択肢と料金
 
-代表的なサービスを、公開情報にもとづいて挙げます。
+代表的なサービスを、公開情報にもとづいて挙げます。以下の料金はいずれも2026年7月時点で各サービスの公開情報を確認した値です。料金プランは改定されることがあるため、契約前には必ず最新の公式ページをご確認ください。
 
 **OpenAIのWhisper API**は、開発者向けに音声認識モデルを従量課金で提供しています。文字起こしモデル「whisper-1」は1分あたり0.006ドルという価格です(出典：OpenRouter「Whisper 1 - API Pricing」)。アプリではなくAPIのため、自社のシステムに組み込んで使う形が前提になります。
 
-**Notta**は個人・法人向けの文字起こしアプリです。無料プランは月120分まで、1回の録音は3分までという制限があります。有料の「プレミアム」プランは月額1,980円(税込、月払い)で、月1,800分まで、1回の録音は最長5時間まで文字起こしできます(出典：AI文字起こしツールガイド「Nottaの料金プラン」ほか複数の紹介記事)。
+**Notta**は個人・法人向けの文字起こしアプリです。無料プランは月120分まで、1回の文字起こしは3分までという制限があります。有料の「プレミアム」プランは月額1,980円(月払い。年払いは年14,220円)で、月1,800分まで、1回あたり最長90分まで文字起こしできます(出典：AI文字起こしツールガイド「Nottaの料金プラン」)。
 
-**LINE WORKS AiNote**(旧CLOVA Note)は、個人事業主・フリーランス向けの無料プランで月300分まで利用できます。有料の「ソロ」プランは年契約で月額1,440円、月600分まで文字起こしできます(出典：Plaud「LINE WORKS AiNote(旧CLOVA note)とは？」)。
+**LINE WORKS AiNote**(旧CLOVA Note)は、無料の「フリー」プランで月300分まで利用できます。有料の「ソロ」プランは月600分まで文字起こしでき、年契約で月額1,440円、月払いでは月額1,600円です(出典：LINE WORKS公式「LINE WORKS AiNoteの料金プランを徹底解説」)。
 
 **Rimo Voice**は日本語に特化した文字起こしサービスです。公式サイトによると、文字起こし専用の「文字起こしプラン」は月額1,650円で月2,100分、上位の「プロプラン」は月額4,950円で文字起こし時間が無制限になります(出典：Rimo公式サイト「Rimo Voice 料金プラン」)。
 
-**Google Cloud Speech-to-Text**は開発者向けのAPIで、毎月60分までは無料で音声を送信できます。それを超えると従量課金となり、標準的な設定で1分あたり0.016ドルという価格帯です(出典：Google Cloud公式「Speech-to-Text API Pricing」)。
+**Google Cloud Speech-to-Text**は開発者向けのAPIで、毎月60分までは無料で音声を送信できます。それを超えると従量課金となり、V2の標準モデルで1分あたり0.016ドルという価格帯です(出典：Google Cloud公式「Speech-to-Text API Pricing」)。
 
 料金体系は大きく2種類に分かれます。NottaやRimo Voiceのように月額固定でアプリとして使うタイプと、WhisperやGoogle Cloudのように従量課金でシステムに組み込むタイプです。会議の議事録に使うだけならアプリ型、コールセンターの通話ログのように大量の音声を自動処理したいならAPI型が向いています。
 
@@ -35,7 +35,7 @@ image_prompt: A small business meeting room with several people talking around a
 - **静かな屋内での録音**：会議室や電話のように背景ノイズが少ない環境は、雑音による誤認識が起きにくいところです。
 - **標準語に近い話し方**：ニュース原稿のような明瞭な発話に近いほど、認識精度は上がりやすい傾向があります。
 
-Notta公式サイトは音声認識の精度を98.86%としており、Rimo Voiceも自社の検証で音声5件以上をアップロードした条件下で文字起こしの正確率90%以上という結果を公表しています(出典：それぞれの公式サイト・紹介記事)。ただし、これらはいずれも各社が示した数値であり、録音環境や話者の話し方によって実際の体感精度は変わるという点は踏まえておく必要があります。
+Notta公式サイトは音声認識の精度を98.86%としていますが、これは「環境音40dB程度の静かな会議室で、話者が外部マイクから1mの距離にいて、4人が発言を重ねずに会話する」という条件下での数値とされています。Rimo Voiceも自社の検証で、音声5件以上をアップロードした条件下で文字起こしの正確率90%以上という結果を公表しています(出典：Notta公式サイト、Rimo公式サイト)。ただし、これらはいずれも各社が自社サービスについて示した数値であり、独立した第三者による比較検証ではありません。録音環境や話者の話し方によって実際の体感精度は変わるという点は踏まえておく必要があります。
 
 ## 向いていない場面：専門用語・方言・複数人同時発話
 
@@ -64,9 +64,10 @@ Notta公式サイトは音声認識の精度を98.86%としており、Rimo Voic
 
 ---
 
-出典：
+出典：(いずれも2026年7月時点で内容を確認)
 - [Whisper 1 - API Pricing & Providers](https://openrouter.ai/openai/whisper-1)(OpenRouter)
 - [Nottaの料金プランと月額は？](https://ai-transcription-guide.jp/notta-price-plan/)(AI文字起こしツールガイド)
-- [LINE WORKS AiNote(旧CLOVA note)とは？実際の精度や料金などを解説](https://jp.plaud.ai/blogs/blog/line-works-ainote-clova-note)(Plaud)
+- [音声認識・テキスト化サービス-音声認識精度98％](https://www.notta.ai/voice-recognization)(Notta公式サイト)
+- [LINE WORKS AiNoteの料金プランを徹底解説！](https://line-works.com/ainote/column/ainote-price/)(LINE WORKS公式サイト)
 - [Rimo Voice 料金プラン](https://rimo.app/about/voice/plans)(Rimo公式サイト)
 - [Speech-to-Text API Pricing](https://cloud.google.com/speech-to-text/pricing)(Google Cloud公式)

@@ -261,10 +261,11 @@ def build_llms_txt(base: str, articles_ja: list[dict], articles_en: list[dict]) 
         "",
         f"> {config.SITE_DESCRIPTION['ja']}",
         "",
-        "AIの鬼 (AIoni) is an open, non-commercial Japanese-language platform that "
-        "aggregates artificial-intelligence news, research preprints, and practical "
-        "guides for business readers in Japan. It is published as a static site and "
-        "updated twice a day.",
+        "AIの鬼 (AIoni) is a Japanese-language AI media operated by TOE Inc., "
+        "a Fukuoka-based web development and AI consulting company. It publishes "
+        "first-hand records of how TOE runs AI in its own operations, alongside "
+        "aggregated AI news and research preprints. TOE is a commercial operator, "
+        "not a neutral third party; this is stated openly on the site.",
         "",
         "## Sections",
         "",

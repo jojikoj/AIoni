@@ -21,9 +21,26 @@ STATIC_PATHS = {
 }
 
 
+# 日本語記事に紛れ込んではいけない文字。
+# 執筆中に韓国語・キリル文字が混入して公開直前まで気づかなかった実例がある
+# （「最高성능」など）。目視では見落とすのでここで落とす。
+FOREIGN = re.compile(r"[가-힯Ѐ-ӿ฀-๿]")
+
+
+def check_foreign_chars() -> list[tuple[str, str, str]]:
+    bad = []
+    for f in sorted(ARTICLES.glob("*.ja.md")):
+        for i, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+            m = FOREIGN.search(line)
+            if m:
+                bad.append((f.name, f"{i}行目: …{line[max(0, m.start() - 15):m.end() + 15]}…",
+                            f"日本語記事に紛れ込まない文字「{m.group(0)}」"))
+    return bad
+
+
 def main() -> int:
     slugs = {f.name.replace(".ja.md", "") for f in ARTICLES.glob("*.ja.md")}
-    bad = []
+    bad = check_foreign_chars()
     for f in sorted(ARTICLES.glob("*.ja.md")):
         for link in re.findall(r"\]\((/[^)]*)\)", f.read_text(encoding="utf-8")):
             m = re.fullmatch(r"/articles/([^/]+)/", link)

@@ -5,7 +5,7 @@
   {% set title = item.get('title_' ~ lang) or item.title %}
   {% set summary = item.get('summary_' ~ lang) or item.summary %}
   {% if item.image %}
-  <a class="card-media" href="{{ rel }}a/{{ item.slug }}/">
+  <a class="card-media" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
     <img src="{{ item.image }}" alt="" loading="lazy" onerror="this.closest('.card-media').classList.add('no-img')">
   </a>
   {% endif %}
@@ -15,9 +15,9 @@
       {% if item.is_translated %}<span class="pill mt" title="{{ item.title }}">{{ t('meta.machine_translated') }}</span>{% endif %}
       {% if item.published_display %}<time datetime="{{ item.published }}">{{ item.published_display }}</time>{% endif %}
     </div>
-    <h3 class="card-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    <h3 class="card-title"><a href="{{ item.url }}" target="_blank" rel="noopener nofollow">{{ title }}</a></h3>
     {% if summary %}<p class="card-summary">{{ summary }}</p>{% endif %}
-    <a class="card-link" href="{{ rel }}a/{{ item.slug }}/">{{ t('articles.read') }} →</a>
+    <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener nofollow">{{ t('articles.read') }} →</a>
   </div>
 </article>
 {% endmacro %}
@@ -85,7 +85,7 @@
 {% set summary = item.get('summary_' ~ lang) or item.summary %}
 <article class="lead-card">
   {% if item.image %}
-  <a class="lead-media" href="{{ rel }}a/{{ item.slug }}/">
+  <a class="lead-media" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
     <img src="{{ item.image }}" alt="" loading="eager"
          onerror="this.closest('.lead-media').classList.add('no-img')">
   </a>
@@ -96,7 +96,7 @@
       {% if item.is_translated %}<span class="mt-mark" title="{{ item.title }}">{{ t('meta.machine_translated') }}</span>{% endif %}
       {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}
     </div>
-    <h3 class="lead-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    <h3 class="lead-title"><a href="{{ item.url }}" target="_blank" rel="noopener nofollow">{{ title }}</a></h3>
     {% if summary %}<p class="lead-summary">{{ summary }}</p>{% endif %}
   </div>
 </article>
@@ -112,13 +112,13 @@
 {% set title = item.get('title_' ~ lang) or item.title %}
 <article class="news-row">
   {% if item.image %}
-  <a class="row-thumb" href="{{ rel }}a/{{ item.slug }}/">
+  <a class="row-thumb" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
     <img src="{{ item.image if item.image else (rel ~ '../static/img/' ~ item.stock_image) }}"
          alt="" loading="lazy" onerror="this.closest('.row-thumb').classList.add('no-img')">
   </a>
   {% endif %}
   <div class="row-body">
-    <h3 class="row-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    <h3 class="row-title"><a href="{{ item.url }}" target="_blank" rel="noopener nofollow">{{ title }}</a></h3>
     <div class="card-meta">
       <span class="src">{{ item.source }}</span>
       {% if item.is_translated %}<span class="mt-mark" title="{{ item.title }}">{{ t('meta.machine_translated') }}</span>{% endif %}
@@ -137,7 +137,7 @@
 {% macro news_tile(item, lang, t, rel='') %}
 {% set title = item.get('title_' ~ lang) or item.title %}
 <article class="news-tile">
-  <a class="tile-media" href="{{ rel }}a/{{ item.slug }}/">
+  <a class="tile-media" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
     {% if item.image %}
     <img src="{{ item.image }}" alt="" loading="lazy"
          onerror="this.closest('.tile-media').classList.add('no-img')">
@@ -148,7 +148,7 @@
     {% endif %}
   </a>
   <div class="tile-body">
-    <h3 class="tile-title"><a href="{{ rel }}a/{{ item.slug }}/">{{ title }}</a></h3>
+    <h3 class="tile-title"><a href="{{ item.url }}" target="_blank" rel="noopener nofollow">{{ title }}</a></h3>
     <div class="tile-meta">
       {% for tp in item.topic_labels or [] %}<span class="tag-hash">#{{ tp }}</span>{% endfor %}
       {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}

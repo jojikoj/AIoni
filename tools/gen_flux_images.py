@@ -31,6 +31,34 @@ SUBMIT = "https://api.bfl.ai/v1/flux-pro-1.1"
 REALISM = ("realistic, professional photograph, candid, natural lighting, "
            "documentary style, avoid AI art, no text, no logos, no watermark")
 
+# 人物は日本人にする。
+# AIの鬼は日本の中小企業向けメディアなので、読者と写真の中の人が
+# 一致していないと自分ごとに見えない。
+# 指定しないと欧米系の人物が生成されるため、生成時に必ず足す。
+#
+# ※この縛りは「日本国内向けメディア」限定。UchUchU のように海外へも
+#   発信するメディアでは付けないこと（読者が日本人とは限らないため）。
+JAPANESE_SUBJECT = ("all people in the image are Japanese, "
+                    "in a Japanese workplace setting")
+
+# 人物が写らない構図（机・機材・書類だけ）には付けない
+PEOPLE_HINTS = (
+    "person", "people", "worker", "employee", "colleague", "developer",
+    "engineer", "someone", "hands", "researcher", "technician", "team",
+    "doctor", "accountant", "salesperson", "owner", "man", "woman",
+    "students", "staff", "clinician", "two ", "three ", "group",
+)
+
+
+def with_japanese_subject(prompt: str) -> str:
+    """人物が写るプロンプトなら「日本人」を明示して返す。"""
+    low = prompt.lower()
+    if "japanese" in low:
+        return prompt
+    if not any(h in low for h in PEOPLE_HINTS):
+        return prompt
+    return f"{prompt}, {JAPANESE_SUBJECT}"
+
 JOBS = [
     # --- トピック別フォールバック（画像なし記事に使う）---
     # 同じトピックの記事が並んだときに同じ写真が連続しないよう、
@@ -253,7 +281,7 @@ def article_jobs() -> list[tuple[str, str]]:
         # 記事側で毎回書き忘れないよう、写実指定はここで必ず足す
         if "realistic" not in prompt:
             prompt = f"{prompt}, {REALISM}"
-        jobs.append((hero, prompt))
+        jobs.append((hero, with_japanese_subject(prompt)))
     return jobs
 
 
@@ -284,7 +312,7 @@ def main() -> int:
 
     jobs: list[tuple[str, str]] = []
     if not only_articles:
-        jobs += JOBS
+        jobs += [(n, with_japanese_subject(p)) for n, p in JOBS]
     if not only_fallback:
         arts = article_jobs()
         print(f"記事hero: {len(arts)}件を対象にします")
