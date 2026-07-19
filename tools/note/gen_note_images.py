@@ -35,6 +35,7 @@ JOBS = {
     "12": "An accountant checking printed ledgers against a spreadsheet on screen, calculator and red pen on the desk",
     "13": "A hiring manager reading printed resumes at a desk, a stack of applications beside them, plain office, daylight",
     "14": "A person watching an automated process run on a monitor with a hand resting near the keyboard, not touching it, quiet office at night",
+    "15": "A person at a desk reviewing a printed list of stored notes and records, one line marked with a red pen, filing cabinet behind, plain office",
 }
 
 
