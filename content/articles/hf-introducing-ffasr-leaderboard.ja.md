@@ -1,7 +1,7 @@
 ---
 title: 会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍）
 excerpt: Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードは、無響の2,000サンプルを14部屋でシミュレーションし、9条件のうち4条件でASRを比較しました。低SNR（6dB未満）では単語誤り率が近接環境の数倍。ベンダー公表値の読み方と、自社での検証手順を整理します。
-tag: AI実践室
+tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
 order: 902

@@ -1,7 +1,7 @@
 ---
 title: GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？
 excerpt: Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHF Jobsへ移した結果、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒・1回1セント未満と報告されました。ただし発信元は当該サービスの提供者であり、測定回数も期間も記載がありません。読み方を整理します。
-tag: AI実践室
+tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
 order: 1204

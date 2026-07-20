@@ -58,10 +58,6 @@
 {% if practice %}
 <section class="block">
   {{ sec_head('実践', 'AIの鬼 実践記録', rel ~ 'jissen/', 'すべて見る') }}
-  <p class="block-lead">
-    TOEが自社の業務でAIをどう動かしているかの記録です。
-    処理件数・所要時間・失敗件数を、そのまま載せています。
-  </p>
   <div class="atile-grid">
     {{ article_tile(practice[0], rel, asset, 'lead') }}
     {% for a in practice[1:4] %}{{ article_tile(a, rel, asset, '') }}{% endfor %}
@@ -78,9 +74,6 @@
 {% if latest %}
 <section class="block block-tint">
   {{ sec_head('選別', '今週、これだけ知ればいいAI', rel ~ 'news/', 'ニュース一覧') }}
-  <p class="block-lead">
-    集約した{{ news_count }}件から、中小企業に関係するものだけを選んでいます。
-  </p>
   <div class="tile-grid">
     {% for n in latest %}{{ news_tile(n, lang, t, rel) }}{% endfor %}
   </div>
@@ -95,10 +88,6 @@
 #}
 <section class="block">
   {{ sec_head('実測', 'AI検索観測所', rel ~ 'kansoku/', 'すべて見る') }}
-  <p class="block-lead">
-    ChatGPT・Perplexity・Google AI Overviews に実際に質問を投げ、
-    どのサイトが引用元になっているかを測っています。意見ではなく、測った数字を置きます。
-  </p>
   {% if observation %}
   <div class="atile-grid">
     {% for a in observation[:3] %}{{ article_tile(a, rel, asset, '') }}{% endfor %}
@@ -107,6 +96,21 @@
   <p class="empty">観測結果は順次公開します。</p>
   {% endif %}
 </section>
+
+{#
+  ========================================================================
+  5b. AI解体新書 — 外部の研究・調査・事例を中小企業向けに読み解く解説。
+  一次記録ではないが本数の主力。実践・実測の「下の階層」として置く。
+  ========================================================================
+#}
+{% if explainer %}
+<section class="block">
+  {{ sec_head('解説', 'AI解体新書', rel ~ 'kaisetsu/', 'すべて見る') }}
+  <div class="atile-grid">
+    {% for a in explainer[:4] %}{{ article_tile(a, rel, asset, '') }}{% endfor %}
+  </div>
+</section>
+{% endif %}
 
 {#
   ========================================================================
@@ -158,9 +162,6 @@
 {% if topic_nav %}
 <section class="block">
   {{ sec_head('資料', 'トピックから探す', rel ~ 'papers/', '研究動向を見る') }}
-  <p class="block-lead">
-    国内外15の情報源から集めたニュースと、arXiv の研究動向をトピック別に整理しています。
-  </p>
   <div class="topic-grid">
     {% for tp in topic_nav %}
     <a class="topic-card" href="{{ rel }}topics/{{ tp.id }}/">

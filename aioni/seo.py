@@ -387,7 +387,7 @@ AI_CRAWLERS = [
 
 def build_robots(base: str) -> str:
     lines = [
-        "# AIの鬼 — AI情報ポータル",
+        "# AIの鬼 — AI実践・実測ラボ",
         "# 世界に届けることが目的のため、検索エンジンとAIクローラの双方を許可する。",
         "",
         "User-agent: *",

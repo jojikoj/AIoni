@@ -9,7 +9,7 @@ STRINGS = {
     "side.by_tag": {"ja": "タグから探す", "en": "Browse by tag"},
     "side.search_ph": {"ja": "記事を検索", "en": "Search articles"},
 
-    "brand.tagline": {"ja": "AI情報ポータル", "en": "AI News Portal"},
+    "brand.tagline": {"ja": "AI実践・実測ラボ", "en": "AI Practice & Measurement Lab"},
 
     "nav.home": {"ja": "ホーム", "en": "Home"},
     # サイドナビの区切り見出し。並び順がサイトの主張になるので、
@@ -185,9 +185,10 @@ STRINGS = {
                      "en": "No data available. Please check back after the next update."},
 
     "footer.about": {"ja": "AIの鬼について", "en": "About AIoni"},
-    "footer.desc": {"ja": "AIの「いま」を毎日集約するオープンなプラットフォーム。"
+    "footer.desc": {"ja": "AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。"
                           "運用中にAI APIを使わず、無料の公開データのみで動きます。",
-                    "en": "An open platform aggregating AI news daily — running only on free public data, with no AI API cost."},
+                    "en": "We run AI ourselves and measure it ourselves — TOE's practice & measurement lab, on free public data with no AI API cost."},
+    "footer.company": {"ja": "運営・その他", "en": "Company"},
     "footer.sources": {"ja": "データ提供", "en": "Data sources"},
     "footer.built": {"ja": "静的サイト・自動更新", "en": "Static site · auto-updated"},
     "footer.lang": {"ja": "言語", "en": "Language"},
