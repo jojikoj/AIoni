@@ -44,12 +44,12 @@ GA4_MEASUREMENT_ID = os.environ.get("GA4_ID", "G-SNQPGVMWWW")
 # 1要素ずつ改行して表示する。テンプレート側で <br> を組むので、
 # ここに HTML を書かない（自動エスケープされるため）。
 HERO_COPY = [
-    "AIは、語るより動かす。",
-    "そして、数字で残す。",
+    "語るより、動かす",
+    "鬼の仕事、隠さず報告",
 ]
 HERO_SUB = ("株式会社TOEが自社の業務でAIを動かした記録と、"
-            "ChatGPT・Perplexity・AI Overviews を実際に測った結果。"
-            "うまくいった話も、失敗も、そのまま。")
+            "ChatGPT・Perplexity・AI Overviews を実際に測った数字。"
+            "成果も失敗も、そのまま出す。")
 # 独自ドメイン。dist/CNAME に書き出され、GitHub Pages がこのドメインで配信する。
 # 空文字にすると CNAME を出力しない（github.io のURLで公開）。
 # 2026-07-19 取得（ムームードメイン）。ムームーDNSのカスタム設定で
