@@ -4,8 +4,17 @@
 
 {% block content %}
 <article class="article">
+  {#
+    記事上部に、一覧のサムネイルと同じ写真を大きく共通表示する。
+    hero は build.py で全記事に必ず付与される（明示指定 or カテゴリ別の既定）。
+  #}
+  {% if article.hero %}
+  <div class="wrap article-cover">
+    <img src="{{ (asset ~ 'static/img/' ~ article.hero) if article.hero_is_local else article.hero }}"
+         alt="" loading="eager">
+  </div>
+  {% endif %}
   <header class="article-hero">
-    {% if article.hero %}<div class="article-hero-img" style="background-image:url('{{ (asset ~ 'static/img/' ~ article.hero) if article.hero_is_local else article.hero }}')"></div>{% endif %}
     <div class="wrap article-hero-inner">
       {% if article.tag %}<span class="pill accent">{{ article.tag }}</span>{% endif %}
       <h1>{{ article.title }}</h1>

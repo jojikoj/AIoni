@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import news_tile, paper_card %}
+{% from "macros.html" import news_tile, paper_card, service_cta %}
 {% block title %}{{ t('home.title') }}{% endblock %}
 {% block og_title %}{{ site_name }} — {{ site_tagline }}{% endblock %}
 
@@ -46,6 +46,126 @@
     </h1>
     <p class="hero-band-sub">{{ hero_sub }}</p>
   </div>
+</section>
+
+{#
+  ========================================================================
+  0b. AI可視性チェッカー — ヒーロー直下の実測ウィジェット。
+  会社名を入れると Gemini(2.5 Flash-Lite)+Google検索グラウンディングで
+  「AIが自社をどう認識しているか」をその場で実測する。リード獲得の入口。
+  結果は毎回AIが生成した実測。断定・引用の約束はしない（捏造禁止）。
+  API: /api/diagnose（Vercel Python Function、キーはサーバー側で秘匿）。
+  自己完結コンポーネント（style/script同梱）。
+  ========================================================================
+#}
+<section class="ac" aria-labelledby="ac-head">
+  <style>
+    .ac{max-width:940px;margin:-14px auto 8px;padding:26px 22px 30px;
+        background:linear-gradient(180deg,var(--accent-soft) 0%,var(--surface) 78%);
+        border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh-1)}
+    .ac-eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;
+        text-transform:uppercase;color:var(--accent-ink);background:var(--surface);
+        border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0 0 12px}
+    .ac-head{font-size:clamp(20px,3.4vw,27px);line-height:1.35;font-weight:800;
+        color:var(--text);margin:0 0 8px}
+    .ac-sub{font-size:14px;line-height:1.7;color:var(--text-2);margin:0 0 18px;max-width:640px}
+    .ac-form{display:flex;flex-wrap:wrap;gap:10px}
+    .ac-form input{flex:1 1 220px;min-width:0;padding:13px 15px;font-size:15px;
+        background:var(--surface);border:1px solid var(--line-strong);border-radius:11px;color:var(--text)}
+    .ac-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    .ac-form button{flex:0 0 auto;padding:13px 26px;font-size:15px;font-weight:800;color:#fff;
+        background:var(--accent);border:none;border-radius:11px;cursor:pointer;
+        box-shadow:var(--sh-2);transition:background .15s,transform .15s}
+    .ac-form button:hover:not(:disabled){background:var(--accent-ink);transform:translateY(-1px)}
+    .ac-form button:disabled{opacity:.55;cursor:progress}
+    .ac-note{font-size:12px;color:var(--text-3);margin:12px 2px 0;line-height:1.6}
+    .ac-result{margin-top:18px}
+    .ac-loading{font-size:14px;color:var(--text-2);padding:10px 2px}
+    .ac-error{font-size:14px;color:var(--accent-ink);padding:10px 2px}
+    .ac-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+        padding:20px 20px 22px;box-shadow:var(--sh-1)}
+    .ac-verdict{display:flex;align-items:center;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+    .ac-badge{font-size:12px;font-weight:800;letter-spacing:.04em;padding:6px 12px;border-radius:999px}
+    .ac-badge.hi{background:var(--teal-soft);color:var(--teal)}
+    .ac-badge.mid{background:var(--amber-soft);color:var(--amber)}
+    .ac-badge.lo{background:var(--accent-soft);color:var(--accent-ink)}
+    .ac-verdict-txt{font-size:15px;font-weight:700;color:var(--text)}
+    .ac-summary{font-size:14px;line-height:1.8;color:var(--text-2);white-space:pre-wrap;margin:0 0 16px}
+    .ac-src-h{font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:.06em;margin:0 0 8px}
+    .ac-src{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:6px}
+    .ac-src a{font-size:13px;color:var(--violet);text-decoration:none;
+        display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ac-src a:hover{text-decoration:underline}
+    .ac-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+        border-top:1px dashed var(--line-strong);padding-top:16px}
+    .ac-cta-txt{font-size:13.5px;color:var(--text-2);flex:1 1 240px;line-height:1.6}
+    .ac-cta a{flex:0 0 auto;padding:11px 20px;font-size:14px;font-weight:800;color:#fff;
+        background:var(--accent);border-radius:10px;text-decoration:none;box-shadow:var(--sh-2)}
+    .ac-cta a:hover{background:var(--accent-ink)}
+    @media(max-width:560px){.ac-form button{flex:1 1 100%}}
+  </style>
+
+  <span class="ac-eyebrow">その場で実測</span>
+  <h2 id="ac-head" class="ac-head">あなたの会社、AIはどう説明する？</h2>
+  <p class="ac-sub">会社名を入れると、AI（Gemini）がGoogle検索して御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</p>
+
+  <form class="ac-form" id="ac-form" autocomplete="off">
+    <input type="text" id="ac-company" name="company" placeholder="会社名（例：株式会社◯◯製作所）" maxlength="80" required>
+    <input type="text" id="ac-product" name="product" placeholder="主力製品・サービス（任意）" maxlength="80">
+    <button type="submit" id="ac-submit">AIで実測する</button>
+  </form>
+  <p class="ac-note">結果は毎回AIがその場で生成した実測です。特定の表示や引用を保証するものではありません。詳しい競合比較レポートは無料相談で承ります。</p>
+
+  <div class="ac-result" id="ac-result" hidden></div>
+
+  <script>
+  (function(){
+    var form=document.getElementById('ac-form');
+    if(!form)return;
+    var btn=document.getElementById('ac-submit');
+    var box=document.getElementById('ac-result');
+    function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}}
+    function render(d){
+      var lvl = d.score>=60?'hi':(d.score>=30?'mid':'lo');
+      var verdict = d.recognized
+        ? 'AIは御社を認識しています。伝わり方を強くする余地があります。'
+        : 'AIは御社をほとんど認識していません。今のままではAI検索で見つけてもらえません。';
+      var src='';
+      if(d.sources&&d.sources.length){
+        src='<div class="ac-src-h">AIが参照した情報源</div><ul class="ac-src">';
+        d.sources.forEach(function(s){src+='<li><a href="'+esc(s.uri)+'" target="_blank" rel="noopener">'+esc(s.title||host(s.uri))+'</a></li>';});
+        src+='</ul>';
+      }
+      box.innerHTML='<div class="ac-card">'
+        +'<div class="ac-verdict"><span class="ac-badge '+lvl+'">AI認知スコア '+d.score+'/100</span>'
+        +'<span class="ac-verdict-txt">'+esc(verdict)+'</span></div>'
+        +(d.summary?'<div class="ac-summary">'+esc(d.summary)+'</div>':'')
+        +src
+        +'<div class="ac-cta"><span class="ac-cta-txt">この見え方は、サイトと情報発信の改善で変えられます。まずは無料でAI検索の現状を一緒に確認しませんか。</span>'
+        +'<a href="{{ rel }}contact/">無料でAI検索を相談する →</a></div>'
+        +'</div>';
+    }
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var company=document.getElementById('ac-company').value.trim();
+      var product=document.getElementById('ac-product').value.trim();
+      if(!company)return;
+      box.hidden=false;btn.disabled=true;
+      box.innerHTML='<p class="ac-loading">AIがGoogle検索して実測中です…（10〜20秒ほどかかります）</p>';
+      fetch('/api/diagnose',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({company:company,product:product})})
+        .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+        .then(function(res){
+          if(!res.ok)throw new Error(res.j&&res.j.error||'error');
+          render(res.j);
+          if(window.gtag)gtag('event','ai_check',{company_len:company.length});
+        })
+        .catch(function(){box.innerHTML='<p class="ac-error">実測に失敗しました。時間をおいて再度お試しください。</p>';})
+        .finally(function(){btn.disabled=false;});
+    });
+  })();
+  </script>
 </section>
 
 {#
@@ -113,44 +233,65 @@
 
 {#
   ========================================================================
+  5b-2. 中の鬼 — 鬼の「中身」を軽く明かすコーナー。
+  正体（実測ラボ）の前に、人間くささ・ユーモアで距離を縮める。
+  ========================================================================
+#}
+<section class="block naka-section">
+  {{ sec_head('中身', '中の鬼', '', '') }}
+  <div class="naka-oni">
+    <p class="naka-lead">鬼の中には、たぶん人間が入っている。</p>
+    <p>
+      角も牙もついていますが、中身はごく普通の人間です。
+      朝はコーヒーが冷めるまでプロンプトを書き直し、
+      昼は「これ本当に業務で使えるの？」と独りごとを言い、
+      夜は動かなかったAIに向かって静かに敗北を認めています。
+    </p>
+    <p>
+      新しいモデルが出ると、うれしさより先に「また検証か…」とため息が出る。
+      それでも触ってしまうのは、たぶん治らない性分です。
+      派手な肩書きはありませんが、
+      毎日AIと殴り合っている時間だけは、誰にも負けない自信があります。
+    </p>
+  </div>
+</section>
+
+{#
+  ========================================================================
+  5c. 鬼の正体 — サービスの前に「誰が測っているのか」を明かす。
+  毎日AIを触り、測り続けている実体を見せて、相談への信頼をつくる。
+  ========================================================================
+#}
+<section class="block oni-section">
+  {{ sec_head('正体', '鬼の正体', '', '') }}
+  <div class="oni-identity">
+    <div class="oni-identity-media">
+      <img src="{{ asset }}static/img/oni-identity.jpg"
+           alt="AIの鬼 — 毎日AIを研究する実測ラボの主" loading="lazy">
+    </div>
+    <div class="oni-identity-body">
+      <p class="oni-lead">毎日、AIを触っている鬼がいる。</p>
+      <p>
+        「AIの鬼」は、話題や宣伝を並べるメディアではありません。
+        新しいモデルやツールが出るたびに自分の手で動かし、
+        中小企業の実務で本当に使えるのかを一つひとつ測っています。
+      </p>
+      <p>
+        うまくいった方法も、空振りに終わった失敗も、
+        検証した結果はそのまま記事にします。
+        鬼は今日もどこかで、AIを研究しています。
+      </p>
+    </div>
+  </div>
+</section>
+
+{#
+  ========================================================================
   6. サービス導線 — ここで初めて売る（指示書14章）。
   3サービスを横並びにしない。AI研修・AI活用相談を主導線とする。
   ========================================================================
 #}
-<section class="block block-tint">
-  {{ sec_head('相談', '御社でもAIを使ってみませんか', '', '') }}
-
-  <a class="svc-main" href="{{ rel }}contact/">
-    <span class="svc-main-body">
-      <span class="svc-eyebrow">まずはここから</span>
-      <span class="svc-title">AIを社内で使いたい</span>
-      <span class="svc-desc">
-        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
-        「ChatGPTの使い方」を教えるだけの研修ではありません。
-      </span>
-    </span>
-    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
-  </a>
-
-  <div class="svc-sub">
-    <a class="svc-card" href="{{ rel }}contact/">
-      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
-      <span class="svc-card-desc">
-        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
-        引用を約束するものではなく、まず現状を測るサービスです。
-      </span>
-      <span class="card-link">AI検索可視性診断 →</span>
-    </a>
-    <a class="svc-card" href="{{ rel }}contact/">
-      <span class="svc-card-title">Webサイトを改善したい</span>
-      <span class="svc-card-desc">
-        測った結果、サイト側に原因があった場合の改善まで対応します。
-        Web制作25年・1000案件の実績があります。
-      </span>
-      <span class="card-link">SEO・Webサイト改善 →</span>
-    </a>
-  </div>
-</section>
+{{ service_cta(rel) }}
 
 
 {#

@@ -137,9 +137,9 @@
 {% macro news_tile(item, lang, t, rel='') %}
 {% set title = item.get('title_' ~ lang) or item.title %}
 <article class="news-tile">
-  <a class="tile-media" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
+  <a class="tile-media" href="{{ rel }}news/{{ item.slug }}/">
     {% if item.image %}
-    <img src="{{ item.image }}" alt="" loading="lazy"
+    <img src="{{ item.image }}" alt="" loading="lazy" referrerpolicy="no-referrer"
          onerror="this.closest('.tile-media').classList.add('no-img')">
     {% elif item.stock_image %}
     {# 元記事に画像がない場合のイメージ写真。実際の被写体ではない #}
@@ -148,7 +148,7 @@
     {% endif %}
   </a>
   <div class="tile-body">
-    <h3 class="tile-title"><a href="{{ item.url }}" target="_blank" rel="noopener nofollow">{{ title }}</a></h3>
+    <h3 class="tile-title"><a href="{{ rel }}news/{{ item.slug }}/">{{ title }}</a></h3>
     <div class="tile-meta">
       {% for tp in item.topic_labels or [] %}<span class="tag-hash">#{{ tp }}</span>{% endfor %}
       {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}
@@ -159,4 +159,45 @@
     </div>
   </div>
 </article>
+{% endmacro %}
+
+
+{# サービス導線CTA。home と AI検索観測所一覧で共有する。 #}
+{% macro service_cta(rel='') %}
+<section class="block block-tint">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="{{ rel }}contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="{{ rel }}contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="{{ rel }}contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
 {% endmacro %}

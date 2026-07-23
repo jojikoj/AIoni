@@ -271,13 +271,21 @@ h1, h2, h3, h4 {
 .empty { color: var(--text-3); text-align: center; padding: 64px 0; }
 
 /* --- 記事詳細 ------------------------------------------------ */
-.article-hero { position: relative; padding: clamp(44px, 7vw, 80px) 0 26px; }
-.article-hero-img {
-  position: absolute; inset: 0; background-size: cover; background-position: center;
-  opacity: .12; z-index: -1;
-  -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent);
-  mask-image: linear-gradient(180deg, #000 20%, transparent);
+/* 記事上部のフィーチャー画像（一覧サムネイルと同じ写真を大きく共通表示） */
+.article-cover {
+  margin-top: clamp(20px, 4vw, 40px);
+  margin-bottom: 4px;
 }
+.article-cover img {
+  display: block; width: 100%;
+  aspect-ratio: 16 / 7; max-height: 440px;
+  object-fit: cover; border-radius: 16px;
+  background: var(--line);
+}
+@media (max-width: 640px) {
+  .article-cover img { aspect-ratio: 16 / 9; border-radius: 12px; }
+}
+.article-hero { position: relative; padding: clamp(20px, 3.5vw, 34px) 0 26px; }
 .article-hero-inner { max-width: 730px; }
 .article-hero h1 { font-size: clamp(1.8rem, 4.2vw, 2.7rem); margin: 14px 0 16px; letter-spacing: -.03em; }
 .article-lead { font-size: 1.1rem; color: var(--text-2); margin: 0 0 18px; }
@@ -1227,6 +1235,39 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
 
 /* --- 5. サービス導線 ---------------------------------------- */
 /* 主導線1本を大きく、残り2本を小さく。横並びにしない（指示書14章）。 */
+/* 鬼の正体 — 画像＋紹介文の2カラム。狭幅では縦積み。 */
+/* 中の鬼 — 人間くささを見せる軽いコーナー。見出しは小さめピンク。 */
+.naka-section .sec-ja { font-size: clamp(1.05rem, 1.9vw, 1.3rem); color: var(--accent); }
+.naka-oni { max-width: 720px; color: var(--text-2); font-size: 1.12rem; line-height: 1.95; }
+.naka-oni p { margin: 0 0 1em; }
+.naka-lead {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(1.35rem, 2.9vw, 1.75rem); color: var(--text);
+  line-height: 1.5; margin-bottom: .8em !important;
+}
+
+/* 鬼の正体 — 見出しは少し小さくピンク。写真はリード文の上に少し小さく。 */
+.oni-section .sec-ja { font-size: clamp(1.05rem, 1.9vw, 1.3rem); color: var(--accent); }
+.oni-identity {
+  display: grid; grid-template-columns: 1fr; gap: clamp(16px, 3vw, 24px);
+  justify-items: center;
+}
+.oni-identity-media { max-width: 220px; width: 100%; }
+.oni-identity-media img {
+  display: block; width: 100%; aspect-ratio: 4 / 5;
+  object-fit: cover; border-radius: 16px; background: var(--line);
+}
+.oni-identity-body { color: var(--text-2); font-size: 1.12rem; line-height: 1.95; }
+.oni-identity-body p { margin: 0 0 1em; }
+.oni-lead {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(1.35rem, 2.9vw, 1.75rem); color: var(--text);
+  line-height: 1.5; margin-bottom: .8em !important;
+}
+@media (max-width: 680px) {
+  .oni-identity-media { max-width: 200px; }
+}
+
 .svc-main {
   display: flex; align-items: center; justify-content: space-between; gap: 28px;
   padding: 30px 32px;

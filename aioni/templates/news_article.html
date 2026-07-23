@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% from "macros.html" import article_card, service_cta %}
+{% block title %}{{ news.display_title }}{% endblock %}
+{% block og_title %}{{ news.display_title }} · {{ site_name }}{% endblock %}
+{% block description %}{{ news.display_title }}（出典: {{ news.source }}）に関する要点と、関連するAI実践・観測記事のまとめ。{% endblock %}
+
+{% block content %}
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="{{ rel }}news/">{{ t('nav.news') }}</a> ›
+      <span>{{ news.source }}</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+        {% for tp in news.topic_labels or [] %}<span class="tag-hash">#{{ tp }}</span>{% endfor %}
+        <span class="src">{{ news.source }}</span>
+        {% if news.published_display %}<time datetime="{{ news.published }}">{{ news.published_display }}</time>{% endif %}
+      </div>
+      <h1>{{ news.display_title }}</h1>
+    </header>
+
+    {% if news.image and not news.image_is_stock %}
+    <figure class="news-detail-media">
+      <img src="{{ news.image }}" alt="" loading="lazy" referrerpolicy="no-referrer"
+           onerror="this.closest('figure').style.display='none'">
+      <figcaption>画像: {{ news.source }}（配信元より）</figcaption>
+    </figure>
+    {% elif news.stock_image %}
+    <figure class="news-detail-media">
+      <img src="{{ rel }}static/img/{{ news.stock_image }}" alt="" loading="lazy">
+      <figcaption>{{ t('meta.stock_image') }}</figcaption>
+    </figure>
+    {% endif %}
+
+    {% if news.display_summary %}
+    <blockquote class="news-summary-quote">
+      <p>{{ news.display_summary }}</p>
+      <cite>出典: {{ news.source }}（配信元の紹介文より引用）</cite>
+    </blockquote>
+    {% endif %}
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="{{ news.url }}" target="_blank" rel="noopener nofollow">
+        {{ news.source }}で元記事を読む →
+      </a>
+    </p>
+
+    {% if related %}
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        ニュースの背景を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+        {% for a in related %}{{ article_card(a, lang, t, rel) }}{% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </div>
+
+  {{ service_cta(rel) }}
+</article>
+{% endblock %}

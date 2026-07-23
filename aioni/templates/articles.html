@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import pager, article_card %}
+{% from "macros.html" import pager, article_card, service_cta %}
 {% set head_title = category.name if category else t('articles.title') %}
 {% set head_sub = category.desc if category else t('articles.subtitle') %}
 {% block title %}{{ head_title }}{% endblock %}
@@ -13,6 +13,11 @@
     <p class="page-sub">{{ head_sub }}</p>
   </div>
 </section>
+
+{# AI検索観測所の一覧では、上部に問い合わせ導線を置く（home と共通のCTA）。 #}
+{% if category and category.id == 'kansoku' %}
+{{ service_cta(rel) }}
+{% endif %}
 
 {#
   カテゴリ間の行き来。記事数が少ないうちは、1カテゴリだけ見て

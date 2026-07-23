@@ -635,6 +635,29 @@ class Builder:
             html = self.env.get_template("article.html").render(**ctx)
             self._write(lang, f"articles/{a['slug']}", html)
 
+        # ニュース個別ページ（news/<slug>/ → depth 2）
+        # 外部へ直接飛ばさず自サイトを経由させ、関連する自社記事へ回遊させる。
+        # 元記事の全文は配信元リンクへ、画像は配信元URLの参照(ホットリンク)で
+        # 表示し、当サーバーには保存しない（転載しない）。
+        related_pool = [a for a in articles if a.get("category")
+                        in ("jissen", "kansoku", "kaisetsu", "shippai")]
+        for idx, n in enumerate(news):
+            npath = f"news/{n['slug']}/"
+            ctx = self._ctx(lang, depth=2, active="news", path=npath,
+                            page_description=n.get("display_title", ""))
+            ctx["news"] = n
+            if related_pool:
+                start = (idx * 3) % len(related_pool)
+                rel3 = related_pool[start:start + 3]
+                if len(rel3) < 3:
+                    rel3 = rel3 + related_pool[:3 - len(rel3)]
+            else:
+                rel3 = []
+            ctx["related"] = rel3
+            ctx["jsonld"] = ""
+            html = self.env.get_template("news_article.html").render(**ctx)
+            self._write(lang, f"news/{n['slug']}", html)
+
         # ソース別ニュースページ（news/source/<id>/）
         # ページ分割によりチップの絞り込みが現在ページ内に限定されてしまうため、
         # ソースごとに実ページを持たせる。検索インデックス上も有利。
