@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ site_name }}{% endblock %} · {{ site_name }}</title>
+  {% from "macros.html" import service_cta %}
   <meta name="description" content="{{ page_description or site_description }}">
   <link rel="canonical" href="{{ canonical }}">
   <!-- Alternate languages -->
@@ -136,6 +137,8 @@
     <main>
       {% block content %}{% endblock %}
     </main>
+
+    {{ service_cta(rel) }}
 
     <footer class="site-footer">
       <div class="footer-grid">
