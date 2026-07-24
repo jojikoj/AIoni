@@ -1,7 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "comment": "このVercelプロジェクトは AI可視性チェッカーのAPI(api/diagnose.py)だけをホストする。サイト本体(静的)はGitHub Pagesが配信するので、ここで再ビルドしない。以前は buildCommand で python3 -m aioni.build を走らせ、Vercelの保護Python(PEP668)で pip install が externally-managed-environment エラーになり全デプロイが失敗していた。ビルドはダミー出力だけにして、api/ 配下のPython Functionのみをデプロイする。",
   "buildCommand": "mkdir -p dist && echo 'ai-oni.com API host. Site: https://ai-oni.com/' > dist/index.html",
   "outputDirectory": "dist",
   "functions": {
