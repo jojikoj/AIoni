@@ -492,6 +492,10 @@ class Builder:
                 s for s in config.NEWS_SOURCES
                 if lang != "en" or s["lang"] == "en"
             ],
+            # AI可視性チェッカー（home.html のウィジェット）用。
+            # 別ホスト(Vercel)の絶対URLと Turnstile サイトキーを渡す。
+            "diagnose_endpoint": config.DIAGNOSE_ENDPOINT,
+            "turnstile_site_key": config.TURNSTILE_SITE_KEY,
         }
 
     def _source_chips(self, lang: str, up: int, current: str | None) -> list[dict]:

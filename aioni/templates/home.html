@@ -114,6 +114,12 @@
     <input type="text" id="ac-product" name="product" placeholder="主力製品・サービス（任意）" maxlength="80">
     <button type="submit" id="ac-submit">AIで実測する</button>
   </form>
+  {% if turnstile_site_key %}
+  {# Cloudflare Turnstile: いたずら連打によるGemini課金暴走を防ぐ。サイトキーが空なら出さない。 #}
+  <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-theme="light" data-size="flexible" style="margin-top:14px"></div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  {% endif %}
+
   <p class="ac-note">結果は毎回AIがその場で生成した実測です。特定の表示や引用を保証するものではありません。詳しい競合比較レポートは無料相談で承ります。</p>
 
   <div class="ac-result" id="ac-result" hidden></div>
@@ -151,10 +157,17 @@
       var company=document.getElementById('ac-company').value.trim();
       var product=document.getElementById('ac-product').value.trim();
       if(!company)return;
+      {% if turnstile_site_key %}
+      var tsToken=(window.turnstile&&document.querySelector('.cf-turnstile'))
+        ?window.turnstile.getResponse(document.querySelector('.cf-turnstile')):'';
+      if(!tsToken){box.hidden=false;box.innerHTML='<p class="ac-error">認証が完了していません。少し待ってから、もう一度お試しください。</p>';return;}
+      {% else %}
+      var tsToken='';
+      {% endif %}
       box.hidden=false;btn.disabled=true;
       box.innerHTML='<p class="ac-loading">AIがGoogle検索して実測中です…（10〜20秒ほどかかります）</p>';
-      fetch('/api/diagnose',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({company:company,product:product})})
+      fetch('{{ diagnose_endpoint }}',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({company:company,product:product,turnstile_token:tsToken})})
         .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
         .then(function(res){
           if(!res.ok)throw new Error(res.j&&res.j.error||'error');
@@ -162,7 +175,9 @@
           if(window.gtag)gtag('event','ai_check',{company_len:company.length});
         })
         .catch(function(){box.innerHTML='<p class="ac-error">実測に失敗しました。時間をおいて再度お試しください。</p>';})
-        .finally(function(){btn.disabled=false;});
+        .finally(function(){btn.disabled=false;
+          {% if turnstile_site_key %}if(window.turnstile){try{window.turnstile.reset();}catch(e){}}{% endif %}
+        });
     });
   })();
   </script>

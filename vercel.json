@@ -1,45 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "python3 -m pip install --quiet --disable-pip-version-check jinja2 markdown && python3 -m aioni.build",
-  "outputDirectory": "dist",
   "framework": null,
-  "trailingSlash": true,
+  "comment": "このVercelプロジェクトは AI可視性チェッカーのAPI(api/diagnose.py)だけをホストする。サイト本体(静的)はGitHub Pagesが配信するので、ここで再ビルドしない。以前は buildCommand で python3 -m aioni.build を走らせ、Vercelの保護Python(PEP668)で pip install が externally-managed-environment エラーになり全デプロイが失敗していた。ビルドはダミー出力だけにして、api/ 配下のPython Functionのみをデプロイする。",
+  "buildCommand": "mkdir -p dist && echo 'ai-oni.com API host. Site: https://ai-oni.com/' > dist/index.html",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/diagnose.py": { "maxDuration": 60 }
+  },
   "headers": [
-    {
-      "source": "/static/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/static/img/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
-    },
-    {
-      "source": "/llms.txt",
-      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
-    },
-    {
-      "source": "/llms-full.txt",
-      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
-    },
-    {
-      "source": "/feed.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/rss+xml; charset=utf-8" }]
-    },
-    {
-      "source": "/en/feed.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/rss+xml; charset=utf-8" }]
     }
   ]
 }

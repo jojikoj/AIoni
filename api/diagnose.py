@@ -21,15 +21,22 @@ import json
 import os
 import urllib.request
 import urllib.error
+import urllib.parse
 
-MODEL = "gemini-2.5-flash-lite"
+# 具体版 gemini-2.5-flash-lite は新規ユーザー提供終了で404になる。
+# 最新エイリアス gemini-flash-lite-latest を使う（HANDOFF §4）。
+MODEL = "gemini-flash-lite-latest"
 ENDPOINT = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
     + MODEL
     + ":generateContent"
 )
 
-MAX_BODY = 2000        # リクエストボディ上限（byte）
+# Cloudflare Turnstile の検証エンドポイント。
+# 環境変数 TURNSTILE_SECRET が設定されているときだけ検証を行う（保険）。
+TURNSTILE_VERIFY = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
+
+MAX_BODY = 4000        # リクエストボディ上限（byte）。Turnstileトークン分を見て拡張
 MAX_FIELD = 80         # 各入力欄の最大文字数
 
 # 本番サイト(GitHub Pages)は別オリジンなので、そこからの呼び出しだけ許可する。
@@ -63,6 +70,25 @@ def _build_prompt(company, product):
         "- 特定の会社を宣伝したり評価を誇張したりしないでください。",
     ]
     return "\n".join(lines)
+
+
+def _verify_turnstile(token, remote_ip=""):
+    """Turnstile トークンを検証。TURNSTILE_SECRET 未設定なら検証せず素通し(True)。"""
+    secret = os.environ.get("TURNSTILE_SECRET")
+    if not secret:
+        return True
+    if not token:
+        return False
+    data = urllib.parse.urlencode(
+        {"secret": secret, "response": token, "remoteip": remote_ip}
+    ).encode("utf-8")
+    req = urllib.request.Request(TURNSTILE_VERIFY, data=data, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            out = json.loads(resp.read().decode("utf-8"))
+        return bool(out.get("success"))
+    except Exception:
+        return False
 
 
 def _call_gemini(company, product):
@@ -158,6 +184,13 @@ class handler(BaseHTTPRequestHandler):
         product = (data.get("product") or "").strip()[:MAX_FIELD]
         if not company:
             return self._send(400, {"error": "会社名を入力してください"})
+
+        # レート制限（いたずら連打によるGemini課金暴走を防ぐ保険）。
+        # TURNSTILE_SECRET が未設定なら検証はスキップされ、従来通り素通しで動く。
+        token = (data.get("turnstile_token") or "").strip()
+        remote_ip = (self.headers.get("X-Forwarded-For", "").split(",")[0]).strip()
+        if not _verify_turnstile(token, remote_ip):
+            return self._send(403, {"error": "認証に失敗しました。ページを再読み込みしてお試しください"})
 
         try:
             raw = _call_gemini(company, product)

@@ -59,6 +59,27 @@ SITE_DOMAIN = "ai-oni.com"
 # 公開URL。デプロイ時に環境変数 SITE_BASE_URL で上書き可。
 SITE_BASE_URL = "https://ai-oni.com"
 
+# --- AI可視性チェッカー -------------------------------------------------
+# ai-oni.com は GitHub Pages（静的）なのでサーバー処理を持てない。
+# 会社名からGeminiで実測するAPIは別ホスト（Vercel）に置き、フロントから
+# 別オリジンで叩く。ここに実体URLを一元管理し、テンプレへ渡す。
+#
+# ⚠ home.html は以前この値を相対 '/api/diagnose' で直書きしており、
+#   GitHub Pages 側（サーバー無し）を叩いて常に失敗していた。必ず絶対URLにする。
+#   Vercel を再デプロイして本番URLが変わったら、ここ（または環境変数）を直す。
+# Vercelプロジェクト a-ioni（team: jojis-projects-6b19e3b5）の本番エイリアス。
+DIAGNOSE_ENDPOINT = os.environ.get(
+    "DIAGNOSE_ENDPOINT",
+    "https://a-ioni-rho.vercel.app/api/diagnose",
+)
+
+# Cloudflare Turnstile のサイトキー（公開してよい方＝フロントに出す）。
+# 空のあいだはウィジェットを出さず、素通しでチェッカーを動かす（＝現状）。
+# 値を入れてビルドすると、送信前に Turnstile 認証を挟む。
+# 対になる秘密鍵 TURNSTILE_SECRET は Vercel 側の環境変数に置き、
+# api/diagnose.py が siteverify で検証する（フロントには絶対出さない）。
+TURNSTILE_SITE_KEY = os.environ.get("TURNSTILE_SITE_KEY", "")
+
 # --- 問い合わせ ---------------------------------------------------------
 # 静的サイトのためサーバー側フォーム処理を持てない。
 # mailto: で件名・本文を事前入力し、送信の手間を最小化する。
