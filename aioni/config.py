@@ -168,6 +168,13 @@ ARTICLE_CATEGORIES = [
         "desc": "集めた大量のニュースから、中小企業が知る必要のあるものだけを選ぶ。",
         "eyebrow": "選別",
     },
+    {
+        "id": "naka",
+        "tag": "中の鬼",
+        "name": "中の鬼",
+        "desc": "AIと毎日殴り合っている中の人の雑記。数えてみたら妙だった話や、機械に敬語で頼む夜の記録。実測まじりのユーモア。",
+        "eyebrow": "中身",
+    },
 ]
 
 CATEGORY_BY_TAG = {c["tag"]: c for c in ARTICLE_CATEGORIES}
