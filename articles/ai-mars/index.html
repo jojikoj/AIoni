@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%） · AIの鬼</title>
+  <meta name="description" content="知識グラフを段階的にたどらせてSPARQLを生成する手法MARSが、ファインチューニングなしで既存手法を上回った。ただし最高でもMacro F1は66.29%、最難関ベンチマークでは40.83%。社内DBへの自然文質問AIを検討する中小企業が、精度の天井をどう見積もり、どこに人を残すべきかを一次資料の数字から読む。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-mars/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-mars/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%） · AIの鬼">
+  <meta property="og:description" content="知識グラフを段階的にたどらせてSPARQLを生成する手法MARSが、ファインチューニングなしで既存手法を上回った。ただし最高でもMacro F1は66.29%、最難関ベンチマークでは40.83%。社内DBへの自然文質問AIを検討する中小企業が、精度の天井をどう見積もり、どこに人を残すべきかを一次資料の数字から読む。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-mars/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%） · AIの鬼">
+  <meta name="twitter:description" content="知識グラフを段階的にたどらせてSPARQLを生成する手法MARSが、ファインチューニングなしで既存手法を上回った。ただし最高でもMacro F1は66.29%、最難関ベンチマークでは40.83%。社内DBへの自然文質問AIを検討する中小企業が、精度の天井をどう見積もり、どこに人を残すべきかを一次資料の数字から読む。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%）","item":"https://ai-oni.com/articles/ai-mars/"}]},{"@type":"Article","headline":"社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%）","description":"知識グラフを段階的にたどらせてSPARQLを生成する手法MARSが、ファインチューニングなしで既存手法を上回った。ただし最高でもMacro F1は66.29%、最難関ベンチマークでは40.83%。社内DBへの自然文質問AIを検討する中小企業が、精度の天井をどう見積もり、どこに人を残すべきかを一次資料の数字から読む。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-mars/"},"url":"https://ai-oni.com/articles/ai-mars/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-mars.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-mars/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-mars.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%）</h1>
+<p class="article-lead">知識グラフを段階的にたどらせてSPARQLを生成する手法MARSが、ファインチューニングなしで既存手法を上回った。ただし最高でもMacro F1は66.29%、最難関ベンチマークでは40.83%。社内DBへの自然文質問AIを検討する中小企業が、精度の天井をどう見積もり、どこに人を残すべきかを一次資料の数字から読む。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。社内データにAIを答えさせるのに、高価な追加学習は必ずしも要りません。汎用LLMに構造化データを「たどらせる」だけで最先端の精度が出ています。ただしその最先端が、易しめの問題でMacro F1 66.29%、難しい問題で40.83%です。3割から6割は外れる前提で運用を組む以外にありません。</p>
+<p>（出典：arXiv:2607.14561、2026年7月16日（arXiv:2607.14561v1）、<a href="https://arxiv.org/abs/2607.14561v1">https://arxiv.org/abs/2607.14561v1</a>）</p>
+<h2 id="_1">何が測られたのか：ファインチューニングなしで既存最良を上回った</h2>
+<p>研究グループ（Nikit Srivastava、Daniel Vollmers、René Speck、Nikolaos Karalis、Hamada M. Zahera、Axel-Cyrille Ngonga Ngomo）が発表した「MARS: Multi-hop Adaptive Retrieval and SPARQL Generation for KGQA」は、EKAW 2026に採録された論文です。</p>
+<p>やっていることは単純化すればこうです。人間が自然文で質問する。AIがいきなり答えを作文するのではなく、知識グラフ（構造化されたデータベース）の中を何段階かたどって関連する情報の断片を集める。そのうえでSPARQLという問い合わせ言語のクエリを生成し、実際にデータベースに実行させて答えを取る。</p>
+<p>重要なのは、この手法が追加学習を一切していないことです。使用したLLMはGPT-OSS-120Bで、ファインチューニングはなし。にもかかわらず、既存手法を上回っています。</p>
+<table>
+<thead>
+<tr>
+<th>ベンチマーク・言語</th>
+<th>MARS</th>
+<th>GRASP</th>
+<th>UniQ-Gen</th>
+<th>MST5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LC-QuAD2.0（英語、テスト4,624問）</td>
+<td>40.83%</td>
+<td>38.36%</td>
+<td>34.56%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>QALD系（英語）</td>
+<td>66.29%</td>
+<td>62.29%</td>
+<td>26.18%</td>
+<td>29.57%</td>
+</tr>
+<tr>
+<td>QALD-9-plus（フランス語）</td>
+<td>71.93%</td>
+<td>12.38%</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>QALD-9-plus（アルメニア語）</td>
+<td>65.96%</td>
+<td>10.14%</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>数値はすべてMacro F1です。条件を添えておきます。LC-QuAD2.0はテスト4,624問、対象の知識グラフはWikidata（約110億トリプル）。QALD-9-plusはテスト127問（9言語）、QALD-10はテスト382問（4言語）で、このうち約30%が複数ホップ質問、つまり一発の検索では答えられない設問です。フランス語・アルメニア語の数字はQALD-9-plusのテスト127問ベースです。</p>
+<p>実験環境はRAM 256GB・16コア・A100（40GB）×4。知識グラフはTentrisというトリプルストアで保持しています。1リクエストあたりの平均消費トークンは4.3kトークン（最終設定 topn=20 / mhop=10）でした。</p>
+<h2 id="1">読者への意味（1）：モデルを鍛えるより、データを整えるほうが効く</h2>
+<p>中小企業でよくある相談が「うちの社内データを学習させたAIを作りたい」です。この論文は、その前提を一度疑ってよいと示しています。</p>
+<ul>
+<li>ファインチューニングはゼロ。それでも既存最良手法を上回った</li>
+<li>効いたのは「モデルの賢さ」ではなく「データをたどれる形にしてあること」と「生成したクエリを実際に実行して検証すること」</li>
+<li>アブレーション（構成要素を外して効果を測る実験）で最も効いたのは、生成したSPARQLを実行して検証する工程だった。これを足すだけでMacro F1が65.47%から70.94%へ、5.5ポイント改善している（条件：QALD-10の訓練セットでの内部検証）</li>
+</ul>
+<p>つまり投資先はモデル学習ではなく、(a) 自社データの構造化、(b) AIが出した答えを機械的に検証する仕組み、の二つになります。どちらもモデル学習より安く、社内でコントロールできます。</p>
+<p>多言語の結果も示唆的です。フランス語71.93%・アルメニア語65.96%に対し、同条件のGRASPは12.38%・10.14%と事実上機能していません。言語ごとにモデルを鍛え直すのではなく、構造化データを参照させる設計にしたほうが、データの少ない言語でも崩れにくい、ということです。</p>
+<p>ただし後述しますが、日本語は評価対象に入っていません。</p>
+<p>関連して、追加学習を避けて手元の環境で動かす発想については<a href="/articles/ai-cpu-local-inference/">CPUだけでローカル推論はどこまで実用になるか</a>、少人数チームでの導入順序は<a href="/articles/ai-small-team-adoption/">少人数チームでAIを定着させる進め方</a>も併せてお読みください。</p>
+<h2 id="2">読者への意味（2）：精度の天井を先に見積もる</h2>
+<p>こちらのほうが実務的には重要です。</p>
+<p>最先端手法の到達点が、易しめのQALD系で66.29%、最難関のLC-QuAD2.0で40.83%。これは研究用の整備されたデータと潤沢な計算資源での数字です。自社の雑多なデータで、これを上回ると期待する根拠はありません。</p>
+<ul>
+<li>「社内DBに自然文で質問できるAI」は、3割から6割が誤答または不完全回答になる前提で設計する</li>
+<li>見積・請求・在庫数量など、間違いが金銭に直結する用途に無検証で置かない</li>
+<li>答えの根拠（どのレコードを見たか）を必ず画面に出し、人が3秒で照合できるようにする</li>
+</ul>
+<p>誤り分析の内訳も参考になります。QALD-10英語では289問中202問正解でしたが、そのうち95問は「正解とされるSPARQLとは別の書き方」で当てたものでした。QALD-9-plusでは99問中60問正解、うち26問が別形式です。正解・不正解の判定そのものが、書き方の違いで揺れているということです。</p>
+<p>社内で精度を測るときも同じ罠にはまります。評価基準の作り方は<a href="/articles/ai-own-evaluation-criteria/">自社でAIの評価基準をどう作るか</a>にまとめています。</p>
+<h2 id="_2">論文が自ら認めている限界</h2>
+<p>誠実な論文なので、不都合な点を数多く自己申告しています。ここは飛ばさずに読んでください。</p>
+<ul>
+<li>高次数ノード（つながりが極端に多いデータ）に対するパターン検索は結合処理が重く、一般的なトリプルストアでは実用的な時間で応答できないと明記している。スケール面の弱点</li>
+<li>結果件数を1,000件で打ち切る仕様のため、大量ヒットする質問は構造的に不正解になる。QALD-9-plus 設問#177では正解が24,512件あり、予測は上限の1,000件で頭打ちになった</li>
+<li>Yes/No質問に対して根拠テキストを返してしまう、集計・比較系の質問で失敗する、リテラル生成が保守的で再現率を犠牲にする、といった誤りパターンを著者自身が列挙している</li>
+<li>リソース制約により評価はWikidata系ベンチマークのみ。FreebaseやDBpediaなど他の知識グラフへの適用は今後の課題と認めている</li>
+<li>「F1は論文間で直接比較できない」と自認している。KGQA各手法が分母の取り方を変えて報告しているため、他手法との優劣比較には限界がある</li>
+<li>ベンチマーク側にも問題がある。構築時に使ったKGスナップショットが公開されておらず（QALD-10はWikidataダンプが不完全）、正解そのものが揺らぐ</li>
+<li>比較対象に入れようとしたSPINACHは、Wikidata固有の依存と回答集合の規約差により評価に組み込めなかった</li>
+<li>評価言語は英語・ドイツ語・ロシア語・フランス語・アルメニア語・中国語などで、日本語は含まれていない</li>
+</ul>
+<p>もう一つ、研究の態度として注目すべき判断があります。検索幅を広げた設定（topn=100 / mhop=1）ではMacro F1 72.10%という最高値が出ていました。しかし著者はこれを採用せず、67.92%の設定を選んでいます（条件：QALD-10訓練セット）。ベンチマークに過剰適合して汎化しないと判断したためです。</p>
+<p>自社で検証するときも同じ姿勢が要ります。テストデータで一番いい数字が出た設定が、本番で一番いい設定とは限りません。数字の読み方については<a href="/articles/ai-cost-aware-evaluation/">コストを織り込んだAI評価の考え方</a>も参考になります。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは未実施です。</strong> 知識グラフを構築して自然文質問を受けるKGQAシステムを、クライアント案件でも自社でも本番稼働させたことはありません。以下は論文を読んだうえでの読みであり、実測に基づく主張ではありません。</p>
+<p>そのうえで三点。</p>
+<p>第一に、社内データQAの投資配分を組み替える材料になります。「専用モデルを学習させる」提案を受けたとき、まず「構造化と検証工程だけで、どこまで届くか」を測る段階を挟む。5.5ポイントの改善が実行検証という地味な工程から出ていることは、そういう順序の妥当性を後押しします。</p>
+<p>第二に、精度目標の置き方です。研究の最先端が66.29%なら、社内システムの受け入れ基準を「正答率9割」と置くのは現実的ではありません。置くべきは「AIが答えを出し、人が根拠を確認し、確定させるまでの所要時間」です。全自動ではなく下書き生成として設計すれば、40%台の正答率でも十分に元が取れる業務はあります。</p>
+<p>第三に、日本語の空白です。評価対象9言語に日本語は入っていません。多言語で崩れにくいという結果を、そのまま日本語に持ち込む根拠はありません。国内導入なら、自社データ・自社の質問文で実測してから判断する。ここは省略できないと考えています。</p>
+<p>そして限界を承知したうえでの前向きな読みとして、上限1,000件の打ち切りやYes/No質問の失敗は、いずれも設計上の制約であって知能の限界ではありません。用途を絞れば回避できる種類の問題です。何でも聞けるAIではなく、聞くことが決まっているAIとして設計するなら、この技術の実用ラインは論文の数字より上に来る可能性があります。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>MARSは追加学習なしの汎用LLMで、Macro F1 66.29%（QALD系・英語）、40.83%（LC-QuAD2.0・英語、テスト4,624問）を記録し、既存最良のGRASP（62.29%／38.36%）を上回った</li>
+<li>最も効いた工程は生成したSPARQLの実行検証で、これだけで65.47%から70.94%へ5.5ポイント改善（QALD-10訓練セットでの内部検証）</li>
+<li>一方で精度の天井は低い。社内DBへの自然文質問AIは3割から6割が誤答・不完全回答になる前提で、人の検証を残す運用にする</li>
+<li>論文は限界を自己申告している。高次数ノードでの応答遅延、結果1,000件打ち切りによる構造的不正解（正解24,512件の実例）、Wikidata以外は未評価、F1の論文間比較不可、ベンチマークの正解自体の揺らぎ</li>
+<li>評価言語に日本語は含まれない。国内導入は自社データでの実測が前提で、TOEでは未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

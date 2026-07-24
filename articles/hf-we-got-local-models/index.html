@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>定型判断はローカルAIで足りるのか — 330件の仕分けをF1 0.800・1件1.41秒で回した検証は何を示したか · AIの鬼</title>
+  <meta name="description" content="Hugging Face公式ブログが、OpenClawリポジトリのPR・課題の仕分けをローカルの小型モデルで実施した結果を公開しました。330行の評価セットでF1 0.800、1件あたり1.41秒。巨大モデルはF1 0.811とほぼ同等ながら1件144秒。数字の出どころと限界も含めて読み解きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-we-got-local-models/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-we-got-local-models/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="定型判断はローカルAIで足りるのか — 330件の仕分けをF1 0.800・1件1.41秒で回した検証は何を示したか · AIの鬼">
+  <meta property="og:description" content="Hugging Face公式ブログが、OpenClawリポジトリのPR・課題の仕分けをローカルの小型モデルで実施した結果を公開しました。330行の評価セットでF1 0.800、1件あたり1.41秒。巨大モデルはF1 0.811とほぼ同等ながら1件144秒。数字の出どころと限界も含めて読み解きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-we-got-local-models/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="定型判断はローカルAIで足りるのか — 330件の仕分けをF1 0.800・1件1.41秒で回した検証は何を示したか · AIの鬼">
+  <meta name="twitter:description" content="Hugging Face公式ブログが、OpenClawリポジトリのPR・課題の仕分けをローカルの小型モデルで実施した結果を公開しました。330行の評価セットでF1 0.800、1件あたり1.41秒。巨大モデルはF1 0.811とほぼ同等ながら1件144秒。数字の出どころと限界も含めて読み解きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"定型判断はローカルAIで足りるのか — 330件の仕分けをF1 0.800・1件1.41秒で回した検証は何を示したか","item":"https://ai-oni.com/articles/hf-we-got-local-models/"}]},{"@type":"Article","headline":"定型判断はローカルAIで足りるのか — 330件の仕分けをF1 0.800・1件1.41秒で回した検証は何を示したか","description":"Hugging Face公式ブログが、OpenClawリポジトリのPR・課題の仕分けをローカルの小型モデルで実施した結果を公開しました。330行の評価セットでF1 0.800、1件あたり1.41秒。巨大モデルはF1 0.811とほぼ同等ながら1件144秒。数字の出どころと限界も含めて読み解きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-we-got-local-models/"},"url":"https://ai-oni.com/articles/hf-we-got-local-models/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-we-got-local-models.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-we-got-local-models/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-we-got-local-models.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>定型判断はローカルAIで足りるのか — 330件の仕分けをF1 0.800・1件1.41秒で回した検証は何を示したか</h1>
+<p class="article-lead">Hugging Face公式ブログが、OpenClawリポジトリのPR・課題の仕分けをローカルの小型モデルで実施した結果を公開しました。330行の評価セットでF1 0.800、1件あたり1.41秒。巨大モデルはF1 0.811とほぼ同等ながら1件144秒。数字の出どころと限界も含めて読み解きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>GitHubのPR・課題の仕分けのような定型判断は、手元のローカルAIで実用水準に届くのか。Hugging Face公式ブログの検証では、小型モデルGemmaが330行の評価セットでF1 0.800、1件あたり1.41秒、全体約7.5分で処理しました。巨大モデルはF1 0.811とほぼ同等ですが1件144秒で、実務には向かないという結果です。</p>
+<h2 id="_1">この記事が扱う一次資料と、その利害関係</h2>
+<p>題材は、オープンソースのAIアシスタント「OpenClaw」のリポジトリに集まるIssue・Pull Requestを、ローカルで動かすオープンウェイトモデルに仕分け（トリアージ）させた検証レポートです（出典：Hugging Face 公式ブログ。著者は Onur Solmaz、ben burtenshaw、shaun smith。対象リポジトリは OpenClaw（オープンソースのAIアシスタント）、2026-06-22、<a href="https://huggingface.co/blog/local-models-pr-triage">https://huggingface.co/blog/local-models-pr-triage</a>）。</p>
+<p>最初に、数字の出どころを判断するための前提を書きます。<strong>この記事は Hugging Face 社自身による発表であり、同社は当該製品の提供者である</strong>という点です。Hugging Faceはオープンウェイトモデルを配布するプラットフォーム事業者であり、「ローカルの無料モデルで足りる」という結論は、自社の事業領域を利する立場からの発信にあたります。検証に使われたモデルも、実行に使われたハードウェア（NVIDIA GB10）も特定ベンダーのものです。</p>
+<p>だからこの検証に価値がない、という話ではありません。むしろ、実測値と失敗した過程まで開示している点は評価に値します。ただし読者としては、「第三者による中立評価ではない」という札を貼ったうえで数字を読む必要がある、ということです。</p>
+<p>なお、著者自身も「無料」という看板の限界を認めています。評価の正解ラベルを作る工程と検証にGPT-5.5（有償のクラウドAI）を使っており、これは「無料という点を打ち消す」が、研究目的なので許容したと本文に明記されています。</p>
+<h2 id="_2">実測値：小型モデルと巨大モデルは何が違ったのか</h2>
+<p>評価データセットは330行です。GitHubのIssueとPRを対象に、各項目に5回ラベル付け（GPT-5.5で3回、Opus 4.8で2回）を行い、さらに人手による調整を経て作成されています。</p>
+<p>以下が主要な実測値です。GemmaとQwenは330行を3回実行した平均±標準偏差、DeepSeek-V4-Flashは参照用に1回だけ実行した値です。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>規模</th>
+<th>F1スコア</th>
+<th>1件あたり処理時間</th>
+<th>並列度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemma（gemma-4-26b-a4b）</td>
+<td>26B・アクティブ4B</td>
+<td>0.800 ± 0.008</td>
+<td>1.41 ± 0.04秒</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Qwen（qwen3.6-35b-a3b）</td>
+<td>35B・アクティブ3B</td>
+<td>0.824 ± 0.002</td>
+<td>13.51 ± 0.79秒</td>
+<td>4</td>
+</tr>
+<tr>
+<td>DeepSeek-V4-Flash</td>
+<td>284B・アクティブ13B</td>
+<td>0.811（1回実行）</td>
+<td>144.14秒（1回実行）</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>実行環境はいずれもNVIDIA GB10（DGX Spark、統合メモリ128GB）です。GemmaのF1 0.800は、NVFP4量子化やプレフィックスキャッシュなどの最適化を適用した条件下での値です。</p>
+<p>処理量の側も見ておきます。</p>
+<ul>
+<li>Gemmaは330行全体を約7.5分で処理し終えています（NVIDIA GB10、並列度16）</li>
+<li>Gemmaの合計出力スループットは402.6トークン/秒（並列度16、ワーカー1つあたり25トークン/秒）。別途、並列度32のテストでは700トークン/秒を超えたとされています</li>
+<li>DeepSeek-V4-Flashは並列度1、出力13〜14トークン/秒にとどまり、著者はNVIDIA GB10上でのリアルタイム処理には非現実的だと結論づけています</li>
+</ul>
+<p>つまり、パラメータ数で言えば10倍以上あるDeepSeek-V4-FlashのF1（0.811）は、Gemma（0.800）とほぼ同じ水準です。にもかかわらず1件あたりの処理時間は約102倍かかっています。「大きいモデルほど良い」という直感が、この業務では成立していません。</p>
+<h2 id="_3">精度の「質」が違う：誤検知型と見落とし型</h2>
+<p>F1スコアだけを並べると3モデルは近く見えますが、間違え方の中身はまったく違います。330行に対する偽陽性（誤検知＝余計なラベルを付けた件数）と偽陰性（見落とし＝付けるべきラベルを付けなかった件数）は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>誤検知（偽陽性）</th>
+<th>見落とし（偽陰性）</th>
+<th>実行回数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemma</td>
+<td>227.0 ± 10.5件</td>
+<td>60.0 ± 2.6件</td>
+<td>3回</td>
+</tr>
+<tr>
+<td>Qwen</td>
+<td>105.7 ± 6.4件</td>
+<td>115.3 ± 4.0件</td>
+<td>3回</td>
+</tr>
+<tr>
+<td>DeepSeek-V4-Flash</td>
+<td>30件</td>
+<td>181件</td>
+<td>1回</td>
+</tr>
+</tbody>
+</table>
+<p>Gemmaは見落としが60.0件と最も少ない代わりに、誤検知が227.0件と突出しています。取りこぼしは少ないが、余計なラベルを大量に付けるタイプです。逆にDeepSeek-V4-Flashは誤検知30件で適合率0.938と高い一方、見落としが181件、再現率0.714と低く、拾うべきものを取りこぼすタイプでした。Qwenはその中間で、誤検知105.7件・見落とし115.3件とバランス型です。</p>
+<p>この差は、業務要件に直接効きます。</p>
+<ul>
+<li>取りこぼしが致命的な業務（クレームの一次検知、不具合報告の見落とし防止など）は、Gemma型の「拾いすぎるが漏らさない」挙動が向きます。ただし後段で人が余計な分を落とす工数が要ります</li>
+<li>誤爆が致命的な業務（顧客への自動通知、承認フローの起動など）は、DeepSeek型の「慎重だが漏らす」挙動が向きます。ただし漏れを別の手段で拾う設計が要ります</li>
+<li>どちらとも言えない場合は、Qwen型のバランス寄りを起点に、閾値やプロンプトで寄せていく判断になります</li>
+</ul>
+<p>評価軸をF1一本にすると、この違いが消えます。指標の立て方については<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>も併せてご覧ください。</p>
+<h2 id="9">検証コストは月約9ドル：導入判断の前段は安い</h2>
+<p>もう一つ実務的な数字があります。検証用に使ったGPT-5.5の利用コストは、1回あたり2〜3セント、月約9ドルです。条件は、2時間ごとのチェック1回あたり約4万トークン（大半はキャッシュ済みコンテキスト）、1日12回実行換算です。</p>
+<p>ここから読める意味は明快です。「AIを入れるべきかどうか」を判断するための検証そのものは、月1000円台の世界だということです。本番運用のコストと、検証のコストは別勘定で考えられます。いきなり全社導入の可否を議論する前に、自社の実データ数百件で当てさせてみる、という段取りが金額的には十分現実的です。</p>
+<p>コスト構造そのものの整理は<a href="/articles/ai-cost-structure/">AIのコスト構造をどう見るか</a>に、ローカルで動かす場合の前提は<a href="/articles/ai-local-llm/">ローカルLLMは実務で使えるのか</a>にまとめています。</p>
+<h2 id="_4">この検証の限界：書かれていることをそのまま受け取らない</h2>
+<p>不都合な点も、著者自身がレポート内に書いています。読者としてはここを外せません。</p>
+<ul>
+<li>最初に試したモデル（gemma-4-e4b-it）は実用にならなかった。パイプラインの疎通確認には役立ったものの、無関係なラベルを付けすぎる傾向があり「ノイズが多かった」と認めています。つまり、一発で当たったわけではありません</li>
+<li>掲載された性能数値は「その時点で使った設定」であり、各モデルの最大性能を確定的に示すものではないと本文で明言されています</li>
+<li>DeepSeek-V4-Flashは実行ごとにラベル付けが安定しなかった（一貫性の欠如）と記載されています</li>
+<li>DeepSeek-V4-Flashのみ1回実行の参照値で、3回実行のGemma・Qwenとは検証の厳密さが揃っていません。表を横並びで見るときは、この非対称に注意が必要です</li>
+<li>正解ラベル自体がGPT-5.5とOpus 4.8による5回のラベル付けに人手調整を加えたものであり、完全な人手作成の正解データではありません</li>
+</ul>
+<p>「ローカルの小型モデルで足りた」という見出しの結論は、これらの条件付きで読むべきものです。</p>
+<h2 id="toe">TOEの読み筋：どこから当てはめられるか</h2>
+<p>ここから先はTOEの解釈です。<strong>この検証と同じ再現実験は、TOEでは未実施です。</strong> 以下は自社での実測に基づく主張ではなく、公開された数値からの読み筋として書きます。</p>
+<p>第一に、この検証が示した意思決定の型は、中小企業の業務にそのまま移せる形をしています。「必要な精度」と「1日に何件流れるか」の2軸でモデルを選ぶ、という型です。1日300件規模の仕分けなら、Gemma相当の速度（1件1.41秒）で数分、DeepSeek相当（1件144秒）なら12時間かかる計算になります。精度がほぼ同じなら、選択は自動的に決まります。</p>
+<p>第二に、間違え方の非対称を先に決めておくことです。導入前に「うちは誤爆と取りこぼしのどちらを嫌うか」を一言で決めておけば、モデル比較の議論が短くなります。逆にこれを決めずにF1だけを見比べると、現場に出した後で「思っていたのと違う」が起きます。</p>
+<p>第三に、検証コストの安さを使い切ることです。月約9ドルという水準は、稟議を通す前に自社データで試すことを許す金額です。ベンダー提示のデモではなく、自社の実データ数百件でF1と誤検知・見落としの内訳を出す。この一手間が、後の判断の質を大きく変えると考えています。</p>
+<p>第四に、留保です。この検証はGitHubのIssue・PRという、テキストが構造化され、判断基準が比較的明文化しやすい対象に対するものです。日本語の社内文書、業界固有の略語、暗黙の運用ルールが絡む仕分けで同じ数字が出る保証はありません。適用可能性の判断は、自社データでの実測を経てからになります。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Hugging Face公式ブログの検証で、ローカルの小型モデルGemmaが330行の評価セットをF1 0.800 ± 0.008、1件あたり1.41 ± 0.04秒、全体約7.5分で処理した（NVIDIA GB10、並列度16、3回実行）</li>
+<li>284BのDeepSeek-V4-FlashはF1 0.811とほぼ同等ながら1件144.14秒（並列度1、1回実行）で、著者自身がリアルタイム処理には非現実的と結論づけている</li>
+<li>F1が近くても間違え方は異なる。Gemmaは誤検知227.0件・見落とし60.0件、DeepSeekは誤検知30件・見落とし181件。自社が誤爆と取りこぼしのどちらを嫌うかで選択が変わる</li>
+<li>検証用クラウドAIのコストは1回2〜3セント、月約9ドル。導入可否を自社データで確かめる工程自体は安価に組める</li>
+<li>ただしこの記事はHugging Face社自身による発表であり、同社は当該製品の提供者である。初期モデルの失敗、DeepSeekの一貫性の欠如、掲載値が最大性能ではない旨も本文に明記されている。TOEでは同等の再現実験を未実施であり、適用判断は自社データでの実測を経る必要がある</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

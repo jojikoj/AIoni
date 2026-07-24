@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIニュース · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <link rel="canonical" href="https://ai-oni.com/news/20/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/20/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIニュース · AIの鬼">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta property="og:url" content="https://ai-oni.com/news/20/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIニュース · AIの鬼">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"How engineers at Nextdoor use Codex to build without limits","url":"https://openai.com/index/nextdoor"},{"@type":"ListItem","position":2,"name":"How an Agent Built a 3D Paris Gallery by Chaining Two Hugging Face Spaces","url":"https://huggingface.co/blog/mishig/spaces-agents-md"},{"@type":"ListItem","position":3,"name":"What Codex unlocks for Notion","url":"https://openai.com/index/notion"},{"@type":"ListItem","position":4,"name":"Industrial policy for the Intelligence Age","url":"https://openai.com/index/industrial-policy-for-the-intelligence-age"},{"@type":"ListItem","position":5,"name":"Migrating Your GitHub CI to Hugging Face Jobs","url":"https://huggingface.co/blog/github-ci-hf-jobs"},{"@type":"ListItem","position":6,"name":"Confidential submission of draft S-1 to the SEC","url":"https://openai.com/index/openai-submits-confidential-s-1"},{"@type":"ListItem","position":7,"name":"Measuring the impact of learning with AI in Sierra Leone and beyond","url":"https://deepmind.google/blog/measuring-the-impact-of-learning-with-ai-in-sierra-leone-and-beyond/"},{"@type":"ListItem","position":8,"name":"Built to benefit everyone: our plan","url":"https://openai.com/index/built-to-benefit-everyone-our-plan"},{"@type":"ListItem","position":9,"name":"Introducing the OpenAI Economic Research Exchange","url":"https://openai.com/index/economic-research-exchange"},{"@type":"ListItem","position":10,"name":"The Open Source Community is backing OpenEnv for Agentic RL","url":"https://huggingface.co/blog/openenv-agentic-rl"},{"@type":"ListItem","position":11,"name":"The latest AI news we announced in May 2026","url":"https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-may-2026/"},{"@type":"ListItem","position":12,"name":"Nemotron 3.5 Content Safety: Customizable Multimodal Safety for Global Enterprise AI","url":"https://huggingface.co/blog/nvidia/nemotron-3-5-content-safety"},{"@type":"ListItem","position":13,"name":"How Endava is redesigning software delivery around AI agents","url":"https://openai.com/index/endava-frontiers"},{"@type":"ListItem","position":14,"name":"Dreaming: Better memory for a more helpful ChatGPT","url":"https://openai.com/index/chatgpt-memory-dreaming"},{"@type":"ListItem","position":15,"name":"Biodefense in the Intelligence Age","url":"https://openai.com/index/biodefense-in-the-intelligence-age"},{"@type":"ListItem","position":16,"name":"Designing the hf CLI as an agent-optimized way to work with the Hub","url":"https://huggingface.co/blog/hf-cli-for-agents"},{"@type":"ListItem","position":17,"name":"Introducing new capabilities to GPT-Rosalind","url":"https://openai.com/index/introducing-new-capabilities-to-gpt-rosalind"},{"@type":"ListItem","position":18,"name":"5 ways Google Search can level up your thrift and vintage shopping","url":"https://blog.google/products-and-platforms/products/search/thrifting-tips/"},{"@type":"ListItem","position":19,"name":"Direct Preference Optimization Beyond Chatbots","url":"https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots"},{"@type":"ListItem","position":20,"name":"How Wasmer used Codex to build a Node.js runtime for the edge","url":"https://openai.com/index/wasmer"},{"@type":"ListItem","position":21,"name":"OpenAI public policy agenda","url":"https://openai.com/index/public-policy-agenda"},{"@type":"ListItem","position":22,"name":"A blueprint for democratic governance of frontier AI","url":"https://openai.com/index/frontier-safety-blueprint"},{"@type":"ListItem","position":23,"name":"Adding MCP Tools to Reachy Mini","url":"https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"},{"@type":"ListItem","position":24,"name":"Holo3.1: Fast & Local Computer Use Agents","url":"https://huggingface.co/blog/Hcompany/holo31"},{"@type":"ListItem","position":25,"name":"Travelers deploys AI-powered claims countrywide with OpenAI","url":"https://openai.com/index/travelers"},{"@type":"ListItem","position":26,"name":"ChatGPT Sites","url":"https://openai.com/academy/chatgpt-sites"},{"@type":"ListItem","position":27,"name":"Codex for every role, tool, and workflow","url":"https://openai.com/index/codex-for-every-role-tool-workflow"},{"@type":"ListItem","position":28,"name":"Advancing youth safety and opportunity through global leadership","url":"https://openai.com/index/advancing-youth-safety-and-opportunity-through-global-leadership"},{"@type":"ListItem","position":29,"name":"Codex is becoming a productivity tool for everyone","url":"https://openai.com/index/codex-for-knowledge-work"},{"@type":"ListItem","position":30,"name":"Our views on AI policy and political advocacy","url":"https://openai.com/index/our-views-on-ai-policy-and-political-advocacy"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/20/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>AIニュース</h1>
+    <p class="page-sub">国内外の開発元発表とメディアを横断して集約。</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="mt-note">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="6.6"/><path d="M8 7.4v4M8 4.9v.1" stroke-linecap="round"/>
+      </svg>
+      <span>海外ソースの記事は、この場で自動翻訳して掲載しています（機械翻訳のため訳文が不正確な場合があります）。正確な内容は各記事の元記事をご確認ください。</span>
+    </div>
+    <details class="filter-fold">
+      <summary>配信元で絞り込む</summary>
+      <div class="filter-bar">
+        <a class="chip on" href="../">すべて</a>
+        <a class="chip " href="../source/itmedia_ai/">ITmedia AI+</a>
+        <a class="chip " href="../source/ainow/">AINOW</a>
+        <a class="chip " href="../source/zenn_ai/">Zenn AI</a>
+        <a class="chip " href="../source/qiita_ai/">Qiita AI</a>
+        <a class="chip " href="../source/publickey/">Publickey</a>
+        <a class="chip " href="../source/ascii/">ASCII.jp</a>
+        <a class="chip " href="../source/openai/">OpenAI</a>
+        <a class="chip " href="../source/deepmind/">Google DeepMind</a>
+        <a class="chip " href="../source/googleai/">Google AI</a>
+        <a class="chip " href="../source/huggingface/">Hugging Face</a>
+        <a class="chip " href="../source/mit_tr/">MIT Technology Review</a>
+        <a class="chip " href="../source/techcrunch_ai/">TechCrunch AI</a>
+        <a class="chip " href="../source/verge_ai/">The Verge AI</a>
+        <a class="chip " href="../source/venturebeat_ai/">VentureBeat AI</a>
+        <a class="chip " href="../source/arstechnica_ai/">Ars Technica AI</a>
+      </div>
+    </details>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-d484de5576/">
+    <img src="../../../static/img/news-models-05.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-d484de5576/">NextdoorがCodexで開発効率を向上</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-09T12:00:00+00:00">2026.06.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-92ae8342b6/">
+    <img src="https://cdn-uploads.huggingface.co/production/uploads/60a551a34ecc5d054c8ad93e/0tamlKpAvO3lZEklNmwHT.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-92ae8342b6/">エージェントがHugging Face Spacesを連携させ3Dパリギャラリーを構築</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-06-09T10:46:19+00:00">2026.06.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-e8e11bcb3a/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/4kuHNpLFWGTJ5PFyZ8ZYKs/f294630773ebdf81c05804a62fed2f00/oai_Notion_SEO.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-e8e11bcb3a/">NotionがCodexで開発を加速</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-06-09T10:00:00+00:00">2026.06.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-31f4bff2af/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/11LdpL12BCPNTyOLq78Oqe/b4e727a85b930043fe1964a3a55503b0/Industrial_policy_for_the_Intelligence_Age.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-31f4bff2af/">インテリジェンス時代の産業政策</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-06-09T00:00:00+00:00">2026.06.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-eb987eaf18/">
+    <img src="https://huggingface.co/blog/assets/github-ci-hf-jobs/thumbnail.gif" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-eb987eaf18/">GitHub CIからHugging Face Jobsへの移行</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-06-09T00:00:00+00:00">2026.06.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-41e74c1497/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/1kKjVqt4LdJo6DAWO4rklb/93d7ae2d6a5cb70b17fd5ff440552291/confidential-submission-of-draft-s-1-to-the-sec-16x9.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-41e74c1497/">OpenAI、S-1草案をSECに秘密提出</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-06-08T14:00:00+00:00">2026.06.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/deepmind-e28e77d243/">
+    <img src="https://lh3.googleusercontent.com/5g2RQPPxqVGuOzfaYj1-8r_6B-Ytp79c9mpWXzBIrk2vUhtxZmA7bMywH41h-8b0EJAdW_K4l7kqHZlfS-QTFk8kFB5MA2bgxZ4hxbuAiOuDIn3ohA=w528-h297-n-nu-rw-lo" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/deepmind-e28e77d243/">シエラレオネでのAI学習効果を測定</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-08T13:04:59+00:00">2026.06.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google DeepMind</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-e26a6d5259/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/VbCQBEe5vEJDMV5yTqtj6/e4b96c472e5d8cc0aea5a24c46070675/Art_Card_1920x1080_Sam__1___1_.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-e26a6d5259/">万人の利益に向けたOpenAIの基本方針</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-06-08T01:30:00+00:00">2026.06.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-63685f8063/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/51xw2pFq7Z8Cur501DVgKi/4c1c938e8553611ca250e45531796660/seo_image.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-63685f8063/">OpenAI Economic Research Exchange、始動</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2026-06-08T00:00:00+00:00">2026.06.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-fbaf22fcf6/">
+    <img src="https://huggingface.co/blog/assets/openenv/thumbnail3.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-fbaf22fcf6/">オープンソースコミュニティ、Agentic RLのOpenEnvを支持</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-06-08T00:00:00+00:00">2026.06.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/googleai-7707fdb288/">
+    <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/May_AI_Recap_still.max-600x600.format-webp.webp" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/googleai-7707fdb288/">2026年5月のAI関連ニュース総まとめ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-05T14:45:00+00:00">2026.06.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-3c2e7a73ef/">
+    <img src="https://cdn-thumbnails.huggingface.co/social-thumbnails/blog/nvidia/nemotron-3-5-content-safety.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-3c2e7a73ef/">Nemotron 3.5 Content Safety、エンタープライズAI向けのカスタマイズ可能なマルチモーダル安全機能</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-04T18:57:45+00:00">2026.06.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-d0841d29a3/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/4gxDAOkxUXKVkAcM8eGhNj/03482b84b74c225d36ad173865b67b14/oai_Endava_SEO.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-d0841d29a3/">Endava、AI agentsを中心としたソフトウェア配信を再設計</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-04T12:00:00+00:00">2026.06.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-58a72a3a66/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/41T8ZOansyDZGCqmwOkuOY/3cdeb6ab147c08fa9b313b677fb5318e/16x9_SEO__1_.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-58a72a3a66/">ChatGPT、新たなメモリー機能で利便性向上</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-04T09:00:00+00:00">2026.06.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-dbb39445d0/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/2GYeL7adKwSV57xftkvZT1/c6ae97a29ddc3f9b9406dabbfa41794f/oai_16x9_Biodefense_in_the_Intelligence_Age.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-dbb39445d0/">インテリジェンス時代のバイオディフェンス</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-06-04T00:00:00+00:00">2026.06.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-431ad766ff/">
+    <img src="https://huggingface.co/blog/assets/hf-cli-for-agents/thumbnail.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-431ad766ff/">Hugging Face CLI、エージェント最適化設計でHub操作を革新</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-06-04T00:00:00+00:00">2026.06.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-bfb45dcad6/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/3fieJVeKCR31cbZa1xIuNt/adbb14a236da2942035f43ef7b392ca3/GPT-Rosalind_SEO_Card.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-bfb45dcad6/">GPT-Rosalind、新機能を追加</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-03T13:15:00+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/googleai-76912b853c/">
+    <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Google_Thrifting_Header.max-600x600.format-webp.webp" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/googleai-76912b853c/">Google検索、アンティーク・ヴィンテージショッピングを5通りで強化</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-06-03T13:00:00+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-bc0be78cdc/">
+    <img src="https://cdn-thumbnails.huggingface.co/social-thumbnails/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-bc0be78cdc/">Direct Preference Optimization、チャットボット超える応用</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-06-03T12:55:11+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-8929ed18db/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/4F1wJcjKLMpeQRDFerXS0q/24b7a1f737acdce2b86ea350fd9ebce6/oai_wasmer_SEO.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-8929ed18db/">WasmerがCodexでエッジ向けNode.js runtimeを構築</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-03T12:00:00+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-0a440e3103/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/5biIV8BMiZ5j93ClAOEg1T/2a734d5aee55236aba471fc32a7470ba/Frame-1.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-0a440e3103/">OpenAI、AI公共政策アジェンダを発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-06-03T10:00:00+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-fae173f5fb/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/12H0oNoMHSCzsQ7eaQdFnT/7351b082ab1e1639c48c992bc0453cc4/Frame-1.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-fae173f5fb/">フロンティアAIの民主的ガバナンス、ブループリント発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-06-03T10:00:00+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-799726310b/">
+    <img src="https://huggingface.co/blog/assets/adding-mcp-tools-to-reachy-mini/reachy_mini_remote_spaces_thumbnail.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-799726310b/">Reachy MiniへのMCPツール統合</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-06-03T00:00:00+00:00">2026.06.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-440b7646f5/">
+    <img src="https://cdn-thumbnails.huggingface.co/social-thumbnails/blog/Hcompany/holo31.png" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-440b7646f5/">Holo3.1、高速かつローカルなコンピュータユースエージェント</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-06-02T14:13:23+00:00">2026.06.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-6421a73402/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/1TKzfygwesdyzOr4VDrizK/11ece0fda61af10b34d4127f7a977eac/oai_Travelers_SEO.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-6421a73402/">TravelersがOpenAI製AI駆動クレームアシスタント全国展開</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-06-02T12:00:00+00:00">2026.06.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-4740b2087d/">
+    <img src="../../../static/img/news-models-08.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-4740b2087d/">ChatGPT Sites</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-06-02T10:00:00+00:00">2026.06.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-597005b444/">
+    <img src="../../../static/img/news-tools-04.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-597005b444/">あらゆる職種・ツール・ワークフローに対応するCodex</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-06-02T09:00:00+00:00">2026.06.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-00e733aa15/">
+    <img src="../../../static/img/news-policy-10.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-00e733aa15/">グローバルリーダーシップによる青少年の安全と機会の推進</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-06-02T07:00:00+00:00">2026.06.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-8c810ea5d0/">
+    <img src="../../../static/img/news-tools-05.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-8c810ea5d0/">Codex、万人向けの生産性ツールへ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-06-02T02:00:00+00:00">2026.06.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/openai-c8b9a6b007/">
+    <img src="https://images.ctfassets.net/kftzwdyauwt9/2t7PnZhv9RSkCpyADp8h6J/8e94542c974c268eac270cd244dd6055/Political-advocacy-16x9.png?w=1600&amp;amp;h=900&amp;amp;fit=fill" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/openai-c8b9a6b007/">AI政策と政治活動に対する見解</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-06-01T17:00:00+00:00">2026.06.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../19/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../18/">18</a><a class="pager-num" href="../19/">19</a><span class="pager-num on" aria-current="page">20</span>
+  </span>
+<span class="pager-btn disabled">次へ →</span></nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>リリース間隔が4〜6週から毎週へ短縮した事例で、AIエージェントにどこまで任せてどこに人を残すべきか？ · AIの鬼</title>
+  <meta name="description" content="Hugging Faceが自社ライブラリのリリース作業をAIで自動化し、4〜6週に1回だったリリースを毎週1回に、人手のレビューを数時間から約15分に短縮したと公表しました。1回あたりのAI利用コストは約0.25ドル。自社サービスの利用事例という利害関係も含めて、中小企業が持ち帰れる設計思想を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="リリース間隔が4〜6週から毎週へ短縮した事例で、AIエージェントにどこまで任せてどこに人を残すべきか？ · AIの鬼">
+  <meta property="og:description" content="Hugging Faceが自社ライブラリのリリース作業をAIで自動化し、4〜6週に1回だったリリースを毎週1回に、人手のレビューを数時間から約15分に短縮したと公表しました。1回あたりのAI利用コストは約0.25ドル。自社サービスの利用事例という利害関係も含めて、中小企業が持ち帰れる設計思想を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="リリース間隔が4〜6週から毎週へ短縮した事例で、AIエージェントにどこまで任せてどこに人を残すべきか？ · AIの鬼">
+  <meta name="twitter:description" content="Hugging Faceが自社ライブラリのリリース作業をAIで自動化し、4〜6週に1回だったリリースを毎週1回に、人手のレビューを数時間から約15分に短縮したと公表しました。1回あたりのAI利用コストは約0.25ドル。自社サービスの利用事例という利害関係も含めて、中小企業が持ち帰れる設計思想を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"リリース間隔が4〜6週から毎週へ短縮した事例で、AIエージェントにどこまで任せてどこに人を残すべきか？","item":"https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/"}]},{"@type":"Article","headline":"リリース間隔が4〜6週から毎週へ短縮した事例で、AIエージェントにどこまで任せてどこに人を残すべきか？","description":"Hugging Faceが自社ライブラリのリリース作業をAIで自動化し、4〜6週に1回だったリリースを毎週1回に、人手のレビューを数時間から約15分に短縮したと公表しました。1回あたりのAI利用コストは約0.25ドル。自社サービスの利用事例という利害関係も含めて、中小企業が持ち帰れる設計思想を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/"},"url":"https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-shipping-huggingfacehub-every-week.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-shipping-huggingfacehub-every-week/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-shipping-huggingfacehub-every-week.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>リリース間隔が4〜6週から毎週へ短縮した事例で、AIエージェントにどこまで任せてどこに人を残すべきか？</h1>
+<p class="article-lead">Hugging Faceが自社ライブラリのリリース作業をAIで自動化し、4〜6週に1回だったリリースを毎週1回に、人手のレビューを数時間から約15分に短縮したと公表しました。1回あたりのAI利用コストは約0.25ドル。自社サービスの利用事例という利害関係も含めて、中小企業が持ち帰れる設計思想を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。この事例が示す型は「AIに下書きを作らせる」ではなく「AIの下書きを、機械が読める正解データと突き合わせて自動で検算し、最後に人が短時間で承認する」という三段構えです。効果はリリース頻度が4〜6週に1回から毎週1回へ、人手のレビューが数時間から約15分へ。ただしn=1の自社事例です。</p>
+<h2 id="_1">一次資料は何を実測したのか</h2>
+<p>Hugging Faceが、自社のPythonライブラリ <code>huggingface_hub</code> のリリース作業をAI込みのCI（継続的インテグレーション）パイプラインで回している、と公開しました。報告されている数字は次の4点です（出典：Hugging Face（著者: Lucain Pouget (Wauplin)、Célina Hanouti (celinah) ほか貢献者14名以上）、2026-06-23、<a href="https://huggingface.co/blog/huggingface-hub-release-ci">https://huggingface.co/blog/huggingface-hub-release-ci</a>）。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>導入前</th>
+<th>導入後</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>リリース頻度</td>
+<td>4〜6週に1回</td>
+<td>毎週1回</td>
+<td>対象は <code>huggingface_hub</code> ライブラリ1本の自社運用実績。パイプライン導入の前後比較</td>
+</tr>
+<tr>
+<td>リリースノートの人手編集・レビュー時間</td>
+<td>数時間</td>
+<td>約15分</td>
+<td>AI生成ドラフトを人が確認・修正する工程のみの時間。同パイプラインの前後比較</td>
+</tr>
+<tr>
+<td>1リリースあたりのAI利用コスト</td>
+<td>—</td>
+<td>約0.25ドル</td>
+<td>HF Inference Providers上でGLM-5.2（Z.aiのオープンウェイトモデル）を使用。1リリース内の複数回のプロンプト実行を含む合計額。人件費・CI実行費を含むかは記載なし</td>
+</tr>
+<tr>
+<td>1リリースで処理するPR（変更）の件数</td>
+<td>—</td>
+<td>20〜40件</td>
+<td>週次リリース1回あたり。この規模に対し複数ラウンドのモデル呼び出しを行う</td>
+</tr>
+</tbody>
+</table>
+<p>ここで先に利害関係を明示します。<strong>この記事はHugging Face社自身による発表であり、同社はこのパイプラインが使っているHF Inference ProvidersおよびHugging Face Bucketsという当該製品の提供者である</strong>、という関係にあります。つまり自社サービスの利用事例として書かれた情報です。数字の出どころを読者が判断できるよう、この点は割り引いて読む必要があります。</p>
+<p>一方で公平に補足すると、記事は「ベンダー契約もクローズドモデルも不要」と明言し、構成要素をオープンウェイトモデルとオープンソースツールに限定しています。特定ベンダーへの囲い込みを前提にしない設計思想である点は、<a href="/articles/fail-vendor-lockin/">ベンダーロックインの落とし穴</a>を気にする立場からは評価できるところです。</p>
+<h2 id="ai">なぜ「AIに書かせる」だけでは回らないのか</h2>
+<p>リリースノートづくりは、生成AIが最も失敗しやすい種類の仕事です。20〜40件の変更を要約する過程で、実際には存在しない変更を書いたり、逆に重要な変更を落としたりする。文章としては自然なので、読んでも気づきにくい。</p>
+<p>このパイプラインの肝は、そこを文章の巧拙ではなく<strong>照合可能な事実</strong>で潰している点にあります。</p>
+<ul>
+<li>コミット履歴から、そのリリースに含まれるPR番号の一覧を機械的に抽出する（＝正解データ）</li>
+<li>AIが生成したリリースノートに、その番号が全部載っているかを機械的に突き合わせる</li>
+<li>不足があれば、不足分を指摘して自動で再生成させる</li>
+<li>最後に人がドラフトを確認し、承認して公開する</li>
+</ul>
+<p>「AIの出力を別のAIに評価させる」のではなく、<strong>答えが一意に決まる部分だけを機械の検算に回している</strong>のが設計上の要点です。AIの評価そのものを設計する難しさについては<a href="/articles/ai-own-evaluation-criteria/">AI自身の評価基準をどう設計するか</a>でも扱いましたが、今回のように正解が既存データから取れる業務なら、評価の設計に悩む前に突き合わせで済ませられます。</p>
+<h2 id="_2">著者自身が認めている限界</h2>
+<p>好意的な数字だけを読むと判断を誤ります。記事に明記されている限界は次の通りです。</p>
+<ul>
+<li>モデル出力には見つけにくい（subtle）不正確さが混入しうるため、<strong>人間の監督なしには運用できない</strong>と著者自身が認めている</li>
+<li>完全自動ではない。ワークフローの起動と、生成されたドラフトリリースの確認は、手動トリガーと手動承認が必要</li>
+<li>設計は <code>huggingface_hub</code> 固有の事情（下流リポジトリの構成、文体、ドキュメント構造）に部分的に依存しており、そのまま他プロジェクトへ転用できるものではない</li>
+<li>効果測定は自社1ライブラリの運用実績であり、対照群も統計的検証もない。n=1の事例である</li>
+</ul>
+<p>つまり「AIに任せたら勝手に速くなった」という話ではなく、「検算の仕組みと人の承認を残したから、速くしても壊れなかった」という話です。順序が逆になった導入は、たいてい後で品質事故として返ってきます。</p>
+<h2 id="_3">中小企業の現場では何に置き換わるのか</h2>
+<p>「うちはライブラリなんて出していない」で終わらせると、この事例は何も残しません。置き換わるのは<strong>「毎回同じ手順だが、文章生成と確認が面倒で後回しになる作業」</strong>です。</p>
+<ul>
+<li>月次の業績報告・部門報告の下書き</li>
+<li>製品やサービスの更新履歴、変更点の社内外への告知</li>
+<li>社内アナウンス、規程改定の周知文</li>
+<li>見積書・申請書・提出書類の提出前チェック（記載漏れの検出）</li>
+</ul>
+<p>いずれも、素材（数値、変更一覧、チェック項目）は既にどこかに存在していて、人は文章化と確認に時間を使っています。そこに三段構えをそのまま移植できます。</p>
+<ol>
+<li>AIに下書きを作らせる</li>
+<li>素材側から機械的に取れる正解データ（項目一覧、金額合計、対象件数など）と突き合わせ、欠落があれば自動で作り直させる</li>
+<li>人が短時間で読んで承認する</li>
+</ol>
+<p>コスト感も判断材料になります。1リリースあたり約0.25ドル、つまり週1回なら月におよそ1ドル強という水準です（条件は上表の通り、人件費・CI実行費を含むかは不明）。この規模なら「効果が出るか試す」ための投資判断のハードルは低い。AI導入のコストをどう見積もるかは<a href="/articles/ai-cost-structure/">AIのコスト構造を分解して考える</a>も併せてご覧ください。</p>
+<h2 id="_4">この型を移植できる会社と、できない会社</h2>
+<p>ただし前提条件があります。このパイプラインが成立しているのは、<strong>リリース手順がすでにコード化・標準化されているから</strong>です。PR番号がコミットから機械的に取れるのは、そういう運用が先にあったからにほかなりません。</p>
+<p>裏返すと、手順が担当者の頭の中にしかない、素材がメールとチャットに散らばっている、という状態ではこの型は載りません。その場合の第一手はAI導入ではなく、手順と素材の置き場を決めることです。順番を間違えると、AIが「散らかった情報からそれらしい文章を作る装置」になり、検算できないまま出力だけが増えます。</p>
+<p>判断の目安として、次の3つに答えられるかを確認してください。</p>
+<ul>
+<li>その作業の「正解」は、既存のデータから機械的に取り出せるか</li>
+<li>取り出せないなら、取り出せる形に素材の置き方を変えられるか</li>
+<li>最後に承認する人を、誰か1人に決められるか</li>
+</ul>
+<p>3つとも「はい」なら、この事例の型はほぼそのまま移せます。1つでも「いいえ」があるなら、まずそこを埋めるほうが速い。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>ここから先はTOEの解釈です。<strong>TOEでは、この記事で紹介したリリースCIパイプラインと同じ構成を検証していません。</strong>Hugging Faceが公開した内容と、社内での一般的な自動化運用の経験から導いた読み筋として受け取ってください。</p>
+<p>TOEが注目したのは、削減された時間の中身です。数時間から約15分になったのは「人が確認する工程」であって、確認そのものが消えたわけではありません。多くの企業がAI導入で狙うのは確認工程の廃止ですが、この事例が示しているのは逆で、<strong>確認を残したまま確認にかかる時間を削る</strong>という方向です。AIが持ってきた下書きが検算済みだからこそ、人は15分で判断できる。検算のない下書きを人が全部読み直すなら、時間は減りません。</p>
+<p>もう一つは、コスト0.25ドルという数字が意味するところです。この水準なら、精度を上げるために同じ処理を複数回走らせる余地があります。実際このパイプラインも、20〜40件のPRに対して複数ラウンドのモデル呼び出しを行っています。「一発で完璧な出力を狙う」より「安いモデルで複数回回して機械で検算する」ほうが、実務では安定しやすい。この考え方は<a href="/articles/hf-model-routing-simple-until/">モデルのルーティングは単純に見えて単純ではない</a>で扱った論点とも重なります。</p>
+<p>最後に注意点として、こうした処理をバッチで大量に回すときは、モデル選択と失敗時の中断条件を先に決めておくべきです。TOEでは過去に、モデル指定を省いた一括処理で大量失敗を出した経験があり、その反省は<a href="/articles/batch-414-failure/">バッチ処理で414件が失敗した話</a>にまとめています。自動化の型を入れる前に、失敗したときの止め方を決めておくことをお勧めします。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Hugging Faceは自社ライブラリ <code>huggingface_hub</code> のリリース作業をAI込みのCIで自動化し、リリース頻度を4〜6週に1回から毎週1回へ、人手のレビュー時間を数時間から約15分へ短縮したと公表した（対象は同ライブラリ1本の自社運用実績）</li>
+<li>1リリースあたりのAI利用コストは約0.25ドル（HF Inference Providers上でGLM-5.2を使用、1リリース内の複数回実行の合計。人件費・CI実行費を含むかは記載なし）、1リリースで処理するPRは20〜40件</li>
+<li>この記事はHugging Face社自身による発表であり、同社はパイプラインが利用するHF Inference ProvidersとHugging Face Bucketsの提供者にあたる。自社サービスの利用事例という利害関係を踏まえて読む必要がある</li>
+<li>著者自身が、モデル出力に見つけにくい不正確さが混入しうるため人間の監督なしには運用できないこと、起動と承認は手動であること、設計が同ライブラリ固有の事情に部分的に依存し他プロジェクトへそのまま転用できないこと、効果測定がn=1で対照群も統計的検証もないことを明記している</li>
+<li>中小企業が持ち帰れるのは「AIに下書きを作らせる→機械的に取れる正解データと突き合わせて不足があれば自動で再生成→人が短時間で承認」の三段構え。ただし手順と素材が標準化されていることが前提で、手順が人の頭の中にある段階ではまずそこから着手すべき。なおTOEではこのパイプライン構成自体は未検証である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

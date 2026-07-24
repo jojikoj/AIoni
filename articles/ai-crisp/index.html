@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>環境が変わるとAIの精度は33.26%まで落ちるのか — 医療画像研究が示す「持ち込んだ途端に壊れる」現象 · AIの鬼</title>
+  <meta name="description" content="学習した環境と違う条件にAIを持ち込むと精度は崩れます。2026年7月公開の医療画像研究では、造影CTで学習した手法を非造影CTに当てただけで精度が33.26%まで低下しました。デモでは高精度だったAIが自社では動かない、という現象の正体と、稟議での評価のさせ方を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-crisp/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-crisp/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="環境が変わるとAIの精度は33.26%まで落ちるのか — 医療画像研究が示す「持ち込んだ途端に壊れる」現象 · AIの鬼">
+  <meta property="og:description" content="学習した環境と違う条件にAIを持ち込むと精度は崩れます。2026年7月公開の医療画像研究では、造影CTで学習した手法を非造影CTに当てただけで精度が33.26%まで低下しました。デモでは高精度だったAIが自社では動かない、という現象の正体と、稟議での評価のさせ方を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-crisp/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="環境が変わるとAIの精度は33.26%まで落ちるのか — 医療画像研究が示す「持ち込んだ途端に壊れる」現象 · AIの鬼">
+  <meta name="twitter:description" content="学習した環境と違う条件にAIを持ち込むと精度は崩れます。2026年7月公開の医療画像研究では、造影CTで学習した手法を非造影CTに当てただけで精度が33.26%まで低下しました。デモでは高精度だったAIが自社では動かない、という現象の正体と、稟議での評価のさせ方を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"環境が変わるとAIの精度は33.26%まで落ちるのか — 医療画像研究が示す「持ち込んだ途端に壊れる」現象","item":"https://ai-oni.com/articles/ai-crisp/"}]},{"@type":"Article","headline":"環境が変わるとAIの精度は33.26%まで落ちるのか — 医療画像研究が示す「持ち込んだ途端に壊れる」現象","description":"学習した環境と違う条件にAIを持ち込むと精度は崩れます。2026年7月公開の医療画像研究では、造影CTで学習した手法を非造影CTに当てただけで精度が33.26%まで低下しました。デモでは高精度だったAIが自社では動かない、という現象の正体と、稟議での評価のさせ方を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-crisp/"},"url":"https://ai-oni.com/articles/ai-crisp/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-crisp.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-crisp/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-crisp.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>環境が変わるとAIの精度は33.26%まで落ちるのか — 医療画像研究が示す「持ち込んだ途端に壊れる」現象</h1>
+<p class="article-lead">学習した環境と違う条件にAIを持ち込むと精度は崩れます。2026年7月公開の医療画像研究では、造影CTで学習した手法を非造影CTに当てただけで精度が33.26%まで低下しました。デモでは高精度だったAIが自社では動かない、という現象の正体と、稟議での評価のさせ方を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>ベンダーのデモで高精度だったAIが、自社に入れた途端に使い物にならない。これは相性の問題ではなく、AIの構造的な性質です。2026年7月16日公開の医療画像研究では、造影CTで学習した手法を非造影CTに当てただけで精度が33.26%まで落ちました。同じ臓器、同じ装置種別、違うのは撮影条件だけです。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>Yizhou Fang・Pujin Cheng・Yixiang Liu・Xiaoying Tang・Longxi Zhou による論文「CRISP: Constrained Refinement via Iterative Squeezing Process for Robust Medical Image Segmentation under Domain Shift」です（出典：arXiv:2607.15231、2026年7月16日（arXiv:2607.15231v1）、<a href="https://arxiv.org/abs/2607.15231v1">https://arxiv.org/abs/2607.15231v1</a>）。</p>
+<p>テーマは医療画像のセグメンテーション、つまり画像のどこが心臓の左心室でどこが血管かをAIに塗り分けさせる仕事です。ここで問題になるのが<strong>ドメインシフト</strong>、学習に使ったデータと実際に使う場面の条件がずれる状況です。</p>
+<p>研究チームは3種類のずれ方を用意しました。</p>
+<ul>
+<li><strong>多施設シフト</strong>：M&amp;Msデータセット、心臓MRI 694ボリューム、4ベンダー（Siemens／Philips／GE／Canon）の装置差</li>
+<li><strong>モダリティシフト</strong>：肺血管CT、造影あり93ボリュームで学習し、造影なし101ボリュームに適用</li>
+<li><strong>人口構成シフト</strong>：著者らの自社内データセット、通常98例で学習しCOVID-19患者74例に適用（倫理審査済み）</li>
+</ul>
+<p>装置メーカーが違う、撮影条件が違う、患者層が違う。中小企業の言葉に置き換えれば、帳票のフォーマットが違う、現場の照明が違う、顧客層が違う、です。</p>
+<h2 id="_2">精度がどこまで落ち、どこまで戻ったか</h2>
+<p>最も崩れたのはモダリティシフトでした。造影ありのCTで学習したベースライン手法を造影なしのCTに当てると、Dice（塗り分けの一致度を測る精度指標）は33.26%まで低下します。CRISPを適用すると59.46%（+26.20ポイント）まで回復しました。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>指標</th>
+<th>変化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非造影CT 101ボリューム（モダリティシフト）</td>
+<td>Dice</td>
+<td>33.26% → 59.46%（+26.20ポイント）</td>
+</tr>
+<tr>
+<td>非造影CT 101ボリューム（モダリティシフト）</td>
+<td>HD95（境界誤差）</td>
+<td>29.97px → 13.19px（競合最強手法より8.39px良い）</td>
+</tr>
+<tr>
+<td>COVID-19患者74例（人口構成シフト）</td>
+<td>Dice</td>
+<td>70.61%（+5.46ポイント）</td>
+</tr>
+<tr>
+<td>M&amp;Ms 心臓MRI 694ボリューム、4ベンダー</td>
+<td>最良だった組合せ数</td>
+<td>Dice 77/99セル、HD95 55/99セル</td>
+</tr>
+<tr>
+<td>M&amp;Ms ターゲットドメインC</td>
+<td>部位別Dice</td>
+<td>LV +5.60%、MYO +5.28%、RV +6.16%</td>
+</tr>
+</tbody>
+</table>
+<p>ここで注目すべきは改善幅の偏りです。崩壊していたモダリティシフトでは+26.20ポイント動きましたが、装置メーカー差だけのM&amp;Msでは元の精度が飽和しており、改善幅は最小でHD95 0.14px（7.0%）にとどまります。<strong>効くのは壊れている場面であって、そこそこ動いている場面ではない</strong>、と論文自身が示しています。</p>
+<h2 id="_3">平均点ではなく「全滅した割合」を見る</h2>
+<p>この論文でいちばん実務に効くのは、精度の出し方です。研究チームは平均Diceだけでなく、<strong>最悪ケースの分布</strong>を出しています。</p>
+<ul>
+<li>Dice 0.30未満、つまりほぼ全滅した症例の割合：36.4% → 0%</li>
+<li>Dice 0.50未満、つまり失敗とみなせる症例の割合：97.4% → 6.5%</li>
+</ul>
+<p>（いずれも最悪ケース分析。対象症例数の内訳は論文に記載されていません）</p>
+<p>平均が上がったという話ではなく、<strong>全く使えない事例を消した</strong>という主張です。これはAI導入のPoC評価にそのまま転用できます。ベンダーから「正答率◯%」という単一の数字が出てきたとき、追加で聞くべきはこの2つです。</p>
+<ul>
+<li>最悪どこまで外したか</li>
+<li>全く使えなかったケースが全体の何%出たか</li>
+</ul>
+<p>平均正答率90%のAIでも、残り10%が業務停止級の誤りなら現場は回りません。逆に、外し方が一定の範囲に収まるなら人間のチェックで吸収できます。評価軸の選び方については<a href="/articles/ai-own-evaluation-criteria/">AI導入で自社の評価基準をどう作るか</a>も合わせて読んでください。</p>
+<h2 id="_4">精度改善はタダではない</h2>
+<p>CRISPは推論時に反復的な補正を行う手法で、1ステップにつき約2回の順伝播を、おおむね3ステップ繰り返します。結果として<strong>推論コストは約6倍</strong>になります（著者らの設定、TITAN RTX 1枚・24GBでの実験）。学習条件は60,000イテレーション、学習率0.001（Adam）、GPU 1枚（TITAN RTX 24GB）です。ただし学習の実時間やGPUメモリ消費の具体値は論文に記載がありません。</p>
+<p>約6倍という数字は、精度改善が運用費として跳ね返るという当たり前の事実を数字で語れる材料になります。クラウドAPIを従量課金で使う場合、精度を上げる工夫がそのまま月額を押し上げます。<a href="/articles/ai-cost-structure/">AIのコスト構造をどう見るか</a>で触れた通り、精度と単価はセットで稟議に載せるべき項目です。</p>
+<p>なお、どの工夫がどれだけ効いたかのアブレーション（部品を外して寄与を測る実験、Table 3）も出ています。</p>
+<table>
+<thead>
+<tr>
+<th>追加した要素</th>
+<th>M&amp;Ms</th>
+<th>非造影CT</th>
+<th>COVID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSE単体の寄与</td>
+<td>+4.40 Dice</td>
+<td>+18.19 Dice</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>Uncertainty Squeezing Loss 追加分</td>
+<td>+0.58 Dice</td>
+<td>+8.01 Dice</td>
+<td>+3.19 Dice</td>
+</tr>
+</tbody>
+</table>
+<p>ここでも、崩壊しているデータセットほど寄与が大きいという同じ傾向が出ています。</p>
+<h2 id="_5">論文が認めている限界</h2>
+<p>誠実に扱うため、不都合な点を並べます。</p>
+<ul>
+<li><strong>独立した「Limitations」節が論文に存在しない</strong>。制約は本文中に散在しているだけです</li>
+<li><strong>3Dボリュームではなく2Dスライス単位の実装</strong>。MedSAM系ベースラインとの公平比較のためと説明されていますが、3D情報を活用していません</li>
+<li><strong>摂動にガウスノイズを用いており、著者自身が「現実世界のあらゆるシフトを再現するものではない」と明記</strong>しています</li>
+<li>評価対象が<strong>心臓MRIと肺血管CTのみ</strong>。他の部位・他モダリティへの一般化は未検証です</li>
+<li>M&amp;Ms（多施設シフト）では改善幅が最小（HD95 0.14px、7.0%）にとどまります</li>
+<li>推論コストが約6倍に増えます</li>
+<li>学習の実時間やGPUメモリ消費の具体値の記載がありません</li>
+<li>COVIDデータは著者らの自社内データセットで、第三者による再現が難しい状態です</li>
+</ul>
+<p>つまりこれは「あらゆる環境変化に耐えるAI」ではありません。限定された条件下で、崩壊ケースを救った、という報告です。</p>
+<h2 id="_6">中小企業にとって何を意味するか</h2>
+<p>医療画像専用の手法なので、直接の応用は弱いと考えてください。しかし示唆は強い内容です。</p>
+<p>第一に、<strong>AIは導入先の環境が変わると平気で壊れる</strong>。同じ心臓、同じCT、造影の有無が違うだけで33.26%です。自社で起きるのは、ベンダーのデモ環境や他社事例では高精度だったAIが、自社の帳票フォーマット・現場の照明・自社の顧客層に持ち込んだ途端に使い物にならなくなる、という現象です。原因はAIの出来の悪さではなく、学習した条件と実際の条件がずれていることです。</p>
+<p>第二に、<strong>PoCは必ず自社の実データでやる</strong>。ベンダー提供のサンプルデータで99%出ても、それは学習環境と同じ条件での数字である可能性があります。自社の実際の書類、実際の写り方、実際の顧客の書き方でテストして初めて、ずれの大きさが見えます。</p>
+<p>第三に、<strong>評価は最悪ケースで見る</strong>。平均ではなく「全滅した割合」。36.4%→0%という数字の出し方は、そのまま自社のPoC報告書のフォーマットに使えます。</p>
+<p>第四に、<strong>精度を上げる打ち手には運用費がついてくる</strong>。約6倍という数字は、精度改善を無料と考えないための具体例です。</p>
+<p>なお、ここに書いた運用への落とし込みはTOEでは未実施です。TOEでは自社のドメインシフト検証を実施しておらず、論文の数字を自社環境で再現したわけではありません。そのうえで読み筋を書きます。中小企業がやるべきなのは、CRISPのような高度な補正手法の導入ではなく、<strong>もっと手前の「ずれの棚卸し」</strong>だと考えています。導入前に、学習・設定に使ったデータと本番で流れてくるデータの違いを列挙する。用紙のサイズ、スキャナの機種、記入者の癖、季節変動、新しい取引先の様式。この一覧を作るだけで、崩壊しそうな箇所の見当がつきます。</p>
+<p>そのうえで、契約の書き方を変える。「精度◯%を保証」ではなく「自社の実データN件で、Dice相当の指標が閾値を下回る事例を何%以内に抑える」という形にする。これは技術の話ではなく購買の話であり、中小企業でも今日から実行できます。</p>
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>造影CTで学習した手法を非造影CTに適用すると、Diceが33.26%まで低下した（肺血管CT、造影あり93ボリューム→造影なし101ボリューム）。環境のずれでAIは壊れる</li>
+<li>CRISPは同条件で59.46%（+26.20ポイント）まで回復させ、境界誤差HD95は29.97px→13.19pxに改善した</li>
+<li>評価の要点は平均ではなく最悪ケース。Dice 0.30未満の症例が36.4%→0%、0.50未満が97.4%→6.5%（最悪ケース分析、症例数の内訳は記載なし）</li>
+<li>効果が大きいのは崩壊しているケースに限られる。装置メーカー差だけのM&amp;Msでは改善幅は最小でHD95 0.14px（7.0%）</li>
+<li>精度改善は無料ではなく、推論コストは約6倍。論文には独立したLimitations節がなく、2Dスライス実装・心臓MRIと肺血管CTのみの評価・自社内COVIDデータという制約もある。TOEでは未実施のため、まずは自社データと本番データの「ずれの棚卸し」から始めることを勧める</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

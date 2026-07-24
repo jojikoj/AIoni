@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験 · AIの鬼</title>
+  <meta name="description" content="自社で動かせる小型モデルに「考える力」を後から足せるのか。2026年7月公開の研究は、教師モデルの出力をそのまま真似させるのではなく、教師とその土台モデルの差分だけを学ばせる方法を14ベンチマークで実測しました。伸びた数字と、伸びなかった条件を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-onpolicy-delta-distillation/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-onpolicy-delta-distillation/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験 · AIの鬼">
+  <meta property="og:description" content="自社で動かせる小型モデルに「考える力」を後から足せるのか。2026年7月公開の研究は、教師モデルの出力をそのまま真似させるのではなく、教師とその土台モデルの差分だけを学ばせる方法を14ベンチマークで実測しました。伸びた数字と、伸びなかった条件を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-onpolicy-delta-distillation/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験 · AIの鬼">
+  <meta name="twitter:description" content="自社で動かせる小型モデルに「考える力」を後から足せるのか。2026年7月公開の研究は、教師モデルの出力をそのまま真似させるのではなく、教師とその土台モデルの差分だけを学ばせる方法を14ベンチマークで実測しました。伸びた数字と、伸びなかった条件を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験","item":"https://ai-oni.com/articles/ai-onpolicy-delta-distillation/"}]},{"@type":"Article","headline":"小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験","description":"自社で動かせる小型モデルに「考える力」を後から足せるのか。2026年7月公開の研究は、教師モデルの出力をそのまま真似させるのではなく、教師とその土台モデルの差分だけを学ばせる方法を14ベンチマークで実測しました。伸びた数字と、伸びなかった条件を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-onpolicy-delta-distillation/"},"url":"https://ai-oni.com/articles/ai-onpolicy-delta-distillation/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-onpolicy-delta-distillation.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-onpolicy-delta-distillation/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-onpolicy-delta-distillation.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験</h1>
+<p class="article-lead">自社で動かせる小型モデルに「考える力」を後から足せるのか。2026年7月公開の研究は、教師モデルの出力をそのまま真似させるのではなく、教師とその土台モデルの差分だけを学ばせる方法を14ベンチマークで実測しました。伸びた数字と、伸びなかった条件を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>自社サーバーで動く小型モデルに、後から「推論力」を足せるのか。2026年7月16日公開の研究は、<strong>4Bクラスの小型モデルの数学スコアを45.8から70.3へ（+24.5ポイント）引き上げた</strong>と報告しています。ただし効いたのは「もともと弱いモデル」に限られ、既に強いモデルへの上積みは+1.5〜2.2ポイントに留まりました。<strong>弱いところにだけ効く</strong>、というのが結論です。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>論文タイトルは「On-Policy Delta Distillation」。著者は Byeongho Heo、Jaehui Hwang、Sangdoo Yun、Dongyoon Han の4氏です（出典：arXiv:2607.15161v1、2026年7月16日公開、cs.LG / cs.CL、19ページ・図4・表12、コードはGitHub公開予定、<a href="https://arxiv.org/abs/2607.15161v1">https://arxiv.org/abs/2607.15161v1</a>）。</p>
+<p>背景から説明します。大きなAIモデルの能力を小さなモデルに移す作業を<strong>蒸留（distillation）</strong>と呼びます。賢い教師モデルの出力を、小さな生徒モデルに真似させる手法です。この蒸留には長年の弱点がありました。教師の出力をまるごと真似させると、教師が持っている「言葉づかい」や「知識」まで一緒にコピーしてしまい、本当に欲しかった「考え方」の部分がぼやけるという問題です。</p>
+<p>この論文が提案しているのは、<strong>教師モデルそのものではなく、教師モデルとその素の土台モデルとの「差分」だけを学ばせる</strong>という方法です。たとえば「推論を鍛えた教師モデル」と「鍛える前の同じモデル」を並べて、その差分にあたる信号だけを取り出す。そこには「推論を鍛えたことで何が変わったか」だけが残る、という考え方です。論文はこれを delta signal と呼んでいます。</p>
+<p>評価は14ベンチマーク（数学7・コード4・科学3）で行われました。対象モデルは Qwen3 の1.7B / 4B / 8B と Gemma4-E4B-it です。学習データは OpenMathReasoning / OpenScienceReasoning-2 / OpenCodeReasoning を1対1対1で混合した計10万問で、<strong>1回の学習あたり3万サンプル未満</strong>しか使っていません。</p>
+<h2 id="_2">数字はどう動いたか</h2>
+<p>まず、もともと推論が弱い「非thinkingモード」での結果です。</p>
+<table>
+<thead>
+<tr>
+<th>モデル（非thinkingモード）</th>
+<th>数学7ベンチ平均</th>
+<th>コード4ベンチ平均</th>
+<th>科学3ベンチ平均</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen3-1.7B</td>
+<td>34.8 → 54.6（+19.8）</td>
+<td>10.5 → 29.4（+18.9）</td>
+<td>30.8 → 38.8（+8.0）</td>
+</tr>
+<tr>
+<td>Qwen3-4B</td>
+<td>45.8 → 70.3（+24.5）</td>
+<td>22.1 → 40.1（+17.9）</td>
+<td>40.0 → 50.5（+10.5）</td>
+</tr>
+<tr>
+<td>Qwen3-8B</td>
+<td>46.9 → 71.6（+24.7）</td>
+<td>25.1 → 39.9（+14.8）</td>
+<td>43.5 → 51.6（+8.1）</td>
+</tr>
+</tbody>
+</table>
+<p>いずれもベースライン（学習前の同じモデル）との比較です。数学で20ポイント前後、コードでも15〜19ポイント動いています。しかもこれが<strong>100ステップ程度の短い学習</strong>で得られている、というのが論文の主張の核です。学習ダイナミクスの比較実験では、この100ステップの範囲で提案手法は優位を維持し、従来手法は早期にピークを打ってその後は横ばいまたは劣化したと報告されています。</p>
+<p>一方、すでに推論が強い「thinkingモード」での結果は様子が違います。</p>
+<table>
+<thead>
+<tr>
+<th>モデル（thinkingモード）</th>
+<th>数学7ベンチ平均</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen3-4B</td>
+<td>73.3 → 74.8（+1.5）</td>
+</tr>
+<tr>
+<td>Qwen3-8B</td>
+<td>73.7 → 75.9（+2.2）</td>
+</tr>
+</tbody>
+</table>
+<p>非thinkingモードの+20ポイント超に対し、+1.5〜2.2ポイント。同じ手法でも、対象の出発点によって効果の桁が変わります。</p>
+<p>なお、中核要素である delta signal を外したアブレーション実験では<strong>約4ポイント</strong>の性能低下が確認されています。centering を除いた場合は約0.3〜0.9ポイントの低下、条件付けの除去は項目により微増もあり、という結果でした。効いているのは差分を取る部分だ、という裏取りにあたります。</p>
+<h2 id="_3">論文が認めている限界</h2>
+<p>数字が派手なぶん、限界の側を先に押さえるべきです。論文が自ら記載しているものを挙げます。</p>
+<ul>
+<li><strong>計算コストが増える。</strong> 教師モデルの土台モデルに対する追加のforward計算が必要で、従来の on-policy distillation（OPD）と比べて学習時間が Qwen3系で+24〜28%、Gemma4-E4Bで+8% 増加します。論文は実装が最適化されておらず削減余地があると明記しています</li>
+<li><strong>もともと強いモデルには効きにくい。</strong> 上に示した通り、thinkingモードでは改善幅が一桁前半に落ちます</li>
+<li><strong>能力を壊す場合がある。</strong> Gemma4-E4B-it（thinkingモード）ではコーディング性能が 55.2 → 49.5（-5.7ポイント）と低下しました。論文はこれを「劣化を最も抑えられた手法」と位置づけていますが、絶対値では下がっています</li>
+<li><strong>学習期間に敏感。</strong> 100ステップ程度が最も良く、論文自身が「テストした範囲を超えて学習を延ばすべきではない」と示唆しています</li>
+<li><strong>分析の射程が限定的。</strong> サンプルされた系列上のトークン単位の教師信号のみを扱っており、サンプルされなかったトークンを扱う拡張版OPDには言及がありません</li>
+<li><strong>評価タスクが限定的。</strong> 数学・科学・コードの推論タスクのみで、一般的な業務文書処理や日本語タスクでの検証はありません</li>
+</ul>
+<p>最後の点は、日本の中小企業にとっては小さくない留保です。見積書の読み取りや議事録の整理といった実務は、この14ベンチマークのどこにも含まれていません。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>先に正直に書きます。この論文は業務手順の話ではなく、<strong>示唆は間接的</strong>です。明日から現場で使える手順は書かれていません。そのうえで、経営判断に効く点が2つあります。</p>
+<p>ひとつめ。<strong>4B〜8Bクラスの小型モデルが、3万サンプル未満・100ステップ程度の短い追加学習で、数学系スコアを大きく引き上げられている</strong>という事実です。これは「自社サーバーやローカルPCで動く程度の小さいモデルでも、学習のさせ方が正しければ業務で使える水準に届きうる」方向を示します。裏返せば、大手クラウドの巨大モデルに毎月払い続ける以外の選択肢が、少しずつ現実味を帯びる方向の研究だということです。この観点は<a href="/articles/ai-local-llm/">社外に出せないデータをどう扱うか</a>の検討と直結します。</p>
+<p>ふたつめ。<strong>既に高性能なモデルをさらに社内用途向けに調整しても、伸びしろは小さく、別能力を壊すリスクがある</strong>という事実です。thinkingモードで+1.5〜2.2ポイント、Gemma4ではコーディングが-5.7。自社チューニングに数百万円を投じる前に、まず「今使っているモデルは、うちの業務で具体的にどのくらい弱いのか」を測るのが先だ、という実務的な結論になります。</p>
+<p>測り方については<a href="/articles/ai-own-evaluation-criteria/">自社の基準で評価をつくる</a>の考え方が使えます。ベンダーの提示するベンチマーク値ではなく、自社の実データで20〜30件の正解付き問題をつくり、現行モデルの正答率を出す。そこが既に十分高ければ、チューニング投資の期待値は低いと判断できます。</p>
+<h2 id="toe">この研究をどう読むか（TOEの読み筋）</h2>
+<p><strong>TOEでは未実施です。</strong>on-policy delta distillation を使った自社モデルの追加学習は行っていません。そのうえで読み筋を書きます。</p>
+<p>小型モデルのチューニングは、これまで「やる価値があるかどうか」の判断材料が乏しい領域でした。効果があるという事例と、コストに見合わないという事例が並立していて、どちらも条件が違うので比べられなかったからです。この論文の価値は、手法の新規性より<strong>「効く条件」と「効かない条件」を同じ土俵の14ベンチマークで並べた点</strong>にあると読んでいます。弱いモデルには+20ポイント、強いモデルには+2ポイント。この落差そのものが判断材料です。</p>
+<p>そこから導かれる実務上の順序は、おそらくこうなります。</p>
+<ul>
+<li>まず現行モデルの弱点を自社データで測る（弱点が見つからなければチューニングは不要）</li>
+<li>弱点が「推論を要する処理」に集中しているなら、小型モデルの追加学習は検討に値する</li>
+<li>弱点が「社内知識を知らない」ことなら、これは学習ではなく検索側の問題であり、別の打ち手になる</li>
+<li>コーディングなど別能力を業務で使っているなら、チューニング後にその能力も測り直す（-5.7の事例がある）</li>
+</ul>
+<p>3つめは特に混同されやすい点です。「うちの業務を覚えさせたい」という要望の多くは、実際には推論力ではなく知識参照の話であり、追加学習では解決しません。この切り分けは<a href="/articles/ai-tool-selection/">導入前にツールをどう選ぶか</a>の段階で押さえておくべきものです。</p>
+<p>もうひとつ、計算コストの+8〜28%という数字は、額面よりも重く受け止めています。研究環境では誤差でも、社内の限られた計算資源では学習の回数そのものを制約します。論文が「最適化されていない」と断っている以上、この数字は将来下がる可能性が高いものの、現時点で導入を検討するなら見込んでおくべき負荷です。</p>
+<p>総じて、この研究は「小型モデルでいけるかもしれない」という期待をやや強める材料であり、同時に「なんでもチューニングすれば伸びる」という誤解を潰す材料でもあります。後者の役割のほうが、中小企業の現場では価値が大きいと考えています。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>2026年7月16日公開の研究は、教師モデルとその土台モデルの差分だけを学ばせる手法で、Qwen3-4B（非thinkingモード）の数学7ベンチマーク平均を 45.8 → 70.3（+24.5ポイント）に改善した（学習データは10万問の混合データセットから1回あたり3万サンプル未満、100ステップ程度）</li>
+<li>効果は対象モデルの出発点に強く依存する。すでに推論が強い thinkingモードでは Qwen3-4B が+1.5、Qwen3-8B が+2.2ポイントに留まった</li>
+<li>副作用もある。Gemma4-E4B-it ではコーディング性能が 55.2 → 49.5（-5.7ポイント）と低下しており、全能力を保てるわけではないと論文が明記している</li>
+<li>計算コストは従来手法比で Qwen3系+24〜28%、Gemma4-E4B+8%。論文は実装が未最適化で削減余地があるとしている。評価は数学・科学・コードに限られ、業務文書処理や日本語タスクの検証はない</li>
+<li>中小企業にとっての実務的な結論は「自社チューニングに投資する前に、今のモデルがどのくらい弱いかを自社データで測る」こと。TOEでは本手法を未実施であり、上記は論文の実測値にもとづく読み筋である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍） · AIの鬼</title>
+  <meta name="description" content="Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードは、無響の2,000サンプルを14部屋でシミュレーションし、9条件のうち4条件でASRを比較しました。低SNR（6dB未満）では単語誤り率が近接環境の数倍。ベンダー公表値の読み方と、自社での検証手順を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍） · AIの鬼">
+  <meta property="og:description" content="Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードは、無響の2,000サンプルを14部屋でシミュレーションし、9条件のうち4条件でASRを比較しました。低SNR（6dB未満）では単語誤り率が近接環境の数倍。ベンダー公表値の読み方と、自社での検証手順を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍） · AIの鬼">
+  <meta name="twitter:description" content="Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードは、無響の2,000サンプルを14部屋でシミュレーションし、9条件のうち4条件でASRを比較しました。低SNR（6dB未満）では単語誤り率が近接環境の数倍。ベンダー公表値の読み方と、自社での検証手順を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍）","item":"https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/"}]},{"@type":"Article","headline":"会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍）","description":"Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードは、無響の2,000サンプルを14部屋でシミュレーションし、9条件のうち4条件でASRを比較しました。低SNR（6dB未満）では単語誤り率が近接環境の数倍。ベンダー公表値の読み方と、自社での検証手順を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/"},"url":"https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-introducing-ffasr-leaderboard.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-introducing-ffasr-leaderboard/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-introducing-ffasr-leaderboard.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>会議室や工場で音声認識AIの精度はどれだけ落ちるのか（低SNR環境で誤り数倍）</h1>
+<p class="article-lead">Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードは、無響の2,000サンプルを14部屋でシミュレーションし、9条件のうち4条件でASRを比較しました。低SNR（6dB未満）では単語誤り率が近接環境の数倍。ベンダー公表値の読み方と、自社での検証手順を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>音声認識AIの公表精度は、静かな近接マイク環境の数値である可能性が高い、というのが結論です。Treble TechnologiesがHugging Faceと共同で公開したFFASRリーダーボードでは、低SNR（6dB未満）の遠方収音条件で単語誤り率が近接環境の数倍になると明示されています。導入判断は自社の実環境で録った音声で行うしかありません。</p>
+<h2 id="ffasr">FFASRリーダーボードは何をどう測ったのか</h2>
+<p>FFASR（Far-Field ASR、遠方収音の音声認識）リーダーボードは、音響シミュレーション技術を持つTreble TechnologiesがHugging Faceと共同で公開した評価基盤です。一次資料に記載されている実測値と条件を整理します。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>数値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>評価用音声サンプル数</td>
+<td>2,000サンプル</td>
+<td>無響（アネコイック）録音のホールドアウト評価セット。話者数・言語の内訳は本文に記載なし</td>
+</tr>
+<tr>
+<td>シミュレーション対象の部屋数</td>
+<td>14部屋（容積20〜470立方メートル）</td>
+<td>家具を配置した空間。すべてシミュレーション上の空間で、実測との照合列（Lab Measured / Lab Simulated）は別途提供</td>
+</tr>
+<tr>
+<td>1条件あたりの評価音声の総時間</td>
+<td>約8時間</td>
+<td>条件ごとの値。全条件を合計した時間の記載なし</td>
+</tr>
+<tr>
+<td>評価条件の数</td>
+<td>9条件（うち4条件をランキングに使用）</td>
+<td>ランキング対象は「近接（無響）」「遠方・高SNR」「遠方・中SNR」「遠方・低SNR」の4つ</td>
+</tr>
+<tr>
+<td>SNRの3階層定義</td>
+<td>高SNR=14dB超／中SNR=8〜12dB／低SNR=6dB未満</td>
+<td>遠方（far-field）収音時の信号対雑音比の区分</td>
+</tr>
+<tr>
+<td>低SNRでのWER悪化幅</td>
+<td>数倍（several times higher）</td>
+<td>近接環境のWERとの比較。モデル個別の具体的なWER数値は本文に記載なし</td>
+</tr>
+<tr>
+<td>RTFx測定の評価ハードウェア</td>
+<td>NVIDIA L4 GPU</td>
+<td>全モデル共通のハード条件として固定。RTFxは1推論秒あたりに処理できる音声秒数</td>
+</tr>
+</tbody>
+</table>
+<p>（出典：Treble Technologies（Hugging Face との共同）。執筆者として Daniel Gert Nielsen、Shivam Saini、Alessia Milo、Georg Götz、Eric Bezzam ほかが記載、2026-06-24、<a href="https://huggingface.co/blog/ffasr-leaderboard">https://huggingface.co/blog/ffasr-leaderboard</a>）</p>
+<p>先に書いておくべきことがあります。<strong>この記事はTreble Technologies自身による発表であり、同社は本ベンチマークで使われている音響シミュレーションエンジンの提供者、すなわち当該製品の提供者です。</strong>自社技術の有効性が示されれば事業上の利益がある立場から出た数字だ、という前提を外さずに読む必要があります。数字そのものを否定する材料はありませんが、「誰が、何の技術で測ったか」は判断材料に含めるべきです。</p>
+<h2 id="_1">なぜ「近接」と「遠方」を分けて測るのか</h2>
+<p>音声認識の公表値でよく見る「WER○%」は、多くの場合、話者の口元に近いマイクで、静かな環境で録音された音声に対する数値です。FFASRリーダーボードはこれを「近接（無響）」条件として明示的に切り分け、そこに部屋の残響と背景騒音を足した「遠方」条件を3階層で並べています。</p>
+<p>読者の実務に引き直すと、対応関係はこうなります。</p>
+<ul>
+<li>近接（無響）＝ヘッドセットマイクや、口元にスマホを近づけた個人の音声入力</li>
+<li>遠方・高SNR（14dB超）＝静かな小会議室で、卓上のスピーカーフォンを囲む会議</li>
+<li>遠方・中SNR（8〜12dB）＝空調やプロジェクターの動作音がある会議室、事務所の島での打ち合わせ</li>
+<li>遠方・低SNR（6dB未満）＝工場のライン脇、店舗のフロア、屋外の作業現場</li>
+</ul>
+<p>そして、この一番下の階層で単語誤り率が近接環境の数倍になる、と一次資料は書いています。「数倍」という表現のみで、モデルごとの具体的なWER数値は本文に示されていないため、絶対値がどの水準なのかは本文からは分かりません。分かるのは、環境が変われば桁が変わりうる、という事実だけです。</p>
+<p>議事録の自動化を検討している場合、この差は「そのまま使える／人が全部直す」の分かれ目になります。文字起こしを業務に組み込む手順そのものは<a href="/articles/ai-voice-transcription/">音声の文字起こしを業務に組み込む</a>で扱っています。</p>
+<h2 id="rtfx">RTFxを併記する評価軸は社内でそのまま流用できる</h2>
+<p>FFASRリーダーボードのもう一つの特徴は、精度（WER）だけでなくRTFx、つまり1推論秒あたりに処理できる音声の秒数を、NVIDIA L4 GPUという共通のハードウェア条件で併記している点です。</p>
+<p>これは中小企業の社内比較テンプレとして、そのまま形だけ借りられます。音声AIを検討するときに見るべき列は、最低限この2つです。</p>
+<ul>
+<li>精度：自社の実環境で録った音声に対する誤りの量（人が直す手間に直結する）</li>
+<li>速度：録音時間の何倍の速さで処理が終わるか（リアルタイム字幕が要るのか、翌朝までに終わればいいのかで要件が変わる）</li>
+</ul>
+<p>速度が問題にならない用途——たとえば会議終了後にまとめて処理する議事録——なら、精度に全振りした重いモデルを選べます。逆に、その場で表示する必要があるなら、精度を少し落としてでもRTFxが確保できる構成を選ぶことになります。この「用途に応じて合格ラインを先に決める」考え方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>で整理しています。</p>
+<p>なお、RTFxはハードウェアを固定しないと比較になりません。リーダーボードがNVIDIA L4 GPUに固定しているのはそのためです。自社で比較するときも、同じPC・同じ回線条件で測らないと、モデルの差なのか環境の差なのか判別できなくなります。</p>
+<h2 id="_2">一次資料が自分で認めている限界</h2>
+<p>このベンチマークには、本文自身が明記している弱点がいくつもあります。導入判断に使うなら、こちらのほうが重要です。</p>
+<ul>
+<li>評価音声は実録音ではなく、すべてシミュレーションで生成されている。実測との照合列（Lab Measured / Lab Simulated）を設けてはいるが、実環境データそのものではないと本文が認めている</li>
+<li>移動音源（moving-source、話者が歩きながら話すような状況）の評価はベータ版で、開発途上とされている</li>
+<li>クローズドソースの商用ASRサービスは評価が容易でなく、比較対象に含めにくいと明記されている。つまり、業務でよく使われる商用サービスがそもそも並んでいない可能性がある</li>
+<li>多話者、マイクアレイ、エコーキャンセルといった今後のトラックは未確定で、コミュニティの反応次第という位置づけ</li>
+<li>14部屋（容積20〜470立方メートル）という空間バリエーションが、すべての導入環境を代表するわけではない</li>
+<li>記事本文にモデル別の具体的なWER数値が示されておらず、本文だけではモデル同士の定量的な優劣比較はできない</li>
+</ul>
+<p>最後の点は特に効きます。「どのモデルを選べばいいか」の答えは、この一次資料からは取り出せません。取り出せるのは「環境で大きく変わるから、環境を固定して自分で測れ」という方法論のほうです。</p>
+<h2 id="toe">TOEの読み筋：ベンダー公表値は「近接の数値」と読み替える</h2>
+<p>ここからはTOEの解釈です。<strong>FFASRリーダーボードの再現検証や、同ベンチマークを使ったモデル選定はTOEでは未実施です。</strong>以下は一次資料の記載と、TOEが社内および支援先で音声関連の仕組みを扱ってきた経験からの読み筋であり、実測に基づく主張ではありません。</p>
+<p>読み筋は3つです。</p>
+<p>第一に、提案書や製品ページに「WER○%」とだけ書かれていたら、条件が明記されていない限り近接（無響）に近い条件の数値だと仮定して読む。これは疑うためではなく、比較の土俵を揃えるためです。条件の書かれていない数字は、そのままでは自社環境の予測に使えません。</p>
+<p>第二に、検証は必ず「実際に使う部屋で、実際に使うマイクで、実際に話す人の声」で行う。デモ用に用意された音声で通っても、それは近接条件を確認しただけになりかねません。空調が回っている時間帯、機械が動いている時間帯を含めて録るのが要点です。</p>
+<p>第三に、環境側を先に直せないか検討する。マイクを卓上から話者側に寄せる、会議室に吸音材を入れる、騒音源から離れた場所で録る——こうした物理的な対処は、モデルを乗り換えるより安く効く場合があります。低SNRでWERが数倍になるという結果は、裏を返せばSNRを上げれば戻るということでもあります。</p>
+<p>コストと精度のバランスをどう評価に織り込むかは<a href="/articles/ai-cost-aware-evaluation/">評価にコストの観点を入れる</a>、音声の「人間らしさ」側の評価事情は<a href="/articles/hf-introducing-real-world-voiceeq/">音声AIの人間らしさをどこまで測れたか</a>にそれぞれまとめています。</p>
+<h2 id="_3">導入前に社内でやる検証の最小手順</h2>
+<p>一次資料の枠組みを、そのまま自社の小さな検証に縮めると次のようになります。数字は自社で測るものなので、ここに書けるのは手順だけです。</p>
+<ul>
+<li>使用予定の場所を静音時と稼働時の2条件に分け、同じ台本を同じ話者に読ませて録音する</li>
+<li>録音は同じマイク・同じ距離で行い、条件間で変えるのは環境だけにする</li>
+<li>出てきた文字起こしを人が読み、誤りを「聞き取れていない」「固有名詞・型番を知らない」「話者を取り違えた」に分類する</li>
+<li>固有名詞の誤りは辞書登録で改善余地があるため、モデルの実力評価からは切り分ける</li>
+<li>録音時間と処理時間を記録し、リアルタイム性が要件に入るかを判断する</li>
+</ul>
+<p>議事録として運用に乗せるところまでの設計は<a href="/articles/ai-meeting-minutes/">議事録をAIで作るときの設計</a>を参照してください。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>FFASRリーダーボードは無響の2,000サンプルを14部屋（容積20〜470立方メートル）でシミュレーションし、9条件のうち4条件をランキングに使う評価基盤である（1条件あたり約8時間の音声）</li>
+<li>遠方収音は高SNR=14dB超、中SNR=8〜12dB、低SNR=6dB未満の3階層に分けられ、低SNRでは単語誤り率が近接環境の数倍になると本文が明示している</li>
+<li>この記事はTreble Technologies自身による発表であり、同社は本ベンチマークの音響シミュレーションエンジンの提供者という利害関係のある立場にある</li>
+<li>評価音声はすべてシミュレーション生成で実環境データではなく、移動音源はベータ版、商用クローズドソースASRは比較に含めにくく、モデル別のWER数値も本文には示されていない</li>
+<li>TOEでは本ベンチマークの検証は未実施。ベンダー公表値は条件未記載なら近接環境の数値と読み替え、自社の実環境・実マイク・実話者で録った音声で判断するのが実務上の結論</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

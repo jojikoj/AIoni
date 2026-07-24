@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API課金ゼロでAIメディアを2本動かす — 実際の構成と、かかっている費用の全部 · AIの鬼</title>
+  <meta name="description" content="宇宙産業メディアと補助金メディアを、従量課金ゼロで無人運転しています。収集・翻訳・要約・配信のどこにお金がかかり、それをどう避けたか。実際のコードと実行ログから、数字だけで書きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/zero-cost-media/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/zero-cost-media/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="API課金ゼロでAIメディアを2本動かす — 実際の構成と、かかっている費用の全部 · AIの鬼">
+  <meta property="og:description" content="宇宙産業メディアと補助金メディアを、従量課金ゼロで無人運転しています。収集・翻訳・要約・配信のどこにお金がかかり、それをどう避けたか。実際のコードと実行ログから、数字だけで書きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/zero-cost-media/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="API課金ゼロでAIメディアを2本動かす — 実際の構成と、かかっている費用の全部 · AIの鬼">
+  <meta name="twitter:description" content="宇宙産業メディアと補助金メディアを、従量課金ゼロで無人運転しています。収集・翻訳・要約・配信のどこにお金がかかり、それをどう避けたか。実際のコードと実行ログから、数字だけで書きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"API課金ゼロでAIメディアを2本動かす — 実際の構成と、かかっている費用の全部","item":"https://ai-oni.com/articles/zero-cost-media/"}]},{"@type":"Article","headline":"API課金ゼロでAIメディアを2本動かす — 実際の構成と、かかっている費用の全部","description":"宇宙産業メディアと補助金メディアを、従量課金ゼロで無人運転しています。収集・翻訳・要約・配信のどこにお金がかかり、それをどう避けたか。実際のコードと実行ログから、数字だけで書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/zero-cost-media/"},"url":"https://ai-oni.com/articles/zero-cost-media/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-zero-cost-media.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/zero-cost-media/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-zero-cost-media.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>API課金ゼロでAIメディアを2本動かす — 実際の構成と、かかっている費用の全部</h1>
+<p class="article-lead">宇宙産業メディアと補助金メディアを、従量課金ゼロで無人運転しています。収集・翻訳・要約・配信のどこにお金がかかり、それをどう避けたか。実際のコードと実行ログから、数字だけで書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>株式会社TOEでは、自社メディアを2本運営しています。宇宙産業の情報メディア「UchUchU」（uchuchu.tech）と、補助金情報の「補助金の鬼」（hojokin.website）です。</p>
+<p>どちらも記事の収集・翻訳・要約・公開までを自動で回していますが、<strong>AIの従量課金（APIを叩いた分だけ払う課金）は1円も発生していません。</strong></p>
+<p>この記事では、その構成を実際のコードと実行ログから説明します。「うちでも同じことができそうか」を判断できるように、うまくいっていない部分と、この方式が向かないケースも書きます。</p>
+<p>なお、両サイトを公開したのは2026年7月18日です。<strong>構成の記録であって、長期運用の実績記録ではありません。</strong>この記事に出てくる数字は、すべて7月19日時点の実データと実行ログから取っています。</p>
+<h2 id="_1">なぜ「課金ゼロ」から設計したのか</h2>
+<p>自社メディアは、クライアント案件と性質がまったく違います。<strong>納品してお金をもらうものではなく、稼げるようになるまで時間がかかる資産</strong>です。</p>
+<p>検索エンジンに評価され、読者がつき、問い合わせに変わるまでには年単位かかります。その間ずっと赤字が出続ける構成にしてしまうと、成果が出る前に「今月も1万円出ていくな」という理由でやめることになります。</p>
+<p>そこで社内ルールとして、コンテンツ部には次の鉄則を置いています。</p>
+<blockquote>
+<p>運用中に従量課金を発生させない構成を維持する。新機能を足すときも「これは毎月いくらかかるか」を必ず問う。</p>
+</blockquote>
+<p>「安く抑える」ではなく「ゼロにする」と決めたのは、<strong>ゼロなら判断が要らなくなるから</strong>です。月1万円だと毎月「これは元が取れているか」を考えることになりますが、ゼロなら考えなくていい。放っておけます。放っておけるものだけが、資産として積み上がります。</p>
+<h2 id="5">お金がかかる5か所と、それぞれの回避策</h2>
+<p>メディアを自動運転しようとすると、費用は次の5か所で発生しがちです。順に見ていきます。</p>
+<h3 id="1-api">1. 情報収集 — 有料APIを使わない</h3>
+<p>ニュース収集をAPIで買うと、月額数千円から数万円かかります。UchUchUでは、<strong>無料で公開されているRSSと公開APIだけ</strong>を使っています。</p>
+<p>RSSは、サイトの更新情報を機械が読める形で配信する仕組みです。ニュースサイトの多くが無料で出しています。</p>
+<p>現在つないでいるのは26のソースです。日本語ではJAXA、国立天文台、sorae、宙畑など。英語ではNASA、ESA、SpaceNews、Ars Technica など。打ち上げ情報は Launch Library 2、論文は arXiv の公開APIから取っています。すべて無料・登録不要です。</p>
+<p>実データの件数はこうなっています。</p>
+<table>
+<thead>
+<tr>
+<th>データ</th>
+<th>件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ニュース</td>
+<td>570件（うち英語473件・日本語97件）</td>
+</tr>
+<tr>
+<td>打ち上げ</td>
+<td>200件（予定99・実績101）</td>
+</tr>
+<tr>
+<td>論文</td>
+<td>250件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2">2. 翻訳 — ここが一番お金のかかるところ</h3>
+<p>英語記事473件を翻訳APIに投げると、当然その分だけ課金されます。しかも毎日増えます。ここが<strong>一番お金が漏れる場所</strong>でした。</p>
+<p>回避策は後述しますが、加えて<strong>訳したものは必ずキャッシュする</strong>設計にしています。翻訳結果は <code>translations.json</code> に保存され、現在473件が入っています。実行ログを見ると、2回目以降の実行ではこうなります。</p>
+<pre><code>[translate] 英語記事473件: 既訳流用 7件 / 新規翻訳 7件
+</code></pre>
+<p>473件を毎回訳し直せば、無料でも数十分かかります。翻訳するのは<strong>新しく増えた分だけ</strong>です。</p>
+<h3 id="3">3. 要約 — 一度に全部やらない</h3>
+<p>記事本文を取ってきて日本語要約をつける処理も、AIを使います。UchUchUでは1回の実行あたり<strong>40件まで</strong>と上限を切っています。</p>
+<p>全件を一度に回すと数時間かかるため、毎日少しずつ消化して未処理を減らす設計です。現時点で570件中226件に本文要約がついています。まだ半分以下ですが、毎日削っていけば埋まります。</p>
+<h3 id="4">4. ホスティング・配信 — 静的サイトにする</h3>
+<p><strong>静的サイト</strong>とは、あらかじめHTMLファイルを全部作っておいて、それをそのまま配るサイトのことです。アクセスのたびにサーバー側で計算する仕組み（データベースやWordPressなど）を持ちません。</p>
+<p>サーバー側で何も動かないので、<strong>サーバー代がかかりません。</strong>UchUchUは手元のMacでHTMLを生成し、それを GitHub Pages に置いて配信しています。生成されるのは1267ファイル・31MBです。これで月額ゼロ、商用利用も可能です。</p>
+<p>補助金の鬼のほうは Vercel を使っています。ここは正直に書いておくと、<strong>Vercelの無料枠（Hobby）は商用利用不可</strong>です。将来この2本を本格的に収益化するなら、有料プランに移すか GitHub Pages に寄せる必要があります。ここは未解決の課題として認識しています。</p>
+<h3 id="5-1">5. 問い合わせ受付 — 共通の仕組みを1本だけ持つ</h3>
+<p>静的サイトはサーバー側の処理を持てないので、問い合わせフォームが素直には作れません。フォームサービスを契約すると月額がかかります。</p>
+<p>ここは Google Apps Script（GASと呼ばれる、Googleアカウント内で動く無料のスクリプト）で受付を1本だけ作り、<strong>全メディアで共有</strong>しています。新しいメディアを増やしても、設定に1行足すだけで済みます。メディアごとに同じものを作らないことも、社内ルールにしています。</p>
+<h2 id="llm">ローカルのLLMを使うという発想</h2>
+<p>ここが今回いちばん伝えたい部分です。</p>
+<p>翻訳と要約に使っているのは、<strong>手元のMacに入っている <code>claude</code> コマンド（Claude Code のCLI）</strong>です。従量課金のAPIキーを使っていません。</p>
+<p>正確に言うと、CLIは通信して応答を得ています。<strong>計算が手元で完結しているわけではありません。</strong>重要なのは課金の経路です。APIキーを使うと使った分だけ請求が増えますが、CLIは<strong>すでに社内業務で契約済みのClaude Codeの枠</strong>で動きます。つまり、メディアを回しても<strong>支払いが増えません。</strong></p>
+<p>コードでは翻訳をこう組んでいます。</p>
+<ol>
+<li><code>claude</code> CLI を使う（品質が最も高い）</li>
+<li>失敗したら <code>argostranslate</code> に落とす（完全にオフラインで動く無料の機械翻訳。品質は劣る）</li>
+<li>どちらも駄目なら原文のまま載せる</li>
+</ol>
+<p>3段構えにしているのは、<strong>どこかが止まってもサイトは動き続ける</strong>ようにするためです。実際、7月19日の実行ログでは claude 側で訳せなかった7件を argostranslate が拾っています。</p>
+<p>翻訳は1回のプロンプトに12件をまとめて渡します。1件ずつ呼ぶと回数が増えて時間もかかるためです。</p>
+<p>そして最重要の設定がこれです。</p>
+<pre><code>export UCHUCHU_BATCH_MODEL=haiku
+</code></pre>
+<p><strong>バッチ処理では必ず軽量モデル（Haiku）を指定する。</strong>これは事故から学んだルールです。以前、553件の要約をモデル未指定で回したところ、上位モデルが使われて途中で利用上限に達し、<strong>414件が失敗</strong>しました。しかも枠を食い潰したせいで、その間こちらの対話作業まで止まりました。定型の翻訳処理に上位モデルは要りません。</p>
+<h2 id="_2">実際にかかっている費用</h2>
+<p>正直に全部書きます。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>費用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ニュース収集（RSS・公開API）</td>
+<td>0円</td>
+</tr>
+<tr>
+<td>翻訳・要約（claude CLI）</td>
+<td>0円（契約済みの枠内）</td>
+</tr>
+<tr>
+<td>ホスティング（GitHub Pages / Vercel）</td>
+<td>0円</td>
+</tr>
+<tr>
+<td>問い合わせ受付（GAS）</td>
+<td>0円</td>
+</tr>
+<tr>
+<td>実行環境</td>
+<td>0円（社内の常時稼働Mac）</td>
+</tr>
+<tr>
+<td><strong>ドメイン代</strong></td>
+<td><strong>ゼロではない</strong>（uchuchu.tech と hojokin.website の2本）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ゼロなのは従量課金であって、費用の総額ではありません。</strong>ドメイン代は毎年かかります。またClaude Codeの契約料は別途払っています。ただしこれはメディアのために契約したものではなく、もともと社内で使っているものです。<strong>メディアを増やしても、この金額は増えません。</strong>そこが要点です。</p>
+<h2 id="_3">実行にかかる時間</h2>
+<p>cronという定時実行の仕組みで、UchUchUは毎日6時30分と18時30分の2回、補助金の鬼は毎日6時30分に動きます。朝は前夜の海外ニュース、夕方は国内の当日発表を拾う狙いです。</p>
+<p>実際の所要時間は、7月19日のログでこうでした。</p>
+<ul>
+<li>新規が少ない回：<strong>約3分</strong>（00:01:34 開始 → 00:04:24 終了）</li>
+<li>要約を10件生成した回：<strong>約8分</strong>（00:47:38 開始 → 00:55:29 終了）</li>
+</ul>
+<p>処理が終わると、生成した1250ページ分のURLを IndexNow で検索エンジンに通知します。ここまで全部無人です。</p>
+<h2 id="_4">うまくいっていないこと</h2>
+<p>同じ7月19日のログに、こういう行があります。</p>
+<pre><code>要約生成が8件連続で失敗。利用上限に達した可能性が高いため中断する。
+</code></pre>
+<p><strong>契約枠を使う以上、枠の上限には当たります。</strong>そのときは要約がその回だけ進みません。連続失敗したら自動で中断し、次の回に持ち越す設計にしてあります。無理に続けて対話用の枠まで食い潰すより、諦めたほうがましだからです。</p>
+<p>もうひとつ、cronから動かすと <code>claude</code> コマンドが見つからず無音で失敗する問題がありました。cronは環境変数を最小限しか渡さないためで、<code>PATH</code> と <code>USER</code> <code>LOGNAME</code> を明示して解決しています。<strong>この手の環境の詰まりは、AIの問題ではなく普通のシステム運用の問題です。</strong>そしてだいたいここで時間を取られます。</p>
+<p>補助金の鬼のほうは、そもそも日次処理にAIを使っていません。jGrants（国の補助金データベース）から取得して差分を出すだけなので、普通のプログラムで足ります。<strong>AIを使わなくていいところで使わない</strong>のも、コストを増やさないコツです。かわりに、取得件数が50件を下回ったら異常とみなして更新を巻き戻す、ビルドが通らなければ本番反映を中止する、といった安全弁を入れています。</p>
+<h2 id="_5">この方式が向かないケース</h2>
+<p>正直に書きます。次のような場合、この構成は向きません。</p>
+<p><strong>リアルタイム性が要る場合。</strong>1日2回の更新です。速報を分単位で出したいメディアには使えません。株価やスポーツの実況のように「今この瞬間」が価値の中心にあるなら、別の構成が要ります。</p>
+<p><strong>大量アクセスが来る場合。</strong>静的配信なのでアクセス自体には強いのですが、無料枠には転送量の上限があります。本当に当たったら有料プランに移す判断が要ります（そのときは収益も出ているはずなので、良い問題です）。</p>
+<p><strong>ログインや会員機能が要る場合。</strong>静的サイトにはサーバー側の処理がありません。会員登録、決済、ユーザーごとの表示出し分けが必要なら、この構成では作れません。</p>
+<p><strong>処理量が桁違いに多い場合。</strong>契約枠で回している以上、上限があります。1日に数千件を翻訳したいなら、素直に従量課金のAPIを使ったほうが速く、結果的に安いこともあります。<strong>枠内で足りる規模かどうかが分かれ目</strong>です。</p>
+<p><strong>社内に手を動かせる人がいない場合。</strong>これが一番大きいかもしれません。この構成はコードで3312行あります。ノーコードで組めるものではありません。作った後も、cronが止まった、RSSの仕様が変わった、といった保守が要ります。</p>
+<h2 id="_6">まとめ</h2>
+<p>やっていることを整理すると、こうなります。</p>
+<ol>
+<li><strong>収集は無料の公開情報だけ</strong>を使う（RSSと公開API）</li>
+<li><strong>翻訳・要約は契約済みの枠で動くCLI</strong>を使い、従量課金のAPIキーを使わない</li>
+<li><strong>バッチ処理は必ず軽量モデルを指定</strong>する（ここを外すと事故る）</li>
+<li><strong>訳したものはキャッシュ</strong>して、新規分だけ処理する</li>
+<li><strong>配信は静的サイト</strong>にして、サーバー代を発生させない</li>
+<li><strong>共通の仕組みは1本だけ</strong>持ち、メディアごとに作らない</li>
+</ol>
+<p>特別な技術は使っていません。<strong>「どこでお金が漏れるか」を先に洗い出して、1か所ずつ塞いだだけ</strong>です。</p>
+<p>AIを業務に入れるとき、最初から従量課金の構成で作ってしまうと、成果が出る前にコストの話で止まります。<strong>すでに払っているものの範囲で作れないか</strong>を先に考えると、続けられる形になることがあります。少なくとも、私たちのメディアはその形で動き始めました。</p>
+<p>これが半年後もちゃんと回っているかは、また記録します。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

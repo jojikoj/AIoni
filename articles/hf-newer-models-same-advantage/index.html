@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新しい汎用AIが出ても特化モデルは勝てるのか — スコア0.925対0.798の比較を読む · AIの鬼</title>
+  <meta name="description" content="帳票の読み取りをAIに任せるとき、最新の大手汎用モデルを待つべきか、自社言語・自社帳票に合わせた小型モデルを選ぶべきか。2026年7月16日に公開された比較では特化モデルが0.925、汎用OCRが0.798でした。ただしこれは提供元自身が設計したポルトガル語専用ベンチマークの数字です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-newer-models-same-advantage/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-newer-models-same-advantage/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="新しい汎用AIが出ても特化モデルは勝てるのか — スコア0.925対0.798の比較を読む · AIの鬼">
+  <meta property="og:description" content="帳票の読み取りをAIに任せるとき、最新の大手汎用モデルを待つべきか、自社言語・自社帳票に合わせた小型モデルを選ぶべきか。2026年7月16日に公開された比較では特化モデルが0.925、汎用OCRが0.798でした。ただしこれは提供元自身が設計したポルトガル語専用ベンチマークの数字です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-newer-models-same-advantage/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="新しい汎用AIが出ても特化モデルは勝てるのか — スコア0.925対0.798の比較を読む · AIの鬼">
+  <meta name="twitter:description" content="帳票の読み取りをAIに任せるとき、最新の大手汎用モデルを待つべきか、自社言語・自社帳票に合わせた小型モデルを選ぶべきか。2026年7月16日に公開された比較では特化モデルが0.925、汎用OCRが0.798でした。ただしこれは提供元自身が設計したポルトガル語専用ベンチマークの数字です。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"新しい汎用AIが出ても特化モデルは勝てるのか — スコア0.925対0.798の比較を読む","item":"https://ai-oni.com/articles/hf-newer-models-same-advantage/"}]},{"@type":"Article","headline":"新しい汎用AIが出ても特化モデルは勝てるのか — スコア0.925対0.798の比較を読む","description":"帳票の読み取りをAIに任せるとき、最新の大手汎用モデルを待つべきか、自社言語・自社帳票に合わせた小型モデルを選ぶべきか。2026年7月16日に公開された比較では特化モデルが0.925、汎用OCRが0.798でした。ただしこれは提供元自身が設計したポルトガル語専用ベンチマークの数字です。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-newer-models-same-advantage/"},"url":"https://ai-oni.com/articles/hf-newer-models-same-advantage/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-newer-models-same-advantage.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-newer-models-same-advantage/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-newer-models-same-advantage.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>新しい汎用AIが出ても特化モデルは勝てるのか — スコア0.925対0.798の比較を読む</h1>
+<p class="article-lead">帳票の読み取りをAIに任せるとき、最新の大手汎用モデルを待つべきか、自社言語・自社帳票に合わせた小型モデルを選ぶべきか。2026年7月16日に公開された比較では特化モデルが0.925、汎用OCRが0.798でした。ただしこれは提供元自身が設計したポルトガル語専用ベンチマークの数字です。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>請求書や申請書の読み取りをAIに任せるとき、「最新の大手汎用モデルが出るまで待つべきか」という迷いが生まれます。2026年7月16日に公開された比較では、特定言語に特化したOCRモデルが<strong>0.925</strong>、汎用OCRが<strong>0.798</strong>でした。結論を先に言えば、<strong>特化モデルが汎用モデルに勝つ余地は残っている</strong>ものの、この数字は<strong>提供元自身が設計したポルトガル語専用ベンチマーク</strong>の結果であり、日本語での性能は一切保証されません。</p>
+<h2 id="_1">何が公開されたのか</h2>
+<p>Hugging Face上のコミュニティブログに投稿された記事です（出典：Dharma-AI（Hugging Face上のコミュニティブログ投稿。著者名として Erick Lachmann、Gabriel Pimenta de Freitas Cardoso、Francisco de Almeida Rocha Alves、Victor Gabriel Ferreira Barbosa を記載）、2026-07-16、<a href="https://huggingface.co/blog/Dharma-AI/newer-models-same-advantages">https://huggingface.co/blog/Dharma-AI/newer-models-same-advantages</a>）。</p>
+<p>主張はシンプルです。同社が発表したOCRモデル「DharmaOCR」は、論文の初出から<strong>3か月</strong>が経過し、その間に競合の新しいモデルが登場したにもかかわらず、ブラジル・ポルトガル語の文書読み取りで優位を保っている、というものです。</p>
+<p>ここで最初に押さえておくべき点があります。<strong>この記事はDharma-AI社自身による発表であり、同社は当該製品DharmaOCRの提供者です。</strong> 自社製品を有利に見せる利害関係のある情報として読む必要があります。第三者による独立評価ではありません。</p>
+<h2 id="_2">比較された数字</h2>
+<p>記事に記載されたスコアは以下のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>OCR抽出品質スコア</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DharmaOCR（提供元の自社製品）</td>
+<td><strong>0.925</strong></td>
+<td>提供元が自ら設計したポルトガル語専用ベンチマーク。n数・文書件数・評価期間の記載なし</td>
+</tr>
+<tr>
+<td>Mistral OCR4</td>
+<td><strong>0.798</strong></td>
+<td>同一ベンチマークでの比較。n数・期間の記載なし</td>
+</tr>
+<tr>
+<td>Unlimited-OCR</td>
+<td><strong>0.7587</strong></td>
+<td>同一ベンチマークでの比較。n数・期間の記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>差で言えば、DharmaOCR は Mistral OCR4 に対して約13ポイント、Unlimited-OCR に対して16ポイント以上の差をつけています。</p>
+<p>もう一点、実務に直結する情報として、<strong>4B（40億パラメータ）</strong>規模の軽量版「Dharma-OCR-LITE」の存在が言及されています。ただし記事内での言及にとどまり、動作要件や推論速度の記載はありません。</p>
+<h2 id="_3">この数字が答えていないこと</h2>
+<p>数字そのものより、<strong>書かれていないこと</strong>のほうが判断材料になります。記事から読み取れない点を並べます。</p>
+<ul>
+<li>ベンチマークの<strong>文書件数・サンプル数・評価期間・データの選定基準</strong>がいずれも本文に記載されていません。何件の文書で測った0.925なのかが分かりません</li>
+<li>ベンチマークは<strong>提供元自身が設計したもの</strong>です。自社製品が得意な文書タイプに偏っていないかを外部から検証できません</li>
+<li><strong>比較対象モデルのバージョンや実行設定</strong>（プロンプト、前処理の有無など）の詳細が示されていません。汎用モデル側を最適な設定で動かしたのかが不明です</li>
+<li>対象言語は<strong>ブラジル・ポルトガル語</strong>です。日本語や他言語での性能は本文からは一切分かりません</li>
+<li>著者自身が「アーキテクチャと学習手法の進歩により、いずれ新しいモデルがブラジル・ポルトガル語でも現行DharmaOCRを上回る」と認めています。<strong>優位性は現時点のものにすぎない</strong>という立場です</li>
+</ul>
+<p>最後の点は、発信元が自ら不都合を書いている箇所として評価できます。同時に、「特化モデルなら永続的に安心」という読み方を明確に否定しています。</p>
+<h2 id="_4">中小企業にとって何を意味するのか</h2>
+<p>日本の中小企業が請求書・申請書・手書き帳票をAIで読み取らせる場面に引き直します。</p>
+<p>この事例が示しているのは、<strong>「最新の大手汎用モデルを待つ」よりも「自社の言語・自社の帳票に合わせて調整した小型モデル」のほうが精度で勝つ余地がある</strong>という一点です。汎用モデルは毎月のように更新されますが、更新のたびに自社の帳票が読めるようになるとは限りません。汎用モデルの改善は、世界中の平均的な文書に向けられているからです。</p>
+<p>もう一つは運用形態の話です。4B規模のモデルであれば、社内サーバーやオンプレミス環境での運用が視野に入ります。<strong>外部にデータを出さない選択肢</strong>の現実味を補強する材料になります。取引先の請求書や従業員の申請書は、外部送信そのものが社内規程に触れる場合があります。この論点は<a href="/articles/ai-cpu-local-inference/">GPUなしでAIを自社の機械で動かせるか</a>や<a href="/articles/ai-small-model-document-search/">社内文書検索は小型モデルで足りるのか</a>でも扱っています。</p>
+<p>ただし、繰り返しになりますが、<strong>この記事の数字はポルトガル語のものです。</strong> 日本語の帳票、とくに手書き・縦書き・独自様式の帳票で同じ差が出る保証は何もありません。「特化モデルは汎用モデルに勝ちうる」という構図だけを持ち帰るべきで、0.925という数値を自社の期待値にしてはいけません。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p><strong>TOEでは DharmaOCR および Dharma-OCR-LITE を未実施です。</strong> 検証していないモデルについて性能を語ることはしません。そのうえで、この記事から読み取れる示唆を書きます。</p>
+<p>第一に、<strong>帳票読み取りの導入判断は、ベンダーのベンチマーク数値ではなく自社データでの試験運用で決めるべき</strong>だと考えます。具体的には、実際の帳票を数十枚用意し、汎用モデルと特化モデルの両方に同じ条件で読ませ、誤読箇所を人が数える。この工程を省くと、公開スコアと現場精度の乖離に後から気づくことになります。評価軸の作り方は<a href="/articles/ai-own-evaluation-criteria/">AIの良し悪しは自社の基準で測る</a>にまとめています。</p>
+<p>第二に、<strong>特化モデルの優位は期限付きの資産として扱う</strong>べきです。著者自身が認めているとおり、汎用モデルの進歩はいずれ特化モデルを追い越します。したがって、特定のモデルに深く依存する作り込み方は避け、モデルを差し替えられる構成にしておくのが現実的です。</p>
+<p>第三に、<strong>発信元が製品提供者である情報の扱い方</strong>です。今回のように「自社ベンチマークで自社製品が勝った」という発表は珍しくありません。これを頭から否定する必要はありませんが、独立評価と同列には置けません。判断材料としては「候補に入れる理由」にはなっても、「採用を決める理由」にはならない、という線引きが妥当だと考えます。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>2026年7月16日公開の記事で、特化OCRモデル DharmaOCR が <strong>0.925</strong>、Mistral OCR4 が <strong>0.798</strong>、Unlimited-OCR が <strong>0.7587</strong> と報告されました</li>
+<li><strong>この記事はDharma-AI社自身による発表であり、同社は当該製品の提供者です。</strong> ベンチマークも同社が設計したポルトガル語専用のもので、第三者評価ではありません</li>
+<li>文書件数・サンプル数・評価期間・データ選定基準はいずれも記載がなく、比較対象モデルのバージョンや実行設定も示されていません</li>
+<li><strong>4B（40億パラメータ）</strong>の軽量版が存在し、社内サーバーでの運用＝データを外部に出さない選択肢を補強しますが、動作要件の記載はありません</li>
+<li>著者自身が「いずれ新しいモデルが上回る」と認めており、優位は現時点のものです。<strong>TOEでは未実施</strong>であり、導入判断は自社の実帳票を数十枚使った比較試験を前提にすべきです</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

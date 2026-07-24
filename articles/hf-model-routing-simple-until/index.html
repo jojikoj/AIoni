@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>単価の安いモデルを選べば安くなるのか？417タスクで155ドルと79ドルが逆転した記録 · AIの鬼</title>
+  <meta name="description" content="IBM Researchが同一条件の417タスクでエージェントを動かしたところ、公表単価の安いGPT-4.1が総額155ドル、単価の高いClaude Sonnetが79ドルとなり、実測で約2倍の逆転が起きました。AI利用料をカタログ単価で見積もる危うさと、中小企業が取るべき比較手順を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-model-routing-simple-until/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-model-routing-simple-until/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="単価の安いモデルを選べば安くなるのか？417タスクで155ドルと79ドルが逆転した記録 · AIの鬼">
+  <meta property="og:description" content="IBM Researchが同一条件の417タスクでエージェントを動かしたところ、公表単価の安いGPT-4.1が総額155ドル、単価の高いClaude Sonnetが79ドルとなり、実測で約2倍の逆転が起きました。AI利用料をカタログ単価で見積もる危うさと、中小企業が取るべき比較手順を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-model-routing-simple-until/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="単価の安いモデルを選べば安くなるのか？417タスクで155ドルと79ドルが逆転した記録 · AIの鬼">
+  <meta name="twitter:description" content="IBM Researchが同一条件の417タスクでエージェントを動かしたところ、公表単価の安いGPT-4.1が総額155ドル、単価の高いClaude Sonnetが79ドルとなり、実測で約2倍の逆転が起きました。AI利用料をカタログ単価で見積もる危うさと、中小企業が取るべき比較手順を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"単価の安いモデルを選べば安くなるのか？417タスクで155ドルと79ドルが逆転した記録","item":"https://ai-oni.com/articles/hf-model-routing-simple-until/"}]},{"@type":"Article","headline":"単価の安いモデルを選べば安くなるのか？417タスクで155ドルと79ドルが逆転した記録","description":"IBM Researchが同一条件の417タスクでエージェントを動かしたところ、公表単価の安いGPT-4.1が総額155ドル、単価の高いClaude Sonnetが79ドルとなり、実測で約2倍の逆転が起きました。AI利用料をカタログ単価で見積もる危うさと、中小企業が取るべき比較手順を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-model-routing-simple-until/"},"url":"https://ai-oni.com/articles/hf-model-routing-simple-until/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-model-routing-simple-until.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-model-routing-simple-until/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-model-routing-simple-until.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>単価の安いモデルを選べば安くなるのか？417タスクで155ドルと79ドルが逆転した記録</h1>
+<p class="article-lead">IBM Researchが同一条件の417タスクでエージェントを動かしたところ、公表単価の安いGPT-4.1が総額155ドル、単価の高いClaude Sonnetが79ドルとなり、実測で約2倍の逆転が起きました。AI利用料をカタログ単価で見積もる危うさと、中小企業が取るべき比較手順を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIの利用料は、公表されているトークン単価だけでは見積もれません。IBM Researchが同じ417タスクで比較したところ、単価の安いモデルの総額が155ドル、単価の高いモデルが79ドルと、実測で約2倍ひっくり返りました。比べるなら小さく試して実請求額で見るしかありません。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>IBM Researchが公開した記事「Model Routing Is Simple. Until It Isn't.」に、エージェント運用のコスト実測が載っています。条件は AppWorld Test Challenge というベンチマークの417タスクを、CodeAct形式のエージェントで最後まで走らせる、というものです。同一条件で使うモデルだけを差し替えて比較しています。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Claude Sonnet</th>
+<th>GPT-4.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>総コスト</td>
+<td>79ドル</td>
+<td>155ドル</td>
+</tr>
+<tr>
+<td>1タスクあたり</td>
+<td>0.19ドル</td>
+<td>0.37ドル</td>
+</tr>
+<tr>
+<td>タスク数・条件</td>
+<td>AppWorld Test Challenge 417タスク／CodeActエージェント</td>
+<td>同一条件</td>
+</tr>
+</tbody>
+</table>
+<p>公表されているトークン単価は GPT-4.1 のほうが安いにもかかわらず、実測の総額はおよそ2倍になりました。著者はこの逆転の主因をキャッシュの効き方だと説明しています。エージェントは1タスクを終えるまでに何度も往復するため、過去のやり取りを再送する量と、それがキャッシュに乗るかどうかで請求額が大きく動く、という構造です。</p>
+<p>もう一つ、モデルの振り分け（ルーティング）を入れた構成の実測も出ています。レイテンシを最適化した振り分け構成では、精度84%、コスト93ドル、レイテンシ83秒。これを Opus 単独で回した場合と比べると、コストは21%減、レイテンシは9%減、その代わりに精度は4ポイント低下しました。振り分けアルゴリズム自体の処理コストは1タスクあたり約6ミリ秒、メモリ約2kBとされています。</p>
+<p>（出典：IBM Research（著者: Yara Rizk、Eyal Shnarch、Jason Tsay、Merve Unuvar）、2026-07-15、<a href="https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt">https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt</a>）</p>
+<p>なお、この記事は IBM Research 自身による発表であり、同社はエンタープライズ向けAI基盤およびエージェント技術の提供者です。つまり「モデルの振り分けは有効だ」という結論が出ることに利害関係のある発信元が、自ら測って自ら公開した数字だという点は、読む側が最初に把握しておくべき前提です。数字そのものを疑えという話ではなく、都合のよい条件が選ばれていないかを自分の目で確かめる必要がある、という意味です。</p>
+<h2 id="_2">読者への意味：見積書の数字はどこから来ているか</h2>
+<p>中小企業の経営者・情報システム担当にとって、この実測が持つ意味は一点に集約されます。<strong>AI導入の見積もりが「トークン単価×想定利用量」だけで組まれていたら、その数字は実請求額と乖離しうる</strong>、ということです。</p>
+<p>なぜ乖離するのか。理由は大きく2つです。</p>
+<ul>
+<li>1タスクを終えるまでの往復回数（推論の長さ）がモデルごとに違い、単価が安くても往復が多ければ総額は膨らむ</li>
+<li>過去のやり取りがキャッシュに乗るかどうかで、同じ作業でも課金対象のトークン量が変わる</li>
+</ul>
+<p>どちらも、カタログに載っている単価表からは読み取れません。だから比較の方法は一つしかありません。<strong>候補を2つに絞り、同じ業務・同じ件数で小さく走らせて、月末の実請求額を並べる</strong>。これ以外に正しい判断方法はありません。見積もりの前提を業者に聞くときは、「その金額は実測ですか、単価からの計算ですか」と一言確認するだけで、精度がかなり変わります。</p>
+<p>コストの内訳をどう分解して見るかについては、<a href="/articles/ai-cost-structure/">AIの利用コストは何で決まるのか</a> で整理しています。あわせて、評価そのものにコストの観点を組み込む考え方は <a href="/articles/ai-cost-aware-evaluation/">コストを含めて評価する</a> が参考になります。</p>
+<h2 id="_3">「全部いちばん賢いモデル」以外の選択肢はあるのか</h2>
+<p>もう一つ実務的な材料が、振り分けの数字です。用途ごとに高性能モデルと軽量モデルを使い分けると、コスト21%減・レイテンシ9%減という結果が出ています。ただし精度は4ポイント落ちています。</p>
+<p>これは無条件の改善ではありません。<strong>削れたコストは、落ちた精度と引き換えです</strong>。判断すべきは「4ポイントの精度低下を許容できる業務かどうか」であって、「安くなるからやる」ではありません。社内向けの下書き生成や一次分類なら許容できるかもしれませんが、見積書の金額計算や契約書の条項確認のように、間違いが直接損害になる業務では話が違います。</p>
+<p>同じ記事の中で、難易度ベースの単純な振り分けは、同等の精度をより高いコストで達成した、とも報告されています。つまり<strong>やり方を間違えると、複雑さだけ増えて何も得られない</strong>ということです。振り分けは「やれば得する仕組み」ではなく、設計次第で損もする仕組みだと理解しておく必要があります。</p>
+<p>振り分けの効果がどこまで一般化するかという論点は <a href="/articles/ai-routing-ceilings-are-domainindepen/">ルーティングの上限は領域に依存しないのか</a> でも扱っています。用途に応じてモデルや道具を選ぶ考え方全般は <a href="/articles/ai-tool-selection/">AIツールの選び方</a> を参照してください。</p>
+<h2 id="_4">この数字が当てはまらない範囲</h2>
+<p>誠実に書いておくべき限界が、記事自体に複数明示されています。</p>
+<ul>
+<li>著者は、コスト逆転の原因が「モデル・ワークロード・サービング基盤の相互作用に依存する」と述べています。同じ結果が別の環境で再現する保証はありません</li>
+<li>タスクの難易度は振り分けの時点では見えない（difficulty is often invisible at routing time）と認めており、事前に難易度を判定して振り分けるという発想自体が原理的に不確実です</li>
+<li>ステップ単位で細かく振り分ければ適応性は上がるものの、レイテンシと運用の複雑さが増す、とトレードオフが明示されています</li>
+<li>検証は AppWorld という単一ベンチマークのみで、業種別・業務別の一般化可能性は示されていません</li>
+<li>振り分けアルゴリズム自体の処理コスト（約6ミリ秒、メモリ約2kB）については、測定環境や試行回数の記載がありません</li>
+<li>記事は後続の技術記事を予告しており、この時点では手法の詳細や再現手順は公開されていません</li>
+<li>前提は数百タスク規模のエージェント運用です。社内で数人がチャット用途に使う程度の規模には、この数字は直接当てはまりません</li>
+</ul>
+<p>最後の点は特に重要です。417タスクを自動で回し続けるエージェント運用と、担当者が1日に数十回チャットを打つ使い方では、キャッシュの効き方も往復回数もまるで違います。自社がどちらの使い方をしているのかを先に確認してください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>はじめに明記します。<strong>TOEでは、この記事で紹介されているモデル振り分け構成を実施していません</strong>。以下は実測ではなく、公開された数字をどう読むかという解釈です。</p>
+<p>その上で、この記事から実務に持ち帰るべきものは、振り分け技術そのものではなく、<strong>「公称値と実測値は違う」という一点</strong>だと考えています。振り分けの設計は、数百タスク規模で継続的にエージェントを動かしている組織の課題であり、多くの中小企業にとってはまだ先の話です。一方で、単価の安いモデルを選んだのに請求額が想定の倍だった、という事態は、規模が小さくても普通に起こりえます。</p>
+<p>現実的な進め方としては、次の順番を勧めます。</p>
+<ul>
+<li>対象業務を1つに絞り、月に何件処理するかを数える</li>
+<li>候補モデルを2つに絞り、同じ業務・同じ件数で1か月走らせる</li>
+<li>月末の実請求額と、失敗して人が手直しした件数を並べて比べる</li>
+<li>そこで初めて、振り分けを検討する規模かどうかを判断する</li>
+</ul>
+<p>順番を逆にして、先に振り分けの仕組みを作り込むと、複雑さだけが残ります。特定のモデルや基盤に深く寄りかかった構成を先に作ってしまうリスクについては <a href="/articles/fail-vendor-lockin/">ベンダーロックインで失敗した話</a> に書きました。</p>
+<p>そしてもう一度書きますが、今回の数字は提供者自身が測ったものです。方向性の参考にはなりますが、自社の請求額を予測する根拠にはなりません。根拠になるのは、自社で1か月走らせた明細だけです。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>IBM Research の実測（AppWorld Test Challenge、417タスク、CodeActエージェント）で、公表単価の安い GPT-4.1 が総額155ドル、単価の高い Claude Sonnet が79ドルと、約2倍の逆転が起きた</li>
+<li>逆転の主因はキャッシュの効き方であり、著者自身が「モデル・ワークロード・サービング基盤の相互作用に依存する」として再現性を限定している</li>
+<li>モデル振り分け構成は精度84%・コスト93ドル・レイテンシ83秒で、Opus単独比でコスト21%減・レイテンシ9%減だが、精度は4ポイント低下する引き換えがある</li>
+<li>この記事は IBM Research 自身による発表であり、同社は当該領域の技術提供者である。検証も単一ベンチマークのみで、業種別の一般化は示されていない</li>
+<li>中小企業が取るべき行動は振り分けの導入ではなく、候補2つを同じ業務で小さく走らせ、実請求額と手直し件数で比べること。TOEでは本記事の振り分け構成は未実施である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>オープンウェイトのGLM-5.2は商用最上位にどこまで迫ったのか — FrontierSWE 74.4%と1Mトークンの中身 · AIの鬼</title>
+  <meta name="description" content="誰でも重みを入手できるオープンウェイトの大規模モデルGLM-5.2が、開発タスクの指標で商用最上位に1ポイント差まで迫ったと発表されました。ただしこれは提供元Z.AI自身による測定で、超長時間タスクでは13ポイント差の劣後も同時に報告されています。中小企業にとっての意味を数字ごとに整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-glm52/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-glm52/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="オープンウェイトのGLM-5.2は商用最上位にどこまで迫ったのか — FrontierSWE 74.4%と1Mトークンの中身 · AIの鬼">
+  <meta property="og:description" content="誰でも重みを入手できるオープンウェイトの大規模モデルGLM-5.2が、開発タスクの指標で商用最上位に1ポイント差まで迫ったと発表されました。ただしこれは提供元Z.AI自身による測定で、超長時間タスクでは13ポイント差の劣後も同時に報告されています。中小企業にとっての意味を数字ごとに整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-glm52/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="オープンウェイトのGLM-5.2は商用最上位にどこまで迫ったのか — FrontierSWE 74.4%と1Mトークンの中身 · AIの鬼">
+  <meta name="twitter:description" content="誰でも重みを入手できるオープンウェイトの大規模モデルGLM-5.2が、開発タスクの指標で商用最上位に1ポイント差まで迫ったと発表されました。ただしこれは提供元Z.AI自身による測定で、超長時間タスクでは13ポイント差の劣後も同時に報告されています。中小企業にとっての意味を数字ごとに整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"オープンウェイトのGLM-5.2は商用最上位にどこまで迫ったのか — FrontierSWE 74.4%と1Mトークンの中身","item":"https://ai-oni.com/articles/hf-glm52/"}]},{"@type":"Article","headline":"オープンウェイトのGLM-5.2は商用最上位にどこまで迫ったのか — FrontierSWE 74.4%と1Mトークンの中身","description":"誰でも重みを入手できるオープンウェイトの大規模モデルGLM-5.2が、開発タスクの指標で商用最上位に1ポイント差まで迫ったと発表されました。ただしこれは提供元Z.AI自身による測定で、超長時間タスクでは13ポイント差の劣後も同時に報告されています。中小企業にとっての意味を数字ごとに整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-glm52/"},"url":"https://ai-oni.com/articles/hf-glm52/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-glm52.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-glm52/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-glm52.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>オープンウェイトのGLM-5.2は商用最上位にどこまで迫ったのか — FrontierSWE 74.4%と1Mトークンの中身</h1>
+<p class="article-lead">誰でも重みを入手できるオープンウェイトの大規模モデルGLM-5.2が、開発タスクの指標で商用最上位に1ポイント差まで迫ったと発表されました。ただしこれは提供元Z.AI自身による測定で、超長時間タスクでは13ポイント差の劣後も同時に報告されています。中小企業にとっての意味を数字ごとに整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>オープンウェイトの大規模モデル「GLM-5.2」が、開発タスクの指標FrontierSWEで<strong>74.4%</strong>を記録し、商用最上位のOpus 4.8に<strong>1ポイント差</strong>まで迫ったと発表されました。結論を先に言えば、<strong>中小企業が今すぐ乗り換える話ではありません</strong>。753Bパラメータ級の自社運用は現実的でなく、しかもこの数字は<strong>提供元自身による測定</strong>です。意味があるのは価格競争への影響のほうです。</p>
+<h2 id="_1">何が発表されたのか</h2>
+<p>Hugging Face上で公開された、GLM-5.2の発表記事です（出典：Z.AI（zai-org）／GLM-5.2の開発元自身による投稿、2026-06-17、<a href="https://huggingface.co/blog/zai-org/glm-52-blog">https://huggingface.co/blog/zai-org/glm-52-blog</a>）。</p>
+<p>まず読者が最初に押さえるべき前提があります。<strong>この記事はZ.AI社自身による発表であり、同社は当該製品GLM-5.2の提供者です。</strong> 掲載されているベンチマーク結果は、製品の提供者が自社製品を自ら測定して公表したものであり、第三者による独立検証ではありません。数字の出どころとして、この点を外して読むことはできません。</p>
+<p>そのうえで、発表内容の骨格は次の三つです。</p>
+<ul>
+<li>開発タスク（コーディング・エージェント）向けの性能を前面に出したモデルであること</li>
+<li>最大コンテキスト長が<strong>1Mトークン</strong>に拡張されたこと（前世代GLM-5.1の<strong>200Kトークン</strong>からの拡張。実測条件や、その長さで精度が維持される条件は記載なし）</li>
+<li>総パラメータ数が<strong>753B（7530億）</strong>であること（アクティブパラメータ数、推論に必要なハードウェア要件はいずれも記載なし）</li>
+</ul>
+<h2 id="_2">公表されたスコアと、その条件</h2>
+<p>発表に記載された主要な数値を条件込みで並べます。条件を省くと数字が独り歩きするため、記載がない項目は「記載なし」とそのまま書きます。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>GLM-5.2のスコア</th>
+<th>比較・条件（すべて提供元の自社測定）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FrontierSWE</td>
+<td><strong>74.4%</strong></td>
+<td>Opus 4.8に1ポイント差で及ばず、GPT-5.5を1ポイント上回るという比較。試行回数・測定期間の記載なし</td>
+</tr>
+<tr>
+<td>Terminal-Bench 2.1</td>
+<td><strong>81.0</strong></td>
+<td>Opus 4.8の85.0との比較。試行回数・測定期間の記載なし</td>
+</tr>
+<tr>
+<td>SWE-bench Pro</td>
+<td><strong>62.1</strong></td>
+<td>前世代GLM-5.1の58.4との比較。試行回数・測定期間の記載なし</td>
+</tr>
+<tr>
+<td>PostTrainBench</td>
+<td><strong>34.3%</strong></td>
+<td>Opus 4.8に次ぐ2位という位置づけ。試行回数・測定期間の記載なし</td>
+</tr>
+<tr>
+<td>SWE-Marathon（超長時間タスク）</td>
+<td><strong>13.0%</strong></td>
+<td>Opus 4.8に13ポイント差で劣後。試行回数・測定期間の記載なし</td>
+</tr>
+<tr>
+<td>AIME 2026（数学推論）</td>
+<td><strong>99.2</strong></td>
+<td>比較対象モデルの数値・試行回数の記載なし</td>
+</tr>
+<tr>
+<td>GPQA-Diamond（専門知識推論）</td>
+<td><strong>91.2</strong></td>
+<td>比較対象モデルの数値・試行回数の記載なし</td>
+</tr>
+<tr>
+<td>CritPt</td>
+<td><strong>16.7</strong></td>
+<td>比較対象モデルの数値・試行回数の記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>技術面では、<strong>IndexShare</strong>という機構によって1Mコンテキスト時のトークンあたりFLOPsを<strong>2.9倍</strong>削減したと記載されています（4つのスパースアテンション層でインデクサを共有した場合。測定環境の記載なし）。また、MTP（マルチトークン予測）については、IndexShare・KVShare・棄却サンプリング・end-to-end TV lossの併用により、acceptance lengthが<strong>最大20%</strong>向上したとされています（ベースライン条件の詳細は記載なし）。</p>
+<h2 id="_3">発表自身が認めている限界</h2>
+<p>この発表の評価できる点は、都合の悪い結果も同じ記事内に載せていることです。裏を返せば、そこが実務判断の焦点になります。</p>
+<ul>
+<li><strong>SWE-MarathonでOpus 4.8に13ポイント差で明確に劣後しています。</strong> スコアは13.0%です。数時間から数日かかるような超長時間タスクでは、まだ差が残っています</li>
+<li>本文自身が、<strong>超長時間タスク（ultra-long-horizonベンチマーク）には改善余地がある</strong>と認めています</li>
+<li><strong>FrontierSWEでもOpus 4.8を1ポイント下回っており、最上位ではありません。</strong> 「迫った」であって「並んだ」ではありません</li>
+<li>各ベンチマークの<strong>試行回数・測定期間・実行環境といった再現条件が本文に示されていません。</strong> 同じ条件で誰かが追試できる形にはなっていません</li>
+<li>そして繰り返しますが、<strong>測定者は製品の提供者本人です</strong></li>
+</ul>
+<p>課金面にも注意点があります。GLM Coding Planのクォータ消費レートは、ピーク時間帯（UTC+8の14:00〜18:00）が<strong>3倍</strong>、オフピークが<strong>2倍</strong>とされています。ただしオフピークについては<strong>9月30日までは販促で1倍</strong>という条件が付いています。<strong>期間限定の販促条件であり、恒久的なコスト前提にはできません。</strong> 見積もりを作るなら、販促終了後のレートで計算しておくのが安全です。この種の前提のずれは<a href="/articles/ai-cost-structure/">AIのコスト構造をどう見積もるか</a>でも扱っている論点です。</p>
+<h2 id="_4">中小企業にとって、これは関係があるのか</h2>
+<p>正面から答えます。<strong>直接的にはほとんど関係がありません。間接的には関係があります。</strong></p>
+<p>まず直接的な話から。GLM-5.2はMITライセンスかつ地域制限なしで公開されており、社内データを外部に出したくない企業が自社環境での運用を検討する余地はあります。しかし<strong>753Bパラメータ級のモデルを自社でホスティングするのは、GPUコストの面で中小企業には現実的ではありません。</strong> 「オープンだから無料で使える」という読み方は成立しません。データを社内に留める話をするなら、小型モデルを扱った<a href="/articles/ai-cpu-local-inference/">GPUなしでAIを自社の機械で動かせるか</a>のほうが現実的な射程です。</p>
+<p>では間接的な意味とは何か。二つあります。</p>
+<p>一つ目は<strong>価格です。</strong> こうした高性能なオープンモデルが登場することで、商用AIサービスの価格・性能競争が進みます。結果としてAI利用の単価が下がる方向に働きます。中小企業が受け取る恩恵は、自分でGLM-5.2を動かすことではなく、いま契約している商用サービスの値下げ・性能向上という形で現れます。</p>
+<p>二つ目は<strong>コンテキスト長です。</strong> 1Mトークンという長さは、長い仕様書・マニュアル・過去の対応ログを丸ごと投入する使い方が現実味を帯びてきたことを示します。従来は文書を分割し、必要な部分だけを検索して渡す作りが必要でした。丸ごと投入できるなら、その前処理の設計が単純になります。ただし発表には<strong>その長さで精度が維持される条件が記載されていません。</strong> 1Mトークン入れれば1Mトークン分ちゃんと読む、とは書かれていない点に注意が必要です。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p><strong>TOEではGLM-5.2を未実施です。</strong> 検証していないモデルの性能について語ることはしません。そのうえで、この発表から実務に落とせる読み筋を三点書きます。</p>
+<p>第一に、<strong>導入判断は「今すぐ乗り換え」ではなく「年1回の棚卸し」に落とすべきだ</strong>と考えます。具体的には、使っているAIサービスの価格改定・モデル更新を年に1回は見直す、という運用です。モデルの序列は数か月で入れ替わります。発表のたびに乗り換えを検討するのは工数の無駄ですが、1年放置すると単価と性能の両方で損をします。年1回、契約中のプランの単価と、同じ用途を満たす他の選択肢を並べて比べる。それだけで十分です。</p>
+<p>第二に、<strong>特定モデルに深く依存する作り込みを避けることです。</strong> GLM-5.2に限らず、モデルは差し替えられる前提で組む。プロンプトやワークフローを一つのモデルの癖に最適化しすぎると、乗り換えのたびに作り直しになります。この論点は<a href="/articles/fail-vendor-lockin/">ベンダーロックインで失敗した話</a>に実例をまとめています。</p>
+<p>第三に、<strong>提供者自身が公表したベンチマークの扱い方です。</strong> 今回のように「自社測定で商用最上位に1ポイント差」という発表は、頭から否定すべきものではありません。技術的な進歩は実際にあるのでしょう。ただし、独立検証と同列には置けません。判断材料としては「候補に入れる理由」にはなっても、「採用を決める理由」にはならない。この線引きを保つことが、発表が続く領域で振り回されないための最低条件だと考えます。</p>
+<p>そして最も実務的な点として、<strong>自社の用途で測ることに勝る判断材料はありません。</strong> FrontierSWEが74.4%であることと、自社の見積書作成が速くなることの間に、直接の関係はありません。ベンチマークは開発タスクの指標であり、経理や営業の業務を測ったものではないからです。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>2026年6月17日公開の発表で、オープンウェイトのGLM-5.2がFrontierSWE <strong>74.4%</strong>（Opus 4.8に1ポイント差、GPT-5.5を1ポイント上回る）、Terminal-Bench 2.1 <strong>81.0</strong>（Opus 4.8は85.0）、SWE-bench Pro <strong>62.1</strong>（前世代GLM-5.1は58.4）と報告されました</li>
+<li><strong>この記事はZ.AI社自身による発表であり、同社は当該製品GLM-5.2の提供者です。</strong> 第三者による独立検証ではなく、各ベンチマークの試行回数・測定期間・実行環境も記載されていません</li>
+<li>同じ発表内で、超長時間タスクのSWE-Marathonは<strong>13.0%</strong>でOpus 4.8に13ポイント差の劣後と認めており、本文自身が超長時間タスクに改善余地があると書いています</li>
+<li>総パラメータ<strong>753B</strong>級の自社ホスティングはGPUコストの面で中小企業には現実的ではなく、意味があるのは商用AIサービスの価格競争が進むという間接的な効果と、<strong>1Mトークン</strong>（前世代は200Kトークン）という長文投入の可能性です</li>
+<li>課金レートのオフピーク1倍は<strong>9月30日まで</strong>の販促条件で、恒久的なコスト前提にはできません。<strong>TOEでは未実施</strong>であり、導入判断は「今すぐ乗り換え」ではなく「使っているAIサービスの価格改定・モデル更新を年1回見直す」という運用に落とすのが妥当だと考えます</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

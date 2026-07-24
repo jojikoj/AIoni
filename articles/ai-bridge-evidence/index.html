@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>検索精度スコアは、AIエージェントの正解率を予測できるのか（相関ρ=-0.0257） · AIの鬼</title>
+  <meta name="description" content="複数ステップで自律検索するAIエージェントを対象に、従来の検索有用性スコアと、実際に正解へ効いた度合いの相関を測った研究。23,322件の文書観測で相関はρ=-0.0257とほぼ無相関、単体では答えを含まないのに削除すると結果が変わる「橋渡し文書」が35.72%を占めた。社内文書検索の評価の見方に直結する話です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-bridge-evidence/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-bridge-evidence/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="検索精度スコアは、AIエージェントの正解率を予測できるのか（相関ρ=-0.0257） · AIの鬼">
+  <meta property="og:description" content="複数ステップで自律検索するAIエージェントを対象に、従来の検索有用性スコアと、実際に正解へ効いた度合いの相関を測った研究。23,322件の文書観測で相関はρ=-0.0257とほぼ無相関、単体では答えを含まないのに削除すると結果が変わる「橋渡し文書」が35.72%を占めた。社内文書検索の評価の見方に直結する話です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-bridge-evidence/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="検索精度スコアは、AIエージェントの正解率を予測できるのか（相関ρ=-0.0257） · AIの鬼">
+  <meta name="twitter:description" content="複数ステップで自律検索するAIエージェントを対象に、従来の検索有用性スコアと、実際に正解へ効いた度合いの相関を測った研究。23,322件の文書観測で相関はρ=-0.0257とほぼ無相関、単体では答えを含まないのに削除すると結果が変わる「橋渡し文書」が35.72%を占めた。社内文書検索の評価の見方に直結する話です。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"検索精度スコアは、AIエージェントの正解率を予測できるのか（相関ρ=-0.0257）","item":"https://ai-oni.com/articles/ai-bridge-evidence/"}]},{"@type":"Article","headline":"検索精度スコアは、AIエージェントの正解率を予測できるのか（相関ρ=-0.0257）","description":"複数ステップで自律検索するAIエージェントを対象に、従来の検索有用性スコアと、実際に正解へ効いた度合いの相関を測った研究。23,322件の文書観測で相関はρ=-0.0257とほぼ無相関、単体では答えを含まないのに削除すると結果が変わる「橋渡し文書」が35.72%を占めた。社内文書検索の評価の見方に直結する話です。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-bridge-evidence/"},"url":"https://ai-oni.com/articles/ai-bridge-evidence/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-bridge-evidence.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-bridge-evidence/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-bridge-evidence.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>検索精度スコアは、AIエージェントの正解率を予測できるのか（相関ρ=-0.0257）</h1>
+<p class="article-lead">複数ステップで自律検索するAIエージェントを対象に、従来の検索有用性スコアと、実際に正解へ効いた度合いの相関を測った研究。23,322件の文書観測で相関はρ=-0.0257とほぼ無相関、単体では答えを含まないのに削除すると結果が変わる「橋渡し文書」が35.72%を占めた。社内文書検索の評価の見方に直結する話です。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。「その文書が答えに役立つか」を測る従来の検索精度スコアは、複数ステップで自律的に検索するAIエージェントにおいて、その文書が実際に正解到達へ因果的に効いているかをほとんど予測できませんでした。相関はρ=-0.0257です（出典：arXiv:2607.15253、2026年7月16日（arXiv:2607.15253v1）、<a href="https://arxiv.org/abs/2607.15253v1">https://arxiv.org/abs/2607.15253v1</a>）。社内文書検索AIを「検索精度◯%」だけで判断すると誤ります。</p>
+<h2 id="_1">どんな研究で、何を測ったのか</h2>
+<p>Debayan Mukhopadhyay（カルカッタ大学）、Utshab Kumar Ghosh（ミズーリ科学技術大学）、Shubham Chatterjee（ミズーリ科学技術大学）による論文「Bridge Evidence: Static Retrieval Utility Does Not Predict Causal Utility in Multi-Step Agentic Search」です。</p>
+<p>測ったのは2つの数字の関係です。ひとつは「静的検索有用性」。その文書1本を単独で読ませたとき、答えにどれだけ近づくかというスコアで、いわゆる検索精度指標の考え方に近いものです。もうひとつは「因果的有用性（CTU）」。エージェントの実行過程からその文書を取り除いたとき、最終的な結果が変わるかどうかを実際に確かめる測り方です。</p>
+<p>条件は、HotpotQAという英語のマルチホップQAデータセットの開発セットから抽出した1,000問（元は7,405問）、ReAct型エージェント1構成、文書観測は23,322件。エンティティ分析には769本のマルチステップ軌跡を使い、227,139件のエンティティ観測を得ています。再現性の比較には別サンプルの300問（条件の記載なし）が使われました。</p>
+<h2 id="-00257">ρ=-0.0257という数字が意味すること</h2>
+<p>スピアマン相関ρ=-0.0257は、実務的にはほぼ無相関です。静的スコアの高い文書が、エージェントの正解到達に効いているとは限らない。逆も同じです。</p>
+<p>論文はさらに、文書を静的有用性×因果的有用性の4象限に分けています。23,322件の内訳は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>象限</th>
+<th>内容</th>
+<th>割合（23,322件中）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セルA</td>
+<td>静的にも因果的にも有用</td>
+<td>1.12%</td>
+</tr>
+<tr>
+<td>セルB</td>
+<td>静的には有用だが因果的には冗長</td>
+<td>2.18%</td>
+</tr>
+<tr>
+<td>セルC</td>
+<td>静的には無用だが因果的には必要（橋渡し文書）</td>
+<td>35.72%</td>
+</tr>
+<tr>
+<td>セルD</td>
+<td>静的にも因果的にも無用</td>
+<td>60.98%</td>
+</tr>
+</tbody>
+</table>
+<p>注目すべきはセルCです。単体で読んでも答えは何も書いていない。だから従来指標ではゼロ点になる。しかし取り除くと結果が変わる。全体の35.72%がこれに当たりました。</p>
+<p>なぜそんなことが起きるのか。論文はエンティティの分析でひとつの説明を出しています。識別力の高いエンティティ（高OER）が次の検索クエリに現れる率は6.1%で、低OERの1.5%に対して4.02倍でした（227,139件のエンティティ観測、完全一致判定）。部分一致判定では14.4%対8.2%で1.77倍です。つまり、その文書に含まれる固有名詞が「次に何を検索すべきか」を決めている。答えではなく、次の一手を渡しているわけです。</p>
+<h2 id="_2">中小企業にとって、これは何の話か</h2>
+<p>社内文書検索AI（RAG）やAIエージェントを入れた会社にとって、これは評価軸と文書整理の話です。</p>
+<ul>
+<li>ベンダーの「検索精度◯%」は、単体文書が答えを含むかどうかを測っていることが多い。エージェント型で複数回検索させる使い方では、その数字が最終的な回答の質を予測しない可能性がある</li>
+<li>社内ナレッジを整理するとき「答えが書いてある文書だけ残す」方針は、逆効果になりうる。型番、担当者名、部署名、旧製品コードといった、それ自体は答えでないが次の検索語を与える文書が効いている</li>
+<li>評価は「文書単体のスコア」ではなく「その文書を外したら回答が変わるか」で見るほうが、エージェント型の実態に近い</li>
+</ul>
+<p>具体的に言えば、「この不具合の対処は誰に聞けばいいか」という問いに対して、対処法が書かれた文書だけでなく、「その製品ラインの担当は製造二課」と書いてあるだけの一覧表が効いている、という構図です。後者は単体では何も答えていないので、精度評価では捨てられます。</p>
+<h2 id="_3">論文が認めている限界</h2>
+<p>ここは正直に書きます。この結果をそのまま自社に当てはめる根拠は弱いです。論文自身が挙げている限界は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>限界</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>データセット</td>
+<td>検証はHotpotQAという単一の英語QAベンチマークのみ。エージェントもReAct型1構成</td>
+</tr>
+<tr>
+<td>静的軸の偏り</td>
+<td>静的有用性の軸が偏っており、35.72%という橋渡し文書の割合はその偏りをそのまま引き継いでいる</td>
+</tr>
+<tr>
+<td>比較モデルの弱さ</td>
+<td>比較に使った静的リーダー（単体文書で答えさせるモデル）の絶対性能が弱い</td>
+</tr>
+<tr>
+<td>代理指標での縮小</td>
+<td>四象限分析でBM25とクロスエンコーダの判定が食い違ったケースを捨てており、9,600レコードに縮小すると割合は27.16%へ低下（ρ=-0.0161, p=0.116）</td>
+</tr>
+<tr>
+<td>CTUの性質</td>
+<td>因果的有用性は文書そのものの性質ではなく、特定のエージェントに依存する性質である</td>
+</tr>
+<tr>
+<td>再現性</td>
+<td>再実行時の決定性（同じ条件での再現）は近似的にしか担保されていない</td>
+</tr>
+<tr>
+<td>プール規模</td>
+<td>OER算出のための関連文書プールが小さい</td>
+</tr>
+<tr>
+<td>ターン数</td>
+<td>ターン数の内訳は交絡しており、難易度の解釈には使えないと明記されている</td>
+</tr>
+</tbody>
+</table>
+<p>とくに4番目は重いです。判定が一致したサブセットに絞ると、橋渡し文書の割合は35.72%から27.16%へ下がり、相関のp値は0.116で有意水準にも届いていません。「35.72%」という数字を独り歩きさせるのは危険で、方向性としては残るが、量としては条件次第で動くと読むべきです。</p>
+<p>そして5番目。因果的有用性はエージェント構成に依存します。エージェントを別のものに替えれば、どの文書が橋渡しになるかも変わります。日本語の社内文書や業務システム上での再現は未検証です。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>TOEでは未実施です。この論文の手法（文書を除去して結果の変化を見る因果的評価）を自社や顧客の社内文書検索で試したことはありません。そのうえで読みを書きます。</p>
+<p>読み筋は3つです。</p>
+<ul>
+<li>一次選定の指標を変える必要はまだない。ただし「検索精度」の中身をベンダーに聞く価値は出た。単体文書で答えられるかを測っているのか、エージェントの最終回答で測っているのか。この2つは別物である可能性が高い</li>
+<li>社内文書の断捨離を止める理由になる。「答えが書いていないから不要」と判断して消してきた台帳・一覧表・組織図の類が、エージェント型では効いているかもしれない。削除より、まず保持したまま検索対象に含める</li>
+<li>自社での確かめ方は素朴でよい。ある質問に対して回答が正しく出る状態を作り、そこから文書を1本ずつ外して回答が崩れるかを見る。n数は小さくても、自社の現物で見た結果のほうが、他社ベンチマークの数字より判断に使える</li>
+</ul>
+<p>導入評価そのものの考え方は<a href="/articles/ai-own-evaluation-criteria/">自分の評価基準を持つという話</a>、社内文書検索の実務面は<a href="/articles/ai-small-model-document-search/">小さいモデルでの文書検索</a>にも書いています。エージェントの基本構造は<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>を先に読むと、この論文の「複数ステップ」の意味が掴みやすいはずです。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>静的な検索有用性スコアと、実際に正解へ効いた因果的有用性の相関はρ=-0.0257でほぼ無相関だった（23,322件の文書観測、HotpotQA開発セット1,000問、ReAct型エージェント）</li>
+<li>単体では答えを含まないのに、削除すると結果が変わる「橋渡し文書」が35.72%を占めた。静的にも因果的にも無用だったのは60.98%、両方高いのは1.12%、冗長は2.18%</li>
+<li>識別力の高いエンティティが次の検索クエリに出る率は6.1%対1.5%（4.02倍、227,139件のエンティティ観測、完全一致判定）で、文書は答えではなく次の検索語を渡している</li>
+<li>限界は大きい。単一の英語ベンチマークとエージェント1構成のみ、静的軸の偏りをそのまま引き継ぐ、判定一致サブセットでは27.16%（ρ=-0.0161, p=0.116）まで下がる、因果的有用性はエージェント依存で再現も近似的</li>
+<li>TOEでは未実施。数値の転用ではなく、「検索精度の中身をベンダーに確認する」「答えを含まない台帳類を消さない」「自社の現物で1本ずつ外して確かめる」という使い方を勧める</li>
+</ul>
+<p>（出典：arXiv:2607.15253、2026年7月16日（arXiv:2607.15253v1）、<a href="https://arxiv.org/abs/2607.15253v1">https://arxiv.org/abs/2607.15253v1</a>）</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

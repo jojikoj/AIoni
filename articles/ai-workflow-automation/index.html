@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>業務フローにAIを組み込むときの設計 · AIの鬼</title>
+  <meta name="description" content="「AIツールを使う」ことと「業務フローに組み込む」ことは別物です。公表されている実例の数字から、工程単位で設計することの意味と、うまく定着しない場合の共通点を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-workflow-automation/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-workflow-automation/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="業務フローにAIを組み込むときの設計 · AIの鬼">
+  <meta property="og:description" content="「AIツールを使う」ことと「業務フローに組み込む」ことは別物です。公表されている実例の数字から、工程単位で設計することの意味と、うまく定着しない場合の共通点を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-workflow-automation/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="業務フローにAIを組み込むときの設計 · AIの鬼">
+  <meta name="twitter:description" content="「AIツールを使う」ことと「業務フローに組み込む」ことは別物です。公表されている実例の数字から、工程単位で設計することの意味と、うまく定着しない場合の共通点を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"業務フローにAIを組み込むときの設計","item":"https://ai-oni.com/articles/ai-workflow-automation/"}]},{"@type":"Article","headline":"業務フローにAIを組み込むときの設計","description":"「AIツールを使う」ことと「業務フローに組み込む」ことは別物です。公表されている実例の数字から、工程単位で設計することの意味と、うまく定着しない場合の共通点を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-workflow-automation/"},"url":"https://ai-oni.com/articles/ai-workflow-automation/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-workflow-automation.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-workflow-automation/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-workflow-automation.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>業務フローにAIを組み込むときの設計</h1>
+<p class="article-lead">「AIツールを使う」ことと「業務フローに組み込む」ことは別物です。公表されている実例の数字から、工程単位で設計することの意味と、うまく定着しない場合の共通点を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>「AIを導入した」と「AIが業務フローに組み込まれている」は、似ているようで別物です。前者はツールを契約して使い始めた状態、後者は日々の業務の手順そのものにAIの工程が組み込まれ、人がそれを前提に動いている状態を指します。この記事では、公表されている実例の数字をもとに、この違いがどこで生まれるのかを整理します。</p>
+<h2 id="_1">「使う」と「組み込む」の違い</h2>
+<p>AIツールを個人が任意に使う状態と、業務フローに組み込まれた状態の違いは、「AIを使わなかったら、その業務が回らなくなるか」という点に表れます。個人が気が向いたときに質問する使い方では、使う人と使わない人の差が大きく、組織全体の数字には表れにくくなります。</p>
+<p>パナソニック コネクトは、この違いを自社のAI活用実績として公表しています。同社は2023年6月〜2024年5月の1年間で、社員がAIに「質問する」使い方を中心に年間18.6万時間の労働時間削減を達成しました。その後、2024年度は「質問する」から「作業を依頼する」使い方へと利用の中心が移り、年間の削減時間は44.8万時間、前年度比2.4倍に伸びています。1回あたりの削減時間も28分と前年度比1.4倍に増えました。対象は国内全社員約1万1,600人で、月間の利用者率は49.1%に達しています（出典：パナソニック ニュースルーム ジャパン「パナソニックコネクト、『聞く』から『頼む』へシフトしたAI活用で年間44.8万時間の削減を達成」https://news.panasonic.com/jp/press/jn250707-2）。同社が挙げる活用例は、コード全体の生成やリファクタリング、作業手順書の作成、資料レビューやアンケートコメントの分析などで、いずれも「質問して終わり」ではなく、成果物の作成という工程そのものをAIに任せる形になっています。</p>
+<h2 id="_2">工程の前後を含めて設計した例</h2>
+<p>工程単位での組み込みがどういうものかは、建設機械レンタル大手のレンタルのニッケンの事例が分かりやすい例です。同社は全国250拠点で年間27万6,000件発生する仕入請求書の処理に、Sansanが提供する請求書管理サービス「Bill One」（AI-OCR＝AIによる文字認識を用いる）を導入しました。従来は紙の請求書を社外の事務センターと各営業所で分散して処理しており、社外委託費用に加えて、レンタル期間の変動によって支払予定情報と請求書内容がずれるという課題を抱えていたといいます。</p>
+<p>導入後は、AIが請求書を99.9%の精度でデータ化したうえで、基幹システムの支払予定情報と自動で照合する仕組みに変わりました。結果として、受領した請求書の80%以上が電子データで処理されるようになり、年間1万4,000時間以上の業務時間と、年間約1億2,000万円のコストが削減されたと公表されています（出典：株式会社レンタルのニッケン ニュースリリース「SansanのBill One活用により国内250拠点の仕入請求書の処理を自動化」https://www.rental.co.jp/news/newsrelease/251016-01.html）。なお、これらの数字と99.9%という精度は、導入した同社自身が発表しているものです。ここでのポイントは、「請求書を読み取る」という一工程だけをAIに置き換えたのではなく、その前工程（紙の受領）と後工程（基幹システムとの照合）まで含めて設計し直している点です。読み取りだけをAI化しても、前後が人手のままでは、突き合わせのズレという元の課題は残ったままだったと考えられます。</p>
+<h2 id="_3">対象業務を絞り込んだ例</h2>
+<p>三菱UFJ銀行は、行員約4万人を対象にMicrosoft経由でChatGPTの利用を開放し、稟議書や社内文書のドラフト作成を中心に、月間22万時間以上の労働時間削減を見込めると試算を公表しています（出典：日本経済新聞「三菱UFJ銀行、生成AIで月22万時間の労働削減と試算」https://www.nikkei.com/article/DGXZQOUB270LP0X21C23A1000000/）。全業務ではなく、稟議書や社内文書のドラフトという「文章の下書きを作る」工程に対象を絞っていることが読み取れます。銀行の業務には最終判断や承認といった、AIに任せられない工程が別途あることを前提にした設計です。</p>
+<h2 id="_4">設計で押さえておきたい点</h2>
+<p>3つの例に共通しているのは、AIに任せる工程と、人が最終確認・判断する工程をあらかじめ線引きしていることです。パナソニック コネクトの例では「作業を依頼する」対象が広がっても、成果物という形で人の目に触れる工程は残ります。レンタルのニッケンの例では、AIが読み取った後の照合まで自動化しつつ、最終的な支払い実行は既存のシステム・体制の中で行われます。三菱UFJ銀行の例では、ドラフト作成までをAIに任せ、稟議の承認そのものは人が行う設計です。</p>
+<p>逆に言えば、「どこまでAIに任せて、どこから人が確認するか」を決めないまま導入すると、AIの出力を誰も検証しない状態や、逆にAIの出力を毎回人がすべて作り直す状態のどちらかに陥りやすくなります。前者は誤りが外に出るリスクを、後者は「結局手間が減っていない」という状態を生みます。加えて、レンタルのニッケンの例が示すように、AIが担当する一工程だけを見て設計するのではなく、その工程の前に何が起きていて、後にどこへつながるのかまで含めて見直すことが、業務フロー全体としての効果を左右しているように見えます。</p>
+<h2 id="_5">うまくいかないケース</h2>
+<p>ここから先は、特定の調査や公表事例にもとづく記述ではなく、上記3例から読み取れる設計上の考え方を一般論として整理したものです。RPA（定型作業を自動で行うソフトウェア）やAIツールの導入では、現場に定着せず使われなくなることがあります。想定される原因は、対象業務の選定時に「人の判断が必要な工程」まで自動化の対象に含めてしまい、現場が想定通りに動かせず結局手作業に戻ってしまうケースや、導入後の運用ルール（誰が例外処理を担当するか、AIの出力をどう修正するか）を決めないまま稼働させ、現場が使い方に迷って離脱してしまうケースです。いずれも、技術的な性能の問題というより、どの工程を対象にし、どこに人の確認を残すかという設計段階の詰め方に関わる部分です。</p>
+<h2 id="_6">では自社では何から始めるか</h2>
+<p>自社で業務フローにAIを組み込む場合、まず「どの工程を対象にするか」を業務全体ではなく工程単位で決め、その前後の工程まで含めて見直す必要があるかを確認することが、最初の判断材料になりそうです。あわせて、どこまでをAIに任せ、どこから人が確認・承認するのかを、導入前に言葉にしておくという進め方も選択肢の一つです。</p>
+<p>いきなり全社・全工程への展開を目指すのではなく、対象を絞った工程で試し、前後の工程を含めて回るかどうかを確認してから範囲を広げるという段階的な進め方も、上記の事例からは読み取れます。</p>
+<hr />
+<p>出典：
+- <a href="https://news.panasonic.com/jp/press/jn250707-2">パナソニックコネクト、「聞く」から「頼む」へシフトしたAI活用で年間44.8万時間の削減を達成</a>（パナソニック ニュースルーム ジャパン）
+- <a href="https://www.rental.co.jp/news/newsrelease/251016-01.html">SansanのBill One活用により国内250拠点の仕入請求書の処理を自動化</a>（株式会社レンタルのニッケン ニュースリリース＝導入企業自身の発表）
+- <a href="https://www.nikkei.com/article/DGXZQOUB270LP0X21C23A1000000/">三菱UFJ銀行、生成AIで月22万時間の労働削減と試算</a>（日本経済新聞）</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと · AIの鬼</title>
+  <meta name="description" content="AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-search-measurement/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-search-measurement/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと · AIの鬼">
+  <meta property="og:description" content="AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-search-measurement/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと · AIの鬼">
+  <meta name="twitter:description" content="AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと","item":"https://ai-oni.com/articles/ai-search-measurement/"}]},{"@type":"Article","headline":"ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと","description":"AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-search-measurement/"},"url":"https://ai-oni.com/articles/ai-search-measurement/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-search-measurement.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-search-measurement/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-search-measurement.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI検索観測所</span>      <h1>ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと</h1>
+<p class="article-lead">AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">はじめに、こちらの立場を明かします</h2>
+<p>この記事を書いている株式会社TOEは、福岡のWeb制作・AI開発の会社です。つまり「AI検索で出るようにしましょう」というサービスを売りうる立場にあります。<strong>利害関係者です。</strong></p>
+<p>だからこそ、測る前に社内で一つ決めました。<strong>都合の悪い結果が出ても、そのまま書く。</strong></p>
+<p>結論から言うと、都合の悪い結果がいくつも出ました。「構造化データを入れれば引用される」という業界の定番の話は、独立した実験で否定されていました。そして何より、<strong>この手の測定そのものが、驚くほど不安定でした。</strong></p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>AI検索</strong> … ChatGPT、Perplexity、Google AI Overviews（Google検索結果の上部に出るAIの要約）のように、検索結果の一覧ではなくAIが文章で答えを返す仕組みのことです。</li>
+<li><strong>引用元（citation）</strong> … AIが回答の根拠として提示するリンクのことです。Perplexityなら回答文の脇に番号つきで並びます。ここに自社サイトが入るかどうかが、この記事のテーマです。</li>
+<li><strong>構造化データ</strong> … サイトのHTMLに埋め込む、機械向けの説明書きです。「これはFAQです」「これは会社情報です」とタグで示すもの（FAQPage、Organization など）。AI検索対策の文脈で最もよく売られている施策です。</li>
+</ul>
+<hr />
+<h2 id="_2">何を測ろうとしたのか</h2>
+<p>測りたかったのは、たった一つです。</p>
+<blockquote>
+<p><strong>発注する側の人が、AIに「〇〇できる会社を探している」と聞いたとき、企業の自社サイトは引用元として出てくるのか。</strong></p>
+</blockquote>
+<p>これが「出てこない、出てくるのはポータルサイトや大手メディアだけ」なら、中小企業が自社サイトを直す意味は薄いことになります。逆に「出てくる」なら、何が出る側と出ない側を分けているのかを知る価値があります。</p>
+<p>TOEは製造業のお客様が多いため、題材は製造業の発注クエリにしました。</p>
+<hr />
+<h2 id="_3">どうやって測ったか（手順）</h2>
+<p><strong>測定日：2026年7月18日。対象：Perplexity。</strong></p>
+<ol>
+<li>発注担当者が実際に投げそうな質問を3件用意しました。「金属加工を依頼できる会社を愛知県で探しています」「精密板金でステンレス薄板の小ロット試作を頼める会社」「アルミの切削加工を小ロットで引き受ける工場を福岡県で」の3つです。いずれも<strong>業種＋条件＋地域</strong>という、発注時に実際に使われる形にしています。</li>
+<li>ブラウザ自動操作ツールの <strong>Playwright</strong> でPerplexityを開き、質問を投げます。APIは使っていません。人が画面で使うのと同じ経路です（従量課金を発生させないためでもあります）。</li>
+<li>返ってきた回答ページから、<strong>引用元として提示されたリンクのドメインをプログラムで機械的に抽出</strong>しました。目視で数えると恣意が入るためです。</li>
+<li>抽出したドメインを「企業の自社サイト（個社サイト）」と「ポータル・マッチングサイト」に分類しました。</li>
+</ol>
+<p>やっていることは、これだけです。特別な技術は使っていません。<strong>Playwrightでこの抽出が機械的にできること自体は、検証済みです。</strong></p>
+<hr />
+<h2 id="1">分かったこと1：個社サイトは、実際に引用されていました</h2>
+<p>3クエリで引用されたドメインは合計12件。内訳はこうです。</p>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企業の自社サイト（個社サイト）</td>
+<td><strong>8件</strong></td>
+</tr>
+<tr>
+<td>ポータル・マッチングサイト</td>
+<td>4件</td>
+</tr>
+</tbody>
+</table>
+<p>個社サイトが過半数でした。具体的には、質問1では個社1件＋ポータル2件、質問2では個社2件＋ポータル2件、質問3では<strong>個社4件＋ポータル1件</strong>という結果です。特に質問3のように条件が細かくなるほど、個社サイトの比率が上がっていました。</p>
+<p>ポータル側で出てきたのは <code>mono.ipros.com</code>（イプロス）や <code>ja.nc-net.or.jp</code>（NCネットワーク）といった、製造業では有名な掲載サイトです。</p>
+<p><strong>（実測 n=3。母数が小さいので、これは「傾向」ですらなく「実例が存在する」というレベルの事実です。）</strong></p>
+<hr />
+<h2 id="2">分かったこと2：引用されていたのは、具体的に書かれている箇所でした</h2>
+<p>引用された企業のサイトを見に行き、回答本文が実際にどの部分を引いていたのかを確認しました。共通していたのは、<strong>条件が数字と固有名詞で書かれている文章</strong>でした。</p>
+<ul>
+<li>「試作品、単品、極小ロットはおまかせください」</li>
+<li>「0.03mm〜1.0mmの極薄板溶接に対応」</li>
+<li>「多品種小ロットで対応」「1点から製作」</li>
+<li>「マシニング加工、NC旋盤加工、5軸加工に対応」</li>
+</ul>
+<p>逆に、引用されていたのは「高品質」「短納期」「お客様第一」といった抽象的なキャッチコピーの箇所ではありませんでした。<strong>材質・板厚・数量・工程が書いてあるかどうか。</strong> ここが分かれ目に見えました。</p>
+<p>（これは12件のサイトを読んだ上での<strong>見解</strong>です。統計的に検証したわけではありません。）</p>
+<hr />
+<h2 id="3_1">分かったこと3：大規模調査は「逆のこと」を言っています</h2>
+<p>ここで正直に書かなければならない点があります。<strong>海外の大規模な集計調査は、私たちの実測と逆の結論を出しています。</strong></p>
+<table>
+<thead>
+<tr>
+<th>調査</th>
+<th>規模</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Peec AI</td>
+<td>引用3,000万件</td>
+<td>上位10ドメインは Reddit / YouTube / LinkedIn / Wikipedia など。<strong>企業公式サイトは上位10に一切なし</strong></td>
+</tr>
+<tr>
+<td>Semrush</td>
+<td>23万プロンプト・1億件超</td>
+<td>Reddit・Wikipedia が恒常的に上位</td>
+</tr>
+<tr>
+<td>Goodie（B2B SaaS領域）</td>
+<td>11.8万件</td>
+<td>メーカーの自社サイトは上位10に事実上存在しない。G2などのレビューサイトが代役</td>
+</tr>
+</tbody>
+</table>
+<p>これらだけを読めば「個社サイトは無理」という結論になります。では、なぜ食い違うのか。</p>
+<p><strong>測っているものが違うからだと考えています。</strong> 集計調査は全クエリを横断した上位ドメインの総量ランキングであり、一般的・話題性のある質問が大半を占めます。一方、私たちが測ったのは「アルミ切削 小ロット 福岡県」のような、極めて具体的な発注クエリです。「アルミの切削加工を福岡で」に対して、Redditは答えを持っていません。</p>
+<p><strong>（これは実測とデータを突き合わせた上での見解であり、証明ではありません。製造業に特化した定量調査は、調べた限り存在しませんでした。）</strong></p>
+<hr />
+<h2 id="4">分かったこと4：構造化データは、効かないという結果が出ています</h2>
+<p>これが最も都合の悪い結果です。<strong>AI検索対策として最もよく売られている「構造化データ（FAQPageなど）の実装」は、独立した実験で否定されています。</strong></p>
+<table>
+<thead>
+<tr>
+<th>調査</th>
+<th>方法</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ahrefs</strong></td>
+<td>JSON-LDを追加した1,885ページ vs 対照群4,000ページ。t検定・DiD・イベントスタディ・頑健性検証の4手法</td>
+<td>Google AI Overviews <strong>−4.6%（統計的に有意）</strong>／AI Mode +2.4%／ChatGPT +2.2%（いずれも誤差範囲）。「有意な引用増をもたらさない」</td>
+</tr>
+<tr>
+<td>SE Ranking</td>
+<td>129,000ドメイン・216,524ページ</td>
+<td>FAQスキーマあり3.6件 vs なし4.2件。<strong>わずかにマイナス</strong></td>
+</tr>
+<tr>
+<td>SearchVIU</td>
+<td>5つのAIが実際にJSON-LDを読むか検証</td>
+<td>隠しSchemaを抽出できたのは <strong>0/5</strong></td>
+</tr>
+<tr>
+<td>Google（John Mueller）</td>
+<td>公式見解</td>
+<td>「イエスでもノーでもあり、機能次第」。従来から「構造化データはランキングを助けない」</td>
+</tr>
+</tbody>
+</table>
+<p>Ahrefsの実験は対照群を置いた比較で、方法論が公開されています。<strong>現時点でこの領域で最も堅牢な検証です。</strong> 一方、「構造化データで引用44%増」「3.1倍」といった肯定的な数字を出しているのは、調べた範囲では<strong>すべてAI検索対策を売っている業者の自社ブログで、方法論が開示されていませんでした。</strong></p>
+<p>正直に書きますが、TOEの社内で最初に作った設計書にも「FAQPage実装で引用率2〜3倍」と書いてありました。<strong>出典をたどったら業者ブログでした。撤回しています。</strong></p>
+<p>なお、Googleは2026年5月に「llms.txt・チャンキング・特殊な構造化データは生成AI検索向けに不要」と公式に述べています。</p>
+<hr />
+<h2 id="5">分かったこと5：効いていそうなのは「文章の中身」と「外部での言及」</h2>
+<p>では何が効くのか。根拠のある材料は、いまのところ2つです。</p>
+<p><strong>1つ目は学術研究です。</strong> プリンストン大学ほかによるGEO論文（KDD 2024）は、10,000クエリ・9手法を比較し、<strong>出典の明示・統計や数値の追加・記述の具体化によって可視性が30〜40%向上した</strong>と報告しています。マークアップではなく、<strong>書いてある内容</strong>です。</p>
+<p><strong>2つ目は相関分析です。</strong> Ahrefsが75,000ブランドを分析した結果、AI検索での可視性と最も強く相関していたのは<strong>外部でのブランド言及（相関係数0.664）</strong>でした。以下、ブランド検索ボリューム0.392、ドメイン評価0.326、被リンク0.218と続き、構造化データは効果なし〜微減でした。</p>
+<p>私たちの実測（具体的な条件が書かれた箇所が引用されていた）と、プリンストンの研究（具体化が効く）は方向が一致しています。<strong>ただし相関は因果ではありません。</strong> 「言及されているから引用される」のか「良い会社だから両方起きる」のかは、この分析では区別できません。</p>
+<hr />
+<h2 id="_4">いちばん重要な話：この測定は、まったく安定しません</h2>
+<p>ここが、この記事で最もお伝えしたいことです。</p>
+<p><strong>SparkToro / Gumshoe.ai の調査（600人・2,961回実行）によれば、同じ質問を繰り返しても、同じブランドが再現される確率は100回に1回未満でした。</strong></p>
+<p>私たちの3クエリでも、<strong>引用ドメインは1件も重複しませんでした。</strong></p>
+<p>これが何を意味するか。</p>
+<ul>
+<li>「40回聞いて何回出たか」という数字を、順位のように扱うのは危険です。誤差に埋もれます</li>
+<li>「先月より3回増えました」という報告は、<strong>ただのノイズかもしれません</strong></li>
+<li>意味があるのは、せいぜい<strong>「引用されるか／まったくされないか」という粗い判定</strong>までです。0回と10回の差には意味がありますが、10回と13回の差には意味がありません</li>
+</ul>
+<p>SparkToroのRand Fishkin氏は「同一プロンプトで引用ブランドが99%以上一致しない以上、対策の効果は測定不能だ」と指摘しています。</p>
+<p>日本でも、SEOコンサルタントの辻正浩氏が2026年4月のWeb担当者Forumで、AI検索対策は「基本的に多くのWebサイトには現段階では【不要】」「AI検索対応は新しいことではなく、SEOでやるべきことをしっかりやることだ」と述べ、現状の業界を「2006〜2009年のSEO業界に酷似している」と批判しています。</p>
+<p><strong>この批判は、私たちが実際に測った限り、妥当だと考えています。</strong> 効果測定の手法が確立していないのは事実です。</p>
+<hr />
+<h2 id="_5">測っていないこと（ここも隠しません）</h2>
+<p>この記事のタイトルには「ChatGPTやPerplexityで」と書きましたが、<strong>実際に測定できたのはPerplexityだけです。</strong></p>
+<p>現時点で<strong>測っていない</strong>ことを列挙します。</p>
+<ul>
+<li><strong>ChatGPTの検索モードは、まだ測っていません。</strong> 測定の仕組みは設計済みですが、実行していません</li>
+<li><strong>Google AI Overviews も、Gemini も、まだ測っていません</strong></li>
+<li><strong>同一クエリの反復測定をしていません。</strong> 各クエリ1回ずつです。上に書いた「不安定さ」を、自社データで定量的に確認したわけではありません</li>
+<li><strong>クエリ数は3件です。</strong> 統計的な主張ができる規模ではありません</li>
+<li><strong>時系列データがありません。</strong> 1日分のスナップショットです</li>
+<li><strong>「サイトを直したら引用が増えたか」の前後比較をしていません。</strong> 施策の効果は、自社では一切検証できていません</li>
+<li><strong>製造業以外は測っていません</strong></li>
+</ul>
+<p>つまり、<strong>現時点で私たちが持っているのは「Perplexityで、具体的な発注クエリを投げると、個社サイトが引用元に出ることがある」という事実だけです。</strong> それ以上のことは、まだ言えません。</p>
+<hr />
+<h2 id="_6">では、何をすればいいのか</h2>
+<p>現時点で言えることだけを書きます。<strong>「対策をすれば引用されます」とは言えません。</strong> 誰もそれを証明していないからです。</p>
+<p>言えるのは、この程度です。</p>
+<p><strong>1. まず、自分で1回聞いてみてください。</strong> ChatGPTでもPerplexityでも、自社の業種と地域と条件を入れて「〇〇に対応できる会社を探しています」と投げるだけです。5分で終わります。自社が出るか、競合が出るか、ポータルしか出ないか。それだけでも現状は分かります。</p>
+<p><strong>2. 出なかったとしても、慌てないでください。</strong> 1回聞いて出なかっただけでは、何も分かりません。上に書いたとおり、結果は毎回変わります。数回試して<strong>一度も出ない</strong>なら、そのときに考え始めれば十分です。</p>
+<p><strong>3. やるとしたら、書いてある内容の具体化からです。</strong> 対応材質、板厚、公差、最小ロット、対応工程、設備名。これらが文章として書かれているか。画像やPDFの中に埋まっていないか。学術研究が支持しているのはここであり、<strong>構造化データの実装ではありません。</strong></p>
+<p>なお、これはAI検索対策として特別な作業ではありません。<strong>発注者が知りたい情報を書く、というだけの話です。</strong> そしてそれは、AI検索が存在しなかった時代からWebサイトがやるべきだったことでもあります。辻氏の「SEOでやるべきことをしっかりやることだ」という指摘は、この意味で正しいと考えています。</p>
+<p><strong>4. 「AI検索対策で受注が増える」という話は、現時点では信じないでください。</strong> Pifteeの調査（2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験がある人は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、<strong>実際にAI経由で発注に至ったのは21.1%</strong>でした。Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の<strong>51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼</strong>しています。</p>
+<p><strong>AIは候補を見つける入口としては使われ始めていますが、発注の意思決定はまだ人間がしています。</strong> 言えるのはせいぜい「引き合いの入口が一つ増えるかもしれない」までです。</p>
+<hr />
+<h2 id="_7">これからどう測り続けるか</h2>
+<p>1回のスナップショットに価値がないことは、ここまで書いたとおりです。<strong>この領域で意味があるのは、同じ方法で測り続けることだけだと考えています。</strong></p>
+<p>現在設計している測定の方針は以下です。</p>
+<ul>
+<li><strong>対象エンジンを増やす</strong> … Perplexityに加えて ChatGPT（検索モード）、Google AI Overviews、Gemini。いずれもPlaywrightで、人が使うのと同じ画面から取得します</li>
+<li><strong>同一クエリを複数回投げる</strong> … 1回では測れないため。ただし回数を増やしても精度が上がるとは限らないことは、上に書いたとおりです</li>
+<li><strong>月次で回し、生データを残す</strong> … AIの引用先は数ヶ月で大きく変わります。集計後の数字ではなく取得した生データを月別に保存し、時系列で並べて初めてノイズと変化が区別できるようになるはずです</li>
+<li><strong>相手のサービスに負荷をかけない</strong> … リクエスト間隔を空け、深夜に分散し、月1回に留めます</li>
+</ul>
+<p>公開するときのルールも決めています。<strong>試行回数と測定日を必ず書く。取得できなかったエンジンは「取得失敗」と書き、埋めない。サンプル数が少ないときは「参考値」と明記する。推定値には「推定」と付し、実測と混ぜない。</strong> この記事も、そのルールで書きました。</p>
+<hr />
+<h2 id="_8">まとめ</h2>
+<ul>
+<li><strong>実測（Perplexity・2026年7月18日・3クエリ）</strong>：引用ドメイン12件のうち、企業の自社サイトが8件。個社サイトは引用されていました</li>
+<li><strong>実測</strong>：引用されていたのは、材質・板厚・数量・工程が具体的に書かれた文章の箇所でした</li>
+<li><strong>独立調査</strong>：構造化データの追加は、引用の増加につながっていません（Ahrefs・SE Ranking・SearchVIU）</li>
+<li><strong>学術研究</strong>：効果が確認されているのは、記述の具体化・数値と出典の追加です（プリンストン大ほか・KDD 2024）</li>
+<li><strong>独立調査</strong>：同じ質問でも同じブランドが再現される確率は100回に1回未満。<strong>測定は極めて不安定です</strong>（SparkToro / Gumshoe.ai）</li>
+<li><strong>未実施</strong>：ChatGPT・Google AI Overviews・Geminiでの測定、同一クエリの反復、施策の前後比較</li>
+</ul>
+<p>私たちはWeb制作の会社なので、本来なら「対策すれば出ます」と言ったほうが商売になります。<strong>しかし、測った限りそうは言えませんでした。</strong></p>
+<p>言えるのは、「まず自分で聞いてみてください」ということと、「具体的に書いてあるサイトが引用されていました」ということ、そして「その効果を数字で保証できる人は、現時点では誰もいません」ということだけです。</p>
+<p>測り続けて、分かったことが増えたら、また書きます。うまくいかなかった月のデータも含めて公開します。</p>
+<hr />
+<p><em>本記事の実測データは、2026年7月18日にPlaywright経由でPerplexityから取得した引用ドメインの機械抽出結果です（n=3）。引用した外部調査の出典：Ahrefs（構造化データ実験 / ブランド可視性相関）、SE Ranking、SearchVIU、プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024）、SparkToro / Gumshoe.ai、Peec AI、Semrush、Goodie、Piftee（2026年5〜6月調査）、Gartner（2026年5月調査）、Google Search Central、辻正浩氏（Web担当者Forum・2026年4月13日）</em></p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

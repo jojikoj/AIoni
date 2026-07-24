@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究 · AIの鬼</title>
+  <meta name="description" content="AIエージェントに外部ツールをつなぐと、つないだ先が更新されただけで成功率が13〜14%落ちる。2026年7月公開の研究で測定された数字と、中小企業がAI導入の契約前に決めておくべきことを整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-agent-tool-evolution/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-agent-tool-evolution/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究 · AIの鬼">
+  <meta property="og:description" content="AIエージェントに外部ツールをつなぐと、つないだ先が更新されただけで成功率が13〜14%落ちる。2026年7月公開の研究で測定された数字と、中小企業がAI導入の契約前に決めておくべきことを整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-agent-tool-evolution/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究 · AIの鬼">
+  <meta name="twitter:description" content="AIエージェントに外部ツールをつなぐと、つないだ先が更新されただけで成功率が13〜14%落ちる。2026年7月公開の研究で測定された数字と、中小企業がAI導入の契約前に決めておくべきことを整理しました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究","item":"https://ai-oni.com/articles/ai-agent-tool-evolution/"}]},{"@type":"Article","headline":"つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究","description":"AIエージェントに外部ツールをつなぐと、つないだ先が更新されただけで成功率が13〜14%落ちる。2026年7月公開の研究で測定された数字と、中小企業がAI導入の契約前に決めておくべきことを整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-agent-tool-evolution/"},"url":"https://ai-oni.com/articles/ai-agent-tool-evolution/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-agent-tool-evolution.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-agent-tool-evolution/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-agent-tool-evolution.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究</h1>
+<p class="article-lead">AIエージェントに外部ツールをつなぐと、つないだ先が更新されただけで成功率が13〜14%落ちる。2026年7月公開の研究で測定された数字と、中小企業がAI導入の契約前に決めておくべきことを整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIエージェントに外部ツールをつなぐと、<strong>つないだ先のツールが更新されただけで成功率が13〜14%落ちる</strong>という測定結果が出ました。2026年7月16日に公開された研究で、GPT-5.4 が13.7%、Claude-Sonnet-4-6 が14.4%の性能低下を示しています。AI導入の検討では「どれだけできるか」ばかりが話題になりますが、実際に効いてくるのは<strong>作ったあとに、つないだ先が勝手に変わる</strong>というリスクです。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>「MCPEvol-Bench」という評価基準を提案した論文です（出典：arXiv:2607.14642、2026年7月16日、<a href="https://arxiv.org/abs/2607.14642v1">https://arxiv.org/abs/2607.14642v1</a>）。</p>
+<p>MCP（Model Context Protocol）は、AIに外部のツールやデータをつなぐための共通規格です。AIエージェントが社内システムやSaaSを操作するとき、この規格を介してつながることが増えています。</p>
+<p>これまでの評価は「今あるツールをAIがうまく使えるか」を測っていました。この研究が問題にしたのは、そこが<strong>止まっている前提</strong>になっていることです。実際のツールは更新されます。項目名が変わる、引数が増える、機能が統合される。研究チームは実在する <strong>123個のMCPサーバー</strong> を対象に、現実に起きる変化を <strong>11種類の変更パターン</strong> として整理し、変更前と変更後で <strong>12種類のLLM</strong> の成績を比較しました。</p>
+<p>結果は以下のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>測定対象</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象サーバー</td>
+<td>123個（実在するMCPサーバー）</td>
+</tr>
+<tr>
+<td>変更パターン</td>
+<td>11種類</td>
+</tr>
+<tr>
+<td>評価したLLM</td>
+<td>12種類</td>
+</tr>
+<tr>
+<td>GPT-5.4 の性能低下</td>
+<td><strong>13.7%</strong></td>
+</tr>
+<tr>
+<td>Claude-Sonnet-4-6 の性能低下</td>
+<td><strong>14.4%</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">壊れ方 — 失敗が増えるのではなく、考え違いが増える</h2>
+<p>この研究でいちばん重要なのは、<strong>低下の中身</strong>です。本文には、初期段階と後期段階を比べた誤りの内訳が出ています。</p>
+<table>
+<thead>
+<tr>
+<th>誤りの種類</th>
+<th>増加率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>推論の誤り</strong></td>
+<td><strong>+34.1%</strong></td>
+</tr>
+<tr>
+<td><strong>計画の誤り</strong></td>
+<td><strong>+35.6%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>タスク達成率が13〜14%落ちているのに対し、<strong>誤りのほうは34〜36%増えています。</strong>これは「たまに失敗する」のではなく、<strong>手順の組み立て方そのものが崩れている</strong>ことを意味します。</p>
+<p>変更の種類によって影響が違う点も測定されています。<strong>ツールが増えたとき</strong>の影響度が <strong>−0.96</strong> ともっとも大きく、<strong>ツールが置き換わったとき</strong>は <strong>+0.10</strong> と、むしろわずかに改善しています。</p>
+<p>直感に反するかもしれませんが、理屈は通っています。置き換えは「今までの道具が別の道具になった」だけなので、AIは新しい説明を読めば対応できます。一方、<strong>道具が増えると選択肢が増え、どれを使うべきかの判断を誤ります。</strong>機能追加という一見前向きな更新のほうが、危険だということです。</p>
+<p>さらに、実在するMCPサーバーの<strong>過去のバージョン</strong>で試したところ、GPT-5.4 は現行版に比べて <strong>12.3%</strong> 成績が落ちました。人工的に作った変更だけでなく、<strong>実際に起きた更新でも同じ現象が確認されている</strong>ということです。</p>
+<p>なお、この評価はAIが採点していますが、<strong>人間の専門家との一致度は 0.79〜0.85</strong> と報告されています。採点そのものの信頼性も、いちおう検証されています。</p>
+<h2 id="_3">なぜ中小企業に関係あるのか</h2>
+<p>「うちは最先端のAIエージェントなんて使っていない」と思われるかもしれません。しかし話は同じです。</p>
+<ul>
+<li><strong>会計ソフトや勤怠システムのAPIが更新される</strong> — 提供元の都合で、こちらの予定とは無関係に起きます</li>
+<li><strong>SaaSの画面や項目名が変わる</strong> — 自動化ツールが画面を操作している場合、これだけで止まります</li>
+<li><strong>AIが「動かない」ではなく「間違ったまま動く」</strong> — エラーで止まってくれれば気づけますが、推論エラーが増えるということは、それらしい結果を出し続ける可能性があるということです</li>
+</ul>
+<p>3つ目がいちばん厄介です。止まる故障は誰かが気づきます。<strong>気づかれない故障が、いちばん高くつきます。</strong></p>
+<h2 id="_4">契約前に決めておくこと</h2>
+<p>外部の会社にAI自動化を依頼する場合、見積書には「作る」ことしか書かれていないことがあります。以下は発注前に確認しておく価値があります。</p>
+<ul>
+<li><strong>連携先が変わったときの改修は、誰が費用を持つのか</strong></li>
+<li><strong>壊れたことに、どうやって気づく設計になっているか</strong>（結果が0件だった、処理時間が急に変わった、といった異常を検知する仕組みがあるか）</li>
+<li><strong>連携先をいくつつないでいるか</strong> — つなぐ先が増えるほど、壊れる確率は足し算で増えます</li>
+<li><strong>月次の動作確認は運用に含まれるか</strong></li>
+</ul>
+<p>「AIが賢くなれば解決する」という話ではない点が重要です。この研究で低下したのは、いずれも最前線のモデルです。<strong>モデルの賢さでは吸収しきれない種類の問題</strong>だということが、この論文の主張です。</p>
+<h2 id="toe">TOEではどうか</h2>
+<p><strong>この研究と同じ測定は、TOEでは実施していません。</strong>推測で埋めずに書いておきます。</p>
+<p>ただし関連する経験はあります。TOEでは社内の定型業務を26本のcronジョブで自動化しており、その運用のなかで「作った時は動いていたものが、あとから静かに止まる」という事象を実際に経験しています。原因は連携先の変更ではなくこちら側の設定漏れでしたが、<strong>失敗しても誰も気づかない</strong>という構造は同じでした。その顛末は<a href="/articles/batch-414-failure/">AI処理414件を失敗させた話</a>に書いています。</p>
+<p>この経験から言えるのは、自動化を入れるときに本当に必要なのは、賢いAIよりも<strong>壊れたことが分かる仕組み</strong>だということです。件数が急に減っていないか、実行ログが残っているか、失敗が黙って握りつぶされていないか。地味ですが、ここを省くと自動化は資産ではなく負債になります。</p>
+<p>なお、AIエージェントそのものの仕組みについては<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>を、導入するツールの選び方については<a href="/articles/ai-tool-selection/">AIツールの選び方</a>を参照してください。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>実在する123個のMCPサーバーを対象にした研究で、ツール側が更新されると <strong>GPT-5.4 で13.7%、Claude-Sonnet-4-6 で14.4%</strong> の性能低下が測定された（arXiv:2607.14642、2026年7月16日）</li>
+<li>達成率の低下より、<strong>誤りの増え方のほうが大きい</strong>（推論の誤り <strong>+34.1%</strong>、計画の誤り <strong>+35.6%</strong>）。止まるのではなく、間違ったまま動く</li>
+<li><strong>ツールが増えたときの悪影響（−0.96）が、置き換わったとき（+0.10）より大きい。</strong>機能追加のほうが危ない</li>
+<li>実際の過去バージョンでも GPT-5.4 が <strong>12.3%</strong> 低下しており、人工的な変更だけの話ではない</li>
+<li>中小企業でも、会計ソフトや勤怠システムのAPI更新で同じことが起きる</li>
+<li>発注時には「連携先が変わったときの改修費用の負担」と「壊れたと気づける仕組み」を確認しておく</li>
+<li><strong>TOEではこの研究と同じ測定は未実施。</strong>ただし自動化が静かに止まる事象は実際に経験している</li>
+</ul>
+<p>AI導入で問われるのは、導入時点の性能だけではありません。<strong>1年後も同じ結果を出し続けられるか</strong>が、実際のコストを決めます。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

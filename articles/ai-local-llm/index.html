@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ローカルでAIを動かす — 情報を外に出さない選択肢 · AIの鬼</title>
+  <meta name="description" content="顧客情報や図面データを外部のAIサービスに送りたくない企業向けに、ローカルLLM（自社の機器の中だけで動くAI）という選択肢があります。仕組み・費用・性能面の限界を実例つきで整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-local-llm/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-local-llm/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="ローカルでAIを動かす — 情報を外に出さない選択肢 · AIの鬼">
+  <meta property="og:description" content="顧客情報や図面データを外部のAIサービスに送りたくない企業向けに、ローカルLLM（自社の機器の中だけで動くAI）という選択肢があります。仕組み・費用・性能面の限界を実例つきで整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-local-llm/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ローカルでAIを動かす — 情報を外に出さない選択肢 · AIの鬼">
+  <meta name="twitter:description" content="顧客情報や図面データを外部のAIサービスに送りたくない企業向けに、ローカルLLM（自社の機器の中だけで動くAI）という選択肢があります。仕組み・費用・性能面の限界を実例つきで整理しました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"ローカルでAIを動かす — 情報を外に出さない選択肢","item":"https://ai-oni.com/articles/ai-local-llm/"}]},{"@type":"Article","headline":"ローカルでAIを動かす — 情報を外に出さない選択肢","description":"顧客情報や図面データを外部のAIサービスに送りたくない企業向けに、ローカルLLM（自社の機器の中だけで動くAI）という選択肢があります。仕組み・費用・性能面の限界を実例つきで整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-local-llm/"},"url":"https://ai-oni.com/articles/ai-local-llm/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-local-llm.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-local-llm/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-local-llm.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>ローカルでAIを動かす — 情報を外に出さない選択肢</h1>
+<p class="article-lead">顧客情報や図面データを外部のAIサービスに送りたくない企業向けに、ローカルLLM（自社の機器の中だけで動くAI）という選択肢があります。仕組み・費用・性能面の限界を実例つきで整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>ChatGPTやClaude、Geminiのような生成AIは、多くの場合インターネット経由でサービス提供元のサーバーに文章を送り、そこで処理した結果を受け取る仕組みです。この仕組みでは、入力した内容が外部の事業者のサーバーを一度は経由します。顧客情報や取引先の図面、まだ公表していない社内文書などを扱う業務では、この「外に出る」という点自体がネックになることがあります。その対策として選択肢に挙がるのが、ローカルLLM（大規模言語モデルを、外部のクラウドを経由せず自社のサーバーやパソコンの中だけで動かす方式）です。</p>
+<h2 id="llm">ローカルLLMとは何か</h2>
+<p>ローカルLLMは、AIモデルそのものを自社の機器にダウンロードして動かす方式です。入力した文章もモデルの応答も、社内のネットワークの外に出ません。日立ソリューションズは自社の解説記事で、この方式の最大の特長として「入力したテキストデータやプロンプト、回答生成のログを外部事業者のサーバーに渡さずに生成AIを活用できる」点を挙げています（出典：日立ソリューションズ「ローカルLLMとは？オンプレミス環境で実現する、セキュリティを確保した生成AI導入・活用の解決策」https://www.hitachi-solutions.co.jp/katsubun/column/generative_ai004/）。同記事では、社内の既存データを移動させずにRAG（社内文書などをAIに参照させて回答の精度を上げる仕組み）を構成でき、閉域ネットワーク内で処理を完結させられる点もメリットとして紹介されています。</p>
+<h2 id="_1">支援サービスが立ち上がり始めている</h2>
+<p>2026年に入り、企業向けにローカルLLMの導入を代行・支援するサービスが国内で相次いで立ち上がっています。</p>
+<p>TISインテックグループのシステムインテグレーターである株式会社インテック（本社：富山県富山市）は2026年1月、製造業や金融業などの企業を対象に、クラウドを介さずにオンプレミス環境で生成AIを構築するローカルLLM導入支援サービスを開始しました。同社の発表では、最短1か月での構築に対応し、参考価格は500万円からとされています（初期導入費用は別途見積もり)。小規模なPoC(概念実証)でのスモールスタートも可能としています（出典：株式会社インテック「ローカルLLM導入支援サービス」https://www2.tisi.jp/news/2026/0129_1.html）。</p>
+<p>2026年2月には、カスタマークラウド株式会社も、外部ネットワークと物理的・論理的に分離した「完全オンプレミス型AI基盤」の提供を開始したと発表しています。金融、医療、官公庁など、機密情報を扱う業種を主な対象としていますが、同発表には具体的な費用や性能数値は示されていません(出典：カスタマークラウド株式会社「完全オンプレミス型AIを提供」https://www.customercloud.co.jp/news/local-llm-onprem-launch/)。こうした支援サービスが立ち上がっていること自体が、外部にデータを出したくないという需要が一定数存在することを示していると考えられます。</p>
+<h2 id="_2">かかる費用と、必要になる専門知識</h2>
+<p>ローカルLLMは、月々のAI利用料がかからない、あるいは安く済むという点が語られがちですが、その分の負担は別の場所に移ります。日立ソリューションズの同記事は、デメリットとして「高性能なGPUサーバーや大容量メモリーといった、ハイスペックな環境が必要」であり、初期投資が大きくなる点を挙げています。加えて、「GPUドライバーやコンテナ管理、監視基盤などインフラ運用の専門知識」が継続的に必要になる点も指摘されています。インテックの導入支援サービスの参考価格が500万円からとされているのも、こうしたハードウェアと構築作業の負担を反映したものと考えられます。クラウドサービスの月額課金であれば数千円〜数万円から始められるのに対し、ローカルLLMは初期投資と運用体制をまとめて確保する必要がある、という違いがあります。</p>
+<h2 id="_3">性能面で割り切りが必要な部分</h2>
+<p>もう一つ、正直に触れておく必要があるのが性能の差です。自社の機器で動かせるAIモデルの性能は、その機器の処理能力の上限に左右されます。ChatGPTやClaude、Geminiのような大手クラウド事業者が提供する最新モデルは、非常に大規模な計算資源の上で動いています。日立ソリューションズの解説記事が指摘する通り、ローカルLLMには「膨大な計算処理に耐えられる高性能なGPUサーバーや大容量メモリー」が必要であり、用意できる機器の処理能力が、そのまま動かせるモデルの規模の上限になります。つまり、自社で確保できるGPU環境の規模によって選べるモデルが決まるという制約があり、クラウド事業者の最新モデルと同じ回答品質が常に得られるとは限らない、という前提で導入を検討する必要があります。実際にどの程度の差が出るかは扱う業務によって変わるため、PoCの段階で自社の業務データを使って確かめておくことが重要です。</p>
+<h2 id="_4">「全部ローカル」でなくてもよい</h2>
+<p>ここまで見てきたように、ローカルLLMには初期投資と運用の手間という現実的なハードルがあります。そのため、最初から自社の全業務をローカル環境に置き換えるのではなく、機密性の高い一部の業務だけをローカルLLMで処理し、それ以外の一般的な文書作成や調べものは既存のクラウドサービスを使う、という併用の形を採る考え方もあります。日立ソリューションズの解説記事でも、閉域ネットワーク内で完結させたい処理と、そうでない処理を分けて設計する前提で語られており、「ローカルかクラウドか」を全社一律で決める必要はない、という整理ができます。</p>
+<h2 id="_5">では自社では何から始めるか</h2>
+<p>すべての業務をローカルLLMに置き換える必要はありません。顧客の個人情報や図面、契約前の交渉内容など「外部に出したくない情報」を扱う工程と、「多少外部を経由しても支障がない」一般的な文書作成や調べものの工程を、まず自社の中で分けてみることが最初の一歩になりそうです。</p>
+<p>そのうえで、外に出したくない工程がごく一部であれば、その部分だけをローカルLLMで賄い、それ以外は既存のクラウドサービスを使うという併用も選択肢の一つです。逆に機密情報を扱う工程が業務の大部分を占める場合は、インテックのようなサービスを使った小規模なPoCから始め、実際にかかる費用と、求める性能が自社の環境で得られるかを確認してから、本格導入を判断するという進め方も考えられます。いずれの場合も、「外に出せない情報は何か」を先に洗い出しておくことが、投資額を見誤らないための出発点になりそうです。</p>
+<hr />
+<p>出典：
+- <a href="https://www.hitachi-solutions.co.jp/katsubun/column/generative_ai004/">ローカルLLMとは？オンプレミス環境で実現する、セキュリティを確保した生成AI導入・活用の解決策</a>（日立ソリューションズ）
+- <a href="https://www2.tisi.jp/news/2026/0129_1.html">ローカルLLM導入支援サービス</a>（株式会社インテック）
+- <a href="https://www.customercloud.co.jp/news/local-llm-onprem-launch/">完全オンプレミス型AIを提供 — 機密対応ローカルLLMを発表</a>（カスタマークラウド株式会社）</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

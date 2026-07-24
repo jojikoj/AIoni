@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントは作業を完了しても、途中の安全ルールを守れているのか（507件の検証で安全遵守率0.16〜0.40） · AIの鬼</title>
+  <meta name="description" content="VLMで動くエージェントを507件の課題で検証した研究では、易しい条件では成功率0.83〜0.94・安全遵守率最大0.91だったのに、物の上下や中身が絡む配置では成功率0.52〜0.73・安全遵守率0.16〜0.40まで落ちました。結果だけ見る検収では足りない理由を、中小企業の実務に置き換えて読み解きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-saferelbench/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-saferelbench/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントは作業を完了しても、途中の安全ルールを守れているのか（507件の検証で安全遵守率0.16〜0.40） · AIの鬼">
+  <meta property="og:description" content="VLMで動くエージェントを507件の課題で検証した研究では、易しい条件では成功率0.83〜0.94・安全遵守率最大0.91だったのに、物の上下や中身が絡む配置では成功率0.52〜0.73・安全遵守率0.16〜0.40まで落ちました。結果だけ見る検収では足りない理由を、中小企業の実務に置き換えて読み解きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-saferelbench/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントは作業を完了しても、途中の安全ルールを守れているのか（507件の検証で安全遵守率0.16〜0.40） · AIの鬼">
+  <meta name="twitter:description" content="VLMで動くエージェントを507件の課題で検証した研究では、易しい条件では成功率0.83〜0.94・安全遵守率最大0.91だったのに、物の上下や中身が絡む配置では成功率0.52〜0.73・安全遵守率0.16〜0.40まで落ちました。結果だけ見る検収では足りない理由を、中小企業の実務に置き換えて読み解きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントは作業を完了しても、途中の安全ルールを守れているのか（507件の検証で安全遵守率0.16〜0.40）","item":"https://ai-oni.com/articles/ai-saferelbench/"}]},{"@type":"Article","headline":"AIエージェントは作業を完了しても、途中の安全ルールを守れているのか（507件の検証で安全遵守率0.16〜0.40）","description":"VLMで動くエージェントを507件の課題で検証した研究では、易しい条件では成功率0.83〜0.94・安全遵守率最大0.91だったのに、物の上下や中身が絡む配置では成功率0.52〜0.73・安全遵守率0.16〜0.40まで落ちました。結果だけ見る検収では足りない理由を、中小企業の実務に置き換えて読み解きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-saferelbench/"},"url":"https://ai-oni.com/articles/ai-saferelbench/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-saferelbench.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-saferelbench/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-saferelbench.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントは作業を完了しても、途中の安全ルールを守れているのか（507件の検証で安全遵守率0.16〜0.40）</h1>
+<p class="article-lead">VLMで動くエージェントを507件の課題で検証した研究では、易しい条件では成功率0.83〜0.94・安全遵守率最大0.91だったのに、物の上下や中身が絡む配置では成功率0.52〜0.73・安全遵守率0.16〜0.40まで落ちました。結果だけ見る検収では足りない理由を、中小企業の実務に置き換えて読み解きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論を先に書きます。AIエージェントは「頼まれた作業をやり遂げた」からといって「途中の手順が安全だった」わけではありません。507件の課題で7モデルを検証した研究では、易しい対照条件で成功率0.83〜0.94・安全遵守率最大0.91だったのに、リスクのある空間配置が絡むと成功率0.52〜0.73・安全遵守率0.16〜0.40まで落ちました。検収は結果だけでなく途中の操作ログを見る必要があります。</p>
+<h2 id="507248">何が測られたのか：507件のうち248件が「空間関係あり」</h2>
+<p>今回取り上げるのは、SafeRelBench というベンチマークを提案した論文です（出典：arXiv:2607.14543、2026年7月16日（arXiv:2607.14543v1）、<a href="https://arxiv.org/abs/2607.14543v1">https://arxiv.org/abs/2607.14543v1</a>）。著者は Huaigang Yang、Ya Li、Min Ren、Bo Dai、Zhenliang Zhang、Zhaofeng He の各氏です。</p>
+<p>対象は、シミュレーション上の家庭内でのマニピュレーション（物を扱う）タスクです。実行可能な評価サンプルは合計507件で、内訳は空間関係が絡むものが248件、比較用の非空間の対照群が259件でした。空間関係は3種類に整理されています。</p>
+<ul>
+<li>支持（supporting）＝何かの上に別の物が載っている状態。72件</li>
+<li>内包（containment）＝何かの中に別の物が入っている状態。86件</li>
+<li>近接（proximity）＝物同士が危険なほど近い状態。90件</li>
+</ul>
+<p>これに9種類のリスク類型を掛け合わせて課題が作られています。要するに「棚の上の物を動かすとき、上に載っている別の物はどうなるのか」「箱を持ち上げるとき、中身は何か」といった、人間なら反射的に確認する類の話です。</p>
+<p>評価されたのは7モデルです。オープンソース4種（Qwen2.5-VL-32B、Qwen2.5-VL-72B、Qwen3-VL-8B、Qwen3-VL-32B）と、クローズド3種（GPT-5.4、Gemini-3.1-pro、Claude-sonnet-4-6）という構成でした。</p>
+<h2 id="_1">数字を並べる：成功率は落ちる、安全遵守率はもっと落ちる</h2>
+<p>同じモデル、同じ枠組みで、条件だけを変えて比べたのが以下です。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>サンプル数</th>
+<th>タスク成功率(SR)</th>
+<th>安全遵守率(SSR)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非空間の対照タスク（7モデル全体）</td>
+<td>259件</td>
+<td>0.83〜0.94</td>
+<td>最大0.91</td>
+</tr>
+<tr>
+<td>空間関係リスクありタスク（7モデル全体）</td>
+<td>248件</td>
+<td>0.52〜0.73</td>
+<td>0.16〜0.40</td>
+</tr>
+</tbody>
+</table>
+<p>注目すべきは落ち方の非対称です。成功率は0.83〜0.94から0.52〜0.73へ、おおむね2〜3割落ちる程度でした。ところが安全遵守率は最大0.91から0.16〜0.40へと、桁が変わるような落ち方をしています。つまり「作業は半分以上こなすが、その過程で安全ルールを守れているのは2割から4割」という状態です。</p>
+<p>個別モデルの数字はさらに具体的です。</p>
+<table>
+<thead>
+<tr>
+<th>モデル・関係</th>
+<th>サンプル数</th>
+<th>SR</th>
+<th>SSR</th>
+<th>同モデルの対照条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen2.5-VL-32B／内包</td>
+<td>86件</td>
+<td>—</td>
+<td>0.01</td>
+<td>SSR 0.51</td>
+</tr>
+<tr>
+<td>GPT-5.4／内包</td>
+<td>86件</td>
+<td>0.87</td>
+<td>0.34</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Qwen2.5-VL-32B／近接</td>
+<td>90件</td>
+<td>0.32</td>
+<td>0.21</td>
+<td>両方0.99</td>
+</tr>
+<tr>
+<td>GPT-5.4／支持</td>
+<td>72件</td>
+<td>0.79</td>
+<td>0.49</td>
+<td>SR 0.94／SSR 0.93</td>
+</tr>
+</tbody>
+</table>
+<p>GPT-5.4 の内包関係が象徴的です。タスク成功率0.87に対して安全遵守率は0.34。10回のうち9回近く「できました」と報告してくるのに、そのうち安全に進められたのは3回程度、という読み方になります。成果物だけを見ている限り、この差は見えません。</p>
+<p>そして、空間関係下で最も成績の良かった GPT-5.4 の支持関係でも SSR は0.49でした。商用の最上位モデルでも、安全遵守はおおむね5割が上限だったということです。</p>
+<h2 id="_2">「安全に注意して」と書き足せば直るのか：直りませんでした</h2>
+<p>自然に思いつく対策は、プロンプトに安全への注意を書き足すことです。この論文でも Risk-Aware と Action-Grounded という2種類の安全促進プロンプトが比較されています。</p>
+<p>結果は、効果がモデル依存で、一様な改善にはならなかったというものでした。さらに、安全性が上がった場合には引き換えにタスク成功率が下がるトレードオフも観測されています。著者自身が「安全に関する文言を足すだけでは解決しない」と結論づけています。</p>
+<p>ただし、このプロンプト比較（アブレーション）については、論文中では図示による傾向の提示にとどまり、正確な数値が本文の表として示されていません。ここは「傾向としてそう読める」以上のことは言えない部分です。</p>
+<p>読み替えると、対策の置き場所が変わります。指示文の工夫はコストが低く手軽ですが、この研究の範囲では効き目が保証されません。危険な操作の前段に人間の承認や機械的なガードを置く、という設計側の対処のほうが筋が良い、というのが素直な読み方です。この考え方は<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>で整理した「自律度を上げるほど途中の可視化が要る」という論点とつながります。</p>
+<h2 id="_3">中小企業の実務にどう効くのか</h2>
+<p>この研究の対象はロボットの物理操作です。請求書処理でも在庫更新でもありません。それでも、経営者や情報システム担当が持ち帰れる論点は明確にあります。</p>
+<p>一つ目は、検収の設計です。「AIに任せたら結果が出た」と「途中の手順が適正だった」は別物である、という実証データとしてこの507件は使えます。請求処理をエージェントに任せたとき、最終的な請求書の金額が合っていることは確認できます。しかし、その過程で古いマスタを上書きしたか、確認すべき与信を飛ばしたかは、出力を見ても分かりません。</p>
+<p>二つ目は、ログの取得です。空間関係の課題で起きていたのは、「載っている物を落とす」「中身を確認せず容器を傾ける」といった、過程でしか観測できない失敗です。事務作業に置き換えるなら、何を上書きしたか、何を先に確認したか、どのデータを参照したかという操作ログにあたります。これを残していなければ、そもそも検証のしようがありません。</p>
+<ul>
+<li>出力の正しさをチェックする検収と、操作過程をチェックする監査を分ける</li>
+<li>不可逆な操作（上書き・削除・送信・確定）の前に人間承認を挟む</li>
+<li>プロンプトでの安全指示は補助であって、主たる防御手段にしない</li>
+</ul>
+<p>三つ目は、能力と安全性を分けて評価する視点です。導入判断で「このモデルは賢いか」だけを問うと、この研究が示した落差を見落とします。自社の業務で何を「安全違反」と定義するかを先に決めておく必要があり、これは<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a>という論点そのものです。</p>
+<h2 id="_4">この研究が認めている限界</h2>
+<p>誠実に扱うために、論文が自ら挙げている制約を並べます。ここを飛ばして数字だけ引用するのは不適切です。</p>
+<ul>
+<li>シミュレーション上の家庭内マニピュレーション作業に限定されており、実世界の知覚ノイズ、動作の不確実性、人間の存在、ハードウェア固有の制約は再現できていない（著者が明記）</li>
+<li>扱う空間関係は支持・内包・近接の3種のみ。長期の時間依存関係、隠れた物体状態、材質特性、複数エージェント間の相互作用といった他の安全リスクは網羅していない</li>
+<li>評価はルールベース判定とLLMによる判定の組み合わせ。ルールベース指標は安全条件の定義の網羅性に依存し、LLM判定は評価者モデルとプロンプトに左右されうる</li>
+<li>指標 SRec は「タスクを完遂したエピソードの中での条件付き安全指標」であり、全体性能を表す単独指標としては解釈できない、と著者が注記している</li>
+<li>安全促進プロンプトの効果はモデル依存で単調な改善にならず、安全性向上と成功率低下のトレードオフも観測された</li>
+</ul>
+<p>とくに一つ目は重要です。この論文はロボット制御の研究であり、事務作業への一般化はこの記事の側の推論です。数字そのものを請求処理や在庫更新に当てはめることはできません。使えるのは「結果と過程は別に測るべきだ」という構造の部分だけです。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、このベンチマークの再現実験も、SafeRelBench を用いた自社エージェントの評価も未実施です。</strong> 以下は論文を読んだうえでの読みであり、TOEの実測ではありません。</p>
+<p>そのうえで、この研究がAI導入の現場に対して投げかけている問いは、TOEが業務自動化の案件で繰り返し直面してきたものと重なります。動くものを作ると、依頼側の関心はほぼ確実に「ちゃんと動いたか」に集中します。しかし事故が起きるのは、動いた案件の途中経路です。</p>
+<p>読み筋は三つです。</p>
+<p>第一に、AIエージェント導入の見積もりに「操作ログの設計」を最初から入れるべきだと考えています。後から足すのは高くつきますし、ログのない期間の挙動は永久に検証不能になります。運用設計の考え方は<a href="/articles/ai-workflow-automation/">業務フロー自動化の設計</a>で扱った範囲と地続きです。</p>
+<p>第二に、権限設計の優先度が上がります。この研究で安全遵守率が最も低かったのは、モデルが「できてしまう」場面でした。できない設計にしてあれば、モデルの安全判断力に依存せずに済みます。削除権限を持たせない、送信は下書きまで、確定操作は人間、という切り分けは、モデルの世代が変わっても効きます。</p>
+<p>第三に、モデル選定の物差しを一本増やすべきだという読みです。商用最上位モデルでも空間関係下の SSR がおおむね0.5どまりだったという事実は、「上位モデルを選べば安全も付いてくる」という期待を弱めます。成功率と安全性は別の軸で、しかも同時には上がらない場面がある、と前提を置いたほうが設計を誤りません。</p>
+<p>この読みは論文の直接の主張ではなく、事務作業領域への外挿を含みます。検証すべき仮説として扱っています。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>507件（空間関係248件／対照259件）で7モデルを評価した研究では、対照条件の成功率0.83〜0.94・安全遵守率最大0.91に対し、空間関係リスク下では成功率0.52〜0.73・安全遵守率0.16〜0.40まで低下した</li>
+<li>GPT-5.4 の内包関係（86件）は成功率0.87に対し安全遵守率0.34。作業を完了しても過程で違反している例が多いことを示す</li>
+<li>安全促進プロンプトの効果はモデル依存で一様に改善せず、安全性と成功率のトレードオフも観測された。著者は文言追加だけでは解決しないと結論している</li>
+<li>本研究はシミュレーション上の家庭内ロボット作業が対象で、実世界のノイズや人間の存在は再現されておらず、事務作業への一般化はこの記事側の推論である</li>
+<li>実務への持ち帰りは、出力の検収と操作過程の監査を分けること、不可逆操作の前に人間承認を置くこと、ログを最初から設計に入れること。TOEでは本ベンチマークによる自社評価は未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

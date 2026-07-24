@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ベンチマークのモデル順位は、比べる相手が偏ると順位一致度0.60未満まで崩れるのか · AIの鬼</title>
+  <meta name="description" content="人間のテスト理論である項目反応理論をAI評価に持ち込んだ18,000条件のシミュレーション研究。評価対象モデルの能力分布が偏ると順位再現度は0.60を割り、モデル数30では項目の難易度推定が0.50を下回った。一方で上位10%の項目だけでも順位再現は保てた。中小企業が「ベンチマーク上位」をどう読むかの材料として整理する。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-can-we-trust-item/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-can-we-trust-item/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="ベンチマークのモデル順位は、比べる相手が偏ると順位一致度0.60未満まで崩れるのか · AIの鬼">
+  <meta property="og:description" content="人間のテスト理論である項目反応理論をAI評価に持ち込んだ18,000条件のシミュレーション研究。評価対象モデルの能力分布が偏ると順位再現度は0.60を割り、モデル数30では項目の難易度推定が0.50を下回った。一方で上位10%の項目だけでも順位再現は保てた。中小企業が「ベンチマーク上位」をどう読むかの材料として整理する。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-can-we-trust-item/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ベンチマークのモデル順位は、比べる相手が偏ると順位一致度0.60未満まで崩れるのか · AIの鬼">
+  <meta name="twitter:description" content="人間のテスト理論である項目反応理論をAI評価に持ち込んだ18,000条件のシミュレーション研究。評価対象モデルの能力分布が偏ると順位再現度は0.60を割り、モデル数30では項目の難易度推定が0.50を下回った。一方で上位10%の項目だけでも順位再現は保てた。中小企業が「ベンチマーク上位」をどう読むかの材料として整理する。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"ベンチマークのモデル順位は、比べる相手が偏ると順位一致度0.60未満まで崩れるのか","item":"https://ai-oni.com/articles/ai-can-we-trust-item/"}]},{"@type":"Article","headline":"ベンチマークのモデル順位は、比べる相手が偏ると順位一致度0.60未満まで崩れるのか","description":"人間のテスト理論である項目反応理論をAI評価に持ち込んだ18,000条件のシミュレーション研究。評価対象モデルの能力分布が偏ると順位再現度は0.60を割り、モデル数30では項目の難易度推定が0.50を下回った。一方で上位10%の項目だけでも順位再現は保てた。中小企業が「ベンチマーク上位」をどう読むかの材料として整理する。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-can-we-trust-item/"},"url":"https://ai-oni.com/articles/ai-can-we-trust-item/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-can-we-trust-item.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-can-we-trust-item/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-can-we-trust-item.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>ベンチマークのモデル順位は、比べる相手が偏ると順位一致度0.60未満まで崩れるのか</h1>
+<p class="article-lead">人間のテスト理論である項目反応理論をAI評価に持ち込んだ18,000条件のシミュレーション研究。評価対象モデルの能力分布が偏ると順位再現度は0.60を割り、モデル数30では項目の難易度推定が0.50を下回った。一方で上位10%の項目だけでも順位再現は保てた。中小企業が「ベンチマーク上位」をどう読むかの材料として整理する。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIベンチマークのモデル順位は、比べる相手の顔ぶれが偏ると崩れます。評価対象モデルの能力分布の歪度が小さい場合（|γ|&lt;0.5）は順位再現度（Kendallのτ）が0.85超だったのに対し、歪みが大きい場合（|γ|&gt;2.0）は0.60未満まで落ちました。「ベンチマーク上位だから自社でも最良」は、この一点だけでも成立しません。</p>
+<p>（出典：arXiv:2607.15190、2026年7月16日（arXiv:2607.15190v1）、<a href="https://arxiv.org/abs/2607.15190v1">https://arxiv.org/abs/2607.15190v1</a>）</p>
+<h2 id="_1">何を測った研究なのか</h2>
+<p>Han Jiang氏、Sunbeom Kwon氏、Jinwen Luo氏、Ziang Xiao氏、Susu Zhang氏による論文「Can We Trust Item Response Theory for AI Evaluation?」です。</p>
+<p>項目反応理論（IRT）は、もともと人間向けの学力テストや資格試験のために作られた統計理論です。受験者の能力と、設問ごとの難易度・識別力を同時に推定する枠組みで、TOEIC のような大規模テストの得点設計に使われてきた考え方です。この理論をAIベンチマークの分析に持ち込む研究が増えており、この論文は既存の応用研究19件をレビューしたうえで、大規模なシミュレーションを回しています。</p>
+<p>ただしAIベンチマークは、人間のテストとは形が逆さまです。人間のテストは「受験者が何万人もいて、設問は数十問」。AIベンチマークは「評価されるモデルは数十から数百なのに、設問は数千から一万件を超える」。この逆転が推定にどう効くのかを、正面から潰したのが今回の研究です。</p>
+<p>シミュレーションの総条件数は18,000条件。内訳は、6つのLLMベンチマーク（ARC-Challenge, HellaSwag, MMLU, TruthfulQA, WinoGrande, GSM8K）×IRTモデル3種（1PL/2PL/3PL）×推定法4種（MML-EM, MCMC, 変分推論VI, 疑似シャム型ニューラルPSN）の組み合わせです。検証したモデル標本サイズはN=30, 100, 180, 400, 1000、項目数は644〜12,508件の範囲でした。</p>
+<h2 id="_2">一次資料の実測：数字はどう出たか</h2>
+<p>主要な結果を整理します。</p>
+<table>
+<thead>
+<tr>
+<th>観点</th>
+<th>数値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>順位再現度（Kendallのτ）</td>
+<td>0.85超</td>
+<td>評価対象モデルの能力分布の歪度が小さい場合（|γ|&lt;0.5）</td>
+</tr>
+<tr>
+<td>順位再現度（Kendallのτ）</td>
+<td>0.60未満</td>
+<td>能力分布の歪みが大きい場合（|γ|&gt;2.0）＝順位が入れ替わる</td>
+</tr>
+<tr>
+<td>項目パラメータの回復精度</td>
+<td>難易度0.50未満／識別力0.60未満</td>
+<td>評価対象モデル数N=30、2PLモデル。N=100で顕著に改善</td>
+</tr>
+<tr>
+<td>難易度回復精度（VI）</td>
+<td>0.5未満</td>
+<td>N≤180、TruthfulQAおよびGSM8K</td>
+</tr>
+<tr>
+<td>MML-EMの推定失敗率</td>
+<td>69.45%</td>
+<td>全条件平均。項目数5,000件超のベンチマークでは完全に計算不能</td>
+</tr>
+<tr>
+<td>VIの失敗率</td>
+<td>10.71%（3PLでは27.56%）</td>
+<td>全条件平均／3PLモデル条件</td>
+</tr>
+<tr>
+<td>PSNの失敗率</td>
+<td>0%</td>
+<td>全条件。ただし失敗しないことと精度が高いことは別</td>
+</tr>
+<tr>
+<td>MCMCの計算時間上限</td>
+<td>72時間</td>
+<td>大規模条件。発散率自体は0.1%未満と良好だが時間切れ</td>
+</tr>
+<tr>
+<td>短縮版ベンチマークの項目選抜</td>
+<td>上位10%</td>
+<td>Fisher情報量で選抜。その1割だけでも順位再現が実用水準を維持し、ランダム選抜を一貫して上回った</td>
+</tr>
+</tbody>
+</table>
+<p>読みどころは三つあります。</p>
+<ul>
+<li>古典的な推定法MML-EMは、全条件平均で69.45%が推定失敗。項目数5,000件超のベンチマークでは完全に計算不能でした。人間のテスト向けに枯れている手法が、AIベンチマークの規模ではそのまま倒れます。</li>
+<li>MCMCは発散率0.1%未満と統計的には最も行儀が良いのに、大規模条件では72時間の計算時間上限に到達しました。品質と現実的な計算時間が両立しません。</li>
+<li>ニューラル系のPSNは失敗率0%でした。ただし論文は、失敗しないことと精度が高いことは別だと明記しています。</li>
+</ul>
+<h2 id="_3">読者への意味：中小企業にとって何を意味するか</h2>
+<p>正直に書きます。この論文の実務インパクトは、中程度から弱いです。明日から使うツールの話ではありません。それでも、経営者と情報システム担当にとって効く示唆が二つあります。</p>
+<p>第一に、公開ベンチマークの順位は絶対座標ではないということ。評価対象モデルの分布が偏ると順位一致度が0.60を下回る条件が現に存在します。AIツールの検討会議で「このモデルはベンチマーク1位です」という資料が出てきたとき、その順位が「どんな顔ぶれの中での1位か」を確認する理由がここにあります。自社の業務データで小さく試す工程を飛ばしてよい根拠には、ベンチマーク順位はなりません。この考え方は<a href="/articles/ai-tool-selection/">AIツールの選び方</a>や<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a>の話と地続きです。</p>
+<p>第二に、Fisher情報量で選んだ上位10%の項目だけでも順位再現が実用水準を維持し、ランダム選抜を一貫して上回った、という結果です。これは「自社で全件テストを回さず、効く設問だけを絞った小さな評価セットを作る」という発想を裏づけます。社内の検証で数百件の質問を用意して疲弊するより、判別力のある少数の質問に絞るほうが、同じ結論に早く着くかもしれない、という方向です。</p>
+<p>一方で、耳の痛い数字もあります。評価対象モデル数N=30、2PLモデルの条件では、項目の難易度推定の回復精度が0.50未満、識別力が0.60未満でした。N=100で顕著に改善しています。つまり、社内で3つ4つのAIを並べて比べただけの「うちの評価」は、設問の良し悪しを語れるほどの解像度を持ちません。少人数チームでの導入検証については<a href="/articles/ai-small-team-adoption/">少人数チームのAI導入</a>も併せてご覧ください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。この論文の手法は、TOEでは未実施です。IRTを使った自社評価も、Fisher情報量による項目選抜も、社内で回してはいません。以下は実測ではなく読みです。</p>
+<ul>
+<li>ベンダー資料に載るベンチマーク順位は、比較集合の情報とセットでなければ意味を読めない、という扱いに寄せていくと思います。順位の数字そのものより「何と何を比べたのか」を聞く。</li>
+<li>自社評価セットは「多ければ良い」ではない方向に振れそうです。上位10%で順位再現が保てたという結果は、設問を増やす労力を、設問を選ぶ労力に振り替える根拠になり得ます。ただし何が良い設問かは論文でも未解明のままなので、TOEとしても手探りになります。</li>
+<li>少数モデルの社内比較を「正式な評価」と呼ばないほうが安全だ、という感覚を持ちました。N=30ですら難易度推定が0.50を割るなら、3モデルの比較は順位の参考にはなっても、設問設計の根拠にはなりません。</li>
+</ul>
+<p>導入判断そのものの進め方については<a href="/articles/ai-first-step-smb/">中小企業のAI最初の一歩</a>に基本形をまとめています。</p>
+<h2 id="_4">この研究が認めている限界</h2>
+<p>誠実さのために、論文が自ら挙げている限界を並べます。ここを飛ばして数字だけ引用すると、読み違えます。</p>
+<ul>
+<li>計算可能性の評価を統一ハードウェアで行っておらず、「何項目から計算不能になるか」の正確な閾値は示せていない。</li>
+<li>短縮版ベンチマークの品質を何が決めているのか（なぜうまくいくのか）は未解明のまま。上位10%が効いた理由は説明されていない。</li>
+<li>モデル数30と100の間の領域を検証しておらず、実務で多い中間規模の挙動が空白になっている。</li>
+<li>推定アルゴリズムの収束監視はEM法に対してのみ実施し、他の推定法では同等の確認をしていない。</li>
+<li>シミュレーションは一次元IRTモデルに限定。実際のAI能力が多次元である可能性は扱えていない。</li>
+<li>問題文の内容や意味的特徴といったベンチマーク固有情報を一切使っていない。</li>
+</ul>
+<p>さらに、実用上いちばん不都合なのは推定法のトレードオフです。計算が失敗しないPSNが精度でも最良とは示されておらず、MCMCが計算可能な場合は最も信頼できる推定を与える、という関係が残りました。「落ちない手法」と「正しい手法」が一致していないわけです。72時間の壁に当たるMCMCを回せる組織はほとんどないので、実務側はどこかで妥協するしかありません。</p>
+<h2 id="_5">実務にどう落とすか</h2>
+<p>この論文をそのまま社内に持ち込むことはできません。IRTの推定を回す話ではないからです。落とせるのは、次の三点に絞られます。</p>
+<table>
+<thead>
+<tr>
+<th>やること</th>
+<th>根拠になる結果</th>
+<th>注意点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ベンチマーク順位を「比較集合つき」で読む</td>
+<td>歪度大（|γ|&gt;2.0）でτが0.60未満</td>
+<td>歪度は公開資料に書かれないことが多い</td>
+</tr>
+<tr>
+<td>自社の評価質問を絞る</td>
+<td>上位10%で順位再現が実用水準を維持</td>
+<td>何が良い設問かは論文でも未解明</td>
+</tr>
+<tr>
+<td>少数モデル比較を過信しない</td>
+<td>N=30で難易度0.50未満／識別力0.60未満</td>
+<td>N=30と100の間は未検証</td>
+</tr>
+</tbody>
+</table>
+<p>評価コストの考え方については<a href="/articles/ai-cost-aware-evaluation/">コストを意識した評価</a>、回答の質と推論の質のずれについては<a href="/articles/ai-answer-vs-reasoning-quality/">回答の質と推論の質</a>でも触れています。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>18,000条件（6ベンチマーク×IRTモデル3種×推定法4種）のシミュレーションで、AI評価へのIRT適用の妥当性を検証した研究です。</li>
+<li>モデル順位の再現度は、能力分布の歪度が小さい場合（|γ|&lt;0.5）で0.85超、歪みが大きい場合（|γ|&gt;2.0）で0.60未満。順位は比較集合に依存します。</li>
+<li>評価対象モデル数N=30、2PLモデルでは難易度0.50未満／識別力0.60未満。少数モデルの社内比較で設問の質は語れません。</li>
+<li>Fisher情報量で選んだ上位10%の項目だけでも順位再現が実用水準を維持し、ランダム選抜を一貫して上回りました。ただし理由は未解明です。</li>
+<li>推定法は、MML-EMが69.45%失敗、VIが10.71%（3PLで27.56%）、PSNが0%、MCMCは発散率0.1%未満ながら72時間の上限に到達。落ちない手法と最も信頼できる手法は一致していません。TOEでは未実施であり、本記事の読み筋は実測ではなく読みです。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

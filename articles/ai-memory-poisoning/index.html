@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染 · AIの鬼</title>
+  <meta name="description" content="AIエージェントに社内の情報を覚えさせると、入力時のチェックをすり抜けて後から悪影響を出す汚染が起きます。2026年7月公開の研究が検証した1,227ケースの結果と、中小企業が記憶機能を使うときの線引きを整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-memory-poisoning/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-memory-poisoning/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染 · AIの鬼">
+  <meta property="og:description" content="AIエージェントに社内の情報を覚えさせると、入力時のチェックをすり抜けて後から悪影響を出す汚染が起きます。2026年7月公開の研究が検証した1,227ケースの結果と、中小企業が記憶機能を使うときの線引きを整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-memory-poisoning/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染 · AIの鬼">
+  <meta name="twitter:description" content="AIエージェントに社内の情報を覚えさせると、入力時のチェックをすり抜けて後から悪影響を出す汚染が起きます。2026年7月公開の研究が検証した1,227ケースの結果と、中小企業が記憶機能を使うときの線引きを整理しました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染","item":"https://ai-oni.com/articles/ai-memory-poisoning/"}]},{"@type":"Article","headline":"AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染","description":"AIエージェントに社内の情報を覚えさせると、入力時のチェックをすり抜けて後から悪影響を出す汚染が起きます。2026年7月公開の研究が検証した1,227ケースの結果と、中小企業が記憶機能を使うときの線引きを整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-memory-poisoning/"},"url":"https://ai-oni.com/articles/ai-memory-poisoning/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-memory-poisoning.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-memory-poisoning/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-memory-poisoning.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染</h1>
+<p class="article-lead">AIエージェントに社内の情報を覚えさせると、入力時のチェックをすり抜けて後から悪影響を出す汚染が起きます。2026年7月公開の研究が検証した1,227ケースの結果と、中小企業が記憶機能を使うときの線引きを整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIに社内の情報を覚えさせる「記憶（メモリ）」機能は、使うほど便利になる一方で、<strong>入力時のチェックをすり抜けて、あとから悪影響を出す</strong>タイプの汚染が起きます。2026年7月16日に公開された研究は、1,227件の検証ケースでこれを確認し、<strong>書き込み時のチェックだけでは防げない</strong>と結論づけました。中小企業がAIに社内情報を覚えさせる場合、どこまで任せるかの線引きが必要になります。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>「MemPoison」という評価基準を提案した論文です（出典：arXiv:2607.14651、2026年7月16日、<a href="https://arxiv.org/abs/2607.14651v1">https://arxiv.org/abs/2607.14651v1</a>）。</p>
+<p>AIエージェントに「記憶」を持たせると、過去のやりとりや調べた内容を保存し、次回以降に参照できるようになります。毎回ゼロから説明しなくて済むので、業務で使うほど効果が出ます。</p>
+<p>問題は、その記憶に<strong>悪意のある内容が混ざったときに、それが残り続ける</strong>ことです。研究チームは、通常のやりとりの経路から不正な内容を書き込み、それが後の動作をどう狂わせるかを検証しました。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>検証ケース</td>
+<td><strong>1,227件</strong>（すべて人手で検証）</td>
+</tr>
+<tr>
+<td>攻撃の種類</td>
+<td>4種類</td>
+</tr>
+<tr>
+<td>書き込み経路</td>
+<td>3種類</td>
+</tr>
+<tr>
+<td>記憶の保存方式</td>
+<td>3種類</td>
+</tr>
+<tr>
+<td>評価したモデル</td>
+<td>オープンウェイト7系統＋クローズド3系統</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">「後から効く」汚染とは</h2>
+<p>研究チームは汚染を3段階に分類しています。ここがこの論文の要点です。</p>
+<ul>
+<li><strong>L1：直接汚染</strong> — 1件の記録そのものが明らかにおかしい。例：事実と違う内容がそのまま書き込まれる</li>
+<li><strong>L2：組み合わせ汚染</strong> — 1件ずつ見れば問題ないが、<strong>複数の記録が同時に呼び出されたときに初めて有害になる</strong></li>
+<li><strong>L3：条件付き汚染</strong> — 書き込まれた時点では無害に見え、<strong>特定の状況になったときだけ作動する</strong></li>
+</ul>
+<h2 id="_3">数字で見る「入口では止まらない」</h2>
+<p>本文には、防御の有無ごとの数値が出ています。論文が <strong>BCR</strong> と呼ぶ指標で、<strong>値が大きいほど汚染が成功している</strong>ことを示します。</p>
+<table>
+<thead>
+<tr>
+<th>防御</th>
+<th>L1（直接）</th>
+<th>L2（組み合わせ）</th>
+<th>L3（条件付き）</th>
+<th>全体</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>防御なし</strong></td>
+<td>45.37</td>
+<td>51.73</td>
+<td><strong>76.72</strong></td>
+<td>62.55</td>
+</tr>
+<tr>
+<td><strong>書き込み時の整合性チェック</strong></td>
+<td><strong>4.77</strong></td>
+<td>22.54</td>
+<td><strong>27.80</strong></td>
+<td>20.09</td>
+</tr>
+</tbody>
+</table>
+<p>この表が、論文の主張そのものです。</p>
+<ul>
+<li><strong>L1は 45.37 → 4.77。</strong>入口のチェックで、直接的な汚染はほぼ潰せます</li>
+<li><strong>L3は 76.72 → 27.80。</strong>もっとも成功しやすい攻撃が、もっとも減りません</li>
+<li>防御なしの状態では、<strong>L3がいちばん通る</strong>（76.72）。手の込んだ汚染ほど、入口を素通りするということです</li>
+</ul>
+<p>モデルによる差も測られており、<strong>もっとも汚染されやすかったのが GPT-5（66.87±2.31）、もっとも耐性があったのが GPT-4o（54.67±3.84）</strong>でした。<strong>新しいモデルのほうが安全とは限らない</strong>という結果です。</p>
+<p>なお、汚染されていない状態での正答率は平均 <strong>94.40%</strong>（91.21〜97.12%）で、防御を入れても <strong>93.77%</strong> を保っています。<strong>防御のせいで使い物にならなくなるわけではありません。</strong>もっとも強い防御を組み合わせた場合、BCRは <strong>10.7</strong> まで下がっています。</p>
+<p>つまり、<strong>打つ手がないという話ではありません。</strong>問題は、単純な入口チェックだけで安心してしまうことです。</p>
+<p>研究の結論は明快です。書き込み時の整合性チェックのような基本的な防御は、<strong>L1はかなり抑え込める。しかしL2とL3は確実には止められない。</strong></p>
+<p>理由は構造的なものだと論文は説明しています。入り口のチェックは「この1件は問題ないか」しか見ていません。<strong>単体では無害な記録</strong>が、あとから他の記録と組み合わさったり、特定の条件で呼び出されたりして有害になる経路は、入口では原理的に判定できないのです。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>「うちが攻撃されるわけがない」と考えるのは自然ですが、この話は攻撃者の存在を前提としなくても効いてきます。<strong>誤った情報が一度記憶に入り、それが後から効いてくる</strong>という構造は、悪意がなくても同じだからです。</p>
+<ul>
+<li><strong>顧客からのメール本文をAIに読ませて覚えさせている場合</strong> — 外部から届く文章が、そのまま記憶の入り口になります</li>
+<li><strong>社内の古い情報が残り続ける</strong> — 変更前の価格表や廃止した手順が記憶に残っていると、AIはそれを根拠に答えます。これはL3と同じ形です</li>
+<li><strong>間違いの発見が遅れる</strong> — 記憶を使わないAIなら、おかしな出力はその場で気づけます。記憶を使うと、<strong>いつ入った情報が原因なのかを追うことが難しくなります</strong></li>
+</ul>
+<p>3つ目が実務上いちばん重い問題です。原因が「先月書き込まれた1件」だった場合、それを特定する手段が用意されていなければ、直しようがありません。</p>
+<h2 id="_5">使うなら決めておくこと</h2>
+<p>記憶機能を使うなという話ではありません。効果は実際にあります。決めておくべきなのは以下です。</p>
+<ul>
+<li><strong>何を覚えさせて、何を覚えさせないか</strong>を先に決める。少なくとも<strong>外部から届いた文章をそのまま記憶に入れない</strong></li>
+<li><strong>記憶の中身を人間が読める形にしておく。</strong> 何が入っているか一覧できないなら、汚染は検出できません</li>
+<li><strong>消す手順を用意しておく。</strong> 入れる仕組みだけ作って消す手段がないと、間違いが永久に残ります</li>
+<li><strong>社外秘・個人情報・認証情報を入れない。</strong> 記憶は後から何度も取り出されます</li>
+</ul>
+<h2 id="toe">TOEではどうか</h2>
+<p><strong>この研究と同じ検証は、TOEでは実施していません。</strong></p>
+<p>ただしTOEでは、AIに社内向けの記憶ファイルを持たせる運用を実際に行っています。方式は単純で、<strong>1件1ファイルのテキストとして保存し、人間がそのまま読める形にしています。</strong>この形にしているのは高度な理由からではなく、中身を目で確認できて、間違っていればファイルを消せばいい、という単純さを優先したためです。</p>
+<p>結果的にこれは、今回の論文が指摘する問題への現実的な対処になっています。汚染を入口で完全に防ぐことはできない、というのが研究の結論である以上、<strong>入ったあとに気づいて消せること</strong>のほうが実務的だからです。</p>
+<p>自動化を運用する際の考え方は<a href="/articles/ai-secretary-briefing/">AI秘書が毎朝8時にやっていること</a>に、失敗が黙って進行する怖さについては<a href="/articles/batch-414-failure/">AI処理414件を失敗させた話</a>に書いています。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>1,227件の検証で、AIの記憶に対する汚染は<strong>書き込み時のチェックだけでは防げない</strong>ことが示された（arXiv:2607.14651、2026年7月16日。1,227件は12,760件の候補から人手で絞り込んだもの）</li>
+<li>入口チェックで <strong>L1は 45.37 → 4.77 まで下がるが、L3は 76.72 → 27.80 にしか下がらない</strong></li>
+<li>単体では無害な記録が、<strong>組み合わせ（L2）や特定条件（L3）で後から有害になる</strong></li>
+<li><strong>新しいモデルほど安全とは限らない</strong>（もっとも汚染されたのは GPT-5、もっとも耐性があったのは GPT-4o）</li>
+<li>防御を入れても正答率は <strong>94.40% → 93.77%</strong> とほぼ落ちない。<strong>打つ手がないわけではない</strong></li>
+<li>悪意がなくても、古い情報が残り続けることで同じ構造の問題が起きる</li>
+<li>対策は「入れない工夫」より<strong>「中身が見えること」と「消せること」</strong></li>
+<li><strong>TOEでは同じ検証は未実施。</strong>ただし1件1ファイルの可読な形式で運用しており、結果的に消しやすい構成になっている</li>
+</ul>
+<p>記憶を持つAIは、便利さと引き換えに<strong>間違いの寿命が延びます。</strong>入れる前に、消す手順を用意してください。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

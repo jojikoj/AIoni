@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLMで英作文を自動採点すると、書き手の母語で点数が偏るのか（全体一致率77.79%・QWK 0.702の裏側） · AIの鬼</title>
+  <meta name="description" content="オープンウェイトLLMにTOEFLエッセイ12,100本を採点させた研究で、全体のバンド一致率は77.79%、QWKは0.702と実用水準に見えた。だが母語別に割るとドイツ語+0.55、日本語・韓国語−0.34の偏りが出た。全体精度だけを見てAI評価を導入する危うさを、中小企業の実務目線で読み解く。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="LLMで英作文を自動採点すると、書き手の母語で点数が偏るのか（全体一致率77.79%・QWK 0.702の裏側） · AIの鬼">
+  <meta property="og:description" content="オープンウェイトLLMにTOEFLエッセイ12,100本を採点させた研究で、全体のバンド一致率は77.79%、QWKは0.702と実用水準に見えた。だが母語別に割るとドイツ語+0.55、日本語・韓国語−0.34の偏りが出た。全体精度だけを見てAI評価を導入する危うさを、中小企業の実務目線で読み解く。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLMで英作文を自動採点すると、書き手の母語で点数が偏るのか（全体一致率77.79%・QWK 0.702の裏側） · AIの鬼">
+  <meta name="twitter:description" content="オープンウェイトLLMにTOEFLエッセイ12,100本を採点させた研究で、全体のバンド一致率は77.79%、QWKは0.702と実用水準に見えた。だが母語別に割るとドイツ語+0.55、日本語・韓国語−0.34の偏りが出た。全体精度だけを見てAI評価を導入する危うさを、中小企業の実務目線で読み解く。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"LLMで英作文を自動採点すると、書き手の母語で点数が偏るのか（全体一致率77.79%・QWK 0.702の裏側）","item":"https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/"}]},{"@type":"Article","headline":"LLMで英作文を自動採点すると、書き手の母語で点数が偏るのか（全体一致率77.79%・QWK 0.702の裏側）","description":"オープンウェイトLLMにTOEFLエッセイ12,100本を採点させた研究で、全体のバンド一致率は77.79%、QWKは0.702と実用水準に見えた。だが母語別に割るとドイツ語+0.55、日本語・韓国語−0.34の偏りが出た。全体精度だけを見てAI評価を導入する危うさを、中小企業の実務目線で読み解く。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/"},"url":"https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-investigating-firstlanguage-bias-llmbased.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-investigating-firstlanguage-bias-llmbased/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-investigating-firstlanguage-bias-llmbased.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>LLMで英作文を自動採点すると、書き手の母語で点数が偏るのか（全体一致率77.79%・QWK 0.702の裏側）</h1>
+<p class="article-lead">オープンウェイトLLMにTOEFLエッセイ12,100本を採点させた研究で、全体のバンド一致率は77.79%、QWKは0.702と実用水準に見えた。だが母語別に割るとドイツ語+0.55、日本語・韓国語−0.34の偏りが出た。全体精度だけを見てAI評価を導入する危うさを、中小企業の実務目線で読み解く。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。オープンウェイトLLMによる英作文の自動採点は、全体では人手評価と77.79%が完全一致し、二次重み付きカッパ（QWK）0.702という実用的な水準に達していました。しかし同じ結果を書き手の母語で割ると、ドイツ語話者は+0.55、日本語・韓国語話者は−0.34と系統的にずれていました。全体精度は、公平性を保証しません。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>この記事が扱うのは、LLMによる自動エッセイ採点（AES）に母語バイアスが出るかを検証した研究です（出典：arXiv:2607.14605、2026年7月16日（arXiv:2607.14605v1、cs.CL / cs.CY）、<a href="https://arxiv.org/abs/2607.14605v1">https://arxiv.org/abs/2607.14605v1</a>）。著者はJohn Maurice Gayed氏。</p>
+<p>条件を整理します。</p>
+<ul>
+<li>評価対象は、TOEFL11コーパスのエッセイ12,100本。11言語グループ×各1,100本という構成</li>
+<li>採点モデルはGemma-3-27B-it。LoRA rank 64・scaling 128、Q4_K_M量子化、temperature 0</li>
+<li>微調整に使った学習データは480本・2テーマのみ</li>
+<li>評価は、学習に含まれない8テーマで実施（いわゆるクロスプロンプト評価）</li>
+</ul>
+<p>つまり「学習で見たテーマとは別のテーマの答案を採点させたとき、どこまで人手評価に追いつくか」を測った研究です。学習テーマと評価テーマを分けている点は、実務での使われ方に近い設計だと言えます。</p>
+<p>全体の一致度は次のとおりでした。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バンド完全一致率</td>
+<td>77.79%</td>
+<td>12,100本、学習に含まれない8テーマ</td>
+</tr>
+<tr>
+<td>二次重み付きカッパ（QWK）</td>
+<td>0.702</td>
+<td>全体。テーマ別では0.677〜0.730の幅</td>
+</tr>
+<tr>
+<td>隣接バンドまで含めた一致率</td>
+<td>99.98%</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>低バンド正答率</td>
+<td>57.6%</td>
+<td>低バンド1,330本</td>
+</tr>
+<tr>
+<td>中バンド正答率</td>
+<td>84.9%</td>
+<td>中バンド6,568本</td>
+</tr>
+<tr>
+<td>高バンド正答率</td>
+<td>73.0%</td>
+<td>高バンド4,202本</td>
+</tr>
+</tbody>
+</table>
+<p>隣接バンドまで含めれば99.98%が一致している、というのは重要な数字です。このモデルは「とんでもなく外す」ことはほぼありません。外すときは1段階分ずれる。ここだけ見れば「実務投入できそうだ」と判断したくなります。</p>
+<h2 id="_2">全体精度の裏で何が起きていたか</h2>
+<p>問題は、この77.79%を書き手の母語で割ったときに現れました。バンド内で標準化したスコアの偏差は、次のようになっています。</p>
+<table>
+<thead>
+<tr>
+<th>母語グループ</th>
+<th>スコア偏差（バンド内標準化値）</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ドイツ語</td>
+<td>+0.55</td>
+<td>1,100本</td>
+</tr>
+<tr>
+<td>日本語</td>
+<td>−0.34</td>
+<td>1,100本</td>
+</tr>
+<tr>
+<td>韓国語</td>
+<td>−0.34</td>
+<td>1,100本</td>
+</tr>
+</tbody>
+</table>
+<p>さらに、欧州系言語話者と東アジア系言語話者のスコア差は+0.21〜+0.33ポイントで、低・中・高いずれのバンドでも一貫して出現しました。「特定のレベル帯だけで起きたノイズ」ではなく、能力水準をそろえたうえでなお残った差だということです。</p>
+<p>同じ実力レベルに分類された答案でありながら、ドイツ語話者は高めに、日本語・韓国語話者は低めに評価される。これが12,100本という規模で観測されています。</p>
+<p>そしてもう一つ、バンド別正答率の内訳が実務では効いてきます。低バンドの正答率は57.6%と、中バンドの84.9%より27.3ポイント低い。つまりこのモデルは、点数が低い答案ほど正しく判定できていません。</p>
+<h2 id="_3">この研究が自分で認めている限界</h2>
+<p>研究として誠実な書き方がされているので、限界もそのまま記します。ここを読まずに結論だけ持ち出すと、この記事自体が不誠実になります。</p>
+<ul>
+<li>TOEFL11はバンド（低・中・高）しか公開しておらず、ETS採点者の生スコアが存在しない。そのためRMSE・ピアソン相関・級内相関といった連続量の精度指標が計算できない</li>
+<li>母語グループごとのバンド構成が不均衡で、セルによっては極端に少ない。例としてドイツ語の低バンドは15本しかなく、小標本ゆえに信頼性が低い</li>
+<li>評価されたモデルはGemma-3-27B-it 1種のみ。観測された母語バイアスがこのモデル固有のものか、LLM採点全般に共通する性質かは、本研究のデータからは判別できない</li>
+<li>学習データが2テーマ・480本に限られ、TOEFL11の話題の多様性を十分カバーできていない可能性がある</li>
+</ul>
+<p>特に3点目は大きい。「LLM採点は母語バイアスを持つ」と一般化するには、この研究1本では足りません。言えるのは「あるオープンウェイトモデルの構成では、12,100本の規模でこの偏りが観測された」までです。</p>
+<p>ただし実務判断としては、それで十分に警告として機能します。1モデルで出たものが他のモデルで出ない保証もまた、どこにもないからです。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>「TOEFLの採点の話でしょう」で終わらせない方がいい理由があります。この構図は、中小企業がAIを使いたがる場面とそのまま重なるからです。</p>
+<ul>
+<li>採用書類のスクリーニング（職務経歴書や志望動機の一次評価）</li>
+<li>社内の人事評価・レポート評価の下書き</li>
+<li>提案書や報告書の品質判定、社内文書のランク付け</li>
+<li>外国籍社員や海外拠点の文書を、日本語や英語のモデルで評価する場面</li>
+</ul>
+<p>いずれも「自由記述のテキストを、AIに点数化させる」という点で同じ形をしています。そして今回の研究が示したのは、その形のシステムは、全体精度が高くても属性別に偏りうるということです。</p>
+<p>実務に落とすと、次の3点になります。</p>
+<p><strong>1. AI評価は必ず属性別・グループ別に切って検証する。</strong>
+全体一致率77.79%という数字だけを見ていたら、+0.55と−0.34の差には永久に気づきません。導入前の検証で「全体で何％当たったか」しか見ていないなら、それは検証していないのと大差ない。母語、年齢、部署、拠点、職種など、業務上意味のある切り口で必ず割ってください。AI評価の妥当性をどう確かめるかは、<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を自分で作る</a>の考え方と地続きです。</p>
+<p><strong>2. AIを「落とす判断」に使うのが最も危険。</strong>
+低バンドの正答率は57.6%。低い評価の答案ほど、モデルは正しく判定できていません。採用の一次スクリーニングでAIに落とさせる、という使い方は、まさにこの最も精度が低い領域で最も取り返しのつかない判断をさせることになります。上位を拾う補助に使い、下位を切る判断は人が持つ。この順序は守るべきです。</p>
+<p><strong>3. 少量の微調整で精度は出ても、公平性は出ない。</strong>
+480本・2テーマという小さな学習データで、QWK 0.702は出ました。「少ないデータでもファインチューニングすれば使える」という話は事実です。ただし同じデータ量で公平性まで担保されたわけではない。精度が出たことと、偏りが無いことは、別々に確かめる必要があります。</p>
+<p>そして日本企業にとっては、もう一段近い話でもあります。日本語話者の書いた文章が−0.34側に置かれていた、という結果は、日本語話者の文書を英語ベースのモデルで評価させる構成を採ったとき、自社に跳ね返る可能性を示しています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、この母語バイアスの検証を実施していません。</strong> 自社でGemma-3-27B-itを使ったエッセイ採点の再現実験を行ったわけでも、採用スクリーニングにLLM評価を導入して属性別の差を測ったわけでもありません。以下は、公開された一次資料を読んだうえでの読み筋です。</p>
+<p>読み筋は3つあります。</p>
+<p>第一に、この研究の本当の価値は「バイアスがあった」ことより、<strong>「全体指標では見えなかった」という構造</strong>にあると考えます。77.79%とQWK 0.702は、AES研究の文脈では十分に良い数字です。良い数字が出ているシステムほど、内部の偏りは検査されないまま運用に入ります。危ないのは精度の低いAIではなく、精度がそこそこ高くて誰も疑わないAIです。</p>
+<p>第二に、隣接一致99.98%という数字の扱い方です。これは「大外しはしない」という安心材料に見えますが、逆に言えば<strong>誤りが常に1段階分の静かなズレとして現れる</strong>ということでもあります。明らかな誤判定なら現場が気づきます。1段階だけ低い評価は、誰も異常だと思わないまま蓄積します。−0.34はそういう形で効いてくる数字です。</p>
+<p>第三に、中小企業がここから取るべき現実的な一手は、AI評価の全面禁止でも全面導入でもなく、<strong>「AIの点数と人の点数を並べて残す期間を作る」</strong>ことだと見ています。数か月分の並走ログがあれば、部署別・属性別に割って差を見ることができます。特別なツールは要りません。表計算1枚で足ります。導入初期の進め方については<a href="/articles/ai-small-team-adoption/">小さなチームでのAI導入</a>も参照してください。</p>
+<p>逆に、この研究から言い過ぎてはいけないこともあります。1モデル・1コーパスの結果であり、「LLM採点は全部だめだ」という結論は出せません。そこまで言うのは、この論文が自分に許していない範囲です。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>オープンウェイトLLM（Gemma-3-27B-it）によるTOEFLエッセイ12,100本の自動採点で、人手評価とのバンド完全一致率は77.79%、QWKは0.702、隣接バンドまで含めた一致率は99.98%だった</li>
+<li>同じ結果を母語別に割ると、ドイツ語+0.55、日本語−0.34、韓国語−0.34（各1,100本、バンド内標準化値）と系統的な差が出た。欧州系と東アジア系の差は+0.21〜+0.33ポイントで、低・中・高いずれのバンドでも一貫していた</li>
+<li>バンド別正答率は低57.6%（1,330本）・中84.9%（6,568本）・高73.0%（4,202本）で、低評価帯ほど誤りが多い。AIを「落とす判断」に使うのが最も危険な理由がここにある</li>
+<li>本研究は限界を明示している。生スコアが無いためRMSE等が計算できないこと、ドイツ語の低バンドが15本など小標本のセルがあること、評価モデルが1種のみでモデル固有か一般的性質か判別できないこと、学習が2テーマ・480本に限られること</li>
+<li>TOEでは同種の検証は未実施。そのうえでの読み筋は、全体精度で判断しない・AIと人の評価を並走記録する・下位を切る判断は人が持つ、の3点である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

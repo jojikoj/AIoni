@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>画面を操作するAIは、社内PCで動かせる段階に来たのか（AndroidWorld 79.3%が示す現在地） · AIの鬼</title>
+  <meta name="description" content="H companyが公開したHolo3.1は、PC画面を見て操作するエージェントを0.8B〜35B-A3Bの複数サイズで提供し、モバイル操作精度は67%から79.3%へ改善したと報告しています。ただし発表は自社製品についての自社測定であり、最高性能でも約2割は失敗します。中小企業が今どこまで試せるかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-holo31/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-holo31/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="画面を操作するAIは、社内PCで動かせる段階に来たのか（AndroidWorld 79.3%が示す現在地） · AIの鬼">
+  <meta property="og:description" content="H companyが公開したHolo3.1は、PC画面を見て操作するエージェントを0.8B〜35B-A3Bの複数サイズで提供し、モバイル操作精度は67%から79.3%へ改善したと報告しています。ただし発表は自社製品についての自社測定であり、最高性能でも約2割は失敗します。中小企業が今どこまで試せるかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-holo31/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="画面を操作するAIは、社内PCで動かせる段階に来たのか（AndroidWorld 79.3%が示す現在地） · AIの鬼">
+  <meta name="twitter:description" content="H companyが公開したHolo3.1は、PC画面を見て操作するエージェントを0.8B〜35B-A3Bの複数サイズで提供し、モバイル操作精度は67%から79.3%へ改善したと報告しています。ただし発表は自社製品についての自社測定であり、最高性能でも約2割は失敗します。中小企業が今どこまで試せるかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"画面を操作するAIは、社内PCで動かせる段階に来たのか（AndroidWorld 79.3%が示す現在地）","item":"https://ai-oni.com/articles/hf-holo31/"}]},{"@type":"Article","headline":"画面を操作するAIは、社内PCで動かせる段階に来たのか（AndroidWorld 79.3%が示す現在地）","description":"H companyが公開したHolo3.1は、PC画面を見て操作するエージェントを0.8B〜35B-A3Bの複数サイズで提供し、モバイル操作精度は67%から79.3%へ改善したと報告しています。ただし発表は自社製品についての自社測定であり、最高性能でも約2割は失敗します。中小企業が今どこまで試せるかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-holo31/"},"url":"https://ai-oni.com/articles/hf-holo31/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-holo31.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-holo31/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-holo31.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>画面を操作するAIは、社内PCで動かせる段階に来たのか（AndroidWorld 79.3%が示す現在地）</h1>
+<p class="article-lead">H companyが公開したHolo3.1は、PC画面を見て操作するエージェントを0.8B〜35B-A3Bの複数サイズで提供し、モバイル操作精度は67%から79.3%へ改善したと報告しています。ただし発表は自社製品についての自社測定であり、最高性能でも約2割は失敗します。中小企業が今どこまで試せるかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>「PC画面を見て、人の代わりにクリックや入力をするAI」を、クラウドに送らず社内のパソコンで動かせるのか。H companyが公開したHolo3.1の発表では、モバイル操作ベンチマークAndroidWorldの精度が前世代の67%から79.3%へ改善したと報告されています。結論から言えば、無人運用にはまだ届かず、人が結果を確認する前提の補助ツールとして小さく試す段階です。</p>
+<h2 id="_1">何が公開されたのか</h2>
+<p>Holo3.1は、画面を認識して操作を実行する「コンピュータ操作エージェント」向けのモデル群です。発表では、0.8B／4B／9B／35B-A3B という4つのサイズがラインナップされ、ローカル推論向けにFP8・Q4 GGUF・NVFP4のチェックポイントが提供されるとされています。サイズが複数あることの意味は、性能の上限だけでなく「手元のマシンで動く下限」が用意されている点にあります。</p>
+<p>（出典：H company（Hcompany）。Hugging Face公式ではなく、同社によるHugging Faceブログへの寄稿、2026-06-02、<a href="https://huggingface.co/blog/Hcompany/holo31">https://huggingface.co/blog/Hcompany/holo31</a>）</p>
+<p>ここで最初に押さえておくべき前提があります。<strong>この記事の元になった発表はH company自身によるものであり、同社は当該製品であるHolo3.1の提供者です。</strong>つまり自社製品の性能を自社で測定し、自社で公表した数字です。第三者による独立検証ではありません。数字の読み方は、この事実を踏まえたうえで判断する必要があります。</p>
+<h2 id="_2">一次資料の実測値はどうなっているか</h2>
+<p>発表に記載されている数値を、条件付きでそのまま整理します。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>条件・注記</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モバイル操作精度（35B-A3B）</td>
+<td>67% → 79.3%</td>
+<td>AndroidWorldでの前世代Holo3との比較。n数・試行回数・信頼区間の記載なし</td>
+</tr>
+<tr>
+<td>モバイル操作精度（4B）</td>
+<td>58% → 72%</td>
+<td>AndroidWorldでの前世代比較。n数記載なし</td>
+</tr>
+<tr>
+<td>モバイル操作精度（9B）</td>
+<td>58% → 72%</td>
+<td>AndroidWorldでの前世代比較。n数記載なし</td>
+</tr>
+<tr>
+<td>1ステップあたり平均所要時間</td>
+<td>6.8秒 → 3.3秒</td>
+<td>NVIDIA DGX Spark上で、FP8ベースラインとの比較。NVFP4量子化とハーネス最適化を組み合わせた場合の値。タスク種別・試行数の詳細は記載なし</td>
+</tr>
+<tr>
+<td>量子化によるスコア低下</td>
+<td>約2ポイント低下</td>
+<td>FP8およびNVFP4を、BF16フル精度チェックポイントと比較。OSWorldベンチマーク</td>
+</tr>
+<tr>
+<td>トークン総スループット（NVFP4 W4A16）</td>
+<td>FP8比1.41倍／BF16比1.74倍</td>
+<td>NVIDIA DGX Spark上での比較。他ハードウェアでの数値は記載なし</td>
+</tr>
+<tr>
+<td>自社ハーネス内の改善幅</td>
+<td>25%超の改善</td>
+<td>H company自社の製品ハーネスHolotab内での評価。評価タスク・n数の記載なし</td>
+</tr>
+<tr>
+<td>エンドツーエンド高速化</td>
+<td>約2倍</td>
+<td>NVIDIA DGX Spark上で、FP8ベースラインとの比較。NVFP4量子化とNVIDIAと共同開発したハーネス最適化の複合効果</td>
+</tr>
+</tbody>
+</table>
+<p>数値の並びだけを見れば改善は明確です。ただし、以下の限界も発表内容から読み取れます。</p>
+<ul>
+<li>最高性能の35B-A3Bでも AndroidWorld は79.3%であり、約2割は失敗する水準です</li>
+<li>量子化版（FP8／NVFP4）はフル精度BF16よりOSWorldスコアが約2ポイント低いと、発表本文が自ら認めています</li>
+<li>評価には「H Corporate benchmarks」という自社内部ベンチマークが含まれており、内容が非公開のため第三者が検証できません</li>
+<li>全ベンチマークでn数・試行回数・信頼区間の記載がありません</li>
+<li>25%超の改善は自社製品ハーネス「Holotab」内での評価であり、他環境での再現性は示されていません</li>
+<li>失敗事例やエラー種別の記述がありません</li>
+<li>ライセンス条件の明記がありません</li>
+<li>1.41倍・1.74倍のスループットはNVIDIA DGX Sparkという特定ハードウェア上の値で、一般的な社内PCで出る数値ではありません</li>
+<li>小型モデル（0.8B・4B・9B）は35B-A3Bより精度が劣ることが前提とされています</li>
+</ul>
+<h2 id="_3">中小企業の読者にとって、この発表は何を意味するのか</h2>
+<p>意味は大きく二つです。</p>
+<p>一つめは、<strong>画面操作の自動化を外部クラウドに送らずに試す選択肢が、現実味を帯びてきた</strong>ことです。従来、この種のエージェントは巨大なモデルを前提としており、実質クラウドAPI経由でした。つまり操作対象の画面——顧客名簿、見積書、基幹システムの入力画面——がそのまま外部サーバーに送られます。取引先の情報や単価が写り込む画面を外に出せない、という理由で検討を止めた会社は少なくないはずです。0.8Bから9Bまでの小型モデルと、FP8・Q4 GGUF・NVFP4といったローカル向けチェックポイントが用意されたことは、この制約への一つの回答になり得ます。ローカルでモデルを動かす考え方は<a href="/articles/ai-local-llm/">ローカルLLMを社内で動かすという選択肢</a>や<a href="/articles/ai-cpu-local-inference/">CPUだけでどこまで推論できるか</a>でも扱っています。</p>
+<p>二つめは、<strong>精度の水準が「人が確認する前提」の範囲にとどまっている</strong>ことです。79.3%という数字は、5回に1回程度は失敗するという意味です。しかもこれは最上位の35B-A3Bの値であり、社内PCで現実的に動かしやすい4B・9Bは72%です。10回に約3回は失敗する計算になります。これを無人で回すと、誰も気づかないまま誤った入力が積み上がる可能性があります。</p>
+<p>速度についても同様です。1ステップ3.3秒という値は、10ステップの作業なら30秒強という規模感です。ただしこの3.3秒はNVIDIA DGX Spark上でNVFP4量子化とハーネス最適化を組み合わせた場合の値であり、一般的な社内PCで同じ速度が出る前提では読めません。人がやれば数十秒で終わる作業もあり、「速くなったから即座に人より安い」とは限りません。エージェントという仕組み自体の前提は<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>で整理しています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>まず明記します。<strong>TOEではHolo3.1を未実施です。</strong>以下は発表内容と、社内で他のローカルモデル運用を行ってきた経験からの読み筋であり、Holo3.1の実測に基づく評価ではありません。</p>
+<p>そのうえで、検討するなら次の順番が現実的だと考えています。</p>
+<ul>
+<li>失敗しても被害の小さい定型作業から選ぶ。具体的には「読み取って別画面に転記する」「一覧をスクロールして該当行を探す」といった、誤りが後工程で目視確認できる作業です</li>
+<li>逆に、送信・確定・削除など不可逆な操作を含む工程は当面外す。79.3%という水準は、不可逆操作を任せる根拠にはなりません</li>
+<li>検証は自社の実データ・実画面で行う。AndroidWorldやOSWorldのスコアは、自社の基幹システム画面での成功率を保証しません。評価基準を自前で持つ考え方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a>にまとめています</li>
+<li>ハードウェアの前提を混同しない。1.41倍・1.74倍はDGX Spark上の値です。手元のPCで同じ比率が出ると考えるべきではありません</li>
+<li>量子化版を使うなら、約2ポイントの精度低下を「速度と引き換えに受け入れるか」を明示的に判断する。曖昧なまま速い方を選ぶと、後から原因が追えなくなります</li>
+</ul>
+<p>もう一点、実務上の注意があります。ライセンス条件が発表に明記されていないため、商用利用の可否を確認せずに社内運用へ進めるのは危険です。モデル配布ページのライセンス表記を必ず確認してください。</p>
+<h2 id="_4">結局、どこまで来たのか</h2>
+<p>「クラウドに頼らず社内PCで実用的な精度と速度で動かせるところまで来たのか」という問いへの答えは、<strong>条件付きでイエス、ただし無人運用にはノー</strong>です。</p>
+<p>小型モデルとローカル向けチェックポイントが揃った点で、試すこと自体のハードルは確実に下がりました。一方で、精度は人の確認を外せる水準になく、数字は自社測定であり、n数も信頼区間も失敗事例も公開されていません。既存業務の自動化をどう設計するかという観点は<a href="/articles/ai-workflow-automation/">業務自動化をどこから始めるか</a>も参考になります。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>H companyがHolo3.1を公開し、AndroidWorldでのモバイル操作精度は35B-A3Bで67%→79.3%、4Bと9Bで58%→72%と報告されている（n数・試行回数・信頼区間の記載なし）</li>
+<li>この発表はH company自身によるものであり、同社はHolo3.1の提供者である。自社製品を自社で測定・公表した利害関係のある情報として読む必要がある</li>
+<li>0.8B／4B／9B／35B-A3Bの4サイズと、FP8・Q4 GGUF・NVFP4のローカル向けチェックポイントが提供され、社内PCで画面操作エージェントを試す道は開けた</li>
+<li>ただし量子化版はBF16比でOSWorldスコアが約2ポイント低く、1.41倍・1.74倍のスループットはNVIDIA DGX Spark上の値で一般的な社内PCの数値ではない。自社内部ベンチマークは非公開で第三者検証ができず、失敗事例やライセンス条件の記載もない</li>
+<li>TOEでは未実施。導入を検討するなら、誤りを後工程で目視確認できる定型作業に限定し、送信・確定・削除など不可逆な操作は当面任せない運用から始めるのが妥当と考える</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

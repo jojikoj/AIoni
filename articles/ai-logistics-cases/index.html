@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>運送・物流業のAI活用事例 · AIの鬼</title>
+  <meta name="description" content="ヤマト運輸・佐川急便などの公表データをもとに、配送ルート最適化や需要予測でAIが何を変えたのか、そして現場で「使われない」ケースがなぜ起きるのかを整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-logistics-cases/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-logistics-cases/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="運送・物流業のAI活用事例 · AIの鬼">
+  <meta property="og:description" content="ヤマト運輸・佐川急便などの公表データをもとに、配送ルート最適化や需要予測でAIが何を変えたのか、そして現場で「使われない」ケースがなぜ起きるのかを整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-logistics-cases/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="運送・物流業のAI活用事例 · AIの鬼">
+  <meta name="twitter:description" content="ヤマト運輸・佐川急便などの公表データをもとに、配送ルート最適化や需要予測でAIが何を変えたのか、そして現場で「使われない」ケースがなぜ起きるのかを整理しました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"運送・物流業のAI活用事例","item":"https://ai-oni.com/articles/ai-logistics-cases/"}]},{"@type":"Article","headline":"運送・物流業のAI活用事例","description":"ヤマト運輸・佐川急便などの公表データをもとに、配送ルート最適化や需要予測でAIが何を変えたのか、そして現場で「使われない」ケースがなぜ起きるのかを整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-logistics-cases/"},"url":"https://ai-oni.com/articles/ai-logistics-cases/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-logistics-cases.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-logistics-cases/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-logistics-cases.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>運送・物流業のAI活用事例</h1>
+<p class="article-lead">ヤマト運輸・佐川急便などの公表データをもとに、配送ルート最適化や需要予測でAIが何を変えたのか、そして現場で「使われない」ケースがなぜ起きるのかを整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>トラックドライバーの時間外労働に上限規制がかかった2024年以降、物流業界では「同じ人数・同じ時間でどう荷物をさばくか」が経営課題になっています。国の「持続可能な物流の実現に向けた検討会」の試算では、何も対策を講じなかった場合、営業用トラックの輸送能力が2024年に14.2%、2030年には34.1%不足する可能性があるとされています（出典：全日本トラック協会「知っていますか？物流の2024年問題」、https://jta.or.jp/logistics2024-lp/）。人を増やせない以上、残る手段の一つがAIによる配送計画の効率化です。ただし、AIを入れれば自動的に楽になるわけではなく、公表されている事例を見ても「どの業務で」「どれくらい」効果が出たかにはばらつきがあります。この記事では、企業が自ら公表した数字を中心に、運送・物流業でのAI活用の実像を見ていきます。</p>
+<h2 id="_1">配送ルート最適化 — 佐川急便の実地検証</h2>
+<p>配送ルートの組み方をAIに任せる取り組みは、大手宅配各社ですでに実運用に入っています。SGホールディングス（佐川急便）は、オプティマインド社が提供するルート最適化サービス「Loogia」を導入しました。同社の公式発表によると、2020年8月に14日間・80件の配送を対象とした実地検証を行い、「Loogiaを用いた方がルート組みや配送業務時間が短縮され、それに伴い走行距離も短くなることが確認できた」と報告されています（出典：SGホールディングス ニュースリリース、2021年10月4日、https://www.sg-hldgs.co.jp/newsrelease/2021/1004_4840.html）。なお、短縮された具体的な分数・距離はリリース本文には記載がなく、図表として掲載されているのみです。</p>
+<p>佐川急便はその後、2020年11〜12月に全国約500名のドライバーを対象とした試験導入も行っています。このときのアンケートで興味深いのは、効果の出方が均一ではなかった点です。「特に職務経験が浅いドライバーや、担当エリアの習熟度が低いドライバーから継続的な利用を希望するという意見を得られました」とされ、営業所の管理者からも新人ドライバーや応援ドライバーに特に有効だという声があったと報告されています（出典：TOMORUBA、https://tomoruba.eiicon.net/articles/3022）。つまりAIは「誰にでも均等に効く」道具ではなく、経験や土地勘という暗黙知を補う場面で特に効果を発揮しやすいと考えられます。こうした段階を経て、2021年10月に全国の集配業務へLoogiaの導入を決定しています。段階を踏んで検証してから全国展開に踏み切っている点は、いきなり全社導入に踏み切らなかった判断として参考になります。</p>
+<h2 id="_2">需要予測 — ヤマト運輸とアルフレッサの共同スキーム</h2>
+<p>ルート最適化の前段階にある「そもそも明日どれだけの荷物が発生するか」を予測する取り組みも進んでいます。ヤマト運輸は医薬品卸のアルフレッサと共同で、ビッグデータとAIを使って配送業務量を予測し、車両の適正配車を行うシステムを開発し、2021年8月からアルフレッサの首都圏の支店を対象に導入を開始しました。両社の公式発表では、導入効果として配送生産性が最大20%向上し、走行距離の短縮によってCO2排出量が最大25%削減されるとしています。ただしリリースにはこれらが「両社予想値」と明記されており、導入後に実測された成果ではなく、導入前の見込み値である点は見落とせません（出典：ヤマトホールディングス ニュースリリース、2021年8月3日、https://www.yamato-hd.co.jp/news/2021/newsrelease_20210803_1.html）。</p>
+<p>このシステムは、顧客ごとの日々の出荷量をビッグデータとAIで予測する「配送業務量予測システム」と、その予測をもとに効率的な配送ルートを自動作成する「配車計画システム」の2つで構成されています。ここで確認できるのは「最大20%」「最大25%」という予想値であって、実測された平均値でも全社共通の効果でもない点には注意が必要です。特定の共同配送スキームでの見込みであり、業界全体に一律に当てはまる数字ではありません。</p>
+<h2 id="ecai">大手ECの倉庫内AI活用</h2>
+<p>配送の外側だけでなく、倉庫内の作業でもAI活用が進んでいます。Amazonは2025年7月、全世界で通算100万台目となるロボットを日本のフルフィルメントセンターに配備したと発表し、あわせて生成AI基盤モデル「DeepFleet」により、ロボット群の移動時間を10%改善するとしています（出典：About Amazon Japan、https://www.aboutamazon.jp/news/delivery-and-logistics/amazon-million-robots-ai-foundation-model）。ただしこれは、Amazon自身が巨額の設備投資を続けてきた自社倉庫ネットワークでの成果であり、中小規模の物流拠点にそのまま当てはまる規模の話ではありません。中小企業にとって参考になるのは、こうした大手の数字そのものより、「AIが担っているのは庫内のロボットの移動経路や混雑解消という限定的な領域である」という構造の部分です。</p>
+<h2 id="_3">うまくいっていない現場もある</h2>
+<p>一方で、AI導入が現場に定着しないケースも指摘されています。物流の現場では「この荷主は急ぎを優先する」「この取引先とは関係性を考慮して融通する」といった、明文化されていない判断が日常的に行われています。こうした暗黙知をすべてAIへの指示として書き出すことは現実的ではなく、結果として「AIは一部の作業効率化には使われても、現場の意思決定や業務フロー自体を変える存在にはなりきれず、導入したが使われないという状況が生まれる」と指摘する専門メディアの分析もあります（出典：EnterpriseZine、https://enterprisezine.jp/article/detail/23472）。</p>
+<p>なお、この指摘は「Vertical AI（業界特化型AI）」の必要性を論じる文脈で書かれたものである点は割り引いて読む必要があります。とはいえ、「システムを入れたのに現場が使わない」という失敗パターンが起こり得ること自体は、検討時に頭に入れておいて損はありません。AIを入れる前に、まず「誰が」「どの場面で」「どんな判断を今すでにしているか」を洗い出しておかないと、せっかく導入したツールが使われないまま放置されるリスクがあります。</p>
+<h2 id="_4">では自社では何から始めるか</h2>
+<p>以上を踏まえると、いきなり全社的な配車システムの刷新に踏み込むよりも、まずは自社の配送計画の中で「経験の浅いドライバーほど時間がかかっている作業」や「属人化していてベテラン頼みになっている工程」を洗い出すところから始める、という選択肢が考えられます。佐川急便の試験導入時のアンケートが示すように、AIによるルート提案は経験の浅い人ほど継続利用を望む傾向があったためです。</p>
+<p>もう一つの選択肢は、いきなり自社独自のAIシステムを構築するのではなく、Loogiaのような既存のクラウドサービスを一部の拠点・一部のドライバーで試験導入し、現場の反応を見てから展開範囲を広げるやり方です。どちらの道を選ぶにせよ、数字の効果だけでなく「現場が実際に使い続けたいと思うか」を検証の軸に据えることが、投資を無駄にしないための出発点になると考えられます。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

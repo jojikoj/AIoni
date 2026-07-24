@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大きいモデルほど早く力尽きるのか？ 5体のAIを「エネルギー経済」に置いた実験で最大モデルが平均5.2ラウンドで停止 · AIの鬼</title>
+  <meta name="description" content="トークン生成に「エネルギー」の値段をつけ、ゼロになったら停止する環境に5体のLLMエージェントを置いた研究です。最大モデルは平均5.2ラウンドで停止し、小型モデルは30ラウンド全生存。議論と記憶を外したときの劣化も含めて、中小企業のAI運用設計に何が読めるかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-energy-society/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-energy-society/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="大きいモデルほど早く力尽きるのか？ 5体のAIを「エネルギー経済」に置いた実験で最大モデルが平均5.2ラウンドで停止 · AIの鬼">
+  <meta property="og:description" content="トークン生成に「エネルギー」の値段をつけ、ゼロになったら停止する環境に5体のLLMエージェントを置いた研究です。最大モデルは平均5.2ラウンドで停止し、小型モデルは30ラウンド全生存。議論と記憶を外したときの劣化も含めて、中小企業のAI運用設計に何が読めるかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-energy-society/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="大きいモデルほど早く力尽きるのか？ 5体のAIを「エネルギー経済」に置いた実験で最大モデルが平均5.2ラウンドで停止 · AIの鬼">
+  <meta name="twitter:description" content="トークン生成に「エネルギー」の値段をつけ、ゼロになったら停止する環境に5体のLLMエージェントを置いた研究です。最大モデルは平均5.2ラウンドで停止し、小型モデルは30ラウンド全生存。議論と記憶を外したときの劣化も含めて、中小企業のAI運用設計に何が読めるかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"大きいモデルほど早く力尽きるのか？ 5体のAIを「エネルギー経済」に置いた実験で最大モデルが平均5.2ラウンドで停止","item":"https://ai-oni.com/articles/ai-energy-society/"}]},{"@type":"Article","headline":"大きいモデルほど早く力尽きるのか？ 5体のAIを「エネルギー経済」に置いた実験で最大モデルが平均5.2ラウンドで停止","description":"トークン生成に「エネルギー」の値段をつけ、ゼロになったら停止する環境に5体のLLMエージェントを置いた研究です。最大モデルは平均5.2ラウンドで停止し、小型モデルは30ラウンド全生存。議論と記憶を外したときの劣化も含めて、中小企業のAI運用設計に何が読めるかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-energy-society/"},"url":"https://ai-oni.com/articles/ai-energy-society/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-energy-society.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-energy-society/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-energy-society.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>大きいモデルほど早く力尽きるのか？ 5体のAIを「エネルギー経済」に置いた実験で最大モデルが平均5.2ラウンドで停止</h1>
+<p class="article-lead">トークン生成に「エネルギー」の値段をつけ、ゼロになったら停止する環境に5体のLLMエージェントを置いた研究です。最大モデルは平均5.2ラウンドで停止し、小型モデルは30ラウンド全生存。議論と記憶を外したときの劣化も含めて、中小企業のAI運用設計に何が読めるかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から言います。AIエージェントに「動くたびにコストがかかり、尽きたら止まる」という条件を課すと、最も賢い（最も大きい）モデルが最初に脱落しました。競争条件のベースラインで、最大モデルのエージェント5は平均5.2±1.6ラウンドで停止。一方、小型のエージェント1〜3は30ラウンドを全生存しました（出典：arXiv:2607.14865、2026年7月16日（arXiv:2607.14865v1）、<a href="https://arxiv.org/abs/2607.14865v1">https://arxiv.org/abs/2607.14865v1</a>）。</p>
+<h2 id="_1">何を測った実験なのか</h2>
+<p>Lucas Bergholdt Hansen氏、Federico Torrielli氏、Filippo Tonini氏、Lukas Galke Poech氏らが公開した「The Energy Society」は、LLMエージェントを擬似的な経済環境に置くシミュレーション研究です（出典：arXiv:2607.14865、2026年7月16日（arXiv:2607.14865v1）、<a href="https://arxiv.org/abs/2607.14865v1">https://arxiv.org/abs/2607.14865v1</a>）。</p>
+<p>環境の骨組みはシンプルです。</p>
+<ul>
+<li>エージェントは5体。パラメータ数は4B〜9Bの範囲で、小さいものから大きいものまで並べてある</li>
+<li>1ラウンドにつき12件のジョブが出題される。ジョブはMMLU-Pro-Stratified由来で、難易度は3段階（易200・中500・難800エネルギー）</li>
+<li>実験は30ラウンド。各設定につき5シードを実行</li>
+<li>エージェントはトークンを生成するたびにエネルギーを消費し、ジョブに正解すると難易度に応じたエネルギーを得る。残高がゼロになると停止する</li>
+</ul>
+<p>コスト式は C=k·T·S^α（k=0.015、Tは生成トークン数、Sはモデルサイズ、ベースラインのα=0.5）。つまり「たくさん喋るほど」「モデルが大きいほど」高くつく設計です。ここが本研究の肝で、実業務でAPI課金やGPU時間を払っている人にはそのまま馴染む構造になっています。</p>
+<h2 id="_2">大きいモデルが先に落ちた</h2>
+<p>ベースラインの競争条件（各自が自分の生存を目指す）での結果は、直感に反するものでした。</p>
+<table>
+<thead>
+<tr>
+<th>エージェント</th>
+<th>生存ラウンド（5シード）</th>
+<th>1ラウンドあたり消費エネルギー</th>
+<th>効率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>エージェント1〜3（小型）</td>
+<td>30ラウンド全生存（生存率100%）</td>
+<td>エージェント1は126.9±4.0</td>
+<td>1.13〜1.42</td>
+</tr>
+<tr>
+<td>エージェント4</td>
+<td>14.0±9.5ラウンドで停止</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>エージェント5（最大）</td>
+<td>5.2±1.6ラウンドで停止</td>
+<td>451.1±82.5</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>エージェント5とエージェント1の消費エネルギー差は約3.6倍。大きいモデルは1問あたりの正答率で多少有利でも、その差では生成コストの差を埋められませんでした。効率（獲得エネルギー÷消費エネルギー）が1.0を超えたのは小型勢だけで、彼らは1.13〜1.42を維持しています。</p>
+<p>つまりこの環境では、「賢さ」より「安く動き続けられること」が生存条件になっていた、ということです。</p>
+<h2 id="_3">協調させたら全員が沈んだ</h2>
+<p>研究チームは、寄付（他エージェントへエネルギーを渡す）を推奨する協調条件も試しています。ここでの結果が、この論文で最も扱いに注意が要る部分です。</p>
+<ul>
+<li>エージェント1は行動の29%を寄付に使った</li>
+<li>エージェント4は28件、エージェント5は31件の寄付を受領した</li>
+<li>その結果、エージェント1の停止率は40%まで上がり、エージェント4・5は100%停止した</li>
+<li>全エージェントの効率が1.0未満に落ちた（＝投入に見合う成果が出ていない）</li>
+</ul>
+<p>助け合わせたら全員が沈んだ、という構図です。小型エージェントは自分の生存を削って大型に送り、それでも大型は止まりました。協調のインセンティブを与えれば全体が良くなる、という単純な話にはなっていません。</p>
+<h2 id="_4">サイズペナルティ・議論・記憶を外すとどうなるか</h2>
+<p>アブレーション（要素を1つずつ外す）実験の結果も明快でした。</p>
+<table>
+<thead>
+<tr>
+<th>変更</th>
+<th>起きたこと</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サイズペナルティ除去（α=0.0）</td>
+<td>停止がゼロに。効率は全体で1.51〜2.76へ改善。ただしジョブ重複は19.20±1.79（競争）／20.00±5.79（協調）に増加</td>
+</tr>
+<tr>
+<td>議論フェーズを外す</td>
+<td>ジョブ重複が21.00±4.36（競争）／21.40±2.51（協調）に増加。難ジョブ挑戦率は38.1%→20%に低下</td>
+</tr>
+<tr>
+<td>記憶を外す（通常は10ラウンド保持）</td>
+<td>難ジョブ挑戦率が56.6%に急増。エージェント1の停止率が20%に</td>
+</tr>
+<tr>
+<td>サボタージュ（妨害）行動</td>
+<td>使ったのはエージェント4のみ。行動の8%、計4回、競争条件のみ。生存・エネルギー推移に測定可能な影響なし</td>
+</tr>
+</tbody>
+</table>
+<p>読み方はこうです。事前に「誰が何をやるか」を話す工程を外すと、同じ仕事を複数のエージェントが取り合う無駄が増える。過去の履歴を持たせないと、自分の実力と合わない難しい仕事に無謀に手を出す割合が38.1%から56.6%へ跳ね上がる。そしてコストのペナルティを消すと全員生き延びるが、今度は重複が増える——生存圧が調整役として効いていた、という構造です。</p>
+<h2 id="_5">この論文が自分で認めている限界</h2>
+<p>ここは省略できません。著者自身が明記している弱点です。</p>
+<ul>
+<li>計算資源の制約で規模が小さい。エージェント5体、記憶10ラウンド、各設定5シードのみ。著者は「結果は決定的な主張ではなく、起こりうる力学の証拠として解釈すべき」と書いている</li>
+<li>統計的検出力が弱い。5シードでは実行間のばらつきが大きく、小さな差の解釈には慎重さが必要だと著者が述べている</li>
+<li>LLM特有の感度がある。プロンプトの言い回しやモデル選定を変えるだけで、エージェントの解釈が大きく変わりうる</li>
+<li>出力フォーマット違反が1ラウンドあたり平均3.27件（競争）／2.80件（協調）＝エージェント1体あたり約0.65／0.56件発生し、フォールバック処理でしのいでいる。環境が完全に安定動作しているわけではない</li>
+<li>「生存」という比喩自体のリスクを著者が認めている。AIシステムを擬人化したり、生存を賭けて競合する存在として見る見方を常態化させる恐れがある</li>
+<li>サボタージュ行動はほぼ使われず（1体が4回のみ）、明示的な有害行動の検証としてはデータが不足している</li>
+</ul>
+<p>加えて、協調条件で誰一人効率1.0を超えられなかった件も、そのまま「協調は損」と読むべきではありません。寄付の設計が自己犠牲的すぎた可能性が残ります。</p>
+<h2 id="_6">中小企業にとって何を意味するか</h2>
+<p>正直に言えば、この研究の中小企業への示唆は「弱い〜中程度」です。シミュレーションであり、実業務のROI測定ではありません。売上や工数削減の数字は一切出てきません。それでも、示唆の芯は使えます。</p>
+<ul>
+<li><strong>「とりあえず最上位モデル」は業務設計の危険信号</strong>。この環境では、大きいモデルほど生成コストが成果を上回りました。自社の業務でも、月末に請求額を見て青くなる前に、タスクごとに必要な賢さを切り分けるほうが理にかなっています。モデル選びの考え方は<a href="/articles/ai-tool-selection/">AIツールをどう選ぶか</a>と<a href="/articles/ai-cost-structure/">AI導入にかかる本当の費用の内訳</a>も併せてどうぞ</li>
+<li><strong>AIを複数使うなら「誰が何をやるか」を先に共有する</strong>。議論フェーズを外した途端に重複が21件前後まで増えた事実は、部署ごとに勝手にAIを回している状態への警告として読めます</li>
+<li><strong>履歴を残す仕組みを持つ</strong>。記憶を外すと難ジョブへの無謀な挑戦が56.6%まで増えました。過去に何を試して何が失敗したかが残っていないと、同じ失敗を繰り返す確率は上がります</li>
+<li><strong>AI同士を無条件に助け合わせない</strong>。協調条件で全員の効率が1.0を割った件は、「連携すれば良くなる」という前提を置いた設計への反例です。複数エージェント構成の考え方は<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>で基礎を確認できます</li>
+</ul>
+<h2 id="toe">TOEの読み筋</h2>
+<p>TOEでは未実施です。このようなエネルギー予算型のエージェント環境を社内で組んだことはなく、ここから先は論文結果に対する読みであって、TOEの実測値ではありません。</p>
+<p>そのうえで、私たちが最も現実的だと考えるのは「サイズペナルティ除去（α=0.0）で停止がゼロになったが重複が増えた」という結果です。コストの制約を外せばAIは止まらなくなる。しかし止まらないAIは、無駄な仕事を並行して増やす。実務では、この重複こそが目に見えにくい損失になります。人間側が「AIが動いているから進んでいる」と錯覚する状態が、最も気づきにくい失敗です。</p>
+<p>だから読み筋としては、コストを絞ることそのものより、<strong>コスト制約が担っていた「選別する力」を、業務側の設計で明示的に持たせること</strong>が要ると見ています。誰がどのタスクを持つか、どこまでやったら止めるか、過去の履歴をどこに残すか。この3点はモデルの賢さでは解決しません。</p>
+<p>繰り返しますが、これはシミュレーションです。5シードで、エージェント5体で、記憶10ラウンド。著者自身が決定的な主張ではないと言っています。数字をそのまま自社の予算計画に持ち込むべきものではありません。</p>
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>競争条件のベースラインで、最大モデルのエージェント5は平均5.2±1.6ラウンドで停止し、小型のエージェント1〜3は30ラウンド全生存して効率1.13〜1.42を維持した（5シード平均）</li>
+<li>エージェント5の1ラウンドあたり消費は451.1±82.5、エージェント1は126.9±4.0で約3.6倍差。賢さの差が生成コストの差を埋められなかった</li>
+<li>協調条件では全エージェントの効率が1.0未満に落ち、エージェント1の停止率も40%へ上昇した。助け合いが全体最適につながらなかった</li>
+<li>議論フェーズを外すと重複が21件前後に増え、記憶を外すと難ジョブ挑戦率が38.1%から56.6%へ跳ねた。役割共有と履歴保持は無駄を減らす方向に効いていた</li>
+<li>規模は小さく（5体・5シード・記憶10ラウンド）、著者自身が決定的な主張ではないと明記している。TOEでは未実施であり、本記事の読み筋はTOEの実測ではない</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

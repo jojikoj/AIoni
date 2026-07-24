@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows · AIの鬼</title>
+  <meta name="description" content="AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows">
+  <link rel="canonical" href="https://ai-oni.com/news/qiita_ai-51e7bce765/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/qiita_ai-51e7bce765/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows · AIの鬼">
+  <meta property="og:description" content="AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows">
+  <meta property="og:url" content="https://ai-oni.com/news/qiita_ai-51e7bce765/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows · AIの鬼">
+  <meta name="twitter:description" content="AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/qiita_ai-51e7bce765/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Qiita AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+<span class="tag-hash">#開発・実装</span>        <span class="src">Qiita AI</span>
+<time datetime="2026-07-23T19:57:56+00:00">2026年7月23日</time>      </div>
+      <h1>AIエージェント設計完全ガイド④-Claude Codeで実践するDynamic Workflows</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="../../static/img/news-dev-07.svg" alt="" loading="lazy">
+      <figcaption>イメージ</figcaption>
+    </figure>
+
+    <div class="news-body">
+<p>技術情報共有サイトQiitaで、AIエージェント設計の連載第4回として、Claude Codeで「Dynamic Workflows」を実践する解説記事が公開されました。Dynamic Workflowsとは、複雑なタスクをAIが分解し、複数のエージェントやツールを組み合わせて実行していく考え方です。記事では、監査対象の特定からファイルごとの調査、結果の統合、誤検出の検証、最終レポート作成へと進むコード監査を例に、処理の連なりをグラフとして捉える視点が示されています。</p><p>前提となるClaude Codeは、Anthropicが提供するエージェント型の開発ツールで、単にコードを生成するだけでなく、プロジェクト内のファイルを読み、編集し、コマンドを実行し、テストやGitと連携できます。指示を受けてコードベースを調査し、実装し、テストが失敗すれば修正するという基本的なエージェントループを最初から備えている点が出発点です。そのうえで著者は、すべてをAIとの会話だけで処理するのではなく、AIの判断と通常のコードによる制御を組み合わせることが重要だと述べています。</p><p>中核となるのがSubagentです。セキュリティレビュー担当やテスト実行担当など、特定の仕事だけを受け持つ専用エージェントで、メインのAIとは別のコンテキストで動作します。利点としては、コンテキストの分離、専門的な指示の固定、使用ツールの制限、モデルの使い分けの4点が挙げられています。たとえばセキュリティ調査役には調査項目や報告形式に加え、問題が確認できない場合は推測で報告しないという規律まで明文化します。</p><p>さらに、再利用可能な手順を追加するSkillや、プロジェクト共通の指示を書く設定ファイルといった仕組みも紹介され、これらを組み合わせて再利用可能なAIワークフローを構築する道筋が示されています。</p><p>中小企業の実務にとっては、AI活用が「上手な指示文の工夫」から「役割と手順を仕組みとして設計する」段階に移りつつあることを示す内容です。監査やレビューのような定型業務をこうした型に落とし込めば、属人化せず繰り返し使える資産になります。</p>    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://qiita.com/miyaguchi_kioku/items/c8a026693719f7d9bdf3" target="_blank" rel="noopener nofollow">
+        Qiita AIで元記事を読む →
+      </a>
+    </p>
+
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        ニュースの背景を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-cloudflare-radar-2025-year-in-review/">
+<div class="card-media"><img src="../../static/img/article-co-cloudflare-radar-2025-year-in-review.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？</h3>
+<p class="card-summary">Cloudflareが2025年1月1日から12月2日までの自社ネットワーク実測をまとめた。HTMLリクエストの4.2%がAIボット、Googlebot単独では4.5%、全トラフィックの6.2%が緩和対象で3.3%がDDoS対策とWAFで遮断。中小企業のサイト運用に直結する数字を、母集団の偏りと発信元の利害ごと読む。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-cloudflare-ai-crawler-purpose-industry/">
+<div class="card-media"><img src="../../static/img/article-co-cloudflare-ai-crawler-purpose-industry.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIクローラーの約80%は学習目的で、ニュース業種はAnthropicに2,500ページ読ませて1件しか返らないのか？</h3>
+<p class="card-summary">Cloudflareが2025年7〜8月に自社ネットワーク上のAIボットを目的別・業種別に集計した。クロールの約80%が学習目的で、クロール対参照比はAnthropic約50,000:1、OpenAI 887:1、Perplexity 118:1。業種を絞ると値が大きく変わる。自社サイトのボット許可を経営判断として棚卸しするための材料を、母集団の狭さごと読む。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-shokochukin-sme-genai-2026/">
+<div class="card-media"><img src="../../static/img/article-jp-shokochukin-sme-genai-2026.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">生成AIを「会社で導入」した企業と「個人任せ」の企業で、経営効果は10.6ポイント差がつくのか？</h3>
+<p class="card-summary">商工中金が中小企業3,892社から回答を得た2026年1月調査を読み解きます。個人任せが64.9%、会社導入は16.2%。経営へのプラス効果は会社導入36.6%対個人登録26.0%で10.6ポイント差。差が開く業務と開かない業務、そして分母のずれや母集団の偏りまで確認します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIに設計業務を任せると成功率は何%か — 56.8%から88.6%に上がった条件 · AIの鬼</title>
+  <meta name="description" content="構造設計をAIに任せる研究で、汎用のまま使うと成功率56.8%、業務の手順と道具を整えると88.6%まで上がりました。差を生んだのはモデルの賢さではありません。製造業・建設業でAI導入を考えるときに、どこに手を入れるべきかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-engineering-workflow-success-rate/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-engineering-workflow-success-rate/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIに設計業務を任せると成功率は何%か — 56.8%から88.6%に上がった条件 · AIの鬼">
+  <meta property="og:description" content="構造設計をAIに任せる研究で、汎用のまま使うと成功率56.8%、業務の手順と道具を整えると88.6%まで上がりました。差を生んだのはモデルの賢さではありません。製造業・建設業でAI導入を考えるときに、どこに手を入れるべきかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-engineering-workflow-success-rate/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIに設計業務を任せると成功率は何%か — 56.8%から88.6%に上がった条件 · AIの鬼">
+  <meta name="twitter:description" content="構造設計をAIに任せる研究で、汎用のまま使うと成功率56.8%、業務の手順と道具を整えると88.6%まで上がりました。差を生んだのはモデルの賢さではありません。製造業・建設業でAI導入を考えるときに、どこに手を入れるべきかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIに設計業務を任せると成功率は何%か — 56.8%から88.6%に上がった条件","item":"https://ai-oni.com/articles/ai-engineering-workflow-success-rate/"}]},{"@type":"Article","headline":"AIに設計業務を任せると成功率は何%か — 56.8%から88.6%に上がった条件","description":"構造設計をAIに任せる研究で、汎用のまま使うと成功率56.8%、業務の手順と道具を整えると88.6%まで上がりました。差を生んだのはモデルの賢さではありません。製造業・建設業でAI導入を考えるときに、どこに手を入れるべきかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-engineering-workflow-success-rate/"},"url":"https://ai-oni.com/articles/ai-engineering-workflow-success-rate/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-engineering-workflow-success-rate.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-engineering-workflow-success-rate/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-engineering-workflow-success-rate.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIに設計業務を任せると成功率は何%か — 56.8%から88.6%に上がった条件</h1>
+<p class="article-lead">構造設計をAIに任せる研究で、汎用のまま使うと成功率56.8%、業務の手順と道具を整えると88.6%まで上がりました。差を生んだのはモデルの賢さではありません。製造業・建設業でAI導入を考えるときに、どこに手を入れるべきかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>構造設計の業務をAIに任せる研究で、<strong>汎用のまま使うと成功率56.8%、業務の手順と道具を整えると88.6%</strong>まで上がりました。2026年7月16日公開の論文の結果です。差の32ポイントを生んだのはモデルの賢さではなく、<strong>業務の型をどう与えたか</strong>でした。製造業・建設業でAI導入を検討する場合、ここが判断の分かれ目になります。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>「StructureClaw」という作業環境と評価基準を提案した論文です（出典：arXiv:2607.14896、2026年7月16日、<a href="https://arxiv.org/abs/2607.14896v1">https://arxiv.org/abs/2607.14896v1</a>）。</p>
+<p>論文はまず、構造設計という仕事の性質をこう定義しています。<strong>1つの答えを出せば終わりではなく、相互に依存する成果物の連鎖が必要である</strong>、と。具体的には以下です。</p>
+<ul>
+<li>要求の解釈</li>
+<li>計算可能なモデル</li>
+<li>検証の記録</li>
+<li>解析結果</li>
+<li>法規チェックの記録</li>
+<li>最終報告書</li>
+</ul>
+<p>そして問題を指摘します。従来の評価は「質問に答えられるか」「スクリプトを書けるか」を見ているだけで、<strong>この証拠の連鎖が通っているかを検証していない。</strong>その結果、業務としては不完全でも、文章として流暢なら高く評価されてしまう、と。</p>
+<p>これは実務家にとって身に覚えのある指摘です。<strong>それらしい報告書は出てくるが、根拠が追えない</strong>という状態のことです。</p>
+<h2 id="32">結果 — 32ポイントの差はどこから来たか</h2>
+<p>研究チームは150の検証シナリオを用意し、10種類のAIの構成で、同じ50件の標準ケースを評価しました。合格の条件は厳格で、<strong>必要なすべての検証項目が1回の実行で通ったときのみ成功</strong>とされています。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>平均成功率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>汎用スキルのまま使った場合</td>
+<td><strong>56.8%</strong></td>
+</tr>
+<tr>
+<td>業務の型を整えた場合</td>
+<td><strong>88.6%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>「業務の型」として与えられたのは、統制された技能・型付けされた道具・共有される成果物の状態・手元の解析基盤です。噛み砕けば、<strong>やるべき手順、使ってよい道具、途中の成果物の置き場所、計算そのものを行う仕組み</strong>を、AI任せにせず先に決めておいたということです。</p>
+<h2 id="_2">モデル別の差は、想像以上に大きい</h2>
+<p>本文にはモデルごとの数字が出ています。同じ手順を与えても、ここまで開きます。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>標準ワークフローの成功率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kimi-K2.6</td>
+<td><strong>100.0%</strong></td>
+</tr>
+<tr>
+<td>DeepSeek-V4-Flash ／ GLM-5.2</td>
+<td>96.0%</td>
+</tr>
+<tr>
+<td>Claude Opus 4.8</td>
+<td>90.0%</td>
+</tr>
+<tr>
+<td>Gemini 3.5 Flash ／ Qwen3.7-Max</td>
+<td>88.0%</td>
+</tr>
+<tr>
+<td>GPT-5.5</td>
+<td>86.0%</td>
+</tr>
+<tr>
+<td>DeepSeek-V4-Pro</td>
+<td>84.0%</td>
+</tr>
+<tr>
+<td>MiniMax-M3</td>
+<td><strong>66.0%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>上位と下位で34ポイントの差</strong>があります。手順を整えることは前提として必要ですが、<strong>そのうえでモデル選定も効く</strong>ということです。</p>
+<p>工程ごとの精度も出ています。構造種別の判定 <strong>98.0%</strong>、使う技能の選択 <strong>100.0%</strong>、解析モデルの対応づけ <strong>90.8%</strong>。<strong>段取りの部分はほぼ間違えていません。</strong></p>
+<h2 id="_3">残っている課題 — ここが正直に書かれている</h2>
+<p>論文は、うまくいかなかった部分も数字で示しています。</p>
+<p><strong>対話的な頑健性の評価</strong>（全体 91.0%）では、項目ごとに差が出ました。</p>
+<table>
+<thead>
+<tr>
+<th>検証項目</th>
+<th>成功率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>確認質問を返す</td>
+<td>89.6%</td>
+</tr>
+<tr>
+<td>不正なモデルを避ける</td>
+<td>90.7%</td>
+</tr>
+<tr>
+<td><strong>不正な数値への対応</strong></td>
+<td><strong>70.9%</strong>（56/79）</td>
+</tr>
+<tr>
+<td>複数ターンにわたる更新</td>
+<td>88.8%（71/80）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>明らかにおかしい数値が入力されたときの対応が、70.9%にとどまっています。</strong>現場では、単位の取り違えや桁の入力ミスは日常的に起きます。ここが3割落ちるということは、<strong>入力を人間が検算する工程は外せない</strong>ということです。</p>
+<p><strong>図面からの復元</strong>では、画像入力で <strong>79.0%</strong>（166/210）、DXF形式で <strong>80.0%</strong>（72/90）。形式による差はほとんどなく、<strong>どちらも約2割は失敗します。</strong></p>
+<p>そして論文は、自ら不都合な結果も報告しています。<strong>連続梁のケースでは、自動モードが 76.0% だったのに対し、汎用のまま使ったほうが 96.0% と逆転しました。</strong>手順を整えたほうが悪化した例です。研究チームはこれを「直感に反する後退」と表現し、<strong>単一実行での評価であること、部分集合が小さく統計的な検出力が限られること</strong>も限界として明記しています。</p>
+<p>つまり88.6%は「もう任せられる」という意味ではありません。<strong>入力が想定外のときの振る舞い</strong>が、まだ解けていない問題として残っています。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>構造設計の研究ですが、示していることは業種を選びません。</p>
+<ul>
+<li><strong>AIをそのまま使うと、半分弱は要求を満たさない。</strong> 56.8%という数字は、「使ってみたがイマイチだった」という現場の実感とおおむね一致します</li>
+<li><strong>差を生むのは手順の整備であって、モデルの入れ替えではない。</strong> 上位モデルに変えるより、<strong>やるべき手順を明文化するほうが効きます</strong></li>
+<li><strong>「それらしい成果物」がいちばん危険。</strong> 根拠が追えない報告書は、間違っていても気づけません</li>
+</ul>
+<p>とくに3つ目が重要です。この論文が「成果物中心」の評価にこだわったのは、<strong>流暢さで合格してしまう評価は現場では役に立たない</strong>からです。同じことが、見積書でも報告書でも起きます。</p>
+<h2 id="_5">どこから手を付けるか</h2>
+<ul>
+<li><strong>成果物の連鎖を書き出す。</strong> 最終成果物だけでなく、そこに至る途中の記録（検証、根拠、確認）を含めて列挙する</li>
+<li><strong>各段階で「合格の条件」を決める。</strong> 感覚ではなく、通ったか通らないかで判定できる形にする</li>
+<li><strong>計算そのものはAIにさせない。</strong> 論文でも解析は専用の基盤が担っています。<strong>AIの役割は段取りであって、計算の正しさの保証ではありません</strong></li>
+<li><strong>想定外の入力が来たときの動きを決めておく。</strong> ここが残された課題だと論文自身が言っています</li>
+</ul>
+<p>同じ構造の話は、決済連携を題材にした別の研究でも確認されています。手順書を渡すと成績が平均10.31ポイント上がったという結果で、<a href="/articles/ai-skill-instruction-effect/">AIに手順書を渡すと成績はどれだけ上がるか</a>にまとめました。<strong>題材も研究チームも違うのに、効いた要因は同じです。</strong></p>
+<h2 id="toe">TOEではどうか</h2>
+<p><strong>この研究と同じ検証は、TOEでは実施していません。</strong>構造設計の業務も扱っていません。</p>
+<p>関連して言えるのは、TOEが社内業務をAIに任せる際も、成果物と手順を先に文書化してからでないと使い物にならなかった、という経験です。この点はAIエージェントの基本的な仕組みと合わせて<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>に整理しています。</p>
+<p>なお、この研究の数字をそのまま自社に当てはめることはできません。<strong>業務が違えば成功率も変わります。</strong>参考にすべきは56.8%や88.6%という値ではなく、<strong>手順の整備で30ポイント規模の差がつく</strong>という構造のほうです。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>構造設計を題材にした研究で、AIの平均成功率は <strong>汎用のまま56.8%、業務の型を整えて88.6%</strong>（arXiv:2607.14896、2026年7月16日）</li>
+<li>合格条件は厳格で、<strong>必要な検証項目がすべて1回の実行で通った場合のみ成功</strong></li>
+<li>差を生んだのはモデルの賢さではなく、<strong>手順・道具・成果物の置き場所を先に決めたこと</strong></li>
+<li>ただし<strong>モデル別の差も大きい</strong>（Kimi-K2.6 100.0% 〜 MiniMax-M3 66.0%、34ポイント差）</li>
+<li><strong>不正な数値への対応は70.9%</strong>、<strong>図面からの復元は約8割</strong>。ここは人間の検算が外せない</li>
+<li>論文は<strong>自動化したほうが悪化した例（連続梁：自動76.0% vs 汎用96.0%）</strong>と、単一実行・小標本という限界も明記している</li>
+<li><strong>TOEでは同じ検証は未実施。</strong>ただし手順の文書化が先という点は自社の経験とも一致する</li>
+</ul>
+<p>「AIを入れれば楽になる」ではなく、<strong>AIに渡せる形に業務を整理できるか</strong>が先にあります。整理できていない業務は、AIに渡しても整理されません。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

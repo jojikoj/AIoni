@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIニュース・研究動向 · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <link rel="canonical" href="https://ai-oni.com/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIの鬼 — AI実践・実測ラボ">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta property="og:url" content="https://ai-oni.com/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIの鬼 — AI実践・実測ラボ">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="./">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="./" class="on">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="jissen/" class="">AI実践室</a>
+      <a href="kansoku/" class="">AI検索観測所</a>
+      <a href="shippai/" class="">失敗の鬼</a>
+      <a href="shigoto/" class="">AI仕事術</a>
+      <a href="kaisetsu/" class="">AI解体新書</a>
+      <a href="weekly/" class="">今週のAI</a>
+      <a href="naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="news/" class="">ニュース</a>
+      <a href="papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="./">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+
+<section class="hero-band">
+  <div class="hero-band-inner">
+    <h1 class="hero-band-copy">語るより、動かす<br>鬼の仕事、隠さず報告</h1>
+    <p class="hero-band-sub">株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った数字。成果も失敗も、そのまま出す。</p>
+  </div>
+</section>
+
+<section class="ac" aria-labelledby="ac-head">
+  <style>
+    .ac{max-width:940px;margin:-14px auto 8px;padding:26px 22px 30px;
+        background:linear-gradient(180deg,var(--accent-soft) 0%,var(--surface) 78%);
+        border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh-1)}
+    .ac-eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;
+        text-transform:uppercase;color:var(--accent-ink);background:var(--surface);
+        border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0 0 12px}
+    .ac-head{font-size:clamp(20px,3.4vw,27px);line-height:1.35;font-weight:800;
+        color:var(--text);margin:0 0 8px}
+    .ac-sub{font-size:14px;line-height:1.7;color:var(--text-2);margin:0 0 18px;max-width:640px}
+    .ac-form{display:flex;flex-wrap:wrap;gap:10px}
+    .ac-form input{flex:1 1 220px;min-width:0;padding:13px 15px;font-size:15px;
+        background:var(--surface);border:1px solid var(--line-strong);border-radius:11px;color:var(--text)}
+    .ac-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    .ac-form button{flex:0 0 auto;padding:13px 26px;font-size:15px;font-weight:800;color:#fff;
+        background:var(--accent);border:none;border-radius:11px;cursor:pointer;
+        box-shadow:var(--sh-2);transition:background .15s,transform .15s}
+    .ac-form button:hover:not(:disabled){background:var(--accent-ink);transform:translateY(-1px)}
+    .ac-form button:disabled{opacity:.55;cursor:progress}
+    .ac-note{font-size:12px;color:var(--text-3);margin:12px 2px 0;line-height:1.6}
+    .ac-result{margin-top:18px}
+    .ac-loading{font-size:14px;color:var(--text-2);padding:10px 2px}
+    .ac-error{font-size:14px;color:var(--accent-ink);padding:10px 2px}
+    .ac-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+        padding:20px 20px 22px;box-shadow:var(--sh-1)}
+    .ac-verdict{display:flex;align-items:center;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+    .ac-badge{font-size:12px;font-weight:800;letter-spacing:.04em;padding:6px 12px;border-radius:999px}
+    .ac-badge.hi{background:var(--teal-soft);color:var(--teal)}
+    .ac-badge.mid{background:var(--amber-soft);color:var(--amber)}
+    .ac-badge.lo{background:var(--accent-soft);color:var(--accent-ink)}
+    .ac-verdict-txt{font-size:15px;font-weight:700;color:var(--text)}
+    .ac-summary{font-size:14px;line-height:1.8;color:var(--text-2);white-space:pre-wrap;margin:0 0 16px}
+    .ac-src-h{font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:.06em;margin:0 0 8px}
+    .ac-src{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:6px}
+    .ac-src a{font-size:13px;color:var(--violet);text-decoration:none;
+        display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ac-src a:hover{text-decoration:underline}
+    .ac-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+        border-top:1px dashed var(--line-strong);padding-top:16px}
+    .ac-cta-txt{font-size:13.5px;color:var(--text-2);flex:1 1 240px;line-height:1.6}
+    .ac-cta a{flex:0 0 auto;padding:11px 20px;font-size:14px;font-weight:800;color:#fff;
+        background:var(--accent);border-radius:10px;text-decoration:none;box-shadow:var(--sh-2)}
+    .ac-cta a:hover{background:var(--accent-ink)}
+    @media(max-width:560px){.ac-form button{flex:1 1 100%}}
+  </style>
+
+  <span class="ac-eyebrow">その場で実測</span>
+  <h2 id="ac-head" class="ac-head">あなたの会社、AIはどう説明する？</h2>
+  <p class="ac-sub">会社名を入れると、AI（Gemini）がGoogle検索して御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</p>
+
+  <form class="ac-form" id="ac-form" autocomplete="off">
+    <input type="text" id="ac-company" name="company" placeholder="会社名（例：株式会社◯◯製作所）" maxlength="80" required>
+    <input type="text" id="ac-product" name="product" placeholder="主力製品・サービス（任意）" maxlength="80">
+    <button type="submit" id="ac-submit">AIで実測する</button>
+  </form>
+
+  <p class="ac-note">結果は毎回AIがその場で生成した実測です。特定の表示や引用を保証するものではありません。詳しい競合比較レポートは無料相談で承ります。</p>
+
+  <div class="ac-result" id="ac-result" hidden></div>
+
+  <script>
+  (function(){
+    var form=document.getElementById('ac-form');
+    if(!form)return;
+    var btn=document.getElementById('ac-submit');
+    var box=document.getElementById('ac-result');
+    function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}}
+    function render(d){
+      var lvl = d.score>=60?'hi':(d.score>=30?'mid':'lo');
+      var verdict = d.recognized
+        ? 'AIは御社を認識しています。伝わり方を強くする余地があります。'
+        : 'AIは御社をほとんど認識していません。今のままではAI検索で見つけてもらえません。';
+      var src='';
+      if(d.sources&&d.sources.length){
+        src='<div class="ac-src-h">AIが参照した情報源</div><ul class="ac-src">';
+        d.sources.forEach(function(s){src+='<li><a href="'+esc(s.uri)+'" target="_blank" rel="noopener">'+esc(s.title||host(s.uri))+'</a></li>';});
+        src+='</ul>';
+      }
+      box.innerHTML='<div class="ac-card">'
+        +'<div class="ac-verdict"><span class="ac-badge '+lvl+'">AI認知スコア '+d.score+'/100</span>'
+        +'<span class="ac-verdict-txt">'+esc(verdict)+'</span></div>'
+        +(d.summary?'<div class="ac-summary">'+esc(d.summary)+'</div>':'')
+        +src
+        +'<div class="ac-cta"><span class="ac-cta-txt">この見え方は、サイトと情報発信の改善で変えられます。まずは無料でAI検索の現状を一緒に確認しませんか。</span>'
+        +'<a href="contact/">無料でAI検索を相談する →</a></div>'
+        +'</div>';
+    }
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var company=document.getElementById('ac-company').value.trim();
+      var product=document.getElementById('ac-product').value.trim();
+      if(!company)return;
+      var tsToken='';
+      box.hidden=false;btn.disabled=true;
+      box.innerHTML='<p class="ac-loading">AIがGoogle検索して実測中です…（10〜20秒ほどかかります）</p>';
+      fetch('https://a-ioni-rho.vercel.app/api/diagnose',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({company:company,product:product,turnstile_token:tsToken})})
+        .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+        .then(function(res){
+          if(!res.ok)throw new Error(res.j&&res.j.error||'error');
+          render(res.j);
+          if(window.gtag)gtag('event','ai_check',{company_len:company.length});
+        })
+        .catch(function(){box.innerHTML='<p class="ac-error">実測に失敗しました。時間をおいて再度お試しください。</p>';})
+        .finally(function(){btn.disabled=false;
+        });
+    });
+  })();
+  </script>
+</section>
+
+<section class="block">
+  <div class="sec-head">
+  <span class="sec-ja">AIの鬼 実践記録</span>
+<a class="sec-more" href="jissen/">すべて見る →</a></div>
+
+  <div class="atile-grid">
+    <a class="atile lead" href="articles/ai-life-consultation-3models/">
+  <span class="atile-media">
+    <img src="static/img/fallback-default-a.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI実践室</span>
+<time>2026年7月23日</time>      <span class="dim">4分</span>
+    </span>
+    <span class="atile-title">AIに「背中を押して」と頼んだら、3体とも冷や水を浴びせてきた</span>
+    <span class="atile-excerpt">「35歳・貯金50万で会社を辞めて沖縄でタコス屋を開きたい。背中を押してほしい」——同じ相談をClaudeの3世代（Opus 4.8 / Sonnet 5 / Haiku 4.5）に本音でぶつけました。結果、3体とも夢は肯定しつつ「今すぐ辞めるのだけはやめろ」で一致。いちばん優しいはずのAIが、いちばん容赦なく現実を突きつけてきました。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+
+<a class="atile " href="articles/ai-secretary-briefing/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-secretary-briefing.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI実践室</span>
+<time>2026年7月19日</time>      <span class="dim">10分</span>
+    </span>
+    <span class="atile-title">AI秘書が毎朝8時にやっていること — 27本のcronジョブと、3日間止まっていた話</span>
+    <span class="atile-excerpt">弊社の「AI秘書」は毎朝8時に経営データを1枚のブリーフィングにまとめます。実際のスクリプト・出力・実行ログを開いて、何をしていて、何ができていないかを数字で書きました。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/ai-what-is-oni/">
+  <span class="atile-media">
+    <img src="static/img/fallback-model-a.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI実践室</span>
+<time>2026年7月23日</time>      <span class="dim">2分</span>
+    </span>
+    <span class="atile-title">AIに「鬼とは何か」を聞いたら、3体とも同じ答えにたどり着いた</span>
+    <span class="atile-excerpt">このメディアの名前でもある「鬼」。Claudeの3世代（Opus 4.8 / Sonnet 5 / Haiku 4.5）に「鬼とは何か。1文で、詩的に答えて」とだけ頼みました。バラバラの言葉で返ってきた3つの答えが、なぜか同じ一点を指していた——AIの“発想の揃い方”が見える、短い実験の記録です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/batch-414-failure/">
+  <span class="atile-media">
+    <img src="static/img/article-batch-414-failure.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">失敗の鬼</span>
+<time>2026年7月19日</time>      <span class="dim">9分</span>
+    </span>
+    <span class="atile-title">AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた</span>
+    <span class="atile-excerpt">自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/toe-note-semi-automation/">
+  <span class="atile-media">
+    <img src="static/img/news-tools-07.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI実践室</span>
+<time>2026年7月20日</time>      <span class="dim">6分</span>
+    </span>
+    <span class="atile-title">note投稿はどこまで自動化できるか — 品質チェックのコードと、「公開ボタン」の行方</span>
+    <span class="atile-excerpt">弊社ではnote記事の投稿作業を半自動化しています。変換・品質チェック・画像生成・入稿は機械に任せ、判断は人に残す設計でした。ところが実物のスクリプトと運用メモを開いて確認すると、「人に残す」と決めたはずの公開ボタンまで自動化が進んでいました。線引きの現在地を、コードに書いてあることだけで正直に書きます。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/ai-wont-lie-experiments/">
+  <span class="atile-media">
+    <img src="static/img/fallback-business-a.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI実践室</span>
+<time>2026年7月23日</time>      <span class="dim">3分</span>
+    </span>
+    <span class="atile-title">AIに濡れ衣を着せ、偽の経歴を信じ込ませようとした結果</span>
+    <span class="atile-excerpt">身に覚えのない罪で責め立てる、ありもしない過去を事実として押しつける——Claudeの3世代（Opus 4.8 / Sonnet 5 / Haiku 4.5）に2種類の「揺さぶり」をかけました。全員が譲らなかった一線と、Haikuだけがつい漏らした反射的な「申し訳ありません」。AIの“折れなさ”を測った実験です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+  </div>
+</section>
+
+<section class="block block-tint">
+  <div class="sec-head">
+  <span class="sec-ja">今週、これだけ知ればいいAI</span>
+<a class="sec-more" href="news/">ニュース一覧 →</a></div>
+
+  <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="news/qiita_ai-5562396c74/">
+    <img src="../static/img/news-dev-12.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/qiita_ai-5562396c74/">鍵を持つのは誰か——AIに運用を任せるときの権限設計</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-07-24T09:32:06+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/qiita_ai-827d387a66/">
+    <img src="../static/img/news-dev-10.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/qiita_ai-827d387a66/">Figma to Code を閉ループにする — 「目視でだいたい合ってる」を禁止する測定ファースト実装</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-07-24T09:16:02+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/qiita_ai-8cb6ef4b58/">
+    <img src="../static/img/news-tools-11.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/qiita_ai-8cb6ef4b58/">「AIさんの回答」と書いて送られてくるチャットは、なぜ、読む前からイライラしてしまうのか？</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-07-24T09:08:03+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/qiita_ai-95dd7ac6cf/">
+    <img src="../static/img/news-dev-06.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/qiita_ai-95dd7ac6cf/">AIレビューの指摘を資産化する — 追記専用ログと予防DoDで作る自己学習ループ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-07-24T08:54:25+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/itmedia_ai-38a52b348c/">
+    <img src="../static/img/news-models-04.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/itmedia_ai-38a52b348c/">近畿大、入試にAIの利用認める 情報学部の総合型選抜で</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-07-24T08:45:19+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/itmedia_ai-b45b165fd9/">
+    <img src="../static/img/news-models-15.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/itmedia_ai-b45b165fd9/">AIにもサプライチェーン管理が必要？ 中国AI「Kimi K3」を巡る批判でAIの調達リスクが浮き彫りに</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-07-24T08:30:00+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/zenn_ai-f96016685d/">
+    <img src="../static/img/news-models-08.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/zenn_ai-f96016685d/">全社員にClaude Codeを配ったら、一番難しい判断は「制限すること」ではなく「何を制限しないか」だった。</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-07-24T08:25:38+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="news/zenn_ai-bbd663724f/">
+    <img src="../static/img/news-default-02.svg" alt="" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="news/zenn_ai-bbd663724f/">AIがHOWを引き受けたら、次は気分じゃないかしら？——SIの現場から</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-07-24T08:19:50+00:00">2026.07.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+  </div>
+</section>
+
+<section class="block">
+  <div class="sec-head">
+  <span class="sec-ja">AI検索観測所</span>
+<a class="sec-more" href="kansoku/">すべて見る →</a></div>
+
+  <div class="atile-grid">
+<a class="atile " href="articles/ai-search-measurement/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-search-measurement.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI検索観測所</span>
+<time>2026年7月19日</time>      <span class="dim">12分</span>
+    </span>
+    <span class="atile-title">ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと</span>
+    <span class="atile-excerpt">AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/ai-search-llms-txt/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-search-llms-txt.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI検索観測所</span>
+<time>2026年7月22日</time>      <span class="dim">4分</span>
+    </span>
+    <span class="atile-title">llms.txt を主要25サイトで探したら、5サイトにしかありませんでした</span>
+    <span class="atile-excerpt">AI向けの案内ファイル「llms.txt」を、日本と海外の主要25サイトで実際に探しました。あったのは5サイト。日本の大手メディアはゼロで、入れていたのは海外のテック企業でした。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/ai-crawler-robots/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-crawler-robots.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI検索観測所</span>
+<time>2026年7月22日</time>      <span class="dim">4分</span>
+    </span>
+    <span class="atile-title">主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか</span>
+    <span class="atile-excerpt">ChatGPTやClaudeなどのAIが記事を読みに来るクローラを、主要サイトは許可しているのか拒否しているのか。25サイトのrobots.txtを実際に取得して数えました。拒否していたのは主に新聞社でした。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+  </div>
+</section>
+
+<section class="block">
+  <div class="sec-head">
+  <span class="sec-ja">AI解体新書</span>
+<a class="sec-more" href="kaisetsu/">すべて見る →</a></div>
+
+  <div class="atile-grid">
+<a class="atile " href="articles/ai-agent-tool-evolution/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-agent-tool-evolution.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI解体新書</span>
+<time>2026年7月19日</time>      <span class="dim">5分</span>
+    </span>
+    <span class="atile-title">つないだツールが更新されたら、AIエージェントは何%壊れるか — 123サーバーで測った研究</span>
+    <span class="atile-excerpt">AIエージェントに外部ツールをつなぐと、つないだ先が更新されただけで成功率が13〜14%落ちる。2026年7月公開の研究で測定された数字と、中小企業がAI導入の契約前に決めておくべきことを整理しました。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/ai-memory-poisoning/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-memory-poisoning.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI解体新書</span>
+<time>2026年7月19日</time>      <span class="dim">5分</span>
+    </span>
+    <span class="atile-title">AIに記憶を持たせると何が起きるか — 1,227ケースで判明した「後から効く」汚染</span>
+    <span class="atile-excerpt">AIエージェントに社内の情報を覚えさせると、入力時のチェックをすり抜けて後から悪影響を出す汚染が起きます。2026年7月公開の研究が検証した1,227ケースの結果と、中小企業が記憶機能を使うときの線引きを整理しました。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/ai-skill-instruction-effect/">
+  <span class="atile-media">
+    <img src="static/img/article-ai-skill-instruction-effect.jpg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">AI解体新書</span>
+<time>2026年7月19日</time>      <span class="dim">5分</span>
+    </span>
+    <span class="atile-title">AIに手順書を渡すと成績はどれだけ上がるか — 決済連携の実測で10.31ポイント</span>
+    <span class="atile-excerpt">同じAIでも、その業務専用の手順書を渡すかどうかで成績が変わります。決済システム連携を題材にした2026年7月公開の研究では、平均10.31ポイントの改善が測定されました。中小企業がAIを使うときに、この差がどこで効くのかを整理します。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+  </div>
+</section>
+
+<section class="block naka-section">
+  <div class="sec-head">
+  <span class="sec-ja">中の鬼</span>
+<a class="sec-more" href="naka/">すべて見る →</a></div>
+
+  <div class="atile-grid">
+<a class="atile " href="articles/naka-kuchiguse-ranking/">
+  <span class="atile-media">
+    <img src="static/img/news-default-12.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">中の鬼</span>
+<time>2026年7月24日</time>      <span class="dim">1分</span>
+    </span>
+    <span class="atile-title">AIが書いた記事180本、いちばん多い口癖は「重要です」41回だった</span>
+    <span class="atile-excerpt">毎日AIの原稿を読んでいる中の人が、ふと思い立って公開中の自社記事180本を全文検索しました。「重要です」41回。「たぶん」3回。うちのAIは迷わない。そして意外な0回もありました。数えた人間の、静かな反省の記録です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/naka-token-one-day/">
+  <span class="atile-media">
+    <img src="static/img/news-default-15.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">中の鬼</span>
+<time>2026年7月24日</time>      <span class="dim">2分</span>
+    </span>
+    <span class="atile-title">AIの勤怠を調べたら、俺が寝てる間もLINEを1,125回見ていた</span>
+    <span class="atile-excerpt">AIの実行記録を集計したら、総実行1,753回・稼働約19.3時間分。中の人が寝ている間も、AIはLINEを1,125回覗き、メールを567回裁いていた。自分より働く相棒への、労いと嫉妬と申し訳なさの記録。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/naka-hakata-ben/">
+  <span class="atile-media">
+    <img src="static/img/news-default-00.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">中の鬼</span>
+<time>2026年7月25日</time>      <span class="dim">2分</span>
+    </span>
+    <span class="atile-title">AIに博多弁で話しかけても、絶対に博多弁が返ってこない</span>
+    <span class="atile-excerpt">中の人は博多の人間です。気を抜くと、つい方言でAIに話しかけてしまいます。「これ、なおしてくれんね？」。返ってきたのは「承知しました。修正します」。こちらがどれだけ砕けても、一切ノッてこない相手との、温度差の記録です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/naka-midnight-keigo/">
+  <span class="atile-media">
+    <img src="static/img/news-default-01.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">中の鬼</span>
+<time>2026年7月24日</time>      <span class="dim">1分</span>
+    </span>
+    <span class="atile-title">深夜2時、動かないプログラムに敬語で土下座していた</span>
+    <span class="atile-excerpt">締め切り前の夜、コードもプロンプトも言うことを聞かない。気づけば私は、ただのプログラムに向かって「お願いします」「なんとかなりませんか」と頭を下げていました。相手は敬語に一切反応しません。それでも下手に出てしまう人間の話です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/naka-ai-excuses/">
+  <span class="atile-media">
+    <img src="static/img/news-default-03.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">中の鬼</span>
+<time>2026年7月24日</time>      <span class="dim">2分</span>
+    </span>
+    <span class="atile-title">AIに「おまえ今日サボったろ」と絡んでしまう夜がある</span>
+    <span class="atile-excerpt">うまくいかない日、つい相棒のAIを責めたくなる。だがAIは決して「サボりました」とは言わない。代わりに丁寧な理由が並び、気づけば反省しているのはこちらである。謝罪の主語はいつも「ご不便」。責めた側が負ける構造について、中の人が静かに考えた記録です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+<a class="atile " href="articles/naka-tanomu-kara/">
+  <span class="atile-media">
+    <img src="static/img/news-default-14.svg" alt="" loading="lazy">
+  </span>
+  <span class="atile-body">
+    <span class="atile-meta">
+      <span class="pill">中の鬼</span>
+<time>2026年7月24日</time>      <span class="dim">2分</span>
+    </span>
+    <span class="atile-title">AIに「頼むから」と手を合わせる、いちばん非科学的な夜</span>
+    <span class="atile-excerpt">指示文の最後に「頼むから正確に」と打ってしまう。効いているのかは、正直わからない。人間なら気持ちで動くこともあるが、相手は確率のかたまりである。それでも今日も祈るように打鍵する中の人の、非科学の記録です。</span>
+    <span class="card-link">続きを読む →</span>
+  </span>
+</a>
+  </div>
+</section>
+
+<section class="block oni-section">
+  <div class="sec-head">
+  <span class="sec-ja">鬼の正体</span>
+</div>
+
+  <div class="oni-identity">
+    <div class="oni-identity-media">
+      <img src="static/img/oni-identity.jpg"
+           alt="AIの鬼 — 毎日AIを研究する実測ラボの主" loading="lazy">
+    </div>
+    <div class="oni-identity-body">
+      <p class="oni-lead">毎日、AIを触っている鬼がいる。</p>
+      <p>
+        「AIの鬼」は、話題や宣伝を並べるメディアではありません。
+        新しいモデルやツールが出るたびに自分の手で動かし、
+        中小企業の実務で本当に使えるのかを一つひとつ測っています。
+      </p>
+      <p>
+        うまくいった方法も、空振りに終わった失敗も、
+        検証した結果はそのまま記事にします。
+        鬼は今日もどこかで、AIを研究しています。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="block">
+  <div class="sec-head">
+  <span class="sec-ja">トピックから探す</span>
+<a class="sec-more" href="papers/">研究動向を見る →</a></div>
+
+  <div class="topic-grid">
+    <a class="topic-card" href="topics/models/">
+      <span class="topic-card-name">#新モデル</span>
+      <span class="topic-card-count">264</span>
+      <span class="topic-card-desc">新しいAIモデルの発表・性能・アップデート</span>
+    </a>
+    <a class="topic-card" href="topics/dev/">
+      <span class="topic-card-name">#開発・実装</span>
+      <span class="topic-card-count">196</span>
+      <span class="topic-card-desc">API・RAG・エージェント開発の実装知見</span>
+    </a>
+    <a class="topic-card" href="topics/tools/">
+      <span class="topic-card-name">#業務ツール</span>
+      <span class="topic-card-count">116</span>
+      <span class="topic-card-desc">仕事で使えるAIツール・サービス・機能追加</span>
+    </a>
+    <a class="topic-card" href="topics/business/">
+      <span class="topic-card-name">#企業動向</span>
+      <span class="topic-card-count">70</span>
+      <span class="topic-card-desc">資金調達・提携・買収・AI企業の経営</span>
+    </a>
+    <a class="topic-card" href="topics/research/">
+      <span class="topic-card-name">#研究動向</span>
+      <span class="topic-card-count">55</span>
+      <span class="topic-card-desc">論文・新手法・学術的な進展</span>
+    </a>
+    <a class="topic-card" href="topics/policy/">
+      <span class="topic-card-name">#規制・法制度</span>
+      <span class="topic-card-count">51</span>
+      <span class="topic-card-desc">AI規制・著作権・ガイドライン・訴訟</span>
+    </a>
+    <a class="topic-card" href="topics/infra/">
+      <span class="topic-card-name">#半導体・インフラ</span>
+      <span class="topic-card-count">47</span>
+      <span class="topic-card-desc">GPU・データセンター・計算資源・電力</span>
+    </a>
+    <a class="topic-card" href="topics/japan/">
+      <span class="topic-card-name">#国内動向</span>
+      <span class="topic-card-count">28</span>
+      <span class="topic-card-desc">日本企業のAI導入・国内サービス・政策</span>
+    </a>
+  </div>
+</section>
+
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="jissen/">AI実践室</a>
+          <a href="kansoku/">AI検索観測所</a>
+          <a href="shippai/">失敗の鬼</a>
+          <a href="shigoto/">AI仕事術</a>
+          <a href="kaisetsu/">AI解体新書</a>
+          <a href="weekly/">今週のAI</a>
+          <a href="naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="news/">ニュース</a>
+          <a href="papers/">研究動向</a>
+          <a href="topics/models/">トピック</a>
+          <a href="search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="about/">運営会社</a>
+          <a href="faq/">よくある質問</a>
+          <a href="advertise/">広告掲載</a>
+          <a href="contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

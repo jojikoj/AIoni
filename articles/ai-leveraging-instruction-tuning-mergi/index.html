@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>採点の仕組みが作れない業務でも、AIを自社向けに鍛えられるのか？　1本52分・3ドル未満の実測 · AIの鬼</title>
+  <meta name="description" content="自動採点の仕組みが用意できない業務でも、指示と正解の組だけで推論AIモデルを自社向けに調整できるか。研究チームは、GPU1枚・平均52分・1件あたり3米ドル未満で調整を終え、Rustコード生成で平均+7.0ポイントの向上と推論能力の維持を同時に達成したと報告しました。中小企業にとっての意味を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="採点の仕組みが作れない業務でも、AIを自社向けに鍛えられるのか？　1本52分・3ドル未満の実測 · AIの鬼">
+  <meta property="og:description" content="自動採点の仕組みが用意できない業務でも、指示と正解の組だけで推論AIモデルを自社向けに調整できるか。研究チームは、GPU1枚・平均52分・1件あたり3米ドル未満で調整を終え、Rustコード生成で平均+7.0ポイントの向上と推論能力の維持を同時に達成したと報告しました。中小企業にとっての意味を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="採点の仕組みが作れない業務でも、AIを自社向けに鍛えられるのか？　1本52分・3ドル未満の実測 · AIの鬼">
+  <meta name="twitter:description" content="自動採点の仕組みが用意できない業務でも、指示と正解の組だけで推論AIモデルを自社向けに調整できるか。研究チームは、GPU1枚・平均52分・1件あたり3米ドル未満で調整を終え、Rustコード生成で平均+7.0ポイントの向上と推論能力の維持を同時に達成したと報告しました。中小企業にとっての意味を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"採点の仕組みが作れない業務でも、AIを自社向けに鍛えられるのか？　1本52分・3ドル未満の実測","item":"https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/"}]},{"@type":"Article","headline":"採点の仕組みが作れない業務でも、AIを自社向けに鍛えられるのか？　1本52分・3ドル未満の実測","description":"自動採点の仕組みが用意できない業務でも、指示と正解の組だけで推論AIモデルを自社向けに調整できるか。研究チームは、GPU1枚・平均52分・1件あたり3米ドル未満で調整を終え、Rustコード生成で平均+7.0ポイントの向上と推論能力の維持を同時に達成したと報告しました。中小企業にとっての意味を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/"},"url":"https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-leveraging-instruction-tuning-mergi.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-leveraging-instruction-tuning-mergi/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-leveraging-instruction-tuning-mergi.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>採点の仕組みが作れない業務でも、AIを自社向けに鍛えられるのか？　1本52分・3ドル未満の実測</h1>
+<p class="article-lead">自動採点の仕組みが用意できない業務でも、指示と正解の組だけで推論AIモデルを自社向けに調整できるか。研究チームは、GPU1枚・平均52分・1件あたり3米ドル未満で調整を終え、Rustコード生成で平均+7.0ポイントの向上と推論能力の維持を同時に達成したと報告しました。中小企業にとっての意味を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>自動採点の仕組みが作れない業務でも、「指示と人が書いた正解」の組だけで推論AIモデルを自社向けに調整できる、という報告が出ました。論文の実測では、モデル1本あたり平均52分・1件あたり約3米ドル未満（NVIDIA H200 GPU 1枚、レンタル単価3.39米ドル/時で換算、モデル4種×タスク2種の平均）。ただし効き方はモデルによって大きくばらつきます。</p>
+<p>（出典：arXiv:2607.14895、2026年7月16日（arXiv:2607.14895v1、プレプリント表記は2026年7月17日）、<a href="https://arxiv.org/abs/2607.14895v1">https://arxiv.org/abs/2607.14895v1</a>）</p>
+<h2 id="_1">何が問題だったのか：追加学習すると「考える力」が消える</h2>
+<p>いま話題の推論モデル（回答の前に長い思考過程を出すタイプのAI）は、そのままでは自社の業務に最適化されていません。そこで自社データで追加学習させたくなります。</p>
+<p>その標準的なやり方が指示チューニング（IFT：Instruction Fine-Tuning）です。入力と正解のペアを大量に見せて、望む出力の形に寄せる。ところが論文の実測では、これをやると推論モデルが「考えること」自体をやめてしまう現象が起きました。</p>
+<ul>
+<li>OpenThinker 7BにRustコード生成を学習させたところ、学習内容と無関係な数学問題（MATH 500）の正答率が79%から35.9%へ、42.8ポイント低下</li>
+<li>文章要約タスクでIFT単独を行った場合、推論過程が出力される割合が平均で71.4ポイント低下（推論モデル4種の平均）</li>
+<li>同条件でMATH 500の正答率も平均23.9ポイント低下</li>
+</ul>
+<p>つまり「要約が上手くなった代わりに、思考過程を吐き出す機能ごと失った」ということです。さらに悪いことに、狙ったタスクの性能すら落ちる場合があります。Apriel Nemotron 15B ThinkerでRustコード生成をIFT単独で学習させたケースでは、性能が5.78ポイント悪化しました。推論を出力する割合が100%から25.4%へ落ちたためです。</p>
+<h2 id="_2">提案手法：追加学習したモデルを、元のモデルと「混ぜ戻す」</h2>
+<p>論文が提案しているのは、乱暴に言えば次の手順です。</p>
+<ol>
+<li>LoRA（モデル全体ではなく小さな追加パラメータだけを学習する軽量手法）でIFTを行う</li>
+<li>学習後のモデルと元のモデルを、比率αで数値的に混ぜ合わせる（マージ）</li>
+<li>推論が出力される割合（推論率）が閾値ρmin以上に戻る比率を探索して採用する</li>
+</ol>
+<p>検証ツール（自動採点の仕組み）を必要としない点が要点です。強化学習で自社向けにモデルを鍛える手法は、正解を機械的に判定できる業務でなければ成立しません。この手法は「人が書いた正解」があればよい。</p>
+<p>論文が示した最適設定は、OpenThinker 7B・Rustコード生成の比較でα=0.25、ρmin=0.9。ただし著者は、推論が消える閾値はモデルごとに異なると明記しています。</p>
+<h2 id="_3">実測値：何がどれだけ改善したか</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>提案手法</th>
+<th>IFT単独</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rustコード生成の平均向上</td>
+<td>+7.0ポイント</td>
+<td>+3.8ポイント</td>
+<td>推論モデル4種平均、MBPP-Rustのユニットテスト通過率</td>
+</tr>
+<tr>
+<td>最大の向上ケース</td>
+<td>+12.76ポイント（コスト5.04米ドル）</td>
+<td>—</td>
+<td>DeepSeek R1 Qwen 7B Distilled、ベース正答率29.44%から</td>
+</tr>
+<tr>
+<td>悪化した例</td>
+<td>—</td>
+<td>−5.78ポイント</td>
+<td>Apriel Nemotron 15B Thinker、推論率が100%→25.4%</td>
+</tr>
+<tr>
+<td>要約品質の維持率</td>
+<td>IFT向上分の95.5%を維持</td>
+<td>—</td>
+<td>4種平均、SummEvalをGemini 3 Proが5点満点で採点</td>
+</tr>
+<tr>
+<td>調整1本あたり</td>
+<td>平均52分／3米ドル未満</td>
+<td>—</td>
+<td>H200 1枚、3.39米ドル/時換算、4モデル×2タスク平均</td>
+</tr>
+<tr>
+<td>既存手法との時間差</td>
+<td>OPD比22.8%短縮／KL比33.0%短縮</td>
+<td>—</td>
+<td>合成データ以外の比較の平均</td>
+</tr>
+</tbody>
+</table>
+<p>学習データ量も現実的です。Rustコード生成では、Oxen.aiの合成Rustコードデータセットをテスト通過品だけに絞り込んだ6,761件を使用しています。数十万件ではありません。</p>
+<p>資源量では、類似手法SDFT（H200を4枚で4.5時間）に対し、提案手法はH200を1枚で40分。著者による再現実験で、およそ20分の1のGPU資源だと報告されています。</p>
+<h2 id="_4">論文が自ら認めている限界</h2>
+<p>ここは飛ばさずに読む価値があります。都合の悪い結果が明確に書かれています。</p>
+<ul>
+<li><strong>推論力そのものが成果を決める領域には効かない。</strong> 数学の証明への適用を試みたが性能向上に失敗。著者は、推論過程そのものへの教師データが必要だろうと推測しています。</li>
+<li><strong>複数タスクへの連続適用が破綻する。</strong> 本手法を順番に適用する探索実験では、推論能力の喪失が早まり、先に学習した能力も部分的に忘却されました。</li>
+<li><strong>モデルによるばらつきが大きく、原因が未解明。</strong> Olmo3 7BはIFTだけで劣化せず追加処理が不要、一方でOpenThinker 7Bは全設定で推論を失いました。事前学習の経緯次第で挙動が変わる、としか言えていません。</li>
+<li><strong>コスト比較は自陣に不利な条件を含むと明記。</strong> 対抗手法（OPD・KL）側のハイパーパラメータ探索時間を計上しておらず、提案手法側は計上している。つまり対抗手法に有利な条件下での比較です。</li>
+<li><strong>要約品質の評価がAI採点。</strong> SummEvalの採点はGemini 3 Proが実施しており、人間の評価との相関はスピアマン係数で60%超に留まります。</li>
+<li><strong>手法の成立にLoRAの併用が前提。</strong> 全パラメータの微調整（フルファインチューニング）ではMATH 500の能力低下が大きく、目標タスクの性能もLoRAほど伸びませんでした。</li>
+<li><strong>推論が消える仕組み自体が未解明。</strong> 終了トークンの直前に別トークンを差し込む介入では、推論は出るが元の性能は戻りませんでした。</li>
+</ul>
+<p>「推論が消える理由は分からないが、混ぜ戻せば実用上は戻る」という段階の成果です。原理の解明ではありません。</p>
+<h2 id="_5">中小企業にとって何を意味するか</h2>
+<p>結論から言えば、これは<strong>「AIの追加学習は必ずしも高額ではない」という交渉材料・判断材料</strong>として価値があります。導入手順としてすぐ使えるものではありません。</p>
+<p>意味がある点は3つです。</p>
+<ul>
+<li><strong>正解が数値で採点できない業務にも適用範囲が広がる。</strong> 過去の問い合わせ対応履歴、社内文書の要約、報告書の書き起こしなど、「良し悪しは人が読めば分かるが機械では採点できない」業務が中小企業の現場の大半です。入力と人が書いた正解のペアさえあれば適用できる、というのがこの論文の射程です。</li>
+<li><strong>必要データが6,761件規模。</strong> 数年分の問い合わせ履歴なら射程に入る事業者はあります。</li>
+<li><strong>費用の相場感が手に入る。</strong> GPU 1枚を1時間借りて約450円（3.39米ドル/時）、調整1本で3米ドル未満。外注見積もりを見るときの下限の目安になります。見積もりが桁で違うなら、その差額が何の作業に対する対価なのかを聞ける。</li>
+</ul>
+<p>一方、そのままでは使えない理由も明確です。</p>
+<ul>
+<li>対象はオープンモデル（DeepSeek R1 Qwen 7B Distilled、OpenThinker 7B、Apriel Nemotron 15B Thinker、Olmo3 7B）であり、ChatGPTやClaudeのようなクラウドAIには直接適用できません</li>
+<li>実行にはオープンモデルを自前で動かす技術者が必要です。この前提は<a href="/articles/ai-local-llm/">ローカルLLMを自社で動かす条件</a>で整理した通りで、そこが崩れるとGPU代以前の話になります</li>
+<li>モデルごとに効き方が違うため、「自社のモデルで効くか」は事前に分かりません</li>
+</ul>
+<h2 id="toetoe">TOEの読み筋：TOEでは未実施</h2>
+<p><strong>この手法をTOEでは未実施です。</strong> 自社モデルの追加学習は行っておらず、以下は論文を読んだ上での読みであって、実測に基づく主張ではありません。</p>
+<p>そのうえで、TOEの読み筋は3点です。</p>
+<p>第一に、<strong>「まず追加学習」に飛びつくべきではない</strong>という点は変わりません。この論文が示したのは追加学習の下限コストであって、追加学習の必要性ではありません。プロンプトや指示書の整備で届く範囲は依然として広く、そちらの費用はGPU代よりさらに安い。<a href="/articles/ai-skill-instruction-effect/">指示書を整えるだけで挙動がどれだけ変わるか</a>を試し切ってからの話です。</p>
+<p>第二に、<strong>この論文の最大の実務的示唆は「副作用の測定」にある</strong>と読みます。要約が上手くなった裏で数学能力が23.9ポイント落ちていた、という事実が測れたのは、狙っていないタスク（MATH 500）を測っていたからです。自社でAIを調整するなら、狙った指標だけでなく「壊れていないことを確認する指標」を先に決めておく。これは追加学習をしない場合でも同じで、<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を先に作る</a>話に接続します。</p>
+<p>第三に、<strong>外注見積もりの読み方が変わる可能性がある</strong>という点。1本52分・3米ドル未満という数字は、あくまでH200 1枚の計算時間だけの実測です。データの整備、品質確認、運用への組み込みはこの数字に含まれていません。だからこそ「計算コストは安い」と「導入は安い」を混同しない材料として使えます。見積もりの大半が計算資源以外に積まれているなら、それは正当な可能性が高い。</p>
+<p>なお、本稿が参照したのは査読前のプレプリントです。数値も結論も今後変わりうる点は割り引いて読む必要があります。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>検証ツール（自動採点の仕組み）が作れない業務でも、指示と人が書いた正解の組だけで推論モデルを調整できる手法が示された。モデル1本あたり平均52分・1件3米ドル未満（H200 1枚、3.39米ドル/時換算、4モデル×2タスク平均）</li>
+<li>通常の指示チューニングだけでは推論能力が失われる。OpenThinker 7BではMATH 500が79%→35.9%（−42.8ポイント）、要約タスクでは推論率が平均−71.4ポイント</li>
+<li>提案手法はRustコード生成で平均+7.0ポイント（IFT単独は+3.8ポイント）、要約ではIFT向上分の95.5%を維持しつつ推論を回復した</li>
+<li>限界は明確。数学の証明では性能向上に失敗、複数タスクの連続適用は破綻、Olmo3 7Bでは追加処理が不要でOpenThinker 7Bは全設定で推論を失うなどモデル差の原因は未解明、要約評価はGemini 3 Proによる採点で人間との相関はスピアマン係数60%超に留まる</li>
+<li>中小企業にとっては「AIの追加学習は必ずしも高額ではない」という判断材料。ただしオープンモデルを自前で動かす技術者が前提で、クラウドAIには直接適用できない。TOEでは未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

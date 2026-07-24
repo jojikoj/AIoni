@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>画像生成AIが「毛の生えたタコ」を描けないのはプロンプトが下手だからか — LLM評価80.0→93.0が示す構造的な原因 · AIの鬼</title>
+  <meta name="description" content="指示した珍しい特徴を無視して無難な絵しか出てこないのは、担当者のプロンプト力ではなくモデル側の常識バイアスが原因です。2026年7月公開の研究は、因果推論の考え方でプロンプトの純粋な効果だけを取り出し、LLM評価を80.0から93.0へ改善しました。再学習なしで推論時の設定だけで済む点と、その限界を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="画像生成AIが「毛の生えたタコ」を描けないのはプロンプトが下手だからか — LLM評価80.0→93.0が示す構造的な原因 · AIの鬼">
+  <meta property="og:description" content="指示した珍しい特徴を無視して無難な絵しか出てこないのは、担当者のプロンプト力ではなくモデル側の常識バイアスが原因です。2026年7月公開の研究は、因果推論の考え方でプロンプトの純粋な効果だけを取り出し、LLM評価を80.0から93.0へ改善しました。再学習なしで推論時の設定だけで済む点と、その限界を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="画像生成AIが「毛の生えたタコ」を描けないのはプロンプトが下手だからか — LLM評価80.0→93.0が示す構造的な原因 · AIの鬼">
+  <meta name="twitter:description" content="指示した珍しい特徴を無視して無難な絵しか出てこないのは、担当者のプロンプト力ではなくモデル側の常識バイアスが原因です。2026年7月公開の研究は、因果推論の考え方でプロンプトの純粋な効果だけを取り出し、LLM評価を80.0から93.0へ改善しました。再学習なしで推論時の設定だけで済む点と、その限界を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"画像生成AIが「毛の生えたタコ」を描けないのはプロンプトが下手だからか — LLM評価80.0→93.0が示す構造的な原因","item":"https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/"}]},{"@type":"Article","headline":"画像生成AIが「毛の生えたタコ」を描けないのはプロンプトが下手だからか — LLM評価80.0→93.0が示す構造的な原因","description":"指示した珍しい特徴を無視して無難な絵しか出てこないのは、担当者のプロンプト力ではなくモデル側の常識バイアスが原因です。2026年7月公開の研究は、因果推論の考え方でプロンプトの純粋な効果だけを取り出し、LLM評価を80.0から93.0へ改善しました。再学習なしで推論時の設定だけで済む点と、その限界を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/"},"url":"https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-rare-concept-generation-counterfactual.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-rare-concept-generation-counterfactual/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-rare-concept-generation-counterfactual.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>画像生成AIが「毛の生えたタコ」を描けないのはプロンプトが下手だからか — LLM評価80.0→93.0が示す構造的な原因</h1>
+<p class="article-lead">指示した珍しい特徴を無視して無難な絵しか出てこないのは、担当者のプロンプト力ではなくモデル側の常識バイアスが原因です。2026年7月公開の研究は、因果推論の考え方でプロンプトの純粋な効果だけを取り出し、LLM評価を80.0から93.0へ改善しました。再学習なしで推論時の設定だけで済む点と、その限界を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>自社商品の見たことのないビジュアルを生成AIに指示しても、指示を無視した無難な絵しか出てこない。これは担当者のプロンプトの書き方の問題ではなく、モデルが学習データの多数派に引きずられる構造的な性質です。2026年7月16日公開の研究では、因果推論の考え方でこの偏りを打ち消し、珍しい属性が正しく描けているかのLLM評価を80.0から93.0へ改善しました。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>Zhengyuan Jiang・Haipeng Liu・Meng Wang・Yang Wang による論文「Rare Concept Generation via Counterfactual Inference in Diffusion Models」です（出典：arXiv:2607.14765、2026年7月16日、<a href="https://arxiv.org/abs/2607.14765v1">https://arxiv.org/abs/2607.14765v1</a>）。ACM Multimedia 2026 に採録予定とされています。</p>
+<p>扱っているのは、画像生成AIが<strong>珍しい概念の組み合わせ</strong>を描けない問題です。「毛の生えたタコ」と指示しても、学習データの中でタコは毛が生えていないものが圧倒的多数なので、モデルは無難なタコを出してきます。プロンプトの単語は読まれているのに、モデルが持つ「タコとはこういうものだ」という常識に上書きされてしまう状態です。</p>
+<p>研究チームの発想は、この上書きを因果推論の<strong>反事実</strong>の考え方で分離することです。「珍しいプロンプト」と、対になる「普通のプロンプト」（毛の生えたタコ／タコ）を両方走らせ、その差分を取ることで、珍しさを指定した部分だけが持つ純粋な効果を抽出します。そこに形状の一貫性を保つ TMFA という仕組みを組み合わせています。提案手法は CI-Diff と呼ばれ、モデルの再学習は行わず推論時の処理だけで実現しています。</p>
+<h2 id="_2">数字は何を示したか</h2>
+<p>評価は RareBench という珍しい概念専用のベンチマークで行われ、カテゴリごとに40プロンプトが構成されています。バックボーンは Stable Diffusion 3.5 です。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>ベースライン（SD3.5）</th>
+<th>CI-Diff 適用後</th>
+<th>差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLIP-T（テキストと画像の一致度）</td>
+<td>31.86</td>
+<td>32.64</td>
+<td>+0.78</td>
+</tr>
+<tr>
+<td>HPSv2（人間の好みの近似）</td>
+<td>29.26</td>
+<td>30.17</td>
+<td>+0.91</td>
+</tr>
+<tr>
+<td>LLM評価（珍しい属性が正しく描けているか）</td>
+<td>80.0</td>
+<td>93.0</td>
+<td>+13.0ポイント</td>
+</tr>
+<tr>
+<td>人間による評価（ユーザースタディ）</td>
+<td>81.0</td>
+<td>91.5</td>
+<td>+10.5ポイント</td>
+</tr>
+</tbody>
+</table>
+<p>既存の最良手法である R2F（SD3.0 上、LLM 78.0／ユーザー評価 79.0）との比較では、LLM評価で +19.2%、ユーザー評価で +15.8% の改善率が報告されています。ただしこの比較は CI-Diff+SD3.5 対 R2F+SD3.0 であり、土台のモデル世代が揃っていません。改善幅のうちどこまでが手法そのものの寄与かは、この論文からは切り分けられません。</p>
+<p>構成要素を1つずつ足していくアブレーション実験では、LLM評価が A（素の SD3.5）80.0 → B（通常のCFGのみ）84.5 → C（TMFA無し）88.0 → D（完全版）93.0 と段階的に上がっています。差分を取る仕組みと形状を保つ仕組みが、それぞれ別に効いていることになります。</p>
+<h2 id="_3">業務で使えるかを分けるのは処理コスト</h2>
+<p>この領域で実務判断に直結するのは、精度よりも1枚生成するのにかかる時間とVRAMです。SDXL 上での比較が報告されています。</p>
+<table>
+<thead>
+<tr>
+<th>手法</th>
+<th>1枚あたり推論時間</th>
+<th>VRAM使用量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>素の SDXL</td>
+<td>6.38秒</td>
+<td>10.49GB</td>
+</tr>
+<tr>
+<td>RPG+SDXL</td>
+<td>32.62秒</td>
+<td>35.14GB</td>
+</tr>
+<tr>
+<td>R2F+SDXL</td>
+<td>38.03秒</td>
+<td>44.77GB</td>
+</tr>
+<tr>
+<td>CI-Diff+SDXL</td>
+<td>12.94秒</td>
+<td>19.69GB</td>
+</tr>
+</tbody>
+</table>
+<p>既存手法は40GB超のVRAMを要求し、これはデータセンター向けGPUの領域です。CI-Diff の19.69GBは、コンシューマ級の上位GPUの射程に入ります。この差が、社内の一台で回せるか外部のGPUを借り続けるかの分かれ目になります。なお使用GPU機種は論文に記載がありません。</p>
+<p>一方で、素の SDXL と比べれば推論時間は約2倍、VRAMは約1.9倍です。既存手法より軽いだけであって、コストゼロの改善ではありません。</p>
+<h2 id="_4">この論文が認めている限界</h2>
+<p>論文が自ら示している制約は、実務側から見ると軽くありません。</p>
+<ul>
+<li>珍しいプロンプトと対になる「普通のプロンプト」を人が手作業で用意する必要があります。「毛の生えたタコ」に対して「タコ」を書く作業で、完全自動ではありません</li>
+<li>形状の一貫性を保つ TMFA には参照画像が別途必要です。背景除去とCannyエッジ抽出を経た画像を用意する工程が入り、テキストだけで完結しません</li>
+<li>珍しさを強調する強度パラメータ s_rare は 5 が最適とされる一方、9 まで上げると属性が過剰に出て形状がぼやけます。さらに shape カテゴリだけは最適値が 1 で、カテゴリによって最適値が大きく異なります</li>
+<li>TMFA を効かせるタイムステップ区間も [0.1, 0.9] が最適で、[0.4, 0.6] では悪化します。この設定で property カテゴリのLLM評価は93.9、shape カテゴリは89.5でした</li>
+<li>ユーザースタディの被験者数・属性・実施条件が本文に記載されていません</li>
+<li>評価は RareBench という珍しい概念専用ベンチマークに限られます。通常業務で使う一般的なプロンプトに適用したときの副作用、つまり普通の画像の品質が落ちないかは検証されていません</li>
+</ul>
+<p>パラメータをカテゴリごとに調整しなければ性能が出ない、という点は特に重要です。汎用の1設定で放り込んで済む段階には至っていません。</p>
+<h2 id="_5">中小企業にとっての意味</h2>
+<p>自社で画像生成を試している会社にとって、示唆は3点です。</p>
+<p>第一に、<strong>指示を無視した無難な絵しか出ないのは担当者の力量の問題ではない</strong>ということです。モデルが学習データの多数派に引きずられる構造的な原因があり、プロンプトを何十回書き直しても越えられない壁があります。社内で「うまく書けていないからだ」と担当者に責任を寄せる前に、その線を疑う価値があります。</p>
+<p>第二に、<strong>対処が再学習ではなく推論時の設定変更で進んでいる</strong>ことです。この論文の手法はモデルを鍛え直していません。GPUを買ってファインチューニングに踏み込む投資判断を、いま急ぐ必要はないという読みが立ちます。判断を先送りできる材料です。</p>
+<p>第三に、<strong>実用ラインは処理コストで決まる</strong>ことです。1枚38秒・VRAM44.77GBは業務のワークフローに乗りません。12.94秒・19.69GBなら乗る可能性が出てきます。この領域の新手法を見るときは、精度の改善幅より先にこの2つの数字を見るのが実務的です。</p>
+<p>逆に、汎用の広告写真やありがちな構図しか作らない会社には、この話は関係が薄いと考えてよいと思います。多数派の絵が欲しいなら、モデルの常識バイアスはむしろ味方です。関係があるのは、他にない商品・見たことのない組み合わせを絵にしたい会社に限られます。</p>
+<p>AIをどう選ぶかの前提整理は<a href="/articles/ai-tool-selection/">AIツールの選び方</a>、社内での最初の一歩は<a href="/articles/ai-first-step-smb/">中小企業のAI導入 最初の一歩</a>にまとめています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p><strong>TOEでは未実施です。</strong> CI-Diff の実装を社内で動かした検証はしていません。そのうえでの読みを書きます。</p>
+<p>読み筋は、この手法をそのまま導入するかどうかではなく、<strong>画像生成の失敗を切り分ける基準として使う</strong>ことにあります。生成AIで思った絵が出ないとき、原因は大きく「指示の書き方」「モデルの常識バイアス」「そもそも学習データに存在しない」の3つに分かれます。この論文は2つ目が実在し、かつプロンプトの工夫では越えにくいことを数字で示しました。社内で試行錯誤に時間を溶かす前に、どの層の問題かを判断する材料になります。</p>
+<p>もう一つの読みは、パラメータ調整の重さです。s_rare をカテゴリごとに調整し、参照画像を用意し、対の普通プロンプトを人が書く。この工数は、月に数枚しか生成しない会社では割に合いません。逆に、商品カタログのように同種のビジュアルを継続的に大量に作る会社なら、一度設定を詰める価値が出ます。生成の頻度と種類の少なさが、投資判断の分岐点になると見ています。</p>
+<p>なお、この種の推論時手法は論文発表から商用ツールへの反映まで時間差があります。いま自社で実装するのではなく、使っているツールが同種の機能を載せてきたときに評価できる状態にしておく、というのが現実的な構えだと考えています。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>画像生成AIが珍しい属性の組み合わせを描けないのは、学習データの多数派に引きずられる構造的な性質であり、プロンプトの書き方だけでは越えにくい</li>
+<li>因果推論の反事実の考え方でプロンプトの純粋な効果を取り出す CI-Diff は、RareBench・SD3.5 でLLM評価を80.0から93.0（+13.0ポイント）、人間の評価を81.0から91.5（+10.5ポイント）に改善した</li>
+<li>対処は再学習ではなく推論時の処理で行われており、GPUを買ってモデルを鍛える投資判断を急ぐ必要はない</li>
+<li>実用ラインは処理コストで決まる。既存最良手法の R2F+SDXL は1枚38.03秒・VRAM44.77GB、CI-Diff+SDXL は12.94秒・19.69GB。ただし素の SDXL の6.38秒・10.49GB と比べれば負荷は増える</li>
+<li>限界も明確で、対になる普通プロンプトの手作業、参照画像の準備、カテゴリごとのパラメータ調整が必要。主要比較はモデル世代が揃っておらず、一般的なプロンプトでの副作用も未検証。TOEでは未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

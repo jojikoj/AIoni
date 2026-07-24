@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？ · AIの鬼</title>
+  <meta name="description" content="Cloudflareが2025年1月1日から12月2日までの自社ネットワーク実測をまとめた。HTMLリクエストの4.2%がAIボット、Googlebot単独では4.5%、全トラフィックの6.2%が緩和対象で3.3%がDDoS対策とWAFで遮断。中小企業のサイト運用に直結する数字を、母集団の偏りと発信元の利害ごと読む。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？ · AIの鬼">
+  <meta property="og:description" content="Cloudflareが2025年1月1日から12月2日までの自社ネットワーク実測をまとめた。HTMLリクエストの4.2%がAIボット、Googlebot単独では4.5%、全トラフィックの6.2%が緩和対象で3.3%がDDoS対策とWAFで遮断。中小企業のサイト運用に直結する数字を、母集団の偏りと発信元の利害ごと読む。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？ · AIの鬼">
+  <meta name="twitter:description" content="Cloudflareが2025年1月1日から12月2日までの自社ネットワーク実測をまとめた。HTMLリクエストの4.2%がAIボット、Googlebot単独では4.5%、全トラフィックの6.2%が緩和対象で3.3%がDDoS対策とWAFで遮断。中小企業のサイト運用に直結する数字を、母集団の偏りと発信元の利害ごと読む。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？","item":"https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/"}]},{"@type":"Article","headline":"自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？","description":"Cloudflareが2025年1月1日から12月2日までの自社ネットワーク実測をまとめた。HTMLリクエストの4.2%がAIボット、Googlebot単独では4.5%、全トラフィックの6.2%が緩和対象で3.3%がDDoS対策とWAFで遮断。中小企業のサイト運用に直結する数字を、母集団の偏りと発信元の利害ごと読む。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/"},"url":"https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-cloudflare-radar-2025-year-in-review.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-cloudflare-radar-2025-year-in-review/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-cloudflare-radar-2025-year-in-review.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>自社サイトの4.2%はAIボット、6.2%は遮断対象——2025年のインターネットで何が起きていたのか？</h1>
+<p class="article-lead">Cloudflareが2025年1月1日から12月2日までの自社ネットワーク実測をまとめた。HTMLリクエストの4.2%がAIボット、Googlebot単独では4.5%、全トラフィックの6.2%が緩和対象で3.3%がDDoS対策とWAFで遮断。中小企業のサイト運用に直結する数字を、母集団の偏りと発信元の利害ごと読む。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>自社サイトに来ているのは誰か。Cloudflareの2025年実測では、HTMLリクエストの4.2%がAIボット、Googlebot単独で4.5%。全世界トラフィックの6.2%が緩和対象で、うち3.3%がDDoS対策とWAFで遮断されていた。モバイルからのリクエストは43%。robots.txtとWAFを「やるかやらないか」の判断材料になる数字が揃っている。</p>
+<h2 id="_1">何が測られたのか（対象・期間・条件）</h2>
+<p>CloudflareがCloudflare Radarのデータをもとに、2025年のインターネット全体の動きを年次レビューとしてまとめたものである（出典：Cloudflare（Cloudflare Radar / Cloudflare Blog）、2025-12-09、<a href="https://blog.cloudflare.com/radar-2025-year-in-review/">https://blog.cloudflare.com/radar-2025-year-in-review/</a>）。</p>
+<p>先に利害関係を書いておく。<strong>この記事はCloudflare社自身による発表であり、同社はDDoS対策・WAF・ボット管理・AIクローラー制御といった当該製品の提供者である</strong>。攻撃トラフィックの比率やAIボットの比率は、そのまま同社製品の必要性を裏づける方向のデータになる。数字そのものを疑う理由にはならないが、どの指標が選ばれ、どこが強調されているかは、この立場と切り離さずに読む必要がある。</p>
+<p>数値ごとに分母と条件が異なるので、先に整理する。指標をまたいで比べるときは、この表の右列を必ず見てほしい。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>対象・期間・条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>世界のインターネット流量の前年比成長率（2025年）</td>
+<td>19%増</td>
+<td>Cloudflareの全世界ネットワークで観測したトラフィック。2025年1月1日〜12月2日</td>
+</tr>
+<tr>
+<td>同（2024年）</td>
+<td>17%増</td>
+<td>同上。2025年との比較基準として本文に記載。2024年の17%増から加速した形</td>
+</tr>
+<tr>
+<td>AIボットが占めるHTMLリクエストの割合</td>
+<td>4.2%</td>
+<td>2025年通年平均。分母はHTMLリクエストトラフィック全体であり、全リクエストではない。Cloudflareネットワーク経由、2025年1月1日〜12月2日</td>
+</tr>
+<tr>
+<td>Googlebot単独が占めるHTMLリクエストの割合</td>
+<td>4.5%</td>
+<td>分母はHTMLリクエストトラフィック。他のAIクローラー合計（4.2%）を上回る</td>
+</tr>
+<tr>
+<td>AIの「ユーザー操作（user-triggered）」型クロールの増加</td>
+<td>15倍超</td>
+<td>2025年中の増加倍率。Cloudflareネットワーク経由の観測</td>
+</tr>
+<tr>
+<td>緩和（mitigate）対象となったトラフィックの割合</td>
+<td>6.2%</td>
+<td>分母はCloudflareが処理した全世界トラフィック。2024年から0.25ポイント低下</td>
+</tr>
+<tr>
+<td>DDoS対策およびWAFで遮断されたトラフィックの割合</td>
+<td>3.3%</td>
+<td>分母は全世界トラフィック。本文では前年比+0.1ポイントと記載</td>
+</tr>
+<tr>
+<td>モバイル端末からのリクエスト割合</td>
+<td>43%</td>
+<td>分母はCloudflare経由の全リクエスト。2025年1月1日〜12月2日</td>
+</tr>
+<tr>
+<td>IPv6での接続割合</td>
+<td>29%</td>
+<td>分母は「IPv6対応可能な（IPv6-capable）リクエスト」であり、全リクエストではない</td>
+</tr>
+<tr>
+<td>Starlink経由トラフィックの増加</td>
+<td>2.3倍</td>
+<td>2025年通年でのCloudflare観測トラフィック</td>
+</tr>
+<tr>
+<td>観測された主要なインターネット障害の件数</td>
+<td>174件</td>
+<td>2025年1月1日〜12月2日。うち約半数が政府主導の遮断（government-directed）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ai42googlebot45">AIボット4.2%とGooglebot4.5%は、何と何を比べた数字か</h2>
+<p>まず分母を間違えないことである。4.2%も4.5%も、分母は<strong>HTMLリクエストトラフィック</strong>であって、画像やCSSやJavaScriptを含む全リクエストではない。人が読むページ本体に対する比率だと考えるとよい。</p>
+<p>そのうえで並べると、Googlebot単独の4.5%が、他のAIクローラー合計の4.2%をわずかに上回っている。この一点は、2025年の状況を落ち着いて見るのに使える。AIクローラーの流入は確かに存在するが、2025年通年平均の水準では、依然として従来型の検索クローラー1社と同程度の規模だということになる。</p>
+<p>一方で、増え方は別の話である。AIの「ユーザー操作（user-triggered）」型のクロール、つまり誰かがAIに質問した結果としてその場でページを取りに来るタイプのアクセスは、2025年中に15倍超に増えている。学習のためにまとめて読みに来るのではなく、個別の質問に答えるために都度取りに来る動きが、1年で桁を変えた。</p>
+<p>この2つを合わせると、次のように読める。</p>
+<ul>
+<li>現時点の<strong>量</strong>では、AIクローラーは検索クローラー1社分程度の規模に収まっている</li>
+<li>ただし<strong>伸び</strong>は「その場で取りに来る」型に集中しており、1年で15倍超</li>
+<li>したがって「いまは無視できる」ことと「来年も無視できる」ことは別問題である</li>
+</ul>
+<p>AIクローラーが自社サイトをどう扱っているかという論点は、クロール量と実際の流入の非対称としても現れている。この点は<a href="/articles/co-cloudflare-crawl-to-click-gap/">AIボットは38,065ページ読んで訪問1件しか返さないのか？</a>で扱った実測とあわせて読むと、量と見返りの関係が立体的になる。</p>
+<h2 id="6233waf">6.2%が緩和対象、3.3%が遮断——WAFなしのサイトが素通ししている量</h2>
+<p>セキュリティ側の数字はさらに直接的である。Cloudflareが処理した全世界トラフィックのうち、6.2%が何らかの形で緩和（mitigate）の対象になった。この6.2%は2024年から0.25ポイント低下している。そしてそのうち3.3%が、DDoS対策およびWAFによって遮断されたトラフィックで、こちらは前年比で0.1ポイント増えている。</p>
+<p>つまり、緩和対象の総量はわずかに減ったが、「明確に遮断すべき」と判定された部分はむしろ増えた。全体として穏やかになったわけではなく、内訳が入れ替わっている。</p>
+<p>この数字が中小企業にとって持つ意味は単純である。WAFやDDoS対策を入れていないサイトは、この6.2%に相当する部分を、判定も遮断もせずにそのままアプリケーションまで通している可能性が高い。100リクエスト来れば6件程度は、本来止めるべき性質のものだったかもしれない、という目安になる。</p>
+<p>ただし、これはあくまで<strong>Cloudflareが処理したトラフィック全体</strong>での比率である。Cloudflareを使うサイトは、そもそも攻撃を受けやすい、あるいは対策を意識している事業者に寄っている可能性がある。自社サイトに当てはめるときは、上振れも下振れもあり得る参考値として扱うべきである。</p>
+<h2 id="43ipv629174">モバイル43%、IPv6の29%、そして障害174件</h2>
+<p>インフラ側の数字も、サイト運用の判断材料になる。</p>
+<ul>
+<li><strong>モバイル43%</strong>：分母はCloudflare経由の全リクエスト。半分近くがモバイル端末からということになる。PC前提で作られたままのサイトを持つ企業には、改修の優先度を考える根拠になる</li>
+<li><strong>IPv6が29%</strong>：ここは分母に注意が要る。全リクエストではなく「IPv6対応可能な（IPv6-capable）リクエスト」が分母である。IPv6で繋げる条件が揃っている中の29%であって、インターネット全体の29%がIPv6という意味ではない</li>
+<li><strong>Starlink経由が2.3倍</strong>：2025年通年でのCloudflare観測トラフィック。地上回線の届かない場所からのアクセスが増えている</li>
+<li><strong>主要な障害174件</strong>：2025年1月1日〜12月2日に観測されたもので、うち約半数が政府主導の遮断（government-directed）である。技術的な事故だけが接続断の原因ではない</li>
+</ul>
+<p>モバイル43%は、経営判断としては最も扱いやすい数字だと思われる。自社サイトのアクセス解析でモバイル比率を確認し、この43%と比べてみるだけでも、自社の顧客がどこから来ているかの当たりがつく。</p>
+<h2 id="_2">この数字を読むときの限界</h2>
+<p>冒頭の利害関係に加えて、この年次レビューには読み手が知っておくべき制約がいくつもある。誠実に列挙する。</p>
+<ul>
+<li><strong>母集団はインターネット全体ではない</strong>。観測対象はCloudflareのネットワークを通過したトラフィックに限られる。Cloudflareを利用していないサイトの傾向は一切含まれない。「世界のインターネット流量19%増」も、正確には「Cloudflareネットワークで観測した流量が19%増」である</li>
+<li><strong>「通年」が通年ではない</strong>。対象期間は2025年1月1日〜12月2日で、12月の一部が含まれていない。年末の動きは反映されていない不完全な年次集計である</li>
+<li><strong>手法とRadar表示値のずれを自ら注記している</strong>。本文は「一貫性を保つため基礎的な手法は変更していない（kept underlying methodologies unchanged）」と述べつつ、同時にボットと人間の比率がCloudflare Radar上の表示値と異なる場合があると自ら注記している。同じ会社の同じデータでも、集計の切り口で数字が動くということである</li>
+<li><strong>robots.txt関連の分析は上位10,000ドメインに限定されている</strong>。中小企業サイトの実態をそのまま代表するものではない。大手サイトのクローラー制御方針を、そのまま自社に置き換えることはできない</li>
+<li><strong>公開日の断定を避ける</strong>。本文中に正確な公開日の記載がないため、本記事では出典表記の日付以上のことは書かない</li>
+</ul>
+<p>こうした「数字の出どころと限界を先に確認する」姿勢そのものについては、<a href="/articles/ai-own-evaluation-criteria/">自社で評価基準を持つとはどういうことか</a>で扱った考え方が下敷きになっている。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>ここからは株式会社TOEの解釈である。先に明記しておくが、<strong>このデータを使った自社サイトでの検証はTOEでは未実施</strong>である。以下は数字からの読み筋であって、実測に裏づけられた結論ではない。</p>
+<p>第一に、この年次レビューで中小企業が最初に動くべきなのは、AIクローラーの話ではなくWAFの話だと考えている。AIボット4.2%は「今後どうするか」の論点だが、緩和対象6.2%・遮断3.3%は「いま素通ししているかもしれない」という現在形の論点である。順序としては後者が先に来る。</p>
+<p>第二に、robots.txtによるAIクローラー制御は、判断を急ぐ必要のない領域だと見ている。理由は2つある。ひとつは、AIクローラー合計4.2%がGooglebot単独の4.5%を下回っている、つまり現時点の量が突出していないこと。もうひとつは、robots.txtの分析母集団が上位10,000ドメインに限られており、中小企業サイトでの妥当性が確認できないことである。伸び（user-triggered型が15倍超）は無視できないが、伸びを理由に慌てて全面ブロックすると、AI経由の流入まで自分で閉じることになる。</p>
+<p>第三に、モバイル43%は、経営会議に持ち込める形になっている数少ない数字だと考えている。自社のアクセス解析と直接比較でき、比較結果がそのまま改修の優先順位に変換できる。逆にIPv6の29%は、分母が「IPv6対応可能なリクエスト」である以上、社内説明に使うと誤解を生みやすい。使わないほうがよい数字だと判断している。</p>
+<p>第四に、障害174件のうち約半数が政府主導の遮断だという点は、海外拠点や海外取引のある企業にとっては可用性設計の前提が変わる情報である。技術的冗長化では対処できない接続断が、実際に年間で相当数起きている。</p>
+<p>いずれも、TOEとして自社サイトのログで確認したうえでの結論ではない。読者各社が自社のアクセス解析と突き合わせて判断する材料として提示している。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>Cloudflareが2025年1月1日〜12月2日の自社ネットワーク実測を年次レビューとして公表した。<strong>発信元は当該分野（DDoS対策・WAF・ボット管理・AIクローラー制御）の製品提供者であり、数字は自社製品の必要性を裏づける方向に働く</strong>点を踏まえて読む必要がある</li>
+<li>AIボットはHTMLリクエストの4.2%、Googlebot単独は4.5%。分母はHTMLリクエストであって全リクエストではない。現時点の量は検索クローラー1社分程度だが、ユーザー操作型のクロールは2025年中に15倍超に増えている</li>
+<li>全世界トラフィックの6.2%が緩和対象（2024年から0.25ポイント低下）、うち3.3%がDDoS対策とWAFで遮断（前年比+0.1ポイント）。WAF未導入のサイトが日常的に素通ししている量の目安になる</li>
+<li>モバイル43%は自社解析と直接比較できる。IPv6の29%は分母が「IPv6対応可能なリクエスト」であり、社内説明に使うと誤解を招きやすい</li>
+<li>制約は多い。母集団はCloudflare経由のトラフィックのみ、対象期間は12月2日までで通年ではない、robots.txt分析は上位10,000ドメイン限定、Radar表示値とのずれも同社が自ら注記している。TOEではこのデータを使った自社検証は未実施である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

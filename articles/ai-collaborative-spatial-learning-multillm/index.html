@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>複数のAIエージェントを「つなぎ方」で強くできるのか？　プロンプト1文が9.44ポイント効いた実験 · AIの鬼</title>
+  <meta name="description" content="16体のLLMエージェントを人間の集団実験と同じ8種類の通信ネットワーク上で走らせた研究。体制図（トポロジー）を変えて得られた差は最大約3ポイント、対してプロンプトに「初回はランダムに選べ」と1文加えた効果は9.44ポイント。多エージェント構成を凝る前に指示文を直すほうが安い、という実務的な示唆が出ています。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="複数のAIエージェントを「つなぎ方」で強くできるのか？　プロンプト1文が9.44ポイント効いた実験 · AIの鬼">
+  <meta property="og:description" content="16体のLLMエージェントを人間の集団実験と同じ8種類の通信ネットワーク上で走らせた研究。体制図（トポロジー）を変えて得られた差は最大約3ポイント、対してプロンプトに「初回はランダムに選べ」と1文加えた効果は9.44ポイント。多エージェント構成を凝る前に指示文を直すほうが安い、という実務的な示唆が出ています。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="複数のAIエージェントを「つなぎ方」で強くできるのか？　プロンプト1文が9.44ポイント効いた実験 · AIの鬼">
+  <meta name="twitter:description" content="16体のLLMエージェントを人間の集団実験と同じ8種類の通信ネットワーク上で走らせた研究。体制図（トポロジー）を変えて得られた差は最大約3ポイント、対してプロンプトに「初回はランダムに選べ」と1文加えた効果は9.44ポイント。多エージェント構成を凝る前に指示文を直すほうが安い、という実務的な示唆が出ています。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"複数のAIエージェントを「つなぎ方」で強くできるのか？　プロンプト1文が9.44ポイント効いた実験","item":"https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/"}]},{"@type":"Article","headline":"複数のAIエージェントを「つなぎ方」で強くできるのか？　プロンプト1文が9.44ポイント効いた実験","description":"16体のLLMエージェントを人間の集団実験と同じ8種類の通信ネットワーク上で走らせた研究。体制図（トポロジー）を変えて得られた差は最大約3ポイント、対してプロンプトに「初回はランダムに選べ」と1文加えた効果は9.44ポイント。多エージェント構成を凝る前に指示文を直すほうが安い、という実務的な示唆が出ています。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/"},"url":"https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-collaborative-spatial-learning-multillm.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-collaborative-spatial-learning-multillm/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-collaborative-spatial-learning-multillm.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>複数のAIエージェントを「つなぎ方」で強くできるのか？　プロンプト1文が9.44ポイント効いた実験</h1>
+<p class="article-lead">16体のLLMエージェントを人間の集団実験と同じ8種類の通信ネットワーク上で走らせた研究。体制図（トポロジー）を変えて得られた差は最大約3ポイント、対してプロンプトに「初回はランダムに選べ」と1文加えた効果は9.44ポイント。多エージェント構成を凝る前に指示文を直すほうが安い、という実務的な示唆が出ています。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>複数のAIエージェントを連携させるとき、「誰と誰をつなぐか」という体制図をいじって得られた差は最大約3ポイントでした。一方、プロンプトに「1回目は各自バラバラに選べ」と1文足しただけで集団の成果は9.44ポイント改善しています。凝った構成を組む前に、指示文を直すほうが安い。それがこの研究の実務的な結論です。</p>
+<p>（出典：arXiv:2607.14574、2026年7月16日、<a href="https://arxiv.org/abs/2607.14574v1">https://arxiv.org/abs/2607.14574v1</a>）</p>
+<h2 id="_1">何を測った研究なのか</h2>
+<p>Hao He、Chris J. Kuhlman、Xinwei Deng の3氏による論文「Collaborative Spatial Learning with Multi-LLM Agents in Networked Social Experiments」は、人間を対象に行われた既存の集団実験（Mason-Watts実験）と同じ舞台に、LLMエージェントを置き換えて走らせたものです。</p>
+<p>舞台の条件はこうです。</p>
+<ul>
+<li>1ゲームあたりのエージェント数は16体</li>
+<li>通信ネットワークは8種類の3正則ネットワーク（各エージェントがちょうど3人とつながる構造を、つなぎ方だけ8通りに変えたもの）</li>
+<li>1ゲームは15ラウンド</li>
+<li>課題は101×101のグリッド上で高得点のマスを探す2次元探索</li>
+</ul>
+<p>各ラウンド、エージェントは自分が選んだマスの得点と、つながっている相手が選んだマスと得点を見て、次のラウンドの一手を決めます。人間の実験で確認されていたのは「連絡経路が短い集団ほど成果が高い」という、いわゆるネットワーク効率効果でした。これがLLMでも再現されるのかが問いです。</p>
+<p>計算実験の総規模は2,400ゲーム、576,000ノード・ラウンド観測。内訳は5種のエージェント型 × 8トポロジー × 60ランドスケープ（複雑さ低・中・高で各20）です。</p>
+<h2 id="1">体制図を変えるより、プロンプトを1文足すほうが効いた</h2>
+<p>結果として最も実務に効く数字は、9.44ポイントという改善幅です。</p>
+<p>使用モデルは gpt-oss-120b（総パラメータ117B、アクティブ5.1B）。このモデルをデフォルトのプロンプトで動かした場合と、「初回はランダムに選べ」という初期化の指示を1文加えた場合（論文でいう LLM-RI）を比較すると、集団報酬が9.44ポイント改善しました。これは8種類のトポロジー間で生じた差の3倍を超える大きさです。</p>
+<table>
+<thead>
+<tr>
+<th>比較軸</th>
+<th>条件</th>
+<th>効果の大きさ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ネットワークのつなぎ方</td>
+<td>8種類の3正則ネットワーク、2,400ゲーム</td>
+<td>最大約3ポイント</td>
+</tr>
+<tr>
+<td>プロンプト1文の追加</td>
+<td>gpt-oss-120b、デフォルト初期化 vs ランダム初期化（LLM-RI）</td>
+<td>9.44ポイント</td>
+</tr>
+</tbody>
+</table>
+<p>さらに興味深いのは、人間で見つかっていたネットワーク効率効果（平均経路長が短いほど高成果）が、どちらの条件でも同じように出るわけではなかった点です。</p>
+<table>
+<thead>
+<tr>
+<th>エージェント条件</th>
+<th>平均経路長の係数β</th>
+<th>p値</th>
+<th>解釈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM-RI（ランダム初期化あり）</td>
+<td>-1.37</td>
+<td>0.003</td>
+<td>短い経路ほど高成果。有意</td>
+</tr>
+<tr>
+<td>デフォルトLLM</td>
+<td>-0.41</td>
+<td>0.619</td>
+<td>有意でない。ネットワーク効果が消える</td>
+</tr>
+</tbody>
+</table>
+<p>いずれも8トポロジー・2,400ゲームの回帰分析による値です。つまり、指示文が悪いままだと、そもそも「つなぎ方の工夫」が成果に反映されなくなる。体制図の議論はプロンプトが整った後にしか意味を持たない、という順序が示されています。</p>
+<h2 id="ai">「複数AIに意見を出させれば多様な案が出る」は成立しなかった</h2>
+<p>なぜデフォルトのままだとネットワーク効果が消えるのか。原因として観測されたのが、模倣率の高さです。</p>
+<table>
+<thead>
+<tr>
+<th>主体</th>
+<th>他者の選択を模倣（コピー）する率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM-RI</td>
+<td>86%</td>
+</tr>
+<tr>
+<td>デフォルトLLM</td>
+<td>77%</td>
+</tr>
+<tr>
+<td>人間</td>
+<td>54%</td>
+</tr>
+</tbody>
+</table>
+<p>人間の値は、元となったMason-Watts実験の29セッション・232ゲーム（欠損率3%）から算出されたものです。人間はおよそ半分の場面で自力の探索を続けるのに対し、LLMエージェントは高い割合で隣人の答えに乗り換えます。</p>
+<p>その帰結が、集団の空間的多様性の縮小です。AIエージェント16体、101×101グリッドの条件で、1ラウンド目には42〜54セルに散らばっていた選択が、15ラウンド目には2〜3セルまで潰れました。全員がほぼ同じマスを見ている状態です。</p>
+<ul>
+<li>「複数のAIに案を出させれば自然に多様な案が並ぶ」という前提は、この実験では成立していません</li>
+<li>放置すると集団は早期に1点へ収束し、探索が止まります</li>
+<li>散らすための仕掛け（初回をランダムにする、役割や視点を固定して割り当てる等）は、意図的に入れる必要があります</li>
+</ul>
+<p>多様性を確保する設計思想については、<a href="/articles/ai-own-evaluation-criteria/">自分たちの評価基準を先に決める話</a>や<a href="/articles/ai-small-team-adoption/">小さなチームでのAI導入</a>の考え方と地続きです。</p>
+<h2 id="llm">探索・最適化ではLLMが最良手段ではなかった</h2>
+<p>この論文が誠実なのは、LLMが負けた結果もそのまま載せている点です。最終ラウンドの累積報酬をエージェント型別・8トポロジー横断で見ると、次のようになります。</p>
+<table>
+<thead>
+<tr>
+<th>エージェント型</th>
+<th>最終ラウンドの累積報酬</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UCB / EI（従来型のベイズ最適化）</td>
+<td>97〜100</td>
+</tr>
+<tr>
+<td>LLM-RI</td>
+<td>93〜97</td>
+</tr>
+<tr>
+<td>デフォルトLLM</td>
+<td>84〜91</td>
+</tr>
+<tr>
+<td>ランダム</td>
+<td>39〜47</td>
+</tr>
+</tbody>
+</table>
+<p>従来型のベイズ最適化エージェントが最も高得点で、LLMはそれに届いていません。数値の最適化や探索が主目的なら、わざわざLLMを持ち出す理由はこのデータからは出てこない、ということです。LLMがランダムを大きく上回っている点は確かですが、既存手法に勝ったわけではありません。</p>
+<p>用途に合わない道具を選ばない考え方は、<a href="/articles/ai-tool-selection/">AIツールの選び方</a>でも扱っているとおりです。</p>
+<h2 id="_2">この研究が認めている限界</h2>
+<p>読者が自社に当てはめる前に、論文自身が明記している制約を押さえる必要があります。</p>
+<ul>
+<li>検証に使ったLLMは gpt-oss-120b の1モデルのみ、プロンプトテンプレートも1種類のみ。他モデルへ一般化できる保証はないと著者が明記しています</li>
+<li>人間データとAIデータではランドスケープが異なるため、報酬の絶対値で人間対AIを比較することはできません</li>
+<li>全員が同時に動く同期プロトコルのみで検証しており、現実の業務に近い非同期条件は未検証です</li>
+<li>1ゲーム15ラウンドという期間は、ネットワークトポロジーの効果が十分に現れるには短い可能性を著者自身が認めています</li>
+<li>課題は2次元の空間探索という単純タスクに限定されており、より複雑な現実の課題へ転移するかは検証されていません</li>
+<li>そもそもLLMエージェントは従来型のベイズ最適化エージェントに報酬で負けています</li>
+</ul>
+<p>つまり「AIエージェントの体制図は無意味だ」と読むのは行き過ぎです。正しくは「この条件下では、体制図をいじる効果より指示文を直す効果のほうが3倍以上大きかった」であり、条件が変われば結論も変わり得ます。</p>
+<h2 id="_3">中小企業にとって何を意味するか</h2>
+<p>中小企業でも、複数AIに案を出させて突き合わせる、部署ごとにAIを置いて連携させる、といった構成は現実的な検討対象になっています。この研究はそこに3つの示唆を投げます。</p>
+<p>第一に、投資の順序です。エージェント同士のつなぎ方を設計する作業には、設計・実装・保守のコストがかかります。一方でプロンプトに1文足す作業のコストはほぼゼロです。それで9.44ポイント、トポロジー差の3倍超が動いた。凝った多エージェント構成を組む前に、まず指示文を直す。順序を逆にすると高い買い物になります。</p>
+<p>第二に、多様性は勝手には出ないという点です。模倣率86%、15ラウンド後の探索範囲2〜3セルという数字は、「複数AIに聞けば視点が増える」という期待をそのまま否定します。同じモデルに同じ土俵で議論させると、多数派の答えに寄っていく。異なる案が欲しいなら、初期条件を散らす、担当を分ける、参照させる情報を変えるといった仕掛けが要ります。</p>
+<p>第三に、道具の選定です。在庫や需要の数値最適化のような、答えが数字で定義できる課題では、従来型の最適化手法が97〜100に対しLLM-RIは93〜97でした。LLMは言語で書かれた曖昧な入力を扱えることが強みであって、数値探索の性能で選ぶものではありません。この線引きは<a href="/articles/ai-demand-forecast-peak/">需要予測の実務</a>を考えるうえでも同じです。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、TOEではこの論文の追試を実施していません。以下は論文の数字から読める仮説であり、当社の実測ではありません。</p>
+<p>そのうえでの読みは、多エージェント構成の流行に対して一段ブレーキがかかる、というものです。「AIを何体つなぐか」「どういう組織図で並べるか」は図にすると説得力があり、提案資料にも載せやすい。しかしこの実験の範囲では、そこで動いた差は最大約3ポイントでした。9.44ポイントを動かしたのは、プロンプト1文です。見栄えのする構成図より、地味な指示文の推敲のほうが費用対効果が高い可能性があります。</p>
+<p>もう一点、模倣率の数字は「AI同士の相互参照」を無批判に増やすことへの警告として読めます。人間54%に対しLLMは77〜86%。AIに互いの出力を見せれば見せるほど、集団としての答えは早く1点に固まる。レビュー役として別のAIを置く構成を採るなら、同じモデル・同じプロンプトで並べても意味が薄い、と想定して設計するのが妥当だと考えます。ただし、これも gpt-oss-120b という1モデル・1テンプレートでの結果であり、他のモデル構成で同じ傾向が出るかは検証されていません。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>16体のLLMエージェントを8種類の3正則ネットワーク、15ラウンド、101×101グリッドで走らせた研究。総規模は2,400ゲーム／576,000ノード・ラウンド観測</li>
+<li>ネットワークのつなぎ方による差は最大約3ポイント。対して「初回はランダムに選べ」というプロンプト1文の追加は9.44ポイント改善させた</li>
+<li>模倣率はLLM-RI 86%／デフォルトLLM 77%に対し人間54%。集団の探索範囲は1ラウンド目の42〜54セルから15ラウンド目には2〜3セルへ縮小した</li>
+<li>最終累積報酬は従来型のベイズ最適化（UCB/EI）が97〜100、LLM-RIが93〜97。数値探索課題ではLLMは既存手法に勝っていない</li>
+<li>検証は gpt-oss-120b 1モデル・プロンプトテンプレート1種、同期プロトコルのみ、15ラウンドという短期間、2次元探索という単純タスクに限定される。TOEではこの追試を実施していない</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

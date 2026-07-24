@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>実践記録 · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <link rel="canonical" href="https://ai-oni.com/articles/7/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/7/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="実践記録 · AIの鬼">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta property="og:url" content="https://ai-oni.com/articles/7/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="実践記録 · AIの鬼">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"}]},{"@type":"ItemList","name":"実践記録","numberOfItems":25,"itemListElement":[{"@type":"ListItem","position":1,"name":"2026年4〜6月の報告14,056件のうち89.3%がフィッシング——中小企業はどこから手を付けるべきか？","url":"https://ai-oni.com/articles/jp-jpcert-quarterly-fy2026-q1/"},{"@type":"ListItem","position":2,"name":"2026年の侵害は31%が脆弱性の悪用から入られているのか？","url":"https://ai-oni.com/articles/co-verizon-dbir-2026/"},{"@type":"ListItem","position":3,"name":"侵入経路の1位はメールではなく脆弱性の32%、電話が2位の11%になったのか？","url":"https://ai-oni.com/articles/co-mandiant-m-trends-2026/"},{"@type":"ListItem","position":4,"name":"生成AIを仕事で使う労働者は6.4%、社内ルールがあるのは3.7%。この差は何を意味するのか？","url":"https://ai-oni.com/articles/jp-jilpt-256-ai-workplace-worker-survey/"},{"@type":"ListItem","position":5,"name":"AI導入予定17.8%が全ツール中トップ、中小企業のデジタル投資中央値130万円は何を意味するのか？","url":"https://ai-oni.com/articles/jp-jfc-sme-digital-ai-2025/"},{"@type":"ListItem","position":6,"name":"財務省の1,103社調査で、中小企業の「コスト削減」実感が22%どまりなのはなぜか？","url":"https://ai-oni.com/articles/jp-mof-zaimukyoku-regional-ai-2026/"},{"@type":"ListItem","position":7,"name":"生成AIの活用方針を決めた企業が49.7%、あなたの会社は「まだ決めていない側」に残っていないか？","url":"https://ai-oni.com/articles/jp-soumu-hakusho-r07-enterprise-genai/"},{"@type":"ListItem","position":8,"name":"従業員30人以上の日本企業でAI周辺技術の活用は14.2%。規模と業種でどこまで差があるのか？","url":"https://ai-oni.com/articles/jp-jilpt-261-tech-hr-strategy/"},{"@type":"ListItem","position":9,"name":"中小企業のAI利用が11.9%、大企業が40%。この差はツールではなく何の差なのか？","url":"https://ai-oni.com/articles/mx-oecd-ai-adoption-by-smes/"},{"@type":"ListItem","position":10,"name":"小規模企業のAI利用率6.3%→8.8%は、大企業に追いついたと言えるのか？","url":"https://ai-oni.com/articles/mx-sba-advocacy-small-firms-closing-in/"},{"@type":"ListItem","position":11,"name":"職場のAI利用は「広がる」から「使い込む」へ移ったのか ― 毎日利用12%・週数回以上26%をどう読むか","url":"https://ai-oni.com/articles/mx-gallup-frequent-ai-use-workplace-q4/"},{"@type":"ListItem","position":12,"name":"情シスの仕事はAIでどこまで速くなるのか ― 181名のランダム化比較試験が示した「効く業務」と「25%遅くなる業務」","url":"https://ai-oni.com/articles/co-microsoft-security-copilot-it-admin-rct/"},{"@type":"ListItem","position":13,"name":"安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった","url":"https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/"},{"@type":"ListItem","position":14,"name":"既知の脱獄攻撃を受けると、AIの安全性は39システム中35システムで落ちる？","url":"https://ai-oni.com/articles/mx-ailuminate-jailbreak-v05/"},{"@type":"ListItem","position":15,"name":"AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄","url":"https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/"},{"@type":"ListItem","position":16,"name":"AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8）","url":"https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/"},{"@type":"ListItem","position":17,"name":"AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？","url":"https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/"},{"@type":"ListItem","position":18,"name":"従業員20人未満の会社でAI利用は伸びていないのか（米センサス局19.8%と37%の断層）","url":"https://ai-oni.com/articles/mx-census-btos-ai-firm-size-gap/"},{"@type":"ListItem","position":19,"name":"AI導入率は18%か41%か78%か ― 同じ「普及」を測った3調査が4倍ずれる理由は何か","url":"https://ai-oni.com/articles/mx-fed-monitoring-ai-adoption-surveys/"},{"@type":"ListItem","position":20,"name":"AIに金を使った企業は人を減らしたのか？従業員1人あたり月33.67ドル層だけが10.2%増、月2.78ドル層はゼロという実測","url":"https://ai-oni.com/articles/co-ramp-ai-spending-workforce-adjustment/"},{"@type":"ListItem","position":21,"name":"企業は従業員1人あたり月いくらAIに払っているのか？中央値$11.38・上位1%$7.45Kという分布と、Anthropicが有料採用率41%でOpenAIを初めて上回った件","url":"https://ai-oni.com/articles/co-ramp-ai-index-spend-intensity/"},{"@type":"ListItem","position":22,"name":"実利用16万480件のAIエージェント、複数依頼を完全に満たしたのは58%——どこまで任せられるのか？","url":"https://ai-oni.com/articles/mx-agent-arena-real-world-evaluation/"},{"@type":"ListItem","position":23,"name":"実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から","url":"https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/"},{"@type":"ListItem","position":24,"name":"1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？","url":"https://ai-oni.com/articles/jp-nict-nicter-report-2025/"},{"@type":"ListItem","position":25,"name":"AIを単発タスクだけに使う中小企業の変革的効果は2%、全社展開は23%。差はツールではなく適用範囲なのか？","url":"https://ai-oni.com/articles/mx-oecd-d4sme-empowering-smes-ai/"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/7/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>実践記録</h1>
+    <p class="page-sub">編集部が自社でAIを動かした記録。数字はそのまま載せています。</p>
+  </div>
+</section>
+
+
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="cat-chips">
+      <a class="cat-chip "
+         href="../../jissen/">AI実践室</a>
+      <a class="cat-chip "
+         href="../../kansoku/">AI検索観測所</a>
+      <a class="cat-chip "
+         href="../../shippai/">失敗の鬼</a>
+      <a class="cat-chip "
+         href="../../shigoto/">AI仕事術</a>
+      <a class="cat-chip "
+         href="../../kaisetsu/">AI解体新書</a>
+      <a class="cat-chip "
+         href="../../weekly/">今週のAI</a>
+      <a class="cat-chip "
+         href="../../naka/">中の鬼</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-jpcert-quarterly-fy2026-q1/">
+<div class="card-media"><img src="../../static/img/article-jp-jpcert-quarterly-fy2026-q1.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">2026年4〜6月の報告14,056件のうち89.3%がフィッシング——中小企業はどこから手を付けるべきか？</h3>
+<p class="card-summary">JPCERT/CCが2026年7月16日に公開した四半期レポート（2026年4月1日〜6月30日、報告14,056件）を読み解く。フィッシングが89.3%を占め、Webサイト改ざんは90件から181件へ倍増。国内ブランド詐称の67.1%は金融サイトだった。数字の分母、文書内の矛盾、レポートの限界まで含めて経営判断に使える形に整理する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-verizon-dbir-2026/">
+<div class="card-media"><img src="../../static/img/article-co-verizon-dbir-2026.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">2026年の侵害は31%が脆弱性の悪用から入られているのか？</h3>
+<p class="card-summary">Verizon Businessの2026年版DBIRは、31,861件のインシデントと22,625件の確認済み侵害を集計した。初期侵入経路の第1位は脆弱性の悪用31%で、前年20%から上昇。従業員1,000人未満のSMBでも脆弱性26%・認証情報13%・フィッシング9%の順だった。この順序が中小企業の対策の順番に何を意味するかを、定義のずれごと読む。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-mandiant-m-trends-2026/">
+<div class="card-media"><img src="../../static/img/article-co-mandiant-m-trends-2026.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">侵入経路の1位はメールではなく脆弱性の32%、電話が2位の11%になったのか？</h3>
+<p class="card-summary">Mandiantが2025年に世界で50万時間超の侵入調査を実施し、初期侵入経路の32%が脆弱性悪用、11%が電話による音声フィッシング、メールフィッシングは6%だったと公表した。滞留時間の中央値は14日。母集団が大企業寄りである前提ごと、中小企業の投資順序に翻訳して読む。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-jilpt-256-ai-workplace-worker-survey/">
+<div class="card-media"><img src="../../static/img/article-jp-jilpt-256-ai-workplace-worker-survey.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">生成AIを仕事で使う労働者は6.4%、社内ルールがあるのは3.7%。この差は何を意味するのか？</h3>
+<p class="card-summary">JILPTが2025年5月に公表した労働者Webアンケート（有効回答2.2万人、2024年5月27日〜6月27日）を読み解きます。生成AI利用者は全労働者の6.4%、適切利用の社内規定が策定済みは3.7%。従業員99人以下では「会社の指示によらず自主的に使用」が4割を超えていました。分母と調査の限界も含めて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-jfc-sme-digital-ai-2025/">
+<div class="card-media"><img src="../../static/img/article-jp-jfc-sme-digital-ai-2025.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AI導入予定17.8%が全ツール中トップ、中小企業のデジタル投資中央値130万円は何を意味するのか？</h3>
+<p class="card-summary">日本政策金融公庫が4,328社から回答を得た2025年3月調査を読み解きます。AI導入済み14.6%・導入予定17.8%、デジタル投資額の中央値130万円、相談相手はITベンダー50.5%。分母の取り違えが起きやすい数字の範囲を確認したうえで、中小企業が今どこに立っているかを整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-mof-zaimukyoku-regional-ai-2026/">
+<div class="card-media"><img src="../../static/img/article-jp-mof-zaimukyoku-regional-ai-2026.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">財務省の1,103社調査で、中小企業の「コスト削減」実感が22%どまりなのはなぜか？</h3>
+<p class="card-summary">財務省が2026年1月29日の全国財務局長会議で公表した特別調査（回答1,103社、2025年12月上旬〜2026年1月上旬）を読み解きます。業務時間削減の実感は中小87%・大企業94%とほぼ並ぶ一方、コスト削減は中小22%・大企業41%。用途が文章作成に偏っている構図と、母集団の限界まで含めて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-soumu-hakusho-r07-enterprise-genai/">
+<div class="card-media"><img src="../../static/img/article-jp-soumu-hakusho-r07-enterprise-genai.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">生成AIの活用方針を決めた企業が49.7%、あなたの会社は「まだ決めていない側」に残っていないか？</h3>
+<p class="card-summary">総務省の令和7年版情報通信白書が示した企業の生成AI利用の数字を確認します。活用方針の策定49.7%（前年度42.7%）、業務使用55.2%、文書作成補助47.3%という値の分母と、この調査が「デジタル化に着手済みの企業」を対象としている可能性の限界まで含めて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-jilpt-261-tech-hr-strategy/">
+<div class="card-media"><img src="../../static/img/article-jp-jilpt-261-tech-hr-strategy.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">従業員30人以上の日本企業でAI周辺技術の活用は14.2%。規模と業種でどこまで差があるのか？</h3>
+<p class="card-summary">JILPTが2025年12月に公表した調査シリーズNo.261（企業調査n=1,971、2025年2月実施・調査時点2025年1月末日）を読みます。AI周辺技術14.2%、RPA13.3%に対し、Webミーティング55.3%、クラウド情報共有50.8%。何が遅れで何が先行余地なのかを、分母と限界込みで整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-oecd-ai-adoption-by-smes/">
+<div class="card-media"><img src="../../static/img/article-mx-oecd-ai-adoption-by-smes.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">中小企業のAI利用が11.9%、大企業が40%。この差はツールではなく何の差なのか？</h3>
+<p class="card-summary">OECDが2025年12月に公表した中小企業のAI導入報告書を実測で読む。従業員10〜49人の企業のAI利用率は11.9%、250人以上は40%。ところがクラウドやIoTでは同じ規模差が約2分の1まで縮まっている。道具の値段ではなく、社内で使う人と教育が差の正体であることを数字で確認する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-sba-advocacy-small-firms-closing-in/">
+<div class="card-media"><img src="../../static/img/article-mx-sba-advocacy-small-firms-closing-in.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">小規模企業のAI利用率6.3%→8.8%は、大企業に追いついたと言えるのか？</h3>
+<p class="card-summary">米国SBA Office of Advocacyが2025年9月に公表したスポットライトを読みます。小企業のAI利用率は半年で6.3%から8.8%へ。ただし著者自身が「格差縮小の一部は大企業の利用率低下による」と書いています。ユースケース数は小2.0対大2.1、5人未満企業の約82%が「自社には関係ない」と回答。分母と限界まで整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-gallup-frequent-ai-use-workplace-q4/">
+<div class="card-media"><img src="../../static/img/article-mx-gallup-frequent-ai-use-workplace-q4.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">職場のAI利用は「広がる」から「使い込む」へ移ったのか ― 毎日利用12%・週数回以上26%をどう読むか</h3>
+<p class="card-summary">Gallupが米国就業成人22,368人に実施した2025年Q4調査で、毎日AIを使う就業者は12%、週数回以上は26%に増える一方、利用者全体の割合は横ばいでした。経営層69%対一般社員40%、リモート可能職66%対非リモート職32%という偏りも含めて、中小企業がどう読むべきかを整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-microsoft-security-copilot-it-admin-rct/">
+<div class="card-media"><img src="../../static/img/article-co-microsoft-security-copilot-it-admin-rct.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">情シスの仕事はAIでどこまで速くなるのか ― 181名のランダム化比較試験が示した「効く業務」と「25%遅くなる業務」</h3>
+<p class="card-summary">Microsoftが181名を対象に行ったランダム化比較試験で、情シス業務の正答精度は平均34.53%改善しました。ただし効いたのは自由記述型の作業で、多肢選択型は精度が有意に上がらず所要時間は25.13%増えています。発信元が製品提供者本人である点も含め、業務単位の線引きを整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-caisi-deepseek-evaluation/">
+<div class="card-media"><img src="../../static/img/article-mx-caisi-deepseek-evaluation.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった</h3>
+<p class="card-summary">米国商務省NIST傘下のCAISIがDeepSeekの各モデルを実測しました。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取りではDeepSeek最良モデルでも認証情報の窃取が37%の試行で発生。トークン単価ではなく総額と乗っ取り耐性で選ぶべき理由を、評価の立場性と限界も含めて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-ailuminate-jailbreak-v05/">
+<div class="card-media"><img src="../../static/img/article-mx-ailuminate-jailbreak-v05.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">既知の脱獄攻撃を受けると、AIの安全性は39システム中35システムで落ちる？</h3>
+<p class="card-summary">MLCommonsが公開した脱獄ベンチマークv0.5では、公開・既知の攻撃を加えるとテキスト対テキストの安全性スコアが平均19.81%下がり、39システム中35システムが安全グレードを1段階以上落としました。通常利用の安全性と攻撃下の安全性は別物だという実測を、中小企業の受け入れテストの話に落とします。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-aisi-frontier-ai-trends-2025/">
+<div class="card-media"><img src="../../static/img/article-mx-aisi-frontier-ai-trends-2025.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄</h3>
+<p class="card-summary">英国AI安全保障研究所（AISI）が2023年11月〜2025年10月に30以上のフロンティアシステムを評価した報告書を読み解きます。1時間規模の開発タスク完遂率は5%未満から40%超へ。しかし能力と安全対策の強さの相関はR^2=0.097でほぼ無く、テストした全システムで万能脱獄が見つかりました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-aisi-multi-step-cyber-attack-agents/">
+<div class="card-media"><img src="../../static/img/article-mx-aisi-multi-step-cyber-attack-agents.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8）</h3>
+<p class="card-summary">英国AI安全保障研究所が、企業ネットワークを模したサイバーレンジでAIエージェントの攻撃遂行能力を実測。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップまで到達した。一方で産業用制御システム環境では7ステップ中平均1.2〜1.4にとどまる。中小企業の防御の優先順位を、この数字から考える。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-shopify-river-agent-adoption-measured/">
+<div class="card-media"><img src="../../static/img/article-co-shopify-river-agent-adoption-measured.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？</h3>
+<p class="card-summary">Shopifyが社内エージェント「River」の直近30日間の実稼働値を公開した。59,918セッション、マージ済みPRの8件に1件が共著、セッション中央値19分・ツール呼び出し中央値50回。数字の大きさより、エージェントを個人の手元でなく全社Slackに常駐させたという設計判断が中小企業にも効く。ただしこれは提供者自身による発表である。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-census-btos-ai-firm-size-gap/">
+<div class="card-media"><img src="../../static/img/article-mx-census-btos-ai-firm-size-gap.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">従業員20人未満の会社でAI利用は伸びていないのか（米センサス局19.8%と37%の断層）</h3>
+<p class="card-summary">米国センサス局のBTOSが2026年5月3日時点で全米企業のAI利用率19.8%を示した。従業員250人以上は37%、20人未満は20%未満で、しかも半年間の増加が統計的に確認できなかった。規模による断層をどう読むか、日本の中小企業に何が言えて何が言えないかを整理する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-fed-monitoring-ai-adoption-surveys/">
+<div class="card-media"><img src="../../static/img/article-mx-fed-monitoring-ai-adoption-surveys.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AI導入率は18%か41%か78%か ― 同じ「普及」を測った3調査が4倍ずれる理由は何か</h3>
+<p class="card-summary">米連邦準備制度理事会のFEDS Notesが、米国のAI普及を測る3つの調査を並べました。企業ベースで18%、就業者ベースで40.7%、雇用ウェイトで78%。同じ「AI普及」という言葉で4倍以上ずれます。分母の違いを見抜けないと、自社の遅れも進みも誤って判断することになります。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-ramp-ai-spending-workforce-adjustment/">
+<div class="card-media"><img src="../../static/img/article-co-ramp-ai-spending-workforce-adjustment.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIに金を使った企業は人を減らしたのか？従業員1人あたり月33.67ドル層だけが10.2%増、月2.78ドル層はゼロという実測</h3>
+<p class="card-summary">Rampとリベリオ・ラボが米国企業21,559社の実支出と職歴データを接続した分析では、AI投資の強度で結果が割れました。1人あたり月33.67ドル層は総従業員数10.2%増、月2.78ドル層は-0.6%で有意差なし。ただしこれは法人カード提供者自身による査読前の分析です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-ramp-ai-index-spend-intensity/">
+<div class="card-media"><img src="../../static/img/article-co-ramp-ai-index-spend-intensity.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">企業は従業員1人あたり月いくらAIに払っているのか？中央値$11.38・上位1%$7.45Kという分布と、Anthropicが有料採用率41%でOpenAIを初めて上回った件</h3>
+<p class="card-summary">法人カード大手Rampが2026年6月に公開したAI Indexから、1人あたり月間AI支出の分位と、ベンダー別の有料採用率を条件込みで読み解きます。中央値は法人シート1席分、上位1%はその650倍超。ただし対象は米国のRamp利用企業に限られ、発信元は当該支出データの当事者です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-agent-arena-real-world-evaluation/">
+<div class="card-media"><img src="../../static/img/article-mx-agent-arena-real-world-evaluation.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">実利用16万480件のAIエージェント、複数依頼を完全に満たしたのは58%——どこまで任せられるのか？</h3>
+<p class="card-summary">Arenaが自社Agent Modeの実利用ログ160,480タスク（7日間）を集計した。セッションの75.6%がツールを実行し、複数要素を含む依頼が完全に充足されたのは58%、8%は無言で一部を落としていた。自社製品の自社集計という前提を踏まえたうえで、中小企業が導入前に決めるべき権限設計・検収工程・予算の組み方を整理する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-shopify-simgym-llm-inference-economics/">
+<div class="card-media"><img src="../../static/img/article-co-shopify-simgym-llm-inference-economics.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から</h3>
+<p class="card-summary">Shopifyが自社の買い物シミュレーション基盤SimGymの運用実測を公開しました。1日40万セッション、GPU分割で平均LLMレイテンシ27.8秒→21.9秒。一方で推論の手抜きはエラー率を0.5〜0.75%から4.5〜10.9%へ押し上げたと結論しています。中小ECと社内AI運用の担当者が読むべき点を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jp-nict-nicter-report-2025/">
+<div class="card-media"><img src="../../static/img/article-jp-nict-nicter-report-2025.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？</h3>
+<p class="card-summary">NICTが2026年2月に公開したNICTER観測レポート2025を読み解く。2025年の総観測パケットは約7,010億、1IPあたり2,504,680パケットで観測開始以降最多。一方でTelnet(23/TCP)宛の比率は17.9%から14.4%へ低下し、上位10ポート以外が65.8%を占めた。防犯カメラ・ルータ・SSHという現実の入口に話を戻します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-oecd-d4sme-empowering-smes-ai/">
+<div class="card-media"><img src="../../static/img/article-mx-oecd-d4sme-empowering-smes-ai.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIを単発タスクだけに使う中小企業の変革的効果は2%、全社展開は23%。差はツールではなく適用範囲なのか？</h3>
+<p class="card-summary">OECDが2026年4月に公表したD4SME調査（n=2,018、12か国、2025年Q4〜2026年Q1）を実測で読む。日本サンプル（n=887）では、AIを単発タスクにだけ使う企業で変革的効果を報告したのは2%、全社展開した企業では23%。ただし標本は無作為抽出ではなく、因果は言えない。その限界も含めて数字の使い方を整理する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../6/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../5/">5</a><a class="pager-num" href="../6/">6</a><span class="pager-num on" aria-current="page">7</span>
+  </span>
+<span class="pager-btn disabled">次へ →</span></nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

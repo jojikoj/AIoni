@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ · AIの鬼</title>
+  <meta name="description" content="弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-automation-stops-silently/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-automation-stops-silently/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ · AIの鬼">
+  <meta property="og:description" content="弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-automation-stops-silently/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ · AIの鬼">
+  <meta name="twitter:description" content="弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ","item":"https://ai-oni.com/articles/toe-automation-stops-silently/"}]},{"@type":"Article","headline":"自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ","description":"弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-automation-stops-silently/"},"url":"https://ai-oni.com/articles/toe-automation-stops-silently/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/news-policy-14.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-automation-stops-silently/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-policy-14.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ</h1>
+<p class="article-lead">弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>先に結論です。<strong>自動化は「動いた」ときは成果物で分かりますが、「動くはずだったのに動かなかった」ときは何も起きません。</strong> 通知もエラー画面も出ず、ただ静かに止まります。弊社ではそれで毎朝の経営ブリーフィングが3日間止まり、誰も気づきませんでした。仕組みを1つ増やすなら、「これが止まったらどう気づくか」を先に決めるべきです。</p>
+<h2 id="_1">何が起きたか</h2>
+<p>株式会社TOEでは、平日の朝8時に経営状況を1枚のレポートにまとめる「日次ブリーフィング」を、cron（決まった時刻にプログラムを自動実行するUNIXの標準機能）で毎日自動生成しています。社内では「AI秘書」と呼んでいる仕組みの一部です。中身の説明はここでは省きます。この記事の主役は、それが<strong>止まったこと</strong>の方です。</p>
+<p>出力ファイルの最終更新は<strong>2026年7月15日 8時01分</strong>でした。次に人間がそれに気づいたのは7月18日です。16日（木）と17日（金）は平日で、本来なら動いているはずの日でした。動いていませんでした。</p>
+<table>
+<thead>
+<tr>
+<th>日付</th>
+<th>何が起きたか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7月15日（火）8:01</td>
+<td>最後のブリーフィングが正常に出力される</td>
+</tr>
+<tr>
+<td>7月16日（木）・17日（金）</td>
+<td>平日なのに出力されず。エラー通知もなし</td>
+</tr>
+<tr>
+<td>7月18日（土）</td>
+<td>人間が「来ていない」と気づき、原因を特定して復旧</td>
+</tr>
+</tbody>
+</table>
+<p>原因は単純でした。cronの設定が、Xcode（Appleの開発ツール）に同梱されていたPythonのパスを指していたのです。Xcodeを更新した際にそのPythonが消え、cronから起動されるジョブが全滅しました。ブリーフィングだけではありません。登録してあった全ジョブが同時に止まっていました。</p>
+<p>復旧そのものは、OS標準で消えることのない <code>/usr/bin/python3</code> を指すように設定を書き換えるだけでした。技術的には小さな話です。問題は、<strong>止まってから気づくまでに3日かかったこと</strong>の方です。</p>
+<h2 id="3">なぜ3日間、誰も気づかなかったのか</h2>
+<p>理由ははっきりしています。<strong>「動かなかったこと」を知らせる仕組みが存在しなかったからです。</strong></p>
+<p>cronで動く自動化には、次の性質があります。</p>
+<ul>
+<li>エラーは画面に出ません。ログファイルの末尾に静かに積まれるだけです</li>
+<li>「今日は実行されませんでした」という通知は、作らない限りどこからも来ません</li>
+<li>止まっても、昨日までの出力ファイルはそのまま残っているので、一見すると何も変わっていません</li>
+</ul>
+<p>人間の担当者なら「レポートが出ていません」と自分から言ってくれます。自動化は言いません。今回も気づいたのは、「そういえば3日ぶんの朝ブリーフィングが来ていないな」と思った人間でした。</p>
+<p>もう1つ、条件が重なりました。毎朝のレポートは「来たら見る」ものであって、「来なかったら騒ぐ」ものとして運用されていなかったのです。受け取る側が「来ない」ことに敏感でないと、静かな停止はそのまま見過ごされます。</p>
+<h2 id="_2">頼りにしていた監査ログも役に立たなかった</h2>
+<p>「ログは取ってあるから、何かあれば調べられる」と考えていました。これも裏切られました。</p>
+<p>各ジョブは実行のたびに監査ログへ記録を書き込む設計でした。ところがこのログは<strong>直近200件しか保持しない</strong>仕様だったのです。同じ基盤には5分おきに動くジョブと10分おきに動くジョブが混じっていて、それだけで1日数百件になります。1日1回しか動かない日次ブリーフィングの記録は、高頻度ジョブの記録にあっという間に押し流されました。実際に調べたとき、ブリーフィングの実行記録は<strong>1件も残っていませんでした</strong>。</p>
+<p>「記録している」と「あとから調べられる」は別物でした。件数で足切りするログは、実行頻度の違うジョブが同居すると、動きの少ないジョブの記録から順に消えていきます。復旧後の7月18日には、全ジョブを共通の実行管理スクリプト経由で動かす形に載せ替え、開始・終了・所要時間・成否が1行ずつ記録されるようにしました。</p>
+<h2 id="_3">あなたの会社で自動化を増やす前に決めること</h2>
+<p>この失敗から言えることは1つです。自動化を1つ導入するたびに、動かす前に次を決めてください。</p>
+<ul>
+<li><strong>「止まったらどう気づくか」を先に設計する。</strong> 「動いた通知」より「動くはずの時刻に動かなかった通知」の方が重要です。弊社はここを後回しにして、実際に3日ぶん取りこぼしました</li>
+<li><strong>受け取る側の習慣を決める。</strong> 「毎朝8時に来る。来ていなかったらその場で異常と見なす」と決めておくだけでも、発見は3日から数時間に縮まります</li>
+<li><strong>記録は「あとから調べられるか」で点検する。</strong> 保存件数や期間の上限を確認し、頻度の違う処理のログを混ぜないようにします</li>
+<li><strong>消えるかもしれない部品に依存しない。</strong> 開発ツールに同梱されたプログラムのパスは、更新やアンインストールで消えます。OS標準の場所か、自分で管理しているものを指すべきです</li>
+</ul>
+<p>とくに1つ目は、外注でシステムを作ってもらう場合でも同じです。「止まったとき、私たちはどうやって気づけますか」と発注時に聞いてください。この質問に答えが用意されていない自動化は、いつか静かに止まり、止まったまま気づかれません。</p>
+<p>なお、誤解のないように書き添えると、止まっていたこの仕組み自体はAIモデルを呼ばず、追加のランニングコストもゼロで動いていました。コストがかからない自動化ほど、止まっても金額の異常として表面化しないため、気づく仕組みはなおさら意図して作る必要があると考えられます。</p>
+<h2 id="_4">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-agent-dashboard/">自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード</a></li>
+<li><a href="/articles/toe-tool-not-used/">メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった</a></li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>弊社の毎朝の自動ブリーフィングは、開発ツールの更新でPythonが消えたことをきっかけに、2026年7月15日を最後に止まりました</li>
+<li>平日2日ぶんが欠けても通知は一切なく、7月18日に人間が気づくまで誰も知りませんでした</li>
+<li>頼みの監査ログは直近200件しか残らない仕様で、肝心の実行記録は1件も残っていませんでした</li>
+<li>自動化は「動いた」ことより「動かなかった」ことの方が検知しにくい。仕組みを1つ増やすたびに「止まったらどう気づくか」を先に決めることが、導入そのものと同じくらい重要です</li>
+</ul>
+<p>株式会社TOEでは、この失敗も含めた自社実践をもとに、中小企業のAI活用・業務自動化のご相談を承っています。「止まったらどう気づくか」まで含めた設計からお手伝いします。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

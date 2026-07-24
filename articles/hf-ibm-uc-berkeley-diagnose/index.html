@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果 · AIの鬼</title>
+  <meta name="description" content="IBM Research と UC Berkeley が、IT運用タスクを実行したAIエージェントの実行トレース310本を「失敗の型」で分類しました。失敗した実行1回には平均2.6〜5.3個の問題が同時に起きており、成功率という単一の数字が改善の役に立たない理由が数字で示されています。中小企業がPoCの評価条件をどう書くべきかまで整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果 · AIの鬼">
+  <meta property="og:description" content="IBM Research と UC Berkeley が、IT運用タスクを実行したAIエージェントの実行トレース310本を「失敗の型」で分類しました。失敗した実行1回には平均2.6〜5.3個の問題が同時に起きており、成功率という単一の数字が改善の役に立たない理由が数字で示されています。中小企業がPoCの評価条件をどう書くべきかまで整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果 · AIの鬼">
+  <meta name="twitter:description" content="IBM Research と UC Berkeley が、IT運用タスクを実行したAIエージェントの実行トレース310本を「失敗の型」で分類しました。失敗した実行1回には平均2.6〜5.3個の問題が同時に起きており、成功率という単一の数字が改善の役に立たない理由が数字で示されています。中小企業がPoCの評価条件をどう書くべきかまで整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果","item":"https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/"}]},{"@type":"Article","headline":"業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果","description":"IBM Research と UC Berkeley が、IT運用タスクを実行したAIエージェントの実行トレース310本を「失敗の型」で分類しました。失敗した実行1回には平均2.6〜5.3個の問題が同時に起きており、成功率という単一の数字が改善の役に立たない理由が数字で示されています。中小企業がPoCの評価条件をどう書くべきかまで整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/"},"url":"https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-ibm-uc-berkeley-diagnose.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-ibm-uc-berkeley-diagnose/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-ibm-uc-berkeley-diagnose.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果</h1>
+<p class="article-lead">IBM Research と UC Berkeley が、IT運用タスクを実行したAIエージェントの実行トレース310本を「失敗の型」で分類しました。失敗した実行1回には平均2.6〜5.3個の問題が同時に起きており、成功率という単一の数字が改善の役に立たない理由が数字で示されています。中小企業がPoCの評価条件をどう書くべきかまで整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>業務用AIエージェントの評価に「成功率」だけを使うと、うまくいかなかった理由が一切残りません。IBM Research と UC Berkeley が IT運用タスクの実行トレース310本を失敗の型で分類したところ、失敗した実行1回あたり平均2.6〜5.3個の問題が同時に起きていました。原因が単一でない以上、プロンプトを直すだけでは届きません。</p>
+<h2 id="_1">誰が何を測ったのか</h2>
+<p>IBM Research（Ayhan Sebin、Saurabh Jha、Rohan Arora、Daby Sow）と UC Berkeley（Mert Cemri、Melissa Pan、Ion Stoica）の共同執筆による記事です（出典：Hugging Face ブログ ibm-research アカウント、2026-02-18、<a href="https://huggingface.co/blog/ibm-research/itbenchandmast">https://huggingface.co/blog/ibm-research/itbenchandmast</a>）。</p>
+<p>ここで最初に押さえておくべき点があります。<strong>この記事は ITBench を開発・公開している IBM Research 自身による発表であり、同社は当該ベンチマークの提供者です。</strong>分類の枠組みである MAST も、共著者である UC Berkeley 側が提唱したものです。つまり「自社のベンチマークと自社側の分類法が有用である」と主張する立場の文章であり、数字の出どころとしてはその利害関係を踏まえて読む必要があります。</p>
+<p>測定の条件は以下のとおりです。</p>
+<ul>
+<li>対象は ITBench のうち <strong>SRE（IT運用・障害対応）タスク領域に限定</strong></li>
+<li>分析されたAIエージェントの実行トレースは <strong>310本</strong>（3つのモデルクラスにまたがる）</li>
+<li>内訳は Gemini-3-Flash が100トレース、Kimi-K2 が105トレース、GPT-OSS-120B が105トレース</li>
+</ul>
+<p>やっていることは単純です。従来のベンチマークは「タスクを達成できたか」しか返さない。そこに MAST という失敗モードの分類を重ね、1本1本のトレースの中で「どの型の失敗が、どれだけ起きていたか」を数えています。</p>
+<h2 id="_2">成功率で並べると見えるもの、消えるもの</h2>
+<p>まず平均リコール（成績指標）で3モデルを並べると、順位はきれいに付きます。すべて ITBench の SRE タスクでの数値です。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>平均リコール</th>
+<th>トレース数</th>
+<th>失敗1回あたりの失敗モード数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemini-3-Flash</td>
+<td>75.5%</td>
+<td>100</td>
+<td>2.6個</td>
+</tr>
+<tr>
+<td>Kimi-K2</td>
+<td>28.6%</td>
+<td>105</td>
+<td>4.7個</td>
+</tr>
+<tr>
+<td>GPT-OSS-120B</td>
+<td>12.4%</td>
+<td>105</td>
+<td>5.3個</td>
+</tr>
+</tbody>
+</table>
+<p>右端の列が、この記事の主題です。失敗したトレースだけを対象にすると、1回の失敗に検出された失敗モードは平均で 2.6個・4.7個・5.3個。<strong>失敗は単一原因では起きていない</strong>ということです。成績が下がるほど、1回の実行の中で同時に壊れている箇所が増えていく傾向が読めます。</p>
+<p>成功率だけを見ていると、この右端の列がまるごと消えます。「28.6%でした」という報告は、何を直せばいいかを何も語りません。</p>
+<h2 id="_3">失敗の中身はモデルごとに違う</h2>
+<p>同じ「失敗」でも、型はモデルごとにはっきり傾向が分かれました。</p>
+<ul>
+<li><strong>Gemini-3-Flash</strong>：失敗トレース内で FM-3.3「検証が不正確」の出現率が <strong>52%増</strong>（成功トレースとの比較）。つまり作業自体は進むが、確認の詰めが甘い方向で崩れる</li>
+<li><strong>Kimi-K2</strong>：失敗トレース内で「早すぎる終了」が <strong>+46%</strong>、「終了条件を認識できていない」が <strong>+43%</strong> と急増（105トレース中）。やめるべきでないところでやめてしまう</li>
+<li><strong>GPT-OSS-120B</strong>：会話履歴を失う失敗（FM-1.4）の発生率が <strong>24%</strong>。同じ指標で Gemini-3-Flash は <strong>0%</strong>、Kimi-K2 は <strong>7%</strong>（各モデルのトレース全体に対する割合）</li>
+</ul>
+<p>さらに、推論と実行が食い違う失敗（FM-2.6「推論と実行動作の不一致」）は、Kimi-K2 の失敗トレース中 <strong>92%</strong>、GPT-OSS-120B のトレース中 <strong>94%</strong> に出現しています。頭の中で言っていることと、実際に叩いた操作が別、という状態です。</p>
+<p>そして最も実務に効くのが次の数字です。FM-1.3「手順の繰り返し」は、<strong>Kimi-K2 の「成功した」実行のみを対象にして90%超</strong>で出現していました。成功しているのに、無駄な反復が起きている。成功＝効率的、ではありません。</p>
+<h2 id="_4">直し方の当たり外れ</h2>
+<p>記事は、記憶関連の失敗への対処について先行研究の数字を引いています。プロンプト調整など人手の介入による改善は <strong>最大15.6%</strong>、要約役のエージェントを追加するといったアーキテクチャ変更による改善は <strong>最大53%</strong>。</p>
+<p>ただしここは慎重に扱う必要があります。<strong>この「15.6%対53%」は本記事の実験結果ではなく先行研究からの引用で、対象タスクもn数も本文に示されていません。</strong>方向性の示唆として読むにとどめるべき数字です。</p>
+<p>それでも、失敗1回あたり2.6〜5.3個という自前の計測と方向は揃っています。同時に複数壊れているものを、指示文の言い回しだけで直すのは構造的に無理がある、ということです。エージェントの構成そのものについては<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>も合わせて読むと整理しやすくなります。</p>
+<h2 id="_5">この記事の限界</h2>
+<p>読者が数字を判断できるよう、書かれていないことも並べます。</p>
+<ul>
+<li>分析対象は <strong>SRE（IT運用・障害対応）タスクに限定</strong>されており、経理・営業・カスタマーサポートなど他の業務領域のエージェントに一般化できる保証はありません</li>
+<li>評価されたモデルは <strong>3つのみ</strong>です。失敗パターンの傾向を一般論にするには標本が少なすぎます</li>
+<li>310本のトレースに失敗モードのラベルを付けた方法（人手の注釈かLLMによる自動判定か）、注釈者間の一致率、品質保証の手順が本文に明記されていません。分類の再現性を外部から検証できない状態です</li>
+<li>MAST はあくまで失敗を分類する枠組みであり、記事自体も「ベンチマークは失敗したことは分かっても理由が分からない」という課題への対処を示すもので、包括的な解決策を主張してはいません</li>
+<li>前述のとおり、ベンチマークと分類法の双方が発信元側の成果物です</li>
+</ul>
+<h2 id="_6">中小企業にとって何を意味するのか</h2>
+<p>ベンダーからAIエージェントの提案を受けるとき、示されるのはたいてい「成功率○％」「精度○％」という単一の数字です。この記事が示しているのは、その数字がうまくいかなかった理由を何も説明しないという事実です。</p>
+<p>実務に落とすと3点あります。</p>
+<ul>
+<li><strong>PoCの評価条件に「失敗ログの型別分類」を書き込む</strong>。成功率だけでなく、失敗した実行について何がどう壊れたかを型で分類して納品するよう、発注時点で求める。後から頼んでもログが残っていません</li>
+<li><strong>「プロンプトを直します」で終わる改善提案を疑う</strong>。失敗1回あたり平均2.6〜5.3個の問題が同時に起きている以上、単一の対処では届きにくい。構成の変更まで踏み込む余地があるかを確認する</li>
+<li><strong>成功したケースの手順数も見る</strong>。Kimi-K2 の成功実行の90%超で手順の繰り返しが出ていたように、成功していても無駄な反復は起きます。従量課金のAIではこれがそのままコストです</li>
+</ul>
+<p>安価・軽量なモデルを選ぶ判断のとき、成功率の差だけで比べるのは片手落ちだということです。評価の物差しを自前で持つ話は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a>、コストを含めた見方は<a href="/articles/ai-cost-aware-evaluation/">コストを含めた評価</a>が対応します。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p><strong>TOEではこの ITBench / MAST を使った検証は未実施です。</strong>そのうえで、社内でエージェントを回してきた立場からの読み筋を書きます。</p>
+<p>刺さったのは「成功したのに繰り返しが90%超」という数字でした。社内でも、動いてはいるが同じ確認を何度も走らせているエージェントに心当たりがあります。動いている限り誰も見に行かないので、これは成功率の管理では永久に発見されません。従量課金である以上、静かに費用だけが乗り続けます。</p>
+<p>もう一つは「推論と実行の不一致」が失敗トレースの9割超という点です。ログの日本語部分だけを読んで「ちゃんと考えているな」と判断するのが、いかに危ういかを示しています。読むべきは思考の記述ではなく、実際に叩いたツールの列です。</p>
+<p>一方で、SRE 限定・3モデルという条件は軽くありません。自社の業務にそのまま当てはめるのではなく、「失敗を型で数える」という手続きの部分だけを借りるのが妥当な使い方だと考えています。型そのものは自社の業務ログから作り直す必要があります。</p>
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>IBM Research と UC Berkeley が、ITBench の SRE タスクで得たAIエージェントの実行トレース310本を、MAST という失敗モードの分類で数え直した</li>
+<li>平均リコールは Gemini-3-Flash 75.5%（100トレース）、Kimi-K2 28.6%（105トレース）、GPT-OSS-120B 12.4%（105トレース）だが、失敗1回あたりの失敗モード数は 2.6個・4.7個・5.3個で、失敗は単一原因ではない</li>
+<li>失敗の型はモデルごとに異なり、会話履歴を失う失敗は GPT-OSS-120B で24%、Gemini-3-Flash で0%、Kimi-K2 で7%と傾向が割れる</li>
+<li>Kimi-K2 の「成功した」実行の90%超で手順の繰り返しが出ており、成功は効率を意味しない</li>
+<li>ただし対象は SRE 限定・3モデルのみ、ラベル付けの方法と品質保証手順は本文に未記載で、発信元は当該ベンチマークの提供者でもある。手続きの考え方として借り、数字は条件付きで扱うのが妥当</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

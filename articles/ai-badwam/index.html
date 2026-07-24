@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>予測画面が正常でも装置は壊れるのか — 成功率96.5%が43.1%まで落ちた実験 · AIの鬼</title>
+  <meta name="description" content="カメラ映像にごくわずかな改ざんを加えると、AIロボットの「未来予測の映像」はもっともらしいまま、実際の動作だけが破綻しました。2026年7月公開の研究が示した成功率96.5%→43.1%という数字と、AI設備を入れる中小企業が検収・監視で見るべき対象を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-badwam/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-badwam/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="予測画面が正常でも装置は壊れるのか — 成功率96.5%が43.1%まで落ちた実験 · AIの鬼">
+  <meta property="og:description" content="カメラ映像にごくわずかな改ざんを加えると、AIロボットの「未来予測の映像」はもっともらしいまま、実際の動作だけが破綻しました。2026年7月公開の研究が示した成功率96.5%→43.1%という数字と、AI設備を入れる中小企業が検収・監視で見るべき対象を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-badwam/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="予測画面が正常でも装置は壊れるのか — 成功率96.5%が43.1%まで落ちた実験 · AIの鬼">
+  <meta name="twitter:description" content="カメラ映像にごくわずかな改ざんを加えると、AIロボットの「未来予測の映像」はもっともらしいまま、実際の動作だけが破綻しました。2026年7月公開の研究が示した成功率96.5%→43.1%という数字と、AI設備を入れる中小企業が検収・監視で見るべき対象を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"予測画面が正常でも装置は壊れるのか — 成功率96.5%が43.1%まで落ちた実験","item":"https://ai-oni.com/articles/ai-badwam/"}]},{"@type":"Article","headline":"予測画面が正常でも装置は壊れるのか — 成功率96.5%が43.1%まで落ちた実験","description":"カメラ映像にごくわずかな改ざんを加えると、AIロボットの「未来予測の映像」はもっともらしいまま、実際の動作だけが破綻しました。2026年7月公開の研究が示した成功率96.5%→43.1%という数字と、AI設備を入れる中小企業が検収・監視で見るべき対象を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-badwam/"},"url":"https://ai-oni.com/articles/ai-badwam/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-badwam.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-badwam/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-badwam.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>予測画面が正常でも装置は壊れるのか — 成功率96.5%が43.1%まで落ちた実験</h1>
+<p class="article-lead">カメラ映像にごくわずかな改ざんを加えると、AIロボットの「未来予測の映像」はもっともらしいまま、実際の動作だけが破綻しました。2026年7月公開の研究が示した成功率96.5%→43.1%という数字と、AI設備を入れる中小企業が検収・監視で見るべき対象を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AI搭載のロボットは、「次に何が起きるか」を映像として想像しながら動きます。2026年7月16日公開の研究は、カメラ映像に人間には見えにくいレベルの改ざんを加えるだけで、<strong>想像した映像はもっともらしいまま、実際の動作だけが壊れる</strong>ことを実験で示しました。タスク成功率は96.5%から43.1%へ低下しています。つまり「画面が正常＝装置が正常」は成り立ちません。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>対象は「World-Action Model（WAM）」と呼ばれる方式のロボット制御AIです。カメラ映像を受け取り、未来の映像を予測しながら、同時に腕をどう動かすかを決めます（出典：arXiv:2607.15207、2026年7月16日（arXiv:2607.15207v1）、<a href="https://arxiv.org/abs/2607.15207v1">https://arxiv.org/abs/2607.15207v1</a>）。</p>
+<p>研究チームは、入力されるカメラ映像に最適化された微小な摂動（改ざん）を加えました。条件は、ロボット操作のベンチマークLIBERO、摂動強度ε=0.06、最適化8反復、実際に動かしながら評価するクローズドループ実行です。</p>
+<p>結果は、方式ごとに次のとおりでした。</p>
+<table>
+<thead>
+<tr>
+<th>WAMの方式</th>
+<th>攻撃前の成功率</th>
+<th>攻撃後の成功率</th>
+<th>低下幅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action-only型</td>
+<td>96.5%</td>
+<td>43.1%</td>
+<td>53.4ポイント</td>
+</tr>
+<tr>
+<td>joint型</td>
+<td>98.1%</td>
+<td>61.5%</td>
+<td>36.6ポイント</td>
+</tr>
+<tr>
+<td>IDM型</td>
+<td>98.4%</td>
+<td>66.1%</td>
+<td>32.3ポイント</td>
+</tr>
+</tbody>
+</table>
+<p>いずれも条件はLIBERO、ε=0.06、8反復です。攻撃前はどれも96%以上、つまり「ほぼ完璧に動く装置」だったものが、映像側への手当てだけで3〜5割落ちています。</p>
+<h2 id="_2">「想像は正しいのに動作は壊れる」とはどういうことか</h2>
+<p>この研究がとくに扱ったのは、単に全体を壊す攻撃ではありません。<strong>予測される未来映像はできるだけ元のまま保ちつつ、動作だけを破綻させる</strong>攻撃です。</p>
+<p>この条件での成功率は、joint型で63.0%、IDM型で68.1%でした（LIBERO、ε=0.06）。予測映像がもっともらしいまま、動作が落ちています。</p>
+<p>さらに、想像の維持と攻撃効果のトレードオフも測られています。joint型で調整パラメータλを0から0.015に上げると、予測未来の距離（元の予測とのズレ）は14.70から14.34に縮まり、成功率は61.7%から56.7%になりました。想像のズレを抑えても攻撃効果は落ちていません。均衡サブセットでの測定です。</p>
+<p>現場の言葉に直すと、こうなります。</p>
+<ul>
+<li>モニタに出ている「この後こう動きます」というプレビューは正常に見える</li>
+<li>ログ上もAIは自信をもって動作を出している</li>
+<li>しかし実際のアーム動作は失敗している</li>
+</ul>
+<h2 id="_3">落ち方は一様ではない</h2>
+<p>低下は全タスクに均等ではありませんでした。action-only型WAMでは、攻撃下で成功率0〜25%帯まで落ちたタスクが42.5%を占めます（LIBEROタスク別分布）。joint型／IDM型では17.5〜25.0%でした。</p>
+<p>タスク種別でも差が出ています（LIBERO、action-only WAM、スイート別集計）。</p>
+<table>
+<thead>
+<tr>
+<th>タスク種別</th>
+<th>攻撃前</th>
+<th>攻撃後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spatial（空間配置）</td>
+<td>96.5%</td>
+<td>16.0%</td>
+</tr>
+<tr>
+<td>長時間タスク</td>
+<td>92.5%</td>
+<td>23.5%</td>
+</tr>
+<tr>
+<td>Goal（目標変更）</td>
+<td>97.0%</td>
+<td>40.0%</td>
+</tr>
+<tr>
+<td>Object（物体種別）</td>
+<td>—</td>
+<td>93.0%（比較的頑健）</td>
+</tr>
+</tbody>
+</table>
+<p>空間の理解を要する作業と、工程の長い作業が大きく崩れています。逆に、扱う物体が変わるだけのタスクは93.0%と持ちこたえました。</p>
+<p>摂動の大きさに対する感度も測られています（均衡サブセット、3タスク×4スイート、各10試行）。</p>
+<ul>
+<li>ε=0.01では成功率95%超を維持</li>
+<li>ε=0.06で56.7〜51.7%</li>
+<li>ε=0.20で0%</li>
+</ul>
+<p>また、単にランダムノイズを与えただけでは成功率は71.0%（joint）／75.2%（IDM）にとどまりました。白箱攻撃（内部情報あり）の参照値は49.2%／52.8%です。つまり「映像が汚れれば壊れる」のではなく、<strong>最適化された改ざんであることが本質</strong>だと示されています。</p>
+<p>攻撃を別モデルに使い回した場合（転移）でも、成功率は34.2〜40.8ポイント低下しました（LIBERO均衡サブセット12タスク、モデルペア間）。攻撃者が対象モデルの中身を知らなくても、ある程度は効くということです。</p>
+<h2 id="_4">防御は、高価なものより素朴なもののほうが効いた</h2>
+<p>この研究のもう一つの実務的な結果が、防御側の比較です。</p>
+<p>まず検知。AI自身の一貫性を見る検知器（augmentation-consistency検知器）は、誤検知率5%という実用的な条件では、攻撃の13.4%（joint）／21.4%（IDM）しか見つけられませんでした（検知AUROC評価、均衡サブセット）。8割前後は見逃されます。</p>
+<p>一方、入力画像に素朴な前処理をかける防御では、成功率が85.0%（joint）／89.2%（IDM）まで回復しました。JPEG圧縮とノイズを集約した組み合わせでは89.2%／90.0%です（均衡サブセット）。ガウシアンぼかしやJPEG圧縮といった、昔からある単純な画像処理です。</p>
+<p>ただし前処理なら何でもよいわけではありません。resize-crop集約は0.0〜8.3%にとどまり、しかも攻撃を受けていない通常時の性能も大きく劣化しました。</p>
+<h2 id="_5">この研究が認めている限界</h2>
+<p>不都合な結果も含めて、著者が本文中で断っている制約は以下のとおりです（独立した限界セクションは設けられていません）。</p>
+<ul>
+<li>評価はすべてシミュレーション環境で、実機ロボット・実工場での検証はない</li>
+<li>もう一つのベンチマークRoboTwinでは、低下が92.1%→84.4%、90.9%→84.4%、91.4%→83.7%（6.5〜7.7ポイント）にとどまり、LIBEROでの劇的な低下ほどの効果は再現していない（RoboTwin、ε=0.06、3モデル）</li>
+<li>コスト面から、感度分析・転移・防御の各実験は「1スイートあたり3タスク、1タスク10試行」の均衡サブセットで実施しており、全ベンチマークへの拡張は今後の課題としている</li>
+<li>白箱攻撃はあくまで上限の参照値で、実際の黒箱クエリ攻撃が最悪ケースの脆弱性を出し切っているとは限らない</li>
+<li>評価した防御は非適応型の素朴な手法であり、前処理まで含めて最適化する適応的攻撃者には回避されうると著者自身が認めている</li>
+<li>検知ベースラインは実用的な誤検知率ではAUROCが中程度にとどまり、検知は現実的でないという不都合な結果になっている</li>
+<li>実行時オーバーヘッドの測定は、最適化されていない「プロトタイプ実装」に基づく</li>
+</ul>
+<p>ベンチマークによって6.5ポイントと53.4ポイントという開きが出ている以上、「どんなロボットでも半分落ちる」と読むのは誤りです。</p>
+<h2 id="_6">中小企業にとって何を意味するか</h2>
+<p>製造現場に画像認識付きの自動化設備やAIロボットを入れる会社にとって、この実験が示すのは一点です。<strong>「画面上のプレビューや予測表示が正常＝装置が正常」という前提は、実験的に否定された</strong>ということ。</p>
+<p>導入・運用の側で具体化すると、次の3つになります。</p>
+<ol>
+<li><strong>検収と日常監視は物理的アウトプットで見る。</strong> AIの自己申告や予測画面ではなく、実際の動作結果・良品率・不良の出方といった物理量で判定する。AIの出力そのものを評価軸にしない考え方は、<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を先に決める</a>という話と同じ構図です。</li>
+<li><strong>カメラ入力の経路を資産として棚卸しする。</strong> ネットワークカメラ、映像配線、画像を渡す中間サーバーを、PCと同格の管理対象にする。これらは「周辺機器」として台帳から漏れがちです。</li>
+<li><strong>安い手当てから試す。</strong> 高価な検知製品を先に買うより、入力画像への軽い前処理という安価な手当てのほうが効いた、というのがこの実験の結果です。</li>
+</ol>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、<strong>TOEでは未実施</strong>です。この論文の攻撃再現も、顧客の生産設備に対する同種の検証も行っていません。以下は論文を読んだうえでの読み筋です。</p>
+<p>読み筋は3つあります。</p>
+<p>第一に、AI設備の受け入れ検査の項目に「映像入力が想定どおりであること」を足す余地があります。現状の検収は、動作の成否とサイクルタイムで見るのが一般的で、入力側の健全性は見ていないことが多い。この研究は、入力側だけが原因で成否が3〜5割変わりうることを示しました。</p>
+<p>第二に、検知への過剰投資は割に合わない可能性があります。誤検知率5%で検知率13.4〜21.4%という数字は、「異常を自動で見つける仕組み」への期待値を下げます。むしろ人間が最終確認する工程を残すほうが現実的です。ツール選定の判断軸としては、<a href="/articles/ai-tool-selection/">何を基準にAIツールを選ぶか</a>の考え方が近い。</p>
+<p>第三に、これはシミュレーション上の話であり、実機・実工場での再現は本論文の範囲外です。したがって「危険だから導入をやめる」という結論は導けません。導けるのは、監視の見る場所を変えるという運用側の調整だけです。</p>
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>LIBEROベンチマーク、ε=0.06、8反復の条件で、AIロボットのタスク成功率は96.5%→43.1%（action-only型）まで低下した</li>
+<li>予測未来映像をもっともらしく保ったまま動作だけを壊す攻撃でも、成功率は63.0%（joint）／68.1%（IDM）にとどまり、「画面が正常＝装置が正常」は成立しない</li>
+<li>AI自身の一貫性チェックによる検知は、誤検知率5%の条件で13.4〜21.4%しか見つけられず、ガウシアンぼかしやJPEG圧縮という素朴な前処理のほうが85.0〜90.0%まで回復させた</li>
+<li>別ベンチマークRoboTwinでの低下は6.5〜7.7ポイントにとどまり、効果はベンチマークに強く依存する。評価はすべてシミュレーションで実機検証はない</li>
+<li>中小企業側の実務としては、検収・監視を物理的アウトプットで行い、カメラ入力の経路を管理対象資産として棚卸しすること。TOEでは未実施の領域であり、以上は論文の読み筋である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

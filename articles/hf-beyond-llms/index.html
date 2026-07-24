@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>なぜ高性能モデルに丸投げすると失敗するのか？トークン30分の1・成功率1桁台から80%超という報告の読み方 · AIの鬼</title>
+  <meta name="description" content="IBM Researchが、業務AIをLLM単体ではなく従来型ソフト部品で誘導する「エージェントロジック」で組み直したところ、トークン消費が最大30分の1、成功率が1桁台から80%超に改善したと報告しました。数字の条件と、自社製品の提供者による発表という前提を踏まえ、中小企業が投資すべき場所を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-beyond-llms/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-beyond-llms/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="なぜ高性能モデルに丸投げすると失敗するのか？トークン30分の1・成功率1桁台から80%超という報告の読み方 · AIの鬼">
+  <meta property="og:description" content="IBM Researchが、業務AIをLLM単体ではなく従来型ソフト部品で誘導する「エージェントロジック」で組み直したところ、トークン消費が最大30分の1、成功率が1桁台から80%超に改善したと報告しました。数字の条件と、自社製品の提供者による発表という前提を踏まえ、中小企業が投資すべき場所を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-beyond-llms/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="なぜ高性能モデルに丸投げすると失敗するのか？トークン30分の1・成功率1桁台から80%超という報告の読み方 · AIの鬼">
+  <meta name="twitter:description" content="IBM Researchが、業務AIをLLM単体ではなく従来型ソフト部品で誘導する「エージェントロジック」で組み直したところ、トークン消費が最大30分の1、成功率が1桁台から80%超に改善したと報告しました。数字の条件と、自社製品の提供者による発表という前提を踏まえ、中小企業が投資すべき場所を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"なぜ高性能モデルに丸投げすると失敗するのか？トークン30分の1・成功率1桁台から80%超という報告の読み方","item":"https://ai-oni.com/articles/hf-beyond-llms/"}]},{"@type":"Article","headline":"なぜ高性能モデルに丸投げすると失敗するのか？トークン30分の1・成功率1桁台から80%超という報告の読み方","description":"IBM Researchが、業務AIをLLM単体ではなく従来型ソフト部品で誘導する「エージェントロジック」で組み直したところ、トークン消費が最大30分の1、成功率が1桁台から80%超に改善したと報告しました。数字の条件と、自社製品の提供者による発表という前提を踏まえ、中小企業が投資すべき場所を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-beyond-llms/"},"url":"https://ai-oni.com/articles/hf-beyond-llms/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-beyond-llms.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-beyond-llms/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-beyond-llms.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>なぜ高性能モデルに丸投げすると失敗するのか？トークン30分の1・成功率1桁台から80%超という報告の読み方</h1>
+<p class="article-lead">IBM Researchが、業務AIをLLM単体ではなく従来型ソフト部品で誘導する「エージェントロジック」で組み直したところ、トークン消費が最大30分の1、成功率が1桁台から80%超に改善したと報告しました。数字の条件と、自社製品の提供者による発表という前提を踏まえ、中小企業が投資すべき場所を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。業務AIが規模化しない原因は、モデルの性能不足ではなく設計の不在です。IBM Researchは、業務手順やルールをAIの外側に置いて誘導する構成に組み直すことで、トークン消費が最大30分の1、成功率が1桁台から80%超に改善したと報告しています。ただしこれは自社製品の提供者による発表です。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>IBM Researchが Hugging Face ブログ上で公開した寄稿記事「Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic」に、複数業務での比較実測が並んでいます。共通する主張は一つで、LLMに全部を考えさせるのではなく、業務ルール・台帳・既存ツールといった従来型のソフトウェア部品でLLMの手順を固定する、という設計（記事では「エージェントロジック」と呼ばれています）を入れると、コストと精度が同時に改善するというものです。</p>
+<p>報告されている数字を、条件つきで並べます。</p>
+<table>
+<thead>
+<tr>
+<th>業務領域</th>
+<th>報告された結果</th>
+<th>比較条件（記事の記載）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>レガシーコード解析</td>
+<td>トークン消費 約30分の1</td>
+<td>LLM単体（LLM-only）ベースラインとの比較。対象は最大100万行・1,000プログラム規模のシステム</td>
+</tr>
+<tr>
+<td>テスト自動生成（Aster）</td>
+<td>コードカバレッジ +20%〜45%</td>
+<td>75本以上のJavaアプリケーションが対象。1アプリあたり最大560クラス超・6.7万行超</td>
+</tr>
+<tr>
+<td>テスト自動生成（Aster）</td>
+<td>トークン使用量 最大15分の1</td>
+<td>同上（75本以上のJavaアプリ、LLM単体比）</td>
+</tr>
+<tr>
+<td>インシデント対応</td>
+<td>性能 4.0倍</td>
+<td>ReAct方式のエージェントをベースラインとした比較</td>
+</tr>
+<tr>
+<td>インシデント対応（新しいモデルの比較エージェント）</td>
+<td>トークン1.6倍消費・性能17%低下</td>
+<td>同タスクでの比較。詳細なモデル名・試行数は記載なし</td>
+</tr>
+<tr>
+<td>コンプライアンス自動化</td>
+<td>性能 1.3〜2.0倍</td>
+<td>従来型エージェントとの比較。n数・期間は記載なし</td>
+</tr>
+<tr>
+<td>コンプライアンス自動化</td>
+<td>成功率 1桁台 → 最大80%超</td>
+<td>従来手法からの改善幅。タスク件数・期間は記載なし</td>
+</tr>
+<tr>
+<td>医療ポリシー適用</td>
+<td>精度 15%〜26%改善</td>
+<td>複数のモデルファミリーにまたがって計測。具体的なモデル名・n数は記載なし</td>
+</tr>
+<tr>
+<td>設備保全</td>
+<td>所要時間 97%削減（15〜20分 → 15〜30秒）</td>
+<td>1件あたりの処理時間比較。件数・期間は記載なし</td>
+</tr>
+<tr>
+<td>設備保全</td>
+<td>根拠のない主張（unsupported claims）57%削減</td>
+<td>同タスクでの比較。ベースラインの詳細は記載なし</td>
+</tr>
+<tr>
+<td>設備保全</td>
+<td>トークン使用量 77%削減</td>
+<td>同上。ベースライン詳細は記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>（出典：IBM Research（Hugging Face ブログ上の寄稿記事、2026年6月1日公開）、2026-06-01、<a href="https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption">https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption</a>）</p>
+<p>読む前に押さえるべき前提があります。<strong>この記事は IBM Research 自身による発表であり、同社は本文中で言及される製品（watsonx Code Assistant for Z、IBM Concert、IBM Sovereign Core、IBM Maximo Condition Insights）の提供者です</strong>。つまり「エージェントロジックを組み込んだ製品が有効だ」という結論が出ることに利害関係のある発信元が、自ら測って自ら公開した数字です。数字を頭から疑えという意味ではなく、ベースラインの取り方や条件の選び方に都合のよさが入り込んでいないかを、読む側が自分で確かめる必要がある、という意味です。</p>
+<h2 id="_2">読者への意味：投資すべきはモデルのグレードではない</h2>
+<p>中小企業の経営者・情報システム担当にとって、この報告が持つ実務的な意味は明快です。<strong>AI導入の予算を「より高性能なモデルの利用料」に投じるのではなく、「自社の業務手順とデータ構造の言語化」に投じたほうが効く可能性が高い</strong>、ということです。</p>
+<p>理由は数字の構造にあります。ここで報告されている改善は、いずれもモデルを賢くしたことによるものではありません。モデルは同じか、むしろ据え置きのまま、その外側に手順・ルール・既存ツールを配置して「どの順番で、何を見て、何をしてはいけないか」を固定した結果として出ています。</p>
+<p>中小企業でよくある失敗は、次の形を取ります。</p>
+<ul>
+<li>高性能モデルに社内資料をまとめて投げ、「いい感じにやって」と頼む</li>
+<li>精度が出ないので、さらに情報を追加投入する。プロンプトが肥大化する</li>
+<li>結果としてトークン代だけが積み上がり、精度は横ばいのまま止まる</li>
+</ul>
+<p>この記事の数字は、その逆の順序を示しています。先に手順を固定し、AIに渡す前の段階で情報を絞り、判断の分岐は従来型のプログラムやルールで処理する。AIには「その工程でしかできないこと」だけを任せる。同じ作業でトークンが15分の1から30分の1になるのは、AIに考えさせる範囲をそこまで削れた、ということです。</p>
+<p>つまり社内でまずやるべきは、AIの選定ではなく業務の棚卸しです。誰がどの台帳を見て、どういう条件でどう判断しているのか。それを文章と表に落とせているかどうかが、そのままAI化の可否と費用を決めます。最初の一歩の踏み方は <a href="/articles/ai-first-step-smb/">中小企業のAI導入、最初の一歩</a> に、AIの外側でどう手順を組むかという発想は <a href="/articles/ai-workflow-automation/">業務ワークフローを自動化する</a> に整理しています。</p>
+<h2 id="_3">「新しいモデルに替えれば良くなる」は成り立つのか</h2>
+<p>この記事の中でもっとも実務に効く数字は、実は最大の改善幅ではありません。<strong>より新しいモデルを使った比較エージェントが、トークンを1.6倍消費したうえで性能が17%低下した</strong>という結果のほうです（インシデント対応タスクでの比較。詳細なモデル名・試行数は記載なし）。</p>
+<p>これが示すのは、モデルの更新がそのまま業務性能の改善にはならない、ということです。ベンチマーク上で強いモデルが、自社の業務手順のなかで強いとは限りません。手順やプロンプトが以前のモデルの癖に合わせて調整されていれば、差し替えた瞬間に噛み合わなくなることもあります。</p>
+<p>社内での運用ルールとして、次の3点を決めておく価値があります。</p>
+<ul>
+<li>モデルを切り替える前に、実際の業務データで旧構成と新構成を同じ条件で比較する</li>
+<li>比較の指標は精度だけでなく、1件あたりのトークン消費と所要時間も必ず並べる</li>
+<li>提供元から「新モデルへの移行推奨」の案内が来ても、比較結果が出るまでは既存構成を維持する</li>
+</ul>
+<p>「新しいほうが良いとは限らない」という論点は <a href="/articles/hf-newer-models-same-advantage/">新しいモデルが同じ優位を保つとは限らない</a> でも扱っています。自社の業務に合わせた評価軸の作り方は <a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a> を参照してください。</p>
+<h2 id="_4">この数字が当てはまらない範囲</h2>
+<p>誠実に書いておくべき限界があります。まず、<strong>本文中に発信元自身が認める限界や不都合な結果の明示的な記述はありません</strong>。成果はいずれも検証済みのものとして提示されています。技術記事としては珍しいことではありませんが、読む側は「限界が書かれていない」こと自体を情報として扱うべきです。</p>
+<p>そのうえで、この記事の数字を自社に当てはめる際に注意すべき点を挙げます。</p>
+<ul>
+<li>数値の多くは、ベースラインの定義、試行回数、評価期間が本文に明記されていません。第三者による再現・検証は困難です。「成功率1桁台から80%超」も、何件のタスクをどの期間測ったのかは書かれていません</li>
+<li>唯一の不都合な結果である「新しいモデルでトークン1.6倍・性能17%低下」も、自社手法の優位を補強する文脈で提示されており、中立な失敗報告として書かれたものではありません</li>
+<li>評価対象がレガシーCOBOL資産、最大100万行規模のシステム、6.7万行超のJavaアプリ、企業インフラ運用といった大企業前提のワークロードです。<strong>中小企業の業務規模にそのまま当てはまる保証はありません</strong></li>
+<li>特に「トークン30分の1」は、対象が100万行規模のコード解析だからこそ削減幅が大きく出ている面があります。もともと投入情報量が少ない業務では、同じ比率の削減は期待できません</li>
+</ul>
+<p>比率で示された改善は、分母が大きいほど見栄えがします。自社に当てはめるときは、比率ではなく「1件あたり何円が何円になるか」に置き換えて考えるのが安全です。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、この記事で紹介されているIBMの製品群（watsonx Code Assistant for Z、IBM Concert、IBM Sovereign Core、IBM Maximo Condition Insights）はいずれも未検証・未実施です</strong>。以下は記事の内容と、TOEがこれまで自社およびクライアント業務でAIを組んできた経験からの読み筋であって、検証結果ではありません。</p>
+<p>そのうえで、この記事の主張はTOEの実感と一致します。AI導入の成否を分けるのは、ほぼ常にAIの外側です。業務手順が言語化されておらず、台帳がスプレッドシートの中で人によって書式が違い、判断基準が担当者の頭の中にしかない。この状態でどれだけ高性能なモデルを持ってきても、AIは毎回ゼロから状況を推測することになり、トークンを食い、そして外します。</p>
+<p>だからTOEがクライアントに最初に提案するのは、モデルの選定ではなく手順の書き出しです。地味で、成果が見えにくく、社内の合意も取りにくい工程ですが、ここを飛ばした案件はほぼ例外なく「使われないAI」になります。</p>
+<p>もう一点、この記事から中小企業が持ち帰るべきは、<strong>AIに全部やらせない設計が正解になりうる</strong>という発想の転換です。条件分岐は if 文で書けばよく、台帳の検索はSQLで足り、フォーマット変換はスクリプトで済みます。AIが必要なのは、自然言語の解釈と、決まった型に落とせない判断の部分だけです。この切り分けができると、コストは桁で下がり、動作は安定し、何が起きたか説明できるようになります。</p>
+<p>なお、TOEはこの記事の数字を検証していません。自社で同種の構成を組んだ場合に30分の1や80%超が再現するかは不明です。実務で確かめるなら、1業務・1か月・件数を数えられる範囲から始めて、自社の数字を自分で取ることをおすすめします。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>IBM Researchは、業務ルールや既存ツールでLLMを誘導する設計により、トークン消費が最大30分の1（100万行規模のコード解析、LLM単体比）、コンプライアンス自動化の成功率が1桁台から最大80%超に改善したと報告している</li>
+<li>この記事は IBM Research 自身による発表であり、同社は本文中で言及される製品の提供者である。利害関係のある発信元による数字だという前提を持って読む必要がある</li>
+<li>数値の多くはベースラインの定義・試行回数・評価期間が明記されておらず、第三者による再現・検証は困難。評価対象も大企業前提の大規模ワークロードで、中小企業にそのまま当てはまる保証はない</li>
+<li>「新しいモデルの比較エージェントがトークン1.6倍・性能17%低下」という結果は、モデル更新が自動的に改善を意味しないことを示す。切り替え前の同条件比較を社内ルールにする根拠になる</li>
+<li>中小企業が投資すべきはモデルのグレードではなく、業務手順とデータ構造の言語化、およびAIに渡す前の前処理。なおTOEでは本記事の製品群はいずれも未検証・未実施であり、上記は読み筋である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

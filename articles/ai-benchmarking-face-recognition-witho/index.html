@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本物の顔写真を使わずに、顔認証システムの優劣は比較できるのか（合成データ12件×モデル24本の検証） · AIの鬼</title>
+  <meta name="description" content="ルクセンブルク大学らの研究が、AI生成の合成顔データセット12件と実データのベンチマーク7件を、学習済みモデル24本で突き合わせた。上位の合成データは実データとの相関が平均0.90に達する一方、最下位は-0.52まで落ちる。顔写真を集めずにベンダー比較ができる条件と、鵜呑みにしてはいけない境界を整理する。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="本物の顔写真を使わずに、顔認証システムの優劣は比較できるのか（合成データ12件×モデル24本の検証） · AIの鬼">
+  <meta property="og:description" content="ルクセンブルク大学らの研究が、AI生成の合成顔データセット12件と実データのベンチマーク7件を、学習済みモデル24本で突き合わせた。上位の合成データは実データとの相関が平均0.90に達する一方、最下位は-0.52まで落ちる。顔写真を集めずにベンダー比較ができる条件と、鵜呑みにしてはいけない境界を整理する。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="本物の顔写真を使わずに、顔認証システムの優劣は比較できるのか（合成データ12件×モデル24本の検証） · AIの鬼">
+  <meta name="twitter:description" content="ルクセンブルク大学らの研究が、AI生成の合成顔データセット12件と実データのベンチマーク7件を、学習済みモデル24本で突き合わせた。上位の合成データは実データとの相関が平均0.90に達する一方、最下位は-0.52まで落ちる。顔写真を集めずにベンダー比較ができる条件と、鵜呑みにしてはいけない境界を整理する。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"本物の顔写真を使わずに、顔認証システムの優劣は比較できるのか（合成データ12件×モデル24本の検証）","item":"https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/"}]},{"@type":"Article","headline":"本物の顔写真を使わずに、顔認証システムの優劣は比較できるのか（合成データ12件×モデル24本の検証）","description":"ルクセンブルク大学らの研究が、AI生成の合成顔データセット12件と実データのベンチマーク7件を、学習済みモデル24本で突き合わせた。上位の合成データは実データとの相関が平均0.90に達する一方、最下位は-0.52まで落ちる。顔写真を集めずにベンダー比較ができる条件と、鵜呑みにしてはいけない境界を整理する。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/"},"url":"https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-benchmarking-face-recognition-witho.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-benchmarking-face-recognition-witho/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-benchmarking-face-recognition-witho.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>本物の顔写真を使わずに、顔認証システムの優劣は比較できるのか（合成データ12件×モデル24本の検証）</h1>
+<p class="article-lead">ルクセンブルク大学らの研究が、AI生成の合成顔データセット12件と実データのベンチマーク7件を、学習済みモデル24本で突き合わせた。上位の合成データは実データとの相関が平均0.90に達する一方、最下位は-0.52まで落ちる。顔写真を集めずにベンダー比較ができる条件と、鵜呑みにしてはいけない境界を整理する。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。顔認証システムの「どの製品が優れているか」という順位付けであれば、本物の顔写真を一切使わず、AIが生成した合成顔データだけで実データとおおむね同じ結論に到達できます。ただし条件付きです。使う合成データセットを間違えると順位はほぼ無相関になり、最悪の場合は逆転します。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>ルクセンブルク大学の Paweł Borsukiewicz、Daniele Lunghi、Wendkûuni C. Ouédraogo、Jacques Klein、Tegawendé F. Bissyandé の各氏による研究「Benchmarking Face Recognition without Real Faces」が、IJCB 2026 向けに公開されました（出典：arXiv:2607.14932、2026年7月16日（arXiv:2607.14932v1）、<a href="https://arxiv.org/abs/2607.14932v1">https://arxiv.org/abs/2607.14932v1</a>）。</p>
+<p>問いはシンプルです。顔認証の性能評価には、これまで実在の人物の顔写真を集めたベンチマークが使われてきました。これを合成顔データで置き換えられるか。置き換えられるなら、評価のたびに実在の顔写真を保有する必要がなくなります。</p>
+<p>検証の枠組みは次の通りです。</p>
+<ul>
+<li>比較対象：合成顔データセット12件と、実データによる既存ベンチマーク7件</li>
+<li>評価に使った学習済み顔認証モデル：24本（内訳は Vision Transformer 系9本、CNN 系15本）</li>
+<li>統計的な確からしさの検証：ブートストラップ再標本化を10,000回実施して信頼区間を算出</li>
+</ul>
+<p>つまり「合成データで24本のモデルを評価した順位」と「実データで同じ24本を評価した順位」がどれだけ一致するかを見た、という構図です。</p>
+<h2 id="_2">上位と下位で結論が正反対になる</h2>
+<p>結果は、合成データセットによってきれいに割れました。</p>
+<table>
+<thead>
+<tr>
+<th>合成データセット</th>
+<th>実ベンチマークとの相関</th>
+<th>FID（実写との見た目の乖離、低いほど実写に近い）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MorphFace</td>
+<td>上位群。相関 r = 0.90（平均）／Spearman ρ &gt; 0.85</td>
+<td>31.6〜64.2</td>
+</tr>
+<tr>
+<td>Vec2Face</td>
+<td>上位群。同上</td>
+<td>51.9〜92.0</td>
+</tr>
+<tr>
+<td>SynMulti-PIE</td>
+<td>ρ = 0.03（ほぼ無相関）</td>
+<td>論文記載の範囲外</td>
+</tr>
+<tr>
+<td>ControlFace10k</td>
+<td>ρ = -0.52（順位が逆転）</td>
+<td>230.0〜351.5</td>
+</tr>
+</tbody>
+</table>
+<p>補足すると、r = 0.90 と ρ &gt; 0.85 は上位合成データセット（MorphFace、Vec2Face）と実ベンチマークの評価結果の一致度で、24モデル×各指標の平均値です。ρ の平均は0.87でした。相関がマイナスの ControlFace10k と、ほぼゼロの SynMulti-PIE は、同一の24モデル評価で得られた値です。</p>
+<p>ここで重要なのが基準線です。実データ同士のベンチマーク7件を相互比較しても、相関は0.77〜0.97 の幅でばらつきます。つまり「実データを使えば常に同じ結論が出る」わけではなく、そもそも0.77〜0.97 程度の自然な不一致が存在する。上位の合成データセットは、この範囲の内側に収まっています。実データ同士のブレと同程度、という位置づけです。</p>
+<p>識別性能そのものも数字が出ています。ZeroFMR（本人以外を誤って一致させないという厳格な条件下での識別性能）は、mated 3,000ペア／non-mated 3,000ペアのプロトコルで、Vec2Face が0.81、MorphFace が0.78。実データのベンチマークは0.58〜0.78 でした。合成データのほうが、この指標では実データ勢の上端に並ぶか、それを上回っています。</p>
+<h2 id="_3">論文が認めている限界</h2>
+<p>都合のいい話だけを取り出すと判断を誤ります。この研究には明示的な Limitations 節がなく、以下は本文中の記述から読み取れる制約です。</p>
+<ul>
+<li>評価対象は学習済みモデル24本に限定されている。アーキテクチャの多様性を広げなければ、結論は補強されない</li>
+<li>ZeroFMR はデータセット間で分散が大きい。誤合致をほぼゼロにする極端に厳しい動作点では、評価が不安定になる</li>
+<li>FID（実写との見た目の近さ）だけでは、ベンチマークとしての信頼性を予測できない。見た目が実写に近くても、評価結果が一致するとは限らない</li>
+<li>姿勢や年齢など特定条件に特化したベンチマークでは、合成データとの整合性がばらつく</li>
+</ul>
+<p>そしてもっとも大事な線引きがあります。合成データが使えるのは「相対比較」、すなわちどのモデルが優れているかの順位付けであって、絶対的な精度保証ではありません。「合成データで0.81 出たから、自社の入退室ゲートでも0.81 出る」という読み方はできません。</p>
+<p>FID の件は特に効きます。ControlFace10k は FID が230.0〜351.5 と、実写から大きく離れています。ここまで乖離していれば見た目でも分かる。しかし FID が低ければ安全かというと、論文はそれを否定しています。見た目の指標と、ベンチマークとしての妥当性は別物だという指摘です。この構図は<a href="/articles/ai-answer-vs-reasoning-quality/">「答えの良さ」と「考え方の良さ」を分けて測る話</a>と同じで、測りやすい代理指標が本当に見たいものとずれるという、AI評価に共通する落とし穴です。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>正直に書くと、この論文が直接効いてくるのは顔認証を扱う会社に限られます。顔認証を使う予定がない企業にとっての実務価値は弱い。ただし、検討中の会社にとっては2つ、具体的な使い道があります。</p>
+<p>ひとつめ。入退室管理や勤怠打刻で顔認証の導入を検討するとき、製品選定の一次スクリーニングを、従業員の顔写真を集めずに行える可能性が出てきました。上位2データセットで相関0.90 という結果は、「合成データでの比較結果が実データでの順位とおおむね一致する」ことを意味します。実地検証のために全社員の顔写真を集め、それを保管し、選定に落ちたベンダーの手元にも渡ってしまう——という個人情報のリスクを、少なくとも一次選考の段階では抱え込まずに済みます。</p>
+<p>ふたつめ。これは審査する側の観点です。ベンダーから「AI生成の合成データでテストしました」という説明を受けたとき、それだけでは何も分かりません。同じ「合成データでテスト」でも、MorphFace や Vec2Face を使ったのか、ControlFace10k（ρ = -0.52）を使ったのかで、結論の意味が正反対になります。</p>
+<p>聞くべき質問は次の3点です。</p>
+<ul>
+<li>どの合成データセットを使ったか（名前を出せるか）</li>
+<li>そのデータセットは、実データのベンチマークとどれだけ相関するとされているか</li>
+<li>出している数字は相対比較か、絶対的な精度保証として提示しているか</li>
+</ul>
+<p>3つめで「絶対的な精度です」と答えるベンダーは、この論文の線引きを踏み越えています。ベンダーの説明を自社の基準で検証する姿勢については<a href="/articles/ai-own-evaluation-criteria/">AIの評価基準は自社で作るという話</a>も併せて読んでください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、TOEでは顔認証システムの導入も、合成顔データによるベンダー評価も未実施です。顔認証を扱った案件がないため、以下は論文からの読みであって実測ではありません。</p>
+<p>そのうえで、この研究のいちばん面白い点は顔認証そのものではないと考えています。「本番データを使わずにベンダーを比較する」という手続きが、統計的に成立しうると示されたことです。</p>
+<p>中小企業がAI製品を選ぶとき、最大の障害はしばしば技術ではなく検証コストです。自社データを整形し、NDAを結び、複数ベンダーに配り、結果を突き合わせる。この一連が重すぎて、結局は営業資料と価格だけで決めてしまう。顔認証における顔写真は、その典型例でした。</p>
+<p>合成データで一次スクリーニングが成立するなら、順序が変えられます。合成データで候補を3社から1社に絞り、実データを渡すのは最終1社だけ。渡す先が減れば、漏洩面も契約の手間も減ります。</p>
+<p>ただし前述の通り、絶対的な精度保証にはならない以上、最終選考での実データ検証は省けません。合成データは「候補を減らす道具」であって「合格を出す道具」ではない、というのが現時点の読みです。この分業の考え方は、自社データを外に出さずに評価する<a href="/articles/ai-local-llm/">ローカルLLMの使いどころ</a>とも重なります。</p>
+<p>もうひとつ。相関が-0.52 という数字は、「AIで検証しました」という言葉が中身の保証にならないことを、数字で示した例として使えます。検証したかどうかではなく、何で検証したか。これは顔認証に限りません。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>合成顔データセット12件と実ベンチマーク7件を、学習済みモデル24本（Vision Transformer 9本、CNN 15本）で突き合わせた検証。信頼区間はブートストラップ再標本化10,000回で算出（出典：arXiv:2607.14932、2026年7月16日（arXiv:2607.14932v1）、<a href="https://arxiv.org/abs/2607.14932v1">https://arxiv.org/abs/2607.14932v1</a>）</li>
+<li>上位の MorphFace と Vec2Face は実ベンチマークとの相関が平均 r = 0.90（Spearman ρ &gt; 0.85、ρ平均0.87）。実データ同士でも0.77〜0.97 のばらつきがあり、上位勢はその範囲内に収まる</li>
+<li>一方 SynMulti-PIE は ρ = 0.03、ControlFace10k は ρ = -0.52。合成データなら何でもよいわけではなく、選択次第で順位が逆転する</li>
+<li>論文が認める限界として、評価はモデル24本に限られること、ZeroFMR は極端な動作点で不安定なこと、FID（MorphFace 31.6〜64.2／Vec2Face 51.9〜92.0／ControlFace10k 230.0〜351.5）の低さがベンチマーク妥当性を予測しないことが挙げられる。合成データが担えるのは相対比較であって絶対的な精度保証ではない</li>
+<li>中小企業への意味は2つ。顔認証の製品選定で、従業員の顔写真を集めずに一次スクリーニングができる可能性があること。そして「合成データでテストしました」というベンダー説明に対し、どのデータセットを使ったかを必ず確認すべきこと。TOEでは顔認証の導入も合成データ評価も未実施であり、以上は論文からの読みです</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

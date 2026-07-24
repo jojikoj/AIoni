@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？ · AIの鬼</title>
+  <meta name="description" content="Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHF Jobsへ移した結果、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒・1回1セント未満と報告されました。ただし発信元は当該サービスの提供者であり、測定回数も期間も記載がありません。読み方を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-migrating-github-ci-hugging/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-migrating-github-ci-hugging/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？ · AIの鬼">
+  <meta property="og:description" content="Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHF Jobsへ移した結果、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒・1回1セント未満と報告されました。ただし発信元は当該サービスの提供者であり、測定回数も期間も記載がありません。読み方を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-migrating-github-ci-hugging/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？ · AIの鬼">
+  <meta name="twitter:description" content="Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHF Jobsへ移した結果、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒・1回1セント未満と報告されました。ただし発信元は当該サービスの提供者であり、測定回数も期間も記載がありません。読み方を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？","item":"https://ai-oni.com/articles/hf-migrating-github-ci-hugging/"}]},{"@type":"Article","headline":"GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？","description":"Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHF Jobsへ移した結果、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒・1回1セント未満と報告されました。ただし発信元は当該サービスの提供者であり、測定回数も期間も記載がありません。読み方を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-migrating-github-ci-hugging/"},"url":"https://ai-oni.com/articles/hf-migrating-github-ci-hugging/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-migrating-github-ci-hugging.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-migrating-github-ci-hugging/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-migrating-github-ci-hugging.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>GitHub ActionsのCIをHugging Face Jobsへ移すと実行時間は1分40秒から1分10秒になるのか？</h1>
+<p class="article-lead">Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHF Jobsへ移した結果、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒・1回1セント未満と報告されました。ただし発信元は当該サービスの提供者であり、測定回数も期間も記載がありません。読み方を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。Hugging Faceが自社プロダクトTrackioのCIをGitHub ActionsからHugging Face Jobsへ移したところ、CPU実行で1分40秒が1分10秒になり、約30%短縮したと報告されました。GPU実行では45秒、コストは1回1セント未満です。ただしこれは提供者自身による自社1プロジェクトの測定で、n数の記載はありません。</p>
+<h2 id="trackio1ci">何が測られたのか：Trackioという1本のCIワークフロー</h2>
+<p>対象は、Hugging Faceが自社で開発するプロダクトTrackioの継続的インテグレーション（CI）ワークフローです。CIとは、コードを変更するたびに自動でテストを走らせ、壊れていないかを確認する仕組みを指します。多くの開発現場ではGitHub Actionsという機能を使い、GitHubが用意した実行環境（ランナー）の上でテストを回します。</p>
+<p>今回報告されたのは、そのテストの実行先をGitHubの標準ランナーからHugging Face Jobsへ載せ替えたときの、実行時間とコストの変化です（出典：Hugging Face（著者: Abubakar Abid / abidlabs）、2026-06-09、<a href="https://huggingface.co/blog/github-ci-hf-jobs">https://huggingface.co/blog/github-ci-hf-jobs</a>）。</p>
+<p>ここで最初に明示しておきます。<strong>この記事はHugging Face社自身による発表であり、同社はHF JobsおよびSpacesという当該製品の提供者です。</strong> 自社サービスへの移行を勧める立場から書かれた、利害関係のある情報です。加えて、比較に使われたのも同社の自社プロダクトのCIです。測定の設計・条件の選び方の両方に、発信者の都合が入り得ます。数字はその前提で読んでください。</p>
+<h2 id="14011045">一次資料の実測：1分40秒、1分10秒、45秒</h2>
+<p>公開された定量データは次のとおりです。いずれも同一のTrackio CIワークフローを対象とした実測値です。</p>
+<table>
+<thead>
+<tr>
+<th>実行環境</th>
+<th>実行時間</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Actions（移行前のベースライン）</td>
+<td>1分40秒</td>
+<td>ubuntu-latest ランナーでの実行。TrackioのCIワークフロー。測定回数・期間の記載なし</td>
+</tr>
+<tr>
+<td>HF Jobs（CPU）</td>
+<td>1分10秒</td>
+<td>Dockerイメージ mcr.microsoft.com/playwright:v1.60.0-jammy を使用。同一のTrackio CIワークフロー。測定回数・期間の記載なし</td>
+</tr>
+<tr>
+<td>HF Jobs（GPU）</td>
+<td>45秒</td>
+<td>GPUフレーバー t4-small、Dockerイメージ nvidia/cuda:12.4.0-runtime-ubuntu22.04 を使用。同一ワークフロー</td>
+</tr>
+<tr>
+<td>短縮率（CPUジョブ）</td>
+<td>約30%</td>
+<td>上記1分40秒→1分10秒の比較。Trackio 1プロジェクトのみ。n数・期間の記載なし</td>
+</tr>
+<tr>
+<td>GPUジョブ1回あたりのコスト</td>
+<td>1セント未満</td>
+<td>t4-small レートでの上記45秒ジョブの場合。課金単価の内訳記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>もう1つ、構成上の条件があります。この仕組みでは、GitHub側のイベントを受けてHF Jobsを起動する「ディスパッチャー」役のSpaceを稼働させる必要があり、その推奨ハードウェア構成は <strong>cpu-upgrade</strong> です。無料枠にあたる cpu-basic はテスト用途なら使えるものの、無操作時にスリープするため常時運用には向かないと本文自身が但し書きしています。</p>
+<p>つまり、テスト実行そのものが1回1セント未満だとしても、その前段に常時起動のSpace費用が別途かかります。時間短縮の数字だけを見て総コストを判断することはできません。</p>
+<h2 id="gpu">読者への意味：GPU検証環境を設備投資なしで持てるか</h2>
+<p>中小企業の経営者・情報システム担当にとっての意味は、大きく3つに整理できます。</p>
+<ul>
+<li><strong>すでにGitHub Actionsを回している開発部門があるなら、CPUジョブで約30%の短縮は検討に値する材料です。</strong> ただし約30%はTrackio1本の実測であり、自社のCIが同じ比率で短くなる保証はありません。テスト内容もキャッシュの効き方も違うためです。</li>
+<li><strong>より実務的に効くのはGPU側です。</strong> GitHubの標準ランナーではGPUが使えません。そのため、AIモデルの推論や学習に関わるテストを自動化したい場合、自前でGPUサーバーを持つか、GPUテストを諦めるかの二択になりがちでした。ここに1回1セント未満の従量課金という第3の選択肢が示されたこと自体が、少人数の情報システム部門にとっての変化です。設備を買わずにGPU検証環境を持てる可能性を意味します。</li>
+<li><strong>一方で、対象読者は限られます。</strong> 自社でWebサービスやAI関連の開発を行い、GitHub Actionsの運用実績がある企業でなければ、この話から得られる示唆は弱いのが正直なところです。開発を外注しているだけの会社が、この記事を根拠に何かを動かす必要はありません。</li>
+</ul>
+<p>なお、AI関連の費用がどこで発生するのかという全体像は<a href="/articles/ai-cost-structure/">AI導入のコスト構造</a>を、特定のサービスに寄せることのリスクについては<a href="/articles/fail-vendor-lockin/">ベンダーロックインの失敗事例</a>をあわせてご覧ください。GPUを使わずCPUで推論を回す選択肢を検討している場合は<a href="/articles/ai-cpu-local-inference/">CPUでのローカル推論</a>も参考になります。</p>
+<h2 id="_1">この数字をどこまで信じてよいか：限界の整理</h2>
+<p>不都合な点を先に並べます。</p>
+<ul>
+<li><strong>発信元のHugging Faceは、移行先であるHF JobsおよびSpacesの提供者です。</strong> 自社サービスへの移行を勧める利害関係のある情報であり、第三者による中立な比較記事ではありません。</li>
+<li><strong>比較対象は同社の自社プロダクトTrackioのCI1本のみです。</strong> 複数プロジェクトでの再現データも、第三者検証もありません。測定回数（n数）と測定期間の記載もないため、1分10秒が平均値なのか最良値なのかを読者は判断できません。</li>
+<li><strong>ベースライン側の1分40秒も単一ワークフローの実測です。</strong> GitHub Actions側のキャッシュ状況やジョブ内容が異なれば短縮率が変動しうる点について、本文は言及していません。約30%という数字は、条件を揃えた統計ではなく、1組の比較から出た値です。</li>
+<li><strong>コスト面の情報が不足しています。</strong> GPUジョブは「t4-smallレートで1セント未満」とされるのみで、課金単価の内訳も、月間の実行回数を前提とした総額試算も示されていません。前述のとおり cpu-upgrade のSpace費用も加算されます。</li>
+<li><strong>無料構成では常時運用できないことを本文自身が認めています。</strong> cpu-basic は無操作でスリープするため、テスト用途に限るという但し書きがあります。「無料で試せる」と「無料で運用できる」は別の話です。</li>
+</ul>
+<h2 id="toeci1">TOEの読み筋：まず自社のCIで1週間の実測を取る</h2>
+<p>ここからは株式会社TOEとしての見立てです。<strong>TOEではこのHF Jobsへの移行は未実施です。</strong> 以下は実測に基づく報告ではなく、公開情報を読んだうえでの判断の筋道として書きます。</p>
+<ul>
+<li><strong>約30%という数字を自社に当てはめる前に、自社CIの現状値を測るのが先です。</strong> 1回あたり何秒かかり、1日に何回走り、そのうち開発者の待ち時間として体感されているのは何秒か。この3つが分からないまま移行しても、短縮された30%が事業上の何に変わったのかを説明できません。</li>
+<li><strong>判断の分かれ目はCPUではなくGPUにあると見ています。</strong> CPUジョブの30秒短縮は、1日数回の実行なら数分の差にしかなりません。対して「これまで自動化を諦めていたGPUテストが回せるようになる」は、できなかったことができるようになる変化です。同じ移行でも、後者を目的に据えたほうが投資判断は明確になります。</li>
+<li><strong>移行するなら全面ではなく1ワークフローからです。</strong> ディスパッチャーSpaceという新しい常時稼働の構成要素が増える以上、それ自体が障害点になり得ます。CI全体を一度に載せ替えると、テストが落ちたときに原因がコードなのか実行基盤なのか切り分けられなくなります。</li>
+<li><strong>費用は実行単価ではなく月額の合計で見ます。</strong> 1回1セント未満は魅力的な表現ですが、常時稼働のSpace費用と、実行回数を掛けた合計がGitHub Actions側の費用を下回るかどうかが判断材料です。この計算に必要な単価情報は、今回の記事には含まれていません。</li>
+</ul>
+<h2 id="_2">まとめ</h2>
+<ul>
+<li>Hugging FaceがTrackioのCIをGitHub ActionsからHF Jobsへ移し、CPU実行で1分40秒が1分10秒（約30%短縮）、GPU実行で45秒、GPUジョブ1回1セント未満と報告した。</li>
+<li>この記事はHugging Face社自身による発表であり、同社はHF JobsおよびSpacesの提供者である。比較対象も同社の自社プロダクト1本で、n数・測定期間の記載はない。</li>
+<li>実務上の意味が大きいのはCPU側の30%短縮より、GitHub標準ランナーでは使えなかったGPUテストを設備投資なしで回せる可能性のほうである。</li>
+<li>無料の cpu-basic は無操作でスリープするためテスト用途に限ると本文自身が認めており、常時運用には有料の cpu-upgrade が必要。実行単価だけでは総コストを判断できない。</li>
+<li>TOEでは未実施。検討するなら、自社CIの現状値（1回の秒数・1日の実行回数）を先に測り、GPUテストの自動化を目的に据えて1ワークフローから試すのが妥当と考える。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

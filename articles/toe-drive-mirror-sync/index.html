@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定 · AIの鬼</title>
+  <meta name="description" content="弊社では案件ごとの「成果物」フォルダをGoogle Driveへ自動同期し、iPhoneから外出先で開けるようにしています。73行のスクリプトと54日分の実行ログを実際に開いて、何を同期し何を除外しているか、そして運用ルールと実装のズレを数字で書きました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-drive-mirror-sync/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-drive-mirror-sync/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定 · AIの鬼">
+  <meta property="og:description" content="弊社では案件ごとの「成果物」フォルダをGoogle Driveへ自動同期し、iPhoneから外出先で開けるようにしています。73行のスクリプトと54日分の実行ログを実際に開いて、何を同期し何を除外しているか、そして運用ルールと実装のズレを数字で書きました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-drive-mirror-sync/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定 · AIの鬼">
+  <meta name="twitter:description" content="弊社では案件ごとの「成果物」フォルダをGoogle Driveへ自動同期し、iPhoneから外出先で開けるようにしています。73行のスクリプトと54日分の実行ログを実際に開いて、何を同期し何を除外しているか、そして運用ルールと実装のズレを数字で書きました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定","item":"https://ai-oni.com/articles/toe-drive-mirror-sync/"}]},{"@type":"Article","headline":"成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定","description":"弊社では案件ごとの「成果物」フォルダをGoogle Driveへ自動同期し、iPhoneから外出先で開けるようにしています。73行のスクリプトと54日分の実行ログを実際に開いて、何を同期し何を除外しているか、そして運用ルールと実装のズレを数字で書きました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-drive-mirror-sync/"},"url":"https://ai-oni.com/articles/toe-drive-mirror-sync/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/news-tools-03.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-drive-mirror-sync/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-03.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定</h1>
+<p class="article-lead">弊社では案件ごとの「成果物」フォルダをGoogle Driveへ自動同期し、iPhoneから外出先で開けるようにしています。73行のスクリプトと54日分の実行ログを実際に開いて、何を同期し何を除外しているか、そして運用ルールと実装のズレを数字で書きました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>株式会社TOEでは、すべての案件フォルダに「成果物/」というフォルダを置き、そこに入れたファイルをGoogle Driveへ自動でミラー同期しています。目的は1つで、外出先のiPhoneから提案書や納品PDFをすぐ開けるようにすることです。仕組みの実体は73行のシェルスクリプトで、この54日間で448回動きました。この記事は、そのスクリプトと実行ログを実際に開いて確認できたことだけを書いています。運用ルールと実装がズレていた箇所も、そのまま書きます。</p>
+<h2 id="73">仕組みは73行のシェルスクリプト</h2>
+<p>やっていることは単純です。ローカルの案件フォルダ配下にある「成果物/」を、Google Driveのデスクトップアプリがマウントしているフォルダ（Macから普通のフォルダとして見えるDrive領域）へ、rsyncというファイル同期の標準コマンドでコピーします。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ソース</td>
+<td>案件フォルダ配下の各「成果物/」</td>
+</tr>
+<tr>
+<td>宛先</td>
+<td>Google Driveマイドライブ配下の専用フォルダ（案件名ごと）</td>
+</tr>
+<tr>
+<td>方向</td>
+<td>ローカル→Driveの片方向。削除は同期しない</td>
+</tr>
+<tr>
+<td>実行タイミング</td>
+<td>Claude Codeのセッション終了時（SessionEnd hook）</td>
+</tr>
+<tr>
+<td>実装</td>
+<td>bashスクリプト73行＋rsync</td>
+</tr>
+</tbody>
+</table>
+<p>案件フォルダは執筆時点で34個あり、そのうち「成果物/」を持つ31案件が同期対象です。直近の実行ログにも「clients: 31」と記録されています。スクリプトは案件を1つずつ回り、「成果物/」が無い案件は黙ってスキップします。</p>
+<p>なお、DriveアプリがDriveをマウントできていない状態で走った場合はエラーを記録して即終了する安全弁が入っていますが、このエラーは54日間で0回でした。</p>
+<h2 id="_1">何を入れて、何を入れないか</h2>
+<p>このフォルダに入れるもの・入れないものは、社内の共通ルールファイルに明文化してあります。</p>
+<p><strong>入れるもの</strong>は、要するに「人に見せる完成品」です。</p>
+<ul>
+<li>PDF・pptx・docx・xlsx などの文書類</li>
+<li>ai・psd・indd・sketch・fig などのデザインデータ</li>
+<li>画像（jpg/png/svg等）・動画・音声</li>
+</ul>
+<p><strong>入れないもの</strong>は3種類です。</p>
+<ul>
+<li>ソースコード（gitで管理するため。Driveに二重で持たない）</li>
+<li>node_modules などのビルド成果物</li>
+<li>契約書・見積原本などの社外秘</li>
+</ul>
+<p>スクリプト側でも、rsyncの除外設定で <code>.DS_Store</code> などのシステムファイル、<code>node_modules/</code>・<code>.git/</code>・<code>.next/</code>・<code>dist/</code>・<code>build/</code> といった開発系フォルダを弾いています。うっかり成果物フォルダにコードごと置いても、開発ゴミはDriveに流れない作りです。</p>
+<h2 id="_2">なぜ「片方向・削除なし」なのか</h2>
+<p>rsyncには「ソースで消えたファイルを宛先でも消す」オプションがありますが、このスクリプトは意図的に使っていません。スクリプト内のコメントにも「片方向ミラー、ただし削除はしない（誤削除防止）」と書いてあります。</p>
+<p>理屈はこうです。ローカルで誤ってファイルを消しても、削除まで同期してしまうとDrive側の控えも一緒に消えます。削除を同期しなければ、Drive側が実質的な「消し忘れ保険」になります。同期は追加と上書きだけ、消すときは人間が両方を意図的に消す。自動化の対象を「増える方向」に限定するわけです。</p>
+<p>代償もあります。ローカルでファイル名を変えたり整理したりすると、Drive側には古い名前のファイルが残り続けます。実際、宛先フォルダは少しずつ「歴史地層」化します。私たちはこれを、閲覧用のミラーだから許容する、と割り切っています。マスターはあくまでローカル（とgit）で、Driveは読むための鏡です。</p>
+<h2 id="cronlaunchd">いつ動くか — cronでもlaunchdでもなくセッション終了時</h2>
+<p>実行タイミングは、Claude Codeの<strong>SessionEnd hook</strong>です。Claude Code（AIコーディング支援のCLIツール）には、セッションが終わった瞬間に任意のコマンドを実行させる仕組みがあり、そこにこのスクリプトを登録してあります。設定ファイルを実際に開いて、登録行を確認しました。</p>
+<p>発想としては「成果物が変わるのは、作業したときだけ」です。毎時のポーリングではなく、作業の区切りに同期する。作業していない深夜や休日に空振りで回り続けることがありません。</p>
+<p>当初はmacOS標準のスケジューラであるlaunchdで毎時実行する案でしたが、macOSのTCC（アプリごとのフォルダアクセス権限の仕組み）に阻まれて「Operation not permitted」になり、不採用になりました。この顛末は別の記事で詳しく書く予定なので、ここでは深入りしません。</p>
+<p>もう1つ、実装で効いているのが<strong>多重起動防止</strong>です。Claude Codeのウィンドウを複数開いていると、セッション終了のたびにフックが発火し、同期が同時に走りかねません。スクリプトはロック（実行中の目印となるフォルダ）を先に作り、既にあれば即終了します。ログには「SKIP: already running」が<strong>1,658回</strong>記録されていました。完走448回に対してスキップ1,658回。つまり発火の大半は「もう走ってるからやめた」で終わっています。無駄に見えますが、これが正常です。同じ処理が重なって走るより、静かに譲る方が安全です。</p>
+<p>ロックには「1時間以上残っていたら強制解放する」保険も付いていて、これは54日間で19回発動していました。何かの理由でロックが残骸として残っても、翌回には自力で復旧しています。</p>
+<h2 id="54">54日間のログを読む</h2>
+<p>実行ログは2026年5月28日から残っており、執筆時点で71,533行ありました。集計するとこうなります。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>期間</td>
+<td>2026-05-28 〜 2026-07-20（54日間）</td>
+</tr>
+<tr>
+<td>同期完走</td>
+<td>448回（1日平均8回強）</td>
+</tr>
+<tr>
+<td>多重起動スキップ</td>
+<td>1,658回</td>
+</tr>
+<tr>
+<td>Drive未マウントエラー</td>
+<td>0回</td>
+</tr>
+<tr>
+<td>古いロックの強制解放</td>
+<td>19回</td>
+</tr>
+<tr>
+<td>rsyncのエラー行</td>
+<td>2,559行</td>
+</tr>
+</tbody>
+</table>
+<p>最初の完走時は対象5案件、直近は31案件です。案件が6倍に増えても、仕組み側は1行も変えずに追従しています。フォルダ規約（案件フォルダに「成果物/」を置く）さえ守れば対象が自動で増える、という設計が効いています。</p>
+<p>一方で、rsyncのエラー行が2,559行あります。転送が途中で切れた形跡がログに繰り返し残っていました。原因はログからは特定できていません。ただし、この仕組みは毎回全案件を舐め直すので、失敗した転送は次の実行で再送されます。ミラー同期は1回の成功に賭けるのではなく、「何度でも走って最終的に一致すればいい」処理として設計するのが正解だと考えられます。</p>
+<h2 id="_3">運用ルールにしかない除外設定があった</h2>
+<p>ここからが正直に書くべき部分です。</p>
+<p>社内ルールにはこう書いてあります。「社外秘ファイルは <code>_社外秘/</code> フォルダに置けば同期対象外（rsyncで除外設定済み）」。</p>
+<p><strong>スクリプトを確認したところ、<code>_社外秘</code> の除外設定は存在しませんでした。</strong> 除外リストにあるのはシステムファイルと開発系フォルダだけで、<code>_社外秘/</code> はどこにもありません。つまり、ルールを信じて社外秘をそのフォルダに置いたら、そのままDriveへ同期されます。</p>
+<p>実害が出ていないことも確認しました。案件フォルダを検索した結果、<code>_社外秘/</code> フォルダを作っている案件は現時点で0件です。誰もまだこの逃し方を使っていなかったため、漏れたものはありません。ですが、これは運が良かっただけです。ドキュメントが実装より先に書かれ、実装が追いつかないまま「済み」と記されていた。この記事の執筆で見つかったので、スクリプトへの除外追加を直近の修正項目にしています。</p>
+<p>似たズレはもう1つありました。スクリプト冒頭のコメントには「実行: 手動 or launchd（毎時）」と書いてあります。前述の通りlaunchdは不採用になり、実際はSessionEnd hookで動いています。コメントが方式変更前のまま残っているわけです。</p>
+<p>前回の記事（AI秘書）でも「社内で言われている時刻と実際のcron設定が違う」ズレを見つけました。2記事続けて同じ種類の発見です。<strong>自動化のドキュメントは、書いた瞬間から実装とズレ始めます。</strong>「済み」と書く前に実物をgrepで確認する、記事や監査のタイミングで突き合わせる、という機会を意図的に作らないと、ズレは見つかりません。</p>
+<h2 id="_4">毎回同じファイルを送り直している</h2>
+<p>もう1つ、効率の面で美しくない挙動を見つけました。</p>
+<p>直近のログでは、ある案件の同じ7ファイル（合計約2MB）が、実行のたびに毎回転送されていました。rsyncは本来「変わったファイルだけ送る」のが売りですが、このスクリプトはファイルの更新日時を宛先に引き継がない設定（--no-times）で動かしています。Drive側の更新日時がローカルと一致しないため、rsyncが毎回「変わったかもしれない」と判断して送り直しているのだと考えられます。</p>
+<p>1回あたり数MBなので実害はほぼありませんが、成果物が数GBに育ったら問題になります。動いているものにも、こういう「静かな無駄」は潜んでいます。ログを読まなければ気づきませんでした。</p>
+<h2 id="_5">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-handoff-board/">なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル</a></li>
+<li><a href="/articles/toe-agent-dashboard/">自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード</a></li>
+</ul>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>案件ごとの「成果物/」フォルダをGoogle Driveへ片方向ミラーし、iPhoneから閲覧できるようにしている。実体は73行のシェルスクリプト＋rsync</li>
+<li>削除は同期しない。Drive側を誤削除の保険にするための意図的な設計</li>
+<li>実行はcronではなくClaude CodeのSessionEnd hook。「作業した区切りにだけ同期する」方式で、54日間で448回完走・多重起動は1,658回を自動スキップ</li>
+<li>運用ルールに「除外設定済み」とあった <code>_社外秘/</code> の除外は、スクリプトに実在しなかった。実害0件で発見できたが、ドキュメントと実装のズレは監査の機会を作らないと見つからない</li>
+<li>ログには2,559行のrsyncエラーと「毎回同じ7ファイルを再送する」無駄も残っていた。何度でも走る前提の設計だから破綻していないだけで、動いている仕組みにも読みに行くべきログはある</li>
+</ul>
+<p>派手なAIは1行も出てこない記事でしたが、AI活用の土台はこういう「ファイルがあるべき場所に自動で届く」配管です。株式会社TOEでは、こうした社内実践を土台に、中小企業向けのAI導入コンサルティングとAI開発を提供しています。自社の業務でどこから自動化すべきか迷っている方は、AIの鬼のお問い合わせフォームからご相談ください。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

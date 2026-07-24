@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳 · AIの鬼</title>
+  <meta name="description" content="弊社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-mass-production-errors/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-mass-production-errors/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳 · AIの鬼">
+  <meta property="og:description" content="弊社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-mass-production-errors/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳 · AIの鬼">
+  <meta name="twitter:description" content="弊社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳","item":"https://ai-oni.com/articles/toe-mass-production-errors/"}]},{"@type":"Article","headline":"AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳","description":"弊社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-mass-production-errors/"},"url":"https://ai-oni.com/articles/toe-mass-production-errors/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/news-policy-09.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-mass-production-errors/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-policy-09.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳</h1>
+<p class="article-lead">弊社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>株式会社TOEは、AIに記事を108本書かせる計画を実際に走らせました。完成した21本を全件検証した結果、<strong>誤りが1つも無かったのは1本だけ。修正は70箇所を超えました。</strong> しかも執筆時の指示には「検索で裏を取れ」「確認できない事例は書くな」と明記してあったのに、です。</p>
+<p>この記事は、その失敗の実測記録です。何がどう間違っていたのかを型として公開し、最後に「あなたの会社がAIに文章を書かせるとき、人間は何を確認すべきか」に落とします。</p>
+<h2 id="_1">何をやって、どうなったか</h2>
+<p>やったことは単純です。「AIに関するオリジナル記事を108本、3000字、画像つきで作る」という指示に対し、AIの執筆エージェント（自動で調べて書くAIの実行単位）を並列で走らせました。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>実測値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目標本数</td>
+<td>108本</td>
+</tr>
+<tr>
+<td>完成</td>
+<td>21本（途中で停止）</td>
+</tr>
+<tr>
+<td>1本あたりの執筆時間</td>
+<td>約10分</td>
+</tr>
+<tr>
+<td>検証した記事</td>
+<td>21本</td>
+</tr>
+<tr>
+<td>誤りが1つも無かった記事</td>
+<td><strong>1本</strong></td>
+</tr>
+<tr>
+<td>修正箇所</td>
+<td><strong>70箇所以上</strong></td>
+</tr>
+<tr>
+<td>検証にかかった時間</td>
+<td>約10分/本（執筆と同じだけかかった）</td>
+</tr>
+</tbody>
+</table>
+<p>重要な条件を先に書いておきます。執筆時のプロンプト（AIへの指示文）には、次の制約を明記していました。</p>
+<ul>
+<li>「検索で裏を取る」</li>
+<li>「出典URLを記事内に明記する」</li>
+<li>「確認できない事例は書かない」</li>
+</ul>
+<p><strong>指示してあっても、この結果になりました。</strong> ここがこの記事の要点です。「ちゃんと指示すれば大丈夫」は成り立ちませんでした。</p>
+<h2 id="ai">AIの間違い方には「型」がある</h2>
+<p>70箇所超の誤りを検証チームが原典（元の発表資料）と突き合わせたところ、間違い方は10種類の型に整理できました。すべて実際に出たものです。社名を伏せて代表例を挙げます。</p>
+<p><strong>型1：出典に存在しない数字を、出典があるかのように書く。</strong> 最も危険な型です。ある経費精算サービスの事例で「月500件、1件14〜15分、週20時間が週3時間に」と書かれていましたが、<strong>出典として示されたページにこの数字は存在しませんでした。</strong> ある大手EC企業の物流の事例でも「スループット最大25%向上」とありましたが、公式リリースにその記載はありません。「AIプロジェクトの約8割がビジネス価値創出に至らない」という、いかにもありそうな統計も出典がありませんでした。検索結果に出る短い抜粋だけを見て、残りを推測で埋めていたのです。</p>
+<p><strong>型2：予想値・見込み値を、実績として書く。</strong> ある物流会社の「最大20%削減」は、原典には<strong>「両社予想値」と明記された導入前の見込み</strong>でした。ある大手メーカーの「5万5千時間削減」も、原典は「削減を予定」。つまりまだ達成していない数字です。読者は達成済みの実績だと受け取ります。嘘の数字を書いたわけではないのに、意味が変わってしまう。これが一番たちが悪い型でした。</p>
+<p><strong>型3：主体の取り違え。</strong> AIを「導入した会社」と「提供した会社」が逆になる。社内ヘルプデスク向けの事例が「社外の顧客対応」として紹介される。事例の意味そのものが変わります。</p>
+<p><strong>型4：存在しない社名を書く。</strong> 実在しない社名を、旧社名の説明つきでもっともらしく創作した例がありました。</p>
+<p><strong>型5：出典URLが404（リンク切れ）。</strong> URLを載せているのに開けない。<strong>執筆時にそのページを開いていなかった証拠</strong>です。</p>
+<p>このほか、出典元の媒体を取り違える（型6）、ツール販売元の自社調査を中立な調査のように書く（型7）、「静かな会議室・マイクから1m」といった理想条件を落として精度の数字だけ書く（型8）、原典にない因果関係を断定する（型9）、制度・料金の読み違い（型10）がありました。</p>
+<p>共通するのは、<strong>どれも文章としては自然で、読んだだけでは見抜けない</strong>ことです。誤字や日本語の破綻なら誰でも気づきます。この10種類は、原典と突き合わせない限り見つかりません。</p>
+<h2 id="_2">なぜ指示していたのに起きたのか</h2>
+<p>ルールが無かったからではありません。社内の記事作成ルールには「一次資料に当たる」「条件を添える」「又聞きで数字を書かない」と既に書いてありました。原因は工程の設計にあった、というのが検証後の結論です。</p>
+<table>
+<thead>
+<tr>
+<th>原因</th>
+<th>何が起きたか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書きながら調べさせた</td>
+<td>「3000字書く」が主目的になり、裏取りが従属作業になった。字数を埋めるために推測が入る</td>
+</tr>
+<tr>
+<td>検索の抜粋だけで書けてしまう</td>
+<td>原典を開かなくても、それらしい記事は書ける。「開いたかどうか」を検査していなかった</td>
+</tr>
+<tr>
+<td>本数を先に決めた</td>
+<td>「108本」が目標になった時点で、埋める圧力が生まれた</td>
+</tr>
+<tr>
+<td>検証が後付けだった</td>
+<td>工程に組み込まず、書き終わってから別途走らせた</td>
+</tr>
+<tr>
+<td>モデルを下げた</td>
+<td>量産のため速くて安いモデルを使った。誤りはそこに集中した</td>
+</tr>
+</tbody>
+</table>
+<p>最後の行は補足が要ります。21本の内訳は、速くて安いモデルで量産した17本と、高性能なモデルで自社の実測データをもとに書いた4本でした。<strong>誤りが集中したのは、安いモデルで他社事例を扱った17本です。</strong> 自社データの4本では大きな誤りは出ておらず、むしろ執筆したAIのほうから「指示にあった『毎朝7:47』は、実際の設定を確認したら8:00でした」と訂正が入ったほどでした。</p>
+<p>この対比から言えることが2つあります。</p>
+<ul>
+<li><strong>量産のためにAIのモデル（性能グレード）を下げると、品質ははっきり落ちる。</strong> 下げるくらいなら本数を減らすべきでした</li>
+<li><strong>自社の一次データは誤りにくい。</strong> 原典が自分の手元のログや記録で、確認が容易だからです。危ないのは「よそで読んだ話」をAIに書かせるときです</li>
+</ul>
+<h2 id="ai_1">あなたの会社でAIに文章を書かせるとき</h2>
+<p>ここからが本題です。ブログ、提案書、営業資料、社内向けの説明資料。中小企業がAIに文章を書かせる場面は、弊社の記事量産と構造が同じです。そして上の10種類の型は、そのまま起きます。特に提案書は、型2（予想値を実績と書く）が1つ入るだけで、お客様への説明が事実上の嘘になります。</p>
+<p>弊社が改善策として採ったのは、ルールを増やすことではなく、<strong>順番を変えること</strong>でした。書く前に出典を確定させ、使う数字を1つずつ「数字カード」に写してから、カードにある数字だけで書かせる方式です。カードには次の項目を必ず埋めます。1項目でも埋まらない数字は使いません。</p>
+<ul>
+<li><strong>数字と原文の引用</strong>（丸めず、原文の表現のまま写す）</li>
+<li><strong>出典URL</strong>（実際に開いて確認したものだけ）</li>
+<li><strong>発表主体</strong>（導入した側か、売っている側か）</li>
+<li><strong>種別</strong>（実績か、見込み・予想値か、目標値か）</li>
+<li><strong>条件</strong>（測定条件があれば必ず書く）</li>
+</ul>
+<p>全部をここまでやれなくても、AIが書いた文章を使う前に、人間が最低限この3点だけは確認してください。</p>
+<ol>
+<li><strong>その数字の出所はどこか。</strong> 出典が書いていなければ使わない。書いてあってもURLを実際に開く。開けなければ使わない</li>
+<li><strong>実績か、予想か。</strong> 原典に「予定」「見込み」「予想値」とあれば、あなたの文章にも必ずその言葉を残す</li>
+<li><strong>誰の発表か。</strong> 導入企業の発表か、ツールを売る側の発表か。売る側なら「同社によると」を付ける</li>
+</ol>
+<p>3点とも、専門知識は要りません。要るのは「原典を開く」という手間だけです。弊社の実測では検証に1本約10分かかりました。執筆と同じだけの時間です。<strong>AIで文章作成が10分になっても、確認の10分は消えない。</strong> これがAI活用の実際の原価だと考えたほうがいいです。</p>
+<p>なお、出典先行方式に変えると1本あたり約30分かかる想定になり、108本なら約50時間です。それだけかけても型が完全に消える保証はありません。弊社はこの実測を踏まえ、本数を追うのをやめました。よその情報の再編集を量産するより、自社でやってみた記録を少なく確かに書くほうが、誤りが出ず、他社に書けない内容になるからです。この記事自体が、その方針で書いた1本です。</p>
+<h2 id="_3">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-ai-output-check/">AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由</a></li>
+<li><a href="/articles/toe-not-everything-automatable/">経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方</a></li>
+</ul>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>AIに記事を108本書かせる計画は、21本の時点で検証し停止。<strong>誤りゼロは1本だけ、修正は70箇所超</strong>でした</li>
+<li>「裏を取れ」と指示してもAIは、出典に無い数字を出典があるかのように書き、予想値を実績のように書きます。文章は自然で、読んだだけでは見抜けません</li>
+<li>誤りが集中したのは、安いモデル×他社事例の組み合わせ。自社の一次データを扱った記事では大きな誤りは出ませんでした</li>
+<li>対策はルールの追加ではなく順番の変更。<strong>書く前に出典を確定し、確認済みの数字だけで書かせる</strong></li>
+<li>人間が最後に確認すべきは3点。<strong>数字の出所・実績か予想か・誰の発表か</strong></li>
+</ul>
+<p>AIに書かせること自体は、弊社は今もやめていません。やめたのは「確認せずに出すこと」と「本数を目標にすること」です。この2つをやめるだけで、AIは危険な道具から実用の道具に変わります。</p>
+<p>自社でのAI活用の進め方に迷ったら、<a href="/contact/">AI導入のご相談</a>からお問い合わせください。実際にやって失敗した弊社が、失敗ごとお話しします。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

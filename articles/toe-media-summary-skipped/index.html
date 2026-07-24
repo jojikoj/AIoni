@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>毎日600件集めて、621件訳しているのに、「AIに要約させる」工程だけが黙って止まっていた · AIの鬼</title>
+  <meta name="description" content="自社AIメディアの日次自動処理を実測しました。ニュース収集は毎日600件、翻訳は621件と、集める・訳すは無人で回っています。ところが日次統計を見ると、本文（body）の列だけが4日間ずっと0でした。エラーで落ちたのではなく、「スキップ」という形で静かに欠けていました。記事数はむしろ増えているので、外から見ても気づけません。ログに残っていた原因と、気づきにくさの正体を書きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-media-summary-skipped/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-media-summary-skipped/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="毎日600件集めて、621件訳しているのに、「AIに要約させる」工程だけが黙って止まっていた · AIの鬼">
+  <meta property="og:description" content="自社AIメディアの日次自動処理を実測しました。ニュース収集は毎日600件、翻訳は621件と、集める・訳すは無人で回っています。ところが日次統計を見ると、本文（body）の列だけが4日間ずっと0でした。エラーで落ちたのではなく、「スキップ」という形で静かに欠けていました。記事数はむしろ増えているので、外から見ても気づけません。ログに残っていた原因と、気づきにくさの正体を書きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-media-summary-skipped/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="毎日600件集めて、621件訳しているのに、「AIに要約させる」工程だけが黙って止まっていた · AIの鬼">
+  <meta name="twitter:description" content="自社AIメディアの日次自動処理を実測しました。ニュース収集は毎日600件、翻訳は621件と、集める・訳すは無人で回っています。ところが日次統計を見ると、本文（body）の列だけが4日間ずっと0でした。エラーで落ちたのではなく、「スキップ」という形で静かに欠けていました。記事数はむしろ増えているので、外から見ても気づけません。ログに残っていた原因と、気づきにくさの正体を書きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"毎日600件集めて、621件訳しているのに、「AIに要約させる」工程だけが黙って止まっていた","item":"https://ai-oni.com/articles/toe-media-summary-skipped/"}]},{"@type":"Article","headline":"毎日600件集めて、621件訳しているのに、「AIに要約させる」工程だけが黙って止まっていた","description":"自社AIメディアの日次自動処理を実測しました。ニュース収集は毎日600件、翻訳は621件と、集める・訳すは無人で回っています。ところが日次統計を見ると、本文（body）の列だけが4日間ずっと0でした。エラーで落ちたのではなく、「スキップ」という形で静かに欠けていました。記事数はむしろ増えているので、外から見ても気づけません。ログに残っていた原因と、気づきにくさの正体を書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-media-summary-skipped/"},"url":"https://ai-oni.com/articles/toe-media-summary-skipped/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-01.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-media-summary-skipped/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-01.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>毎日600件集めて、621件訳しているのに、「AIに要約させる」工程だけが黙って止まっていた</h1>
+<p class="article-lead">自社AIメディアの日次自動処理を実測しました。ニュース収集は毎日600件、翻訳は621件と、集める・訳すは無人で回っています。ところが日次統計を見ると、本文（body）の列だけが4日間ずっと0でした。エラーで落ちたのではなく、「スキップ」という形で静かに欠けていました。記事数はむしろ増えているので、外から見ても気づけません。ログに残っていた原因と、気づきにくさの正体を書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">結論から書きます</h2>
+<p>当社（株式会社TOE）は自社AIメディアの日次更新を自動化しています。工程は3つ。<strong>ニュースを集める、英語記事を訳す、AIに要約・本文を書かせる。</strong></p>
+<p>実測の結果はこうでした。<strong>集める・訳すは動いている。要約だけが止まっていた。</strong> しかもエラーで落ちたのではなく、「スキップ」という形で、<strong>黙って</strong>止まっていました。</p>
+<ul>
+<li>ニュース収集は毎日<strong>600件</strong>。データファイル（news.json）を直近4日（7/20〜7/23）確認すると、いずれの日も600件。</li>
+<li>翻訳は、自動翻訳の結果が<strong>621件</strong>蓄積（translations.json）。</li>
+<li>記事数も伸びていて、日次統計では7/20の150本から7/23の171本まで増加。</li>
+</ul>
+<p>ところが、<strong>同じ統計の「本文（body）」列は、4日間すべて0</strong>。記事の枠は増えているのに、本文・要約は1本も生成されていなかったのです。</p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>日次処理</strong> … メディアを毎日更新するため、決まった時刻に自動で走る一連の処理です。収集→翻訳→要約の順に流れます。</li>
+<li><strong>claude CLI</strong> … コマンドラインからAI（Claude）を呼び出すツールです。当社の日次処理では「要約・本文生成」を担っています。</li>
+<li><strong>スキップ</strong> … エラーで全体が止まるのではなく、<strong>その工程だけ飛ばして先へ進む</strong>動きです。全体は「完走」に見えるのが厄介です。</li>
+</ul>
+<hr />
+<h2 id="_2">工程別に見た「動いている／止まっている」</h2>
+<table>
+<thead>
+<tr>
+<th>工程</th>
+<th>担い手</th>
+<th>状態</th>
+<th>実測の根拠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ニュース収集</td>
+<td>自動収集スクリプト</td>
+<td><strong>動いている</strong></td>
+<td>直近4日いずれも600件（news.json）</td>
+</tr>
+<tr>
+<td>翻訳</td>
+<td>自動翻訳</td>
+<td><strong>動いている</strong></td>
+<td>621件が蓄積（translations.json）</td>
+</tr>
+<tr>
+<td>要約・本文生成</td>
+<td>claude CLI</td>
+<td><strong>止まっていた</strong></td>
+<td>日次統計のbody列が4日間すべて0</td>
+</tr>
+</tbody>
+</table>
+<p>記事数だけ見れば150→160→160→171と増えています。件数だけ眺めていたら「順調」としか見えません。<strong>数字が増えているのに、中身が欠けていく。</strong> これがいちばん怖い形です。</p>
+<hr />
+<h2 id="_3">原因は、ログにはっきり残っていた</h2>
+<p>日次処理のログ（cron.log）を開くと、答えは1行で書いてありました。</p>
+<blockquote>
+<p>⚠️ claude CLI が使えない（未ログイン/PATH）。要約はスキップされる</p>
+</blockquote>
+<p>AI要約を担うツールがログイン切れかPATH不通で呼び出せず、日次処理はエラーで止まる代わりに<strong>要約工程だけを飛ばして進み続けていた</strong>のです。収集も翻訳もCLIに依存しないので無傷で回り続ける。結果、「集まる・訳される・でも本文は0」が、警報ひとつ鳴らずに続いていました。</p>
+<p>正直に書きます。<strong>これは根の深いバグではありません。</strong> CLIの再ログイン等で直せる類いの不具合で、対応したばかりです（「完全に解決した」とはまだ言いません。数日まわして確認してからです）。</p>
+<p>本質は不具合の深さではなく、<strong>気づきにくさ</strong>のほうです。当社は以前、<a href="/articles/toe-cron-firing-audit/">cron自動化41本の全数調査</a>で「発火しないジョブ」を数え、<a href="/articles/toe-media-watchdog/">見張り役</a>で止まったジョブを叩き起こす仕組みを入れました。しかし今回の穴は、その両方をすり抜けます。<strong>ジョブは発火し、完走もしている。</strong> 欠けているのは、完走の中の1工程だけだからです。</p>
+<hr />
+<h2 id="_4">この件で思い知ったこと</h2>
+<ul>
+<li><strong>「完走した」と「全工程が動いた」は別物</strong>です。スキップは完走に化けます。</li>
+<li><strong>件数の増加は健全さの証明になりません。</strong> 記事数は増えていたのに、本文は0でした。数えるべきは総数ではなく、<strong>工程ごとの出力</strong>でした。</li>
+<li><strong>警告はログに出ていました。</strong> 誰も読んでいなかっただけです。人が読まないログの警告は、無いのと同じ。「スキップ発生」を毎日数えて通知に上げることを、次の宿題にします。</li>
+</ul>
+<hr />
+<h2 id="_5">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a> — 「発火しない」型の欠けの全数調査。今回はその逆。</li>
+<li><a href="/articles/toe-media-watchdog/">止まったメディア更新を、見張り役が自動で叩き起こしていた話</a> — 「完走の中のスキップ」は拾えなかった見張り役の記録。</li>
+</ul>
+<hr />
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>日次処理を実測。収集は毎日600件、翻訳は621件蓄積と、前工程は無人で回っていた。</li>
+<li>しかし日次統計の<strong>本文（body）列は4日間すべて0</strong>。AIによる要約・本文生成だけが止まっていた。</li>
+<li>原因はログに明記。<strong>claude CLIが未ログイン/PATH不通で使えず、要約工程がスキップされ続けていた。</strong></li>
+<li>エラーではなく「スキップ」なのでジョブは完走扱い。記事数も増えており、外から見ても気づけない。</li>
+<li>不具合自体は浅く、対応したばかり。根が深いのはバグではなく<strong>気づきにくさ</strong>のほう。</li>
+<li>教訓：<strong>「完走」を信用せず、工程ごとの出力を数える。</strong> ログの⚠️は、人が読む場所まで運ばなければ無いのと同じ。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

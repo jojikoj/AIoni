@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントに専用コマンドを渡すと何が変わるのか？18タスク1,000回で成功率84%が94%になった記録 · AIの鬼</title>
+  <meta name="description" content="Hugging Faceが同一の18タスクを各10回、計約1,000回走らせて比較したところ、専用CLIを使ったエージェントの成功率は94%、汎用のAPI直叩きでは84%でした。トークン消費は最大6.0倍の差がつく一方、単発の読み取りでは専用化が不利になる線引きも示されています。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-designing-hf-cli-as/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-designing-hf-cli-as/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントに専用コマンドを渡すと何が変わるのか？18タスク1,000回で成功率84%が94%になった記録 · AIの鬼">
+  <meta property="og:description" content="Hugging Faceが同一の18タスクを各10回、計約1,000回走らせて比較したところ、専用CLIを使ったエージェントの成功率は94%、汎用のAPI直叩きでは84%でした。トークン消費は最大6.0倍の差がつく一方、単発の読み取りでは専用化が不利になる線引きも示されています。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-designing-hf-cli-as/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントに専用コマンドを渡すと何が変わるのか？18タスク1,000回で成功率84%が94%になった記録 · AIの鬼">
+  <meta name="twitter:description" content="Hugging Faceが同一の18タスクを各10回、計約1,000回走らせて比較したところ、専用CLIを使ったエージェントの成功率は94%、汎用のAPI直叩きでは84%でした。トークン消費は最大6.0倍の差がつく一方、単発の読み取りでは専用化が不利になる線引きも示されています。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントに専用コマンドを渡すと何が変わるのか？18タスク1,000回で成功率84%が94%になった記録","item":"https://ai-oni.com/articles/hf-designing-hf-cli-as/"}]},{"@type":"Article","headline":"AIエージェントに専用コマンドを渡すと何が変わるのか？18タスク1,000回で成功率84%が94%になった記録","description":"Hugging Faceが同一の18タスクを各10回、計約1,000回走らせて比較したところ、専用CLIを使ったエージェントの成功率は94%、汎用のAPI直叩きでは84%でした。トークン消費は最大6.0倍の差がつく一方、単発の読み取りでは専用化が不利になる線引きも示されています。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-designing-hf-cli-as/"},"url":"https://ai-oni.com/articles/hf-designing-hf-cli-as/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-designing-hf-cli-as.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-designing-hf-cli-as/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-designing-hf-cli-as.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントに専用コマンドを渡すと何が変わるのか？18タスク1,000回で成功率84%が94%になった記録</h1>
+<p class="article-lead">Hugging Faceが同一の18タスクを各10回、計約1,000回走らせて比較したところ、専用CLIを使ったエージェントの成功率は94%、汎用のAPI直叩きでは84%でした。トークン消費は最大6.0倍の差がつく一方、単発の読み取りでは専用化が不利になる線引きも示されています。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIエージェントに毎回手順を推論させるより、よく使う操作を1コマンドにまとめて渡すほうが、失敗率もトークン代も下がります。同一18タスクの実測で成功率は84%から94%へ、トークン消費は最大6.0倍の差がつきました。ただし単発の読み取り作業では逆に不利になります。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>Hugging Faceが公開した記事「Designing the hf CLI as an agent-optimized way to work with the Hub」に、AIコーディングエージェントの作業効率を比較した実測が載っています。条件は、同社のHub（モデルやデータを置く場所）に対する18種類のタスクを用意し、それぞれ10回ずつ反復、合計で約1,000回の採点実行を回す、というものです。</p>
+<p>比較しているのは2つのやり方です。ひとつは同社が用意した専用コマンド <code>hf</code>（CLI）をエージェントに使わせる方法。もうひとつは、専用コマンドを使わず、curl でAPIを直接叩くか Python SDK を書かせる汎用的な方法です。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>専用CLI利用時</th>
+<th>curl／Python SDK利用時</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>成功率（Claude Code / Sonnet 4.6）</td>
+<td>94%（自己申告エラー 163件中2件）</td>
+<td>84%（163件中11件エラー）</td>
+</tr>
+<tr>
+<td>成功率（Codex / GPT-5.5）</td>
+<td>93%（163件中3件エラー）</td>
+<td>92%（163件中10件エラー）</td>
+</tr>
+<tr>
+<td>トークン消費（Claude Code、CLIを1としたとき）</td>
+<td>1</td>
+<td>1.3〜1.6倍</td>
+</tr>
+<tr>
+<td>トークン消費（Codex、CLIを1としたとき）</td>
+<td>1</td>
+<td>1.6〜1.8倍</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>18タスク×各10反復／計約1,000回の採点実行</td>
+<td>同一ベンチマーク</td>
+</tr>
+</tbody>
+</table>
+<p>注目すべきは、エージェントによって差の出方がまるで違う点です。Claude Code では成功率が84%から94%へ10ポイント動いたのに対し、Codex では92%から93%と1ポイントしか動いていません。エラー件数で見ると Codex は10件から3件へ減っており、成功率という指標だけを見ると差が小さく見える、という読み方もできます。いずれにせよ「どのエージェントでも同じ効果が出る」とは言えない結果です。</p>
+<p>トークン消費の差はタスクによって大きく振れています。最も差が大きかったのは、バケットを作って同期して不要ファイルを削除する（prune）という複数手順をまたぐタスクで、curl/SDK 側は専用CLI側の6.0倍のトークンを消費しました。反対に、単発の読み取りタスクでは0.5〜0.3倍、つまり専用CLIのほうが多くのトークンを使っています。</p>
+<p>もうひとつ、別の切り口の実測があります。エージェントに「スキル」と呼ぶ手順書を与えた場合、1回あたりのツール呼び出し回数が Claude Code で10.4回から6.9回、Codex で10.1回から7.3回へ、いずれも約30%減りました。モデルを変えたわけでもコマンドを増やしたわけでもなく、やり方を文章で書いて渡しただけです。</p>
+<p>なお同社は、Hubへのコーディングエージェント経由アクセスを2026年4月以降集計しており、区別できた8エージェントのうち上位2つは Claude Code が39,500ユーザー／4,860万リクエスト、Codex が34,800ユーザー／3,640万リクエストでした。今回の検証対象は、この8エージェントのうち上位2つに絞られています。</p>
+<p>（出典：Hugging Face（本文の記載: julien-c、clem、lhoestq、yjernite、victor、sayakpaul、Célina Hanouti、Lucain Pouget ほか）、2026-06-04、<a href="https://huggingface.co/blog/hf-cli-for-agents">https://huggingface.co/blog/hf-cli-for-agents</a>）</p>
+<h2 id="_2">この数字は誰が測ったのか</h2>
+<p>先に立場を書いておきます。<strong>この記事は Hugging Face 自身による発表であり、同社は当該製品である hf CLI の提供者です。</strong> ベンチマークの設計もタスクの選定も採点も、優位性を示したい側が自ら行っています。</p>
+<p>これは数字を捨てろという意味ではありません。むしろ同社は、単発の読み取りタスクでは curl/SDK のほうがトークン効率が同等または良好であり、専用CLIが常に有利ではないと自ら書いています。不都合な結果を伏せずに出している点は、発表としては誠実な部類です。</p>
+<p>そのうえで、読む側が把握しておくべき限界は次のとおりです。</p>
+<ul>
+<li>ベンチマークの18タスクは同社が選んでおり、自社製品が得意な操作に寄っていないかを外部から検証する手段がない</li>
+<li>スキル（手順書）の評価は、タスクごとに新規セッションで実施されている。セッションを継続した場合に手順が定着して呼び出し回数がさらに減るのか、それとも文脈が膨らんでトークンが増えるのかは測定されていない</li>
+<li>検証対象は追跡している8エージェントのうち Claude Code と Codex の2つのみで、他のエージェントに同じ傾向が出る保証はない</li>
+<li>課金が発生する Jobs 系タスクの1件は実行回数に上限を設けたため、他タスクに比べてサンプル数が小さい</li>
+<li>エージェントの出力は非決定的なため、10反復の平均で評価している。個別の実行ごとのばらつきは残っており、1回試して同じ結果が出るとは限らない</li>
+</ul>
+<p>数字を見るときは、この5点を先に置いてから読んでください。</p>
+<h2 id="_3">読者への意味：うちの会社に関係あるのか</h2>
+<p>関係あります。ただし「hf CLI を導入せよ」という話ではありません。中小企業の実務で意味を持つのは、その下にある設計原則のほうです。</p>
+<p>社内でAIエージェントに業務を任せようとすると、多くの場合こうなります。「請求データを取り出して、この形式に整えて、フォルダに置いて」と自然文で頼み、エージェントが毎回その手順を推論して組み立てる。これが汎用的なAPI直叩きに相当します。</p>
+<p>対して、その一連の流れを1つのコマンド（あるいは1本の定型手順）にまとめて渡しておくのが専用CLIに相当します。今回の実測が示しているのは、<strong>手順が複数にまたがるほど、まとめて渡したほうが失敗も費用も減る</strong>ということです。</p>
+<p>投資判断に直結するのは、効果が出る作業と出ない作業の線引きが数字で示されている点です。</p>
+<ul>
+<li>複数手順をまたぐワークフロー（作成→同期→整理のような一連の流れ）：トークン差は最大6.0倍。作り込む価値が最も大きい</li>
+<li>単発の読み取り（一覧を取ってくるだけ、メタデータを見るだけ）：0.5〜0.3倍と専用化が不利。わざわざコマンドを作る必要はない</li>
+<li>全タスク平均：1.3〜1.8倍。エージェントによって幅がある</li>
+</ul>
+<p>つまり「社内のAI活用を効率化する」という漠然とした投資ではなく、<strong>手順が3つ以上つながる定型作業から順に1コマンド化していく</strong>という優先順位がつけられます。1回の呼び出しで終わる作業を無理にツール化しても回収できません。</p>
+<p>そしてもうひとつ。ツール呼び出し回数が約30%減った要因は、モデルでもコマンドでもなく「手順書を渡したこと」でした。AI導入を検討するとき、最初に時間を使うべきはモデルの選定ではなく、社内で誰かが暗黙にやっている手順を文章に落とすことだ、という示唆です。この論点は<a href="/articles/ai-first-step-smb/">中小企業がAIを導入する最初の一歩</a>でも触れています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、この hf CLI を使った検証も、同等のベンチマークの再現も未実施です。</strong> 以下は実測ではなく、公開された数字から読み取れる筋の話です。</p>
+<p>TOEが社内で運用しているのは、cron で走る定型ジョブ群と、そこから呼び出すAI処理です。今回の実測を自社に当てはめて考えると、示唆は2つあります。</p>
+<p>第一に、<strong>トークン代の削減より失敗率の低下のほうが効く可能性がある</strong>点です。Claude Code の成功率は84%から94%へ動いています。裏を返せば、汎用的なやり方では6回に1回近く失敗していたことになります。中小企業の実務で問題になるのは、月数千円のトークン代よりも、失敗した処理を人が見つけて手で直す時間のほうです。トークン差1.3〜1.6倍というコスト面の数字だけを見て「大した額じゃない」と判断すると、本当の便益を見落とします。</p>
+<p>第二に、<strong>手順書の整備は費用対効果が読みやすい</strong>点です。約30%のツール呼び出し削減が、文章を書くという作業だけで得られています。コマンドを新規に開発するのは工数がかかりますが、既にある業務手順を言語化するのは、多くの会社で今日から着手できます。順番としては、手順書の整備が先、コマンド化はその後です。</p>
+<p>ただし、この読み筋には検証していない前提が乗っています。今回のベンチマークは Hugging Face Hub という特定の対象への操作であり、社内の基幹システムや会計ソフトを相手にしたときに同じ傾向が出るかは、誰も測っていません。導入するなら、自社の代表的な作業を3〜5本選び、まとめる前とまとめた後で実際の失敗回数と請求額を比べるべきです。この比較のやり方は<a href="/articles/ai-own-evaluation-criteria/">自社で評価基準を作る</a>と<a href="/articles/ai-cost-structure/">AI導入のコスト構造</a>で扱っています。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>Hugging Faceの実測（18タスク×各10反復、計約1,000回）で、専用CLI利用時の成功率は94%（163件中2件エラー）、curl/SDK利用時は84%（163件中11件エラー）だった</li>
+<li>ただしエージェント差は大きく、Codex では93%（3件エラー）対92%（10件エラー）と成功率の差はほぼ出ていない</li>
+<li>トークン消費は複数手順をまたぐタスクで最大6.0倍の差がつく一方、単発の読み取りでは0.5〜0.3倍と専用化が不利になる。作り込む対象を選ぶ必要がある</li>
+<li>手順書（スキル）を渡すだけでツール呼び出し回数が約30%減った（Claude Code 10.4→6.9、Codex 10.1→7.3）。モデル選定より手順の言語化が先という示唆になる</li>
+<li>この記事はHugging Face自身による発表であり、同社は hf CLI の提供者。ベンチマーク設計も自社実施で、新規セッション前提のため継続時の効果は未測定、対象も8エージェント中2つのみという限界がある</li>
+<li>TOEでは同等の検証は未実施。導入するなら自社の代表作業3〜5本で、まとめる前後の失敗回数と請求額を実測して判断するのが筋</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>チャットボット以外の業務AIでも「人の好み学習」は効くのか？OCRで出力崩れが平均59.4%減という実測 · AIの鬼</title>
+  <meta name="description" content="DPO（直接選好最適化）はチャット向けの手法という理解が一般的ですが、OCRという機械判定可能な業務で検証した結果、文字化けや無限ループといった出力崩れの発生率が平均59.4%、最良ケースで87.6%減ったという数字が出ています。ただし発信元は当該OCR製品の提供者であり、効果には3つの条件がつきます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="チャットボット以外の業務AIでも「人の好み学習」は効くのか？OCRで出力崩れが平均59.4%減という実測 · AIの鬼">
+  <meta property="og:description" content="DPO（直接選好最適化）はチャット向けの手法という理解が一般的ですが、OCRという機械判定可能な業務で検証した結果、文字化けや無限ループといった出力崩れの発生率が平均59.4%、最良ケースで87.6%減ったという数字が出ています。ただし発信元は当該OCR製品の提供者であり、効果には3つの条件がつきます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="チャットボット以外の業務AIでも「人の好み学習」は効くのか？OCRで出力崩れが平均59.4%減という実測 · AIの鬼">
+  <meta name="twitter:description" content="DPO（直接選好最適化）はチャット向けの手法という理解が一般的ですが、OCRという機械判定可能な業務で検証した結果、文字化けや無限ループといった出力崩れの発生率が平均59.4%、最良ケースで87.6%減ったという数字が出ています。ただし発信元は当該OCR製品の提供者であり、効果には3つの条件がつきます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"チャットボット以外の業務AIでも「人の好み学習」は効くのか？OCRで出力崩れが平均59.4%減という実測","item":"https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/"}]},{"@type":"Article","headline":"チャットボット以外の業務AIでも「人の好み学習」は効くのか？OCRで出力崩れが平均59.4%減という実測","description":"DPO（直接選好最適化）はチャット向けの手法という理解が一般的ですが、OCRという機械判定可能な業務で検証した結果、文字化けや無限ループといった出力崩れの発生率が平均59.4%、最良ケースで87.6%減ったという数字が出ています。ただし発信元は当該OCR製品の提供者であり、効果には3つの条件がつきます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/"},"url":"https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-direct-preference-optimization-beyond.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-direct-preference-optimization-beyond/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-direct-preference-optimization-beyond.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>チャットボット以外の業務AIでも「人の好み学習」は効くのか？OCRで出力崩れが平均59.4%減という実測</h1>
+<p class="article-lead">DPO（直接選好最適化）はチャット向けの手法という理解が一般的ですが、OCRという機械判定可能な業務で検証した結果、文字化けや無限ループといった出力崩れの発生率が平均59.4%、最良ケースで87.6%減ったという数字が出ています。ただし発信元は当該OCR製品の提供者であり、効果には3つの条件がつきます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。DPO（人の好みを直接学ばせる追加学習）を、チャットではなくOCRに適用した検証で、文字化けや無限ループといった出力崩れの発生率が平均59.4%、最良ケースで87.6%減りました。ただしこれは当該OCR製品の提供者自身による発表で、効果には3つの適用条件がつきます。</p>
+<h2 id="ocr">一次資料の実測：OCRで出力崩れはどれだけ減ったのか</h2>
+<p>Hugging Faceブログに掲載されたDharma-AIチームの寄稿「Direct Preference Optimization Beyond Chatbots」に、DPOをOCRモデルに適用した実測が載っています。</p>
+<p>DPOは本来、チャットボットの回答を人間の好みに合わせるために使われてきた手法です。「AとBならAの方が良い」という選好ペアを大量に学習させ、モデルの出力傾向を望ましい方向へ寄せます。この寄稿が扱っているのは、その手法を対話ではなく文書読み取り（OCR）に持ち込んだらどうなるか、という話です。</p>
+<p>対象となる失敗は「degeneration（出力の劣化）」と呼ばれるもので、具体的には文字化けや同じ語句を延々と繰り返す無限ループなど、読み取り結果が壊れる現象を指します。</p>
+<table>
+<thead>
+<tr>
+<th>測定項目</th>
+<th>数値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学習に使った文書数</td>
+<td>23,726件</td>
+<td>DharmaOCRパイプラインでの選好ペア生成に使用。文書の種類・言語の内訳は記載なし</td>
+</tr>
+<tr>
+<td>劣化率の平均削減幅</td>
+<td>59.4%</td>
+<td>SFTのみ 対 SFT+DPO の比較。5つのモデルファミリー横断の平均</td>
+</tr>
+<tr>
+<td>最良ケースの削減幅</td>
+<td>87.6%（1.61%→0.20%）</td>
+<td>Nanonets-OCR2-3B、SFTのみ→SFT+DPO</td>
+</tr>
+<tr>
+<td>削減幅のレンジ</td>
+<td>37.3%〜87.6%</td>
+<td>検証した5モデルファミリー全体</td>
+</tr>
+<tr>
+<td>素のモデルで最も高かった劣化率</td>
+<td>33.96%</td>
+<td>gemma-3-4b-it のベースライン（追加学習なし）</td>
+</tr>
+</tbody>
+</table>
+<p>注目すべきはベースラインの33.96%です。gemma-3-4b-it を追加学習なしでOCRに使った場合、およそ3件に1件で出力が壊れていたことになります。汎用モデルをそのまま業務に投入した状態が、どういう水準かを示す数字です。</p>
+<p>（出典：Dharma-AI（Hugging Faceブログ上のDharma-AIチームによる寄稿。執筆者としてGabriel Pimenta de Freitas Cardoso、Erick Lachmann、Francisco de Almeida Rocha Alves ほかが記載）、2026-06-03、<a href="https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots">https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots</a>）</p>
+<h2 id="_1">この記事は誰が書いたのか（利害関係の明示）</h2>
+<p>数字を読む前に、前提を明記します。この記事はDharma-AI社自身による発表であり、同社は本文で取り上げているOCRモデル DharmaOCR の提供者です。</p>
+<p>つまり「自社のOCRパイプラインでDPOを回したら壊れが大幅に減った」という結論は、そのまま自社製品の有効性を示す主張になります。発信元に利害があるという意味です。数字が作り物だと言いたいのではなく、比較対象の選び方や、うまくいかなかったケースの扱いに、提供者側の関心が反映されうるという話です。</p>
+<p>実際、寄稿自身が限界をいくつも明示しており、その点では誠実な部類に入ります。読む側としては「誰が測ったか」を把握したうえで、自社の条件で確かめられるかを考えればよい話です。同じ構造は<a href="/articles/hf-beyond-lora/">LoRA以外の追加学習手法は検討する価値があるのか</a>でも扱いました。</p>
+<h2 id="3">効果には3つの条件がつく</h2>
+<p>寄稿は、この手法が効いた理由として3つの構造的条件を挙げています。ここが実務では一番重要です。</p>
+<ul>
+<li>失敗モードが特定できること。「文字化け」「無限ループ」のように、何が壊れなのかを機械的に定義できる必要がある</li>
+<li>信頼できる自動採点ができること。出力の良し悪しを人手を介さず判定できなければ、選好ペアを大量に作れない</li>
+<li>十分な出力量があること。23,726件規模の学習データを揃えられるだけの業務量が要る</li>
+</ul>
+<p>逆に言えば、この3つのどれかが欠ける業務では同じ結果は期待できません。「良い回答かどうかは読んでみないと分からない」「月に数十件しか処理しない」といった業務は対象外です。</p>
+<h2 id="sft">SFTで一度悪化した例外事例</h2>
+<p>不都合な結果も本文に載っています。Qwen2.5-VL-3B では、劣化率が 0.60%→3.23%→1.41% と推移しました。素の状態が0.60%、SFT（教師あり追加学習）をかけたら3.23%へ悪化し、そこにDPOを足して1.41%まで戻した、という経過です。</p>
+<p>最終的にSFT単独よりは改善していますが、素の状態の0.60%は下回っていません。追加学習をしたことで、かえって壊れやすくなったケースが存在するということです。</p>
+<p>寄稿自身、この異常挙動は単一事例にとどまり、一般的なメカニズムの説明には不十分だと認めています。また分析は相関に基づくもので、因果関係は立証できていないとも明記しています。</p>
+<p>そして検証は5つのOCRモデルファミリーに限定されており、他の領域・失敗モード・モデルファミリーに転用できる保証はないと本文が述べています。「OCRで効いたのだから議事録要約でも効く」とは読めません。</p>
+<h2 id="_2">読者への意味：中小企業にとって何が変わるのか</h2>
+<p>中小企業の実務に引き付けると、意味は2つあります。</p>
+<p>ひとつは、請求書・納品書・検収書のOCRのように「正解が機械的に判定できる」業務であれば、汎用モデルをそのまま使うより、自社データで追加学習した方が致命的な出力崩れを大きく減らせる可能性がある、ということです。33.96%という素のモデルの劣化率は、そのまま業務に載せるには厳しい水準です。</p>
+<p>もうひとつ、そしてこちらの方が多くの会社にとって使い道があると考えていますが、この3条件は「AI導入の前に、自社業務が自動採点できる型かを見極める」チェック観点として流用できます。</p>
+<ul>
+<li>失敗を定義できるか。「間違い」と「正しい」を人によらず線引きできるか</li>
+<li>自動で採点できるか。既存の基幹システムや台帳と突き合わせて機械判定できるか</li>
+<li>量があるか。学習に足るだけの処理件数が毎月出ているか</li>
+</ul>
+<p>この3つが揃う業務は、追加学習に限らず、そもそもAI化の投資対効果が読みやすい領域です。揃わない業務にいきなり手を出すと、効果測定ができないまま費用だけ出ていきます。評価基準を先に決める話は<a href="/articles/ai-own-evaluation-criteria/">AIの良し悪しを自社で判定する基準の作り方</a>にまとめています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に書いておくと、TOEではDPOによるOCRモデルの追加学習は未実施です。ここから先は実測ではなく読み筋です。</p>
+<p>その前提で言うと、中小企業がいきなりSFT＋DPOのパイプラインを組むのは現実的でないと見ています。23,726件規模の学習文書を用意でき、かつ自動採点の仕組みを持っている会社は多くありません。</p>
+<p>むしろ実務的な順番はこうだと考えています。まず自社業務が3条件を満たすかを確認する。満たすなら、追加学習の前に「自動採点の仕組み」だけを先に作る。採点ができれば、既製モデルを何種類か比べるだけでも選定の精度が上がりますし、その採点ログがそのまま将来の学習データになります。追加学習は、その後の選択肢です。</p>
+<p>また、素のモデルで33.96%という数字は、モデル選定の重要性も示しています。同じOCRタスクでもモデルファミリーによってベースラインが大きく違うということで、追加学習の前にまず素の状態での比較が要ります。</p>
+<p>一次資料が示しているのは「DPOはOCRでも効いた」という事実そのものより、「効く条件は限定的で、それを先に確認せよ」という話だと読んでいます。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>OCRにDPOを適用した検証で、出力劣化率が平均59.4%削減、最良ケースで87.6%（1.61%→0.20%、Nanonets-OCR2-3B）削減された。学習文書は23,726件</li>
+<li>この記事はDharma-AI社自身による発表であり、同社は取り上げているOCRモデル DharmaOCR の提供者である</li>
+<li>効果には3条件（失敗モードが特定できる／信頼できる自動採点ができる／十分な出力量がある）が必要と本文が明記している</li>
+<li>Qwen2.5-VL-3B では 0.60%→3.23%→1.41% と、SFTで一度悪化した例外がある。単一事例で説明は不十分、分析は相関であり因果は未立証と本文が認めている</li>
+<li>中小企業にとっては「自社業務が自動採点できる型か」を見極めるチェック観点として使える。TOEではDPOによる追加学習は未実施であり、まず自動採点の仕組みから作る順番を推している</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

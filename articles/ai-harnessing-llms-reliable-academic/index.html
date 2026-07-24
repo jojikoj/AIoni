@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>高性能モデルに課金するより、小型モデルに「足回り」を付けたほうが信頼できるのか（評価者10名・平均4.08対1.23） · AIの鬼</title>
+  <meta name="description" content="素のGPT-5チャットボットと、小型のGPT-4o-miniに検索・形式検証・自己チェック・人の承認・監査ログを組み合わせた構成を比較した研究で、6つの評価軸すべてで後者が上回り、プール平均は4.08対1.23となりました。評価者10名中8名が有意差を認めた一方、2名では有意差が出ていません。中小企業のAI導入設計にとって何を意味するかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="高性能モデルに課金するより、小型モデルに「足回り」を付けたほうが信頼できるのか（評価者10名・平均4.08対1.23） · AIの鬼">
+  <meta property="og:description" content="素のGPT-5チャットボットと、小型のGPT-4o-miniに検索・形式検証・自己チェック・人の承認・監査ログを組み合わせた構成を比較した研究で、6つの評価軸すべてで後者が上回り、プール平均は4.08対1.23となりました。評価者10名中8名が有意差を認めた一方、2名では有意差が出ていません。中小企業のAI導入設計にとって何を意味するかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="高性能モデルに課金するより、小型モデルに「足回り」を付けたほうが信頼できるのか（評価者10名・平均4.08対1.23） · AIの鬼">
+  <meta name="twitter:description" content="素のGPT-5チャットボットと、小型のGPT-4o-miniに検索・形式検証・自己チェック・人の承認・監査ログを組み合わせた構成を比較した研究で、6つの評価軸すべてで後者が上回り、プール平均は4.08対1.23となりました。評価者10名中8名が有意差を認めた一方、2名では有意差が出ていません。中小企業のAI導入設計にとって何を意味するかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"高性能モデルに課金するより、小型モデルに「足回り」を付けたほうが信頼できるのか（評価者10名・平均4.08対1.23）","item":"https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/"}]},{"@type":"Article","headline":"高性能モデルに課金するより、小型モデルに「足回り」を付けたほうが信頼できるのか（評価者10名・平均4.08対1.23）","description":"素のGPT-5チャットボットと、小型のGPT-4o-miniに検索・形式検証・自己チェック・人の承認・監査ログを組み合わせた構成を比較した研究で、6つの評価軸すべてで後者が上回り、プール平均は4.08対1.23となりました。評価者10名中8名が有意差を認めた一方、2名では有意差が出ていません。中小企業のAI導入設計にとって何を意味するかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/"},"url":"https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-harnessing-llms-reliable-academic.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-harnessing-llms-reliable-academic/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-harnessing-llms-reliable-academic.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>高性能モデルに課金するより、小型モデルに「足回り」を付けたほうが信頼できるのか（評価者10名・平均4.08対1.23）</h1>
+<p class="article-lead">素のGPT-5チャットボットと、小型のGPT-4o-miniに検索・形式検証・自己チェック・人の承認・監査ログを組み合わせた構成を比較した研究で、6つの評価軸すべてで後者が上回り、プール平均は4.08対1.23となりました。評価者10名中8名が有意差を認めた一方、2名では有意差が出ていません。中小企業のAI導入設計にとって何を意味するかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から述べます。高リスク業務でLLMを使うなら、投資先はモデルのグレードではなく周辺の仕組みです。本研究では、素のGPT-5チャットボットより、安価な小型モデルGPT-4o-miniに検索・出力形式の検証・自己チェック・人間の承認・監査ログを組み合わせた構成のほうが、6つの評価軸すべてで高く評価されました（プール平均4.08対1.23、評価者10名）。</p>
+<h2 id="_1">何が比較されたのか</h2>
+<p>比較対象になったのは、次の2つの構成です。</p>
+<ul>
+<li>素のGPT-5チャットボット（スキャフォールドなし。つまり、ただ質問して答えを受け取るだけの使い方）</li>
+<li>LangGraphによる「ハーネス」で包んだGPT-4o-mini（検索による社内資料の参照、出力形式の検証、AIによる自己チェック、人間の承認ゲート、監査ログを組み合わせた構成）</li>
+</ul>
+<p>対象領域は「学術指導（academic supervision）」です。研究の指導という、間違いが後々まで響く高リスク業務が選ばれています。評価は人間の評価者10名が行い、6つの評価軸にわたるスコアのプール平均は、構造化システムが4.08、素のベースラインが1.23でした。</p>
+<p>さらに、モデルの大小とハーネスの有無を掛け合わせた2×2のアブレーション（要因分解）実験が行われています。モデルを変える効果と、ハーネスを付ける効果を切り分けるための設計です。論文はここから、再利用可能な「ハーネス・エンジニアリング」の設計パターンを7個抽出しています。</p>
+<p>（出典：arXiv:2607.14707、2026年7月16日（arXiv:2607.14707v1）、<a href="https://arxiv.org/abs/2607.14707v1">https://arxiv.org/abs/2607.14707v1</a>）</p>
+<h2 id="_2">数字を条件付きで読む</h2>
+<p>数字だけを見ると差は劇的ですが、条件を添えないと使い物になりません。この記事で扱う数字と、その条件を整理します。</p>
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>意味</th>
+<th>条件・注記</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4.08 対 1.23</td>
+<td>構造化システム対素のベースラインのスコア</td>
+<td>6つの評価軸にわたるプール平均。評価者10名。比較は素のGPT-5チャットボット対LangGraphハーネス付きGPT-4o-mini。対象領域は学術指導。評価期間の記載なし（要旨のみ確認、本文HTMLは404で未確認）</td>
+</tr>
+<tr>
+<td>10名</td>
+<td>評価に参加した人間の評価者数</td>
+<td>評価者の属性・選定方法の記載なし（要旨のみ）</td>
+</tr>
+<tr>
+<td>10名中8名</td>
+<td>有意水準α=0.05で帰無仮説を棄却した評価者数</td>
+<td>逆に言えば2名では有意差が出ていない。検定手法の詳細は要旨に記載なし</td>
+</tr>
+<tr>
+<td>2×2</td>
+<td>モデル×ハーネスのアブレーション実験の設計</td>
+<td>モデルの大小とハーネスの有無を掛け合わせた4条件。各条件の試行数の記載なし</td>
+</tr>
+<tr>
+<td>7個</td>
+<td>抽出された再利用可能な設計パターンの数</td>
+<td>個々のパターン名は要旨に記載なし（本文未取得）</td>
+</tr>
+<tr>
+<td>全15ページ・表4点・図1点</td>
+<td>論文の規模</td>
+<td>arXiv要旨ページのメタ情報</td>
+</tr>
+</tbody>
+</table>
+<p>とくに見ておきたいのが「10名中8名」です。全評価者が一致して差を認めたわけではありません。2名では統計的な有意差が出ていない、という事実は結論と同じ重さで扱うべきものです。</p>
+<h2 id="_3">論文の限界と、確認できていないこと</h2>
+<p>まず前提として、この記事を書くにあたり本文HTML（arxiv.org/html/2607.14707v1）が404で取得できず、著者自身が記載しているであろう限界（Limitations節）を確認できていません。以下は要旨から読み取れる範囲の制約であり、論文が明示的に認めた限界とは限りません。この区別を曖昧にしないまま読み進めてください。</p>
+<p>そのうえで、要旨から見える制約は次のとおりです。</p>
+<ul>
+<li>評価者10名中2名では有意差が出ておらず、全評価者一致の結果ではありません。</li>
+<li>評価者がわずか10名で、属性・独立性・選定方法が要旨からは不明です。人手評価のばらつきが結果を左右しうる規模です。</li>
+<li>対象が「学術指導」という単一のケーススタディであり、他業務・他業界への一般化可能性は示されていません。</li>
+<li>比較が素のチャットボット（スキャフォールドなし）対フル装備システムという極端な対比になっています。4.08対1.23という差のうち、検索・スキーマ検証・LLM審査・人の承認・監査ログのどれが効いたのかは要旨からは切り分けられません。2×2のアブレーションはありますが、ハーネスの内部要素までは分解していない可能性があります。</li>
+<li>人間の承認ゲート（human-in-the-loop）を含む構成であるため、スコアの高さが自動化の成果なのか人の介在の成果なのか、要旨だけでは区別できません。</li>
+<li>コスト・応答速度についての数値が要旨に一切なく、「小型モデル＋ハーネス」が実運用で安上がりかどうかは示されていません。</li>
+</ul>
+<p>最後の点は実務者にとって痛いところです。「安いモデルでいい」という主張は、ハーネスを組む工数と、承認に人が張り付く時間を含めて初めて成立します。この研究はそこまで答えていません。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>それでもこの研究が中小企業の実務にとって有用なのは、投資判断の向き先を示しているからです。</p>
+<p>AI導入の議論は、どうしても「どのモデルを使うか」「上位プランに課金すべきか」に流れます。しかしこの研究が示したのは、モデルのグレードを上げるより、モデルの周りに手続きを置くほうが評価が上がる、という筋です。少なくとも学術指導という一領域では、そうなりました。</p>
+<p>情シス担当が設計対象として握るべきなのは、次の4点に整理できます。</p>
+<ul>
+<li>入力に何を渡すか（社内資料をどう検索させ、どこまで参照させるか）</li>
+<li>出力をどう検証するか（形式の検証と、AIによる自己チェック）</li>
+<li>誰がどこで承認するか（人間の承認ゲートをどの工程に置くか）</li>
+<li>記録を残すか（監査ログ。あとから「なぜその出力になったか」を辿れるか）</li>
+</ul>
+<p>この4点はモデルを乗り換えても資産として残ります。逆に、モデル選定だけに時間をかけた場合、次のモデルが出た瞬間に議論はゼロからやり直しです。どこから手を付けるかについては<a href="/articles/ai-first-step-smb/">中小企業のAI導入、最初の一歩は何か</a>も併せて参考にしてください。</p>
+<p>論文が抽出した7個の設計パターンは、社内AI業務フローの設計チェックリストとして転用できる性質のものです。ただし個々のパターン名は要旨に記載がなく、本記事では中身を示せません。ここは正直に留保します。</p>
+<h2 id="_5">自社の数字として引用してはいけない理由</h2>
+<p>繰り返しますが、この研究の対象は学術指導です。4.08対1.23という数字を、自社の見積書や社内稟議に「AI導入で品質が3倍」といった形で持ち込むのは誤用です。</p>
+<p>理由は3つあります。第一に、対象領域が違えば評価軸も違います。第二に、比較の相手が「素のチャットボット」という、そもそも業務利用の設計になっていない構成です。第三に、評価者10名の主観スコアであり、業務成果の実測値ではありません。</p>
+<p>使うべきなのは数字ではなく、設計の考え方のほうです。評価軸を自社で定義する話は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>で扱っています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>ここからは編集部の読みです。前提として、本研究と同じ構成の検証をTOEでは未実施です。以下は自社データの裏付けがある話ではありません。</p>
+<p>読み筋は3つあります。</p>
+<p>1つ目。中小企業のAI導入で最初に効くのは、モデル選定ではなく「承認ゲートをどこに置くか」の設計だと見ています。承認ゲートが決まれば、AIが間違えても業務が壊れない範囲が定義できます。範囲が定義できて初めて、安いモデルを試す判断ができます。</p>
+<p>2つ目。監査ログは後回しにされがちですが、最初に入れておくべきものだと見ています。「なぜこの出力になったのか」を後から辿れないと、失敗の原因が入力にあるのかモデルにあるのか判断できません。判断できなければ、改善は勘に頼ることになります。この研究がハーネスの構成要素に監査ログを含めていることは、示唆として受け取れます。</p>
+<p>3つ目。ただし、この研究が答えていないコストの話は自社で確かめるしかありません。ハーネスを組む工数と承認に人が張り付く時間を含めた総コストが、上位モデルへの課金を下回るかどうかは、業務ごとに違うはずです。ここはTOEでも未検証で、今後の実務のなかで確かめたい論点です。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>素のGPT-5チャットボットと、ハーネス付きGPT-4o-miniを比較した研究で、6つの評価軸のプール平均は4.08対1.23となりました（評価者10名、対象領域は学術指導）。</li>
+<li>ただし有意差を認めたのは評価者10名中8名で、2名では有意差が出ていません。全員一致の結果ではありません。</li>
+<li>本文HTMLが404で取得できず、著者自身が記載する限界は未確認です。上記の制約は要旨から読み取れる範囲のものです。</li>
+<li>コストと応答速度の数値が要旨になく、「小型モデル＋ハーネス」が実運用で安上がりかは示されていません。</li>
+<li>実務に持ち帰るべきは4.08という数字ではなく、入力・検証・承認・記録の4点を設計対象に据えるという考え方です。同構成の検証はTOEでは未実施です。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

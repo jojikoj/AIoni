@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LoRA以外の追加学習手法は検討する価値があるのか？画像生成でOFTが0.708対0.697、メモリ約1GB減という実測 · AIの鬼</title>
+  <meta name="description" content="Hugging Faceが自社のPEFTライブラリで複数の追加学習手法を同一条件で比較しました。画像生成ではOFTがDINO類似度0.708／メモリ9.01GBとなり、LoRAの0.697／9.97GBを精度・メモリの両方で上回っています。一方で本番の推論基盤はLoRA形式しか読めない場合があり、勝つ手法と使える手法は一致しません。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-beyond-lora/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-beyond-lora/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="LoRA以外の追加学習手法は検討する価値があるのか？画像生成でOFTが0.708対0.697、メモリ約1GB減という実測 · AIの鬼">
+  <meta property="og:description" content="Hugging Faceが自社のPEFTライブラリで複数の追加学習手法を同一条件で比較しました。画像生成ではOFTがDINO類似度0.708／メモリ9.01GBとなり、LoRAの0.697／9.97GBを精度・メモリの両方で上回っています。一方で本番の推論基盤はLoRA形式しか読めない場合があり、勝つ手法と使える手法は一致しません。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-beyond-lora/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LoRA以外の追加学習手法は検討する価値があるのか？画像生成でOFTが0.708対0.697、メモリ約1GB減という実測 · AIの鬼">
+  <meta name="twitter:description" content="Hugging Faceが自社のPEFTライブラリで複数の追加学習手法を同一条件で比較しました。画像生成ではOFTがDINO類似度0.708／メモリ9.01GBとなり、LoRAの0.697／9.97GBを精度・メモリの両方で上回っています。一方で本番の推論基盤はLoRA形式しか読めない場合があり、勝つ手法と使える手法は一致しません。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"LoRA以外の追加学習手法は検討する価値があるのか？画像生成でOFTが0.708対0.697、メモリ約1GB減という実測","item":"https://ai-oni.com/articles/hf-beyond-lora/"}]},{"@type":"Article","headline":"LoRA以外の追加学習手法は検討する価値があるのか？画像生成でOFTが0.708対0.697、メモリ約1GB減という実測","description":"Hugging Faceが自社のPEFTライブラリで複数の追加学習手法を同一条件で比較しました。画像生成ではOFTがDINO類似度0.708／メモリ9.01GBとなり、LoRAの0.697／9.97GBを精度・メモリの両方で上回っています。一方で本番の推論基盤はLoRA形式しか読めない場合があり、勝つ手法と使える手法は一致しません。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-beyond-lora/"},"url":"https://ai-oni.com/articles/hf-beyond-lora/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-beyond-lora.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-beyond-lora/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-beyond-lora.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>LoRA以外の追加学習手法は検討する価値があるのか？画像生成でOFTが0.708対0.697、メモリ約1GB減という実測</h1>
+<p class="article-lead">Hugging Faceが自社のPEFTライブラリで複数の追加学習手法を同一条件で比較しました。画像生成ではOFTがDINO類似度0.708／メモリ9.01GBとなり、LoRAの0.697／9.97GBを精度・メモリの両方で上回っています。一方で本番の推論基盤はLoRA形式しか読めない場合があり、勝つ手法と使える手法は一致しません。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。LLMの追加学習では手法の98.4%がLoRA一択という実態がある一方、画像生成ではOFTがLoRAより高精度（0.708対0.697）かつメモリが約1GB少ないという実測が出ました。ただし推論基盤がLoRA形式しか読めない制約があり、ベンチマークの勝者がそのまま使えるとは限りません。</p>
+<h2 id="lora">LoRAはどれくらい「一択」になっているのか（一次資料の実測）</h2>
+<p>Hugging Faceが公開した記事「Beyond LoRA: Can you beat the most popular fine-tuning technique?」に、追加学習（ファインチューニング）手法の利用実態と性能比較の実測が載っています。</p>
+<p>まず、どれだけLoRAに偏っているかの数字です。</p>
+<table>
+<thead>
+<tr>
+<th>調べた対象</th>
+<th>条件</th>
+<th>LoRAの割合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hugging Face Hub上のモデルカード</td>
+<td>サンプル20,834件。PEFT手法を「ちょうど1つ」記載したものに限定</td>
+<td>98.4%（20,834件中20,509件）</td>
+</tr>
+<tr>
+<td>画像生成用チェックポイント</td>
+<td>サンプル10,000チェックポイント。画像生成モデル対象</td>
+<td>95.0%（10,000件中7,111件）</td>
+</tr>
+<tr>
+<td>GitHubコード検索の結果</td>
+<td>GitHubコード検索によるサンプリング。検索クエリ・総件数は記載なし</td>
+<td>71.3%（2位LoHa 3.7%、3位AdaLoRA 3.5%）</td>
+</tr>
+</tbody>
+</table>
+<p>モデルカードでは98.4%、画像生成のチェックポイントでは95.0%、GitHubのコード検索でも71.3%。3つの角度から見て、LoRAが事実上の標準になっていることが確認できます。2位のLoHaが3.7%、3位のAdaLoRAが3.5%ですから、差は一桁違います。</p>
+<p>なお、GitHubの71.3%については検索クエリと総件数が記載されておらず、他の2つと同じ精度で扱える数字ではありません。傾向を裏づける補助的な数字として読むのが妥当です。</p>
+<p>（出典：Hugging Face（著者：Benjamin Bossan、Sayak Paul、Marian Tietz、Kashif Rasul。ほか70名以上のコントリビューター記載）、2026-06-18、<a href="https://huggingface.co/blog/peft-beyond-lora">https://huggingface.co/blog/peft-beyond-lora</a>）</p>
+<h2 id="_1">この記事は誰が書いたのか（利害関係の明示）</h2>
+<p>数字を読む前に、押さえておくべき前提があります。この記事はHugging Face自身による発表であり、同社は比較に用いられたPEFTライブラリの提供者です。</p>
+<p>つまり「LoRA以外にも有力な手法がある」という結論が出ることは、多様な手法を扱える自社ライブラリの価値を示すことにつながります。発信元に利害があるという意味です。数字が捏造だと言いたいのではなく、比較の設計や取り上げる手法の選び方に、提供者側の関心が反映されうるという話です。</p>
+<p>この構造は珍しいものではありません。ベンダーが自社の測定結果を出すこと自体は普通で、判断材料としては有用です。読む側が「誰が測ったか」を把握したうえで、自社の条件で確かめられるかを考えればよい話です。同じ論点は<a href="/articles/hf-model-routing-simple-until/">単価の安いモデルを選べば安くなるのか</a>でも扱っています。</p>
+<h2 id="_2">数学タスクと画像生成で、結果が違った</h2>
+<p>実際の比較結果を見ます。まず数学タスク。ベースモデルはLlama-3.2-3B、ベンチマークはGSM8Kです。</p>
+<table>
+<thead>
+<tr>
+<th>手法</th>
+<th>テスト精度</th>
+<th>メモリ使用量</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LoRA</td>
+<td>53.2%</td>
+<td>VRAM 22.6GB</td>
+<td>Llama-3.2-3B／GSM8K</td>
+</tr>
+<tr>
+<td>BEFT</td>
+<td>32.9%</td>
+<td>20.2GB</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Lily</td>
+<td>54.9%</td>
+<td>25.6GB</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table>
+<p>BEFTはLoRAより約2.4GB省メモリですが、精度は約20ポイント低くなりました。省メモリと引き換えに失うものが大きすぎます。逆にLilyはLoRAより高精度（54.9%対53.2%）ですが、メモリは約3GB多い。数学タスクの範囲では、LoRAは「精度とメモリのバランスが取れた無難な選択」という位置づけのままです。</p>
+<p>次に画像生成。ベースモデルはFLUX.2-klein-base-4B、評価指標はDINO類似度です。</p>
+<table>
+<thead>
+<tr>
+<th>手法</th>
+<th>DINO類似度</th>
+<th>メモリ使用量</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LoRA</td>
+<td>0.697</td>
+<td>9.97GB</td>
+<td>FLUX.2-klein-base-4B／DINO類似度</td>
+</tr>
+<tr>
+<td>OFT</td>
+<td>0.708</td>
+<td>9.01GB</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table>
+<p>こちらは様子が違います。OFTは精度でLoRAを上回り（0.708対0.697）、同時にメモリも約1GB少ない。トレードオフではなく、両方で勝っています。</p>
+<p>ただし、いずれのベンチマークも「ハイパーパラメータを網羅的にスイープしていない条件下」の結果である点は明記されています。著者自身が、ハイパーパラメータの選択が特定の手法に有利に働きうると認めており、多数の手法にわたる網羅的なスイープは困難だったと書いています。数字の差が手法そのものの差なのか、設定の当たり外れなのかは、この記事だけでは切り分けられません。</p>
+<h2 id="_3">中小企業にとって、この数字はどこに効くのか</h2>
+<p>正直に書くと、この話が意味を持つ企業は限られます。</p>
+<ul>
+<li><strong>まだ自社データでの追加学習をしていない企業</strong>：示唆は弱いです。市販のAPIやクラウドサービスで足りている段階なら、手法選定の議論は先の話です。まずは<a href="/articles/ai-first-step-smb/">中小企業がAIを導入する最初の一歩</a>の段階を固めるほうが順序として妥当です。</li>
+<li><strong>すでにLLMや画像生成モデルを微調整している企業</strong>：手法選定がGPUメモリの実消費に効きます。クラウドGPUは搭載メモリ帯でインスタンス単価が変わるため、約1GBの差が下の価格帯に収まるかどうかの分かれ目になることがあります。</li>
+<li><strong>画像生成モデルを社内用途で調整している企業</strong>：この記事のなかで最も具体的な示唆があるのはここです。9.97GBが9.01GBになる差は、10GB前後を境にした構成では実際の請求額に効いてきます。</li>
+</ul>
+<p>金額そのものは記事に記載がないため、ここでは書きません。自社が使っているGPUインスタンスの価格表に照らして、メモリ帯の境目がどこにあるかを確認するのが実務の手順になります。</p>
+<h2 id="_4">ベンチマークで勝つ手法と、本番で動かせる手法は違う</h2>
+<p>情シスの実務判断として、この記事でいちばん重要なのはここだと考えます。記事には、性能以外の制約が正直に列挙されています。</p>
+<ul>
+<li><strong>下流ツールの制約</strong>：vLLMなどの推論基盤では、LoRA形式のチェックポイントしか読み込めません。ベンチマークで優れた手法でも、本番の推論基盤に載らなければ採用できません。推論基盤側の事情は<a href="/articles/hf-nativespeed-vllm-transformers-modeling/">vLLMとTransformersの実装まわり</a>の議論とも直結します。</li>
+<li><strong>機能面のパリティが揃っていない</strong>：量子化されたベースモデルに対応していない手法があり、変更できる層の種類も手法によって制限があります。同じ土俵で比べているように見えて、できることの範囲がそもそも違います。</li>
+<li><strong>ベンチマークが手法の能力を完全には測れない</strong>：著者はこれも明示しています。例としてCartridgesはプロンプト圧縮向けの手法であり、今回の測定対象では本来の価値が現れないとしています。数字が低いことが「その手法が劣る」ことを意味しない場合がある、ということです。</li>
+<li><strong>結論自体が控えめ</strong>：著者は「LoRAは決して悪い選択ではないが、より良い選択肢がありうる」という表現にとどめており、LoRAからの乗り換えを断定的に推奨してはいません。</li>
+</ul>
+<p>つまり、この記事は「LoRAをやめろ」という記事ではありません。「LoRA一択で検討を打ち切るのはもったいない場面がある」という程度の主張です。そして、その検討の結果が本番で使えるかどうかは、推論基盤の対応状況という別の軸で決まります。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に断っておきます。TOEでは、ここで挙げた手法の比較検証は未実施です。以下は実測に基づく主張ではなく、記事を読んだうえでの見立てです。</p>
+<p>見立てとしては、<strong>手法の選定より先に、推論基盤の制約を確認するほうが順番として正しい</strong>と考えています。vLLMのようにLoRA形式しか読めない基盤を使う予定があるなら、OFTがどれだけ良い数字を出していても検討対象から外れます。逆に自前の推論コードで回すなら選択肢は広がります。この順番を逆にすると、比較検証に工数をかけたあとで「載らない」と気づくことになります。</p>
+<p>もう一点、画像生成でOFTが両面で勝ったのに対し、数学タスクではLoRAが依然としてバランス良く残った、という結果の非対称性は示唆的です。タスクの種類によって最適解が変わるなら、「うちの用途で測る」以外に答えを出す方法はありません。他社の比較表を自社の結論として持ち込む危うさは、<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つこと</a>で書いた話と同じ構図です。</p>
+<p>社内で追加学習に着手している企業であれば、まず現行のLoRA構成で「精度」と「GPUメモリのピーク値」を記録しておくことを勧めます。比較対象がなければ、どの手法に乗り換えても良くなったかどうかを判断できません。記録が先、比較は後です。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Hugging Face Hub上のモデルカード（サンプル20,834件、PEFT手法を1つだけ記載したものに限定）のうち98.4%がLoRAに言及しており、追加学習手法は事実上LoRA一択の状態にある。</li>
+<li>画像生成（FLUX.2-klein-base-4B、DINO類似度）ではOFTが0.708／9.01GB、LoRAが0.697／9.97GBで、OFTが精度・メモリの両方で上回った。</li>
+<li>数学タスク（Llama-3.2-3B、GSM8K）ではLoRAが53.2%／22.6GB、BEFTが32.9%／20.2GB、Lilyが54.9%／25.6GBで、LoRAのバランスの良さが残った。</li>
+<li>この記事はHugging Face自身による発表であり、同社は比較に用いたPEFTライブラリの提供者である。加えてハイパーパラメータの網羅的スイープは行われていないと著者が明記している。</li>
+<li>vLLM等の推論基盤はLoRA形式のチェックポイントしか読み込めないため、ベンチマークで優れた手法が本番で採用できるとは限らない。手法選定より先に推論基盤の制約を確認する順番が実務では重要になる（この点についてTOEでは検証未実施）。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

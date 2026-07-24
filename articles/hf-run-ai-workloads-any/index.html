@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIデータの置き場所で費用は変わるのか？保管$12〜18/TBと持ち出し$0.09/GBの構造 · AIの鬼</title>
+  <meta name="description" content="Hugging FaceとSkyPilotの共同記事が、AI学習データの保管単価を$12〜18/TB/月、比較対象のAWS S3を約$23/TB（＋エグレス費）と提示しました。ただしこれは製品提供者自身による発表です。中小企業が見落としやすい「持ち出し料」の構造と、テラバイト級を扱わない会社にとっての実際の重みを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-run-ai-workloads-any/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-run-ai-workloads-any/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIデータの置き場所で費用は変わるのか？保管$12〜18/TBと持ち出し$0.09/GBの構造 · AIの鬼">
+  <meta property="og:description" content="Hugging FaceとSkyPilotの共同記事が、AI学習データの保管単価を$12〜18/TB/月、比較対象のAWS S3を約$23/TB（＋エグレス費）と提示しました。ただしこれは製品提供者自身による発表です。中小企業が見落としやすい「持ち出し料」の構造と、テラバイト級を扱わない会社にとっての実際の重みを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-run-ai-workloads-any/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIデータの置き場所で費用は変わるのか？保管$12〜18/TBと持ち出し$0.09/GBの構造 · AIの鬼">
+  <meta name="twitter:description" content="Hugging FaceとSkyPilotの共同記事が、AI学習データの保管単価を$12〜18/TB/月、比較対象のAWS S3を約$23/TB（＋エグレス費）と提示しました。ただしこれは製品提供者自身による発表です。中小企業が見落としやすい「持ち出し料」の構造と、テラバイト級を扱わない会社にとっての実際の重みを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIデータの置き場所で費用は変わるのか？保管$12〜18/TBと持ち出し$0.09/GBの構造","item":"https://ai-oni.com/articles/hf-run-ai-workloads-any/"}]},{"@type":"Article","headline":"AIデータの置き場所で費用は変わるのか？保管$12〜18/TBと持ち出し$0.09/GBの構造","description":"Hugging FaceとSkyPilotの共同記事が、AI学習データの保管単価を$12〜18/TB/月、比較対象のAWS S3を約$23/TB（＋エグレス費）と提示しました。ただしこれは製品提供者自身による発表です。中小企業が見落としやすい「持ち出し料」の構造と、テラバイト級を扱わない会社にとっての実際の重みを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-run-ai-workloads-any/"},"url":"https://ai-oni.com/articles/hf-run-ai-workloads-any/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-run-ai-workloads-any.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-run-ai-workloads-any/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-run-ai-workloads-any.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIデータの置き場所で費用は変わるのか？保管$12〜18/TBと持ち出し$0.09/GBの構造</h1>
+<p class="article-lead">Hugging FaceとSkyPilotの共同記事が、AI学習データの保管単価を$12〜18/TB/月、比較対象のAWS S3を約$23/TB（＋エグレス費）と提示しました。ただしこれは製品提供者自身による発表です。中小企業が見落としやすい「持ち出し料」の構造と、テラバイト級を扱わない会社にとっての実際の重みを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。クラウドでAIを動かすときの費用は、保管料より「持ち出し料（エグレス）」で決まる場合があります。AWSの概算で約$0.09/GB。安いGPUに乗り換えても、データを動かす費用で相殺される構造です。ただし今回の一次資料は製品提供者自身の発表で、テラバイト級を扱わない会社への金額影響は小さいです。</p>
+<h2 id="_1">この記事の一次資料は誰が書いたものか</h2>
+<p>先に利害関係を明示します。この記事は Hugging Face 社自身による発表であり、同社は当該製品（Hugging Face Storage）の提供者である、という前提で読む必要があります。共著者にはワークロード実行ツール SkyPilot 側の Zhanghao Wu 氏、Hope Wang 氏が名を連ねており、SkyPilot もまた記事内で紹介されている当該製品の提供者そのものです。つまり価格比較もベンチマークも、両社が自社製品について自社で実施した数字です。</p>
+<p>これは「だから信用できない」という意味ではありません。ただし、競合製品と並べた価格表や速度測定を読むときは、測定条件を選んだのが誰かを頭に置く必要があります。読者が数字の出どころを判断できるよう、以下の数値はすべて出典と条件を添えて記載します。</p>
+<p>（出典：Hugging Face（2026年7月7日公開）。共著者として Nikhil Jha（guest）、Zhanghao Wu（SkyPilot）、Hope Wang（SkyPilot）。Hugging Face と SkyPilot 両チームの共同記事。2026-07-07、<a href="https://huggingface.co/blog/skypilot-hf-storage">https://huggingface.co/blog/skypilot-hf-storage</a>）</p>
+<h2 id="_2">提示された価格：保管より持ち出しが効く</h2>
+<p>記事が提示した価格は次のとおりです。いずれも出典元の表記をそのまま載せます。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>金額</th>
+<th>条件・注記</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hugging Face Storage の保管単価</td>
+<td>$12〜18/TB/月</td>
+<td>発信元（Hugging Face）自身の提示価格。時点は2026年7月。プラン別内訳・為替条件の記載なし</td>
+</tr>
+<tr>
+<td>AWS S3 の保管単価（比較対象）</td>
+<td>約$23/TB（＋エグレス費）</td>
+<td>本文中の概算表記（roughly）。リージョン・ストレージクラスの条件は記載なし</td>
+</tr>
+<tr>
+<td>AWS のデータ転送（エグレス）料金</td>
+<td>約$0.09/GB</td>
+<td>概算表記。転送量帯・リージョンの条件は記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>注目すべきは3行目です。保管単価の差（$12〜18 対 約$23）は月あたり数ドル台の話ですが、エグレスは動かした量に比例します。約$0.09/GB ということは、1TB を外に出すたびに約$90。保管料の何倍にもなる計算です。</p>
+<p>そして記事の主張は「Hugging Face Storage からの読み込みはエグレス無料」という点にあります。どのクラウドのGPUで計算しても、データの持ち出し料が読み込み側にかからない、という設計です。</p>
+<h2 id="_3">無料なのは読み込みだけ、という限界</h2>
+<p>ここは一次資料自身が書いている不都合な点なので、そのまま書きます。エグレスが無料なのは「読み込み」のみです。学習結果のチェックポイントなどを書き戻すときには、利用中の計算クラウド側の通常のエグレス料金が依然として発生する、と本文が明記しています。</p>
+<p>つまり「データ転送料がゼロになる」わけではありません。読み込みが多く書き込みが少ないワークロード（大量の学習データを繰り返し読む、モデルを配布する）では効きますが、生成物を頻繁に書き戻す使い方では効果が薄くなります。この非対称性を理解せずに費用見積もりを立てると、想定より請求額が伸びます。AI関連費用の見積もりが崩れる理由については<a href="/articles/ai-cost-structure/">AIのコスト構造をどう見積もるか</a>でも扱っています。</p>
+<h2 id="_4">ベンチマークは何を測り、何を測っていないか</h2>
+<p>記事には Qwen3.5-4B のファインチューニング検証における実測値が載っています。</p>
+<ul>
+<li>モデル読み込み時間は約30秒、読み込みスループットは最大 約500 MB/s（Qwen3.5-4B のファインチューニング検証時。試行回数（n数）の記載なし）</li>
+<li>チェックポイント書き込み速度は最大 約170 MB/s（1回あたり 8.43 GB の重みを書き込む条件下。試行回数の記載なし）</li>
+<li>クラウド・GPU別では AWS L40S 約168 MB/s、GCP L4 約123 MB/s、Lambda H100 約112 MB/s（同一の Qwen3.5-4B 検証における3環境の比較。各1構成、試行回数の記載なし）</li>
+</ul>
+<p>3環境の比較で最速と最遅の差は約1.5倍ですが、これは各1構成・1モデルの結果です。試行回数や測定期間の記載がないため、この差がネットワーク条件の揺らぎなのか構成差なのかは、この資料からは判断できません。ベンチマーク数値を読むときの注意点は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>と共通します。</p>
+<p>もうひとつ、重複排除（Xet）の効果として次の2つが示されています。</p>
+<ul>
+<li>既存と同一内容の 8.43 GB ブロブを再アップロードすると約8秒（初回アップロードは24秒）。内容がほぼ同一で重複排除が効く条件での比較</li>
+<li>テスト用データセットに1万行（10K rows）を追記した際、本来は約106 MB のところ実転送量は約10 MB。1ケースの測定</li>
+</ul>
+<p>ただし記事自身が、Xet のチャンク分割による削減効果は内容の重なり具合に依存し、重複排除は自動だが「削減量は変動する」と認めています。上の約10分の1という数字は、追記が中心という都合のよい条件で出たものです。行の途中を書き換える用途では <code>use_content_defined_chunking=True</code> の指定が必要で、デフォルト設定のままでは効果が出ない、とも書かれています。</p>
+<h2 id="_5">中小企業にとって、これはどういう話か</h2>
+<p>まず、直接使える会社と使えない会社を分けます。</p>
+<p><strong>関係が薄い会社</strong>：扱うデータがギガバイト級にとどまるなら、エグレス約$0.09/GB の影響は月あたり数ドル〜数十ドルです。ここに手間をかける意味は薄いでしょう。</p>
+<p><strong>関係がある会社</strong>：画像・動画・音声・センサーログなどでテラバイト級を扱い、複数のクラウドを比較検討している会社です。1TB の持ち出しで約$90、10TB なら約$900。これが「安いGPUを見つけたのに乗り換えられない」という状態を作ります。</p>
+<p>そして、記事内の具体策（SkyPilot＋Hugging Face Storage）はコマンドラインで環境を組む前提の道具です。MOUNT 機能はベースイメージに glibc 2.34 以降と /dev/fuse を要求し、環境要件が付きます。社内に技術者がいない企業が、記事を読んですぐ導入できるものではありません。</p>
+<p>一方で、持ち帰れる考え方は技術者の有無に関係なく使えます。それは「クラウドの見積もりは保管料ではなく、出入りする量で見る」ということです。これはAI以外のクラウド利用、たとえばバックアップやファイル共有の見積もりにもそのまま当てはまります。特定ベンダーから抜けられなくなる構造については<a href="/articles/fail-vendor-lockin/">ベンダーロックインで失敗した記録</a>も合わせてお読みください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に断っておくと、TOEでは Hugging Face Storage も SkyPilot も未実施です。以下は資料を読んだうえでの読み筋であり、実測にもとづく評価ではありません。</p>
+<p>そのうえで、この記事のいちばんの価値は製品そのものではなく、<strong>費用の見方の転換</strong>にあると読んでいます。クラウド費用の相談を受けると、たいてい話題は「月額いくらの保管プランにするか」から始まります。しかし本当に効くのは、データがどれだけ頻繁に境界をまたぐか、という設計の話です。</p>
+<p>もし中小企業でこの構造を実務に落とすなら、順番はこうなると考えています。</p>
+<ol>
+<li>現在のクラウド請求書で、保管料と転送料をまず分けて集計する（多くの会社がここを分けていません）</li>
+<li>転送料が月額の1割を超えているなら、どの処理がデータを動かしているかを特定する</li>
+<li>そのうえで初めて、置き場所の変更を検討する</li>
+</ol>
+<p>道具の導入から入ると、たいてい効果が出ません。請求書の内訳を見るところから始めるのが順番だと考えています。この順序の考え方は<a href="/articles/ai-first-step-smb/">中小企業がAIで最初に踏むべき一歩</a>にも書きました。</p>
+<p>なお、価格については為替の影響も無視できません。今回提示された $12〜18/TB/月 も 約$23/TB も、記事にはプラン別内訳・為替条件の記載がありません。日本円での実負担を出すには、自社の請求通貨と換算レートを確認する必要があります。</p>
+<h2 id="_6">この資料の限界を、もう一度整理する</h2>
+<p>判断材料として使う前に、以下は押さえておく必要があります。</p>
+<ul>
+<li>発信元である Hugging Face と SkyPilot は、紹介されている当該製品の提供者そのものであり、利害関係のある情報。価格比較・ベンチマークはいずれも自社実施</li>
+<li>エグレス無料なのは読み込みのみ。書き込み時には計算クラウド側の通常のエグレス料金が発生すると本文が明記</li>
+<li>重複排除の削減効果は内容の重なり具合に依存し、「削減量は変動する」と本文が認めている</li>
+<li>MOUNT 機能は glibc 2.34 以降と /dev/fuse という環境要件が付く</li>
+<li>行の途中を書き換える用途では <code>use_content_defined_chunking=True</code> の指定が必要で、デフォルトのままでは効果が出ない</li>
+<li>ベンチマークは Qwen3.5-4B 単一モデル・各クラウド1構成の結果で、試行回数や測定期間の記載がない</li>
+</ul>
+<p>競合製品との価格比較を、その製品の提供者が自ら出している。この構図自体は珍しくありませんし、それだけで内容が誤りということにもなりません。ただし比較条件（リージョン、ストレージクラス、転送量帯）が記載されていない以上、この表をそのまま自社の見積もり根拠にするのは避けるべきです。自社の請求書と突き合わせて確かめる、という手順が要ります。</p>
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>Hugging Face と SkyPilot の共同記事が、AIデータの保管単価を $12〜18/TB/月、比較対象の AWS S3 を 約$23/TB（＋エグレス費）、AWS のエグレス料金を 約$0.09/GB と提示した（いずれも2026年7月時点、条件の詳細記載なし）</li>
+<li>この記事は Hugging Face 社自身による発表であり、同社および SkyPilot は当該製品の提供者である。価格比較もベンチマークも自社実施である点を踏まえて読む必要がある</li>
+<li>エグレス無料なのは読み込みのみで、書き込み時には計算クラウド側の通常のエグレス料金が発生すると本文自身が明記している</li>
+<li>ベンチマーク（読み込み約500 MB/s、書き込み最大約170 MB/s、3クラウド比較で約168／123／112 MB/s）は Qwen3.5-4B 単一モデル・各クラウド1構成で、試行回数や測定期間の記載がない</li>
+<li>中小企業への実務的な意味は、製品導入より「クラウド費用は保管料でなく転送量で見る」という視点。テラバイト級を扱わない会社への金額影響は小さく、記事内の具体策は社内に技術者がいない企業には直接は使えない。TOEでは未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

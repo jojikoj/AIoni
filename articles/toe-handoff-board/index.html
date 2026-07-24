@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル · AIの鬼</title>
+  <meta name="description" content="弊社はClaude Codeを複数のMacとiPhoneから使っていますが、会話履歴はあえて同期していません。代わりにhookで自動生成する「続き.md」と会話メモの2ファイルで作業を再開します。実際のスクリプトを開いて、その中身と割り切りを書きました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-handoff-board/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-handoff-board/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル · AIの鬼">
+  <meta property="og:description" content="弊社はClaude Codeを複数のMacとiPhoneから使っていますが、会話履歴はあえて同期していません。代わりにhookで自動生成する「続き.md」と会話メモの2ファイルで作業を再開します。実際のスクリプトを開いて、その中身と割り切りを書きました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-handoff-board/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル · AIの鬼">
+  <meta name="twitter:description" content="弊社はClaude Codeを複数のMacとiPhoneから使っていますが、会話履歴はあえて同期していません。代わりにhookで自動生成する「続き.md」と会話メモの2ファイルで作業を再開します。実際のスクリプトを開いて、その中身と割り切りを書きました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル","item":"https://ai-oni.com/articles/toe-handoff-board/"}]},{"@type":"Article","headline":"なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル","description":"弊社はClaude Codeを複数のMacとiPhoneから使っていますが、会話履歴はあえて同期していません。代わりにhookで自動生成する「続き.md」と会話メモの2ファイルで作業を再開します。実際のスクリプトを開いて、その中身と割り切りを書きました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-handoff-board/"},"url":"https://ai-oni.com/articles/toe-handoff-board/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/news-tools-01.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-handoff-board/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-01.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル</h1>
+<p class="article-lead">弊社はClaude Codeを複数のMacとiPhoneから使っていますが、会話履歴はあえて同期していません。代わりにhookで自動生成する「続き.md」と会話メモの2ファイルで作業を再開します。実際のスクリプトを開いて、その中身と割り切りを書きました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>株式会社TOEでは、AIコーディング環境のClaude Codeを複数のMacとiPhoneから使っています。先に結論を書きます。<strong>会話履歴のファイルは、あえてマシン間で同期していません。</strong> 代わりに、全案件の「次の一手」をgit履歴順に並べた1枚のボードと、各会話の要点メモを、hook（決まったタイミングで自動実行される仕組み）で生成しています。「会話の続き」ではなく「作業の続き」を復元する設計です。</p>
+<p>この記事は、実際に動いているスクリプト2本とルールファイルを開いて、書いてあることだけをもとに書いています。</p>
+<h2 id="pc">会話の再開が「別のPCでは原理的に効かない」</h2>
+<p>Claude Codeには過去の会話を再開する <code>--resume</code> という機能があり、会話履歴はjsonlというテキスト形式のファイルに残ります。同じPCの中なら、これで会話をそのまま呼び戻せます。</p>
+<p>弊社は設定フォルダをGitHub経由で複数のMac間で自動同期していますが、<strong>この会話履歴だけは同期対象から除外しています。</strong> 除外設定に書かれている理由は「書込中pullの破損防止」。会話中に書き込まれている最中のファイルへ、別マシンからの同期が重なると壊れるためです。</p>
+<p>その結果どうなるか。ルールファイルには、はっきりこう書いてあります。</p>
+<blockquote>
+<p>別PC・dispatch では <code>claude --resume &lt;UUID&gt;</code> は効かない。会話の続きではなく HANDOFF ベースで作業を再開する。</p>
+</blockquote>
+<p>つまり「会話履歴を同期して、どこでもresumeできるようにする」道は最初から捨てています。壊れやすいものを頑張って同期するのではなく、<strong>同期して安全なもの（gitで管理するテキストファイル）だけで、作業に戻れるようにする</strong>という割り切りです。</p>
+<h2 id="handoffmd">前提になっているHANDOFF.mdのルール</h2>
+<p>この仕組みの土台は、AIではなくただの運用ルールです。配下のすべてのプロジェクトのルートに <code>HANDOFF.md</code>（引き継ぎメモ）を置き、セッション終了時に必ず更新する。中身は最低限この3点と決められています。</p>
+<ul>
+<li><strong>現在地</strong> — いまどこまで進んでいるか、最後にやったこと</li>
+<li><strong>次の一手</strong> — 即実行できる粒度のTODO</li>
+<li><strong>ブロッカー</strong> — 待ち状態・外部依存・未解決の問い</li>
+</ul>
+<p>差分がなくても最終更新日だけは進める、というところまでルール化されています。後述のスクリプトは、この引き継ぎメモが各案件に存在することを前提に組まれています。逆に言えば、<strong>このルールが守られていない案件では仕組み全体が空回りします。</strong> 自動化の下に人間の運用ルールが敷いてある、という構造です。</p>
+<h2 id="md">続き.md — 全案件を「最後に触った順」に並べる単一ボード</h2>
+<p>1本目のスクリプトが <code>build_now_board.py</code>（167行）です。生成物は <code>続き.md</code> という1枚のMarkdownで、別のPCやiPhoneで「最後にやっていた作業はどれ？」となったとき、最初に読むファイルと位置づけられています。起動時にはSessionStart hookが冒頭を自動表示します。</p>
+<p>やっていることはコード上、次の4段階です。</p>
+<ol>
+<li>作業フォルダ配下を走査して、全案件の <code>HANDOFF.md</code> を集める</li>
+<li>各案件フォルダの「gitの最終コミット時刻」を取り、新しい順に並べる（＝実際に最後に触った順）</li>
+<li>各HANDOFFから「最終更新」の行と「次の一手」の先頭1〜3項目を正規表現で抜き出す</li>
+<li>上位8件だけを、再開コマンド付きでボードに書き出す</li>
+</ol>
+<p>出力される各項目には、案件名・最終コミット時刻・次の一手に加えて、<code>cd "&lt;案件の絶対パス&gt;" &amp;&amp; claude</code> という<strong>そのまま貼れば作業を再開できるコマンド</strong>が1行ずつ付きます。1位の案件には「← 最後に作業」の印が付き、末尾には案件カタログ（INDEX.md）と過去会話の索引（SESSIONS.md）へのリンクが置かれます。</p>
+<p>地味ですが実用上効いている工夫が走査の除外リストです。コードのコメントによると作業ツリーは12GBあり、<code>node_modules</code> や <code>.git</code>、ビルド生成物などのフォルダには最初から潜らない設計になっています。シンボリックリンク（別の場所を指すショートカットのようなもの）も辿りません。循環やリンク先の肥大で走査が終わらなくなるのを避けるためです。</p>
+<h2 id="_1">会話メモ — 各ターンの「指示」と「結果」だけを抜いて残す</h2>
+<p>続き.mdだけだと「次に何をやるか」は分かっても、「直前にどういうやり取りをしたか」までは分かりません。HANDOFFが粗い日もあります。そこを埋めるのが2本目の <code>save_turn_digest.py</code>（121行）です。</p>
+<p>これはStop hook（Claudeが応答を返し終わるたびに動く仕組み）として動きます。会話履歴のjsonlを読み、<strong>そのターンの最後のユーザー指示と、最後のAI回答のテキストだけ</strong>を抜き出して、案件名ごとのファイル <code>_会話メモ/&lt;案件名&gt;.md</code> に追記します。ツールの実行結果やシステムメッセージ由来の行は飛ばし、人間が打った指示だけを拾うようになっています。ファイル名は作業ディレクトリのフォルダ名から自動で決まります。</p>
+<p>書式は「指示: 〜」「結果: 〜」のペアが新しい順に並ぶだけの単純なもので、制限もはっきり決めてあります。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1件あたりの最大文字数</td>
+<td>指示・結果それぞれ500文字で打ち切り</td>
+</tr>
+<tr>
+<td>1ファイルに残すターン数</td>
+<td>最大30件（古いものから削除）</td>
+</tr>
+<tr>
+<td>同一内容の連続追記</td>
+<td>直前と同じなら書かない（hookの多重発火対策）</td>
+</tr>
+<tr>
+<td>手動編集</td>
+<td>禁止（ファイル冒頭に明記）</td>
+</tr>
+</tbody>
+</table>
+<p>このファイルはgit同期の対象なので、auto-pushで全PCとiPhone（GitHub経由）に届きます。会話そのものは同期しないが、<strong>会話の要点500文字×30ターンぶんだけは同期する。</strong> ここがこの設計の落としどころです。</p>
+<h2 id="_2">過去の漏洩事故が、コードのコメントに残っている</h2>
+<p>正直に書くべき部分です。このスクリプトには、APIキーやトークンの典型パターン7種類を検出して <code>[REDACTED]</code> に置き換える処理が入っています。そしてその直上のコメントには「秘密情報の平文同期事故防止（2026-06-06の漏洩事故の再発防止）」とあります。</p>
+<p>つまり弊社は一度、<strong>会話の中に含まれていた秘密情報を、平文のままgit同期に載せてしまう事故を起こしています。</strong> 会話の要点を自動でgitに流すという仕組みは、便利さと引き換えに「会話に貼ったものは何でも同期される」という危険を最初から抱えています。いまの検出処理も既知のパターン7種への対策であって、パターンに合致しない秘密が素通りする可能性は残ります。同じ仕組みを作る方は、この対策を後付けではなく初日から入れることをおすすめします。うちは後付けでした。</p>
+<h2 id="_3">この設計の割り切りと弱点</h2>
+<p>コードを読んで確認できる範囲で、割り切っている点を挙げます。</p>
+<ul>
+<li><strong>並び順はgitのコミット時刻に依存します。</strong> コミットしていない作業は「最後に触った案件」として上がってきません</li>
+<li><strong>「次の一手」の抽出は正規表現です。</strong> HANDOFFの見出しの書き方が想定から外れると、ボードのその欄は空になります</li>
+<li><strong>会話メモは各ターンの最後の指示と最後の回答だけ</strong>で、途中の試行錯誤は残りません。500文字で切れるので長い回答は尻切れになります</li>
+<li>ボードに載るのは上位8件だけで、それ以外の案件はINDEX経由で探すことになります</li>
+</ul>
+<p>それでも「会話履歴を全部同期して完璧に再現する」方向に行かなかったのは、壊れる同期・膨らむデータ・漏れる秘密という3つのコストを避けて、<strong>再開に本当に必要な情報は『次の一手』と『直前のやり取りの要点』だけ</strong>と決めたからです。この要件定義の部分は、AIがなくても紙のノートでも成立する話です。</p>
+<h2 id="_4">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-drive-mirror-sync/">成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定</a></li>
+<li><a href="/articles/toe-agent-dashboard/">自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード</a></li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>会話履歴（jsonl）は書き込み中の同期で壊れるため、マシン間で同期しない設計にした。別PCでの会話resumeは最初から捨てている</li>
+<li>代わりに、全案件のHANDOFF.mdをgit履歴順（最後に触った順）に並べ、次の一手と再開コマンド付きで上位8件を1枚に集約する <code>続き.md</code> をhookで自動生成している</li>
+<li>会話の文脈は、各ターンの指示と回答を500文字・30ターンまでに絞った案件別の会話メモとしてgit同期し、iPhoneからも読めるようにしている</li>
+<li>秘密情報の平文同期事故を一度起こしており、その再発防止の検出処理がコードに残っている。同種の仕組みを作るなら初日から入れるべき対策</li>
+</ul>
+<p>株式会社TOEでは、こうした社内での実践をもとに、中小企業向けのAI開発・業務自動化の相談を受けています。詳しくは <a href="https://gtoe.info/">株式会社TOE</a> をご覧ください。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

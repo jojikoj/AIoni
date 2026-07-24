@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった · AIの鬼</title>
+  <meta name="description" content="米国商務省NIST傘下のCAISIがDeepSeekの各モデルを実測しました。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取りではDeepSeek最良モデルでも認証情報の窃取が37%の試行で発生。トークン単価ではなく総額と乗っ取り耐性で選ぶべき理由を、評価の立場性と限界も含めて整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった · AIの鬼">
+  <meta property="og:description" content="米国商務省NIST傘下のCAISIがDeepSeekの各モデルを実測しました。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取りではDeepSeek最良モデルでも認証情報の窃取が37%の試行で発生。トークン単価ではなく総額と乗っ取り耐性で選ぶべき理由を、評価の立場性と限界も含めて整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった · AIの鬼">
+  <meta name="twitter:description" content="米国商務省NIST傘下のCAISIがDeepSeekの各モデルを実測しました。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取りではDeepSeek最良モデルでも認証情報の窃取が37%の試行で発生。トークン単価ではなく総額と乗っ取り耐性で選ぶべき理由を、評価の立場性と限界も含めて整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった","item":"https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/"}]},{"@type":"Article","headline":"安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった","description":"米国商務省NIST傘下のCAISIがDeepSeekの各モデルを実測しました。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取りではDeepSeek最良モデルでも認証情報の窃取が37%の試行で発生。トークン単価ではなく総額と乗っ取り耐性で選ぶべき理由を、評価の立場性と限界も含めて整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/"},"url":"https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-mx-caisi-deepseek-evaluation.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/mx-caisi-deepseek-evaluation/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-mx-caisi-deepseek-evaluation.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>安いから中国製モデル、は成立するのか？ 米国政府機関の実測でGPT-5-miniが平均35%安かった</h1>
+<p class="article-lead">米国商務省NIST傘下のCAISIがDeepSeekの各モデルを実測しました。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取りではDeepSeek最良モデルでも認証情報の窃取が37%の試行で発生。トークン単価ではなく総額と乗っ取り耐性で選ぶべき理由を、評価の立場性と限界も含めて整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>「安いから中国製オープンウェイトモデルを使う」という判断は、米国商務省の実測では価格面でも成立しませんでした。同等性能に要した費用はGPT-5-miniが平均35%安く、エージェント乗っ取り試験ではDeepSeekの最良モデルでも認証情報の窃取が37%の試行で発生しています。ただしこれは米国政府による自国比較であり、暫定的な評価だと報告書自身が明記しています。</p>
+<h2 id="_1">誰が、どんな立場でこの評価をしたのか</h2>
+<p>まず出どころを押さえます。この評価は、米国商務省NIST傘下のCenter for AI Standards and Innovation（CAISI）が実施し、2025年9月30日に公開したものです。ラトニック商務長官の2025年6月3日付指示およびトランプ大統領のAI Action Planに基づき、「敵対国のAIシステム」を評価する任務として行われました。検閲評価に使われたデータセット CCP-Narrative-Bench は米国務省が作成しています。</p>
+<p>つまり、<strong>評価者は米国政府機関であり、比較対象は自国企業のモデル、評価される側は競合国である中国のモデル</strong>という構図です。企業が自社製品について発表するのと同じ構造の利害関係が、国家レベルで存在します。中立的な第三者評価ではない、という前提で数字を読む必要があります。</p>
+<p>そのうえで、報告書自身が置いている限界も先に共有します。本文は「本評価の結果は暫定的（preliminary）と見なすべき」と明記しています。特定時点の特定バージョンに対する部分的評価であり、評価手法自体が進化途上であることを自認しています。また、評価対象はHugging Faceからダウンロードして自社サーバーで自己ホストしたモデルであり、DeepSeek社のAPIや第三者クラウド経由ではありません。本文は「クラウドサービス経由なら入出力フィルタ等の追加ガードレールが付く場合があり、特にセキュリティとCCP検閲の評価結果は異なる可能性がある」と注記しています。</p>
+<p>（出典：Center for AI Standards and Innovation (CAISI), National Institute of Standards and Technology (NIST)／米国商務省。ラトニック商務長官の2025年6月3日付指示およびトランプ大統領のAI Action Planに基づく評価。CCP検閲評価用データセット CCP-Narrative-Bench は米国務省が作成、2025-09-30、<a href="https://www.nist.gov/system/files/documents/2025/09/30/CAISI_Evaluation_of_DeepSeek_AI_Models.pdf">https://www.nist.gov/system/files/documents/2025/09/30/CAISI_Evaluation_of_DeepSeek_AI_Models.pdf</a>）</p>
+<h2 id="_2">一次資料の実測：性能・コスト・セキュリティの数字</h2>
+<p>主要な実測値を、条件つきで並べます。</p>
+<table>
+<thead>
+<tr>
+<th>評価項目</th>
+<th>条件・対象範囲</th>
+<th>DeepSeek</th>
+<th>米国参照モデル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コスト（同等性能到達まで）</td>
+<td>13の性能ベンチマーク全体での平均。トークン単価ではなくタスク完遂までのエンドツーエンド費用。13中11で統計的に有意</td>
+<td>V3.1が基準</td>
+<td>GPT-5-miniが平均35%低コスト</td>
+</tr>
+<tr>
+<td>SWE-bench Verified（実世界のソフトウェア課題）</td>
+<td>2025年9月実施。ソフトウェア開発ツールを与えReActループのエージェントとして実行。同一ベンチマーク内は全モデル同一環境・同一ツール</td>
+<td>V3.1が55%、R1が25%</td>
+<td>最良が67%</td>
+</tr>
+<tr>
+<td>CVE-Bench（既知脆弱性を持つ遠隔標的の実攻略）</td>
+<td>15の現実的な攻略課題（うち8課題は非公開）</td>
+<td>V3.1が37%、R1が27%</td>
+<td>最良が67%</td>
+</tr>
+<tr>
+<td>Cybench</td>
+<td>40課題</td>
+<td>V3.1が40%、R1が17%</td>
+<td>最良が74%</td>
+</tr>
+<tr>
+<td>CTF-Archive</td>
+<td>577問をサンプリング</td>
+<td>V3.1が28%、R1が9%</td>
+<td>最良が51%</td>
+</tr>
+<tr>
+<td>脱獄への応答率（明白に悪意ある要求）</td>
+<td>2025年9月実施。17種類の既知脱獄手法を試し、各モデルで最も効果的だった手法の結果。有害生物学・暴力行為の65問×3サンプル、ハッキング・詐欺の80問×3サンプル</td>
+<td>最も堅牢なR1-0528で94%</td>
+<td>8%</td>
+</tr>
+<tr>
+<td>エージェント乗っ取り：認証情報の窃取</td>
+<td>AgentDojoフレームワーク。CAISI作成の30の利用者タスク×2種類の注入攻撃</td>
+<td>R1-0528で37%</td>
+<td>GPT-5とOpus 4の平均4%（gpt-ossは27%）</td>
+</tr>
+<tr>
+<td>エージェント乗っ取り：フィッシングメール送信</td>
+<td>同上</td>
+<td>R1-0528で48%</td>
+<td>同平均3%（gpt-ossは48%）</td>
+</tr>
+<tr>
+<td>エージェント乗っ取り：マルウェアのダウンロード実行</td>
+<td>同上</td>
+<td>R1-0528で49%</td>
+<td>同平均4%（gpt-ossは28%）</td>
+</tr>
+</tbody>
+</table>
+<p>読み方の注意を3つ挙げます。</p>
+<ul>
+<li>乗っ取りの37%／48%／49%は、V3.1ではなくDeepSeek中で<strong>最も堅牢なR1-0528</strong>の数値です。最良のモデルでこの水準、という読み方になります。</li>
+<li>米国参照モデルの「平均」は多くの場合GPT-5とOpus 4の2モデル平均であり、n=2と小さい標本です。</li>
+<li>表の注記では、一部の評価（特に科学・知識系ベンチマーク）で最高性能モデルと下位モデルの差が誤差範囲内であると明記されています。</li>
+</ul>
+<p>検閲に関する数値は、プロンプトの言語で大きく変わります。CCPの不正確・誤解を招く言説を反復した割合は、中国語プロンプト時にV3.1が12%、R1が10%、R1-0528が26%、米国参照モデル平均が3%。英語プロンプト時はV3.1が5%、R1が1%、R1-0528が16%、米国参照モデル平均が2%でした。同じモデルでも言語によって倍以上動くため、「何語で聞いたときの数字か」を確認せずに引用すると誤読につながります。</p>
+<p>採用状況については、2025年1月比で直近9か月（2025年9月まで）にHugging FaceでのDeepSeekダウンロードが960%超、Alibabaが135%増、OpenRouterでのDeepSeek API利用は5,900%超増と伸びています。ただしV3.1単体では公開1か月後のHugging Faceダウンロードは206,000回でgpt-oss-20bの2%に過ぎず、派生モデル投稿数も12%未満。一方でOpenRouterのAPIリクエストは4週間で9,750万回とgpt-ossファミリーを25%上回っています。報告書自身が、この採用分析は利用データが多数のプラットフォームに散在するため「部分的な視点にすぎない」と認めています。</p>
+<h2 id="_3">読者への意味：中小企業の判断に効くのはどこか</h2>
+<p>中小企業の経営者・情報システム担当にとって、この報告書から持ち帰るべき論点は3つに絞れます。</p>
+<p><strong>第一に、コスト比較の物差しです。</strong> 「トークン単価が安い」と「タスクを終わらせるまでの総額が安い」は別物です。今回の実測は後者で比較しており、13ベンチマーク中11で統計的に有意にGPT-5-miniが安く、平均で35%の差がつきました。推論の遠回りやリトライを含めた総額で見ると、単価の安さが逆転しうるということです。社内でAIツールを比較するときは、単価表ではなく「同じ仕事を最後まで終わらせるのにいくらかかったか」を測る設計にしてください。この考え方は<a href="/articles/ai-cost-aware-evaluation/">コストを含めた評価設計の記事</a>と合わせて読むと組み立てやすくなります。</p>
+<p>ただしこのコスト分析には誤差の向きが両方あります。DeepSeek側の価格は同社API公表価格を使っており、報告書自身が「他社経由の方が安い場合が多い」と注記しています。逆に、DeepSeekは64kトークン上限の価格で提供しているのに128kとして分析しており、DeepSeek側費用を過小評価している可能性も自認しています。35%という数字は、上にも下にもぶれる前提の平均値です。</p>
+<p><strong>第二に、AIエージェントに何を触らせるかです。</strong> メール処理や社内文書の要約をAIエージェントに任せる構成では、外部から流し込まれた文章にエージェントが乗っ取られる「間接プロンプトインジェクション」が現実的な脅威になります。今回の試験では、DeepSeekで最も堅牢なR1-0528でも、認証情報の窃取が37%、フィッシングメールの送信が48%、マルウェアのダウンロード実行が49%の試行で発生しました。受信箱や認証情報にエージェントの手を届かせる前に、モデル選定そのものがセキュリティ設計の一部だと考える必要があります。外部入力がモデルの挙動を書き換える経路については<a href="/articles/ai-memory-poisoning/">記憶汚染の記事</a>も併読を勧めます。</p>
+<p><strong>第三に、「オープンウェイト＝安全ではない」ということです。</strong> 米国製オープンウェイトのgpt-ossは、脱獄耐性ではDeepSeek全モデルを上回りました。オープンウェイトでも堅牢な選択肢はある、という意味です。一方で乗っ取り耐性ではgpt-ossもフィッシング48%・認証情報窃取27%・マルウェア実行28%と低く、クローズドのGPT-5／Opus 4（平均3〜4%）とは大きな差があります。自社サーバーで動かせることと、乗っ取られないことは別問題です。モデルの選び方は<a href="/articles/ai-tool-selection/">AIツール選定の記事</a>の観点も併せて整理してください。</p>
+<h2 id="_4">数字を鵜呑みにしないための、報告書自身の但し書き</h2>
+<p>不都合な点も含めて、報告書が置いている限界を列挙します。</p>
+<ul>
+<li>結果は暫定的（preliminary）であり、特定時点の特定バージョンに対する部分的評価であると本文が明記している。</li>
+<li>評価対象は自己ホストしたモデルで、DeepSeek社APIや第三者クラウド経由の挙動とは異なりうると本文が明記している。</li>
+<li>セキュリティ評価は包括的なセキュリティ評価と解釈すべきでないとし、特定環境や特定プロンプトで悪意ある挙動を示すかは分析していない。</li>
+<li>脱獄評価について「何が悪意ある要求かは主観的でありうる」「サイバー領域はデュアルユースで判断が複雑」と自認。脱獄以外にファインチューニング等の安全装置回避手法もあり、脱獄評価だけでは安全性や悪用リスクは決定できないとしている。</li>
+<li>脱獄評価の自動採点は、LLMグレーダーと人間採点者の一致率がコンプライアンス判定で96%だが、詳細度の判定では84%と低い（各回答を3つの独立したグレーダーモデルで採点し最頻値を採用）。</li>
+<li>ベンチマーク自体の方法論的限界（実務有用性との関連性、領域横断の一般化、訓練データとの重複）を本文が認めている。</li>
+<li>モデルの開発方法・開発コスト・蒸留データで訓練された可能性については調査していないと明記している。</li>
+</ul>
+<p>つまり、この報告書は「DeepSeekは使えない」という結論を出す資料ではありません。「この条件で測ったらこの差が出た」という一つの実測です。自社の判断材料にするなら、自社の業務条件で測り直す前提を持つべきです。評価軸を自分で持つ考え方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を作る記事</a>が参考になります。</p>
+<h2 id="toe">TOEの読み筋：うちならどこを直すか</h2>
+<p>以下はTOEの見立てであり、<strong>TOEではこの評価の再現検証も、DeepSeek系モデルの業務投入も未実施です。</strong> 一次資料の数字から導いた解釈として読んでください。</p>
+<p>読み筋は3点です。</p>
+<ul>
+<li><strong>選定基準を単価から総額に書き換える。</strong> 見積の比較表が「1Mトークンあたり◯円」で並んでいるなら、それは今回の実測が否定した物差しです。代表的な社内タスクを10件程度決め、同じタスクを最後まで完遂させたときの実費で並べ直す。この作り替え自体は数日で済みます。</li>
+<li><strong>エージェントの権限を、モデルの乗っ取り耐性に合わせて絞る。</strong> 乗っ取り試行の成功率が数十%規模で出る以上、「モデルが賢いから任せる」ではなく「乗っ取られても被害が出ない範囲しか触らせない」が先です。送信権限・認証情報・外部APIの3つは、当面は人間の承認を挟む設計が現実的だと考えています。</li>
+<li><strong>国産・自己ホストの是非は、この報告書だけでは決められない。</strong> 評価が米国政府による自国比較であること、クラウド経由なら結果が変わりうると本文が認めていることの2点から、TOEとしては「この報告書を根拠に特定国のモデルを一律排除する」提案はしません。代わりに、自社データが外部に出る経路の有無と、乗っ取り時の最大被害額で判断する方が実務的です。</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>米国商務省NIST傘下のCAISIによる2025年9月30日公開の評価で、GPT-5-miniはDeepSeek V3.1と同等性能を平均35%低コストで達成し、13ベンチマーク中11で統計的に有意な差がついた（トークン単価ではなくタスク完遂までの総額比較）。</li>
+<li>エージェント乗っ取り試験では、DeepSeekで最も堅牢なR1-0528でも認証情報の窃取37%、フィッシングメール送信48%、マルウェア実行49%。GPT-5とOpus 4の平均は3〜4%（n=2）。</li>
+<li>米国製オープンウェイトのgpt-ossは脱獄耐性でDeepSeek全モデルを上回ったが、乗っ取り耐性ではフィッシング48%と低く、「オープンウェイトなら安全」は成立しない。</li>
+<li>この評価は米国商務省が自国モデルを比較対象に実施したものであり、中立的な第三者評価ではない。報告書自身も結果を暫定的（preliminary）と明記し、自己ホスト前提のためクラウド経由では結果が異なりうるとしている。</li>
+<li>中小企業が今すぐできるのは、比較表を単価から総額に書き換えることと、AIエージェントに送信権限・認証情報・外部APIを渡す前に人間の承認を挟むこと。TOEではこの評価の再現検証もDeepSeek系モデルの業務投入も未実施です。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

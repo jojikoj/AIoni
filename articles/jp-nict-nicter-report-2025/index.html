@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？ · AIの鬼</title>
+  <meta name="description" content="NICTが2026年2月に公開したNICTER観測レポート2025を読み解く。2025年の総観測パケットは約7,010億、1IPあたり2,504,680パケットで観測開始以降最多。一方でTelnet(23/TCP)宛の比率は17.9%から14.4%へ低下し、上位10ポート以外が65.8%を占めた。防犯カメラ・ルータ・SSHという現実の入口に話を戻します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/jp-nict-nicter-report-2025/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/jp-nict-nicter-report-2025/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？ · AIの鬼">
+  <meta property="og:description" content="NICTが2026年2月に公開したNICTER観測レポート2025を読み解く。2025年の総観測パケットは約7,010億、1IPあたり2,504,680パケットで観測開始以降最多。一方でTelnet(23/TCP)宛の比率は17.9%から14.4%へ低下し、上位10ポート以外が65.8%を占めた。防犯カメラ・ルータ・SSHという現実の入口に話を戻します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/jp-nict-nicter-report-2025/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？ · AIの鬼">
+  <meta name="twitter:description" content="NICTが2026年2月に公開したNICTER観測レポート2025を読み解く。2025年の総観測パケットは約7,010億、1IPあたり2,504,680パケットで観測開始以降最多。一方でTelnet(23/TCP)宛の比率は17.9%から14.4%へ低下し、上位10ポート以外が65.8%を占めた。防犯カメラ・ルータ・SSHという現実の入口に話を戻します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？","item":"https://ai-oni.com/articles/jp-nict-nicter-report-2025/"}]},{"@type":"Article","headline":"1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？","description":"NICTが2026年2月に公開したNICTER観測レポート2025を読み解く。2025年の総観測パケットは約7,010億、1IPあたり2,504,680パケットで観測開始以降最多。一方でTelnet(23/TCP)宛の比率は17.9%から14.4%へ低下し、上位10ポート以外が65.8%を占めた。防犯カメラ・ルータ・SSHという現実の入口に話を戻します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/jp-nict-nicter-report-2025/"},"url":"https://ai-oni.com/articles/jp-nict-nicter-report-2025/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-jp-nict-nicter-report-2025.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/jp-nict-nicter-report-2025/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-jp-nict-nicter-report-2025.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>1IPアドレスあたり年間250万パケット、Telnet宛は14.4%まで低下——攻撃スキャンの入口はどこへ移ったのか？</h1>
+<p class="article-lead">NICTが2026年2月に公開したNICTER観測レポート2025を読み解く。2025年の総観測パケットは約7,010億、1IPあたり2,504,680パケットで観測開始以降最多。一方でTelnet(23/TCP)宛の比率は17.9%から14.4%へ低下し、上位10ポート以外が65.8%を占めた。防犯カメラ・ルータ・SSHという現実の入口に話を戻します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。2025年のダークネット観測は1IPアドレスあたり2,504,680パケットで観測開始以降最多、一方で最多宛先だったTelnet(23/TCP)の比率は17.9%から14.4%へ低下しました。上位10ポート以外が65.8%。「Telnetだけ塞ぐ」発想は終わりで、外部公開している機器の管理ポート棚卸しが先です。</p>
+<h2 id="_1">この資料は何を測ったものなのか（対象範囲）</h2>
+<p>国立研究開発法人情報通信研究機構（NICT）が2026年2月5日に公開した観測レポートの数値です（出典：国立研究開発法人情報通信研究機構（NICT）サイバーセキュリティ研究所 サイバーセキュリティ研究室／サイバーセキュリティネクサス（NICTERプロジェクト）、2026-02-05、<a href="https://csl.nict.go.jp/report/NICTER_report_2025.pdf">https://csl.nict.go.jp/report/NICTER_report_2025.pdf</a>）。</p>
+<p>最初に利害関係を明示します。<strong>この記事が扱うレポートはNICT自身による発表であり、同機構は観測基盤であるNICTER（ダークネットセンサ、ハニーポット、AmpPot）の開発・運用者そのものです。</strong> 自組織の観測システムの成果を、その運用者が報告している構図になります。数字の出どころを読者が判断できるよう、先に書いておきます。</p>
+<p>そのうえで、分母を明示します。ここを飛ばすと確実に誤読が起きます。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>観測手法</td>
+<td>ダークネット（未使用IPアドレス）宛通信の観測。ほかにハニーポット・AmpPotによる観測</td>
+</tr>
+<tr>
+<td>観測期間</td>
+<td>2025年1月1日〜12月31日</td>
+</tr>
+<tr>
+<td>観測IPアドレス数</td>
+<td>284,305（各年12月31日時点の稼働センサ数。2025年は年末メンテナンスのため12月26日時点）</td>
+</tr>
+<tr>
+<td>年間総観測パケット数</td>
+<td>約7,010億パケット</td>
+</tr>
+<tr>
+<td>1IPアドレスあたり</td>
+<td>2,504,680パケット（2024年は2,427,977、観測IP 284,445／総数 約6,862億パケット）</td>
+</tr>
+<tr>
+<td>DRDoS観測</td>
+<td>AmpPot 9台（Proxiedモード7台、Agnosticモード2台）の合計</td>
+</tr>
+<tr>
+<td>業種別・企業規模別の内訳</td>
+<td>なし</td>
+</tr>
+</tbody>
+</table>
+<p>レポートの注5には明確にこう書かれています。総観測パケット数はNICTERで観測しているダークネットに届いたパケットの個数を示すものであり、日本全体や政府機関に対する攻撃件数ではありません、と。約7,010億という数字を「日本への攻撃が7,010億回あった」と読み替えるのは誤りです。同じ注5には、数値はレポート作成時点でDBに登録されている値に基づき、集計後のDB再構築等で増減することがある、という但し書きもあります。</p>
+<h2 id="_2">増えているのは何で、増えていないのは何か</h2>
+<p>2025年の1IPアドレスあたり年間観測パケット数は2,504,680で、2024年の2,427,977から約7万7千パケット増えました。観測開始以降で最多です。NICTはセンサ規模の変動が総数に影響するため、この1IPあたりの数値を「攻撃関連活動の活発さ」の指標として用いると明記しています。総数だけを見て前年比を語るのは、この資料の使い方としては筋が悪いということです。</p>
+<p>10年スパンで見ると変化は明確です。2016年は1IPあたり527,888パケット（総数 約1,440億／観測IP 274,872）でしたから、2025年の2,504,680パケットは約4.7倍。表1「年間総観測パケット数の統計（過去10年間）」に基づく比較です。</p>
+<p>ただし、この数字がそのまま「攻撃」ではありません。2025年の全観測パケット約7,010億のうち、調査目的と推測されるスキャンパケットが約55.0%（約3,858億パケット）を占めます。内訳は既知組織の調査スキャンが約2,413億（34.4%、17,348 IPアドレス・87組織）、未知組織の調査スキャンが約1,445億（20.6%、2,490 IPアドレス）。Palo Alto Networks、Censys、Shodanといった正規のセキュリティ調査組織を含みます。2024年の約60.2%からはやや減少しました。</p>
+<ul>
+<li>観測パケット数は「攻撃回数」ではない。半分以上は調査・研究目的のスキャン</li>
+<li>未知組織の調査スキャンの除去は、NICTERが独自に設けた判定ルール（1日・1IPあたり宛先ポート30種類以上かつ総パケット30万以上）による推定であり、分類には判断が含まれる</li>
+<li>12月末に観測パケット数が減っているのはセンサメンテナンスによるもので、攻撃が止まったわけではない</li>
+</ul>
+<h2 id="_3">狙われる入口はどこへ移ったのか</h2>
+<p>ここが実務的に一番効く部分です。宛先ポートの構成が変わりました。</p>
+<p>長らく最多だった23/TCP（Telnet）宛パケットが全観測パケットに占める割合は、2023年27.1%、2024年17.9%、2025年14.4%と減少傾向にあります。代わりに増えたのが上位10種類以外の「その他」ポート宛で、61.2%（2024年）から65.8%（2025年）へ。NICTはこれを、23/TCPほか30種類以上のポートをスキャンするRapperBotや、80/81/82/83/85/TCPをスキャンするMountBotなど、多ポートスキャン型IoTマルウェアの活動によるものと説明しています。</p>
+<p>個別のポートでは次の動きがありました。いずれも2025年のダークネット観測、宛先ポート別パケット数ランキングでの順位です。</p>
+<table>
+<thead>
+<tr>
+<th>ポート</th>
+<th>何のポートか</th>
+<th>順位の変化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>34567/TCP</td>
+<td>Xiongmai製DVRのAPI</td>
+<td>前年29位 → 7位</td>
+</tr>
+<tr>
+<td>8728/TCP</td>
+<td>MikroTikルータのWinBox API</td>
+<td>2年連続2位</td>
+</tr>
+<tr>
+<td>22/TCP・2222/TCP</td>
+<td>SSH（リモート保守）</td>
+<td>上位に位置</td>
+</tr>
+<tr>
+<td>80/81/82/83/85/TCP</td>
+<td>IoT機器のWeb管理画面</td>
+<td>上位に位置</td>
+</tr>
+<tr>
+<td>3389/TCP</td>
+<td>Windows Remote Desktop</td>
+<td>前年6位 → 12位（Windows系は上位10位圏外）</td>
+</tr>
+</tbody>
+</table>
+<p>34567/TCPについては、ハニーポットで同製品の脆弱性CVE-2024-3765を悪用した攻撃も観測されています。順位の急上昇が単なるスキャン増ではなく、実際の攻撃コードを伴っていたということです。</p>
+<p>DDoS関連も動いています。攻撃関連パケットに含まれるDDoS攻撃の跳ね返り（バックスキャッタ、SYN-ACK）は2025年に約58億パケット（2024年は約54億パケット）。AmpPotで観測されたDRDoS攻撃件数は全世界で約8,285万件、日本宛は約90万件でした。全世界は2024年 約3,095万件・2023年 約5,561万件、日本宛は2024年 約17万件・2023年 約896万件で、1日平均は約23万件（2024年 約8.5万件）です。</p>
+<p>Mirai感染ホストについては、日本国内の日ごとの推移が約170〜約1,470ホスト。世界全体では概ね約2万〜約6万台で推移し、2024年の最小値（約2.7万台）を下回る水準も観測されています。国内は減少傾向ですが、ゼロではありません。</p>
+<h2 id="_4">この数字で言えないこと</h2>
+<p>不都合な点を先に並べます。ここを飛ばして経営会議に持ち込むと、後で梯子を外されます。</p>
+<ul>
+<li>ダークネット観測は「未使用IPアドレス宛の通信」の観測であり、実際に企業が侵害されたか・被害が出たかは分からない</li>
+<li>業種別・企業規模別の内訳は一切ない。中小企業固有の被害実態を示すデータではない</li>
+<li>DRDoS攻撃件数はAmpPot 9台という限られた観測点での結果であり、実際の攻撃総数ではない。日本宛が2023年 約896万件→2024年 約17万件→2025年 約90万件と大きく上下しており、観測条件の影響を受けやすい</li>
+<li>観測IPアドレス数の変動が総数に影響する構造のため、総パケット数の年次比較には注意が必要</li>
+</ul>
+<p>つまりこのレポートは「誰がどれだけ被害を受けたか」ではなく、「攻撃側がどこをノックして回っているか」を示す資料です。被害の実態は別の資料で補う必要があります。国内の被害側統計は<a href="/articles/jp-npa-cyber-jousei-r7/">ランサムウェア被害報告226件の約6割が中小企業</a>で、中小企業の対策実施状況は<a href="/articles/jp-ipa-chusho-security-jittai-2024/">IPAの中小企業セキュリティ実態調査</a>で扱っています。合わせて読むと、ノックされている入口と実際に破られている入口が重なっていることが見えてきます。</p>
+<h2 id="_5">中小企業は結局、何を閉じるべきなのか</h2>
+<p>この観測結果を自社の話に翻訳すると、対象はかなり具体的になります。34567/TCPはDVR、8728/TCPは無線LANルータ、80番台はIoT機器のWeb管理画面、22/TCPはリモート保守用SSH。これらは中小企業のオフィスや工場に、たいてい何も考えずに置かれている機器です。</p>
+<p>優先度をつけるなら、順番はこうなります。</p>
+<ul>
+<li>外部公開している機器の管理ポートを棚卸しする（何が、どのポートで、グローバルIPに出ているか）</li>
+<li>初期パスワードのまま運用している機器がないか確認する</li>
+<li>DVR・ルータ・カメラのファームウェアを更新する（34567/TCPのCVE-2024-3765はこの層の話）</li>
+<li>不要なグローバル公開を停止する。特に「設置業者が保守用に開けたまま」の口</li>
+<li>自社機器が踏み台にされるリスク（＝加害側になるリスク）も説明できるようにしておく</li>
+</ul>
+<p>最後の項目は軽視されがちですが、DRDoS攻撃の日本宛観測が2024年 約17万件から2025年 約90万件へ増えている以上、無関係とは言い切れません。踏み台にされた場合、被害者ではなく加害者として扱われます。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、NICTER観測レポート2025に基づく自社ネットワークの再点検はまだ実施していません。</strong> 以下は資料を読んだ時点での判断であり、実測の裏付けはありません。</p>
+<p>そのうえで書くと、この資料の価値は「攻撃トレンドの数字」ではなく「棚卸し対象リストとして使えること」にあると考えています。ポートランキングは、そのまま社内の機器チェックリストに変換できます。34567、8728、22、2222、80〜85、3389。この6行を持って社内を一周するだけで、たいていの会社は知らない口を1つか2つ見つけます。</p>
+<p>逆に、この資料を「攻撃が過去最多」という一文だけ抜き出して稟議に使うのは避けるべきだと考えます。約55.0%が調査目的スキャンであること、7,010億が日本への攻撃回数ではないこと、この2点を落とした説明は、詳しい人に見られた瞬間に信頼を失います。数字は正確に扱ったほうが、結果的に予算は通ります。</p>
+<p>AI導入の文脈で言えば、社内にAIツールを入れる前段として、そもそも外部に何が開いているかを把握していない状態は望ましくありません。<a href="/articles/ai-first-step-smb/">中小企業がAI導入で最初にやるべきこと</a>でも触れましたが、順番としては足元の可視化が先です。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>2025年の1IPアドレスあたり年間観測パケット数は2,504,680で観測開始以降最多。2024年の2,427,977から約7万7千パケット増（NICTERダークネット観測、観測IP 284,305、2025年1月1日〜12月31日）</li>
+<li>ただし全観測パケット約7,010億のうち約55.0%（約3,858億）は調査目的と推測されるスキャン。観測パケット数は攻撃回数ではなく、レポート注5も「日本全体や政府機関に対する攻撃件数ではない」と明記している</li>
+<li>Telnet(23/TCP)宛の比率は2023年27.1%→2024年17.9%→2025年14.4%と低下し、上位10種類以外の「その他」ポートが61.2%→65.8%へ。多ポートスキャン型IoTマルウェアの影響とされる</li>
+<li>Xiongmai製DVRのAPI(34567/TCP)が前年29位から7位へ上昇、MikroTikのWinBox API(8728/TCP)は2年連続2位。DVR・ルータ・SSH・IoT機器のWeb管理画面が実際の入口</li>
+<li>ダークネット観測に業種別・企業規模別の内訳はなく、中小企業固有の被害実態は分からない。発信元のNICTはNICTERの開発・運用者本人であり、TOEでも本レポートに基づく自社点検は未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

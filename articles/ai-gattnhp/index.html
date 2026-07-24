@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>パラメータ2.8Mで48GB GPU級の予測精度は出せるのか──時系列知識グラフ研究GAttNHPが示した数字 · AIの鬼</title>
+  <meta name="description" content="「次に何が、いつ起こるか」を予測する新手法GAttNHPが、パラメータ2.8M・GPUメモリ2.54GBという構成で、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法をMRRで8.25ポイント上回りました。低頻度データほど改善が大きいという結果を、中小企業の予測案件にどう読み替えるかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-gattnhp/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-gattnhp/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="パラメータ2.8Mで48GB GPU級の予測精度は出せるのか──時系列知識グラフ研究GAttNHPが示した数字 · AIの鬼">
+  <meta property="og:description" content="「次に何が、いつ起こるか」を予測する新手法GAttNHPが、パラメータ2.8M・GPUメモリ2.54GBという構成で、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法をMRRで8.25ポイント上回りました。低頻度データほど改善が大きいという結果を、中小企業の予測案件にどう読み替えるかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-gattnhp/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="パラメータ2.8Mで48GB GPU級の予測精度は出せるのか──時系列知識グラフ研究GAttNHPが示した数字 · AIの鬼">
+  <meta name="twitter:description" content="「次に何が、いつ起こるか」を予測する新手法GAttNHPが、パラメータ2.8M・GPUメモリ2.54GBという構成で、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法をMRRで8.25ポイント上回りました。低頻度データほど改善が大きいという結果を、中小企業の予測案件にどう読み替えるかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"パラメータ2.8Mで48GB GPU級の予測精度は出せるのか──時系列知識グラフ研究GAttNHPが示した数字","item":"https://ai-oni.com/articles/ai-gattnhp/"}]},{"@type":"Article","headline":"パラメータ2.8Mで48GB GPU級の予測精度は出せるのか──時系列知識グラフ研究GAttNHPが示した数字","description":"「次に何が、いつ起こるか」を予測する新手法GAttNHPが、パラメータ2.8M・GPUメモリ2.54GBという構成で、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法をMRRで8.25ポイント上回りました。低頻度データほど改善が大きいという結果を、中小企業の予測案件にどう読み替えるかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-gattnhp/"},"url":"https://ai-oni.com/articles/ai-gattnhp/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-gattnhp.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-gattnhp/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-gattnhp.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>パラメータ2.8Mで48GB GPU級の予測精度は出せるのか──時系列知識グラフ研究GAttNHPが示した数字</h1>
+<p class="article-lead">「次に何が、いつ起こるか」を予測する新手法GAttNHPが、パラメータ2.8M・GPUメモリ2.54GBという構成で、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法をMRRで8.25ポイント上回りました。低頻度データほど改善が大きいという結果を、中小企業の予測案件にどう読み替えるかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>予測系AIに大型GPUが必須とは限らない、という反証材料が1本出ました。2026年7月16日に投稿された論文GAttNHPは、パラメータ2.8M・GPUピークメモリ2.54GBで、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法をMRRで8.25ポイント上回っています。ただし検証は公開ベンチマークのみで、企業の業務データでの実証はありません（出典：arXiv:2607.14733、2026年7月16日（arXiv:2607.14733v1）、<a href="https://arxiv.org/abs/2607.14733v1">https://arxiv.org/abs/2607.14733v1</a>）。</p>
+<h2 id="_1">何を解こうとした研究なのか</h2>
+<p>この研究が扱っているのは「時系列知識グラフの外挿推論」と呼ばれる課題です。難しそうな名前ですが、中身は素朴です。過去に起きた出来事が「誰が・何を・誰に・いつ」という形で溜まっているとき、その連なりから未来の出来事を当てられるか、という問題です。</p>
+<p>ポイントは2つあります。ひとつは「次に何が起こるか」という中身の予測。もうひとつは「それがいつ起こるか」という時刻の予測です。この論文の提案手法GAttNHPは、グループ注意機構（Group Attention）とニューラル・ホークス過程（Neural Hawkes Process）を組み合わせ、この2つを同時に扱おうとしています。</p>
+<p>ホークス過程というのは、地震の余震のように「一度起きると、その後しばらく起きやすくなる」性質を数式で表す枠組みです。設備故障や解約の連鎖を思い浮かべると、業務での直感には近い発想だと言えます。</p>
+<p>検証には6つの公開ベンチマークが使われました。ICEWS14 / ICEWS18 / ICEWS05-15 / GDELT / WIKI / YAGO の6種類で、最大のGDELTは学習データが1,734,399件あります。すべて研究用の公開データセットであり、実企業のデータではありません。</p>
+<h2 id="_2">出ている数字を、条件つきで並べる</h2>
+<p>主要な結果はICEWS14というデータセット（エンティティ7,128件、学習74,845件、テスト7,371件）で報告されています。以下はすべてこの条件下の数字です。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>GAttNHP（提案手法）</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MRR</td>
+<td>0.5068（±0.0064）</td>
+<td>ICEWS14、テスト7,371件（Table 1）</td>
+</tr>
+<tr>
+<td>Hits@1</td>
+<td>0.4119（±0.0056）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Hits@10</td>
+<td>0.6775（±0.0073）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>従来最良手法ECEformerとの差</td>
+<td>MRR +8.25ポイント / Hits@1 +9.9ポイント</td>
+<td>ICEWS14（Table 1）</td>
+</tr>
+<tr>
+<td>パラメータ数</td>
+<td>2.8M</td>
+<td>ICEWS14、効率性の表（Table 5）</td>
+</tr>
+<tr>
+<td>GPUピークメモリ</td>
+<td>2.54GB</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>1エポック学習時間</td>
+<td>6.84秒</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>推論時間</td>
+<td>0.44秒</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>比較対象ECEformerの規模</td>
+<td>88M〜107Mパラメータ / GPU 48GB</td>
+<td>同一比較条件（Table 5の記載）</td>
+</tr>
+</tbody>
+</table>
+<p>MRRは、正解が予測ランキングの何位に来たかを逆数で平均した指標です。1位なら1.0、10位なら0.1。Hits@1は正解を1位に当てられた割合、Hits@10は10位以内に入れられた割合です。</p>
+<p>「いつ起こるか」の時刻予測については、平均絶対誤差1.33日という数字が報告されています（ICEWS14、Table 2）。比較手法GHTは2.95日、著者らが従来型の損失関数に差し替えた版は2.52日でした。</p>
+<h2 id="_3">一番おもしろいのは「めったに起きないケース」の結果</h2>
+<p>この論文で中小企業に読み替えやすいのは、精度の絶対値ではなく、どこで効いたかの内訳です。</p>
+<p>著者らはICEWS14を発生頻度で3群に分け、グループ化機構の有無で比較しています（Table 7、AttNHP＝グループ無し 対 GAttNHP＝グループ有り）。MRRの改善率は以下でした。</p>
+<ul>
+<li>低頻度（レア）データ：+10.7%</li>
+<li>中頻度データ：+8.6%</li>
+<li>高頻度データ：+3.5%</li>
+</ul>
+<p>データが多い事象では伸びしろが小さく、データが少ない事象ほど大きく伸びている。これは「似た性質のデータ同士をグループにまとめて、互いの情報で補い合わせる」という設計の狙いがそのまま効いた形です。</p>
+<p>中小企業の予測案件で最初にぶつかる壁は、たいてい「該当する事例が年に数件しかない」ことです。故障、離職、大口の解約、突発の特急受注。件数が足りないから統計にならない、で止まる。この論文の結果は、その壁に対して「個別に学習させるのではなく、似た対象をまとめて扱う設計にすれば改善しうる」という方向を示しています。データ量の乏しさを、設計で一部埋められる可能性がある、という話です。</p>
+<p>なお、少ないデータでどう始めるかという全体の考え方は<a href="/articles/ai-first-step-smb/">AIをまず1つ導入するなら何から始めるか</a>で整理しています。需要予測そのものの実務論点は<a href="/articles/ai-demand-forecast-peak/">需要予測のピークをAIはどこまで当てられるか</a>が近い内容です。</p>
+<h2 id="_4">論文が自分で認めている限界</h2>
+<p>ここは丁寧に書きます。この研究は万能ではなく、著者自身がいくつも留保をつけています。</p>
+<p><strong>1. データセットによって効き方が違う</strong>
+著者らは、イベント駆動型のデータセットでは強いが、YAGOのように静的な事実が多いベンチマークでは優位性が小さいと認めています。YAGOのMRRは0.5130です。つまり「出来事が次々に起きて連鎖する」性質のデータでこそ効く手法であり、あまり動かない台帳のようなデータでは持ち味が出ません。</p>
+<p><strong>2. 時刻予測の信頼区間が当たっていない</strong>
+時刻予測には予測区間がついていますが、その当たり具合（カバレッジ）が名目値からずれています。Coverage@50が0.46、Coverage@90が0.85で、いずれも狙った水準に届いていません。「90%の確率でこの期間に起きます」と言ったときに実際は85%だった、ということです。平均誤差1.33日という数字だけを見て、区間の信頼性まで担保されていると読んではいけません。</p>
+<p><strong>3. 精度と安定性がトレードオフになっている</strong>
+アブレーション実験では、完全版（NCQ込み）のMRRが、グループ機構のみの構成より低く出ています。グループ機構のみがICEWS14で0.5138、ICEWS18で0.3956なのに対し、完全版は0.5122、0.3863。時刻予測を安定させる部品を足すと、その分だけ中身の予測精度がわずかに落ちる構造です。</p>
+<p><strong>4. 学習設計への依存が強い</strong>
+時刻予測を一般的な平均二乗誤差で学習させると、MRRが0.1124まで崩壊します（ICEWS14のアブレーション、Figure 2）。自己注意のみのベースが0.4431だったところからの落ち込みです。損失関数の選び方ひとつで性能が壊れる、繊細な手法だということになります。</p>
+<p><strong>5. グループ構造が固定的</strong>
+現状のグループ分けは固定であり、著者は今後の課題として、適応的なグループ構造と多段推論への拡張が必要だとしています。</p>
+<p><strong>6. 企業データでの実証がない</strong>
+検証はすべて公開研究用ベンチマークです。国際紛争イベントDB等が中心で、自社の設備故障・受注・解約の予測にそのまま当てはまる保証はありません。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>まず明記します。<strong>TOEでは未実施です。</strong>GAttNHPを社内で再現実装したことも、顧客案件に適用したこともありません。以下はあくまで論文の数字から読み取った筋道です。</p>
+<p>そのうえで、2点を読みとしています。</p>
+<p>ひとつ目は、<strong>「予測AIをやるなら高価なGPUサーバーが要る」という前提を、いったん保留してよい</strong>ということ。パラメータ2.8M・ピークメモリ2.54GB・1エポック6.84秒という数字は、既存のPCクラスの資源感です。もちろん、これは特定のデータセット・特定のタスクでの1事例にすぎず、あらゆる予測タスクが軽く済むという話ではありません。それでも、見積もりの前に「本当に大型GPUが要る規模なのか」を一度問い直す根拠にはなります。この論点は<a href="/articles/ai-cpu-local-inference/">ローカルLLMをCPUだけで動かす現実解</a>とも地続きです。</p>
+<p>ふたつ目は、<strong>低頻度データでの改善幅が最大だった点を、要件定義の設計思想として借りる</strong>こと。「機種ごと・顧客ごとに個別モデルを作る」のではなく、「似た属性の対象をまとめて1つのモデルに学習させ、グループ内で情報を融通させる」。この発想そのものは特別な論文実装がなくても採れます。件数が足りずに予測を諦めた案件があるなら、切り分け方を変えるだけで見え方が変わる可能性があります。</p>
+<p>一方で、慎重に見ている点もあります。時刻予測のカバレッジがずれている以上、「いつ起こるか」を数字で顧客に約束する用途には、この段階の技術をそのまま持ち込むべきではありません。使うとしても「順位づけ」まで、つまり「どれから点検するか」の優先順位づけに留めるのが妥当だと考えています。予測を意思決定に使う際の評価基準の作り方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を自分で作る</a>に書いています。</p>
+<h2 id="_5">この論文を読む価値がある人・ない人</h2>
+<ul>
+<li>価値がある人：予測案件をデータ量不足で止めた経験がある情報システム担当。GPU投資の要否を判断する立場の経営者</li>
+<li>価値が薄い人：静的なマスタデータの整合性チェックが主目的の人。今すぐ動く製品を探している人（これは研究段階の手法です）</li>
+</ul>
+<p>論文はarXivで公開されており、誰でも読めます（出典：arXiv:2607.14733、2026年7月16日（arXiv:2607.14733v1）、<a href="https://arxiv.org/abs/2607.14733v1">https://arxiv.org/abs/2607.14733v1</a>）。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>GAttNHPは、パラメータ2.8M・GPUピークメモリ2.54GB・1エポック6.84秒という構成で、88M〜107Mパラメータ・GPU 48GBを要する従来最良手法ECEformerをMRRで8.25ポイント、Hits@1で9.9ポイント上回った（ICEWS14、テスト7,371件）</li>
+<li>改善幅が最も大きかったのは低頻度データで+10.7%。中頻度+8.6%、高頻度+3.5%と、データが少ない事象ほど効いている</li>
+<li>時刻予測の平均絶対誤差は1.33日（比較手法GHTは2.95日）だが、予測区間のカバレッジはCoverage@50が0.46、Coverage@90が0.85と名目値に届いていない</li>
+<li>著者自身が、YAGOのような静的事実中心のベンチマーク（MRR 0.5130）では優位性が小さいこと、グループ構造が固定的であること、時刻予測を平均二乗誤差で学習するとMRRが0.1124まで崩壊することを認めている</li>
+<li>検証は6つの公開ベンチマークのみで企業の業務データでの実証はない。TOEでは未実施であり、現時点では「いつ起こるか」の約束ではなく「どれから手をつけるか」の優先順位づけに読み替えるのが妥当と考えている</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

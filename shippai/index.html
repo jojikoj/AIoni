@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>失敗の鬼 · AIの鬼</title>
+  <meta name="description" content="AI導入・自動化で実際に起きた失敗。うまくいかなかったことも公開する。">
+  <link rel="canonical" href="https://ai-oni.com/shippai/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/shippai/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="失敗の鬼 · AIの鬼">
+  <meta property="og:description" content="AI導入・自動化で実際に起きた失敗。うまくいかなかったことも公開する。">
+  <meta property="og:url" content="https://ai-oni.com/shippai/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="失敗の鬼 · AIの鬼">
+  <meta name="twitter:description" content="AI導入・自動化で実際に起きた失敗。うまくいかなかったことも公開する。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"失敗の鬼","item":"https://ai-oni.com/shippai/"}]},{"@type":"ItemList","name":"実践記録","numberOfItems":7,"itemListElement":[{"@type":"ListItem","position":1,"name":"AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた","url":"https://ai-oni.com/articles/batch-414-failure/"},{"@type":"ListItem","position":2,"name":"AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳","url":"https://ai-oni.com/articles/toe-mass-production-errors/"},{"@type":"ListItem","position":3,"name":"自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ","url":"https://ai-oni.com/articles/toe-automation-stops-silently/"},{"@type":"ListItem","position":4,"name":"メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった","url":"https://ai-oni.com/articles/toe-tool-not-used/"},{"@type":"ListItem","position":5,"name":"AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由","url":"https://ai-oni.com/articles/toe-ai-output-check/"},{"@type":"ListItem","position":6,"name":"経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方","url":"https://ai-oni.com/articles/toe-not-everything-automatable/"},{"@type":"ListItem","position":7,"name":"AIベンダーに依存して身動きが取れなくなる構造","url":"https://ai-oni.com/articles/fail-vendor-lockin/"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/shippai/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../jissen/" class="">AI実践室</a>
+      <a href="../kansoku/" class="">AI検索観測所</a>
+      <a href="../shippai/" class="on">失敗の鬼</a>
+      <a href="../shigoto/" class="">AI仕事術</a>
+      <a href="../kaisetsu/" class="">AI解体新書</a>
+      <a href="../weekly/" class="">今週のAI</a>
+      <a href="../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../news/" class="">ニュース</a>
+      <a href="../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+<span class="page-eyebrow">失敗</span>    <h1>失敗の鬼</h1>
+    <p class="page-sub">AI導入・自動化で実際に起きた失敗。うまくいかなかったことも公開する。</p>
+  </div>
+</section>
+
+
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="cat-chips">
+      <a class="cat-chip "
+         href="../jissen/">AI実践室</a>
+      <a class="cat-chip "
+         href="../kansoku/">AI検索観測所</a>
+      <a class="cat-chip on"
+         href="../shippai/">失敗の鬼</a>
+      <a class="cat-chip "
+         href="../shigoto/">AI仕事術</a>
+      <a class="cat-chip "
+         href="../kaisetsu/">AI解体新書</a>
+      <a class="cat-chip "
+         href="../weekly/">今週のAI</a>
+      <a class="cat-chip "
+         href="../naka/">中の鬼</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/batch-414-failure/">
+<div class="card-media"><img src="../static/img/article-batch-414-failure.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた</h3>
+<p class="card-summary">自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/toe-mass-production-errors/">
+<div class="card-media"><img src="../static/img/news-policy-09.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳</h3>
+<p class="card-summary">弊社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/toe-automation-stops-silently/">
+<div class="card-media"><img src="../static/img/news-policy-14.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ</h3>
+<p class="card-summary">弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/toe-tool-not-used/">
+<div class="card-media"><img src="../static/img/news-policy-08.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった</h3>
+<p class="card-summary">弊社はiPhoneからメールを1通返すだけで社内決裁が通る仕組みを作りました。実行ログを開いたら、使われた形跡は0通。承認待ちは29件から37件に増えていました。仕組みは正常なのに使われない。「入れた＝定着した」ではないという失敗の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/toe-ai-output-check/">
+<div class="card-media"><img src="../static/img/news-policy-07.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由</h3>
+<p class="card-summary">弊社の宇宙メディアUchUchUは、海外記事の英→日翻訳をAIで回しています。しかし日→英の翻訳だけは、品質が公開に耐えないと判断して載せるのをやめました。同じAIでも、方向が変わるだけで使えなくなる。AIの翻訳や文章を対外資料に使う前に何を確認すべきかを、自社の判断基準とあわせて書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/toe-not-everything-automatable/">
+<div class="card-media"><img src="../static/img/news-policy-07.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方</h3>
+<p class="card-summary">弊社の自動化ジョブは27本ありますが、内訳は経理13本に対してマーケはたった1本。しかも毎朝の定型集計には、あえてAIモデルを一切使っていません。この偏りと設計判断から見えてきた「AIに向く仕事・向かない仕事」の見分け方を、実際の数字だけで書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/fail-vendor-lockin/">
+<div class="card-media"><img src="../static/img/article-fail-vendor-lockin.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AIベンダーに依存して身動きが取れなくなる構造</h3>
+<p class="card-summary">2025年6月のChatGPT大規模障害と、企業幹部への調査データをもとに、特定のAIベンダーへの依存がなぜ業務停止リスクにつながるのかを整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+    
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../jissen/">AI実践室</a>
+          <a href="../kansoku/">AI検索観測所</a>
+          <a href="../shippai/">失敗の鬼</a>
+          <a href="../shigoto/">AI仕事術</a>
+          <a href="../kaisetsu/">AI解体新書</a>
+          <a href="../weekly/">今週のAI</a>
+          <a href="../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../news/">ニュース</a>
+          <a href="../papers/">研究動向</a>
+          <a href="../topics/models/">トピック</a>
+          <a href="../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../about/">運営会社</a>
+          <a href="../faq/">よくある質問</a>
+          <a href="../advertise/">広告掲載</a>
+          <a href="../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

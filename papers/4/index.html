@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>研究動向 (arXiv) · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <link rel="canonical" href="https://ai-oni.com/papers/4/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/papers/4/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="研究動向 (arXiv) · AIの鬼">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta property="og:url" content="https://ai-oni.com/papers/4/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="研究動向 (arXiv) · AIの鬼">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"研究動向","item":"https://ai-oni.com/papers/"}]},{"@type":"ItemList","name":"研究動向","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"How Many Bits Can an Adapter Write? Measuring the Capacity and Memorization of Parameter-Efficient Fine-Tuning","url":"https://arxiv.org/abs/2607.21351v1"},{"@type":"ListItem","position":2,"name":"Quality-Aware Multimodal Fusion Reveals Implicit Identity in Valence-Arousal Features","url":"https://arxiv.org/abs/2607.21347v1"},{"@type":"ListItem","position":3,"name":"Regulating autonomous and agentic AI","url":"https://arxiv.org/abs/2607.21345v1"},{"@type":"ListItem","position":4,"name":"M$^3$-Gen: Interpretable Multimodal Generation of Gene Expression Profiles Using Clinical and Imaging Data","url":"https://arxiv.org/abs/2607.21343v1"},{"@type":"ListItem","position":5,"name":"Capital Markets LLM Reliability Score (CM-LRS): From Plausible to Bankable","url":"https://arxiv.org/abs/2607.21340v1"},{"@type":"ListItem","position":6,"name":"Phonetic forced alignment for low-resource language varieties: Model training and evaluation on Chengdu Mandarin","url":"https://arxiv.org/abs/2607.21332v1"},{"@type":"ListItem","position":7,"name":"From Static Bibliometrics to Dynamic Knowledge Graphs: An LLM-Powered Framework for Modernizing Science, Technology, and Innovation (STI) Analytics","url":"https://arxiv.org/abs/2607.21327v1"},{"@type":"ListItem","position":8,"name":"SlerpFlow: Spherical Trajectory Correction for Rectified Flow Inversion","url":"https://arxiv.org/abs/2607.21326v1"},{"@type":"ListItem","position":9,"name":"Toward cryptographically verifiable authorization for autonomous AI agents: A security hypothesis, preliminary formal model, and proof-of-concept implementation","url":"https://arxiv.org/abs/2607.21325v1"},{"@type":"ListItem","position":10,"name":"GRADRAG: Cross-Component Prompt Adaptation for Coordinated Multi-Agent RAG","url":"https://arxiv.org/abs/2607.21324v1"},{"@type":"ListItem","position":11,"name":"PC-Edit: Prompt-Contrastive Region Discovery and Region-Guided Editing","url":"https://arxiv.org/abs/2607.21318v1"},{"@type":"ListItem","position":12,"name":"Scaling Up Formal Representation of Clinical Trial Protocols in Ensemble Logic Using LLMs: A Preliminary Study","url":"https://arxiv.org/abs/2607.21307v1"},{"@type":"ListItem","position":13,"name":"AI Assistants Overassist","url":"https://arxiv.org/abs/2607.21306v1"},{"@type":"ListItem","position":14,"name":"Expert Behavior Prior Reinforcement Learning","url":"https://arxiv.org/abs/2607.21302v1"},{"@type":"ListItem","position":15,"name":"Unlearning Under Imbalance: Benchmarking Fairness in Multimodal LLM Unlearning","url":"https://arxiv.org/abs/2607.21300v1"},{"@type":"ListItem","position":16,"name":"An LLM-Driven Workflow for Automated Process Control Strategy Generation and Tuning from Dynamic Process Models","url":"https://arxiv.org/abs/2607.21292v1"},{"@type":"ListItem","position":17,"name":"Adaptive Depth Sparse Framework: Similarity-Driven Resource Allocation for Pre-Trained LLMs","url":"https://arxiv.org/abs/2607.21291v1"},{"@type":"ListItem","position":18,"name":"Multi-Task Learning for Heterogeneous Prediction from Video Game State with Transfer Learning","url":"https://arxiv.org/abs/2607.21290v1"},{"@type":"ListItem","position":19,"name":"news-crawler-LM: A Small Long-Context Model For High-Quality News Crawling","url":"https://arxiv.org/abs/2607.21284v1"},{"@type":"ListItem","position":20,"name":"HGeo-TopoMap: Boosting Topological Mapping with Hierarchical Geometric Priors","url":"https://arxiv.org/abs/2607.21281v1"},{"@type":"ListItem","position":21,"name":"A Unified Moral-Value Dataset for Instruction Tuning","url":"https://arxiv.org/abs/2607.21279v1"},{"@type":"ListItem","position":22,"name":"A Comparative Evaluation of Embeddings and LLMs in a Greek Book Publisher Setting - The CUP Dataset","url":"https://arxiv.org/abs/2607.21274v1"},{"@type":"ListItem","position":23,"name":"The Dark Room in the Reward Channel: Dense Prediction Rewards Collapse GRPO-Trained LLM Agents -- and What Actually Works","url":"https://arxiv.org/abs/2607.21273v1"},{"@type":"ListItem","position":24,"name":"Flash EQ-Linear: Accelerating Equivariant Linear Layers via Group-wise Discrete Fourier Transform","url":"https://arxiv.org/abs/2607.21271v1"},{"@type":"ListItem","position":25,"name":"pAI-Econ-claude: A Gated Human-in-the-Loop Multi-Agent Architecture for AI-Assisted Economic Theory Development","url":"https://arxiv.org/abs/2607.21268v1"},{"@type":"ListItem","position":26,"name":"BasketEvent: Understanding Who Did What and When in Basketball Videos","url":"https://arxiv.org/abs/2607.21267v1"},{"@type":"ListItem","position":27,"name":"Filter Learning for Subgraphs: Algebras and Performance Risk Bounds","url":"https://arxiv.org/abs/2607.21263v1"},{"@type":"ListItem","position":28,"name":"slang.gr as a Large-Scale Crowdsourced Resource for Non-Standard Greek","url":"https://arxiv.org/abs/2607.21255v1"},{"@type":"ListItem","position":29,"name":"Detectors Learn the Wrong Thing: Shortcut-Resistant Adversarial Training Against Physically Realizable Attacks","url":"https://arxiv.org/abs/2607.21243v1"},{"@type":"ListItem","position":30,"name":"Stokes-Informed Diffusion for Robust Linear Polarization Estimation","url":"https://arxiv.org/abs/2607.21239v1"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/papers/4/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="on">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>研究動向 (arXiv)</h1>
+    <p class="page-sub">機械学習・自然言語処理・コンピュータビジョンの最新プレプリント。</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-papers">
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T14:16:43+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21351v1" target="_blank" rel="noopener">How Many Bits Can an Adapter Write? Measuring the Capacity and Memorization of Parameter-Efficient Fine-Tuning</a></h3>
+<p class="paper-authors">Kaizhen Tan, Heqing Du, Yang Feng</p><p class="card-summary">A LoRA adapter is a few megabytes that almost everyone treats as a skill rather than a record of the data behind it. We put that assumption on a scale. Extending compression-based memorization analysis to the frozen-base setting, we measure directly, in bits, how much a low-rank adapter writes into a model it never changes. The answer is both smaller than full fine-tuning and less lawful than parameter counting would predict. Adapters store a couple of bits per trainable parameter, well short of…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21351v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21351v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T14:14:13+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21347v1" target="_blank" rel="noopener">Quality-Aware Multimodal Fusion Reveals Implicit Identity in Valence-Arousal Features</a></h3>
+<p class="paper-authors">Jisu Kim, Benjamin S. Riggan</p><p class="card-summary">Conventional face recognition relies on static appearance cues and degrades in unconstrained settings with expression variation, occlusion, and poor lighting. We hypothesize that audiovisual expression dynamics carry identity-discriminative information complementary to static appearance, and that extracting this signal requires multimodal representations robust to the variable input quality of in-the-wild video. To learn such representations, we cast multimodal valence-arousal (VA) estimation as…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21347v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21347v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T14:13:34+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21345v1" target="_blank" rel="noopener">Regulating autonomous and agentic AI</a></h3>
+<p class="paper-authors">Chris Reed, Alex Austria, Anmol Bharuka, Pragnitha Mandava, Khushiya Mujawar, Luka Shakhkulashvili</p><p class="card-summary">Regulating activities where regulatees use autonomous and agentic AI is challenging. Regulatory assumptions about regulatee knowledge and control no longer hold true; much of that lies elsewhere in the AI supply chain which thus needs to be brought within the scope of regulation. Governance systems for autonomous AI cannot replicate existing governance models, but need a fresh approach. Retrospective supervisory oversight becomes ineffective as a risk management tool, and AI autonomy generates n…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21345v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21345v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T14:12:58+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21343v1" target="_blank" rel="noopener">M$^3$-Gen: Interpretable Multimodal Generation of Gene Expression Profiles Using Clinical and Imaging Data</a></h3>
+<p class="paper-authors">Francesca Pia Panaccione, Carlo Sgaravatti, Marco Venere</p><p class="card-summary">Integrating heterogeneous biomedical data, including clinical metadata, histopathology images, and molecular profiles, is crucial for comprehensive disease understanding. However, gene expression data acquisition remains constrained by high costs and privacy concerns, limiting its use in multimodal research and AI-driven applications. We present MultiModal Molecular Generation (M$^3$-Gen), a novel framework for the generation of gene expression profiles by conditioning a Generative Adversarial N…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21343v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21343v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><time datetime="2026-07-23T14:10:58+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21340v1" target="_blank" rel="noopener">Capital Markets LLM Reliability Score (CM-LRS): From Plausible to Bankable</a></h3>
+<p class="paper-authors">Prerit Ahuja</p><p class="card-summary">In capital-markets workflows the question is rarely whether a large language model can produce a fluent draft, but whether the draft is bankable: defensible in front of a counter-party or a regulator, with the documents in hand. Existing methods address parts of that gap: open-domain QA benchmarks reward surface accuracy, and finance benchmarks (FinanceBench, FinQA, ConvFinQA) advance document-grounded and numerical QA but evaluate at the question-answer layer rather than the workflow outputs pr…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21340v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21340v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T14:00:09+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21332v1" target="_blank" rel="noopener">Phonetic forced alignment for low-resource language varieties: Model training and evaluation on Chengdu Mandarin</a></h3>
+<p class="paper-authors">Zhiheng Qian, Aini Li, Hai Hu, Liang Zhao</p><p class="card-summary">Phonetic forced alignment is a key technique in phonetic research, yet existing alignment systems lack specialized models for low-resource language varieties. We address this by training text-dependent and text-independent aligners for Chengdu Mandarin using a 17-hour corpus and a custom G2P dictionary. We trained a text-dependent GMM-HMM model (Chengdu-MFA) and fine-tuned a pretrained audio encoder on frame classification with Chengdu-MFA&#39;s pseudo label for text-independent alignment (Chengdu-F…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21332v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21332v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.DL</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:56:53+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21327v1" target="_blank" rel="noopener">From Static Bibliometrics to Dynamic Knowledge Graphs: An LLM-Powered Framework for Modernizing Science, Technology, and Innovation (STI) Analytics</a></h3>
+<p class="paper-authors">Muhsen Hammoud</p><p class="card-summary">Bibliometric indicators - citation counts, h-indexes, co-authorship networks - have long anchored science, technology, and innovation (STI) analytics, yet suffer from temporal lag, semantic shallowness, and an inability to capture the non-linear dynamics of contemporary knowledge ecosystems. Dynamic knowledge graphs and large language models (LLMs) have each been proposed as remedies, but neither is sufficient alone: existing scholarly knowledge graphs remain largely static, while LLM-driven pip…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21327v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21327v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T13:55:21+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21326v1" target="_blank" rel="noopener">SlerpFlow: Spherical Trajectory Correction for Rectified Flow Inversion</a></h3>
+<p class="paper-authors">Wenbin Duan, Yan Shu, Zhuoyuan Fu, Fangmin Zhao, Yan Li, Yaru Zhao, Binyang Li</p><p class="card-summary">Rectified-flow-based diffusion transformers, particularly FLUX, have demonstrated outstanding performance in high-quality image generation. However, achieving fast and accurate inversion--transforming images back to latent noise for faithful reconstruction and editing--remains a challenging bottleneck due to the discretization errors of linear solvers. This paper introduces SlerpFlow, a straightforward yet highly effective zero-shot approach that unlocks the full potential of FLUX for high-fidel…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21326v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21326v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CR</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:55:02+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21325v1" target="_blank" rel="noopener">Toward cryptographically verifiable authorization for autonomous AI agents: A security hypothesis, preliminary formal model, and proof-of-concept implementation</a></h3>
+<p class="paper-authors">M. Llambí-Morillas, D. Fernández-Fernández</p><p class="card-summary">Autonomous AI agents increasingly execute actions, invoke tools, and operate on protected resources with limited human oversight. Existing authentication and authorization mechanisms establish identity and delegate authority, but do not inherently provide cryptographic evidence that a concrete request issued by a specific agent satisfies the applicable policy in a specific execution context. This paper hypothesizes that agent authorization can be formalized as a cryptographically verifiable rela…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21325v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21325v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:54:38+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21324v1" target="_blank" rel="noopener">GRADRAG: Cross-Component Prompt Adaptation for Coordinated Multi-Agent RAG</a></h3>
+<p class="paper-authors">Paolo Pedinotti, Enrico Santus</p><p class="card-summary">Retrieval-Augmented Generation (RAG) systems increasingly employ multiple LLM agents. Yet, most prior work optimizes components in isolation rather than coordinating improvements across the pipeline. We introduce GRADRAG, a framework for cross-component prompt adaptation that models the RAG pipeline as a computational graph and propagates structured evaluation feedback to update upstream agents. An Evaluator critiques downstream answers and supporting evidence, producing actionable feedback that…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21324v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21324v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:42:03+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21318v1" target="_blank" rel="noopener">PC-Edit: Prompt-Contrastive Region Discovery and Region-Guided Editing</a></h3>
+<p class="paper-authors">Jian Zhang, Zhijun Zhang</p><p class="card-summary">Replacing an object with one that differs in category or shape requires complete source removal, natural target formation unconstrained by the source silhouette, and preservation of unrelated content. Existing training-free editors either localize edits from terminal predictions under source and target prompts or preserve unrelated content through spatially unselective source-feature reuse without explicit region discovery. Before reaching the terminal predictions, prompt-induced semantic differ…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21318v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21318v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LO</span><span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">cs.ET</span><time datetime="2026-07-23T13:31:05+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21307v1" target="_blank" rel="noopener">Scaling Up Formal Representation of Clinical Trial Protocols in Ensemble Logic Using LLMs: A Preliminary Study</a></h3>
+<p class="paper-authors">Yan Huang, Xubing Hao, Xiaojin Li, Rashmie Abeysinghe, Xiaoqian Jiang, Licong Cui, Guo-Qiang Zhang</p><p class="card-summary">The reliance on unstructured free text for documenting clinical trial protocols creates a significant barrier to automated reasoning, cohort discovery, and trial simulation. The lack of formal structure obscures critical temporal phenotypes, such as dynamic eligibility criteria and event timing constraints. Although Temporal Ensemble Logic (TEL) offers an expressive framework for modeling these elements, manual encoding remains a prohibitive bottleneck. We introduce the CT-TEL workflow: a scalab…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21307v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21307v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.CY</span><span class="pill ghost mono">cs.HC</span><time datetime="2026-07-23T13:30:01+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21306v1" target="_blank" rel="noopener">AI Assistants Overassist</a></h3>
+<p class="paper-authors">Verona Teo, Raghav Jain, Tobias Gerstenberg, Max Kleiman-Weiner</p><p class="card-summary">Large language models (LLMs) are increasingly used as tutors and thought partners, helping users reason through problems. While guidance from AI assistants can scaffold thinking and foster learning, such benefits depend on how they help--for instance, intervening too early or too frequently may hinder true learning and cognitive engagement. Yet how AI systems navigate intervention decisions during problem-solving remains poorly understood. Here, we introduce Int-Bench, a simulation-based benchma…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21306v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21306v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:26:57+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21302v1" target="_blank" rel="noopener">Expert Behavior Prior Reinforcement Learning</a></h3>
+<p class="paper-authors">Gong Gao, Weidong Zhao, Xianhui Liu, Ning Jia</p><p class="card-summary">Behavior prior reinforcement learning (BPRL) has emerged as a promising paradigm to improve sample efficiency in online reinforcement learning (RL) by leveraging policy priors derived from offline demonstrations. However, most existing BPRL methods rely on static offline datasets, which often suffer from low data diversity and suboptimal trajectory quality. This reliance restricts the effectiveness of policy priors, hindering both policy exploitation and stability during online training. Consequ…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21302v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21302v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:24:34+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21300v1" target="_blank" rel="noopener">Unlearning Under Imbalance: Benchmarking Fairness in Multimodal LLM Unlearning</a></h3>
+<p class="paper-authors">Lorenzo Orsingher, Thomas De Min, Massimiliano Mancini, Davide Talon, Elisa Ricci</p><p class="card-summary">Machine unlearning has emerged as a tool for removing personal data from trained models to comply with recent AI regulations. To evaluate unlearning effectiveness in multimodal large language models (MLLMs), prior works fine-tune models on fictitious identities, simulating unlearning requests on subsets of these IDs, which are typically uniformly distributed. However, in realistic scenarios, people from different demographic groups may request to be unlearned at different frequencies, potentiall…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21300v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21300v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">eess.SY</span><time datetime="2026-07-23T13:13:29+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21292v1" target="_blank" rel="noopener">An LLM-Driven Workflow for Automated Process Control Strategy Generation and Tuning from Dynamic Process Models</a></h3>
+<p class="paper-authors">Ari Luna Rueda, Eike Cramer, Klaus Hellgardt, Mehmet Mercangöz</p><p class="card-summary">We present a structured large-language-model-driven workflow for automated multi-variable control design from dynamic process models. The workflow decomposes the design task into constrained code-generation steps: plant-interface construction, normalization, manipulated-variable controlled-variable (MV-CV) pairing, controller specification, closed loop simulation, scenario generation, performance evaluation and Bayesian-optimization (BO) based tuning. Generated artifacts are executed and validat…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21292v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21292v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T13:13:04+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21291v1" target="_blank" rel="noopener">Adaptive Depth Sparse Framework: Similarity-Driven Resource Allocation for Pre-Trained LLMs</a></h3>
+<p class="paper-authors">Yidu Wu, Xiang Wang, Kejie Zhao, Zhangchi Wang, Qinghai Guo, Xiaoying Tang</p><p class="card-summary">Large language models (LLMs) achieve strong generation and reasoning performance, but the Transformer architecture incurs high inference cost. Existing acceleration methods often rely on task-specific fine-tuning or training from scratch, increasing adaptation cost and limiting cross-task usability. We present an Adaptive Depth Sparse Framework (AdaDSF) that converts off-the-shelf pre-trained LLMs into depth-sparse models without full retraining. Our key insight is that layers contribute unequal…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21291v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21291v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T13:12:51+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21290v1" target="_blank" rel="noopener">Multi-Task Learning for Heterogeneous Prediction from Video Game State with Transfer Learning</a></h3>
+<p class="paper-authors">Jonas Peché, Aliaksei Tsishurou, Alexander Zap, Günter Wallner</p><p class="card-summary">Multi-task learning (MTL) is a promising approach for prediction tasks derived from video game state data, as modern game telemetry provides multiple related supervision signals from the same structured observations. We study whether a shared model trained jointly across tasks in team-based multiplayer games can improve generalization while reducing training and inference cost compared to specialized single-task models. We adapt a multimodal architecture for endpoint prediction to a general mult…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21290v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21290v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><time datetime="2026-07-23T13:05:46+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21284v1" target="_blank" rel="noopener">news-crawler-LM: A Small Long-Context Model For High-Quality News Crawling</a></h3>
+<p class="paper-authors">Pascal Stolzenburg, Jonas Golde, Max Dallabetta, Alan Akbik</p><p class="card-summary">Extracting structured content from news pages remains challenging due to heterogeneous HTML layouts, inconsistent markup, and substantial boilerplate such as navigation elements and advertisements. Rule-based news crawlers can achieve high extraction accuracy by encoding site-specific structure, but require manual configuration in order to generalize to new publishers. Large language models provide a more flexible alternative by reducing the need for handcrafted rules, but their high computation…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21284v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21284v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><span class="pill ghost mono">cs.RO</span><span class="pill ghost mono">eess.IV</span><time datetime="2026-07-23T13:02:18+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21281v1" target="_blank" rel="noopener">HGeo-TopoMap: Boosting Topological Mapping with Hierarchical Geometric Priors</a></h3>
+<p class="paper-authors">Siyu Li, Kunyu Peng, Di Wen, Beiping Hou, Zhiyong Li, Kailun Yang</p><p class="card-summary">Topological maps are key outputs of autonomous driving perception systems, delivering essential road information for path planning. They identify instances such as centerlines and traffic signs, along with their connectivity relationships. Due to the lack of explicit markings for centerlines in real-world environments, the detection of centerline instances remains a significant challenge. To tackle this problem, we propose HGeo-TopoMap, which leverages an explicit prior map and implicit spatial…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21281v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21281v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><time datetime="2026-07-23T12:57:03+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21279v1" target="_blank" rel="noopener">A Unified Moral-Value Dataset for Instruction Tuning</a></h3>
+<p class="paper-authors">Zhaohui Zeng, Florian Mai</p><p class="card-summary">Large language models (LLMs) have developed rapidly and become valuable tools in everyday life. However, how to align LLMs to a particular set of human values is still an open problem. Recent studies show that instruction tuning has strong potential for zero-shot tasks and may serve as an effective approach to addressing value alignment. Nevertheless, although many datasets for instruction tuning already exist, they are not specifically designed around moral scenarios and behaviors. We construct…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21279v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21279v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T12:51:55+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21274v1" target="_blank" rel="noopener">A Comparative Evaluation of Embeddings and LLMs in a Greek Book Publisher Setting - The CUP Dataset</a></h3>
+<p class="paper-authors">Katerina Papantoniou, Panagiotis Papadakos, Theodore Patkos, Dimitris Garefalakis, Nikos Vardakis, Dimitris Plexousakis</p><p class="card-summary">We present CUP, a Greek book retrieval benchmark consisting of 868 catalog records and 104 expert-annotated queries with graded relevance judgments. We evaluate sparse (BM25), dense (sentence-transformers), hybrid, and LLM-assisted retrieval methods in this book-search setting. Multilingual embeddings outperform Greek-specific models, while hybrid retrieval performs best overall. A query-level analysis shows that BM25 excels at named-entity queries, while dense and hybrid methods improve natural…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21274v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21274v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T12:50:18+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21273v1" target="_blank" rel="noopener">The Dark Room in the Reward Channel: Dense Prediction Rewards Collapse GRPO-Trained LLM Agents -- and What Actually Works</a></h3>
+<p class="paper-authors">Yu Wang</p><p class="card-summary">Dense per-step supervision is an appealing remedy for sparse-reward, long-horizon LLM agents: reward the agent for predicting its next observation, and memory should follow. We show that under group-normalized RL (GRPO), this recipe does not merely fail -- it destroys the policy. Across Qwen3-1.7B/4B/8B on ALFWorld, a potential-based prediction reward drives every run into a degenerate absorbing state (prediction accuracy -&gt; 1.0, task success -&gt; 0,episode length pinned at the horizon): the &#34;dark…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21273v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21273v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T12:45:21+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21271v1" target="_blank" rel="noopener">Flash EQ-Linear: Accelerating Equivariant Linear Layers via Group-wise Discrete Fourier Transform</a></h3>
+<p class="paper-authors">Zhongchen Zhao, Jixin Wang, Qi Xie, Hui Lin, Lei Zhang, Deyu Meng, Zongben Xu</p><p class="card-summary">Equivariant networks embed geometric symmetries as structural priors through weight sharing, achieving remarkable parameter efficiency across vision tasks. However, this parameter efficiency does not translate into compute efficiency: existing implementations unroll the structured weights into dense matrices and dispatch them to generic dense kernels, so the FLOPs of an equivariant layer are no smaller than those of a non-equivariant counterpart. In this paper, we observe that the equivariant li…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21271v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21271v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.MA</span><span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">econ.GN</span><time datetime="2026-07-23T12:40:47+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21268v1" target="_blank" rel="noopener">pAI-Econ-claude: A Gated Human-in-the-Loop Multi-Agent Architecture for AI-Assisted Economic Theory Development</a></h3>
+<p class="paper-authors">Chen Zhu, Xiaolu Wang, Weilong Zhang</p><p class="card-summary">In many social-science research tasks, such as economics, LLM-based agents must produce outputs for which no cheap, task-complete, machine-readable correctness signal exists. This creates a distinctive reliability problem for multi-agent systems: how should generation, critique, coordination, and human judgment be organized when no component can certify the final result? We address this problem through pAI-Econ-claude, a gated, human-in-the-loop multi-agent architecture for AI-assisted economic…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21268v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21268v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T12:39:56+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21267v1" target="_blank" rel="noopener">BasketEvent: Understanding Who Did What and When in Basketball Videos</a></h3>
+<p class="paper-authors">Yu Zhang, Jiayuan Rao, Haoning Wu, Weidi Xie</p><p class="card-summary">Comprehensive basketball video understanding requires resolving not only what event occurs, but also who is responsible and when the key evidence appears. However, exist- ing methods typically treat spatial perception and semantic recognition as isolated tasks, failing to ground events to individual players or pinpoint their temporal boundaries within complex collective dynamics. To bridge this gap, we introduce BasketEvent, a player- centric basketball event understanding dataset curated from r…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21267v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21267v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">eess.SP</span><time datetime="2026-07-23T12:36:05+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21263v1" target="_blank" rel="noopener">Filter Learning for Subgraphs: Algebras and Performance Risk Bounds</a></h3>
+<p class="paper-authors">Purui Zhang, Feng Ji, Yanan Zhao, Bihan Wen, Wee Peng Tay</p><p class="card-summary">Graph signal processing tasks that leverage spectral information typically assume access to the complete graph topology, which is often unavailable in practice. We propose a systematic framework for subgraph filter learning (SFL), where subgraph-supported operators approximate ambient graph filters under partial observations. We formulate SFL as a statistical learning problem in which optimal subgraph operators are inherently data-dependent. To address the difficulty of directly estimating such…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21263v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21263v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T12:27:18+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21255v1" target="_blank" rel="noopener">slang.gr as a Large-Scale Crowdsourced Resource for Non-Standard Greek</a></h3>
+<p class="paper-authors">Panagiotis Papadakos, Katerina Papantoniou, Dimitris Plexousakis</p><p class="card-summary">Slang is a central component of everyday language, reflecting linguistic creativity, social identity, and cultural change, yet its dy- namic and non-standard nature makes it difficult to model computationally. We present the first large-scale computational study of slang.gr, a crowdsourced lexicon of Greek non-standard language, combining lexical content, user-generated tags, and interaction data. To enable the systematic analysis, we map noisy folksonomic tags to a structured multi-layer taxono…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21255v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21255v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T12:06:02+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21243v1" target="_blank" rel="noopener">Detectors Learn the Wrong Thing: Shortcut-Resistant Adversarial Training Against Physically Realizable Attacks</a></h3>
+<p class="paper-authors">Yuanhao Huang, Yilong Ren, Jinlei Wang, Xuesong Bai, Zheng Zhang, Haiyang Yu</p><p class="card-summary">AI-enabled visual perception systems are increasingly deployed in intelligent transportation infrastructure and autonomous vehicle related applications. However, physically realizable adversarial appearances pose a significant reliability challenge for these safety-critical systems. Adversarial training is effective, but repeated co-occurrence between adversarial texture and positive person instances can cause detectors to treat the texture itself as evidence of object presence, forming a patch…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21243v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21243v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T11:56:15+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21239v1" target="_blank" rel="noopener">Stokes-Informed Diffusion for Robust Linear Polarization Estimation</a></h3>
+<p class="paper-authors">Yidong Luo, Chenggong Li, Yuchao Feng, Boxin Shi, Junchao Zhang, Xin Yuan</p><p class="card-summary">Polarization cues benefit applications such as material detection and de-reflection, yet acquiring them typically requires dedicated hardware. This motivates us to estimate the linear polarization from a single RGB image. However, the task is inherently ill-posed, with the Angle of Polarization (AoP) becoming particularly unstable in weak polarization regions, where the polarimetric signal is overwhelmed by noise, leading to erratic angle estimates. To address these limitations, we propose GenPo…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21239v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21239v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../3/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><a class="pager-num" href="../2/">2</a><a class="pager-num" href="../3/">3</a><span class="pager-num on" aria-current="page">4</span>
+<a class="pager-num" href="../5/">5</a><a class="pager-num" href="../6/">6</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../9/">9</a>  </span>
+<a class="pager-btn" href="../5/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

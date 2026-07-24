@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める · AIの鬼</title>
+  <meta name="description" content="当社はnoteを「補助金の鬼」「AIの鬼」の2アカウントで無人運用しています。ブラウザ自動操作での投稿で一番怖い事故は、失敗ではなく「別のアカウントに投稿してしまう誤爆」です。それを防ぐために、公開の直前にいまログインしているユーザー名を取得し、期待する名前と照合して、違えばその場で止める仕組みを入れています。正直な弱点も含めて、その設計を記録します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-note-two-accounts/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-note-two-accounts/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める · AIの鬼">
+  <meta property="og:description" content="当社はnoteを「補助金の鬼」「AIの鬼」の2アカウントで無人運用しています。ブラウザ自動操作での投稿で一番怖い事故は、失敗ではなく「別のアカウントに投稿してしまう誤爆」です。それを防ぐために、公開の直前にいまログインしているユーザー名を取得し、期待する名前と照合して、違えばその場で止める仕組みを入れています。正直な弱点も含めて、その設計を記録します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-note-two-accounts/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める · AIの鬼">
+  <meta name="twitter:description" content="当社はnoteを「補助金の鬼」「AIの鬼」の2アカウントで無人運用しています。ブラウザ自動操作での投稿で一番怖い事故は、失敗ではなく「別のアカウントに投稿してしまう誤爆」です。それを防ぐために、公開の直前にいまログインしているユーザー名を取得し、期待する名前と照合して、違えばその場で止める仕組みを入れています。正直な弱点も含めて、その設計を記録します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める","item":"https://ai-oni.com/articles/toe-note-two-accounts/"}]},{"@type":"Article","headline":"noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める","description":"当社はnoteを「補助金の鬼」「AIの鬼」の2アカウントで無人運用しています。ブラウザ自動操作での投稿で一番怖い事故は、失敗ではなく「別のアカウントに投稿してしまう誤爆」です。それを防ぐために、公開の直前にいまログインしているユーザー名を取得し、期待する名前と照合して、違えばその場で止める仕組みを入れています。正直な弱点も含めて、その設計を記録します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-note-two-accounts/"},"url":"https://ai-oni.com/articles/toe-note-two-accounts/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-02.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-note-two-accounts/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-02.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める</h1>
+<p class="article-lead">当社はnoteを「補助金の鬼」「AIの鬼」の2アカウントで無人運用しています。ブラウザ自動操作での投稿で一番怖い事故は、失敗ではなく「別のアカウントに投稿してしまう誤爆」です。それを防ぐために、公開の直前にいまログインしているユーザー名を取得し、期待する名前と照合して、違えばその場で止める仕組みを入れています。正直な弱点も含めて、その設計を記録します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">結論から書きます</h2>
+<p>当社（株式会社TOE）は、noteを2つのアカウントで無人運用しています。「補助金の鬼」（ユーザー名 jazzy_boar4126）と「AIの鬼」（ユーザー名 jojinja）です。cronから起動する公開スクリプト auto_publish.mjs が、Playwright/Chromeでnoteのブラウザ画面を操作して記事を公開します。APIは使っていません。</p>
+<p>この構成で一番怖い事故は、公開の失敗ではありません。<strong>補助金の記事がAIのアカウントに載る、という「誤爆」です。</strong> それを防ぐために、<strong>記事を公開する直前に、いま実際にログインしているアカウントのユーザー名をページから取得し、期待する名前と照合する</strong>工程を入れています。<strong>違っていたら、あるいはログインが切れていたら、その場で処理を停止して「ログインが違う/切れている」と記録し、公開しません。</strong></p>
+<p>その代わり、cookieが切れた日は投稿が止まります。この仕組みは「必ず公開する」ものではなく「誤爆を防ぐ」ものです。そこも正直に書きます。</p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>無人投稿</strong> … 人が画面を見ていない状態で、cron（時刻を決めた自動実行）からスクリプトがブラウザを操作し、noteに記事を公開することです。</li>
+<li><strong>Chromeプロファイル</strong> … ブラウザのログイン状態（cookie）を保存する入れ物です。当社はアカウントごとに専用のプロファイル（.chrome-profile）を用意し、物理的に分離しています。</li>
+<li><strong>urlname</strong> … noteのユーザー名です。当社なら jazzy_boar4126（補助金の鬼）と jojinja（AIの鬼）。公開直前に、ページからこの値を取得して照合します。</li>
+</ul>
+<hr />
+<h2 id="2">2アカウントの分離</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>補助金の鬼</th>
+<th>AIの鬼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>noteユーザー名（urlname）</td>
+<td>jazzy_boar4126</td>
+<td>jojinja</td>
+</tr>
+<tr>
+<td>ログイン情報</td>
+<td>専用のChromeプロファイル</td>
+<td>専用のChromeプロファイル（別物）</td>
+</tr>
+<tr>
+<td>公開方法</td>
+<td>cronから auto_publish.mjs が無人で公開</td>
+<td>同じ仕組み</td>
+</tr>
+</tbody>
+</table>
+<p>プロファイルを分けているので、通常なら混ざりません。しかし「通常なら」を信用しないのが、この仕組みの出発点です。</p>
+<hr />
+<h2 id="_2">公開直前の照合ガード</h2>
+<p>公開ボタンを押す前に、スクリプトは次の分岐を通ります。</p>
+<table>
+<thead>
+<tr>
+<th>ページから取得したurlname</th>
+<th>判定</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>期待する名前と一致（例：補助金の鬼なら jazzy_boar4126）</td>
+<td>正しいアカウント</td>
+<td>公開に進む</td>
+</tr>
+<tr>
+<td>期待する名前と不一致</td>
+<td>ログインがずれている</td>
+<td><strong>その場で停止（die）。「ログインが違う」と記録し、公開しない</strong></td>
+</tr>
+<tr>
+<td>取得できない（ログイン切れ）</td>
+<td>ログインが切れている</td>
+<td><strong>その場で停止。「ログインが切れている」と記録し、公開しない</strong></td>
+</tr>
+</tbody>
+</table>
+<p>公開に成功すると、<code>https://note.com/jazzy_boar4126/n/&lt;記事ID&gt;</code> のように、<strong>正しいアカウントのURLがログに残ります。</strong> どちらのアカウントに載ったかが、あとから確認できます。</p>
+<hr />
+<h2 id="_3">なぜ「止める」ほうを選んだか</h2>
+<p>ブラウザ自動操作は、cookie切れやログインずれが起きうるものです。ここで選択肢は2つあります。<strong>間違ったまま突き進む</strong>か、<strong>照合して違えば止める</strong>か。</p>
+<p>当社は後者を選びました。止まれば、その日の記事が公開されないだけです。しかし突き進んで誤爆すれば、補助金の読者にAIの記事が届く——読者への信頼に関わる、取り返しのつきにくい事故になります。<strong>「動き続けること」より「間違ったことをしないこと」を優先する、安全側に倒す設計です。</strong></p>
+<hr />
+<h2 id="_4">正直に書く、この仕組みの弱点</h2>
+<ul>
+<li><strong>これは「誤爆を防ぐ」仕組みであって、「必ず公開する」仕組みではありません。</strong> cookieが切れれば公開は止まり、その日は投稿されません。</li>
+<li>止まった日をどう拾い直すかは、この照合ガード自体の仕事ではありません。ガードは「間違った公開をしない」ことだけを保証します。</li>
+</ul>
+<p>それでも、誤爆よりはるかにまし——これが当社の判断です。</p>
+<hr />
+<h2 id="_5">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-note-semi-automation/">note投稿の半自動化の記録</a> — 無人投稿に至る前の段階の話。</li>
+<li><a href="/articles/toe-browser-automation/">ブラウザ自動操作の記録</a> — Playwrightでブラウザを操作する側の仕組み。</li>
+</ul>
+<hr />
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>noteを2アカウント（補助金の鬼=jazzy_boar4126／AIの鬼=jojinja）で無人運用している。一番怖い事故は<strong>誤爆（取り違え投稿）</strong>。</li>
+<li>ログインはアカウント専用のChromeプロファイルで<strong>物理的に分離</strong>。</li>
+<li>さらに<strong>公開直前に、実際のログインユーザー名（urlname）を取得して期待値と照合</strong>。不一致・ログイン切れなら<strong>その場で停止して記録し、公開しない</strong>。</li>
+<li>成功時は<strong>正しいアカウントのURLがログに残る</strong>ので、あとから確認できる。</li>
+<li>弱点も正直に：cookieが切れれば<strong>その日は投稿されない</strong>。ただし、間違ったまま突き進むより、止まるほうがはるかにまし。<strong>安全側に倒す設計</strong>である。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

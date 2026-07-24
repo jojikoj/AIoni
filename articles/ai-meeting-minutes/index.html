@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>議事録作成をAIに任せる — 実際に運用できる形にするまで · AIの鬼</title>
+  <meta name="description" content="議事録作成の負担をAIで減らした企業の公表事例と、精度の限界や運用の工夫を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-meeting-minutes/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-meeting-minutes/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="議事録作成をAIに任せる — 実際に運用できる形にするまで · AIの鬼">
+  <meta property="og:description" content="議事録作成の負担をAIで減らした企業の公表事例と、精度の限界や運用の工夫を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-meeting-minutes/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="議事録作成をAIに任せる — 実際に運用できる形にするまで · AIの鬼">
+  <meta name="twitter:description" content="議事録作成の負担をAIで減らした企業の公表事例と、精度の限界や運用の工夫を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"議事録作成をAIに任せる — 実際に運用できる形にするまで","item":"https://ai-oni.com/articles/ai-meeting-minutes/"}]},{"@type":"Article","headline":"議事録作成をAIに任せる — 実際に運用できる形にするまで","description":"議事録作成の負担をAIで減らした企業の公表事例と、精度の限界や運用の工夫を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-meeting-minutes/"},"url":"https://ai-oni.com/articles/ai-meeting-minutes/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-meeting-minutes.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-meeting-minutes/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-meeting-minutes.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>議事録作成をAIに任せる — 実際に運用できる形にするまで</h1>
+<p class="article-lead">議事録作成の負担をAIで減らした企業の公表事例と、精度の限界や運用の工夫を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">議事録は「誰もやりたくないが、なくせない」業務</h2>
+<p>会議のたびに誰かが話を聞きながらメモを取り、後でそれを清書して関係者に共有する。多くの職場で当たり前に発生しているこの作業は、会議時間そのものと同じか、それ以上の時間を食うことがあります。近年は音声認識と生成AI（文章を自動で作り出すAI）を組み合わせ、録音データから文字起こしと要約までを自動で行うツールが増え、実際に導入企業の作業時間が公表されるようになってきました。ここでは公表されている実例をもとに、どれくらいの効果が出ているのか、そして何が課題として残っているのかを見ていきます。</p>
+<h2 id="9030">90分の作業が30分に — ダイレクトクラウドの事例</h2>
+<p>RSUPPORT株式会社が提供するAI議事録ツール「Ai:repoto（エイアイレポト）」の導入事例として、株式会社ダイレクトクラウドの取り組みがPR TIMES上のプレスリリースで公表されています（出典：RSUPPORT株式会社プレスリリース、2025年11月6日、https://prtimes.jp/main/html/rd/p/000000087.000035224.html）。</p>
+<p>同社では、導入前は1時間の会議の議事録作成に会議時間の1.5倍にあたる約90分を要していましたが、導入後は文字起こしから要約、確認作業までを含めて約30分で完了するようになったと報告されています。作成にかかる工数はおよそ3分の1に削減された計算です。プレスリリースでは、削減できた時間を顧客への提案活動に振り向けたことで対応件数が増え、案件の進行速度や情報共有のスピードも上がったとされています。</p>
+<h2 id="_2">複数の組織で報告されている時間短縮</h2>
+<p>議事録・文字起こしAI「Rimo Voice」を提供するRimo合同会社は、公式サイトで導入事例をまとめて公開しています。以下は同社が自社サイトに掲載している数字であり、第三者による検証結果ではない点は踏まえて読む必要があります（出典：Rimo「導入事例」https://rimo.app/case-studies）。</p>
+<ul>
+<li>学校法人青山学院：文字起こし時間を50%以上削減</li>
+<li>学校法人追手門学院：作業時間が4分の1に</li>
+<li>鳥取県八頭町：議会の議事録作成時間が6分の1に</li>
+<li>高速道路総合技術研究所：議事録作成工数を平均3分の1に削減</li>
+<li>井村屋グループ：議事録作成時間が半減</li>
+</ul>
+<p>導入している組織の業種は学校法人から自治体、建設・インフラ関連の研究機関まで幅広く、会議の議事録に限らずインタビューや取材音源の文字起こしなど、用途もさまざまです。同サイトでは、清水建設、中電工、かんでんエンジニアリング、井村屋グループといった建設・インフラ・食品メーカーの事例も紹介されています。業種を問わず、会議や取材の音声を人が聞き直して書き起こす作業自体が、規模の大小を問わず共通して負担になっていたことがうかがえます。共通しているのは、話した内容をそのまま文字にする作業をAIに任せ、人は内容の確認と整形に専念する体制に変わっている点です。</p>
+<h2 id="_3">精度には限界があり、人のチェックは省けない</h2>
+<p>一方で、AI議事録の精度には限界があることも押さえておく必要があります。専門用語や社内特有の固有名詞、複数人が同時に話す場面、マイクから遠い発言などは誤変換が起きやすく、無料ツールの平均精度は約80〜90%との調査結果もあります。ただしこれは、AI研修・導入支援を手がけるSHIFT AI社が自社メディア上で公表している自社調査であり、独立した第三者機関による測定ではありません（出典：AI経営総合研究所「無料AI議事録ツールはどこまで使える？精度・保存期間・安全性を実務目線で比較」https://ai-keiei.shift-ai.co.jp/ai-meeting-minutes-free-tools-2025/）。</p>
+<p>つまり、AIが起こした文字起こしをそのまま議事録として配布できるわけではなく、最終的な確認と修正の工程は残ります。ダイレクトクラウドの事例で「90分が30分に」短縮されたとされているのも、確認作業を含めた数字である点は見落とせません。AIが担うのは「ゼロから聞き取って清書する」部分であり、「内容が正しいかを確認する」責任は引き続き人に残るという整理が実態に近いといえます。</p>
+<p>また、社内で使う場合は、頻出する専門用語や固有名詞をあらかじめツールに登録しておくと誤変換が減るとされており、導入してすぐに最大の効果が出るわけではなく、ある程度チューニングの手間がかかることも前提として知っておいたほうがよさそうです。</p>
+<h2 id="ai">議事録AIを運用にのせるための工夫</h2>
+<p>各社の事例に共通する運用上のポイントを整理すると、次の点が挙げられます。</p>
+<ul>
+<li>会議の録音・AIツールへのアップロードについて、事前に参加者へ周知し同意を得ておくこと</li>
+<li>社内用語・取引先名などをツールに登録し、誤変換を減らす初期設定を行うこと</li>
+<li>AIが作成した議事録を確認・修正する担当を明確にし、「AI任せで配布」にしないこと</li>
+<li>効果測定のため、導入前に「何分かかっていたか」を記録しておくこと</li>
+</ul>
+<p>これらは特別な体制を必要とするものではありませんが、抜けていると「精度が低くて結局使われなくなる」という状態に陥りやすい部分でもあります。</p>
+<h2 id="_4">では自社では何から始めるか</h2>
+<p>まずは、定例会議のように毎週・毎月同じパターンで発生している会議を1つ選び、そこだけでAI議事録ツールを試してみるのが現実的な始め方といえそうです。いきなり全社の会議を対象にするのではなく、1つの会議で「導入前は何分かかっていたか」「導入後は何分になったか」を実際に測ってみることで、自社の業種や会議の性質にどれだけ合うツールなのかが見えてきます。</p>
+<p>専門用語が多い業種ほど初期のチューニングに時間がかかる可能性がある点も踏まえ、効果と手間の両方を確認しながら対象範囲を広げていくのがよいのではないでしょうか。ダイレクトクラウドやRimo Voiceの導入事例に共通しているのは、いずれも「議事録をゼロにする」のではなく「作成にかかる時間を3分の1から6分の1程度に圧縮した」という形の成果だという点です。自社で試す際も、最初から劇的な効果を期待するのではなく、まずは1つの会議でどの程度の時間が削減できるかを実測し、その数字をもとに他の会議への展開を判断するという段階を踏むのが無理のない進め方だと考えられます。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

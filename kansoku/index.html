@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI検索観測所 · AIの鬼</title>
+  <meta name="description" content="ChatGPT・Perplexity・AI Overviews に実際に質問を投げ、どこが引用されるかを測った結果。意見ではなく数字を置く。">
+  <link rel="canonical" href="https://ai-oni.com/kansoku/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/kansoku/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI検索観測所 · AIの鬼">
+  <meta property="og:description" content="ChatGPT・Perplexity・AI Overviews に実際に質問を投げ、どこが引用されるかを測った結果。意見ではなく数字を置く。">
+  <meta property="og:url" content="https://ai-oni.com/kansoku/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI検索観測所 · AIの鬼">
+  <meta name="twitter:description" content="ChatGPT・Perplexity・AI Overviews に実際に質問を投げ、どこが引用されるかを測った結果。意見ではなく数字を置く。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"AI検索観測所","item":"https://ai-oni.com/kansoku/"}]},{"@type":"ItemList","name":"実践記録","numberOfItems":9,"itemListElement":[{"@type":"ListItem","position":1,"name":"ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと","url":"https://ai-oni.com/articles/ai-search-measurement/"},{"@type":"ListItem","position":2,"name":"llms.txt を主要25サイトで探したら、5サイトにしかありませんでした","url":"https://ai-oni.com/articles/ai-search-llms-txt/"},{"@type":"ListItem","position":3,"name":"主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか","url":"https://ai-oni.com/articles/ai-crawler-robots/"},{"@type":"ListItem","position":4,"name":"AEOとは何か？ SEOと何が違い、AI検索時代に何をすればいいのか","url":"https://ai-oni.com/articles/aeo-what-is/"},{"@type":"ListItem","position":5,"name":"AIに引用されやすい記事は、どんな構造をしているのか","url":"https://ai-oni.com/articles/aeo-citable-structure/"},{"@type":"ListItem","position":6,"name":"構造化データ（schema.org）は、AI検索に効くのか","url":"https://ai-oni.com/articles/aeo-structured-data/"},{"@type":"ListItem","position":7,"name":"FAQ・Q&A形式は、なぜAI検索に取り上げられやすいのか","url":"https://ai-oni.com/articles/aeo-faq-format/"},{"@type":"ListItem","position":8,"name":"ChatGPT検索・Perplexity・Google AI Overviewsは、出典をどう選んで表示するのか","url":"https://ai-oni.com/articles/aeo-engines-compared/"},{"@type":"ListItem","position":9,"name":"一次情報や独自データは、なぜAI検索で強いとされるのか","url":"https://ai-oni.com/articles/aeo-primary-source/"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/kansoku/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../jissen/" class="">AI実践室</a>
+      <a href="../kansoku/" class="on">AI検索観測所</a>
+      <a href="../shippai/" class="">失敗の鬼</a>
+      <a href="../shigoto/" class="">AI仕事術</a>
+      <a href="../kaisetsu/" class="">AI解体新書</a>
+      <a href="../weekly/" class="">今週のAI</a>
+      <a href="../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../news/" class="">ニュース</a>
+      <a href="../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+<span class="page-eyebrow">実測</span>    <h1>AI検索観測所</h1>
+    <p class="page-sub">ChatGPT・Perplexity・AI Overviews に実際に質問を投げ、どこが引用されるかを測った結果。意見ではなく数字を置く。</p>
+  </div>
+</section>
+
+
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="cat-chips">
+      <a class="cat-chip "
+         href="../jissen/">AI実践室</a>
+      <a class="cat-chip on"
+         href="../kansoku/">AI検索観測所</a>
+      <a class="cat-chip "
+         href="../shippai/">失敗の鬼</a>
+      <a class="cat-chip "
+         href="../shigoto/">AI仕事術</a>
+      <a class="cat-chip "
+         href="../kaisetsu/">AI解体新書</a>
+      <a class="cat-chip "
+         href="../weekly/">今週のAI</a>
+      <a class="cat-chip "
+         href="../naka/">中の鬼</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/ai-search-measurement/">
+<div class="card-media"><img src="../static/img/article-ai-search-measurement.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">ChatGPTやPerplexityで自社が出るか、実際に測ってみました ― 分かったことと、まだ測れていないこと</h3>
+<p class="card-summary">AI検索で自社が引用元として出るのかを、Playwrightで実際に測定しました。個社サイトは引用されていました。ただし構造化データは効かず、測定そのものが極めて不安定という結果も出ています。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/ai-search-llms-txt/">
+<div class="card-media"><img src="../static/img/article-ai-search-llms-txt.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">llms.txt を主要25サイトで探したら、5サイトにしかありませんでした</h3>
+<p class="card-summary">AI向けの案内ファイル「llms.txt」を、日本と海外の主要25サイトで実際に探しました。あったのは5サイト。日本の大手メディアはゼロで、入れていたのは海外のテック企業でした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/ai-crawler-robots/">
+<div class="card-media"><img src="../static/img/article-ai-crawler-robots.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか</h3>
+<p class="card-summary">ChatGPTやClaudeなどのAIが記事を読みに来るクローラを、主要サイトは許可しているのか拒否しているのか。25サイトのrobots.txtを実際に取得して数えました。拒否していたのは主に新聞社でした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/aeo-what-is/">
+<div class="card-media"><img src="../static/img/news-research-12.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">AEOとは何か？ SEOと何が違い、AI検索時代に何をすればいいのか</h3>
+<p class="card-summary">ChatGPTやPerplexityが答えの中で自社を「出典」として挙げるように働きかけるのがAEOです。従来のSEO（検索順位を上げる）と何が違い、いま何をすべきかを、確認できる範囲だけで整理します。効果の数値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/aeo-citable-structure/">
+<div class="card-media"><img src="../static/img/news-research-15.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">AIに引用されやすい記事は、どんな構造をしているのか</h3>
+<p class="card-summary">AI検索が答えの根拠にページを選ぶとき、拾いやすい構造かどうかが効きます。結論先出し・表・見出しの型・FAQという、引用されやすいとされる4つの型を、確認できる仕組みの理由とともに整理します。効果の測定値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/aeo-structured-data/">
+<div class="card-media"><img src="../static/img/news-research-10.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">構造化データ（schema.org）は、AI検索に効くのか</h3>
+<p class="card-summary">FAQ PageやArticleといった構造化データ（schema.org）を入れれば、AI検索に引用されやすくなるのか。仕組みと、当社が実際に測った範囲での結果を正直に整理します。効いたと断言できない部分は、断言できないと書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/aeo-faq-format/">
+<div class="card-media"><img src="../static/img/news-research-14.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">FAQ・Q&amp;A形式は、なぜAI検索に取り上げられやすいのか</h3>
+<p class="card-summary">想定質問と短い答えを並べるFAQ形式は、AI検索に引用される材料として相性がよいとされます。その理由を仕組みから説明し、実際にどう作れば効きやすいかの型を整理します。効果の測定値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/aeo-engines-compared/">
+<div class="card-media"><img src="../static/img/news-research-01.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">ChatGPT検索・Perplexity・Google AI Overviewsは、出典をどう選んで表示するのか</h3>
+<p class="card-summary">AI検索と一口に言っても、出典の選び方も見せ方もエンジンごとに違います。ChatGPT検索・Perplexity・Google AI Overviews・Geminiが出典をどう扱うかを、公開されている仕組みと画面で確認できる範囲だけで整理します。順位や引用率などの測定値は書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../articles/aeo-primary-source/">
+<div class="card-media"><img src="../static/img/news-research-14.svg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">一次情報や独自データは、なぜAI検索で強いとされるのか</h3>
+<p class="card-summary">AI検索は答えの根拠を欲しがります。他所の焼き直しより、そのページにしかない一次情報や独自データのほうが引用されやすいと言われる理由を、仕組みから整理します。中小企業が出せる一次情報の作り方も。効果の測定値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+    
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../jissen/">AI実践室</a>
+          <a href="../kansoku/">AI検索観測所</a>
+          <a href="../shippai/">失敗の鬼</a>
+          <a href="../shigoto/">AI仕事術</a>
+          <a href="../kaisetsu/">AI解体新書</a>
+          <a href="../weekly/">今週のAI</a>
+          <a href="../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../news/">ニュース</a>
+          <a href="../papers/">研究動向</a>
+          <a href="../topics/models/">トピック</a>
+          <a href="../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../about/">運営会社</a>
+          <a href="../faq/">よくある質問</a>
+          <a href="../advertise/">広告掲載</a>
+          <a href="../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

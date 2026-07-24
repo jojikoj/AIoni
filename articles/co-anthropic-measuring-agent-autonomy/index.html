@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントへの「完全自動承認」は、なぜ習熟で約20%から40%超へ倍増したのか？ · AIの鬼</title>
+  <meta name="description" content="Anthropicが自社のClaude CodeとAPIのログを分析し、AIエージェントにどこまで自動で任せているかを実測した。完全自動承認は新規ユーザーの約20%から習熟ユーザーの40%超へ倍増する一方、中断率も5%から約9%へ上がる。不可逆な操作は全体の0.8%。承認ポイントの設計に使える一次データを、偏りごと読む。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントへの「完全自動承認」は、なぜ習熟で約20%から40%超へ倍増したのか？ · AIの鬼">
+  <meta property="og:description" content="Anthropicが自社のClaude CodeとAPIのログを分析し、AIエージェントにどこまで自動で任せているかを実測した。完全自動承認は新規ユーザーの約20%から習熟ユーザーの40%超へ倍増する一方、中断率も5%から約9%へ上がる。不可逆な操作は全体の0.8%。承認ポイントの設計に使える一次データを、偏りごと読む。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントへの「完全自動承認」は、なぜ習熟で約20%から40%超へ倍増したのか？ · AIの鬼">
+  <meta name="twitter:description" content="Anthropicが自社のClaude CodeとAPIのログを分析し、AIエージェントにどこまで自動で任せているかを実測した。完全自動承認は新規ユーザーの約20%から習熟ユーザーの40%超へ倍増する一方、中断率も5%から約9%へ上がる。不可逆な操作は全体の0.8%。承認ポイントの設計に使える一次データを、偏りごと読む。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントへの「完全自動承認」は、なぜ習熟で約20%から40%超へ倍増したのか？","item":"https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/"}]},{"@type":"Article","headline":"AIエージェントへの「完全自動承認」は、なぜ習熟で約20%から40%超へ倍増したのか？","description":"Anthropicが自社のClaude CodeとAPIのログを分析し、AIエージェントにどこまで自動で任せているかを実測した。完全自動承認は新規ユーザーの約20%から習熟ユーザーの40%超へ倍増する一方、中断率も5%から約9%へ上がる。不可逆な操作は全体の0.8%。承認ポイントの設計に使える一次データを、偏りごと読む。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/"},"url":"https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-anthropic-measuring-agent-autonomy.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-anthropic-measuring-agent-autonomy/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-anthropic-measuring-agent-autonomy.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントへの「完全自動承認」は、なぜ習熟で約20%から40%超へ倍増したのか？</h1>
+<p class="article-lead">Anthropicが自社のClaude CodeとAPIのログを分析し、AIエージェントにどこまで自動で任せているかを実測した。完全自動承認は新規ユーザーの約20%から習熟ユーザーの40%超へ倍増する一方、中断率も5%から約9%へ上がる。不可逆な操作は全体の0.8%。承認ポイントの設計に使える一次データを、偏りごと読む。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIエージェントに人はどこまで自動で任せているのか。Anthropicの実測では、完全自動承認モードでのセッション利用が新規ユーザーの約20%から習熟ユーザーの40%超へ倍増した。同時に、人がエージェントの動作を中断した割合も5%から約9%へ上がっている。任せる範囲は広がるが、監視は緩んでいない。</p>
+<h2 id="n">何が測られたのか（対象・n数・時期）</h2>
+<p>Anthropicが自社のコーディングエージェント「Claude Code」の対話ログと、公開APIのツール呼び出しログを分析し、エージェントの自律性が実際にどう使われているかを公表した（出典：Anthropic（Anthropic Research）、2026-02-18、<a href="https://www.anthropic.com/research/measuring-agent-autonomy">https://www.anthropic.com/research/measuring-agent-autonomy</a>）。</p>
+<p>先に利害関係を書いておく。<strong>この記事は Anthropic 社自身による発表であり、同社は当該製品（Claude Code および Claude API）の提供者である</strong>。自社製品の利用ログを自社が分析し、自社の判断で公表した結果であって、第三者による検証は経ていない。数字の出どころとして、この点は読者が最初に把握しておくべき前提である。</p>
+<p>数値ごとに母数が違う点も重要なので、先に整理する。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>母数・条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完全自動承認でのセッション利用</td>
+<td>約20% → 40%超</td>
+<td>Claude Codeの対話セッションが母数。新規＝利用50セッション未満、習熟＝750セッション時点。分母はユーザー数ではなくセッション数。2025年後半〜2026年初頭</td>
+</tr>
+<tr>
+<td>人によるエージェント動作の中断（インタラプト）</td>
+<td>5% → 約9%</td>
+<td>母数はターン数。新規＝約10セッション経験のユーザー、習熟ユーザーで約9%。図4のn＝Claude Code対話セッション50万件</td>
+</tr>
+<tr>
+<td>1ターンの所要時間の中央値</td>
+<td>約45秒</td>
+<td>Claude Codeのターンが母数。2025年10月〜2026年1月を通じて安定（変化なし）</td>
+</tr>
+<tr>
+<td>ターン所要時間の99.9パーセンタイル</td>
+<td>25分未満 → 45分超</td>
+<td>Claude Codeのターンが母数。2025年10月から2026年1月にかけての推移。上位0.1%の極端に長いターンのみの値</td>
+</tr>
+<tr>
+<td>安全策が組み込まれていたツール呼び出し</td>
+<td>80%</td>
+<td>公開APIからランダム抽出したツール呼び出し998,481件。Claude Codeのセッションとは別母数。2025年後半〜2026年初頭</td>
+</tr>
+<tr>
+<td>人間がループに関与していると見られる呼び出し</td>
+<td>73%</td>
+<td>同じくツール呼び出し998,481件。Claudeによる分類ベースの推定値</td>
+</tr>
+<tr>
+<td>不可逆と見られる操作（顧客へのメール送信など）</td>
+<td>0.8%</td>
+<td>同じくツール呼び出し998,481件。個々の操作単位の割合</td>
+</tr>
+<tr>
+<td>ソフトウェアエンジニアリング用途の呼び出し</td>
+<td>約50%</td>
+<td>同じくツール呼び出し998,481件。用途分類はClaudeによる自動分類</td>
+</tr>
+<tr>
+<td>複雑タスクでClaudeが自ら確認・明確化を求める頻度</td>
+<td>2倍超（最小複雑度のタスク比）</td>
+<td>図4、n＝Claude Code対話セッション50万件。絶対値ではなく比率</td>
+</tr>
+</tbody>
+</table>
+<p>なお「50万件」はClaude Code全体の母数ではなく、明確化質問と中断率を扱う図4の分析母数として記されたものである。発表全体の対象規模は「数百万件の人間-エージェント対話」と記されており、指標ごとに母数が異なる。</p>
+<h2 id="_1">「任せる」と「見張る」は同時に増えている</h2>
+<p>いちばん実務に効くのは、完全自動承認（約20%→40%超）と中断率（5%→約9%）が同じ方向に動いている点である。使い慣れるほど自動で走らせる場面は増えるが、同時に「走っている途中で止める」回数も増えている。</p>
+<ul>
+<li>慣れたユーザーは、任せる範囲を広げるかわりに、途中で軌道修正する前提で走らせている</li>
+<li>つまり自律性の獲得は「放置」ではなく「介入方法の切り替え」として現れている</li>
+<li>事前に全部承認するか、事後に止めるか。習熟とは、この二つを使い分けられるようになることだと読める</li>
+</ul>
+<p>所要時間も同じ構図だ。1ターンの中央値は約45秒で、2025年10月から2026年1月まで変化していない。一方で99.9パーセンタイル値は25分未満から45分超へほぼ倍増した。日常の体感は変わらないが、上位0.1%の極端に長いターンだけが伸びている。長時間走る例外的なタスクこそ、途中で止める仕組みが要る対象になる。</p>
+<p>エージェントの基礎的な考え方は<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>、安全側の設計論は<a href="/articles/ai-democratizing-agent-deployment-safety/">エージェント配備の安全性</a>も参照されたい。</p>
+<h2 id="08">不可逆な操作は0.8%しかない、という分解</h2>
+<p>公開APIのツール呼び出し998,481件のうち、不可逆と見られる操作（顧客へのメール送信など）は0.8%だった。同じ母数で、権限制限などの安全策が組み込まれていた呼び出しが80%、人間がループに関与していると見られる呼び出しが73%である。</p>
+<p>この0.8%という数字の使いどころは明確だ。リスク管理を全工程一律にかけると、99.2%の取り消せる操作にまで承認コストを払うことになる。逆に言えば、<strong>取り消せない操作だけを人の承認ゲートに通す</strong>設計にすれば、監督コストを大きく下げながら重大事故の入口は塞げる、という筋が立つ。</p>
+<p>ただし注意点がある。0.8%は個々の操作単位の割合であって、セッション単位・企業単位の発生率ではない。100回に1回に満たない操作でも、業務単位で見れば「ほぼ毎回どこかで顧客メールを送る」ということはあり得る。自社の工程に当てはめるときは、操作単位ではなく業務フロー単位で不可逆点を洗い出す必要がある。</p>
+<h2 id="_2">この数字が使えない範囲（限界の明示）</h2>
+<p>発表自体が明記している限界と、対象範囲の偏りを、そのまま書く。</p>
+<ul>
+<li>分析対象が単一のモデルプロバイダ（Anthropic）に限られる。他社AIエージェントの利用実態を表すものではない</li>
+<li>各種の分類はClaudeが生成したものであり、人手による検証を経ていない。「人間関与73%」「安全策80%」はあくまで推定分類である</li>
+<li>公開APIの各リクエストを一連のセッションとして紐づけられない。998,481件は独立した呼び出しの集合であり、業務単位の実態ではない</li>
+<li>本番運用の呼び出しと、評価・テスト目的の呼び出しを区別できていない</li>
+<li>Claude Code側のデータはコーディングエージェントの利用者であり、ツール呼び出しの約50%がソフトウェア開発用途である</li>
+</ul>
+<p>最後の点は、中小企業の読者にとって最も効く注意である。ここで言う「習熟ユーザー」は750セッション時点の利用層であり、AIエージェントを日常的に使う開発者・技術者の実態を表している。経理担当や営業担当が業務の合間に使う場合の実態とは別物と考えるべきで、「40%超が完全自動承認だから、うちも半分は自動化できる」とは読めない。自社の実態を知りたければ、自社で測る以外にない。測り方の考え方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a>が参考になる。</p>
+<h2 id="toe">TOEの読み筋：承認ゲートは工程数ではなく「不可逆点の数」で決める</h2>
+<p>以下はTOEの解釈であり、<strong>TOEでは今回の指標を自社ログで再現する検証は未実施</strong>である。数値はAnthropicの発表を出所とし、TOE側の実測データではない。</p>
+<p>そのうえで、中小企業のAI導入設計に持ち込める読み筋は三つある。</p>
+<ul>
+<li><strong>二択をやめる。</strong> 「全自動化か手作業か」ではなく、自動で走る区間と承認を挟む点を分けて設計する。約20%→40%超という自動承認の伸びは、慣れとともに自動区間が伸びることを示しており、初期設計を固定する必要はない</li>
+<li><strong>承認ゲートは不可逆点に置く。</strong> 0.8%という分解は、承認を工程の数に比例させるのではなく、取り消せない操作（顧客へのメール送信、請求データの確定、外部への公開など）に集中させる根拠になる</li>
+<li><strong>止める手段を先に用意する。</strong> 中断率が5%→約9%へ上がっている以上、「止められること」は失敗ではなく運用の前提である。長時間タスクほど中断の必要が出る（99.9パーセンタイルが25分未満→45分超）ため、途中経過が見える形にしておく</li>
+</ul>
+<p>導入の初手の考え方は<a href="/articles/ai-first-step-smb/">中小企業のAI最初の一歩</a>、小さく始める体制づくりは<a href="/articles/ai-small-team-adoption/">小さなチームでの導入</a>にまとめている。今回の一次データは、その設計に「どこで人が入るか」という具体的な軸を一本足すものだと位置づけている。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>Anthropicが自社のClaude CodeとAPIのログを分析し、エージェントの自律性の実際を公表した。この記事はAnthropic社自身による発表であり、同社は当該製品の提供者である。第三者検証は経ていない</li>
+<li>完全自動承認でのセッション利用は新規ユーザーの約20%から習熟ユーザー（750セッション時点）の40%超へ倍増した。同時に中断率も5%から約9%へ上がっており、「任せる」と「見張る」が同時に増えている</li>
+<li>公開APIのツール呼び出し998,481件のうち、不可逆と見られる操作は0.8%。承認ゲートを全工程一律ではなく不可逆点に絞る設計の根拠になる</li>
+<li>ターン所要時間の中央値は約45秒で安定する一方、99.9パーセンタイルは25分未満から45分超へ倍増した。極端に長いタスクほど途中で止める仕組みが要る</li>
+<li>対象は単一プロバイダ、分類はClaudeによる未検証の自動分類、APIログはセッション紐づけ不可、本番と評価の区別なし、用途の約50%がソフトウェア開発。一般的な中小企業の業務利用者の実態としては読めない。TOEでも自社ログでの再現検証は未実施である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

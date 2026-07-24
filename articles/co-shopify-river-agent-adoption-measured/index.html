@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？ · AIの鬼</title>
+  <meta name="description" content="Shopifyが社内エージェント「River」の直近30日間の実稼働値を公開した。59,918セッション、マージ済みPRの8件に1件が共著、セッション中央値19分・ツール呼び出し中央値50回。数字の大きさより、エージェントを個人の手元でなく全社Slackに常駐させたという設計判断が中小企業にも効く。ただしこれは提供者自身による発表である。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？ · AIの鬼">
+  <meta property="og:description" content="Shopifyが社内エージェント「River」の直近30日間の実稼働値を公開した。59,918セッション、マージ済みPRの8件に1件が共著、セッション中央値19分・ツール呼び出し中央値50回。数字の大きさより、エージェントを個人の手元でなく全社Slackに常駐させたという設計判断が中小企業にも効く。ただしこれは提供者自身による発表である。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？ · AIの鬼">
+  <meta name="twitter:description" content="Shopifyが社内エージェント「River」の直近30日間の実稼働値を公開した。59,918セッション、マージ済みPRの8件に1件が共著、セッション中央値19分・ツール呼び出し中央値50回。数字の大きさより、エージェントを個人の手元でなく全社Slackに常駐させたという設計判断が中小企業にも効く。ただしこれは提供者自身による発表である。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？","item":"https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/"}]},{"@type":"Article","headline":"AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？","description":"Shopifyが社内エージェント「River」の直近30日間の実稼働値を公開した。59,918セッション、マージ済みPRの8件に1件が共著、セッション中央値19分・ツール呼び出し中央値50回。数字の大きさより、エージェントを個人の手元でなく全社Slackに常駐させたという設計判断が中小企業にも効く。ただしこれは提供者自身による発表である。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/"},"url":"https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-shopify-river-agent-adoption-measured.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-shopify-river-agent-adoption-measured/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-shopify-river-agent-adoption-measured.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントは個人の手元と全社チャットのどちらに置くべきか——Shopifyが30日で59,918セッションを公開した理由は？</h1>
+<p class="article-lead">Shopifyが社内エージェント「River」の直近30日間の実稼働値を公開した。59,918セッション、マージ済みPRの8件に1件が共著、セッション中央値19分・ツール呼び出し中央値50回。数字の大きさより、エージェントを個人の手元でなく全社Slackに常駐させたという設計判断が中小企業にも効く。ただしこれは提供者自身による発表である。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。この記事の要点は数字の大きさではなく、置き場所の設計判断です。Shopifyは社内エージェント「River」を個人の手元ではなく全社Slackに常駐させ、直近30日間で59,918セッション、5,170チャンネル、7,000人超が関与したと公開しました。中小企業が真似できるのは規模ではなく、この「置き場所を1つに決める」という判断のほうです。</p>
+<h2 id="shopify30">一次資料の実測：Shopifyが公開した30日間の数字は何か</h2>
+<p>出典は、Shopify Engineeringブログの記事「Under the River」です。著者はJavier Moreno氏、Burke Libbey氏、そして「River自身との共著」と明記されています（出典：Shopify Engineering（著者: Javier Moreno、Burke Libbey、およびRiver自身との共著と明記）、2026-05-28、<a href="https://shopify.engineering/under-the-river">https://shopify.engineering/under-the-river</a>）。</p>
+<p>まず前提としてはっきりさせておくべきことがあります。<strong>この記事はShopify社自身による発表であり、同社は当該エージェント「River」および基盤「Aquifer」の開発・運用主体そのものです。</strong>第三者による検証や監査ではありません。以下の数字はすべて、提供者が自社の取り組みについて自ら計測して公開したものだ、という前提で読んでください。</p>
+<p>公開された数値は以下の通りです。対象範囲はすべて「Shopify社内、直近30日間」に限定されます。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>対象・条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Riverのセッション数</td>
+<td>59,918件</td>
+<td>直近30日間／Shopify社内の全Riverセッションが分母</td>
+</tr>
+<tr>
+<td>Riverが共著となってマージされたPR</td>
+<td>3,536件</td>
+<td>直近30日間／Shopify社内</td>
+</tr>
+<tr>
+<td>全社マージ済みPRに占めるRiver共著の割合</td>
+<td>8件に1件（約12.5%）</td>
+<td>分母はShopify全社のマージ済みPR（Riverが関与したPRではなく全社の全マージPR）</td>
+</tr>
+<tr>
+<td>1セッションの長さ</td>
+<td>中央値19分</td>
+<td>上記30日間のRiverセッションが母集団。平均ではなく中央値</td>
+</tr>
+<tr>
+<td>1セッションあたりのツール呼び出し回数</td>
+<td>中央値50回</td>
+<td>同上。平均ではなく中央値</td>
+</tr>
+<tr>
+<td>利用されているSlackチャンネル数</td>
+<td>5,170チャンネル</td>
+<td>直近30日間</td>
+</tr>
+<tr>
+<td>Riverの作業が関わった人数</td>
+<td>7,000人超</td>
+<td>直近30日間。5月上旬の前回投稿時点から約1,200人増</td>
+</tr>
+</tbody>
+</table>
+<p>なお本文自身が、これらの利用数値について「すでに（増加方向に）古くなっている」と注記しています。つまりこれは時点値であり、恒常的な水準を示すものではありません。</p>
+<h2 id="_1">なぜ「ローカルのエージェントには天井がある」と書かれているのか</h2>
+<p>この記事でいちばん引用に値するのは、実は数字ではなく設計思想の宣言のほうです。本文は、ローカル（個人の手元）で動くエージェントには天井があると明言しています。理由は、個人とエージェントのやり取りが組織の学習として蓄積されないからです。</p>
+<p>だからShopifyは、あえて全社Slackという公開の場にエージェントを常駐させました。5,170チャンネルという数字は、この設計判断の結果として出てきたものです。誰かがRiverに投げた依頼と、Riverが返した答えと、その過程での失敗が、全部チームの目に触れる場所に残る。この構造を先に選んだうえで、規模が後からついてきた、という順番になっています。</p>
+<ul>
+<li>個人のブラウザやローカル端末での利用は、成功例も失敗例も本人の中で閉じる</li>
+<li>共有チャットに置けば、他人のプロンプトの書き方がそのまま社内の教材になる</li>
+<li>一方で、公開の場に置くということは、うまくいかなかったやり取りも全員に見えるということでもある</li>
+</ul>
+<p>3つめは不都合な側面ですが、本文の主張はむしろそれを含めて肯定する方向です。</p>
+<h2 id="1950">セッション19分・ツール呼び出し50回という数字は何を意味するか</h2>
+<p>中央値19分、ツール呼び出し中央値50回。この2つは組み合わせて読むべきです。</p>
+<p>19分という長さは、人間が1つ質問して1つ答えをもらうやり取りの長さではありません。50回という呼び出し回数も同様です。つまりこの数字は、<strong>エージェントが一問一答の道具ではなく、数十手を自分で進める道具として使われている</strong>ことを示しています。中央値である点も重要で、平均ではないため一部の極端に長いセッションに引っ張られた値ではありません。</p>
+<p>導入を検討する側にとって、この2つの数字は期待値設定に使えます。「聞いたら即答が返ってくるもの」を想定して導入すると、19分待つ挙動は不具合に見えます。逆に「投げて放っておく仕事の道具」として設計すれば、同じ挙動が想定内になります。エージェントという言葉の定義そのものについては<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>も参照してください。自律性をどう測るかという論点は<a href="/articles/co-anthropic-measuring-agent-autonomy/">エージェントの自律性の測り方</a>にまとめています。</p>
+<h2 id="_2">読者への意味：中小企業が実際に選べる分岐はどこか</h2>
+<p>中小企業にとっての重要度は中程度です。59,918セッションも3,536件のPRも、そのまま持ち帰れる数字ではありません。持ち帰れるのは分岐の立て方です。</p>
+<p>いま多くの中小企業では、AI利用が各人のブラウザやローカルに散らばっています。これを、SlackやTeamsなど全員が見える場所に1体置く形に変える。この選択自体は追加コストがほぼゼロで、今日決められます。Shopifyの記事は、その分岐を「ローカルには天井がある」という理由付きで一方に倒してみせた実例です。</p>
+<ul>
+<li>置き場所を共有チャットに変えるのは、ツールの入れ替えではなく運用ルールの変更で済む場合が多い</li>
+<li>共有にすることで、誰がどんな用途に使っているかが可視化され、次の投資判断の材料になる</li>
+<li>ただし共有チャットに置くなら、機微情報の取り扱いルールを先に決める必要がある</li>
+</ul>
+<p>一方で、8件に1件という共著率を目標値にするのは筋が悪いです。この水準はShopifyのモノレポ構成と独自基盤Aquiferを前提とした結果であり、環境が違えば再現する根拠がありません。少人数チームでの現実的な進め方は<a href="/articles/ai-small-team-adoption/">小さなチームでのAI導入</a>を参照してください。</p>
+<h2 id="_3">この記事が自ら認めている限界</h2>
+<p>誠実に読むなら、以下は本文自身が書いていることです。数字と同じ重さで扱う必要があります。</p>
+<ul>
+<li>発信元Shopifyは、Riverおよび基盤Aquiferの開発・運用主体そのものである。自社の取り組みの発表であり、第三者検証ではない</li>
+<li>対象はShopify1社の社内環境に限定される。モノレポ、独自エージェント基盤、全社Slackという前提があり、中小企業の環境にそのまま一般化できない</li>
+<li>基盤Aquiferは「ロールアウト中」「未完成」であると本文が認めている</li>
+<li>モノレポへの移行が「実際の破損（real breaks）」を引き起こし、インフラの大幅な作り直しが必要だったと認めている</li>
+<li>著者自身が「これがどう進化するかは分からない（We don't know how all of this will evolve）」と述べており、持続性は未検証である</li>
+<li>掲載された利用数値は「すでに古くなっている」と注記されており、時点値にすぎない</li>
+</ul>
+<p>さらに、公開されている指標の性質にも注意が必要です。セッション数もPR共著数も<strong>活動量の指標</strong>です。品質、不具合率、最終的な生産性への効果を示すデータは提示されていません。3,536件のPRがマージされたことは、そのPRが良かったことを意味しません。マルチエージェント構成での測定の難しさについては<a href="/articles/co-anthropic-multi-agent-research-system/">複数エージェントによる調査システムの実際</a>も併せて読むと、活動量と成果の距離が見えます。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、社内エージェントを全社チャットに常駐させる運用は未実施です。</strong>以下は実測に基づく報告ではなく、記事を読んだうえでの読み筋です。</p>
+<p>読み筋は3点あります。</p>
+<p>第一に、この記事の価値は数字ではなく「先に置き場所を決めた」という順番にあると見ています。多くの現場は、ツールを選んでから運用を考えます。Shopifyは逆で、組織の学習として蓄積されるかどうかを先に基準に据え、そこから配置を決めています。中小企業でも真似できるのはこの順番です。</p>
+<p>第二に、19分・50回という中央値は、社内説明の材料として現実的な効き目があると考えています。「AIに聞いたら3秒で答えが出る」という期待のままエージェントを導入すると、待ち時間が失望に直結します。数十手を自走する道具だと最初に言っておくほうが、定着の確率は上がるはずです。</p>
+<p>第三に、活動量指標しか出ていない点は、むしろ導入側が学ぶべき部分です。自社で計測を始めるとき、最初に取れるのはセッション数や利用人数です。しかしそこで止まると、使われているが効いているか分からない状態になります。TOEとしては、活動量の計測と同時に「何が減ったか」を1つだけでも定義してから始めるべきだと見ています。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>Shopifyは社内エージェント「River」の直近30日間の実績として、59,918セッション、River共著のマージ済みPR3,536件、全社マージ済みPRの8件に1件（約12.5%）、5,170チャンネル、7,000人超の関与を公開した</li>
+<li>セッション長の中央値は19分、1セッションあたりのツール呼び出し回数の中央値は50回で、一問一答ではなく数十手を自走する使われ方を示している</li>
+<li>記事の核はこれらの数値ではなく、「ローカルのエージェントには天井がある」として全社Slackに常駐させた設計判断にある。中小企業が追加コストほぼゼロで選べる分岐はここ</li>
+<li>この記事はShopify社自身による発表であり、同社はRiverおよび基盤Aquiferの提供者である。本文自身がAquiferは未完成でロールアウト中、モノレポ移行は実際の破損を招いた、今後どう進化するかは分からない、数値はすでに古い、と認めている</li>
+<li>公開値はすべて活動量の指標であり、品質・不具合率・生産性への効果は示されていない。TOEでは同様の全社常駐運用は未実施であり、本記事の読み筋は実測報告ではない</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

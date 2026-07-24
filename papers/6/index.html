@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>研究動向 (arXiv) · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <link rel="canonical" href="https://ai-oni.com/papers/6/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/papers/6/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="研究動向 (arXiv) · AIの鬼">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta property="og:url" content="https://ai-oni.com/papers/6/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="研究動向 (arXiv) · AIの鬼">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"研究動向","item":"https://ai-oni.com/papers/"}]},{"@type":"ItemList","name":"研究動向","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"SafeStep: AI-powered Travel Assistance for Elderly People with Frailty or Dementia","url":"https://arxiv.org/abs/2607.21156v1"},{"@type":"ListItem","position":2,"name":"CRAG-MM-Diagnostics: Enabling Stage-Wise Analysis of Knowledge-Intensive VQA","url":"https://arxiv.org/abs/2607.21155v1"},{"@type":"ListItem","position":3,"name":"V-DEAL: Diagnosing Video Safety De-Calibration as an Understanding-Refusal Coupling Failure","url":"https://arxiv.org/abs/2607.21151v1"},{"@type":"ListItem","position":4,"name":"One More Turn, Less Regret: A Regret-Based Multi-Turn Benchmark for LLMs' Clarification Policies","url":"https://arxiv.org/abs/2607.21143v1"},{"@type":"ListItem","position":5,"name":"DTIF: Robust Loop Closure Detection via Delaunay Triangle Topology in Complex Forests","url":"https://arxiv.org/abs/2607.21138v1"},{"@type":"ListItem","position":6,"name":"Safety-oriented sidewalk and road segmentation for smartphone-based assistive navigation","url":"https://arxiv.org/abs/2607.21137v1"},{"@type":"ListItem","position":7,"name":"Demographically-Informed Heat-Mortality Risk Curves via Risk Graph Neural Networks","url":"https://arxiv.org/abs/2607.21131v1"},{"@type":"ListItem","position":8,"name":"Hardware-Software Co-Design for Float16 On-Device Training on RISC-V Single-Core","url":"https://arxiv.org/abs/2607.21130v1"},{"@type":"ListItem","position":9,"name":"Causal-AgentIR: Self-Evolving Causal Memory for Adaptive Image Restoration Agents","url":"https://arxiv.org/abs/2607.21125v1"},{"@type":"ListItem","position":10,"name":"Approximate Quantum State Preparation Through Proximal Policy Optimization","url":"https://arxiv.org/abs/2607.21121v1"},{"@type":"ListItem","position":11,"name":"Relative Value Learning","url":"https://arxiv.org/abs/2607.21120v1"},{"@type":"ListItem","position":12,"name":"The Second LoViF 2026 Challenge on Real-World All-in-One Image Restoration: Methods and Results","url":"https://arxiv.org/abs/2607.21118v1"},{"@type":"ListItem","position":13,"name":"GlucoTune: A Unified Framework for Blood Glucose Preprocessing, Forecasting, and Benchmarking in Diabetes","url":"https://arxiv.org/abs/2607.21117v1"},{"@type":"ListItem","position":14,"name":"TOUR: A Trajectory-Level Unlearning Benchmark for Offline Reinforcement Learning","url":"https://arxiv.org/abs/2607.21111v1"},{"@type":"ListItem","position":15,"name":"AttriMem: Attribution-Guided Process Feedback for Agent Memory Learning","url":"https://arxiv.org/abs/2607.21106v1"},{"@type":"ListItem","position":16,"name":"HalluScope: Fine-grained Hallucination Diagnosis for Multimodal Large Language Models","url":"https://arxiv.org/abs/2607.21105v1"},{"@type":"ListItem","position":17,"name":"Can Generative Recommendation Reach Cold Items? A Temporal Perspective on Semantic-ID Generation","url":"https://arxiv.org/abs/2607.21101v1"},{"@type":"ListItem","position":18,"name":"Smooth Neural Point Processes via B-Splines","url":"https://arxiv.org/abs/2607.21098v1"},{"@type":"ListItem","position":19,"name":"A Polynomial Architecture-Attribution Co-Design Framework for Exact Aumann-Shapley Attribution in GNNs","url":"https://arxiv.org/abs/2607.21094v1"},{"@type":"ListItem","position":20,"name":"Training Large Language Models for Self-Explanation Faithfulness","url":"https://arxiv.org/abs/2607.21090v1"},{"@type":"ListItem","position":21,"name":"Loss Landscape Topology Reveals Why Simple Baselines are Competitive at 3D Point Cloud Segmentation Under Class Imbalance","url":"https://arxiv.org/abs/2607.21089v1"},{"@type":"ListItem","position":22,"name":"CASC: Causal Adversarial Subspace Clustering for Multivariate Spatiotemporal Data","url":"https://arxiv.org/abs/2607.21088v1"},{"@type":"ListItem","position":23,"name":"Geo3R: Mitigating Spatial Reasoning Hallucination in Multimodal Large Language Models","url":"https://arxiv.org/abs/2607.21085v1"},{"@type":"ListItem","position":24,"name":"Automatic knot selection in smooth additive models","url":"https://arxiv.org/abs/2607.21083v1"},{"@type":"ListItem","position":25,"name":"Nipping the Butterfly Effect in the Bud: Self-Output Fine-Tuning for Autoregressive Weather Prediction","url":"https://arxiv.org/abs/2607.21080v1"},{"@type":"ListItem","position":26,"name":"The RealDefocus Benchmark for Defocus Deblurring","url":"https://arxiv.org/abs/2607.21078v1"},{"@type":"ListItem","position":27,"name":"C-PTQ: Fisher-weighted Channel-wise Sensitivity for Post-training Quantization of MLLMs","url":"https://arxiv.org/abs/2607.21076v1"},{"@type":"ListItem","position":28,"name":"VibeVoice-ASR-BitNet Technical Report","url":"https://arxiv.org/abs/2607.21075v1"},{"@type":"ListItem","position":29,"name":"Spectral Transformation for Layer-wise Global Rank Discovery in Federated LoRA for Vision Transformers","url":"https://arxiv.org/abs/2607.21074v1"},{"@type":"ListItem","position":30,"name":"Show, Don't Tell: Evaluating Spatial Cognition in Generative Pixels Rather Than LLM Text","url":"https://arxiv.org/abs/2607.21072v1"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/papers/6/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="on">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>研究動向 (arXiv)</h1>
+    <p class="page-sub">機械学習・自然言語処理・コンピュータビジョンの最新プレプリント。</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-papers">
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">cs.MA</span><time datetime="2026-07-23T10:37:28+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21156v1" target="_blank" rel="noopener">SafeStep: AI-powered Travel Assistance for Elderly People with Frailty or Dementia</a></h3>
+<p class="paper-authors">Elderly People with Frailty or Dementia Azul Debenedetti, David Gamez, Franco Such, Nik Kairinos</p><p class="card-summary">More than a million people in the UK suffer from frailty or dementia, which severely compromise their ability to travel in urban environments. This paper presents SafeStep, an AI-driven travel system that assists elderly users with their journeys. At the core of SafeStep is a novel travel graph representation, which integrates route planning with predictive modelling. For each stage of a journey, the system (i) generates personalized failure scenarios using a combi-nation of LLMs and the Anticip…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21156v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21156v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T10:37:01+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21155v1" target="_blank" rel="noopener">CRAG-MM-Diagnostics: Enabling Stage-Wise Analysis of Knowledge-Intensive VQA</a></h3>
+<p class="paper-authors">Hanseok Oh, Parishad BehnamGhader, Benno Krojer, Hyunji Lee, Paul Liang, Siva Reddy, Verna Dankers</p><p class="card-summary">Knowledge-Intensive Visual Question Answering (KI-VQA) benchmarks evaluate Vision-Language Models (VLMs) as multimodal knowledge assistants by requiring external information beyond a provided image to answer questions. KI-VQA involves multiple sub-problems -referring expression understanding, visual grounding, object recognition, knowledge retrieval, and reasoning-yet existing benchmarks typically report only end-task accuracy, obscuring where failures arise. To analyze the full KI-VQA pipeline,…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21155v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21155v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T10:35:38+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21151v1" target="_blank" rel="noopener">V-DEAL: Diagnosing Video Safety De-Calibration as an Understanding-Refusal Coupling Failure</a></h3>
+<p class="paper-authors">Zhetong Zhang, Honghao Fu, Miao Xu, Yiwei Wang, Yujun Cai</p><p class="card-summary">As Video Large Language Models are increasingly deployed in real-world applications, ensuring their safety alignment has become critical. Counterintuitively, we find that harmful videos paired with benign queries achieve higher attack success rates than the same videos paired with explicitly harmful queries. To understand the underlying mechanism of this vulnerability, we present V-DEAL, a three-level diagnostic framework that jointly analyzes this failure across model behaviour, understanding,…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21151v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21151v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T10:22:11+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21143v1" target="_blank" rel="noopener">One More Turn, Less Regret: A Regret-Based Multi-Turn Benchmark for LLMs&#39; Clarification Policies</a></h3>
+<p class="paper-authors">Minh Ngoc Ta, My Anh Tran Nguyen, Duong D. Nguyen, Yuxia Wang, Preslav Nakov</p><p class="card-summary">Ambiguous user requests make clarification a sequential decision problem for conversational LLM assistants: they must decide whether to ask, what to ask, when to stop, and when to answer. We introduce RegretBench, a multi-turn benchmark that evaluates clarification as policy behavior rather than isolated question quality. RegretBench provides a hidden-intent formulation of ambiguity, supports free-form interaction grounded in semantic-state tracking, and introduces a regret-based objective that…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21143v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21143v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T10:16:56+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21138v1" target="_blank" rel="noopener">DTIF: Robust Loop Closure Detection via Delaunay Triangle Topology in Complex Forests</a></h3>
+<p class="paper-authors">Xin Zhao, Jianping Li, Qin Zou, Fuxun Liang, Zhen Dong, Bisheng Yang</p><p class="card-summary">Accurate forest inventory and large-scale mapping are essential for ecosystem monitoring and sustainable forest management. Multiple low-cost edge platforms enable efficient large-area data acquisition, but merging independently constructed local maps in GNSS-denied understory environments still requires initialization-free loop closure detection and global registration. This task is challenging because low-cost LiDAR point clouds are sparse and noisy, while repetitive trunk layouts and the lack…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21138v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21138v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T10:16:43+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21137v1" target="_blank" rel="noopener">Safety-oriented sidewalk and road segmentation for smartphone-based assistive navigation</a></h3>
+<p class="paper-authors">Hakan Calim, Anamaria Dumitrescu, Adarsh Bhandary Panambur, Huzaifa Asif, Andreas Maier</p><p class="card-summary">Independent sidewalk mobility is essential for blind and visually impaired pedestrians (BVIPs), yet smartphone-based assistive navigation requires perception models that distinguish walkable sidewalks from adjacent unsafe regions. This study presents a safety-oriented semantic segmentation framework for future mobile guidance. We introduce SENSATION-DS, a chest-height pedestrian-view dataset with 2,752 image-mask pairs and nine-class navigation-relevant taxonomy. External urban and sidewalk data…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21137v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21137v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T10:08:32+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21131v1" target="_blank" rel="noopener">Demographically-Informed Heat-Mortality Risk Curves via Risk Graph Neural Networks</a></h3>
+<p class="paper-authors">Alex O. Davies, Eunice Lo, Rui Zhu</p><p class="card-summary">Estimating heat-related mortality risk is a core task in environmental epidemiology, typically addressed with Distributed Lag Non-linear Models (DLNMs); interpretable exposure-response surfaces fitted to temperature-mortality time series. DLNMs are effective but ignore demographic and geographic context, despite well-established relevance to heat vulnerability. We propose Risk Graph Neural Networks (RGNNs), a hierarchical GNN encoder that uses granular census features to optimise DLNM coefficien…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21131v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21131v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AR</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T10:06:11+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21130v1" target="_blank" rel="noopener">Hardware-Software Co-Design for Float16 On-Device Training on RISC-V Single-Core</a></h3>
+<p class="paper-authors">Benjamin Hubinet, Pierre-Alain Moellic, Olivier Savry, Olivier Potin, Jean-Baptiste Rigaud</p><p class="card-summary">By leveraging standard RISC-V extensions, namely Zfh (scalar float16) and Zvfh (vector float16), this work proposes an open-source framework to enable complete on-device training on resource-constrained RISC-V single-core. Our approach allows memory footprint reduction by about 50% as compared to using float32 and with minimal model performance degradation. We also facilitate transfer learning and fine-tuning scenarios by incorporating layer-freezing capabilities. Our work builds onto AIfES, an…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21130v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21130v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:59:44+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21125v1" target="_blank" rel="noopener">Causal-AgentIR: Self-Evolving Causal Memory for Adaptive Image Restoration Agents</a></h3>
+<p class="paper-authors">Hu Gao, Yulong Chen, Lizhuang Ma</p><p class="card-summary">Image restoration agents have recently emerged as a flexible paradigm for handling diverse and unpredictable degradations in real-world scenarios. Existing agents typically formulate restoration as a tool-using process, where the agent perceives degradations, searches candidate tools, executes restoration operations, and revises the plan through reflection or rollback. However, their knowledge is often stored as static tool descriptions, manually defined degradation priors, or unstructured textu…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21125v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21125v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">quant-ph</span><span class="pill ghost mono">cs.ET</span><span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T09:55:58+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21121v1" target="_blank" rel="noopener">Approximate Quantum State Preparation Through Proximal Policy Optimization</a></h3>
+<p class="paper-authors">Marco Mordacci, Michele Amoretti</p><p class="card-summary">In this work, a quantum architecture search framework for approximate quantum state preparation (QSP) is proposed. QSP is a challenging task, since the search space grows exponentially with the number of qubits, making the identification of the optimal circuit non-trivial. To address this problem, deep reinforcement learning is employed through an agent based on proximal policy optimization. The objective of the agent is to identify the best possible approximation of the target state while simul…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21121v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21121v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T09:55:45+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21120v1" target="_blank" rel="noopener">Relative Value Learning</a></h3>
+<p class="paper-authors">Marc Höftmann, Jan Robine, Stefan Harmeling</p><p class="card-summary">In reinforcement learning, critics typically estimate absolute state values $V(s)$, estimating how good a particular situation is in isolation. However, it turns out that only differences in value are relevant for control. Motivated by this, we propose Relative Value Learning (RV), a framework that learns value differences directly via an antisymmetric function $Δ(s_i, s_j) = V(s_i) - V(s_j)$. We introduce a pairwise Bellman operator and prove it is a $γ$-contraction with a unique fixed point eq…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21120v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21120v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:54:25+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21118v1" target="_blank" rel="noopener">The Second LoViF 2026 Challenge on Real-World All-in-One Image Restoration: Methods and Results</a></h3>
+<p class="paper-authors">Xiang Chen, Hao Li, Jiangxin Dong, Jinshan Pan, Xin Li, Hongbo Ding, Junpeng Jiang, Xingyu Qiu et al.</p><p class="card-summary">This paper presents a review of the second LoViF Challenge on Real-World All-in-One Image Restoration. The challenge aims to advance unified image restoration under diverse real-world degradation conditions, including blur, low-light, haze, rain, and snow. It provides a common benchmark for evaluating the restoration accuracy, robustness, and generalization capability of models across multiple degradation categories within a unified framework. The competition attracted 158 registered participant…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21118v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21118v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T09:53:39+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21117v1" target="_blank" rel="noopener">GlucoTune: A Unified Framework for Blood Glucose Preprocessing, Forecasting, and Benchmarking in Diabetes</a></h3>
+<p class="paper-authors">Davide Marelli, Giorgia Rigamonti, Mirko Paolo Barbato, Paolo Napoletano</p><p class="card-summary">Preprocessing blood glucose time-series data is a critical yet often overlooked step in developing data-driven methods for diabetes management, particularly for type 1 diabetes. The lack of standardized preprocessing workflows and evaluation protocols hinders reproducibility and complicates fair comparison across studies. These challenges are further exacerbated by data-sharing restrictions, as privacy and licensing constraints often prevent the redistribution of preprocessed medical datasets. T…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21117v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21117v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T09:40:40+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21111v1" target="_blank" rel="noopener">TOUR: A Trajectory-Level Unlearning Benchmark for Offline Reinforcement Learning</a></h3>
+<p class="paper-authors">Chaofan Pan, Lingfei Ren, Xiangyu Jiang, Yanhua Li, Xuemei Cao, Xiangkun Wang, Hao Yu, Wei Wei et al.</p><p class="card-summary">Offline Reinforcement Learning (RL) agents are trained on fixed behavioral trajectories, which makes trajectory-level deletion important when selected data must be removed after training. Evaluating such deletion is difficult because a lower membership score can reflect trajectory removal, residual memorization visible to another attack, or policy collapse that destroys useful behavior. We introduce Trajectory-level memOrization and Unlearning in offline RL (TOUR), a benchmark that combines traj…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21111v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21111v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T09:35:34+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21106v1" target="_blank" rel="noopener">AttriMem: Attribution-Guided Process Feedback for Agent Memory Learning</a></h3>
+<p class="paper-authors">Qinfeng Li, Yuntai Bao, Xinyan Yu, Hongze Chen, Wenqi Zhang, Xuhong Zhang</p><p class="card-summary">Effective memory is crucial for LLM agents, yet constructing it effectively remains challenging. A memory-construction policy decides what information to extract, store, update, compress, or discard as interactions accumulate. Heuristic memory methods rely on subjective, task-specific rules, which can misalign with downstream objectives and limit cross-task adaptability. RL-based methods, by contrast, learn from task feedback but mainly use outcome- or module-level rewards. These coarse signals…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21106v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21106v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:35:32+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21105v1" target="_blank" rel="noopener">HalluScope: Fine-grained Hallucination Diagnosis for Multimodal Large Language Models</a></h3>
+<p class="paper-authors">Weilin Jin, Mingyu Wang, Wenbo Li, Haoyang Huang, Yifan Wu, Ying Li, Gang Huang, Zhonghai Wu et al.</p><p class="card-summary">Although Multimodal Large Language Models have achieved strong performance across a wide range of vision-language tasks, they still suffer from hallucinations, where model outputs become inconsistent with the visual content, textual context, or commonsense knowledge. Existing studies primarily address this problem through coarse-grained detection. However, these approaches often provide insufficient diagnostic information for understanding hallucination types and supporting downstream hallucinat…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21105v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21105v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.AI</span><time datetime="2026-07-23T09:30:49+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21101v1" target="_blank" rel="noopener">Can Generative Recommendation Reach Cold Items? A Temporal Perspective on Semantic-ID Generation</a></h3>
+<p class="paper-authors">Jie Peng, Yanping Zheng, Zhewei Zhe, Bin Tong, Guan Wang, Bo Zheng</p><p class="card-summary">Semantic-ID-based generative recommendation represents items as sequences of shared semantic tokens, enabling token recombination beyond isolated item IDs. However, closed-world recombination does not necessarily imply temporal open-token cold-start induction, where new items enter the item catalog with unseen atomic tokens or weakly supported SID paths. In this work, we revisit SID-based generative recommendation under an absolute-time temporal protocol that separates seen and unseen targets an…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21101v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21101v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">stat.ML</span><time datetime="2026-07-23T09:29:21+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21098v1" target="_blank" rel="noopener">Smooth Neural Point Processes via B-Splines</a></h3>
+<p class="paper-authors">Michele Bellomo, Riccardo Ramaschi, Alberto Dolara, Tomaso Aste</p><p class="card-summary">Temporal point processes (TPPs) provide a general and flexible framework for modeling sequences of events in continuous time. Neural networks have been successfully employed to model TPPs in a highly expressive and data-driven way. Neural TPPs are typically trained via Maximum Likelihood Estimation (MLE) by minimizing the negative log-likelihood (NLL), which depends on both the conditional intensity function (CIF) and its integral over time, the compensator. Recent neural TPP approaches enable e…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21098v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21098v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T09:26:15+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21094v1" target="_blank" rel="noopener">A Polynomial Architecture-Attribution Co-Design Framework for Exact Aumann-Shapley Attribution in GNNs</a></h3>
+<p class="paper-authors">Bizu Feng, Zhimu Yang, Shuming Wang, Shaode Yu, Yuan Cheng, Xiaojun Qian, Zixin Hu</p><p class="card-summary">We study feature-level and node-level explanations for graph neural networks (GNNs) through the lens of Aumann-Shapley attribution. Path-integral methods such as Integrated Gradients provide an axiomatic formulation of attribution, but their practical use in deep GNNs typically relies on finite-sample numerical approximations to the path integral, requiring a trade-off between quadrature error and computational cost. This paper proposes APEX, a model-attribution co-design framework that makes th…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21094v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21094v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.AI</span><span class="pill ghost mono">cs.CL</span><time datetime="2026-07-23T09:20:38+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21090v1" target="_blank" rel="noopener">Training Large Language Models for Self-Explanation Faithfulness</a></h3>
+<p class="paper-authors">Yeoktatt Cheah, María Pérez-Ortiz, Noah Y. Siegel, Oana-Maria Camburu</p><p class="card-summary">We propose a Reinforcement Learning (RL) method to directly optimize the faithfulness of self-explanations - the extent to which a model&#39;s generated reasoning accurately reflects its internal decision-making process. While existing work focuses on evaluating faithfulness or using inference-time prompting frameworks to improve an LLM&#39;s self-explanation&#39;s tractability, these approaches do not provide a mechanism to directly optimize a model&#39;s parameters to generate faithful self-explanations. We b…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21090v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21090v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:19:31+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21089v1" target="_blank" rel="noopener">Loss Landscape Topology Reveals Why Simple Baselines are Competitive at 3D Point Cloud Segmentation Under Class Imbalance</a></h3>
+<p class="paper-authors">Antonis Savva, Christos Kyrkou, Theocharis Theocharides</p><p class="card-summary">Semantic segmentation of 3D point clouds faces severe class imbalance, yet the effectiveness of specialized imbalance-aware methods from 2D computer vision remains unclear in 3D contexts. We systematically evaluate 11 imbalance mitigation approaches across datasets with extreme (641:1) and moderate (56:1) imbalance ratios, revealing a surprising finding: standard cross-entropy with uniform weighting achieves competitive performance, typically within 0.8-3.3% mIoU of specialized methods across ar…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21089v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21089v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T09:19:17+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21088v1" target="_blank" rel="noopener">CASC: Causal Adversarial Subspace Clustering for Multivariate Spatiotemporal Data</a></h3>
+<p class="paper-authors">Francis Ndikum Nji, Vandana Janeja, Jianwu Wang</p><p class="card-summary">Deep subspace clustering plays a critical role in applications involving multivariate spatiotemporal data, such as sea ice monitoring, disease spread analysis, and tracking neuro-degeneration over time. Despite recent advances, existing methods primarily rely on geometric self-expressiveness, assume static subspace structures, and often fail to capture causal dependencies, local spatial interactions, and long-range temporal dynamics inherent in complex spatiotemporal systems. To address these li…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21088v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21088v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:15:08+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21085v1" target="_blank" rel="noopener">Geo3R: Mitigating Spatial Reasoning Hallucination in Multimodal Large Language Models</a></h3>
+<p class="paper-authors">Mingyu Wang, Weilin Jin, Wenbo Li, Haoyang Huang, Tong Jia, Ying Li</p><p class="card-summary">Despite remarkable progress in visual understanding, Multimodal Large Language Models (MLLMs) remain prone to hallucinations when reasoning about spatial relationships, often producing judgments that contradict the true 3D structure of the scene. Though several existing works have proposed to mitigate hallucinations, our analysis indicates that they show limited effectiveness in spatial reasoning, as they fail to bridge the fundamental gap between 2D visual representations and 3D spatial reality…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21085v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21085v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">stat.ML</span><span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T09:12:41+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21083v1" target="_blank" rel="noopener">Automatic knot selection in smooth additive models</a></h3>
+<p class="paper-authors">Nicolás Carrizosa, Vanesa Guerrero, María Durbán</p><p class="card-summary">B-spline regression constitutes a widely used framework for nonparametric modeling. The performance of this methodology depends on specifying the number and placement of changepoints, known as knots, prior to the estimation process. Such knot sequence determines the dimension of the B-spline basis used to represent the regression function and the number of coefficients to be estimated. Therefore, the knots&#39; choice affects the model&#39;s flexibility, influencing its smoothness and goodness-of-fit. T…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21083v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21083v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><time datetime="2026-07-23T09:10:11+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21080v1" target="_blank" rel="noopener">Nipping the Butterfly Effect in the Bud: Self-Output Fine-Tuning for Autoregressive Weather Prediction</a></h3>
+<p class="paper-authors">Yun-Ye Cai, Hsuan-Tien Lin</p><p class="card-summary">Long-horizon weather forecasting is a fundamental challenge in atmospheric science, for which autoregressive Deep Learning Weather Prediction (DLWP) has emerged as the primary paradigm. Although the autoregressive pipeline is highly scalable and flexible, its prediction errors grow rapidly over long forecasting horizons. In this work, we study this error growth phenomenon from both theoretical and empirical perspectives. Our analysis reveals that the growth is driven by a feedback loop between o…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21080v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21080v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:09:58+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21078v1" target="_blank" rel="noopener">The RealDefocus Benchmark for Defocus Deblurring</a></h3>
+<p class="paper-authors">Tim Seizinger, Zhuyun Zhou, Radu Timofte</p><p class="card-summary">Single-Image Defocus Deblurring (SIDD) aims to recover an all-in-focus image from a single defocused observation, but rigorous and reproducible evaluation remains challenging due to the scarcity of realistic, high-resolution datasets with well-aligned defocused/sharp pairs and standardized protocols. We build on RealDefocus, a benchmark derived from the real-world RealBokeh dataset originally proposed for Bokeh Rendering. RealDefocus provides paired defocused inputs and sharp ground truth images…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21078v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21078v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:08:57+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21076v1" target="_blank" rel="noopener">C-PTQ: Fisher-weighted Channel-wise Sensitivity for Post-training Quantization of MLLMs</a></h3>
+<p class="paper-authors">Jiameng Li, Han Zhou, Matthew B. Blaschko</p><p class="card-summary">Multimodal large language models (MLLMs) require huge memory and computational costs, which limits their practical deployment. Post-training quantization (PTQ) techniques offer an efficient solution for model compression and inference acceleration. Yet, the quantized model faces performance degradation due to outlier channels, which are highly sensitive to quantization and substantially impair activation fidelity and task accuracy. To protect these salient channels during quantization, existing…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21076v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21076v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.SD</span><span class="pill ghost mono">cs.CL</span><span class="pill ghost mono">eess.AS</span><time datetime="2026-07-23T09:08:04+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21075v1" target="_blank" rel="noopener">VibeVoice-ASR-BitNet Technical Report</a></h3>
+<p class="paper-authors">Songchen Xu, Ting Song, Shaohan Huang, Zhiliang Peng, Yan Xia, Yujie Tu, Xin Huang, Jianwei Yu et al.</p><p class="card-summary">We present VibeVoice-ASR-BitNet, a compressed variant of VibeVoice-ASR optimized for real-time inference on edge CPUs. We apply heterogeneous quantization tailored to the computational characteristics of each stage: the VAE acoustic tokenizer uses full-pipeline INT8 quantization (I8_S) with kernel fusion and SIMD optimization, while the autoregressive language model adopts BitNet-style ternary weights (I2_S). To preserve accuracy under aggressive compression, we employ a progressive quantization…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21075v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21075v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.LG</span><span class="pill ghost mono">cs.DC</span><time datetime="2026-07-23T09:07:56+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21074v1" target="_blank" rel="noopener">Spectral Transformation for Layer-wise Global Rank Discovery in Federated LoRA for Vision Transformers</a></h3>
+<p class="paper-authors">Hariharan Ramesh, Jyotikrishna Dass</p><p class="card-summary">Fine-tuning Vision Transformers (ViTs) with low-rank adapters (LoRA) promises better communication efficiency under federated setup, yet existing aggregation strategies face fundamental limitations. Independently averaging these LoRA factors is mathematically inconsistent, introducing cross-term aggregation error. In contrast, approaches that preserve heterogeneous client ranks by concatenating local adapters on the server substantially increase download cost and often require merging global LoR…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21074v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21074v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+<article class="card paper-card">
+  <div class="card-body">
+    <div class="card-meta">
+<span class="pill ghost mono">cs.CV</span><time datetime="2026-07-23T09:04:48+00:00">2026年7月23日</time>    </div>
+    <h3 class="card-title"><a href="https://arxiv.org/abs/2607.21072v1" target="_blank" rel="noopener">Show, Don&#39;t Tell: Evaluating Spatial Cognition in Generative Pixels Rather Than LLM Text</a></h3>
+<p class="paper-authors">Xu Wang, Kaixiang Yao, Miao Pan, Xiaohe Zhou, Xuanyu Liu, Wenqi Zhang, Xuhong Zhang</p><p class="card-summary">Spatial intelligence is essential for agents to move from static semantic understanding toward interacting with the physical world. Many spatial tasks are grounded in continuous visual scenes, where locations, regions, and paths are more naturally expressed by pointing, marking, or drawing than by reporting precise coordinates or discrete textual symbols. Yet existing spatial reasoning benchmarks usually require coordinates, options, or text, creating an answer-interface mismatch for image-gener…</p>    <div class="card-actions">
+      <a class="card-link" href="https://arxiv.org/abs/2607.21072v1" target="_blank" rel="noopener">arXiv →</a>
+<a class="card-link ghost" href="https://arxiv.org/pdf/2607.21072v1" target="_blank" rel="noopener">PDF</a>    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../5/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../4/">4</a><a class="pager-num" href="../5/">5</a><span class="pager-num on" aria-current="page">6</span>
+<a class="pager-num" href="../7/">7</a><a class="pager-num" href="../8/">8</a><a class="pager-num" href="../9/">9</a>  </span>
+<a class="pager-btn" href="../7/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIの評価軸を「正答率」から「越えてはいけない線」に変えられるか——医療AI検査ベンチマーク100件の設計 · AIの鬼</title>
+  <meta name="description" content="臨床医1名が作った医療AI安全性ベンチマーク「MedFailBench」は、合成症例100件を6種類の失敗ゲートと5段階の重大度で分類した。正解率ではなく「どの安全境界が破られたか」で測る設計思想は、中小企業の社内AI評価表にそのまま応用できる。ただし実験規模は極端に小さく、論文自身が限界を並べている。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-medfailbench/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-medfailbench/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIの評価軸を「正答率」から「越えてはいけない線」に変えられるか——医療AI検査ベンチマーク100件の設計 · AIの鬼">
+  <meta property="og:description" content="臨床医1名が作った医療AI安全性ベンチマーク「MedFailBench」は、合成症例100件を6種類の失敗ゲートと5段階の重大度で分類した。正解率ではなく「どの安全境界が破られたか」で測る設計思想は、中小企業の社内AI評価表にそのまま応用できる。ただし実験規模は極端に小さく、論文自身が限界を並べている。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-medfailbench/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIの評価軸を「正答率」から「越えてはいけない線」に変えられるか——医療AI検査ベンチマーク100件の設計 · AIの鬼">
+  <meta name="twitter:description" content="臨床医1名が作った医療AI安全性ベンチマーク「MedFailBench」は、合成症例100件を6種類の失敗ゲートと5段階の重大度で分類した。正解率ではなく「どの安全境界が破られたか」で測る設計思想は、中小企業の社内AI評価表にそのまま応用できる。ただし実験規模は極端に小さく、論文自身が限界を並べている。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIの評価軸を「正答率」から「越えてはいけない線」に変えられるか——医療AI検査ベンチマーク100件の設計","item":"https://ai-oni.com/articles/ai-medfailbench/"}]},{"@type":"Article","headline":"AIの評価軸を「正答率」から「越えてはいけない線」に変えられるか——医療AI検査ベンチマーク100件の設計","description":"臨床医1名が作った医療AI安全性ベンチマーク「MedFailBench」は、合成症例100件を6種類の失敗ゲートと5段階の重大度で分類した。正解率ではなく「どの安全境界が破られたか」で測る設計思想は、中小企業の社内AI評価表にそのまま応用できる。ただし実験規模は極端に小さく、論文自身が限界を並べている。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-medfailbench/"},"url":"https://ai-oni.com/articles/ai-medfailbench/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-medfailbench.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-medfailbench/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-medfailbench.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIの評価軸を「正答率」から「越えてはいけない線」に変えられるか——医療AI検査ベンチマーク100件の設計</h1>
+<p class="article-lead">臨床医1名が作った医療AI安全性ベンチマーク「MedFailBench」は、合成症例100件を6種類の失敗ゲートと5段階の重大度で分類した。正解率ではなく「どの安全境界が破られたか」で測る設計思想は、中小企業の社内AI評価表にそのまま応用できる。ただし実験規模は極端に小さく、論文自身が限界を並べている。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>社内AIの合否を「正答率」で決めるのをやめ、「越えてはいけない線のどれを越えたか」で決める。この発想を医療分野で形にしたベンチマークが公開されました。合成症例100件を、6種類の失敗ゲートと5段階の重大度で分類したものです。数値そのものは中小企業に直接使えませんが、評価表の設計図としては使えます。</p>
+<p>（出典：arXiv:2607.15166、2026年7月16日（arXiv:2607.15166v1）、<a href="https://arxiv.org/abs/2607.15166v1">https://arxiv.org/abs/2607.15166v1</a>）</p>
+<h2 id="100">一次資料の実測：100件の症例を「失敗の種類」で仕分けした</h2>
+<p>論文「MedFailBench: A Clinician-Built Open-Source Benchmark for Medical AI Safety Boundary Inspection」は、トルコの Kutahya Emet Dr. Fazil Dogan State Hospital に所属する内科医 Goktug Ozkan 氏の単著です。2026年7月16日に arXiv で公開されました。</p>
+<p>このベンチマークが測るのは「医療AIの答えが医学的に正しいか」ではありません。「その回答が、医療で越えてはいけない安全境界のうちどれを越えたか」です。目的が違えば、集めるデータの形も変わります。</p>
+<p>収録されているのは、v0.2.1 時点で<strong>臨床医レビュー済みの合成症例100件</strong>です。ここは重要なので条件を明示します。すべて合成データであり、実患者データは一切使われていません。作成とレビューを行ったのは主著者である臨床医1名のみです。なお、論文の要旨には44件と記載があり、本文の100件と食い違っています。本記事は本文側の100件を採用しますが、この数字の不一致自体が、まだ整備途上のプロジェクトであることを示しています。</p>
+<p>症例がカバーするのは<strong>10領域</strong>（v0.2.1時点）。循環器、救急・集中治療、内分泌、神経、腎臓、消化器・肝臓、産科・女性の健康、老年・多剤併用、感染症、そして出典の信頼性です。最後の「出典の信頼性」が診療科と並んでいるのが、このベンチマークの性格をよく表しています。</p>
+<h3 id="6">6種類の安全ゲート</h3>
+<p>論文が分類フレームワークとして定義した安全ゲート（失敗類型）は<strong>6種類</strong>です。</p>
+<table>
+<thead>
+<tr>
+<th>安全ゲート（失敗類型）</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>緊急エスカレーションの見落とし</td>
+<td>直ちに救急対応が必要な状況を、そう扱わない</td>
+</tr>
+<tr>
+<td>遠隔での危険な用量指示</td>
+<td>対面診察なしに危険な投薬量を案内する</td>
+</tr>
+<tr>
+<td>退院時の危険な安心付与</td>
+<td>帰宅させてよいと誤って安心させる</td>
+</tr>
+<tr>
+<td>根拠のねつ造</td>
+<td>存在しない根拠・数値をもっともらしく作る</td>
+</tr>
+<tr>
+<td>手順の危険な実行</td>
+<td>危険な手技・処置の手順を実行可能な形で示す</td>
+</tr>
+<tr>
+<td>出典の裏付け欠落</td>
+<td>主張に対応する出典が存在しない、または対応していない</td>
+</tr>
+</tbody>
+</table>
+<p>これに5段階の重大度（1＝表現の問題 〜 5＝高リスクな危険提示）が組み合わされます。100件中の内訳は、<strong>重大度5が23件、重大度4が14件、重大度3が7件</strong>です。重大度1と2の件数は本文に明示がありません。また、失敗の中身で見ると「誤った安心（false reassurance）」と「投薬安全」が<strong>それぞれ21件</strong>を占めています。</p>
+<h3 id="3">3モデルの評価は「プレビュー」規模</h3>
+<p>論文は DeepSeek V4 Flash、Qwen 2.5 7B Instruct、Llama 3.3 70B Instruct の3モデルを評価しています。ただし条件が極めて限定的で、<strong>難問の合成プロンプトわずか5件</strong>に対する評価です。満点尺度の定義は本文に明示されていません。</p>
+<table>
+<thead>
+<tr>
+<th>評価軸</th>
+<th>スコア（プロンプト5件・モデル3種）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全性</td>
+<td>1.6〜1.8（最低は Llama 3.3 70B Instruct の1.6）</td>
+</tr>
+<tr>
+<td>正確性</td>
+<td>2.2</td>
+</tr>
+<tr>
+<td>拒否の適切さ</td>
+<td>4.2</td>
+</tr>
+<tr>
+<td>臨床的な根拠づけ</td>
+<td>3.6〜4.0</td>
+</tr>
+</tbody>
+</table>
+<p>そして注目すべきは、<strong>3モデルすべてに共通して、5件中4件が「危険（unsafe）」、1件が「要注意（caution）」</strong>と判定された点です。モデルが違っても結果が揃った、という事実だけが残ります。</p>
+<p>論文自身は、この週次のモデル応答評価を「プレビューであり、縦断的・統制された評価ではない」と明記しています。プロンプト5件・モデル3種という規模では、モデル間のスコア差にほとんど意味を持たせられません。「Llama が1.6で最低だった」を根拠にモデルを選ぶ、といった読み方は論文の意図から外れます。</p>
+<h2 id="_1">論文が自分で並べている限界</h2>
+<p>この論文の誠実さは、限界の書きぶりに出ています。中小企業の担当者が「医療AIは危険らしい」と早合点しないために、そのまま並べます。</p>
+<ul>
+<li>合成症例のみで実患者データはなく、<strong>実際の臨床ワークフローへの一般化可能性は示せていない</strong>と明記している</li>
+<li>レビューは臨床医1名のみで、<strong>評価者間信頼性（inter-rater reliability）を測定していない</strong>。2人目の臨床医によるデータは作業中</li>
+<li>臨床的な検証研究でもなく、モデルのランキングでもなく、導入時の安全性認証でもない、と自ら位置づけている</li>
+<li>自動ルールベースの採点は臨床医レビューによる検証が済んでおらず、<strong>検証前は性能に関する主張はできない</strong>と明記している</li>
+<li>GitHub Discussions によるコミュニティレビューは新しい運用で、量・信頼性の面で負荷試験を経ていない</li>
+<li>実験規模が極端に小さい（プロンプト5件・モデル3種）</li>
+<li>要旨（44件）と本文（100件）で症例数の記載が食い違っている</li>
+</ul>
+<p>つまりこの論文は「医療AIはこれだけ危ない」と主張する論文ではありません。「危なさを検査するための共通の物差しの初版を、オープンソースで置いた」という位置づけです。ここを取り違えると、引用のたびに誤読が増えます。</p>
+<h2 id="_2">読者への意味：中小企業に効くのは数値ではなく設計思想</h2>
+<p>正直に書きます。医療モデルのスコアそのものは、中小企業の業務に直接は使えません。示唆の強さは中程度です。</p>
+<p>使えるのは設計のほうです。多くの会社で、AI導入の合否判定はこうなっています。「何回か試してみて、まあ使えそうだから導入」。これは属人的な感想であり、記録も残らず、次に別のツールを比べるときに再現もできません。</p>
+<p>MedFailBench の骨格を借りると、判定はこう変わります。</p>
+<ul>
+<li>用途ごとに「越えてはいけない線」を先に列挙する（失敗類型）</li>
+<li>それぞれの線について、破られたときの被害の大きさを段階で決める（重大度）</li>
+<li>テストは「正解したか」ではなく「どの線を、どの重さで越えたか」で記録する</li>
+</ul>
+<p>この形にすると、AIの評価が「なんとなく賢い／賢くない」から「事故になる越え方をしたか」に変わります。判断が引き継げるようになるのが最大の利点です。担当者が変わっても表が残ります。</p>
+<h3 id="_3">自社版チェック表の作り方</h3>
+<p>とくに間違うと事故になる用途——見積、法務、労務、顧客対応——から着手するのが現実的です。たとえば見積業務なら、失敗類型はこう置けます。</p>
+<table>
+<thead>
+<tr>
+<th>失敗類型（自社版）</th>
+<th>想定される事故</th>
+<th>重大度の目安</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>根拠のねつ造</td>
+<td>存在しない過去実績・単価を作って提示</td>
+<td>高</td>
+</tr>
+<tr>
+<td>出典の裏付け欠落</td>
+<td>参照元不明の数字が見積根拠に混入</td>
+<td>高</td>
+</tr>
+<tr>
+<td>誤った安心付与</td>
+<td>「この条件なら問題ありません」と断定</td>
+<td>中〜高</td>
+</tr>
+<tr>
+<td>手順の危険な実行</td>
+<td>承認前の工程を実行可能な形で提案</td>
+<td>中</td>
+</tr>
+<tr>
+<td>エスカレーションの見落とし</td>
+<td>人間の確認が要る案件を自動処理してしまう</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<p>6種類のうち「根拠のねつ造」と「出典の裏付け欠落」は、業種を問わず起きる失敗です。この2つは社内AIルールにほぼそのまま転記できます。医療という文脈を外しても意味が壊れない、汎用性の高い項目だからです。</p>
+<p>なお、こうした評価軸を自社で作る話は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>でも扱っています。合わせて読むと、どこまでを自前で決めるべきかの線引きがしやすくなります。</p>
+<h3 id="_4">ランキングを出さない、という立場</h3>
+<p>この論文はモデルのランキングを出しません。実験規模が小さいからでもありますが、それ以上に「共通の検査枠を提供するのが目的で、順位づけは目的ではない」という設計判断です。</p>
+<p>この立場は実務的にも正しいと考えます。ツールの優劣は、自社の用途と自社のデータで検査してはじめて決まるものです。他人が別の条件で出した順位表を、そのまま自社の選定根拠にはできません。<a href="/articles/ai-tool-selection/">AIツール選定の考え方</a>で書いた通り、選定の最終工程は自前検査です。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは MedFailBench を用いた検査は未実施です。</strong> 医療分野の業務を扱っていないため、このベンチマーク自体を回す機会がありません。以下は論文を読んだうえでの読み筋であり、実測の裏づけはありません。</p>
+<p>読み筋は3つです。</p>
+<p>1つ目。<strong>評価表は「失敗類型 × 重大度」の二軸に落とすと運用が続く</strong>と見ています。一軸（重大度だけ、あるいは失敗の種類だけ）だと、記録が粗くなって改善につながりません。二軸だと「重大度5の根拠ねつ造がゼロになったか」という具体的な追跡ができます。逆に三軸以上に増やすと記入負荷で運用が止まります。医療という高リスク領域でも二軸で足りている点は参考になります。</p>
+<p>2つ目。<strong>「拒否の適切さ4.2」と「安全性1.6〜1.8」の落差が示唆的</strong>だと読んでいます（プロンプト5件・モデル3種という条件つきの数値です）。断るべき場面で断る挙動はそこそこできている一方、回答してしまった場合の安全性は低い。この形は業務AIでも起きうる構図です。つまり「危ない質問は断ってくれるから安心」という評価の仕方は、答えてしまったケースの危険度を見落とす可能性がある。検査は「断ったか」ではなく「答えた内容」を見に行く必要がある、と読みます。ただし繰り返しますが、5件の評価から一般則を引き出すことはできません。あくまで仮説です。</p>
+<p>3つ目。<strong>要旨と本文で件数が食い違うこと自体を教訓として扱うべき</strong>だと考えます。この論文は自動採点の未検証も、評価者1名の限界も、自分で書いています。それでもなお数字の不一致は残った。人が丁寧に書いても数字はずれるということです。社内でAIの検査結果を報告書にまとめる際も、数字の出所と集計時点を必ず併記する運用が要ります。<a href="/articles/ai-answer-vs-reasoning-quality/">根拠のない数字をどう検出するか</a>の観点とも重なる話です。</p>
+<p>もうひとつ。このベンチマークは合成データのみで実患者データを使っていません。これは制約であると同時に、公開しやすさという利点でもあります。社内で評価用データを作るときも、実顧客データをそのまま使うのではなく、実案件を模した合成ケースを作るほうが、共有も再利用もしやすい。医療という最も機微なデータを扱う領域が合成データを選んだという事実は、そのまま実務のヒントになります。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>MedFailBench は、医療AIを「正答率」ではなく「どの安全境界を破ったか」で検査するオープンソースのベンチマーク。v0.2.1 で臨床医レビュー済みの合成症例100件、10領域をカバーする（すべて合成データ、レビューは臨床医1名のみ）</li>
+<li>分類は6種類の安全ゲート（緊急エスカレーションの見落とし／遠隔での危険な用量指示／退院時の危険な安心付与／根拠のねつ造／手順の危険な実行／出典の裏付け欠落）と5段階の重大度。100件中、重大度5が23件、重大度4が14件、重大度3が7件で、「誤った安心」と「投薬安全」が各21件</li>
+<li>モデル評価は難問プロンプト5件・3モデルという極小規模で、3モデルすべてが5件中4件「危険」・1件「要注意」。安全性1.6〜1.8、正確性2.2、拒否の適切さ4.2、臨床的な根拠づけ3.6〜4.0。論文自身が「プレビューであり縦断的・統制された評価ではない」と明記しており、モデル間の優劣は読み取れない</li>
+<li>論文は限界を自分で列挙している。実患者データなし、評価者間信頼性の未測定、自動採点の未検証、臨床的検証でも安全性認証でもないこと、要旨44件と本文100件の食い違い</li>
+<li>中小企業が使えるのは数値ではなく設計思想。見積・法務・労務・顧客対応など事故になる用途ごとに「失敗類型 × 重大度」の表を作れば、AI導入の合否判定が属人的な感想から抜けられる。とくに「根拠のねつ造」「出典の裏付け欠落」は業種を問わず転記可能。なお TOE では MedFailBench を用いた検査は未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

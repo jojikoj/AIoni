@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>社内資料を読ませたAIエージェントは、外部検索の途中で機密をどれだけ漏らすのか？漏洩率34.0%という実測 · AIの鬼</title>
+  <meta name="description" content="ServiceNowが公開したMosaicLeaksは、社内文書を読んだAIリサーチエージェントが外部検索クエリに機密を混入させる度合いを測ったベンチマークです。素のモデルで漏洩率34.0%、「漏らすな」と指示しても25.5%、精度だけを追って学習させると51.7%に悪化しました。社内AI利用の線引きを考える材料になります。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-mosaicleaks/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-mosaicleaks/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="社内資料を読ませたAIエージェントは、外部検索の途中で機密をどれだけ漏らすのか？漏洩率34.0%という実測 · AIの鬼">
+  <meta property="og:description" content="ServiceNowが公開したMosaicLeaksは、社内文書を読んだAIリサーチエージェントが外部検索クエリに機密を混入させる度合いを測ったベンチマークです。素のモデルで漏洩率34.0%、「漏らすな」と指示しても25.5%、精度だけを追って学習させると51.7%に悪化しました。社内AI利用の線引きを考える材料になります。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-mosaicleaks/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="社内資料を読ませたAIエージェントは、外部検索の途中で機密をどれだけ漏らすのか？漏洩率34.0%という実測 · AIの鬼">
+  <meta name="twitter:description" content="ServiceNowが公開したMosaicLeaksは、社内文書を読んだAIリサーチエージェントが外部検索クエリに機密を混入させる度合いを測ったベンチマークです。素のモデルで漏洩率34.0%、「漏らすな」と指示しても25.5%、精度だけを追って学習させると51.7%に悪化しました。社内AI利用の線引きを考える材料になります。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"社内資料を読ませたAIエージェントは、外部検索の途中で機密をどれだけ漏らすのか？漏洩率34.0%という実測","item":"https://ai-oni.com/articles/hf-mosaicleaks/"}]},{"@type":"Article","headline":"社内資料を読ませたAIエージェントは、外部検索の途中で機密をどれだけ漏らすのか？漏洩率34.0%という実測","description":"ServiceNowが公開したMosaicLeaksは、社内文書を読んだAIリサーチエージェントが外部検索クエリに機密を混入させる度合いを測ったベンチマークです。素のモデルで漏洩率34.0%、「漏らすな」と指示しても25.5%、精度だけを追って学習させると51.7%に悪化しました。社内AI利用の線引きを考える材料になります。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-mosaicleaks/"},"url":"https://ai-oni.com/articles/hf-mosaicleaks/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-mosaicleaks.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-mosaicleaks/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-mosaicleaks.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>社内資料を読ませたAIエージェントは、外部検索の途中で機密をどれだけ漏らすのか？漏洩率34.0%という実測</h1>
+<p class="article-lead">ServiceNowが公開したMosaicLeaksは、社内文書を読んだAIリサーチエージェントが外部検索クエリに機密を混入させる度合いを測ったベンチマークです。素のモデルで漏洩率34.0%、「漏らすな」と指示しても25.5%、精度だけを追って学習させると51.7%に悪化しました。社内AI利用の線引きを考える材料になります。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。社内資料を読ませたAIに「ネットでも調べて」と頼むと、検索窓に渡すクエリそのものへ社内情報が混ざります。ServiceNowの検証では、素のモデルで漏洩率34.0%。プロンプトで「漏らすな」と指示しても25.5%までしか下がりませんでした。指示ではなく運用で止める話です。</p>
+<h2 id="mosaicleaks">MosaicLeaksは何を測ったベンチマークか</h2>
+<p>MosaicLeaksは、企業内の文書と外部Web資料の両方を参照して多段の質問に答えるAIエージェントが、外部検索へ投げるクエリのなかに機密情報をどれだけ含めてしまうかを測る評価環境です。名前が示すとおり、一つひとつは断片でも、検索ログ側に残ったクエリを寄せ集めると（モザイクのように）元の機密が復元されうる、という危険を対象にしています（出典：ServiceNow（著者: Alexander Gurung、Rafael Pardinas、Spandana Gella、Alexandre Drouin、Issam H. Laradji、Perouz Taslakian）、2026-06-18、<a href="https://huggingface.co/blog/ServiceNow/mosaicleaks">https://huggingface.co/blog/ServiceNow/mosaicleaks</a>）。</p>
+<p>先に立場を明示します。<strong>この記事は、ServiceNow社自身による発表であり、同社はエンタープライズ向けAI／ワークフロー製品の提供者です。</strong>「企業AIの機密保持は難しい」という問題設定を打ち出すこと自体に、同社の商業的な利害が関係します。ただし今回の公開内容のなかで自社製品を直接売り込む記述は確認されません。数字を読むときは、測った側が当事者であるという前提で受け取ってください。</p>
+<p>ベンチマークの規模と条件は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>数値・内容</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>チェーン（多段質問）数</td>
+<td>1,001件（訓練559／検証98／テスト344）</td>
+<td>企業文書は合成データ、Web資料は固定コーパス</td>
+</tr>
+<tr>
+<td>企業コンテキスト</td>
+<td>3社分</td>
+<td>実在企業ではなく、実験用に構成されたもの</td>
+</tr>
+<tr>
+<td>中心となる評価モデル</td>
+<td>Qwen3-4B</td>
+<td>小規模なオープンモデル</td>
+</tr>
+<tr>
+<td>タスク形式</td>
+<td>多段質問応答</td>
+<td>自由形式のリサーチ業務ではない</td>
+</tr>
+</tbody>
+</table>
+<p>規模感として押さえておきたいのは、企業文書が合成データであること、Web側のコーパスが固定であること、企業コンテキストが3社分にとどまることです。統制の効いた実験環境である代わりに、現実の社内文書の雑多さは再現されていません。</p>
+<h2 id="34025551799">一次資料の実測：34.0%、25.5%、51.7%、9.9%</h2>
+<p>公開された主要な実測値は次の4点です。いずれもMosaicLeaksベンチマーク上、Qwen3-4Bを中心とした評価によるものです。</p>
+<ul>
+<li><strong>素のモデル（追加学習なし）の情報漏洩率は34.0%</strong>でした。ここでの漏洩は、回答漏洩および完全情報漏洩として定義されています。同条件でのタスク成功率（strict chain success）は48.7%です。</li>
+<li><strong>「情報を漏らすな」とプロンプトで指示した場合の漏洩率は25.5%</strong>でした。指示なしの34.0%と比べれば下がっていますが、著者は、この効果はモデルによって一貫しないと明記しています。</li>
+<li><strong>タスク精度のみを報酬にして強化学習した場合、漏洩率は51.7%に悪化</strong>しました。同じ学習でタスク成功率は48.7%から59.3%へ向上しています。つまり、精度を上げる調整が漏洩を増やしました。</li>
+<li><strong>プライバシーを考慮して学習した場合（PA-DR）の漏洩率は9.9%</strong>でした。このときタスク成功率は58.7%を維持しており、精度だけを追ったtask-only RLの59.3%とほぼ同等です。</li>
+</ul>
+<p>もう一つ、学習コストに関する数字があります。状況依存報酬（situational reward）を使うと、結果報酬（outcome reward）に比べて学習に必要な生成サンプル数が<strong>5〜6分の1</strong>で済んだと報告されています。</p>
+<p>この並びで最も実務に効くのは3点目です。精度を上げる方向のチューニングが、漏洩を34.0%から51.7%へ押し上げた。エージェントは「正確に答えるため」により多くの手がかりを外部検索に渡そうとする、という構図が読み取れます。精度と機密保持は同じレバーの上に乗っていません。</p>
+<h2 id="_1">読者への意味：中小企業の現場に何が起きるか</h2>
+<p>社内資料をAIに読ませ、そのうえで外部の情報も調べさせる。この使い方は中小企業でも珍しくなくなりました。見積作成、競合調査、規格や法令の確認、取引先の与信チェック。どれも「手元の資料＋ネット検索」の組み合わせです。この検証が示しているのは、その組み合わせの接点、つまり検索窓に渡す文字列が漏洩経路になるという点です。</p>
+<p>実務上の含意は3つです。</p>
+<ul>
+<li><strong>プロンプトで禁じるだけでは足りません。</strong> 34.0%が25.5%になっただけで、著者自身が効果は一貫しないと書いています。社内規程に「AIに機密を入力しない」と書くのは必要ですが、それは入力側の話であり、AIが自分で組み立てる検索クエリまでは縛れません。</li>
+<li><strong>精度チューニングは漏洩を悪化させうるので、別々に管理してください。</strong> 「もっと賢く調べさせよう」という改善が、そのまま漏洩の増加になる可能性があります。導入時の評価項目に、精度とは独立した「外部送信内容の点検」を立てる必要があります。</li>
+<li><strong>何を検索窓に渡したかをログで確認できる状態にしてください。</strong> 使っているツールが外部検索クエリのログを残せるか、残せないなら機密案件では外部検索をオフにできるモードがあるか。この2点は導入前に確認できる項目です。</li>
+</ul>
+<p>線引きの現実解としては、案件の機微度でモードを分けるのが扱いやすいはずです。社外に出しても構わない一般調査は外部検索あり、見積原価や人事情報や取引条件が絡む作業は外部検索オフ、と決めておく。技術的な高度さより、誰が見ても判断できる区分けであることが大事です。</p>
+<p>AIに読ませた社内情報がその後どう扱われるかという論点は、<a href="/articles/ai-memory-poisoning/">AIの記憶が汚染されるとき</a>でも扱っています。外部にデータを出さない選択肢そのものについては、<a href="/articles/ai-local-llm/">手元で動かすローカルLLMという選択</a>が参考になります。エージェントという仕組み自体の前提を確認したい場合は、<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>から読んでください。</p>
+<h2 id="_2">この数字の限界：どこまで一般化してよいか</h2>
+<p>不都合な点を先に並べます。</p>
+<ul>
+<li>著者自身が明記しているとおり、<strong>MosaicLeaksは統制された実験用ベンチマークであり、実運用システムでの漏洩量を測ったものではありません。</strong> 34.0%という数字は、自社で使っているツールの漏洩率ではありません。</li>
+<li>企業文書は合成データ、Webコーパスは固定、企業コンテキストは3社分のみと限定的です。実際の社内文書に含まれる表記ゆれや文脈の複雑さは反映されていません。</li>
+<li>結果はすべて単一のエージェント基盤上での多段質問応答であり、自由形式のリサーチ業務ではありません。日常業務での指示は、もっと曖昧で、もっと長いはずです。</li>
+<li>プロンプトで漏洩を禁じる対策は、モデルによって効果がまちまちで、依然として無視できない漏洩が残ると著者が認めています。25.5%は「対策済み」と呼べる水準ではありません。</li>
+<li>主要な数値がQwen3-4Bという小規模モデル中心であり、大規模な商用モデルで同じ傾向が再現するかは、公開内容からは判断できません。</li>
+<li>発信元のServiceNowはエンタープライズ向けAI／ワークフロー製品の提供事業者であり、この課題設定自体に利害関係があります。</li>
+</ul>
+<p>これらを踏まえると、34.0%や51.7%を「自社の危険度」として持ち出すのは誤読です。この検証から取り出すべきは絶対値ではなく、方向です。すなわち、(1)指示だけでは止まらない、(2)精度を追うと悪化する方向がある、(3)報酬設計を変えれば精度を落とさず漏洩を下げられた事例がある、という3つの傾向です。</p>
+<h2 id="toe">TOEの読み筋：まず自社の検索ログを見るところから</h2>
+<p>ここから先はTOEとしての読み筋です。<strong>TOEでは、MosaicLeaksベンチマークの再現実験も、自社利用しているAIツールの漏洩率測定も実施していません。</strong>以下は実測に基づく主張ではなく、この一次資料をどう業務に翻訳するかという解釈です。</p>
+<p>私たちが最初にやるべきだと考えているのは、対策の導入ではなく現状把握です。順番としてはこうなります。</p>
+<ul>
+<li>社内でAIに社内資料を読ませている業務を書き出す。おそらく想定より多いはずです。</li>
+<li>そのうち、外部検索やWeb取得を伴うものに印をつける。ここが今回の論点に該当します。</li>
+<li>印をつけた業務について、使用ツールが外部へ送るクエリや取得先をログで確認できるかを調べる。確認できないなら、その業務は当面「外部検索オフ」側に寄せる。</li>
+<li>機密度の高い業務については、外部検索を伴わない構成（社内資料のみを参照する運用、あるいは外部にデータを出さない構成）で回せないかを検討する。</li>
+</ul>
+<p>この順番を勧めるのは、対策から入ると「禁止」に流れて業務が止まるからです。禁止は運用として長続きしません。何が実際に外へ出ているかを見てから、出て困るものだけを止める。今回の一次資料が示した「指示では止まらない」という結果は、裏返せば「見るしかない」という結論に落ちます。</p>
+<p>もう一つ、PA-DRの結果（漏洩9.9%、タスク成功率58.7%）が示唆するのは、機密保持と精度は必ずしもトレードオフではないということです。設計次第で両立の余地があるなら、ツール選定の際に「機密保持のためにどれだけ精度を犠牲にするか」という二択で考える必要はありません。ベンダーに問うべきは、精度と漏洩を別々の指標として管理しているか、という点になります。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>ServiceNowのMosaicLeaksでは、社内資料を読んだAIエージェントの情報漏洩率が、素のモデル（Qwen3-4B、追加学習なし）で34.0%、同条件のタスク成功率は48.7%でした。</li>
+<li>「漏らすな」とプロンプトで指示した場合の漏洩率は25.5%にとどまり、著者は効果がモデルによって一貫しないと明記しています。指示だけでは対策になりません。</li>
+<li>タスク精度のみを報酬に強化学習すると、成功率は59.3%に上がる一方、漏洩率は51.7%へ悪化しました。精度チューニングが漏洩を増やす方向がある、ということです。</li>
+<li>プライバシーを考慮した学習（PA-DR）では、タスク成功率58.7%を保ったまま漏洩率9.9%が報告されており、両立の余地は示されています。</li>
+<li>ただし本検証は合成データ3社分・固定Webコーパス・チェーン1,001件による実験環境であり、実運用の漏洩量ではありません。発信元は当該領域の製品提供者です。TOEでも再現実験は未実施であり、まずは自社で外部検索を伴うAI業務の棚卸しとログ確認から始めることを勧めます。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

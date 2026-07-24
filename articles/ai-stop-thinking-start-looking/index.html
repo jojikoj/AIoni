@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>帳票読み取りAIに「考えさせる」のは必要か？推論なしが0.411、推論ありが0.303だった検証 · AIの鬼</title>
+  <meta name="description" content="請求書や財務書類をAIに読ませるとき、推論（思考）ステップは本当に要るのか。4Bの小型モデルを追加学習した論文では、推論なしのF1が0.411、推論ありが0.303と逆転した。自社ドメイン内では汎用クラウドAIも上回る一方、未知の様式では負ける。中小企業の帳票業務にとって何を意味するかを整理する。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-stop-thinking-start-looking/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-stop-thinking-start-looking/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="帳票読み取りAIに「考えさせる」のは必要か？推論なしが0.411、推論ありが0.303だった検証 · AIの鬼">
+  <meta property="og:description" content="請求書や財務書類をAIに読ませるとき、推論（思考）ステップは本当に要るのか。4Bの小型モデルを追加学習した論文では、推論なしのF1が0.411、推論ありが0.303と逆転した。自社ドメイン内では汎用クラウドAIも上回る一方、未知の様式では負ける。中小企業の帳票業務にとって何を意味するかを整理する。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-stop-thinking-start-looking/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="帳票読み取りAIに「考えさせる」のは必要か？推論なしが0.411、推論ありが0.303だった検証 · AIの鬼">
+  <meta name="twitter:description" content="請求書や財務書類をAIに読ませるとき、推論（思考）ステップは本当に要るのか。4Bの小型モデルを追加学習した論文では、推論なしのF1が0.411、推論ありが0.303と逆転した。自社ドメイン内では汎用クラウドAIも上回る一方、未知の様式では負ける。中小企業の帳票業務にとって何を意味するかを整理する。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"帳票読み取りAIに「考えさせる」のは必要か？推論なしが0.411、推論ありが0.303だった検証","item":"https://ai-oni.com/articles/ai-stop-thinking-start-looking/"}]},{"@type":"Article","headline":"帳票読み取りAIに「考えさせる」のは必要か？推論なしが0.411、推論ありが0.303だった検証","description":"請求書や財務書類をAIに読ませるとき、推論（思考）ステップは本当に要るのか。4Bの小型モデルを追加学習した論文では、推論なしのF1が0.411、推論ありが0.303と逆転した。自社ドメイン内では汎用クラウドAIも上回る一方、未知の様式では負ける。中小企業の帳票業務にとって何を意味するかを整理する。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-stop-thinking-start-looking/"},"url":"https://ai-oni.com/articles/ai-stop-thinking-start-looking/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-stop-thinking-start-looking.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-stop-thinking-start-looking/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-stop-thinking-start-looking.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>帳票読み取りAIに「考えさせる」のは必要か？推論なしが0.411、推論ありが0.303だった検証</h1>
+<p class="article-lead">請求書や財務書類をAIに読ませるとき、推論（思考）ステップは本当に要るのか。4Bの小型モデルを追加学習した論文では、推論なしのF1が0.411、推論ありが0.303と逆転した。自社ドメイン内では汎用クラウドAIも上回る一方、未知の様式では負ける。中小企業の帳票業務にとって何を意味するかを整理する。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。請求書や財務書類のような業務帳票をAIに読み取らせる用途では、AIに推論（思考）させると精度が上がるどころか下がりました。同一条件の比較で、推論なしのF1が0.411、推論ありが0.303です（ID評価6,194サンプル）。しかも4Bという小型モデルをGPU1枚で追加学習させるだけで、自社ドメイン内なら汎用クラウドAIを上回りました。ただし未知の様式では負けます。</p>
+<p>（出典：arXiv:2607.14682、2026年7月16日（arXiv:2607.14682v1）、<a href="https://arxiv.org/abs/2607.14682v1">https://arxiv.org/abs/2607.14682v1</a>）</p>
+<h2 id="_1">何が実測されたのか</h2>
+<p>論文タイトルは「Stop Thinking, Start Looking: Efficient Post-Training for Multimodal Document Understanding」。直訳すれば「考えるのをやめて、見ろ」です。著者は Harikrishnan P M、Goutham Vignesh、Ganesh Parab、Saisubramaniam Gopalakrishnan、Vishal Vaddina、Varun V、Rohit Agrawal の各氏。</p>
+<p>検証の構成はこうです。</p>
+<ul>
+<li>ベースモデルは Qwen3-VL-4B。40億パラメータ級の、いわゆる小型のマルチモーダルモデル</li>
+<li>学習データは財務文書QA 23,696サンプル</li>
+<li>学習ハードウェアは NVIDIA A100（80GB）1枚。LoRA（r=16, α=16）による追加学習</li>
+<li>評価は自社ドメイン内（ID）6,194サンプルと、未知ドメイン（OOD）4,828サンプルの2本立て。OODのうち MMDocBench が4,028サンプル</li>
+</ul>
+<p>注目すべきは学習環境です。A100 80GBが1枚。データセンター1棟ではありません。なお論文には学習時間やGPU時間の明記はないため、「1枚のGPUで何時間かかったか」はこの論文からは分かりません。</p>
+<h2 id="_2">推論させると精度が落ちた、という結果</h2>
+<p>この論文の中心的な発見は、推論の有無を揃えて比べたアブレーション（要素を1つだけ変えた比較実験）にあります。</p>
+<p>コールドスタートRL（教師ありファインチューニングを挟まず、いきなり強化学習に入る条件）で Qwen3-VL-4B を学習させ、推論ありと推論なしを比較した結果が次の表です。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>ID評価 F1_all</th>
+<th>OOD評価 F1_all</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>推論あり RFTb</td>
+<td>0.303</td>
+<td>0.382</td>
+</tr>
+<tr>
+<td>推論なし RFTb</td>
+<td>0.411</td>
+<td>0.600</td>
+</tr>
+</tbody>
+</table>
+<p>ID・OODの両方で、推論なしが上回っています。OODでは0.382と0.600ですから、差は小さくありません。</p>
+<p>さらに興味深いのは、推論を有効にしたモデル自身の挙動です。学習が進むにつれて、モデルは自ら推論トークンを減らしていきました。1クエリあたり約191トークンから約72トークンへ、62%の削減です（IDデータ上での平均推論トークン数）。報酬を最大化しようと学習した結果、モデルが「考えない方が得だ」と学んだ形になります。</p>
+<p>文書から数字や項目名を抜き出す作業は、論理を組み立てる作業ではなく、正しい場所を見つけて正しく写す作業だ、という解釈が成り立ちます。論文のタイトルはそこを指しています。</p>
+<h2 id="ai">小型モデルは汎用クラウドAIに勝てたのか</h2>
+<p>勝った領域と負けた領域がはっきり分かれました。</p>
+<table>
+<thead>
+<tr>
+<th>評価対象</th>
+<th>本論文の手法 RFTs（4B）</th>
+<th>Gemini 3.0 Flash（ゼロショット）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自社ドメイン内（ID、6,194サンプル）F1_all</td>
+<td>0.718</td>
+<td>0.581</td>
+</tr>
+<tr>
+<td>未知ドメイン（MMDocBench 含むOOD、4,828サンプル）F1_all</td>
+<td>0.569</td>
+<td>0.701</td>
+</tr>
+</tbody>
+</table>
+<p>学習した財務文書と同じ土俵（ID）では、4Bの小型モデルが 0.718 対 0.581 で汎用クラウドAIを上回りました。ところが未知ドメイン（OOD）に出ると 0.569 対 0.701 で逆転します。別のOOD指標でも 0.685 対 0.715 で負けています。著者はこれを「専門特化 対 汎用のトレードオフ」と説明しています。</p>
+<p>学習手順の比較も出ています。教師ありファインチューニング（SFT）だけで止めた場合の ID評価F1_all は 0.668、強化学習を併用した RFTs は 0.718。SFT単独よりRL併用の方が高い、という結果です。</p>
+<h2 id="_3">学習データは減らせるのか</h2>
+<p>減らせる場合がある、というのがこの論文の答えです。</p>
+<p>SFTを早期に打ち切って強化学習に移行する条件（RFTs-Early）では、SFTを300ステップ（約19,000サンプル露出）で止めました。フルは1,113ステップ（約71,000露出）です。その後はどちらも同一の6,000 RLステップ。結果、総学習データ量は約65%削減され、性能は同等でした。</p>
+<p>現場の言葉に直すと、「教師データを完璧に揃えるまで待つ」より「そこそこ揃った時点で走らせて、あとは報酬で伸ばす」方が、コストは大幅に下がって結果は変わらなかった、ということです。</p>
+<h2 id="_4">論文が認めている限界</h2>
+<p>この論文は自分たちに不都合な結果も明記しています。ここを読み飛ばすと判断を誤ります。</p>
+<ul>
+<li>検証したのは4Bパラメータの小型モデルのみ。より大きなモデルでも「推論不要」が成り立つかは不明だと著者自身が明記している</li>
+<li>推論の有無の比較はコールドスタートRLに限定。推論付きの教師ありデータが入手できなかったため、SFT→RLパイプラインでの推論比較はできていない</li>
+<li>「Grounding Divergence」と名付けたトレードオフを発見したが未解決のまま残している。分布が変わった文書では位置特定は良くなるのに、意味的な頑健性は劣化する</li>
+<li>学習データは財務文書QAという単一ドメインに限られる。他業種の帳票への一般化は検証されていない</li>
+</ul>
+<p>Grounding Divergence の中身は数字で見ると分かりやすくなります。DOGR-Bench（OOD、800サンプル）における位置特定精度 F1_loc は、ゼロショットのベースモデルの 0.416 から RFTs で 0.759 へ、+82.5%の向上でした。ところが同じ DOGR-Bench の意味抽出精度 F1_EM は、学習後が 0.722 に対してゼロショットが 0.743。学習した全変種がゼロショットを下回りました。</p>
+<p>「どこに書いてあるか」を当てる力は劇的に伸びたのに、「それが何を意味するか」を読む力は落ちた。追加学習が必ずしも全指標を改善しない、という実例です。</p>
+<p>なお、コールドスタートRL（RFTb、SFTなし）は ID評価F1_all 0.411 と ID では弱いものの、OODでは 0.600。MMDocBenchの意味抽出では RFTb の 0.702 がベースの 0.636 を上回っています。手順の違いが、得意領域の違いに直結しています。</p>
+<h2 id="_5">中小企業にとって何を意味するか</h2>
+<p>3点に整理します。</p>
+<p>第1に、全社共通の巨大AIを契約しなくても足りる場合があるということです。請求書・注文書・財務書類のように、自社に大量にあって様式が決まっている帳票の読み取りは、4B の小型モデルをGPU1枚で追加学習させるだけで、自社ドメイン内では汎用クラウドAIを上回りました（0.718 対 0.581）。業務が絞られているほど、この道筋は現実的になります。ローカルで動かす選択肢の全体像は<a href="/articles/ai-local-llm/">社内サーバーでAIを動かす選択肢</a>で整理しています。</p>
+<p>第2に、思考モードを切ることがコスト削減と精度向上を同時に達成しうるということです。推論トークンは従量課金の直撃部分です。帳票読み取りのような「見て写す」タスクでは、推論なしの方が精度が高かった（0.411 対 0.303）。賢い設定にすれば良くなる、という思い込みを一度外す価値があります。コストと精度を同時に見る評価の考え方は<a href="/articles/ai-cost-aware-evaluation/">コストを含めてAIを評価する</a>にまとめています。</p>
+<p>第3に、特化AIの落とし穴です。自社データで鍛えたモデルは、見たことのない様式の書類では汎用AIに負けました（0.569 対 0.701）。取引先ごとに帳票の様式がバラバラな会社ほど、この弱点が効いてきます。「うちの主要取引先10社分の様式は特化AI、それ以外は汎用AI」といった振り分けが現実解になり得ます。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、TOEではこの論文の手法を再現実験していません。Qwen3-VL-4B の追加学習も、A100での検証も未実施です。以下は論文の数字を読んだうえでの読み筋です。</p>
+<p>TOEの見立てとしては、この論文の実務的な価値は「推論なしの方が良い」という結論そのものより、「タスクの性質によって推論の要否が逆転する」という構造にあります。帳票読み取りは見る作業、企画立案や原因分析は考える作業。同じAIでも設定を変えるべき理由がここにあります。</p>
+<p>もう1つ、Grounding Divergence は導入判断に直結します。位置特定は伸びて意味抽出は落ちる、という結果は、精度を1つの数字で語ることの危うさを示しています。帳票AIの検討で「精度95%です」という説明を受けたら、何の精度かを必ず確認する。位置なのか、抽出値なのか、項目名の判定なのか。論文が未解決だと認めている領域を、ベンダーが解決済みのように語る場面には注意が要ります。</p>
+<p>そして評価基準です。この論文は財務文書QAという単一ドメインでしか検証していないと明記しています。自社の帳票がこの分布に近い保証はどこにもありません。だからこそ、自社の実帳票を数十枚使った自前の評価セットを先に作る方が、ベンダー比較表を眺めるより早い。その考え方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a>で扱っています。</p>
+<p>小型モデルで足りるかどうかは、業務範囲をどこまで絞れるかで決まります。逆に言えば、絞れない業務に小型特化モデルを当てると、この論文のOOD結果と同じことが自社で起きます。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>帳票読み取りでは推論ありのF1が0.303、推論なしが0.411。推論させた方が精度が落ちた（ID評価6,194サンプル、Qwen3-VL-4B、コールドスタートRL条件）</li>
+<li>推論を有効にしたモデルは学習中に自ら推論トークンを約191から約72へ62%削減した。モデル自身が「考えない方が得」と学んだ</li>
+<li>自社ドメイン内では4B小型モデル（A100 80GB×1枚、LoRA）が 0.718、Gemini 3.0 Flash が 0.581。ただし未知ドメインでは 0.569 対 0.701 で逆転する</li>
+<li>学習データはSFT早期打ち切りで約65%削減しても性能は同等だった（300ステップ／約19,000露出 対 1,113ステップ／約71,000露出、その後は同一の6,000 RLステップ）</li>
+<li>論文は限界も明記している。4Bのみの検証、SFT→RL経路での推論比較は未実施、位置特定は伸びて意味抽出は落ちる Grounding Divergence は未解決、検証は財務文書QA単一ドメインのみ</li>
+<li>TOEではこの手法を未実施。読み筋としては、帳票様式が絞れる業務ほど小型特化が効き、様式がバラバラな会社ほど汎用との併用が要る</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

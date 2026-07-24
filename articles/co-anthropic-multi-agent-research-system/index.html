@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>マルチエージェントは単独AIを90.2%上回る代わりに、トークンを約15倍食うのか？ · AIの鬼</title>
+  <meta name="description" content="Anthropicが自社のResearch機能の構築記録を公開しました。複数のAIを並列で走らせる構成は社内評価で単一エージェントを90.2%上回った一方、トークン消費は通常のチャット利用の約15倍。中小企業がどの業務なら採算に乗るのか、限界の記述までたどって整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="マルチエージェントは単独AIを90.2%上回る代わりに、トークンを約15倍食うのか？ · AIの鬼">
+  <meta property="og:description" content="Anthropicが自社のResearch機能の構築記録を公開しました。複数のAIを並列で走らせる構成は社内評価で単一エージェントを90.2%上回った一方、トークン消費は通常のチャット利用の約15倍。中小企業がどの業務なら採算に乗るのか、限界の記述までたどって整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="マルチエージェントは単独AIを90.2%上回る代わりに、トークンを約15倍食うのか？ · AIの鬼">
+  <meta name="twitter:description" content="Anthropicが自社のResearch機能の構築記録を公開しました。複数のAIを並列で走らせる構成は社内評価で単一エージェントを90.2%上回った一方、トークン消費は通常のチャット利用の約15倍。中小企業がどの業務なら採算に乗るのか、限界の記述までたどって整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"マルチエージェントは単独AIを90.2%上回る代わりに、トークンを約15倍食うのか？","item":"https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/"}]},{"@type":"Article","headline":"マルチエージェントは単独AIを90.2%上回る代わりに、トークンを約15倍食うのか？","description":"Anthropicが自社のResearch機能の構築記録を公開しました。複数のAIを並列で走らせる構成は社内評価で単一エージェントを90.2%上回った一方、トークン消費は通常のチャット利用の約15倍。中小企業がどの業務なら採算に乗るのか、限界の記述までたどって整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/"},"url":"https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-anthropic-multi-agent-research-system.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-anthropic-multi-agent-research-system/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-anthropic-multi-agent-research-system.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>マルチエージェントは単独AIを90.2%上回る代わりに、トークンを約15倍食うのか？</h1>
+<p class="article-lead">Anthropicが自社のResearch機能の構築記録を公開しました。複数のAIを並列で走らせる構成は社内評価で単一エージェントを90.2%上回った一方、トークン消費は通常のチャット利用の約15倍。中小企業がどの業務なら採算に乗るのか、限界の記述までたどって整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>複数のAIを並列で走らせる「マルチエージェント」構成は、Anthropicの社内リサーチ評価で単一エージェントを90.2%上回りました。ただしトークン消費は通常のチャット利用の約15倍。性能差ではなくこのコスト倍率が、中小企業にとっての判断軸になります。</p>
+<h2 id="claude">この記事の前提：発表者はClaudeの提供者本人である</h2>
+<p>最初に利害関係を明示します。<strong>この記事は Anthropic 社自身による発表であり、同社は本文で論じている Claude および Research 機能そのものの提供者です。</strong>つまり自社製品の性能を自社が測って公表した数字であり、第三者による検証結果ではありません。</p>
+<p>（出典：Anthropic（Anthropic Engineering ブログ）、2025-06-13、<a href="https://www.anthropic.com/engineering/multi-agent-research-system">https://www.anthropic.com/engineering/multi-agent-research-system</a>）</p>
+<p>そのうえで、この記事が読む価値を持つのは、性能自慢だけでなく「向かない用途」「うまくいかなかった点」まで書かれているからです。以下、数字とその条件、そして限界を分けて整理します。</p>
+<h2 id="902">90.2%という数字は、何と何を比べた結果なのか</h2>
+<p>まず数字の中身を、条件つきで確認します。丸めずに、対象と条件をそのまま並べます。</p>
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>何を表すか</th>
+<th>対象・条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>90.2%</td>
+<td>マルチエージェント構成が単一エージェントを上回った幅</td>
+<td>Anthropicの社内リサーチ評価（外部公開ベンチではない）。リード＝Claude Opus 4、サブエージェント＝Claude Sonnet 4 の構成 対 単一の Claude Opus 4。例示タスクはS&amp;P500企業のIT部門役員の特定。採点はLLM-as-judgeによるルーブリック（事実正確性・引用正確性・網羅性・情報源の質・ツール効率）</td>
+</tr>
+<tr>
+<td>80%</td>
+<td>性能のばらつき（分散）のうち、トークン使用量だけで説明できる割合</td>
+<td>BrowseComp（Web閲覧エージェント評価）における分散分析。分母は正答率ではなく分散</td>
+</tr>
+<tr>
+<td>95%</td>
+<td>同じく、トークン使用量・ツール呼び出し数・モデル選択の3要因で説明できる分散の割合</td>
+<td>同じくBrowseComp評価。本文は「3要因で95%」と述べるにとどまり、内訳配分は明記なし</td>
+</tr>
+<tr>
+<td>約4倍 / 約15倍</td>
+<td>通常のチャット利用に対するトークン消費量。エージェントが約4倍、マルチエージェントが約15倍</td>
+<td>比較の分母は「チャットでのやり取り」。本文の表現は概算（about）で、測定期間・件数の記載なし</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>ツール説明文を書き直した後、後続エージェントのタスク完了時間が短縮した幅</td>
+<td>社内のツールテスト用エージェントが、失敗事例をもとにツール説明文を自動で書き直した場合。比較対象は書き直し前の説明文を使ったエージェント。n数の記載なし</td>
+</tr>
+<tr>
+<td>約20件</td>
+<td>評価の出発点として用いた、実利用パターンを代表するクエリ数</td>
+<td>開発初期段階の評価セット。最終的な90.2%評価の件数として明示されたものではない</td>
+</tr>
+</tbody>
+</table>
+<p>対象範囲について正直に書くと、<strong>この記事で扱える「n数・期間・対象」は限定的です</strong>。明示されているのは開発初期の評価セットが約20件であることだけで、90.2%を出した評価の件数・タスク分布・実施期間はいずれも本文に書かれていません。ここは読者側で割り引いて読む必要があります。</p>
+<p>分散の話は誤読しやすいので補足します。80%や95%は「正答率」ではなく「性能のばらつきが何で説明できるか」の割合です。噛み砕くと、<strong>成績の良し悪しの大半は、賢さの差ではなく「どれだけトークンを使ったか」で決まっていた</strong>ということになります。マルチエージェントが強いのは、複数のサブエージェントが同時に別々の文脈を持てるぶん、投入できるトークン総量が増えるからだ、という説明です。</p>
+<p>エージェントという構成そのものの基礎は、<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a> で扱っています。</p>
+<h2 id="_1">読者への意味：見るべきは性能差ではなくコスト倍率</h2>
+<p>中小企業の実務に引き寄せると、判断材料は90.2%ではなく<strong>約15倍</strong>のほうです。Anthropic自身が「マルチエージェントは、増えたコストを払うだけの価値があるタスクにしか成立しない」と限定しています。提供者本人がここまで限定を書いている以上、そのまま導入基準として受け取ってよい記述です。</p>
+<p>適合しやすい業務・しにくい業務は、本文の記述からそのまま切り分けられます。</p>
+<ul>
+<li>向く：幅広い一次情報を並列で当たる調査業務。競合調査、仕入先や補助金の洗い出し、候補企業のリストアップなど、人が何時間もかけて広く探すタイプの仕事</li>
+<li>向かない：社内の定型的な問い合わせ処理や文書要約のように、1件あたりの単価が低い業務。15倍のコストが成果を上回りやすい</li>
+<li>向かない：全エージェントが同一の文脈を共有する必要がある業務、およびエージェント間の依存関係が多い業務。本文で現時点では不向きと明記</li>
+<li>向かない：コーディング。リサーチほど真に並列化できる作業が少ないと名指しされている</li>
+</ul>
+<p>コスト側の考え方は <a href="/articles/ai-cost-structure/">AI導入のコスト構造</a> と併せて見ると、月額いくらまでなら合うのかの計算がしやすくなります。</p>
+<h2 id="_2">投資ゼロで着手できる論点：ツールの説明文を書き直す</h2>
+<p>もうひとつ、中小企業がすぐ試せる示唆があります。社内のツールテスト用エージェントが失敗事例をもとにツールの説明文を自動で書き直したところ、後続エージェントのタスク完了時間が40%短縮した、という記述です（n数の記載はありません）。</p>
+<p>これは言い換えると、<strong>AIが読む説明文の書き方が、AIの作業時間を左右する</strong>ということです。社内でAIに渡している業務マニュアル、手順書、SOP、ツールの使い方メモ。これらを「人が読む前提」から「AIが読む前提」に書き直す作業は、追加のライセンス費も開発費もかかりません。まず着手できるのはここです。</p>
+<p>具体的には、次の3点を見直す価値があります。</p>
+<ul>
+<li>使う場面と使わない場面を明記する（「見積作成時に使う。請求書には使わない」）</li>
+<li>入力と出力の形を具体例で示す（曖昧な説明文ではなく実物の例）</li>
+<li>よくある失敗と、そのときどうするかを書き添える</li>
+</ul>
+<h2 id="toetoe">TOEの読み筋：TOEでは未実施</h2>
+<p>先に明記します。<strong>TOEではマルチエージェント構成での業務運用は未実施です。</strong>以下は本文の記述からの読み筋であり、当社の実測ではありません。</p>
+<p>そのうえでの見立ては、中小企業がこの構成を検討する入口は「調査業務のうち、担当者が丸一日かけている作業」に限られる、というものです。仮に社内で半日（4時間）かけている競合・仕入先の洗い出しがあり、それが月に数回発生しているなら、15倍のトークン単価でも人件費と釣り合う可能性があります。逆に、日々発生する問い合わせ一次対応をマルチエージェント化するのは、本文の適合条件に照らして費用倒れになる公算が高いと読みます。</p>
+<p>もう一点、実務上見落とされやすいのが評価の作り方です。開発初期の評価セットが約20件だったという記述は、<strong>大量の評価データがなくても着手はできる</strong>ことを示しています。自社で試すなら、実際に社内で発生した典型的な依頼を20件ほど集めるところから始めるのが現実的です。評価基準の作り方は <a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をつくる</a> が参考になります。</p>
+<h2 id="_3">本文が認めている限界と、不都合な結果</h2>
+<p>提供者本人の発表であることを踏まえ、本文が自ら書いている弱点を列挙します。ここを読まずに90.2%だけ持ち帰るのは危険です。</p>
+<ul>
+<li>90.2%はAnthropicの社内リサーチ評価であり、第三者が再現できる公開ベンチマークではない。評価の件数・タスク分布は本文に明記がない</li>
+<li>採点はLLM-as-judgeで行われており、人手による全件評価ではない。本文自身も「人が触ると評価では拾えないエッジケースが見つかる」と認めている</li>
+<li>トークン消費が約15倍になるため、Anthropic自身が「タスクの価値が、上がった性能の対価を払えるほど高い場合にのみ成立する」と限定している</li>
+<li>リードエージェントがサブエージェントを同期的に実行するため、1つのサブエージェントの待ちでシステム全体が止まるボトルネックが存在する</li>
+<li>エージェントは長時間動作し状態を保持するため誤りが累積しやすく、同一プロンプトでも実行ごとに挙動が非決定的でデバッグが難しい。本文は「試作から本番までの隔たりは想定より大きいことが多い」と述べている</li>
+<li>LLMエージェントはリアルタイムでの相互調整・委任がまだ得意ではないと認めている</li>
+<li>本文の知見は、Web・Google Workspace・各種連携をまたいで調査するというAnthropic自社のResearch機能の構築経験に基づくもので、業務系の他用途にそのまま一般化できるとは書かれていない</li>
+</ul>
+<p>最後の項目は特に重要です。この記事の数字は「調査」という用途で得られたものであり、たとえば見積作成や在庫管理のような自社業務に同じ倍率・同じ性能差が出るという根拠は、本文のどこにもありません。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>マルチエージェント構成は、Anthropicの社内リサーチ評価で単一エージェントを90.2%上回った。ただし公開ベンチではなく、評価件数やタスク分布の記載はない</li>
+<li>中小企業が見るべきは性能差より約15倍というトークン消費の倍率。提供者自身が「価値の高いタスクにのみ成立する」と限定している</li>
+<li>適合するのは広く一次情報を当たる調査業務。定型問い合わせ処理、文脈共有が必要な業務、依存関係の多い業務、コーディングは不向きと明記されている</li>
+<li>ツールの説明文を書き直したら後続の作業時間が40%短縮した（n数記載なし）という記述は、社内マニュアルの書き直しという投資ゼロの打ち手を示している</li>
+<li>この記事はAnthropic社自身による自社製品についての発表であり、同社は当該製品の提供者。TOEでも同構成は未実施のため、本記事の読み筋は実測ではない</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

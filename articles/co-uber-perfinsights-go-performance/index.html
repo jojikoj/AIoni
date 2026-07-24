@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLM単体の誤検知8割超は、複数モデル検証と人手でどこまで下がるのか · AIの鬼</title>
+  <meta name="description" content="Uberが自社のGoコード解析ツールPerfInsightsの実測を公開しました。LLM単体では誤検知が8割超、複数モデルによる相互検証と人の確認を挟んで10%台前半へ。AIに検査業務を任せる際の現実的な設計指針と、そのまま真似てはいけない数字の線引きを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-uber-perfinsights-go-performance/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-uber-perfinsights-go-performance/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="LLM単体の誤検知8割超は、複数モデル検証と人手でどこまで下がるのか · AIの鬼">
+  <meta property="og:description" content="Uberが自社のGoコード解析ツールPerfInsightsの実測を公開しました。LLM単体では誤検知が8割超、複数モデルによる相互検証と人の確認を挟んで10%台前半へ。AIに検査業務を任せる際の現実的な設計指針と、そのまま真似てはいけない数字の線引きを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-uber-perfinsights-go-performance/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM単体の誤検知8割超は、複数モデル検証と人手でどこまで下がるのか · AIの鬼">
+  <meta name="twitter:description" content="Uberが自社のGoコード解析ツールPerfInsightsの実測を公開しました。LLM単体では誤検知が8割超、複数モデルによる相互検証と人の確認を挟んで10%台前半へ。AIに検査業務を任せる際の現実的な設計指針と、そのまま真似てはいけない数字の線引きを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"LLM単体の誤検知8割超は、複数モデル検証と人手でどこまで下がるのか","item":"https://ai-oni.com/articles/co-uber-perfinsights-go-performance/"}]},{"@type":"Article","headline":"LLM単体の誤検知8割超は、複数モデル検証と人手でどこまで下がるのか","description":"Uberが自社のGoコード解析ツールPerfInsightsの実測を公開しました。LLM単体では誤検知が8割超、複数モデルによる相互検証と人の確認を挟んで10%台前半へ。AIに検査業務を任せる際の現実的な設計指針と、そのまま真似てはいけない数字の線引きを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-uber-perfinsights-go-performance/"},"url":"https://ai-oni.com/articles/co-uber-perfinsights-go-performance/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-uber-perfinsights-go-performance.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-uber-perfinsights-go-performance/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-uber-perfinsights-go-performance.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>LLM単体の誤検知8割超は、複数モデル検証と人手でどこまで下がるのか</h1>
+<p class="article-lead">Uberが自社のGoコード解析ツールPerfInsightsの実測を公開しました。LLM単体では誤検知が8割超、複数モデルによる相互検証と人の確認を挟んで10%台前半へ。AIに検査業務を任せる際の現実的な設計指針と、そのまま真似てはいけない数字の線引きを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>生成AIにコード解析のような判断業務を一発で任せると、Uberの実測では誤検知が8割を超えました。複数のLLMに相互検証させ、さらに人が確認する二段構えにして、ようやく10%台前半まで下がっています。「AIが下書き、別系統が検証、人が最終確認」という設計にしない限り、検査業務はAIに載りません。</p>
+<h2 id="uber">Uberが公開した実測値は何を測ったものか</h2>
+<p>Uber Engineeringが、同社のGoコードから性能上のアンチパターン（非効率な書き方）を検出するツール「PerfInsights」の運用実績を公開しました（出典：Uber Engineering（著者: Ryan Hang、Sung Whang、Joseph Wang ほか1名以上）、2025-07-22、<a href="https://www.uber.com/us/en/blog/perfinsights/">https://www.uber.com/us/en/blog/perfinsights/</a>）。</p>
+<p>最初に前提を明示します。<strong>この記事はUber社自身による発表であり、同社は当該ツール（PerfInsightsおよびLLMCheck）の開発者かつ運用者本人です。</strong>掲載されている数値はすべて自社計測・自社推計であり、第三者による検証や外部監査は行われていません。読者は「製品の提供者が自社製品の効果を報告している」という前提で数字を読む必要があります。</p>
+<p>そのうえで、公開された数字はAIに検査業務を任せたい企業にとって珍しく具体的です。特に「LLM単体だと誤検知がどれだけ出るか」を実運用ベースで開示した点に価値があります。多くのベンダー発表が成功後の数字だけを出す中で、導入前の状態が語られているためです。</p>
+<h2 id="810">誤検知8割超から10%台前半へ、何を挟んだのか</h2>
+<p>PerfInsightsの中核は、LLMにコードを読ませて性能上の問題箇所を指摘させる仕組みです。ところが初期段階では、LLMが挙げた指摘のうち8割超が誤検知でした。10件指摘されたら8件は的外れという状態で、これは実務に載せられる水準ではありません。</p>
+<p>Uberが導入したのは、単一のLLMの出力をそのまま信じない設計です。具体的には、複数のLLMに同じ検出結果を評価させる「jury of LLMs（LLMによる陪審）」方式と、二重のバリデーション工程を挟みました。その結果、誤検知率は10%台前半（原文では low teens）まで下がっています。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>導入前</th>
+<th>導入後</th>
+<th>条件・注意点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>アンチパターン検出の誤検知率</td>
+<td>80%超</td>
+<td>10%台前半</td>
+<td>分母は「PerfInsightsが検出したアンチパターン件数」。コード全体・サービス全体ではない。自社計測、外部検証なし</td>
+</tr>
+<tr>
+<td>検証済み検出件数（日次）</td>
+<td>265件（2025年2月・日平均、単日最高500件）</td>
+<td>176件（2025年6月）</td>
+<td>4か月で33.5%減。対象はUberのGoモノレポ</td>
+</tr>
+<tr>
+<td>1件あたりの検出・修正工数</td>
+<td>14.5時間</td>
+<td>約1時間（93.10%削減）</td>
+<td>「約1時間」はツールの実行時間。14.5時間は年間267件換算からの逆算で、実測タイムスタディではない</td>
+</tr>
+<tr>
+<td>年間削減見込み</td>
+<td>—</td>
+<td>約3,800時間／年</td>
+<td>4か月で89件減の実績を年換算（267件）した将来推計。計上済みの実績ではない</td>
+</tr>
+<tr>
+<td>ハルシネーション発生率</td>
+<td>—</td>
+<td>80%超の削減</td>
+<td>LLMCheckダッシュボード導入による自社計測。削減前後の絶対率、分母件数ともに非開示</td>
+</tr>
+</tbody>
+</table>
+<p>対象範囲は、UberのGoモノレポ内の自社保有サービスコードです。オープンソース依存と内部ランタイム関数は検出対象から明示的に除外されています。上位10のGoサービスが主な対象で、期間は2025年2月から6月までの4か月間です。</p>
+<h2 id="_1">中小企業にとって、この数字はどこまで使えるのか</h2>
+<p>「で、うちに関係あるのか」に答えます。関係するのは<strong>設計原則</strong>であって、削減時間の絶対値ではありません。</p>
+<p>使える部分は明確です。</p>
+<ul>
+<li>LLMに検査・チェック業務を一発で任せる設計は、誤検知8割超という水準から始まる可能性が高い</li>
+<li>複数モデルによる相互検証を挟むと誤検知は大きく下がるが、それでも10%台前半は残る</li>
+<li>残った誤検知を吸収するのは人の確認工程であり、人を外す前提の設計は成立しない</li>
+<li>検出件数そのものが4か月で33.5%減っている。検査ツールは「見つける」だけでなく「問題の発生自体を減らす」方向に効く</li>
+</ul>
+<p>この構造は、請求書チェック、図面確認、原稿校正、契約書のリスク条項洗い出しといった中小企業の検査工程にそのまま移植できます。AIが下書きを作り、別の系統が検証し、人が最終判断する。工程を3つに割るだけで、AI単体運用より精度が上がるという実測が一つ増えたと理解してください。評価の設計そのものについては<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を先に作る話</a>も併せてご覧ください。</p>
+<p>一方、使えない部分もはっきりしています。年間3,800時間という削減見込みは、Uberという超大規模テック企業のコードベース規模とエンジニア単価を前提にした推計です。従業員数十名規模の会社がこの数字を自社に当てはめると、事実誤認になります。参照すべきは「93.10%削減」という比率でもなく、「単体では使えない、二段構えなら使える」という構造の方です。</p>
+<h2 id="_2">この発表が語っていない限界</h2>
+<p>誠実に書きます。この記事には、読者が割り引いて読むべき点が複数あります。</p>
+<ul>
+<li><strong>失敗と未解決課題の記述がない。</strong>初期の問題は「Early iterations suffered from noisy, inconsistent outputs（初期は出力がノイズだらけで一貫性がなかった）」と過去形の克服談として書かれており、現時点で残る限界の記述がありません。都合の悪い結果は基本的に開示されていないと見るべきです</li>
+<li><strong>精度の表現に幅がある。</strong>誤検知率「10%台前半（low teens）」は正確な数値ではありません。11%と19%では実務上の意味がまったく違います。ハルシネーション「80%超削減」も、削減前後の実数が非開示です</li>
+<li><strong>主要な数字が推計。</strong>14.5時間も3,800時間も実測ではありません。3,800時間は4か月の実績（89件減）を年換算した将来予測であり、実現済みの削減実績ではありません</li>
+<li><strong>93.10%削減の比較対象が揃っていない。</strong>「約1時間」はツールの実行時間であり、検出結果を人が確認・修正する時間を含まない可能性が高いです。人の作業時間と機械の実行時間という性質の異なる量を並べている疑いがあります</li>
+<li><strong>再現に必要な情報が欠けている。</strong>検証に使用したLLMの具体的なモデル名も、陪審を構成するモデル数も開示されていません。同じ手法を他社が再現できるだけの情報は記載されていません</li>
+<li><strong>実績はGoのみ。</strong>「言語非依存の設計」とは述べていますが、示された実績はUberのGoモノレポに限定されます。しかも自社保有コードのみで、オープンソース依存と内部ランタイム関数は除外されています</li>
+</ul>
+<p>複数モデルを組み合わせる設計は、当然ながらモデル呼び出し回数の増加を意味します。1件の判定に何回LLMを呼ぶかで運用費は変わりますが、この記事にコストの記載はありません。判定の精度と費用の釣り合いについては<a href="/articles/ai-cost-aware-evaluation/">コストを含めた評価の考え方</a>が参考になります。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p><strong>TOEでは未実施です。</strong>PerfInsightsは公開されたツールではなくUber社内基盤であり、同一構成を外部が再現することはできません。以下は公開情報からの読み筋であり、当社での検証結果ではありません。</p>
+<p>そのうえで、中小企業がこの発表から取り出すべきは次の3点だと考えます。</p>
+<p>第一に、AI導入の失敗パターンが一つ確定しました。「AIに判定させて、そのまま結果を使う」設計です。Uberほどの技術力とデータを持つ組織でも、単体運用では誤検知8割超から始まっています。自社で試して精度が出なかったとき、原因はモデル選定より工程設計にある可能性を先に疑うべきです。</p>
+<p>第二に、検証工程は必ずしも高価ではありません。同じ入力を別のプロンプト・別のモデルに投げ、判定が割れたものだけ人が見る。この程度の構成でも、全件を人が見る運用より工数は減ります。中小企業が真似られるのはこの粒度です。</p>
+<p>第三に、期待値の置き方です。誤検知が10%台前半まで下がっても、10件に1件強は間違っています。「人の確認をなくす」ゴールを設定した瞬間にこのプロジェクトは失敗します。設定すべきは「人が見る件数を減らす」です。導入の第一歩の考え方は<a href="/articles/ai-first-step-smb/">中小企業の最初の一歩</a>にまとめています。</p>
+<p>最後に一点。この記事の数字は、提供者自身が自社製品について語ったものです。数字の方向性は参考になりますが、絶対値を自社の稟議資料に転記することは勧めません。自社で小さく計測した数字の方が、他社の大きな数字より意思決定には役立ちます。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>Uberの実測では、LLM単体によるGoコードのアンチパターン検出は誤検知率が80%超だった（対象：UberのGoモノレポ内の自社保有コード、オープンソース依存と内部ランタイム関数は除外）</li>
+<li>複数LLMによる相互検証（jury of LLMs）と二重バリデーションを挟むことで、誤検知率は10%台前半まで低下した。ただし「low teens」という幅のある表現で、正確な値は非開示</li>
+<li>検証済み検出件数は2025年2月の日平均265件（単日最高500件）から2025年6月の176件へ、4か月で33.5%減少した</li>
+<li>14.5時間→約1時間（93.10%削減）および年間約3,800時間の削減は、いずれも実測ではなくUberの規模を前提とした自社推計であり、中小企業がそのまま自社に当てはめてはならない</li>
+<li>この記事はUber社自身による発表であり、同社はPerfInsightsおよびLLMCheckの提供者本人である。すべて自社計測で第三者検証はなく、現時点で残る限界の記述もない</li>
+<li>中小企業が持ち帰るべきは絶対値ではなく設計原則。「AIが下書き→別系統で検証→人が最終確認」の二段構えを、請求書チェックや図面確認など自社の検査工程に移植する形が現実的</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

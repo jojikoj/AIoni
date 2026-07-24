@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>翻訳業務をAIに置き換えた企業の実際 · AIの鬼</title>
+  <meta name="description" content="日立産機システムやSyncWordsなど、AI翻訳を業務に組み込んだ企業が公表している削減時間・コストの実数字と、ニュアンスや専門用語で残る限界を整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-translation-workflow/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-translation-workflow/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="翻訳業務をAIに置き換えた企業の実際 · AIの鬼">
+  <meta property="og:description" content="日立産機システムやSyncWordsなど、AI翻訳を業務に組み込んだ企業が公表している削減時間・コストの実数字と、ニュアンスや専門用語で残る限界を整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-translation-workflow/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="翻訳業務をAIに置き換えた企業の実際 · AIの鬼">
+  <meta name="twitter:description" content="日立産機システムやSyncWordsなど、AI翻訳を業務に組み込んだ企業が公表している削減時間・コストの実数字と、ニュアンスや専門用語で残る限界を整理しました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"翻訳業務をAIに置き換えた企業の実際","item":"https://ai-oni.com/articles/ai-translation-workflow/"}]},{"@type":"Article","headline":"翻訳業務をAIに置き換えた企業の実際","description":"日立産機システムやSyncWordsなど、AI翻訳を業務に組み込んだ企業が公表している削減時間・コストの実数字と、ニュアンスや専門用語で残る限界を整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-translation-workflow/"},"url":"https://ai-oni.com/articles/ai-translation-workflow/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-translation-workflow.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-translation-workflow/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-translation-workflow.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>翻訳業務をAIに置き換えた企業の実際</h1>
+<p class="article-lead">日立産機システムやSyncWordsなど、AI翻訳を業務に組み込んだ企業が公表している削減時間・コストの実数字と、ニュアンスや専門用語で残る限界を整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>社内資料の英語化や、海外顧客とのやり取りにAI翻訳を使う企業は増えています。ChatGPTのような生成AIだけでなく、翻訳専用に作られたDeepLのようなサービスも広く使われるようになりました。「翻訳者に頼むほどではないが、自分の英語力では不安」という中間の需要を、AI翻訳が埋めている面もあります。</p>
+<p>この記事では、企業が自社の実績として公表している削減時間やコストの数字を中心に、AI翻訳の実際の効果と、まだ人手が必要な部分を整理します。「AI翻訳で劇的に変わった」という表現の記事は多く出回っていますが、具体的な数字と出典が確認できたものだけを取り上げています。</p>
+<h2 id="_1">社内資料の翻訳工数が半分以下になった例</h2>
+<p>日立グループの産業機器メーカーである日立産機システムは、DeepLを導入し、経営層向けの会議資料や社内コミュニケーションの英語化にかかる工数を半分以上削減したと公表しています。従来は資料作成に2〜3日程度を要していたところが半分以下の日数に短縮され、DeepLの社内利用者数も導入から半年で倍増したとされています(出典：DeepL、PR TIMES、https://prtimes.jp/main/html/rd/p/000000030.000112534.html)。同社ではPowerPoint資料やメール文面など、幅広い文書にDeepLを使っており、専門用語をある程度うまく訳せる点が評価されたと説明されています。</p>
+<p>グローバル展開する企業ほど、日常的に発生する「ちょっとした英語化」の量が多く、そこにかかっていた時間が積み上がっていたことがうかがえます。逆に言えば、翻訳の分量が少ない会社では、同じ規模の削減効果は出にくいとも考えられます。</p>
+<h2 id="_2">大量の文章を継続的に翻訳している例</h2>
+<p>翻訳量そのものが多い事業者では、さらに具体的な数字が公表されています。</p>
+<p>プレスリリース配信を手がける海外企業iCrowdNewswireは、DeepLを導入し、プレスリリースを英語・日本語・中国語・ドイツ語・フランス語・韓国語・ロシア語・スペイン語・ポルトガル語の9言語で配信しています。1日あたり4500万〜5500万文字を人の目によるチェックなしで翻訳しており、従来は外部委託していた翻訳チェック業務を廃止したことで、年間15万ドルのコスト削減を実現したと公表しています(出典：DeepL導入事例、https://www.deepl.com/ja/customer-stories/icrowdnewswire)。</p>
+<p>動画の字幕翻訳サービスを手がけるSyncWordsは、DeepLの導入前は映像・音声に対して字幕が4〜8秒遅れ、スペルミスや単語の欠落もあったところ、導入後はその遅延をほぼゼロまで縮めたと公表しています。あわせて、字幕付き動画の視聴完了率が4倍に向上したとしています(出典：DeepL導入事例、https://www.deepl.com/ja/customer-stories/syncwords)。数百万時間規模の動画を100以上の言語に翻訳する体制を、リアルタイムに近い速度で回せるようになった例です。</p>
+<p>これらに共通するのは、「翻訳の量が多く、かつ定型的な文章が多い」業務ほど、AI翻訳への置き換え効果が数字として出やすいという点です。プレスリリースや字幕は文体がある程度パターン化されており、AIが訳しやすい文章だと考えられます。</p>
+<h2 id="_3">ニュアンス・専門性で残る限界</h2>
+<p>一方で、AI翻訳の解説記事や翻訳会社自身が発信する情報では、機械翻訳が苦手とする領域についても繰り返し指摘されています。契約書や特許文書のように、一語の解釈が法的な意味を左右する文章では、AIが訳した文面をそのまま使わず、専門知識を持つ人による最終チェックを挟む運用が一般的だとされています。広告コピーやブランドメッセージのように、直訳では意図が伝わらず、文化的な背景を踏まえた意訳が必要な文章も、AI翻訳だけでは対応しきれない領域として挙げられることが多くあります。</p>
+<p>また、社内の略語や業界特有の言い回しは、汎用の翻訳AIでは正しく訳せないことがあり、DeepLのような一部のサービスでは、あらかじめ用語集を登録して訳語を固定する機能が用意されています。逆に言えば、こうした設定をせずに導入しただけでは、専門用語の訳がぶれたままになり、結局読み手が誤解しないよう都度確認する手間が発生する、ということが起こり得ます。SyncWordsの事例でも、用語集の活用が技術翻訳の一貫性を保つ鍵になったとコメントされており、AI翻訳は「導入すれば終わり」ではなく、用語集の整備など運用側の準備によって精度が変わる仕組みだと言えます。</p>
+<p>もうひとつ留意したいのは、翻訳者という職種そのものへの影響です。定型的な下訳の需要がAIに置き換わる一方で、AIの訳文を確認・修正する「ポストエディット」と呼ばれる仕事の重要性が増しているとされます。翻訳業務を完全に無人化するというより、人がチェックする箇所を絞り込むことで全体の時間を短縮する、という位置づけで捉えている企業が多いようです。</p>
+<p>費用面でも整理しておく必要があります。DeepLのような専用サービスは、無料プランでは翻訳できる文字数や機能に制限があり、iCrowdNewswireのように大量の文章を継続的に翻訳する場合は法人向けプランへの加入がほぼ前提になります。従来の翻訳会社への外注費と比べたときに、どちらが自社の翻訳量にとって割安になるかは、月間の翻訳文字数を実際に数えてみないと判断がつきにくい部分でもあります。導入前に、直近数カ月でどれくらいの分量を翻訳しているかを一度棚卸ししておくと、プラン選びで無駄が出にくくなります。</p>
+<h2 id="_4">では自社では何から始めるか</h2>
+<p>以上を踏まえると、まず洗い出しておきたいのは、自社で発生している翻訳業務が「量が多く定型的なもの」なのか、「量は少ないが誤訳が許されない専門文書」なのかという区分けだと思います。前者であればDeepLのような専用サービスの導入効果が数字として出やすく、後者であればAI翻訳はあくまで下訳として使い、専門知識を持つ人によるチェック工程を前提に設計したほうが安全です。</p>
+<p>その上で、社内でよく使う専門用語や固有名詞のリストを事前に整理し、翻訳サービスの用語集機能に登録しておくと、AI翻訳の精度を左右する準備として効果が見込みやすいと考えられます。</p>
+<p>最後に、誰が最終チェックをするかも決めておいたほうがよい点です。日立産機システムの事例のように社内利用者が広がるほど、訳文の品質にばらつきが出やすくなります。重要な対外文書だけは特定の担当者が目を通す、といった簡単なルールを最初に決めておくだけでも、AI翻訳を導入したあとのトラブルは減らせると考えられます。どの業務から手をつけるかは、翻訳の頻度と、誤訳が起きた場合の影響の大きさの両方を見ながら判断するのがよいと思います。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

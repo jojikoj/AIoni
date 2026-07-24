@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>採用・人事でのAI活用と、その落とし穴 · AIの鬼</title>
+  <meta name="description" content="ソフトバンクのAI書類選考事例と、Amazonがバイアス問題で採用AIを廃止した経緯をもとに、採用AIの効果と限界、個人情報・差別リスクの実務上の注意点を整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-hr-recruiting/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-hr-recruiting/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="採用・人事でのAI活用と、その落とし穴 · AIの鬼">
+  <meta property="og:description" content="ソフトバンクのAI書類選考事例と、Amazonがバイアス問題で採用AIを廃止した経緯をもとに、採用AIの効果と限界、個人情報・差別リスクの実務上の注意点を整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-hr-recruiting/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="採用・人事でのAI活用と、その落とし穴 · AIの鬼">
+  <meta name="twitter:description" content="ソフトバンクのAI書類選考事例と、Amazonがバイアス問題で採用AIを廃止した経緯をもとに、採用AIの効果と限界、個人情報・差別リスクの実務上の注意点を整理しました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"採用・人事でのAI活用と、その落とし穴","item":"https://ai-oni.com/articles/ai-hr-recruiting/"}]},{"@type":"Article","headline":"採用・人事でのAI活用と、その落とし穴","description":"ソフトバンクのAI書類選考事例と、Amazonがバイアス問題で採用AIを廃止した経緯をもとに、採用AIの効果と限界、個人情報・差別リスクの実務上の注意点を整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-hr-recruiting/"},"url":"https://ai-oni.com/articles/ai-hr-recruiting/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-hr-recruiting.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-hr-recruiting/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-hr-recruiting.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>採用・人事でのAI活用と、その落とし穴</h1>
+<p class="article-lead">ソフトバンクのAI書類選考事例と、Amazonがバイアス問題で採用AIを廃止した経緯をもとに、採用AIの効果と限界、個人情報・差別リスクの実務上の注意点を整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>採用にAIを使う企業は、すでに珍しくありません。Thinkings株式会社が実施した調査では、2023年度の採用活動においてChatGPTなどのAIツールを活用していると回答した企業は43%にのぼり、活用領域として最も多かったのは「求人票の作成」（60.5%）、次いで「スカウト」「WEB面接」（いずれも31.4%）だったと報告されています（出典：Thinkings株式会社、https://thinkings.co.jp/news/20240327_research/）。ただし、採用AIには効果が数字で語れる場面と、使い方を誤ると企業の信用に関わるリスクを抱える場面の両方があります。この記事では両面を、実際に起きた事例をもとに見ていきます。</p>
+<h2 id="_1">書類選考の効率化 — ソフトバンクの事例</h2>
+<p>もっとも具体的な効果が公表されているのが、ソフトバンクの新卒採用エントリーシート選考です。同社は2017年5月29日からIBM Watson日本語版を活用し、エントリーシートを評価する一次スクリーニングにAIを導入しました。ソフトバンク公式の発表によると、この導入によって人事担当者がエントリーシート確認作業に充てる時間を75%程度軽減できる見込みだとしています（出典：ソフトバンク、https://www.softbank.jp/corp/group/sbm/news/press/2017/20170529_01/）。</p>
+<p>導入前は、応募が集中する時期に採用担当者が1日数百件のエントリーシートをチェックする必要があり、エントリーシート評価には年間で約680時間を費やしていたといいます。運用開始後はこれが約170時間となり、約500時間の削減につながったと報告されています。またエントリーシート5項目を評価するのに、人間ではおよそ15分かかるところ、Watsonならおよそ18秒で処理できるとされています（出典：『日本の人事部 HRテクノロジー』、https://jinjibu.jp/hrt/article/detl/techactivities/1793/）。</p>
+<p>ここで重要なのは運用の設計です。ソフトバンクは、AIが「不合格」と判定したエントリーシートについても、担当者が改めて目を通し最終判断をするフローを採用しています。AIの判定を最終決定とせず、あくまで一次スクリーニングの負荷軽減として位置づけたことで、誤判定のリスクを補正できる仕組みを残しているわけです。この「AIに任せきりにしない」という設計判断が、後述するAmazonの失敗事例と対照的な点です。</p>
+<h2 id="amazonai">Amazonが採用AIを廃止した経緯</h2>
+<p>採用AIのリスクを語るうえで避けて通れないのが、Amazonの事例です。Reutersの報道によると、Amazonは2014年から、応募者の履歴書を1〜5つ星で評価する実験的な採用AIエンジンを開発していました。しかし2015年、このシステムがソフトウェア開発職などの技術職において、性別に中立でない評価をしていることが判明しました。「women's chess club captain（女子チェス部主将）」のように「women's」という単語を含む履歴書を低く評価し、2つの女子大学の卒業生を格下げしていたのです（出典：Reuters「Amazon scraps secret AI recruiting tool that showed bias against women」2018年10月10日、https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G/）。</p>
+<p>原因は、このAIが過去10年間にAmazonへ提出された履歴書のパターンを学習していたことでした。IT業界の男性優位を反映して応募者の大半が男性だったため、AIは「男性の候補者の方が好ましい」というパターンを自ら学習してしまったのです。Amazonは問題となった表現については中立になるようプログラムを修正したものの、他の形で差別的な選別をしない保証はないとされ、最終的に2017年初頭までに開発チームを解散しました。これは、AIが差別的な判断をしようと意図したのではなく、過去の人間の採用行動に含まれていた偏りをそのまま学習し、増幅してしまった結果だという点が重要です。</p>
+<h2 id="hirevue">HireVueの顔分析廃止という前例も</h2>
+<p>AI面接の分野でも、同様の見直しが起きています。動画面接AIサービスのHireVueは、2020年3月に選考評価から顔の表情や動きを分析するコンポーネントを削除しました。同社は削除の理由として、自然言語処理の精度が向上し、話す内容の分析だけで十分になったため顔分析が不要になったと説明しています。一方で専門家からは、顔分析は職務における能力や成功を予測するものとして独立に科学的検証を受けたことがないという指摘や、表情は文化・状況・障害によって異なるため選考の指標として信頼できないという指摘がなされていました（出典：SHRM、https://www.shrm.org/topics-tools/news/talent-acquisition/hirevue-discontinues-facial-analysis-screening）。</p>
+<h2 id="_2">個人情報・法的リスクという実務上の論点</h2>
+<p>日本国内での運用にあたっては、個人情報保護の観点も無視できません。個人情報保護法上、応募者から取得した履歴書などの情報は「採用選考のため」という利用目的の範囲内でしか使えません。弁護士による解説では、個人情報の取得にあたっては利用目的を特定し本人に明示する必要があること、また取得した個人データを第三者に提供するには原則として本人の同意が必要であることが指摘されています。外部のAIサービスに応募者情報を入力する場合は、この点の整理が欠かせません。同解説では、採用選考において人種・民族・社会的身分・門地・本籍・出生地など社会的差別の原因となるおそれのある事項を収集してはならないという厚生労働省の指針にも触れ、AIがこうした情報を意図せず収集してしまわないよう設計する必要があること、そしてAIを利用していること自体を応募者に説明し必要な同意を得るべきことが述べられています（出典：弁護士による解説記事、https://nao-lawoffice.jp/venture-startup/labor-management/ai-jinji.php）。過去のデータを学習することで、人間が無意識に持っていた偏見をAIが増幅してしまうリスクは、Amazonの事例が示す通り実際に起こり得るものです。</p>
+<h2 id="_3">では自社では何から始めるか</h2>
+<p>採用AIの導入を検討する場合、まず候補となるのはソフトバンクのように「一次スクリーニングの負荷を減らす」用途に絞り、AIの判定を最終決定にせず人が再確認する運用から始める方法です。求人票の下書き作成やスカウト文面の作成支援など、応募者個人を評価する場面ではなく、業務文書の作成を補助する場面から試すというのも、リスクの小さい入り口の一つです。</p>
+<p>いずれの用途で始めるにしても、応募者の個人情報を外部の無料AIサービスにそのまま入力していないか、AIによる評価が特定の属性を不当に不利に扱っていないかは、導入前後を問わず定期的に点検しておく必要があります。Amazonの事例が示すように、過去の採用データに含まれる偏りは、意図せずAIに引き継がれてしまうことがあるためです。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

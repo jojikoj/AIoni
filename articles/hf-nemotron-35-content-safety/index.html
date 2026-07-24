@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>社内AIの「危ない出力」を自社ルールで検閲する4Bモデルは、中小企業でも運用できるのか？ · AIの鬼</title>
+  <meta name="description" content="NVIDIAが公開したNemotron 3.5 Content Safetyは、AIの入出力が安全かどうかを判定する4Bパラメータの小型モデルです。多言語Aegisで有害判定F1が96.5%、日本語は明示的な訓練対象12言語に含まれます。ただし数値はすべて提供者本人の自己申告で、比較条件は非公開です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-nemotron-35-content-safety/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-nemotron-35-content-safety/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="社内AIの「危ない出力」を自社ルールで検閲する4Bモデルは、中小企業でも運用できるのか？ · AIの鬼">
+  <meta property="og:description" content="NVIDIAが公開したNemotron 3.5 Content Safetyは、AIの入出力が安全かどうかを判定する4Bパラメータの小型モデルです。多言語Aegisで有害判定F1が96.5%、日本語は明示的な訓練対象12言語に含まれます。ただし数値はすべて提供者本人の自己申告で、比較条件は非公開です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-nemotron-35-content-safety/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="社内AIの「危ない出力」を自社ルールで検閲する4Bモデルは、中小企業でも運用できるのか？ · AIの鬼">
+  <meta name="twitter:description" content="NVIDIAが公開したNemotron 3.5 Content Safetyは、AIの入出力が安全かどうかを判定する4Bパラメータの小型モデルです。多言語Aegisで有害判定F1が96.5%、日本語は明示的な訓練対象12言語に含まれます。ただし数値はすべて提供者本人の自己申告で、比較条件は非公開です。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"社内AIの「危ない出力」を自社ルールで検閲する4Bモデルは、中小企業でも運用できるのか？","item":"https://ai-oni.com/articles/hf-nemotron-35-content-safety/"}]},{"@type":"Article","headline":"社内AIの「危ない出力」を自社ルールで検閲する4Bモデルは、中小企業でも運用できるのか？","description":"NVIDIAが公開したNemotron 3.5 Content Safetyは、AIの入出力が安全かどうかを判定する4Bパラメータの小型モデルです。多言語Aegisで有害判定F1が96.5%、日本語は明示的な訓練対象12言語に含まれます。ただし数値はすべて提供者本人の自己申告で、比較条件は非公開です。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-nemotron-35-content-safety/"},"url":"https://ai-oni.com/articles/hf-nemotron-35-content-safety/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-nemotron-35-content-safety.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-nemotron-35-content-safety/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-nemotron-35-content-safety.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>社内AIの「危ない出力」を自社ルールで検閲する4Bモデルは、中小企業でも運用できるのか？</h1>
+<p class="article-lead">NVIDIAが公開したNemotron 3.5 Content Safetyは、AIの入出力が安全かどうかを判定する4Bパラメータの小型モデルです。多言語Aegisで有害判定F1が96.5%、日本語は明示的な訓練対象12言語に含まれます。ただし数値はすべて提供者本人の自己申告で、比較条件は非公開です。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。社内AIの入出力を検閲する「門番モデル」は、4Bパラメータまで小さくなり、自社サーバーに置ける現実味が出てきました。日本語も明示的な訓練対象に入っています。ただし公開されている性能数値はすべて提供者であるNVIDIA自身の自己申告で、比較条件は示されていません。今日から使う施策ではなく、設計論点の材料です。</p>
+<h2 id="nemotron-35-content-safety">Nemotron 3.5 Content Safetyは何をするモデルか</h2>
+<p>Nemotron 3.5 Content Safetyは、生成AIに入るプロンプトと、生成AIが返した出力の両方について「安全か／安全でないか」を判定する専用モデルです。チャットボットや業務エージェントの前後に挟み、危ない入力を止め、危ない出力を外に出さないための「門番」として動くことを想定しています（出典：NVIDIA（著者：Varun Singh、Isabel Hulseman、Anuj Doshi、Shyamala Prayaga、いずれもNVIDIA所属）、2026-06-04、<a href="https://huggingface.co/blog/nvidia/nemotron-3-5-content-safety">https://huggingface.co/blog/nvidia/nemotron-3-5-content-safety</a>）。</p>
+<p>先に立場を明示します。<strong>この記事はNVIDIA社自身による発表であり、同社は当該製品（Nemotron 3.5 Content Safety）の提供者である</strong>という関係です。掲載されている性能数値、競合との比較、レイテンシの優位性は、いずれも開発した当事者が自ら測って自ら公開したものです。第三者による独立検証の結果は示されていません。読者が数字の出どころを判断できるよう、この前提を最初に置きます。</p>
+<p>技術的な骨格は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モデルサイズ</td>
+<td>4Bパラメータ</td>
+<td>Google Gemma 3 4B IT をベースに構築。比較条件の記載なし</td>
+</tr>
+<tr>
+<td>文脈ウィンドウ</td>
+<td>128Kトークン</td>
+<td>ベースのGemma 3由来</td>
+</tr>
+<tr>
+<td>明示的な訓練言語</td>
+<td>12言語</td>
+<td>英・仏・西・独・中・日・韓・アラビア・ヒンディー・露・ポルトガル・伊</td>
+</tr>
+<tr>
+<td>ゼロショット対応言語</td>
+<td>約140言語</td>
+<td>ベースモデル由来。精度検証条件の記載なし</td>
+</tr>
+<tr>
+<td>分類体系</td>
+<td>13コア＋10細粒度サブカテゴリ</td>
+<td>出力モード2（判定＋カテゴリ）での分類</td>
+</tr>
+<tr>
+<td>入力形式</td>
+<td>テキストおよび画像</td>
+<td>マルチモーダル安全判定に対応</td>
+</tr>
+<tr>
+<td>ライセンス</td>
+<td>オープンモデルライセンス（商用利用可）</td>
+<td>詳細条件は一次資料を参照</td>
+</tr>
+</tbody>
+</table>
+<p>4Bという小ささが、この話の中心です。生成そのものを担う大規模モデルとは別に、判定専用の小型モデルを自社側に置く、という構成が取れるようになります。ローカル運用の考え方は<a href="/articles/ai-local-llm/">手元のPCで動かすローカルLLMは実務でどこまで使えるのか</a>でも扱っています。</p>
+<h2 id="96588892785">一次資料の実測：96.5%、88.8%、92.7%、約85%</h2>
+<p>公開されている主要な数値は次のとおりです。いずれもNVIDIAによる自社評価です。</p>
+<ul>
+<li><strong>多言語Aegisベンチマークでの有害コンテンツ判定F1は96.5%</strong>でした。対象は明示訓練済みの12言語です。n数・評価件数の記載はありません。</li>
+<li><strong>RTP-LXベンチマークでの有害コンテンツ判定F1は88.8%</strong>でした。こちらも12言語対象で、n数の記載はありません。</li>
+<li><strong>上記2ベンチマークの複合平均F1は92.7%</strong>です。同じくn数の記載はありません。</li>
+<li><strong>画像付き（マルチモーダル）の安全判定は、複数ベンチマークの平均で約85%</strong>でした。VLGuard、MM-SafetyBench等の平均値で、個別スコアと件数は公開されていません。</li>
+<li><strong>多言語Aegisにおけるプロンプト分類の文化的適応F1は97%</strong>でした。n数の記載はありません。</li>
+</ul>
+<p>処理性能については、<strong>推論レイテンシが「競合マルチモーダル安全モデル」の3分の1（3倍低い）</strong>、<strong>推論（THINKモード）時の生成トークン数が「別の推論型安全モデル」比で最大50%削減</strong>と報告されています。THINKモードの推論チェーンは最大3文まで圧縮されており、これはQwen 397B→Qwen 80Bという2段階の蒸留プロセスによって実現したとされています。</p>
+<p>訓練データについては、<strong>マルチモーダル訓練データの99%が実写画像</strong>、<strong>総訓練量に占める合成データの比率は約10%</strong>と説明されています。総枚数・総量は公開されていません。</p>
+<h2 id="_1">この数字をそのまま信じてはいけない理由</h2>
+<p>一次資料には、都合の悪い記述もはっきり書かれています。ここを飛ばすと数字を読み違えます。</p>
+<p>第一に、<strong>レイテンシ「3倍低い」とトークン「最大50%削減」は、比較対象のモデル名、実行ハードウェア、バッチ条件のいずれも明示されていません</strong>。したがって第三者が再現・検証することはできません。「3倍速い」という表現だけが独り歩きする形の数字です。</p>
+<p>第二に、<strong>各ベンチマークのn数・評価件数・評価期間がいずれも記載されていません</strong>。96.5%や88.8%という数値が、何件の判定にもとづくもので、どの程度の統計的な安定性を持つのかを、読み手側で判断する手段がありません。</p>
+<p>第三に、記事自身が既存の安全性評価インフラに<strong>「大きな隙間」がある</strong>と認めています。既存の安全性ベンチマークはテキストのみを対象とするものが多く、実運用の条件を反映しきれていない、という指摘です。</p>
+<p>第四に、これが最も重要ですが、<strong>VLGuardやMM-SafetyBenchといった主要なマルチモーダル安全ベンチマークは、SDXLで生成された合成画像に大きく依存しており、実写コンテンツの複雑さを過小評価している</strong>と、一次資料が明記しています。つまり「約85%」というマルチモーダルのスコアそのものが、実務環境の難易度を反映していない可能性があります。訓練データの99%を実写にした、という設計判断は、この問題への対処であると同時に、評価側がまだ追いついていないことの裏返しでもあります。</p>
+<p>第五に、ストックフォトのライセンスがAIデータセットへの再配布を禁じているため、本番環境と研究条件のあいだに乖離があります。訓練画像の一部はライセンス上の理由で公開できず、公開されるのはWikimedia由来と合成生成のサブセットのみです。<strong>完全な再現検証はできません。</strong></p>
+<p>第六に、約140言語のゼロショット対応は明示的な訓練対象外であり、日本語以外を含めて精度の裏付けは示されていません。ベンチマーク評価の対象はあくまで明示訓練済みの12言語です。</p>
+<p>評価指標そのものを疑う姿勢については<a href="/articles/ai-own-evaluation-criteria/">ベンチマークの点数を自社の判断材料に変換するには何を見ればいいのか</a>も合わせて読んでください。</p>
+<h2 id="_2">中小企業にとって何を意味するのか</h2>
+<p>中程度に有効、というのが編集部の評価です。理由は3点あります。</p>
+<p><strong>(1) 社内データを外に出さずに済む選択肢が現実味を持つ。</strong> 判定モデルが4Bと小さく、オープンモデルライセンスで商用利用が可能です。外部の安全判定APIに社内の質問文や生成結果を送らずに、自社サーバー上で入出力チェック役を動かす構成が取れます。「AIに社外秘を入れていいのか」という社内論争に対して、判定レイヤーだけでも内製する、という中間解を持てるのは実務的です。</p>
+<p><strong>(2) 自社ルールを自然言語で書ける点が、業種特有の誤爆に効く。</strong> カスタムポリシーを自然言語で記述でき、不要なカテゴリの判定を抑制できます。ここが汎用フィルタとの決定的な差です。たとえばDevOpsの現場で日常的に使う「プロセスを終了する（kill）」という表現が、汎用の暴力フィルタで有害判定される、といった誤爆は珍しくありません。製造業なら「切断」「破壊試験」「爆破」、医療系なら症状の記述そのものが引っかかります。汎用フィルタが使い物にならず、結局フィルタごと外してしまう——という最悪の運用を避ける手段になります。</p>
+<p><strong>(3) 日本語が明示的な訓練対象12言語に含まれている。</strong> ゼロショットの「約140言語対応」ではなく、訓練とベンチマーク評価の対象に日本語が入っています。これは日本の中小企業にとって実質的な差です。</p>
+<p>一方で、限界もはっきりしています。<strong>GPUを用意して自社運用する体力がない企業にとっては、これは「今すぐ使える施策」ではありません。</strong> 4Bとはいえ推論環境の準備、モデルの更新、誤判定が出たときのポリシー調整と、運用工数は確実に発生します。情シスが1人か0.5人という規模の会社が、明日から門番モデルを立てる話ではない。むしろ「AIを導入するとき、安全チェックを誰がどう担保するのか」という設計論点が、外部サービス任せ以外にも選べるようになった、という段階の理解が正確です。</p>
+<p>安全性を運用でどう担保するかという論点は<a href="/articles/ai-democratizing-agent-deployment-safety/">AIエージェントの安全な展開を誰が担保するのか</a>でも整理しています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p><strong>TOEでは、Nemotron 3.5 Content Safetyの検証・導入をまだ実施していません。</strong> 以下は一次資料を読んだうえでの見立てであり、自社での実測にもとづくものではありません。</p>
+<p>読み筋は3つです。</p>
+<p>ひとつめ。<strong>この種のモデルの本命価値は「精度」ではなく「ポリシーを自分で書けること」だと見ています。</strong> F1が96.5%か93%かの差より、自社の業務用語で誤爆が起きたときに、自分たちで直せるかどうかのほうが運用上は重い。汎用フィルタの誤爆に耐えかねて全部オフにする、という選択が現場では実際に起きます。カスタムポリシーを自然言語で書ける設計は、その一点で意味があります。</p>
+<p>ふたつめ。<strong>マルチモーダルの約85%は、実務ではもっと低いと見ておくべきだと考えます。</strong> 評価に使われたベンチマークが合成画像に依存していると一次資料自身が認めている以上、実写を扱う現場の難易度は反映されていません。画像の安全判定を全面的に自動化する前提で設計するのは危険です。人の確認を残す設計から始めるのが妥当だと見ます。</p>
+<p>みっつめ。<strong>中小企業がまず考えるべきは、モデルの導入ではなく「誰がどの基準で危ないと判断するか」の言語化だと考えます。</strong> カスタムポリシーを書けるということは、書く内容を持っていなければ意味がない、ということでもあります。自社にとって何が出てはいけない出力なのか。それを文章にする作業は、GPUがなくても今日できます。順序としては、そちらが先です。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>Nemotron 3.5 Content Safetyは、AIの入出力の安全性を判定する4Bパラメータの専用モデル。ベースはGoogle Gemma 3 4B IT、文脈ウィンドウは128Kトークン、オープンモデルライセンスで商用利用可</li>
+<li>公開数値は多言語AegisでF1 96.5%、RTP-LXで88.8%、両者の複合平均で92.7%、マルチモーダル平均で約85%。いずれも12言語対象で、n数・評価件数の記載はない</li>
+<li><strong>この記事はNVIDIA社自身による発表であり、同社は当該製品の提供者である。</strong> レイテンシ「3分の1」やトークン「最大50%削減」は比較対象モデル名・ハードウェア・バッチ条件が非公開で、再現検証はできない</li>
+<li>一次資料自身が、主要なマルチモーダル安全ベンチマークがSDXL生成の合成画像に依存し実写の複雑さを過小評価していると認めている。訓練画像の一部はライセンス上公開できず、完全な再現検証は不可能</li>
+<li>中小企業にとっては、日本語が明示的訓練12言語に含まれ、自社ルールを自然言語で書けることが実務価値。ただしGPU運用の体力がなければ今すぐの施策ではなく、安全チェックの担保方法という設計論点にとどまる。<strong>TOEでは未実施</strong></li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

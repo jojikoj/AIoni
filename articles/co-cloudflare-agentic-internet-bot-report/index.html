@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>サイトへのアクセスの過半が人間でなくなった？ Cloudflareが示す「AI学習クローラー52%」の中身 · AIの鬼</title>
+  <meta name="description" content="Cloudflareが自社ネットワークの観測値を公表した。クローラーリクエストのうちAI学習目的が2025年春の22%から2026年6月に52%へ。高頻度クロール分類では人間トラフィックが最大40%減。一方で参照流量の約88%は依然Google経由。母数と利害関係を分けて読む。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="サイトへのアクセスの過半が人間でなくなった？ Cloudflareが示す「AI学習クローラー52%」の中身 · AIの鬼">
+  <meta property="og:description" content="Cloudflareが自社ネットワークの観測値を公表した。クローラーリクエストのうちAI学習目的が2025年春の22%から2026年6月に52%へ。高頻度クロール分類では人間トラフィックが最大40%減。一方で参照流量の約88%は依然Google経由。母数と利害関係を分けて読む。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="サイトへのアクセスの過半が人間でなくなった？ Cloudflareが示す「AI学習クローラー52%」の中身 · AIの鬼">
+  <meta name="twitter:description" content="Cloudflareが自社ネットワークの観測値を公表した。クローラーリクエストのうちAI学習目的が2025年春の22%から2026年6月に52%へ。高頻度クロール分類では人間トラフィックが最大40%減。一方で参照流量の約88%は依然Google経由。母数と利害関係を分けて読む。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"サイトへのアクセスの過半が人間でなくなった？ Cloudflareが示す「AI学習クローラー52%」の中身","item":"https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/"}]},{"@type":"Article","headline":"サイトへのアクセスの過半が人間でなくなった？ Cloudflareが示す「AI学習クローラー52%」の中身","description":"Cloudflareが自社ネットワークの観測値を公表した。クローラーリクエストのうちAI学習目的が2025年春の22%から2026年6月に52%へ。高頻度クロール分類では人間トラフィックが最大40%減。一方で参照流量の約88%は依然Google経由。母数と利害関係を分けて読む。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/"},"url":"https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-cloudflare-agentic-internet-bot-report.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-cloudflare-agentic-internet-bot-report/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-cloudflare-agentic-internet-bot-report.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>サイトへのアクセスの過半が人間でなくなった？ Cloudflareが示す「AI学習クローラー52%」の中身</h1>
+<p class="article-lead">Cloudflareが自社ネットワークの観測値を公表した。クローラーリクエストのうちAI学習目的が2025年春の22%から2026年6月に52%へ。高頻度クロール分類では人間トラフィックが最大40%減。一方で参照流量の約88%は依然Google経由。母数と利害関係を分けて読む。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>自社サイトのPVが落ちている。原因はコンテンツの質か。Cloudflareの観測では、クローラーリクエストに占めるAI学習目的の割合が2025年春の22%から2026年6月に52%へ上がり、高頻度でクロールされる一部分類では人間トラフィックが1年未満で最大40%減った。ただし参照流量の約88%は依然Google経由である。</p>
+<h2 id="_1">何が測られたのか（対象・母数・時期）</h2>
+<p>Cloudflareが自社ネットワークを通過するトラフィックの観測値をまとめ、「Content Independence Day」から1年の変化として公表した（出典：Cloudflare Blog（Cloudflare社）、2026-07-01、<a href="https://blog.cloudflare.com/agentic-internet-bot-report/">https://blog.cloudflare.com/agentic-internet-bot-report/</a>）。</p>
+<p>先に利害関係を書いておく。<strong>この記事はCloudflare社自身による発表であり、同社はAI学習クローラーのブロック機能や、パブリッシャー向けの帰属・計測・制御ツールといった当該製品の提供者である</strong>。本文には「新規ドメインではAI学習クローラーをデフォルトでブロックする」といった自社施策・投資のアピールが多数含まれ、測定値と宣伝的主張が同じ文章の中に混在している。数字の出どころとして、この点は読者が最初に把握しておくべき前提である。</p>
+<p>さらに、出典には「Cloudflare Investor Day 2026 Presentation」が含まれる。投資家向け資料由来の数値が混ざっており、学術論文のような測定手法の開示ではない。</p>
+<p>数値ごとに母数が異なる点が、この発表を読むうえで最大の落とし穴になる。先に整理する。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>母数・条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クローラーリクエストのうちAI学習目的</td>
+<td>52%</td>
+<td>2026年6月時点。分母はCloudflareネットワークが観測したクローラーリクエスト全体（人間のアクセスを含む全トラフィックではない）。出典はCloudflare RadarおよびCloudflare Investor Day 2026資料</td>
+</tr>
+<tr>
+<td>同・AI学習目的クローラー（比較時点）</td>
+<td>22%</td>
+<td>2025年春時点。上記52%と同じ分母（クローラーリクエスト全体）。約1年で30ポイント上昇</td>
+</tr>
+<tr>
+<td>検索・エージェント・学習を混在させる複合用途クローラー</td>
+<td>36%</td>
+<td>2026年6月時点。分母はクローラーリクエスト全体。純粋な検索目的のクロールは少数かつ減少傾向と本文は記載</td>
+</tr>
+<tr>
+<td>高頻度クロール分類における人間トラフィックの減少</td>
+<td>最大40%減</td>
+<td>1年未満の期間での減少。本文は「最も高頻度にクロールされている分類の一部」と記すのみで、該当分類名と比較基準期間の明確な特定がない。ネットワーク全体の平均ではない</td>
+</tr>
+<tr>
+<td>参照流量に占めるGoogle経由</td>
+<td>約88%</td>
+<td>分母はCloudflare観測の参照流量全体。測定時点の明記は本文になし</td>
+</tr>
+<tr>
+<td>インターネットトラフィックのうち非人間（エージェント等）</td>
+<td>50%超</td>
+<td>Cloudflareネットワークで観測したトラフィック全体が分母。本文は「初めて歴史的な閾値を超えた」と記載。時点の詳細は記載なし</td>
+</tr>
+<tr>
+<td>出版社とAI企業のコンテンツライセンス契約</td>
+<td>50件超</td>
+<td>2023年以降の累計。集計範囲・網羅性の定義は記載なし</td>
+</tr>
+<tr>
+<td>Cloudflareのネットワーク配下にあるWebの割合</td>
+<td>20%超</td>
+<td>本文がデータ代表性の根拠として提示した自社主張値</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ai5252ai">「AIが52%」は「訪問者の52%がAI」ではない</h2>
+<p>この発表でいちばん誤読されやすいのが52%である。分母はクローラーリクエスト全体であって、サイト訪問者全体ではない。つまり「自社サイトに来ている人の半分がAI」という意味ではなく、「機械的なアクセスの内訳を見たら、その半分がAI学習目的だった」という話である。36%（複合用途）も88%（Google経由）も同様に、それぞれ別の分母を持つ。</p>
+<p>読み違えを防ぐために、母数の違いだけ押さえておきたい。</p>
+<ul>
+<li>52%・36%の分母＝クローラーリクエスト全体（機械アクセスの内訳）</li>
+<li>88%の分母＝参照流量全体（外部サイトからの流入元の内訳）</li>
+<li>50%超の分母＝ネットワークを通過するトラフィック全体（人間と非人間の比）</li>
+</ul>
+<p>一方で、非人間トラフィックが全体の50%超という数字は分母が「トラフィック全体」なので、こちらは「もう過半が人間ではない」と読んでよい。ただしCloudflareネットワークを通過した分に限る。</p>
+<p>クローラーの正体であるエージェント側の動きは<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>、ツール実行の変化は<a href="/articles/ai-agent-tool-evolution/">AIエージェントのツール進化</a>も参照されたい。</p>
+<h2 id="pv">中小企業にとっての意味：PV減を「質の問題」と即断しない</h2>
+<p>自社サイトのアクセスが落ちたとき、最初に疑われるのはコンテンツの質や更新頻度である。だがこの観測が示すのは、少なくともグローバル平均では、人間の訪問とAI由来のアクセスがまったく別の動き方をしているということだ。高頻度でクロールされる分類の一部では、人間トラフィックが1年未満で最大40%減っている。</p>
+<p>したがって実務上やるべきことは、対策の前に切り分けである。</p>
+<ul>
+<li>アクセス解析で、ボット・クローラー由来と人間由来を分けて集計しているかを確認する</li>
+<li>分けたうえで、人間の訪問だけを前年同期と比べる</li>
+<li>検索エンジン経由の流入と、AI回答経由と思われる流入を、可能な範囲で別指標として持つ</li>
+<li>減っているのが人間の訪問なのか、単にクローラーの数え方が変わっただけなのかを判定する</li>
+</ul>
+<p>切り分けをせずにリライトや記事量産に走ると、原因が違うところにあるまま工数だけ消える。AI検索側の測り方は<a href="/articles/ai-search-measurement/">AI検索の効果測定</a>にまとめている。</p>
+<h2 id="88google">参照流量の約88%はGoogle：全振りしない根拠</h2>
+<p>同じ発表の中に、AI最適化に全振りすべきでない根拠も入っている。参照流量に占めるGoogle経由が約88%だという値である。AI由来のクロールが機械アクセスの過半を占めるようになっても、実際に人を連れてくる経路としては依然Googleが圧倒的に大きい、という構図になる。</p>
+<p>ただしこの88%には測定時点の明記が本文にない。「いつの時点の88%なのか」が確認できない数字を、そのまま自社の意思決定の根拠にするのは危うい。方向感としては「従来のSEOがまだ基盤である」と読み、具体的な配分計算には使わない、という扱いが妥当だろう。</p>
+<p>そのうえで、経営判断として決めるべき論点が一つ増えている。robots.txt等でAI学習クローラーを許可するのか、拒否するのか、条件付きにするのかである。出版社とAI企業の間で結ばれたコンテンツライセンス契約は2023年以降の累計で50件超とされる。自社コンテンツが学習に使われることの是非は、技術ではなく方針の問題であり、担当者に丸投げできる種類の判断ではない。</p>
+<h2 id="_2">この数字が使えない範囲（限界の明示）</h2>
+<p>発表の性質上、そのまま自社に当てはめられない部分がある。不都合な点を含めて列挙する。</p>
+<ul>
+<li>母集団はCloudflareネットワークを通過するトラフィックのみである。本文は自社が「Webの20%超」を担うと主張するが、裏返せば約8割は観測の外にある</li>
+<li>発信元は本記事が示す課題に対応する製品（AI学習クローラーのブロック、パブリッシャー向けの帰属・計測・制御ツール）の提供者であり、測定値と自社施策のアピールが混在している</li>
+<li>出典に投資家向け資料（Cloudflare Investor Day 2026 Presentation）が含まれ、学術的な測定手法の開示ではない</li>
+<li>「人間トラフィック最大40%減」はネットワーク全体の平均ではなく、一部の高頻度クロール分類に限定された値である。本文は該当分類名と比較基準期間を明確に特定しておらず、そのまま一般化すると事実誤認になる</li>
+<li>52%・36%・88%の分母はいずれも「クローラーリクエスト全体」または「参照流量全体」であり、サイト訪問者全体や人間の利用者全体の割合ではない</li>
+<li>日本国内・中小企業に限定した内訳は一切示されていない。グローバルなネットワーク全体の集計値であり、日本の中小企業サイトの実態を直接示すものではない</li>
+<li>参照流量88%や非人間トラフィック50%超は、測定時点が本文に明記されていない</li>
+</ul>
+<p>特に4点目は要注意である。「人間の訪問が4割減った」という一文だけが切り出されて社内に伝わると、実際には自社が該当しない分類の話であっても、危機感だけが先行する。数字を社内共有するときは、必ず条件をセットで渡したい。日本国内の実態については<a href="/articles/jp-smrj-chusho-ai-jittai-2026/">中小企業のAI実態調査</a>のような国内一次調査と併せて見るほうが、判断を誤りにくい。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記しておく。<strong>TOEでは、この発表が示すクローラー制御方針（新規ドメインでのAI学習クローラーのデフォルトブロック等）に相当する運用は未実施である</strong>。以下は自社で検証済みの結論ではなく、この一次資料をどう読んだかという解釈である。</p>
+<p>読み筋としては三つある。</p>
+<p>第一に、いま優先度が高いのは対策ではなく計測の切り分けである。人間の訪問とクローラー由来のアクセスを分けて見られる状態になっていない限り、サイト改修の投資判断が根拠を持たない。「PVが減った」という一つの数字で意思決定している会社は、まずここを直すのが安いと考えている。</p>
+<p>第二に、robots.txtでのAI学習クローラー制御は、技術タスクではなく経営判断として扱うべきだと見ている。自社サイトのコンテンツが、問い合わせの入口として機能しているのか、それとも業界内での認知形成として機能しているのかで、ブロックの損得が逆になるからだ。前者ならAI回答に引用されないことは機会損失になり得るし、後者なら制御する意味が出てくる。この判断はサイトの役割定義とセットでしかできない。</p>
+<p>第三に、AI最適化への全振りは現時点では推奨しにくい。参照流量の約88%がGoogle経由という値は測定時点が不明だが、方向としてはまだ従来の検索が主経路である。AI検索対応は既存ページの強化として積むほうが、記事の新規量産より整合が取れる。</p>
+<p>いずれも、Cloudflareの観測がグローバル値であり日本の中小企業の内訳を含まない以上、自社データで確かめる前提の仮説にとどまる。TOEとしても、まずは自社サイトでのボット／人間の分離集計から着手する段階にある。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>クローラーリクエストに占めるAI学習目的の割合は、2025年春の22%から2026年6月に52%へ上がった。分母はクローラーリクエスト全体であり、サイト訪問者の内訳ではない</li>
+<li>高頻度でクロールされる一部分類では人間トラフィックが1年未満で最大40%減ったが、これは全体平均ではなく、本文に該当分類名と比較基準期間の明記がない</li>
+<li>一方で参照流量の約88%は依然Google経由。ただし測定時点が本文に記載されておらず、方向感の把握までにとどめるのが妥当である</li>
+<li>中小企業がまずやるべきは対策ではなく切り分け。ボット由来と人間由来を分けて集計し、人間の訪問だけを前年と比べる</li>
+<li>この発表はCloudflare社自身によるもので、同社は該当課題に対応する製品の提供者である。母集団も自社ネットワーク通過分に限られ、日本の中小企業の内訳は示されていない</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

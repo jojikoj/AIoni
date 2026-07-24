@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIの正答率が上がっても、説明が正しくなるとは限らない — 9システムの比較分析 · AIの鬼</title>
+  <meta name="description" content="AIツールを比べるとき、正答率の高さで選びがちです。しかし2026年7月公開の研究は、回答の精度が上がっても、根拠の説明が忠実で完全になるとは限らないと報告しました。業務でAIを使うとき、どこを見るべきかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIの正答率が上がっても、説明が正しくなるとは限らない — 9システムの比較分析 · AIの鬼">
+  <meta property="og:description" content="AIツールを比べるとき、正答率の高さで選びがちです。しかし2026年7月公開の研究は、回答の精度が上がっても、根拠の説明が忠実で完全になるとは限らないと報告しました。業務でAIを使うとき、どこを見るべきかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIの正答率が上がっても、説明が正しくなるとは限らない — 9システムの比較分析 · AIの鬼">
+  <meta name="twitter:description" content="AIツールを比べるとき、正答率の高さで選びがちです。しかし2026年7月公開の研究は、回答の精度が上がっても、根拠の説明が忠実で完全になるとは限らないと報告しました。業務でAIを使うとき、どこを見るべきかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIの正答率が上がっても、説明が正しくなるとは限らない — 9システムの比較分析","item":"https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/"}]},{"@type":"Article","headline":"AIの正答率が上がっても、説明が正しくなるとは限らない — 9システムの比較分析","description":"AIツールを比べるとき、正答率の高さで選びがちです。しかし2026年7月公開の研究は、回答の精度が上がっても、根拠の説明が忠実で完全になるとは限らないと報告しました。業務でAIを使うとき、どこを見るべきかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/"},"url":"https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-answer-vs-reasoning-quality.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-answer-vs-reasoning-quality/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-answer-vs-reasoning-quality.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIの正答率が上がっても、説明が正しくなるとは限らない — 9システムの比較分析</h1>
+<p class="article-lead">AIツールを比べるとき、正答率の高さで選びがちです。しかし2026年7月公開の研究は、回答の精度が上がっても、根拠の説明が忠実で完全になるとは限らないと報告しました。業務でAIを使うとき、どこを見るべきかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIツールを比べるとき、正答率の高さで選びがちです。しかし2026年7月16日公開の研究は、<strong>回答の精度が上がっても、その根拠の説明が忠実で完全になるとは限らない</strong>と報告しました。業務でAIを使う場合、正答率よりも「なぜそう言えるのか」の出し方を見るべきだ、という話です。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>「Beyond the Leaderboard」という分析論文です（出典：arXiv:2607.15241、2026年7月16日、<a href="https://arxiv.org/abs/2607.15241v1">https://arxiv.org/abs/2607.15241v1</a>）。</p>
+<p>題材は医療分野です。消化管の内視鏡画像を対象に、<strong>画像と文章の両方を扱うAI</strong>が質問に答えるコンテストの結果を、事後的に分析しています。分析対象は<strong>9つのシステム</strong>で、それぞれの設計上の選択が、回答の質と説明の質にどう影響したかを見ています。</p>
+<p>主な報告は3点です。</p>
+<ul>
+<li><strong>既存モデルを軽く調整する手法は、コンテストの成績としては強い</strong></li>
+<li><strong>しかし回答レベルの成績向上が、忠実で完全な臨床推論に一貫して結びつくわけではない</strong></li>
+<li><strong>推論の構造化と、根拠の明示的な紐づけを強制する手法のほうが、多様な質問に対して安定した挙動を示した</strong></li>
+</ul>
+<p>論文はここで重要な留保を置いています。<strong>この3点目は相関であって、要素を取り除いて検証した結果ではない。</strong>つまり「構造化すれば良くなる」と断定はしていません。研究者自身が証拠の強さを限定している点は、読む側も踏まえるべきところです。</p>
+<h2 id="_2">「答えは合っているが、理由が違う」問題</h2>
+<p>この研究が問題にしているのは、実務でよく起きる状態です。</p>
+<table>
+<thead>
+<tr>
+<th>状態</th>
+<th>業務上の意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>答えが正しく、根拠も正しい</td>
+<td>使える</td>
+</tr>
+<tr>
+<td><strong>答えは正しいが、根拠が間違っている／示せない</strong></td>
+<td><strong>危険。次は外れる</strong></td>
+</tr>
+<tr>
+<td>答えが間違っている</td>
+<td>気づける。まだまし</td>
+</tr>
+</tbody>
+</table>
+<p>いちばん厄介なのが真ん中です。答えが合っている限り、誰も検証しません。<strong>根拠が間違ったまま正解し続け、条件が変わった瞬間に外れます。</strong>そして外れた理由が分かりません。</p>
+<p>論文が「単語の重なりを超えた評価」「根拠と紐づいた標準的な説明」を求めているのは、この状態を検出するためです。</p>
+<h2 id="_3">中小企業にとって何を意味するか</h2>
+<p>医療の研究ですが、判断が伴う業務ならどこでも同じです。</p>
+<ul>
+<li><strong>見積の妥当性判定</strong> — 「この見積は妥当です」と言われても、何を根拠にしたかが出なければ確認できません</li>
+<li><strong>請求書や契約書のチェック</strong> — 「問題ありません」だけでは、見落としたのか本当に無いのか区別がつきません</li>
+<li><strong>不良や異常の判定</strong> — 判定理由が示されないと、基準を修正できません</li>
+</ul>
+<p>共通するのは、<strong>AIの出力をそのまま採用するわけではない</strong>という点です。人間が最終判断をする以上、必要なのは答えそのものより<strong>判断材料</strong>です。答えだけ返すAIは、確認作業を減らしません。</p>
+<h2 id="_4">ツールを比べるときに見ること</h2>
+<ul>
+<li><strong>根拠が示されるか。</strong> どの文書のどこを見たか、画像のどこを見たかが出るか</li>
+<li><strong>その根拠が実際に正しいか。</strong> 出てきた根拠を数件、人間が実際に確認する。<strong>もっともらしい根拠が捏造されている場合があります</strong></li>
+<li><strong>分からないときに「分からない」と言うか。</strong> 常に断定するAIは、業務では扱いにくい</li>
+<li><strong>正答率以外の指標を提示できるか。</strong> ベンダーが正答率しか出さない場合、それ以外を測っていない可能性があります</li>
+</ul>
+<p>論文は、<strong>軽量な頑健性と較正のチェック</strong>も推奨しています。噛み砕けば、<strong>条件を少し変えても答えが安定するか</strong>と、<strong>自信の度合いが実際の正しさと対応しているか</strong>です。これは自社でも数十件の抜き取りで確認できます。</p>
+<h2 id="toe">TOEではどうか</h2>
+<p><strong>この研究の検証は、TOEでは実施していません。</strong>医療分野も扱っていません。</p>
+<p>関連する経験としては、AI検索で自社が引用されるかを実測した際に、<strong>測定そのものが極めて不安定</strong>で、同じ条件でも結果が揺れることを確認しています。都合の悪い結果も含めて<a href="/articles/ai-search-measurement/">ChatGPTやPerplexityで自社が出るか、実際に測ってみました</a>に書いています。</p>
+<p>自社基準での評価の作り方は<a href="/articles/ai-own-evaluation-criteria/">AIの良し悪しを自社基準でどう測るか</a>を参照してください。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>医療画像の質問応答で<strong>9つのシステム</strong>を分析した結果、<strong>回答精度の向上が、忠実で完全な推論に一貫して結びつくわけではなかった</strong>（arXiv:2607.15241、2026年7月16日）</li>
+<li>推論の構造化と根拠の明示的な紐づけを強制する手法のほうが安定していたが、<strong>論文自身が「相関であり検証結果ではない」と留保している</strong></li>
+<li>実務で最も危険なのは「<strong>答えは合っているが根拠が間違っている</strong>」状態。条件が変わった瞬間に外れる</li>
+<li>ツール比較では正答率ではなく、<strong>根拠が示されるか／その根拠が実際に正しいか／分からないと言えるか</strong>を見る</li>
+<li><strong>TOEでは同研究の検証は未実施</strong></li>
+</ul>
+<p>正答率は買う理由にはなりません。<strong>確認できる形で理由が出るかどうか</strong>が、業務で使えるかを決めます。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

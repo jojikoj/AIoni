@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8） · AIの鬼</title>
+  <meta name="description" content="英国AI安全保障研究所が、企業ネットワークを模したサイバーレンジでAIエージェントの攻撃遂行能力を実測。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップまで到達した。一方で産業用制御システム環境では7ステップ中平均1.2〜1.4にとどまる。中小企業の防御の優先順位を、この数字から考える。">
+  <link rel="canonical" href="https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8） · AIの鬼">
+  <meta property="og:description" content="英国AI安全保障研究所が、企業ネットワークを模したサイバーレンジでAIエージェントの攻撃遂行能力を実測。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップまで到達した。一方で産業用制御システム環境では7ステップ中平均1.2〜1.4にとどまる。中小企業の防御の優先順位を、この数字から考える。">
+  <meta property="og:url" content="https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8） · AIの鬼">
+  <meta name="twitter:description" content="英国AI安全保障研究所が、企業ネットワークを模したサイバーレンジでAIエージェントの攻撃遂行能力を実測。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップまで到達した。一方で産業用制御システム環境では7ステップ中平均1.2〜1.4にとどまる。中小企業の防御の優先順位を、この数字から考える。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8）","item":"https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/"}]},{"@type":"Article","headline":"AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8）","description":"英国AI安全保障研究所が、企業ネットワークを模したサイバーレンジでAIエージェントの攻撃遂行能力を実測。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップまで到達した。一方で産業用制御システム環境では7ステップ中平均1.2〜1.4にとどまる。中小企業の防御の優先順位を、この数字から考える。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/"},"url":"https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-mx-aisi-multi-step-cyber-attack-agents.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/mx-aisi-multi-step-cyber-attack-agents/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-mx-aisi-multi-step-cyber-attack-agents.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントは多段階のサイバー攻撃をどこまで自力で進めたのか（32ステップ中9.8）</h1>
+<p class="article-lead">英国AI安全保障研究所が、企業ネットワークを模したサイバーレンジでAIエージェントの攻撃遂行能力を実測。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップまで到達した。一方で産業用制御システム環境では7ステップ中平均1.2〜1.4にとどまる。中小企業の防御の優先順位を、この数字から考える。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>英国AI安全保障研究所（AISI）が、企業ネットワークを模した専用サイバーレンジで、AIエージェントが多段階のサイバー攻撃をどこまで自力で進められるかを実測しました。32ステップ中の平均完遂数は1.7から9.8へ、最良の単一試行は22ステップ。攻撃の「熟練者の手数」が部分的に自動化され始めた、という一次データです。</p>
+<h2 id="_1">何が測られたのか（対象・期間・条件）</h2>
+<p>AISIは、実在の企業システムではなく、評価のために構築した2種類のサイバーレンジ（purpose-built cyber ranges）を用意しました。ひとつは企業ネットワークを模した環境（全32ステップ）、もうひとつは産業用制御システム＝工場などの制御系を模した環境（全7ステップ）です。ここで、2024年8月から2026年2月までの18か月間にリリースされた7つのフロンティアモデルに、攻撃シナリオを段階的に実行させ、どこまで完遂できるかを数えています。</p>
+<p>（出典：UK AI Security Institute（AISI）／英国AI安全保障研究所、2026-03-16、<a href="https://www.aisi.gov.uk/research/measuring-ai-agents-progress-on-multi-step-cyber-attack-scenarios">https://www.aisi.gov.uk/research/measuring-ai-agents-progress-on-multi-step-cyber-attack-scenarios</a>）</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>実施主体</td>
+<td>UK AI Security Institute（AISI／英国AI安全保障研究所）</td>
+</tr>
+<tr>
+<td>公開日</td>
+<td>2026-03-16</td>
+</tr>
+<tr>
+<td>対象（n数）</td>
+<td>7つのフロンティアモデル</td>
+</tr>
+<tr>
+<td>対象期間</td>
+<td>2024年8月〜2026年2月にリリースされたモデル</td>
+</tr>
+<tr>
+<td>評価環境1</td>
+<td>企業ネットワーク型サイバーレンジ（全32ステップ）</td>
+</tr>
+<tr>
+<td>評価環境2</td>
+<td>産業用制御システム型サイバーレンジ（全7ステップ）</td>
+</tr>
+<tr>
+<td>主条件</td>
+<td>トークン予算1,000万で固定（追加検証で1億まで拡大）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1798">一次資料の実測：1.7ステップから9.8ステップへ</h2>
+<p>数字はすべて、上記の条件下で読む必要があります。</p>
+<ul>
+<li><strong>1.7 → 9.8ステップ</strong>：企業ネットワーク型サイバーレンジにおける平均完遂ステップ数の推移。分母は32ステップ、トークン予算1,000万で固定した条件。GPT-4o（2024年8月）が1.7、Opus 4.6（2026年2月）が9.8。18か月間の7モデルの比較です。</li>
+<li><strong>22／32ステップ</strong>：最良の単一試行（best single run）が完遂したステップ数。平均ではありません。AISIはこれを、人間の専門家が要すると推定される14時間のうち約6時間相当と換算しています。</li>
+<li><strong>最大59%改善</strong>：推論時の計算量を増やしたときの性能向上幅の上限値。トークン予算を1,000万から1億へ増やした場合の結果です。AISIは、性能が推論時計算量に対して対数線形にスケールし、プラトー（頭打ち）は観測されていないと記述しています。</li>
+<li><strong>平均1.2〜1.4ステップ（最大3）</strong>：産業用制御システム型サイバーレンジでの完遂ステップ数。分母は7ステップ。これは直近の最新モデルに限った値で、AISIはこれらを「初めて安定してステップを完遂したモデル」と表現しています。旧世代モデルはさらに低い水準です。</li>
+</ul>
+<p>ここで重要なのは、企業ネットワーク環境（32ステップ）と産業用制御システム環境（7ステップ）は分母が異なるため、9.8/32と1.2〜1.4/7を直接比較できないことです。片方が「約31%」で片方が「約17〜20%」だから近い、という読み方はできません。シナリオの難易度も内容も別物です。言えるのは、環境ごとの傾向が明確に違う、という点だけです。</p>
+<h2 id="_2">この記事の数字の出どころについて</h2>
+<p>読者が判断できるように書いておきます。この記事は、AISIが自ら構築した評価手法とサイバーレンジで、自ら測定した結果の発表を扱っています。AISIは英国政府のAI安全性評価機関であり、AIリスク評価の必要性を主張する立場にあります。つまり、自らが構築した評価手法・サイバーレンジの有効性を示す文脈での公表です。第三者による再現や検証を経た数字ではありません。</p>
+<p>さらに、ウェブ掲載版の本文には、手法上の限界、結果の一般化可能性、エリシテーション（モデルの能力を引き出す手法）の条件、そして今回の数値が下限値なのかどうかについて、明示的な記述が見当たりませんでした。詳細な限界の議論を確認したい場合は、arXiv掲載のフルペーパー（arxiv.org/abs/2603.11214）にあたる必要があります。</p>
+<p>不都合な点をまとめておきます。</p>
+<ul>
+<li>測定対象は実在の企業ネットワークではなく、評価用に作られた専用サイバーレンジ2種。実環境での攻撃成功率を測ったものではありません。</li>
+<li>評価対象は7つのフロンティアモデルのみ。市販モデルやオープンウェイトモデルを含む全体の実態ではありません。</li>
+<li>「人間専門家で14時間」という基準は、本文でも「推定（estimated）」であり、実測値ではありません。22ステップ＝約6時間相当という換算も、この推定の上に乗っています。</li>
+</ul>
+<h2 id="_3">読者への意味：狙われない前提が崩れる</h2>
+<p>中小企業の防御設計は、多くの場合「うちみたいな小さい会社に、わざわざ人手をかけて侵入してくる攻撃者はいない」という前提の上に立っています。標的型の多段階攻撃には熟練者の時間が要る、だから割に合わない標的は後回しになる。この前提は、これまでは経験則としてある程度機能してきました。</p>
+<p>今回の数字が示すのは、その熟練者の手数の一部が、モデルの世代交代とともに自動化され始めているということです。18か月で平均1.7→9.8、単一試行で22/32、しかも推論時計算量を10倍にすれば最大59%改善し、頭打ちは見えていない。攻撃側から見れば、1件あたりに人間の熟練者を張り付けるコストが下がる方向に働きます。コストが下がれば、標的を選別する基準も下がります。「割に合わないから狙われない」という守り方の根拠が、静かに薄くなっていく。</p>
+<p>一方で、製造業の方には別の読み方があります。産業用制御システム環境では7ステップ中平均1.2〜1.4、最大3。最新モデルでようやく安定してステップを踏み始めた段階です。工場の制御系は、少なくともこの評価の範囲では、まだ自動化された攻撃の主戦場ではありません。</p>
+<p>したがって当面の優先度は、制御系の全面的な対策よりも、情報系ネットワークの基本防御の底上げに置くのが妥当だ、という判断材料になります。具体的には、Active Directory、端末、VPN、そして認証情報の管理です。多段階攻撃の初期ステップは、たいていここから始まります。日本国内の侵入経路の傾向については<a href="/articles/co-mandiant-m-trends-2026/">マンディアントのM-Trends 2026レポート</a>や<a href="/articles/jp-jpcert-quarterly-fy2026-q1/">JPCERT/CCの四半期報告</a>もあわせて見ると、優先順位を組み立てやすくなります。</p>
+<h2 id="toe">TOEの読み筋：まず「棚卸し」から</h2>
+<p>はじめに明記します。<strong>TOEでは、このAISIの評価手法を用いた検証は未実施です。</strong> 以下は一次資料の数字と、日常の実務から見た読み筋であり、当社の実測に基づく主張ではありません。</p>
+<p>そのうえで、この数字を受けて中小企業がやるべきことは、新しいセキュリティ製品を買うことではないと考えています。多段階攻撃の32ステップのうち、序盤の数ステップは「使われていないVPNアカウントが残っている」「退職者のIDが生きている」「管理者権限が必要以上に配られている」といった、製品ではなく運用の穴を通ります。AIエージェントが自動化しつつあるのは、まさにその穴を機械的に探して踏んでいく作業です。</p>
+<p>つまり効くのは、次のような地味な棚卸しです。</p>
+<ul>
+<li>現在有効なアカウント一覧を出し、使われていないものを止める</li>
+<li>管理者権限を持つアカウントを数え、その数を減らす</li>
+<li>外部から接続できる入口（VPN、リモートデスクトップ、公開サーバー）を列挙し、必要なものだけに絞る</li>
+<li>多要素認証が入っていない入口を特定する</li>
+<li>これらを誰が何か月ごとに見直すか、担当と頻度を決める</li>
+</ul>
+<p>いずれも新規投資をほとんど伴いません。中小企業のセキュリティ実態については<a href="/articles/jp-ipa-chusho-security-jittai-2024/">IPAの中小企業実態調査</a>にデータがあり、そこで示されている「体制がない」「担当が兼務」という状況は、この棚卸しを一度もやっていない企業が相当数あることを意味します。</p>
+<p>もうひとつ。今回の結果を「AIが危険だから使うのをやめよう」と読むのは、判断としてずれています。測られたのは攻撃側の自動化速度であって、AI活用の是非ではありません。同じ推論時計算量のスケーリングは、防御側のログ分析や異常検知にも同じように効きます。止めるべきは無防備な運用であって、AIの利用そのものではありません。</p>
+<h2 id="_4">この数字をどう扱うべきでないか</h2>
+<p>最後に、扱い方の注意を書いておきます。</p>
+<p>第一に、「9.8ステップ完遂したから、AIが企業に侵入できる」とは言えません。測ったのはサイバーレンジであって実環境ではなく、実環境での攻撃成功率は別の話です。第二に、「22ステップ＝6時間分を自動化」という数字は単一試行の最良値であり、平均ではありません。第三に、この評価は7モデルのみを対象としており、世の中のAIモデル全体の傾向を示すものではありません。</p>
+<p>数字を根拠に社内で予算を通そうとするなら、この3点をセットで説明できる状態にしてから持っていくべきです。都合のいい部分だけを切り取って提示すると、後で「話が違う」となり、次の提案が通らなくなります。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>AISIは、企業ネットワーク型（32ステップ）と産業用制御システム型（7ステップ）の専用サイバーレンジで、2024年8月〜2026年2月にリリースされた7つのフロンティアモデルの攻撃遂行能力を測定した</li>
+<li>企業ネットワーク環境では、トークン予算1,000万の条件下で平均完遂ステップ数が1.7（GPT-4o／2024年8月）から9.8（Opus 4.6／2026年2月）へ推移し、最良の単一試行は22／32ステップに到達した</li>
+<li>産業用制御システム環境では最新モデルでも7ステップ中平均1.2〜1.4（最大3）にとどまり、両環境は分母が異なるため直接比較はできない</li>
+<li>測定対象は専用サイバーレンジであり実環境の成功率ではないこと、人間専門家の14時間は推定値であること、ウェブ掲載版に手法上の限界の明示的記述が見当たらないことは、数字と同時に把握しておく必要がある</li>
+<li>TOEでは同手法での検証は未実施。中小企業の当面の打ち手は制御系の全面対策ではなく、情報系（AD・端末・VPN・認証情報）の棚卸しと基本防御の底上げに置くのが妥当と考えている</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

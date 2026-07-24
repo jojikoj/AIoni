@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？ · AIの鬼</title>
+  <meta name="description" content="論証エッセイの自動採点システムWrAFTは、採点・表層修正・深層コメントの3工程を分割し、それぞれ別のLLMと手法を割り当てた。採点はファインチューニングでRMSE 0.57→0.44に改善したが、深いコメントではファインチューニング版が出力欠落を起こし素のプロンプトに負けた。工程分割の実証データを中小企業の文書チェック業務に引き写して読む。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-wraft/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-wraft/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？ · AIの鬼">
+  <meta property="og:description" content="論証エッセイの自動採点システムWrAFTは、採点・表層修正・深層コメントの3工程を分割し、それぞれ別のLLMと手法を割り当てた。採点はファインチューニングでRMSE 0.57→0.44に改善したが、深いコメントではファインチューニング版が出力欠落を起こし素のプロンプトに負けた。工程分割の実証データを中小企業の文書チェック業務に引き写して読む。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-wraft/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？ · AIの鬼">
+  <meta name="twitter:description" content="論証エッセイの自動採点システムWrAFTは、採点・表層修正・深層コメントの3工程を分割し、それぞれ別のLLMと手法を割り当てた。採点はファインチューニングでRMSE 0.57→0.44に改善したが、深いコメントではファインチューニング版が出力欠落を起こし素のプロンプトに負けた。工程分割の実証データを中小企業の文書チェック業務に引き写して読む。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？","item":"https://ai-oni.com/articles/ai-wraft/"}]},{"@type":"Article","headline":"AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？","description":"論証エッセイの自動採点システムWrAFTは、採点・表層修正・深層コメントの3工程を分割し、それぞれ別のLLMと手法を割り当てた。採点はファインチューニングでRMSE 0.57→0.44に改善したが、深いコメントではファインチューニング版が出力欠落を起こし素のプロンプトに負けた。工程分割の実証データを中小企業の文書チェック業務に引き写して読む。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-wraft/"},"url":"https://ai-oni.com/articles/ai-wraft/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-wraft.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-wraft/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-wraft.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？</h1>
+<p class="article-lead">論証エッセイの自動採点システムWrAFTは、採点・表層修正・深層コメントの3工程を分割し、それぞれ別のLLMと手法を割り当てた。採点はファインチューニングでRMSE 0.57→0.44に改善したが、深いコメントではファインチューニング版が出力欠落を起こし素のプロンプトに負けた。工程分割の実証データを中小企業の文書チェック業務に引き写して読む。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。工程ごとに分けたほうが精度は出ます。ただし「分けたうえで、工程ごとに手法を変える」ところまでやらないと意味がありません。採点にはファインチューニングが効き、深いコメントには効かないどころか出力が壊れた、という実測が出ています。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>King's College London、早稲田大学、北京郵電大学、シェフィールド大学、法政大学の研究者らが、論証エッセイの自動採点・フィードバックシステム「WrAFT」を発表しました（出典：arXiv:2607.14524、2026年7月16日（arXiv:2607.14524v1）、<a href="https://arxiv.org/abs/2607.14524v1">https://arxiv.org/abs/2607.14524v1</a>）。</p>
+<p>このシステムの設計思想が、そのまま中小企業のAI活用に引き写せます。やっていることは単純で、「エッセイを評価してフィードバックを返す」という一見ひとかたまりの仕事を、3つのモジュールに割ったことです。</p>
+<ul>
+<li>採点モジュール（スコアを出す）</li>
+<li>表層フィードバックモジュール（文法・語法の誤りを直す）</li>
+<li>深層フィードバックモジュール（構成や論証の質にコメントする）</li>
+</ul>
+<p>そして、この3つに別々のモデルと別々の手法を割り当てています。採点にはファインチューニングしたGPT-4o、深層フィードバックにはファインチューニングなしのClaude 3.7、という具合です。「全部入りの万能プロンプトを1本書く」のではなく、工程ごとに道具を替えた。ここが読みどころです。</p>
+<p>実験データはETSの非公開データセットから取ったTOEFL Independent Writingのエッセイ480本。2つの課題文に均等配分され、スコアは1〜5を0.5刻みで付与されています。この480本を、採点モジュールのファインチューニング用に120本、テスト用に360本へ分割しました。フィードバックの評価にはこれとは別に40本を使っています。</p>
+<h2 id="120">採点モジュール：120本の教師データでどこまで上がったか</h2>
+<p>採点精度の結果です。テストは360本。</p>
+<table>
+<thead>
+<tr>
+<th>モデル・条件</th>
+<th>QWK</th>
+<th>RMSE</th>
+<th>完全一致</th>
+<th>隣接一致</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-4o（ファインチューニング）</td>
+<td>0.84</td>
+<td>0.44</td>
+<td>45%</td>
+<td>48%</td>
+</tr>
+<tr>
+<td>LLaMA-3.3-70B</td>
+<td>0.81</td>
+<td>0.53</td>
+<td>41%</td>
+<td>45%</td>
+</tr>
+<tr>
+<td>ベースライン</td>
+<td>0.78</td>
+<td>0.57</td>
+<td>33%</td>
+<td>52%</td>
+</tr>
+</tbody>
+</table>
+<p>QWK（二次重み付きカッパ）は人間の採点との一致度を示す指標で、1.0に近いほど良い。RMSE（二乗平均平方根誤差）は誤差なので小さいほど良い。ベースラインのQWK 0.78・RMSE 0.57に対し、120本でファインチューニングしたGPT-4oはQWK 0.84・RMSE 0.44。人間との完全一致率も33%から45%へ上がっています。</p>
+<p>たった120本の教師データで、ここまで動く。これは中小企業にとって現実的な数字です。社内に蓄積された過去の判断事例が100件強あれば、採点・分類の精度は上げられる可能性がある、ということになります。</p>
+<p>ただし、ここに不都合な結果があります。<strong>隣接一致率（1段階ずれまでを許容した一致率）では、GPT-4oの48%がベースラインの52%に負けています。</strong> 完全一致は増えたが、外したときの外し方が大きくなった、と読めます。論文はこの結果を隠していません。精度指標を1つだけ見て「勝った」と言うのは危険だ、という実例です。</p>
+<h2 id="_2">フィードバックモジュール：ファインチューニングが逆効果になった場所</h2>
+<p>表層フィードバック（文法修正）の結果は良好でした。評価用40本から抽出した2,049件の修正提案のうち、人間の評価者が「必要かつ有効」と判定したのは96.14%（1,970/2,049件）。文法誤り訂正（GEC）の観点では、指摘された修正のうち「必要」と判定された割合は96.88%に達しています。しかもこれは高度なファインチューニングなしで、プロンプト設計だけで到達した数字です。</p>
+<p>深層フィードバックも数字は出ています。大学教員8名が90本を注釈したデータを基準に評価したところ、構成・論証全体に関するマクロコメントは93.03%（187/201件）が有効と判定され、評価者間一致はAC₁=0.89で有意（p&lt;0.001）でした。細部に関するミクロコメントは94.69%（596/630件）が「必要かつ有効」と判定され、AC₁は必要性0.91、有効性1.00です。</p>
+<p>問題はここからです。深層フィードバックでは、<strong>ファインチューニングした版のほうが出力欠落や書式崩れを起こし、素のプロンプトに負けました。</strong> 少数データでのファインチューニングは、短い定型出力（スコア）には効くが、長く構造化された自由記述には壊れ方のリスクを持ち込む。この一点だけでも、この論文を読む価値があります。</p>
+<h2 id="_3">論文が自分で認めている限界</h2>
+<p>誠実に書かれた論文なので、限界の記述が具体的です。実務で真似する前に、必ずここを読んでください。</p>
+<ul>
+<li>非公開の単一データセット（ETSのTOEFLエッセイ480本）しか使っておらず、他の自動作文評価（AWE）研究との直接比較ができない</li>
+<li>評価は精度（precision）のみで、再現率（recall）を測っていない。つまり<strong>見逃した誤りが何件あったかは分からない</strong></li>
+<li>隣接一致率ではファインチューニング版が負けている（48%対52%）</li>
+<li>学習者の文章が実際に上達したかという時系列の効果検証は一切行っていない</li>
+<li>課題文付きの論証エッセイに限定され、資料参照型のライティングには対応できない</li>
+<li>LLMのハルシネーションにより、誤りでないものを誤りと指摘するケースが残る</li>
+<li>商用APIに依存しているため、コスト・持続性・データプライバシーの懸念があると著者自身が明記している</li>
+</ul>
+<p>特に2番目と最後の2つは、そのまま中小企業の導入検討リストになります。「96%が有効だった」という数字は、AIが指摘した内容の精度であって、AIが見落とした分は勘定に入っていません。契約書チェックや品質記録の点検にこの発想を持ち込むなら、見落とし側のリスクは別途評価する必要があります。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>読者の会社に引き写すと、示唆は3つです。</p>
+<p><strong>1つめ。AIに任せる業務は、工程に割ってから道具を選ぶ。</strong> 「見積書のチェックをAIにやらせたい」を1つのプロンプトで書くと、金額計算の照合と、条件文言の抜け確認と、書きぶりの改善提案が全部混ざります。この論文がやったのは、それを分けて、金額照合には固い手法、書きぶりには自由度の高い手法、と割り当てたことです。工程分割は精度の話であって、単なる整理整頓ではありません。この考え方は<a href="/articles/ai-workflow-automation/">AIで業務フローを自動化するときの設計</a>の基本にもなります。</p>
+<p><strong>2つめ。ファインチューニングに投資する前に、プロンプト設計で足りるか試す。</strong> 文法修正モジュールは96.88%を「高度なファインチューニングなし」で出しています。逆に深層フィードバックではファインチューニングが出力を壊した。少数データのファインチューニングは万能薬ではない、という実証例が同じ論文の中に両方あるわけです。まずプロンプトで試し、それでも足りない定型出力の工程に限ってファインチューニングを検討する。順序はこちらです。</p>
+<p><strong>3つめ。商用API依存の限界を、著者自身が書いている。</strong> 顧客情報や図面、原価が載った文書を扱う会社が、この構成をそのまま外部APIで組むわけにはいきません。社外に出せない文書の扱いについては<a href="/articles/ai-local-llm/">ローカルLLMを社内で動かす選択肢</a>を先に検討する必要があります。工程分割の考え方は流用できても、どのモデルをどこで動かすかは自社の条件で決め直すことになります。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、<strong>TOEではWrAFTの検証は未実施です。</strong> 論文を再現実験したわけでも、TOEFLエッセイを採点させたわけでもありません。以下は論文の数字から立てた読みです。</p>
+<p>読み筋としては、この論文の価値は「AWEシステムの提案」ではなく「工程分割の効果が数字で分かれた記録」にあると見ています。採点ではファインチューニングが勝ち（RMSE 0.57→0.44）、深層コメントでは負けた。同一チーム・同一データで、手法の当たり外れが工程ごとに逆転している例は貴重です。</p>
+<p>中小企業の現場に置き換えると、狙い目は「判断の粒が細かく、正解が短く、社内に過去事例が100件以上ある業務」です。問い合わせの一次分類、書類の不備チェック、経費の勘定科目仕分けあたりが該当します。逆に、長い文章を生成させる工程は、教師データを集めるより評価基準を言語化してプロンプトに書くほうが早い可能性が高い。ここは<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を先に作る</a>話とつながります。</p>
+<p>もう一点、実務家として押さえておきたいのは再現率の欠落です。96%という数字は導入判断の場で強く響きますが、測られているのは「指摘した中の正解率」だけです。見落としが許されない業務にAIを入れるなら、精度の数字だけで稟議を通さず、抜けの検証をどう設計するかを最初に決めるべきです。この論文はその設計をしていない、と正直に書いている。そこは信用できる論文だと考えています。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>論証エッセイの自動評価システムWrAFTは、採点・表層修正・深層コメントの3モジュールに分割し、工程ごとに別のLLMと手法を割り当てた（出典：arXiv:2607.14524、2026年7月16日（arXiv:2607.14524v1）、<a href="https://arxiv.org/abs/2607.14524v1">https://arxiv.org/abs/2607.14524v1</a>）</li>
+<li>採点はTOEFLエッセイ120本のファインチューニングでQWK 0.84・RMSE 0.44に到達し、ベースライン（QWK 0.78・RMSE 0.57）を上回った。テストは360本</li>
+<li>ただし隣接一致率ではGPT-4oの48%がベースラインの52%に負けており、深層フィードバックではファインチューニング版が出力欠落や書式崩れを起こして素のプロンプトに劣った</li>
+<li>フィードバックの人間評価は表層96.14%（1,970/2,049件）、マクロ93.03%（187/201件）、ミクロ94.69%（596/630件）と高いが、測られているのは精度のみで再現率は未測定。見逃し件数は不明</li>
+<li>著者自身が単一非公開データセット・学習効果の未検証・ハルシネーション・商用API依存によるコストとデータプライバシーの懸念を限界として明記している。TOEではWrAFTの検証は未実施で、以上は論文の数字からの読み</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

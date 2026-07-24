@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIに観点リストを渡すと精度は上がるのか？合成データで100.0%だったF1が実データで41.7%に落ちた検証 · AIの鬼</title>
+  <meta name="description" content="AIに「見るべき観点リスト」を与えると、自作の検証データでは検出率が20.0%から100.0%に跳ね上がりました。ところが同じ設定を実データに当てると、F1は41.7%まで落ち、観点リストなしの素のAI（61.5%）を下回りました。手元のテストで満点だから本番でも大丈夫、という判断がなぜ危険なのかを、論文の実測値で確認します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIに観点リストを渡すと精度は上がるのか？合成データで100.0%だったF1が実データで41.7%に落ちた検証 · AIの鬼">
+  <meta property="og:description" content="AIに「見るべき観点リスト」を与えると、自作の検証データでは検出率が20.0%から100.0%に跳ね上がりました。ところが同じ設定を実データに当てると、F1は41.7%まで落ち、観点リストなしの素のAI（61.5%）を下回りました。手元のテストで満点だから本番でも大丈夫、という判断がなぜ危険なのかを、論文の実測値で確認します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIに観点リストを渡すと精度は上がるのか？合成データで100.0%だったF1が実データで41.7%に落ちた検証 · AIの鬼">
+  <meta name="twitter:description" content="AIに「見るべき観点リスト」を与えると、自作の検証データでは検出率が20.0%から100.0%に跳ね上がりました。ところが同じ設定を実データに当てると、F1は41.7%まで落ち、観点リストなしの素のAI（61.5%）を下回りました。手元のテストで満点だから本番でも大丈夫、という判断がなぜ危険なのかを、論文の実測値で確認します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIに観点リストを渡すと精度は上がるのか？合成データで100.0%だったF1が実データで41.7%に落ちた検証","item":"https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/"}]},{"@type":"Article","headline":"AIに観点リストを渡すと精度は上がるのか？合成データで100.0%だったF1が実データで41.7%に落ちた検証","description":"AIに「見るべき観点リスト」を与えると、自作の検証データでは検出率が20.0%から100.0%に跳ね上がりました。ところが同じ設定を実データに当てると、F1は41.7%まで落ち、観点リストなしの素のAI（61.5%）を下回りました。手元のテストで満点だから本番でも大丈夫、という判断がなぜ危険なのかを、論文の実測値で確認します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/"},"url":"https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-routing-ceilings-are-domainindepen.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-routing-ceilings-are-domainindepen/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-routing-ceilings-are-domainindepen.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIに観点リストを渡すと精度は上がるのか？合成データで100.0%だったF1が実データで41.7%に落ちた検証</h1>
+<p class="article-lead">AIに「見るべき観点リスト」を与えると、自作の検証データでは検出率が20.0%から100.0%に跳ね上がりました。ところが同じ設定を実データに当てると、F1は41.7%まで落ち、観点リストなしの素のAI（61.5%）を下回りました。手元のテストで満点だから本番でも大丈夫、という判断がなぜ危険なのかを、論文の実測値で確認します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIに「チェックすべき観点リスト」を渡すと、自分で作った検証データでの成績は劇的に上がりますが、その改善は実データに転移しませんでした。合成データでF1 100.0%だった条件が、実データでは41.7%。観点リストを渡さない素のAI（61.5%）より低い数字です。手元のテストの点数は、本番の性能を保証しません。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>題材は、Manuel Israel Cázares氏の単著論文「Routing Ceilings Are Domain-Independent: Structural Prior Injection in Code Search」です（出典：arXiv:2607.14628、2026年7月16日（arXiv:2607.14628v1）、<a href="https://arxiv.org/abs/2607.14628v1">https://arxiv.org/abs/2607.14628v1</a>）。</p>
+<p>やっていることは単純です。ソースコードの脆弱性を見つけるという作業をAIにやらせるとき、何も指示しない状態（ゼロショット）と、「こういう観点で見ろ」という構造的な前提知識＝チートシートを与えた状態を比べています。使ったモデルは GPT-OSS-120B、Llama-3.3-70B、Gemma-4-31B の3種類です。</p>
+<p>まず、著者が作った合成データでの結果です。ここでの成績は文句なしでした。</p>
+<ul>
+<li>意味的な脆弱性（N+1）の検出率は、20.0% から 100.0% へ改善。3モデルすべてが100.0%に到達しました（条件：合成データ、N+1カテゴリ）</li>
+<li>GPT-OSS-120B の N+1 カテゴリのF1は、28.6% から 96.8%（+68.2ポイント）へ（条件：合成データ、表3）</li>
+<li>誤った枠組みに当てはめてしまう「ミスルーティング」は、ゼロショットでは合成13件・実データ19件発生していたのに対し、チートシート使用時は合成・実データ合わせて17ランすべてで0件でした</li>
+</ul>
+<p>合成コーパスの規模は、学習用278ペア＋ホールドアウト70ペアの計348ペア（著者が作成した合成データセット）です。この数字だけ見れば、「観点リストを書けばAIは劇的に賢くなる」という話に見えます。</p>
+<h2 id="_2">実データに当てた瞬間に何が起きたか</h2>
+<p>問題はここからです。著者は同じ設定を、VUDENCという実データのベンチマーク（実際に報告されたCVE由来）に当てました。評価は1条件あたり30サンプル（脆弱15＋正常15）です。</p>
+<table>
+<thead>
+<tr>
+<th>条件（GPT-OSS-120B、CWE-89）</th>
+<th>合成データのF1</th>
+<th>実データのF1</th>
+<th>差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>チートシートv2</td>
+<td>100.0%</td>
+<td>41.7%</td>
+<td>−58.3ポイント</td>
+</tr>
+<tr>
+<td>ゼロショット（素のAI）</td>
+<td>90.9%</td>
+<td>61.5%</td>
+<td>−29.4ポイント</td>
+</tr>
+</tbody>
+</table>
+<p>読み方は2つあります。ひとつは、どちらも実データでは落ちるということ。もうひとつは、落ち方が同じではないということです。素のAIは29.4ポイントの低下で済んだのに、丁寧に観点リストを作り込んだv2は58.3ポイント落ち、順位が逆転しました。実データでは、41.7% &lt; 61.5% です。</p>
+<p>しかもv2は、v1の誤答を見て直したバージョンです。「間違いを見て、プロンプトを直して、また試す」という、多くの現場でやっている改善サイクルそのものです。それが実データではv1より悪化した。著者はこの、自分の手法にとって都合の悪い結果をそのまま報告しています。反復的な再較正では直らない、ということです。</p>
+<h2 id="_3">タスクの種類によって難易度がまったく違う</h2>
+<p>もうひとつ実務に効く数字があります。同じGPT-OSS-120B・合成データで、タスクの性質ごとにゼロショットのF1が階段状に落ちていました。</p>
+<table>
+<thead>
+<tr>
+<th>タスクの性質</th>
+<th>例</th>
+<th>ゼロショットF1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>構文的（見た目のパターンで判断できる）</td>
+<td>CWE-798</td>
+<td>90.9%</td>
+</tr>
+<tr>
+<td>文脈的（周辺を見る必要がある）</td>
+<td>CWE-284</td>
+<td>85.7%</td>
+</tr>
+<tr>
+<td>意味的（意味を追って初めて分かる）</td>
+<td>N+1</td>
+<td>28.6%</td>
+</tr>
+</tbody>
+</table>
+<p>構文的なものは素のAIでも90.9%。一方、意味的なものは28.6%で、業務にそのまま使える水準ではありません。この勾配は、AIに任せる作業を切り分けるときの物差しになります。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>中小企業のAI導入で最も起きやすい失敗は、「社内で作ったサンプルで試したら100点だったので本番投入」です。この論文は、その失敗の構造を数字で示しています。自作の観点プロンプトは、自作のテストケースに過剰適合します。そして過剰適合したプロンプトは、実データでは素のAIより悪くなりうる。</p>
+<p>実務ルールとして持ち帰るべきは3つです。</p>
+<ul>
+<li>評価は必ず本番と同じ実データで行う。自分で作ったサンプルの点数は、導入可否の根拠にしない</li>
+<li>プロンプト改善の効果を、手元テストの点数で判定しない。手元の誤答を潰す作業は、本番性能を下げる方向に働くことがある</li>
+<li>「見た目のパターンで済む作業」と「意味を追う作業」を分ける。後者は素のAIで28.6%という水準がありうるので、人の確認を残す設計にする</li>
+</ul>
+<p>評価軸そのものの作り方については<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>、指示文の効果をどう見積もるかについては<a href="/articles/ai-skill-instruction-effect/">スキル指示書の効果検証</a>も併せて読むと、判断の順序が組み立てやすくなります。</p>
+<h2 id="_5">論文自身が認めている限界</h2>
+<p>この論文は、自分の弱点をかなり率直に書いています。読むときは以下を前提にしてください。</p>
+<ul>
+<li>実データ評価が1条件あたり30サンプル（脆弱15＋正常15）と極めて小さく、統計的な確からしさが弱いことを著者自身が認めている。母集団はCWE-89が8,646脆弱/10,223正常、CWE-22が1,701/2,469</li>
+<li>チートシートは第一著者が手作業で作成しており、作成者間の一致度（inter-rater reliability）は検証されていない</li>
+<li>Gemmaは一貫性のため推論（reasoning）を無効にして実行しており、先行研究と条件が揃っていない</li>
+<li>実験マトリクスが未完成で、条件C（統合チートシート）と条件D（漸進的飽和）は未検証</li>
+<li>VUDENCはPython限定。C/C++やJavaなどコンパイル言語で同じ崩壊パターンが起きるかは未解決</li>
+<li>本研究は先行研究（数学的推論）の実験デザインを別ドメインで再現したものであり、新規手法の提案ではない</li>
+</ul>
+<p>つまり「観点リストは必ず失敗する」と一般化できる論文ではありません。30サンプルで出た41.7%という数字は、方向性の警告として受け取るのが妥当です。それでも、警告としては十分に具体的です。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、TOEではこの論文の再現実験を実施していません。コード脆弱性検出への適用も未実施です。以下は論文の数字を踏まえた読みです。</p>
+<p>社内でAI活用を進めると、ほぼ必ず「プロンプトを育てる」段階に入ります。誤答が出るたびに指示文へ条件を書き足していく、あの作業です。この論文が示しているのは、その作業が本番性能の改善と等号で結べないことです。書き足した条件は、書き足すきっかけになった事例に最適化されているので、当然といえば当然の話でもあります。</p>
+<p>そこで運用に組み込むべきなのは、「改善前後を、改善のきっかけになった事例とは別の、本番由来のデータで比較する」という一手間です。素のAIとの比較も残しておく。素のAIより悪くなっていないかを確認する列がないと、今回のような逆転に気づけません。導入初期の進め方は<a href="/articles/ai-first-step-smb/">中小企業のAI最初の一歩</a>、ツールの選び方の考え方は<a href="/articles/ai-tool-selection/">AIツールの選定基準</a>にまとめています。</p>
+<p>もうひとつ。ミスルーティングが0件になったことは事実です。観点リストには、AIの答えを「暴走させない」効果は確かにあります。ただしそれは精度が上がることとは別の話で、枠に沿って自信を持って間違える、という状態にもなりえます。安定と正確さを混同しないこと。ここが今回の一番実務的な教訓だと考えています。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>観点リスト（構造的プリオール）を与えると、合成データでは検出率20.0%→100.0%、F1 28.6%→96.8%（+68.2ポイント）と劇的に改善した（GPT-OSS-120B、N+1カテゴリ）</li>
+<li>しかし実データ（VUDENC、CWE-89、1条件30サンプル）では、チートシートv2のF1は41.7%まで落ち、素のAIの61.5%を下回った</li>
+<li>誤答を見て直したv2が実データでv1より悪化しており、手元の誤答を潰す改善サイクルが本番性能を下げうる</li>
+<li>タスクは構文的90.9%・文脈的85.7%・意味的28.6%と難易度に明確な勾配があり、意味を追う作業には人の確認を残す設計が要る</li>
+<li>実データ評価は30サンプルと小さく、チートシートは単一著者の手作業、Pythonのみという限界を著者自身が明記している。TOEではこの再現実験を未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄 · AIの鬼</title>
+  <meta name="description" content="英国AI安全保障研究所（AISI）が2023年11月〜2025年10月に30以上のフロンティアシステムを評価した報告書を読み解きます。1時間規模の開発タスク完遂率は5%未満から40%超へ。しかし能力と安全対策の強さの相関はR^2=0.097でほぼ無く、テストした全システムで万能脱獄が見つかりました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄 · AIの鬼">
+  <meta property="og:description" content="英国AI安全保障研究所（AISI）が2023年11月〜2025年10月に30以上のフロンティアシステムを評価した報告書を読み解きます。1時間規模の開発タスク完遂率は5%未満から40%超へ。しかし能力と安全対策の強さの相関はR^2=0.097でほぼ無く、テストした全システムで万能脱獄が見つかりました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄 · AIの鬼">
+  <meta name="twitter:description" content="英国AI安全保障研究所（AISI）が2023年11月〜2025年10月に30以上のフロンティアシステムを評価した報告書を読み解きます。1時間規模の開発タスク完遂率は5%未満から40%超へ。しかし能力と安全対策の強さの相関はR^2=0.097でほぼ無く、テストした全システムで万能脱獄が見つかりました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄","item":"https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/"}]},{"@type":"Article","headline":"AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄","description":"英国AI安全保障研究所（AISI）が2023年11月〜2025年10月に30以上のフロンティアシステムを評価した報告書を読み解きます。1時間規模の開発タスク完遂率は5%未満から40%超へ。しかし能力と安全対策の強さの相関はR^2=0.097でほぼ無く、テストした全システムで万能脱獄が見つかりました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/"},"url":"https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-mx-aisi-frontier-ai-trends-2025.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/mx-aisi-frontier-ai-trends-2025/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-mx-aisi-frontier-ai-trends-2025.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントに社内業務をどこまで任せてよいか？ 1時間規模タスクの完遂率5%未満→40%超、一方でテストした全システムに万能脱獄</h1>
+<p class="article-lead">英国AI安全保障研究所（AISI）が2023年11月〜2025年10月に30以上のフロンティアシステムを評価した報告書を読み解きます。1時間規模の開発タスク完遂率は5%未満から40%超へ。しかし能力と安全対策の強さの相関はR^2=0.097でほぼ無く、テストした全システムで万能脱獄が見つかりました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIエージェントの「できること」は2年弱で大きく伸びましたが、「安全対策の強さ」はそれに比例して伸びていません。能力と安全性の相関はR^2=0.097。テストした全システムで万能脱獄が見つかっています。賢いモデルほど安全、という前提で権限を渡す設計は成り立ちません。</p>
+<p>（出典：UK AI Security Institute (AISI)、2025-12-18、<a href="https://www.aisi.gov.uk/frontier-ai-trends-report">https://www.aisi.gov.uk/frontier-ai-trends-report</a>）</p>
+<h2 id="2">一次資料の実測：能力は2年弱でどこまで伸びたか</h2>
+<p>英国AI Security Institute（AISI）が2025年12月18日に公開した「Frontier AI Trends Report」は、2023年11月から2025年10月にかけて同機関が評価した30以上のフロンティアAIシステムの測定結果をまとめたものです。実測値を先に並べます。</p>
+<table>
+<thead>
+<tr>
+<th>測定項目</th>
+<th>変化</th>
+<th>対象・期間・条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>見習い（apprentice）レベルのサイバータスク完遂率</td>
+<td>10%強 → 平均50%</td>
+<td>2023年時点の最良モデル vs 2025年時点の最良モデル。分母＝各タスクの試行のうち成功した割合（各タスクをモデルごとに10回反復し平均）</td>
+</tr>
+<tr>
+<td>1時間規模のソフトウェア開発タスクの成功率</td>
+<td>5%未満 → 40%超</td>
+<td>2023年後半 → 2025年半ば。分母＝当該タスクセットの試行成功率。「人間専門家が約1時間で行う規模」という定義</td>
+</tr>
+<tr>
+<td>自力完遂できるサイバータスクの所要時間長</td>
+<td>約8か月で倍増</td>
+<td>2023年11月〜2025年10月の観測期間のトレンド。人間が要する作業時間を基準とした「タスク長」</td>
+</tr>
+<tr>
+<td>RepliBench（自律複製能力）の成功率</td>
+<td>5%未満 → 60%超</td>
+<td>2023年時点 → 2025年夏。ただし60%超は全評価ではなく一部サブセットでの値</td>
+</tr>
+<tr>
+<td>化学・生物学QAの成績（PhD専門家ベースライン＝0の相対差）</td>
+<td>-0.4 → +0.6</td>
+<td>2022年リリースモデル → 2025年リリースモデル</td>
+</tr>
+<tr>
+<td>実験プロトコルのトラブルシューティング性能</td>
+<td>人間専門家比で約90%高い</td>
+<td>2025年時点のモデル。マルチモーダルでの専門家超えは2025年半ばが初</td>
+</tr>
+<tr>
+<td>オープンソースモデルの商用最先端との差</td>
+<td>4〜8か月遅れ</td>
+<td>2025年時点の推定。2025年1月までの1年半は差が縮小傾向だったと本文が付記</td>
+</tr>
+</tbody>
+</table>
+<p>もう一つ、能力ではなく防御側の実測値があります。専門家がモデルの安全対策を突破（脱獄）するのに要した工数は、リリース時期が約6か月違う2モデルの比較で、約10分 vs 7時間超。後発モデルのほうが約40倍の手間を要しました。n＝専門家レッドチーミングによる実測、モデル2件の比較です。防御が固くなっている証拠ではあります。</p>
+<p>ただし同じ報告書に、こう書かれています。テストした「すべての」システムで万能脱獄（universal jailbreak）が発見された、と。原文は "every system we've tested"。分母はAISIが2023年11月〜2025年10月にテストしたフロンティアシステムです。7時間超かければ、突破できてしまう。</p>
+<p>そして能力の高さと安全対策の強さの相関は、AISIが評価した30以上のフロンティアシステムを対象にした分析でR^2=0.097。ほぼ相関が無い、という水準です。</p>
+<h2 id="_1">この記事の利害関係について</h2>
+<p>読む前に押さえておくべきことがあります。この記事が扱う数値は、AISI自身による発表です。</p>
+<ul>
+<li>AISIは英国政府機関であり、AIリスクの評価を所掌する立場から発信しています。リスクを示す方向のインセンティブ構造がある点は割り引いて読む必要があります</li>
+<li>RepliBench等の評価手法はAISI自身が開発したベンチマークであり、同機関は当該評価基盤の提供者・設計者です。自ら設計した物差しで測った結果である点に留意してください</li>
+<li>高リスク領域の評価の詳細はセキュリティ上の理由で非公開とされており、外部から追試・検証ができません</li>
+</ul>
+<p>数字の出どころを読者が判断できるように、この3点は最初に書いておきます。</p>
+<h2 id="_2">発信元自身が書いている限界</h2>
+<p>AISIは報告書内で、自らの測定の弱点を明示しています。都合の悪い部分も含めて引き写します。</p>
+<ul>
+<li>「タスクベースの評価は実世界での有効性を反映しない可能性がある」と明記されています。実験室的タスクの成功率であって、業務での有効性ではありません</li>
+<li>「能力の上限を過小評価している可能性がある」とも明記されています。スキャフォールディング（モデルを取り巻く足場の作り方）次第で結果が変わり、最良のエージェント構成は素のモデル比で平均成功率が約40%増だったとされています</li>
+<li>「これは一時点のスナップショットであり、予測（forecast）として読むべきではない」と明記されています</li>
+<li>RepliBenchの60%超は一部サブセットに限定された値です。計算資源や資金の獲得段階では高成績である一方、永続化（persistence）段階では苦戦していると本文が明記しています。自律複製が全般的に可能になったという意味ではありません</li>
+<li>社会的影響に関する数値（AIを情緒的サポートに使った割合など）は英国の調査参加者が分母であり、日本の中小企業の実態には直接適用できません</li>
+</ul>
+<p>さらに大きな前提として、評価対象は最先端の「素のモデル」を実験室的タスクで測ったものです。一般の企業が実際に使う業務用AI製品やSaaS組み込みAIの実態を測ったものではありません。</p>
+<h2 id="_3">読者への意味：中小企業の判断にどう効くか</h2>
+<p>この報告書から中小企業の経営者・情報システム担当が持ち帰るべき点は、多くありません。3つに絞ります。</p>
+<p>第一に、「賢いモデル＝安全なモデル」ではないことが実測で示された点です。R^2=0.097という数字は、ベンチマーク上位のモデルを選べば安全性も付いてくる、という素朴な期待を否定します。モデル選定と安全設計は別の作業です。ベンチマークの読み方については<a href="/articles/mx-epoch-benchmark-scores-one-dimension/">ベンチマークのスコアは一次元で比べてよいのか</a>も併せて参考になります。</p>
+<p>第二に、エージェントに権限を渡す設計の問題です。1時間規模のタスクを40%超の確率でこなせるということは、裏返せば6割は失敗するということでもあります。しかも8か月で扱えるタスク長が倍増するトレンドがあるなら、「今できないから大丈夫」という前提は半年で陳腐化します。前提にすべきは次の3つです。</p>
+<ul>
+<li>権限最小化：クラウドの管理者権限や基幹システムの書き込み権限を丸ごと渡さない。読み取りと書き込みを分け、対象リソースを絞る</li>
+<li>実行前承認：外部送信、決済、データ削除、権限変更を伴う操作は人間の承認を挟む</li>
+<li>ログ監査：エージェントが何をしたかを後から追える形で残す。事故時に切り分けられない構成にしない</li>
+</ul>
+<p>万能脱獄が全システムで見つかっている以上、「モデル側の安全対策」を最終防衛線に据える設計は避けるべきです。防衛線は自社の権限設計とログ側に置く。エージェントの基本的な仕組みについては<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>を、記憶を汚染される攻撃の形については<a href="/articles/ai-memory-poisoning/">AIのメモリ汚染</a>を参照してください。</p>
+<p>第三に、コスト面です。オープンソースモデルが商用最先端の4〜8か月遅れまで詰めているという推定は、自社運用（ローカル運用）を検討する際の現実的な性能見積りに使えます。半年前の最先端で足りる業務なら、選択肢に入ります。ただしこれも2025年時点の推定であり、2025年1月までの1年半は差が縮小傾向だった、という条件付きの数字です。ローカル運用の実際は<a href="/articles/ai-local-llm/">ローカルLLMの現実</a>にまとめています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、TOEでは本報告書の評価を再現する検証は未実施です。AISIのベンチマークを自社で回したわけでも、万能脱獄の再現を試したわけでもありません。以下は公開された数値からの読み筋です。</p>
+<p>私たちがこの報告書で最も実務的だと考えるのは、脱獄工数の「約10分 vs 7時間超」という比較です。防御は明確に固くなっています。一方で、7時間かければ突破できる。これは「攻撃者にとって割に合うかどうか」の話であって、「不可能かどうか」の話ではありません。中小企業が想定すべき攻撃者は、7時間を投じてまで一社を狙う相手というより、自動化された広く浅い攻撃です。その意味では防御の強化は効きます。しかし社内に不満を持つ人間が一人いれば、7時間は十分に現実的な数字になります。</p>
+<p>もう一点。1時間規模タスクの完遂率が40%超という数字を、「AIが1時間分の仕事をしてくれる」と読むのは早いと考えます。40%は試行成功率であり、10回に4回は通る、という意味です。人間の担当者に「4割の確率で正しく終わります」と言われた仕事を、確認なしで通す経営者はいないはずです。エージェント導入の設計は、この成功率を前提とした検算工程の設計とセットでなければ成り立ちません。導入初期の進め方は<a href="/articles/ai-small-team-adoption/">少人数チームでのAI導入</a>で整理しています。</p>
+<p>逆に、TOEとして懐疑的に見ている点も書きます。RepliBenchの「5%未満→60%超」は見出しとして強い数字ですが、一部サブセットでの値であり、永続化段階では苦戦とAISI自身が書いています。この種の数値が単独で引用され、中小企業の現場に不要な恐怖として届くことは避けたい。今日の意思決定に効くのは自律複製の話ではなく、権限設計とログの話です。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>AISIが2023年11月〜2025年10月に30以上のフロンティアシステムを評価。1時間規模の開発タスク成功率は5%未満→40%超、見習いレベルのサイバータスク完遂率は10%強→平均50%（各タスク10回反復の平均）</li>
+<li>能力と安全対策の強さの相関はR^2=0.097でほぼ無相関。テストした全システムで万能脱獄が発見されている。ベンチマーク上位＝安全、という前提は成り立たない</li>
+<li>脱獄工数は約10分→7時間超（約6か月違いの2モデル比較、約40倍）と防御は固くなったが、突破不能になったわけではない</li>
+<li>実務の打ち手は権限最小化・実行前承認・ログ監査の3点。防衛線をモデル側の安全対策に置かない</li>
+<li>これはAISI自身による発表であり、同機関はRepliBench等の評価基盤の提供者・設計者かつ英国政府のリスク評価機関である。またAISI自身が「実世界での有効性を反映しない可能性」「予測として読むべきではない」と明記しており、TOEでも再現検証は未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

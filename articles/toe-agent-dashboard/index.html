@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード · AIの鬼</title>
+  <meta name="description" content="弊社は社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを作りました。作って最初に分かったのは、既存の自動化が長期間まったく動いていなかったという事実です。実際の記録ファイルの数字とともに、現在地を書きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-agent-dashboard/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-agent-dashboard/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード · AIの鬼">
+  <meta property="og:description" content="弊社は社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを作りました。作って最初に分かったのは、既存の自動化が長期間まったく動いていなかったという事実です。実際の記録ファイルの数字とともに、現在地を書きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-agent-dashboard/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード · AIの鬼">
+  <meta name="twitter:description" content="弊社は社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを作りました。作って最初に分かったのは、既存の自動化が長期間まったく動いていなかったという事実です。実際の記録ファイルの数字とともに、現在地を書きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード","item":"https://ai-oni.com/articles/toe-agent-dashboard/"}]},{"@type":"Article","headline":"自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード","description":"弊社は社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを作りました。作って最初に分かったのは、既存の自動化が長期間まったく動いていなかったという事実です。実際の記録ファイルの数字とともに、現在地を書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-agent-dashboard/"},"url":"https://ai-oni.com/articles/toe-agent-dashboard/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/news-tools-13.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-agent-dashboard/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-13.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード</h1>
+<p class="article-lead">弊社は社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを作りました。作って最初に分かったのは、既存の自動化が長期間まったく動いていなかったという事実です。実際の記録ファイルの数字とともに、現在地を書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>先に結論です。株式会社TOEは、社内で自動実行している26本の処理を「AI社員」に見立て、どれが・いつ・動いたか・失敗したかを1画面で見張るダッシュボードを作りました。データベース製品は使わず、追加コストはゼロです。そして作る過程で、<strong>既存の自動化が長期間まったく動いていなかった</strong>ことが判明しました。</p>
+<p>この記事は宣伝用の紹介ではありません。実際のプロジェクトフォルダと、実行記録ファイル（執筆時点で1,609行）を開いて、書いてあることだけを書いています。</p>
+<h2 id="_1">なぜ「見張る画面」を作ったのか</h2>
+<p>弊社では、cron（決まった時刻にプログラムを自動実行するUNIXの標準機能）で26本の処理を回しています。銀行残高の同期、朝のブリーフィング生成、LINE受信処理、請求書ドラフト、補助金マッチングなどです。</p>
+<p>自動化は増やせば増やすほど便利になりますが、同時にある問題が育ちます。</p>
+<ul>
+<li><strong>どれが動いていて、どれが止まっているか、誰も把握していない</strong></li>
+<li>エラーは画面に出ず、ログファイルの末尾に静かに積まれるだけ</li>
+<li>「昨日も動いたはず」という思い込みと、実際の稼働が乖離していく</li>
+</ul>
+<p>処理が3本なら頭で覚えられます。26本は無理です。そこで「実行そのもの」ではなく「実行の見張り」を仕組みにしました。</p>
+<h2 id="db">作ったもの — DB不要・追加コストゼロ</h2>
+<p>構成はシンプルです。既存の処理スクリプトは<strong>一切書き換えず</strong>、「ランナー」と呼ぶ包み紙のプログラム経由で起動するようにしました。ランナーは処理の開始と終了のたびに、1行のJSON（テキスト形式の記録）をファイルに追記します。常駐の小さなWebサーバーがそのファイルを読み、ブラウザに1画面で表示します。</p>
+<ul>
+<li>記録の正本はテキストファイル1本（<code>runs.jsonl</code>）。データベース製品は使いません</li>
+<li>実行環境は社内のMac 1台。クラウド利用料・API課金・追加ライセンスはゼロ</li>
+<li>画面は3秒ごとに自動更新。社内ネットワーク越しにiPhoneからも見られます</li>
+<li>各処理カードには「今すぐ実行」ボタンがあり、手動での再実行もできます</li>
+</ul>
+<p>なぜデータベースを使わないか。社内専用で、閲覧するのは実質1人だからです。テキストファイルへの追記なら壊れにくく、コストもかかりません。後で本当に必要になったらデータベースに昇格できる作りにはしてあります。「最初から立派なものを作らない」は、この規模の会社では正解だと考えています。</p>
+<h2 id="26">26本を「会社の部署」に割り当てた</h2>
+<p>見せ方にも1つ工夫があります。26本の処理を、技術的な分類ではなく<strong>実在する会社の部署</strong>に割り当てました。ダッシュボード上では、各部署が「AI社員」としてタスクを持っている形に見えます。</p>
+<table>
+<thead>
+<tr>
+<th>部署</th>
+<th>タスク数</th>
+<th>主な担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>社長</td>
+<td>2</td>
+<td>週次経営レビュー統合／自己改善レビュー</td>
+</tr>
+<tr>
+<td>秘書</td>
+<td>6</td>
+<td>日次・週次ブリーフィング／メール・LINE処理</td>
+</tr>
+<tr>
+<td>マーケ</td>
+<td>1</td>
+<td>リード取込</td>
+</tr>
+<tr>
+<td>広告</td>
+<td>0</td>
+<td>（未配属）</td>
+</tr>
+<tr>
+<td>営業</td>
+<td>3</td>
+<td>ご無沙汰ドラフト／アップセル／顧客健全度の再採点</td>
+</tr>
+<tr>
+<td>製作</td>
+<td>0</td>
+<td>（未配属）</td>
+</tr>
+<tr>
+<td>経理</td>
+<td>13</td>
+<td>銀行・PL・請求・入金・税務・見積同期</td>
+</tr>
+<tr>
+<td>補助金</td>
+<td>1</td>
+<td>補助金マッチング</td>
+</tr>
+</tbody>
+</table>
+<p>独自のかっこいい分類を発明しなかったのは、経営者が画面を見た瞬間に「経理まわりの自動化が止まっている」と業務の言葉で理解できるようにするためです。技術の分類で並べると、見張れるのは作った本人だけになります。</p>
+<p>なお経理が13本と突出しているのは、経理業務が「入力も出力も型が決まっていて、毎月必ず発生する」からです。自動化の効果が最初に出るのはこの領域だと弊社は考えています。</p>
+<h2 id="_2">作った途端に分かった、一番痛い事実</h2>
+<p>ここが本題です。26本をランナー経由に載せ替える作業の中で、<strong>既存のcron自動化が長期間まったく動いていなかった</strong>ことが分かりました。原因は2つです。</p>
+<p>1つ目は、部品の欠落です。処理の共通ライブラリが必要とする部品（PyYAML）が実行環境に入っておらず、読み込みエラーがログに<strong>639回</strong>記録されていました。ログのほぼ全域がこのエラーです。</p>
+<p>2つ目は、もっと根が深い話です。cronの設定が、Xcode（Appleの開発ツール）に同梱されていたPythonという実行プログラムの場所を指していました。Xcodeを更新した際にそのPythonごと消え、処理は<strong>起動すらできない</strong>状態になっていました。</p>
+<p>エラー通知はありませんでした。画面にも何も出ません。「動いているつもり」のまま、時間だけが過ぎていました。対処として、OSに標準搭載されていて消えることのない <code>/usr/bin/python3</code> を指すよう設定を修正し、2026年7月18日14時15分から全26本が新しい仕組みの上で稼働を再開しています。</p>
+<p><strong>可視化の仕組みを作らなければ、この停止には気づけませんでした。</strong> ダッシュボードの存在価値は、きれいな画面ではなく、この一点にあります。</p>
+<h2 id="3">稼働3日目の実測値</h2>
+<p>載せ替え後の記録ファイルを集計しました。期間は7月18日12時20分から7月20日17時05分（この記事の執筆直前）までです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完了した実行</td>
+<td>804回</td>
+</tr>
+<tr>
+<td>成功</td>
+<td>790回</td>
+</tr>
+<tr>
+<td>失敗</td>
+<td>14回</td>
+</tr>
+<tr>
+<td>実行回数の最多</td>
+<td>LINE受信処理（5分おき）</td>
+</tr>
+</tbody>
+</table>
+<p>失敗14回の内訳は、メール意思決定が12回、LINE受信処理が1回、見積システム同期が1回でした。以前と決定的に違うのは、<strong>この14回の失敗が「記録として見えている」</strong>ことです。止まっていた頃は、失敗の回数すら数えられませんでした。</p>
+<h2 id="_3">まだできていないこと</h2>
+<p>正直に、現時点の未完了を書きます。</p>
+<ul>
+<li><strong>エラー通知の宛先が未設定です。</strong> 失敗はファイルと画面には記録されますが、LINE等へ自動で knock してくる仕組みはまだ配線していません。画面を見に行かなければ気づけない、という弱点は残っています</li>
+<li><strong>復旧直後の観察期間中です。</strong> 長く止まっていた処理が順に動き出したところで、外部のクラウド会計サービスと連携する処理は、認証の期限切れで失敗する可能性を警戒しています（実際に見積同期で失敗が1回出ています）</li>
+<li><strong>広告・製作の2部署はタスクゼロです。</strong> 割り当てる自動化がまだ決まっていません</li>
+</ul>
+<p>「作った、動いた、完成」ではなく、見張りの仕組み自体もまだ育てている途中です。</p>
+<h2 id="_4">あなたの会社で自動化を見張るには</h2>
+<p>弊社の実装をそのまま真似る必要はありません。ただ、考え方は規模を問わず使えます。</p>
+<ul>
+<li>自動化を1本増やすたびに「これが止まったら、どうやって気づくか」をセットで決める</li>
+<li>記録は高級な仕組みでなくてよい。開始・終了・成否を1行ずつ書き残すだけで、後から必ず効く</li>
+<li>分類は技術の言葉ではなく、業務の言葉（部署・担当）で並べる。経営者が自分で読める画面にする</li>
+<li>実行環境は「更新で消えるもの」（開発ツール同梱のプログラム等）に依存させない</li>
+</ul>
+<p>特に1つ目が重要です。弊社は見張りを後回しにした結果、自動化が丸ごと止まっていることに長期間気づきませんでした。同じ轍を踏む会社は多いはずだと考えられます。</p>
+<h2 id="_5">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-automation-stops-silently/">自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ</a></li>
+<li><a href="/articles/toe-drive-mirror-sync/">成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定</a></li>
+</ul>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>TOEは社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを構築し、2026年7月18日から本番稼働しています</li>
+<li>データベース不要・追加ランニングコストゼロ。記録はテキストファイル1本、実行は社内のMac 1台です</li>
+<li>構築の過程で、既存の自動化が長期間まったく動いていなかったことが判明しました（部品欠落のエラー639回＋実行プログラムの消滅）</li>
+<li>稼働3日で804回の実行を記録し、成功790回・失敗14回まで「数えられる」状態になりました</li>
+<li>エラーの自動通知や一部部署へのタスク配属は未完了で、運用はまだ育成中です</li>
+</ul>
+<p>自動化やAI導入は「作ること」より「動き続けていると確認できること」の方が難しい、というのが弊社の実感です。株式会社TOEでは、この記事のような自社実践をもとに、中小企業のAI開発と、導入後に止まらないための運用設計をお手伝いしています。ご相談は <a href="https://gtoe.info">株式会社TOE</a> までどうぞ。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

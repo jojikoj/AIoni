@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>高価なGPUなしでAIは動くか — CPUだけで32BモデルをまわすPolyQの実測 · AIの鬼</title>
+  <meta name="description" content="社外に出せないデータをAIに処理させたい場合、自社の機械で動かす必要があります。2026年7月公開の研究は、GPUを使わずCPUだけで大きなモデルを動かす手法を、ノートPCを含む3種類の機械で実測しました。数字と、中小企業にとっての現実的な線引きを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-cpu-local-inference/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-cpu-local-inference/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="高価なGPUなしでAIは動くか — CPUだけで32BモデルをまわすPolyQの実測 · AIの鬼">
+  <meta property="og:description" content="社外に出せないデータをAIに処理させたい場合、自社の機械で動かす必要があります。2026年7月公開の研究は、GPUを使わずCPUだけで大きなモデルを動かす手法を、ノートPCを含む3種類の機械で実測しました。数字と、中小企業にとっての現実的な線引きを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-cpu-local-inference/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="高価なGPUなしでAIは動くか — CPUだけで32BモデルをまわすPolyQの実測 · AIの鬼">
+  <meta name="twitter:description" content="社外に出せないデータをAIに処理させたい場合、自社の機械で動かす必要があります。2026年7月公開の研究は、GPUを使わずCPUだけで大きなモデルを動かす手法を、ノートPCを含む3種類の機械で実測しました。数字と、中小企業にとっての現実的な線引きを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"高価なGPUなしでAIは動くか — CPUだけで32BモデルをまわすPolyQの実測","item":"https://ai-oni.com/articles/ai-cpu-local-inference/"}]},{"@type":"Article","headline":"高価なGPUなしでAIは動くか — CPUだけで32BモデルをまわすPolyQの実測","description":"社外に出せないデータをAIに処理させたい場合、自社の機械で動かす必要があります。2026年7月公開の研究は、GPUを使わずCPUだけで大きなモデルを動かす手法を、ノートPCを含む3種類の機械で実測しました。数字と、中小企業にとっての現実的な線引きを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-cpu-local-inference/"},"url":"https://ai-oni.com/articles/ai-cpu-local-inference/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-cpu-local-inference.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-cpu-local-inference/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-cpu-local-inference.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>高価なGPUなしでAIは動くか — CPUだけで32BモデルをまわすPolyQの実測</h1>
+<p class="article-lead">社外に出せないデータをAIに処理させたい場合、自社の機械で動かす必要があります。2026年7月公開の研究は、GPUを使わずCPUだけで大きなモデルを動かす手法を、ノートPCを含む3種類の機械で実測しました。数字と、中小企業にとっての現実的な線引きを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>社外に出せないデータをAIに処理させたい場合、クラウドではなく自社の機械で動かす必要があります。そこで壁になるのが「高価なGPUが要るのではないか」という点です。2026年7月16日に公開された研究「PolyQ」は、<strong>GPUを使わずCPUだけで</strong>大きなモデルを動かす手法を、ワークステーション・ノートPC・モバイルの3種類で実測しました。結論から言えば、<strong>CPUだけの実行は実用段階に入りつつありますが、無条件ではありません。</strong></p>
+<h2 id="_1">何が測られたのか</h2>
+<p>「PolyQ」という手法を提案した論文です（出典：arXiv:2607.14618、2026年7月16日、<a href="https://arxiv.org/abs/2607.14618v1">https://arxiv.org/abs/2607.14618v1</a>）。</p>
+<p>前提として、大きなAIモデルをそのまま動かすには大量のメモリが要ります。そこで使われるのが<strong>量子化</strong>という技術です。モデル内部の数値を粗くして容量を削る手法で、たとえば16ビットで持っていた数値を4ビットにすれば、容量はおおよそ4分の1になります。当然、粗くするほど精度は落ちます。</p>
+<p>これまでの量子化は、CPUで動かすには不都合がありました。粗さの選択肢が大雑把すぎるか、細かく設定できてもCPUでは効率的に実行できないかのどちらかだったためです。PolyQ はそこを、<strong>モデルの部位ごとに細かく粗さを変えつつ、CPUが処理しやすい形に並べ替える</strong>という方法で解いています。</p>
+<p>測定されたモデルと結果は以下のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象モデル</td>
+<td>Falcon-H1-3B / Llama2-13B / Qwen3-32B</td>
+</tr>
+<tr>
+<td>割り当てるビット幅</td>
+<td>2・3・4・8・16 の組み合わせ</td>
+</tr>
+<tr>
+<td>品質が安定する範囲</td>
+<td>3〜6ビット</td>
+</tr>
+<tr>
+<td>3ビット時の品質改善</td>
+<td>従来手法比で <strong>2.4〜32.1%</strong></td>
+</tr>
+<tr>
+<td>データ並べ替えの削減</td>
+<td>最大 <strong>70.8%</strong></td>
+</tr>
+<tr>
+<td>1トークンあたりの消費電力増</td>
+<td><strong>2%未満</strong></td>
+</tr>
+<tr>
+<td>実測した機械</td>
+<td>ワークステーション／ノートPC／モバイルの3種類</td>
+</tr>
+</tbody>
+</table>
+<p>論文は、処理速度が<strong>設定したビット数にほぼ比例して変わる</strong>とも報告しています。つまり「粗くすればその分速くなる」という予測可能な挙動になっており、これは運用上ありがたい性質です。</p>
+<h2 id="_2">いちばん実務に効く数字は「メモリ」</h2>
+<p>本文には、実際に必要なメモリ量が出ています。<strong>ここが「自社のPCで動くか」を決めます。</strong></p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>必要メモリ（ピーク）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Falcon-H1-3B</td>
+<td><strong>1.47 GiB</strong></td>
+</tr>
+<tr>
+<td>Llama2-13B</td>
+<td><strong>4.98 GiB</strong></td>
+</tr>
+<tr>
+<td>Qwen3-32B</td>
+<td><strong>11.29 GiB</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>320億パラメータのモデルが、11.29GiBで動いています。</strong>メモリ16GBの一般的な業務用PCで、理論上は収まる範囲です。「AIを自社で動かすには専用サーバーが要る」という前提が、ここで崩れます。</p>
+<p>測定に使われたCPUは、<strong>Ryzen 9 9950X（16コア／ワークステーション）、Ryzen 7 7840U（8コア／ノートPC）、Intel N250（4コア／モバイル）</strong>の3種類です。研究用の特殊な機材ではなく、<strong>市販の一般的なCPU</strong>です。</p>
+<p>品質についても具体的な数値が出ています。3ビットに圧縮したときの結果です（数値は小さいほど良い指標）。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>PolyQ</th>
+<th>既存手法（AWQ）</th>
+<th>既存手法（GPTQ）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Falcon-H1-3B</td>
+<td><strong>5.82</strong></td>
+<td>5.96</td>
+<td>6.28</td>
+</tr>
+<tr>
+<td>Llama2-13B</td>
+<td><strong>4.88</strong></td>
+<td>5.29</td>
+<td>5.75</td>
+</tr>
+<tr>
+<td>Qwen3-32B</td>
+<td><strong>7.66</strong></td>
+<td>8.23</td>
+<td>10.75</td>
+</tr>
+</tbody>
+</table>
+<p><strong>大きいモデルほど、既存手法との差が開いています。</strong>Qwen3-32B では GPTQ の 10.75 に対して 7.66 と、明確に良くなっています。</p>
+<p>速度は、256トークンの入力に対する最初の応答までが <strong>0.95〜1.51秒</strong>（Ryzen 9950X）。消費電力の増加は3ビット時で <strong>0.8〜1.9%</strong> にとどまっています。データの並べ替え量の削減は、3つのモデルでそれぞれ <strong>46.6%・70.8%・52.8%</strong> でした。</p>
+<h2 id="_3">中小企業にとって何を意味するか</h2>
+<p>この研究が示しているのは、<strong>「AIを自社で動かす＝高価なGPUサーバーが必須」ではなくなりつつある</strong>ということです。</p>
+<ul>
+<li><strong>手元の機械で動く可能性がある</strong> — ノートPCを含む3種類で実測されています</li>
+<li><strong>消費電力の増加が2%未満</strong> — 電気代を理由に諦める話ではありません</li>
+<li><strong>速度が予測できる</strong> — ビット数を決めれば処理速度がほぼ決まるので、業務に合うかを事前に見積もれます</li>
+</ul>
+<p>一方で、冷静に読むべき点もあります。</p>
+<ul>
+<li><strong>品質が安定するのは3〜6ビットの範囲。</strong> それより粗くすれば当然落ちます。「限界まで削れば動く」という話ではありません</li>
+<li><strong>これは研究段階の手法です。</strong> 明日から製品として買えるものではなく、実装には技術的な作業が伴います</li>
+<li><strong>クラウドのAIと同じ性能が出るわけではありません。</strong> 32Bのモデルは、商用の最上位モデルとは規模が違います</li>
+</ul>
+<h2 id="_4">どう判断すればよいか</h2>
+<p>自社でAIを動かすかどうかは、性能ではなく<strong>そのデータをクラウドに出せるかどうか</strong>で決めるのが実務的です。</p>
+<ul>
+<li><strong>出せないデータがある</strong>（個人情報、取引先との守秘契約、図面など） → 自社実行を検討する価値があります</li>
+<li><strong>出せるデータしかない</strong> → クラウドのほうが安く速く、運用の手間もかかりません</li>
+<li><strong>一部だけ出せない</strong> → 出せない処理だけ手元で行い、それ以外はクラウドに回す切り分けが現実的です</li>
+</ul>
+<p>3つ目が実際にはいちばん多い形です。「全部をローカルにする」と考えると費用も手間も跳ね上がりますが、<strong>出せない部分だけを切り出せば規模は小さくなります。</strong></p>
+<h2 id="toe">TOEではどうか</h2>
+<p><strong>PolyQ の検証は、TOEでは実施していません。</strong>研究として公開されたばかりの手法であり、自社で動かして数字を取ってはいません。</p>
+<p>ローカルでのAI実行そのものについては<a href="/articles/ai-local-llm/">ローカルLLMという選択肢</a>に整理しています。また、クラウドと自社実行のどちらが安いかは処理件数で逆転するため、費用の考え方は<a href="/articles/ai-cost-structure/">AIのコスト構造</a>を参照してください。</p>
+<p>TOEの実務での経験から一点だけ付け加えると、<strong>自社で動かす判断をした場合、本当のコストは機械代ではなく運用です。</strong>動かし続ける、壊れたら直す、更新に追従する。この人手が続かないと、買った機械が置物になります。ここを見積もらずに始めると失敗します。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li><strong>GPUなしでCPUのみ</strong>でも、大きなAIモデルを実用的に動かせることが3種類の機械で実測された（arXiv:2607.14618、2026年7月16日）</li>
+<li>3ビット時に従来手法比 <strong>2.4〜32.1%</strong> の品質改善、消費電力の増加は <strong>0.8〜1.9%</strong>、速度はビット数にほぼ比例</li>
+<li><strong>320億パラメータのモデルが 11.29GiB で動く。</strong>16GBの業務用PCなら理論上は収まる</li>
+<li>測定に使われたのは <strong>Ryzen 9 9950X／Ryzen 7 7840U／Intel N250</strong> という市販のCPU。特殊な機材ではない</li>
+<li>ただし品質が安定するのは <strong>3〜6ビット</strong>の範囲で、無制限に削れるわけではない</li>
+<li>自社実行の判断基準は性能ではなく <strong>「そのデータをクラウドに出せるか」</strong></li>
+<li><strong>TOEでは PolyQ の検証は未実施。</strong>ただし自社実行の本当のコストは機械代ではなく運用だという実感はある</li>
+</ul>
+<p>「AIを自社に置きたい」という要望は、多くの場合<strong>データを外に出したくない</strong>という意味です。<strong>目的を性能ではなくそこに置くと、必要な規模はかなり小さくなります。</strong></p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

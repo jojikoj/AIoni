@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIツールの選び方 — 比較表の前に決めること · AIの鬼</title>
+  <meta name="description" content="AIツールの比較表を見る前に、自社のどの業務工程を・誰が・どのくらいの頻度で使うのかを決めないと選定が迷走します。具体的な整理の手順をまとめました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-tool-selection/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-tool-selection/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIツールの選び方 — 比較表の前に決めること · AIの鬼">
+  <meta property="og:description" content="AIツールの比較表を見る前に、自社のどの業務工程を・誰が・どのくらいの頻度で使うのかを決めないと選定が迷走します。具体的な整理の手順をまとめました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-tool-selection/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIツールの選び方 — 比較表の前に決めること · AIの鬼">
+  <meta name="twitter:description" content="AIツールの比較表を見る前に、自社のどの業務工程を・誰が・どのくらいの頻度で使うのかを決めないと選定が迷走します。具体的な整理の手順をまとめました。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIツールの選び方 — 比較表の前に決めること","item":"https://ai-oni.com/articles/ai-tool-selection/"}]},{"@type":"Article","headline":"AIツールの選び方 — 比較表の前に決めること","description":"AIツールの比較表を見る前に、自社のどの業務工程を・誰が・どのくらいの頻度で使うのかを決めないと選定が迷走します。具体的な整理の手順をまとめました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-tool-selection/"},"url":"https://ai-oni.com/articles/ai-tool-selection/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-tool-selection.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-tool-selection/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-tool-selection.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>AIツールの選び方 — 比較表の前に決めること</h1>
+<p class="article-lead">AIツールの比較表を見る前に、自社のどの業務工程を・誰が・どのくらいの頻度で使うのかを決めないと選定が迷走します。具体的な整理の手順をまとめました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>「AIツール　比較」で検索すると、機能や料金を並べた表がいくつも出てきます。しかし、その表を眺めるところから選定を始めると、たいてい迷走します。理由は単純で、比較表は「どの業務に使うか」を決めていない状態では、何を基準に見ればよいか分からないからです。</p>
+<p>この記事では、比較表を開く前に決めておくとよいことを、具体的な項目に分けて整理します。特定の1製品を「これが一番良い」とすすめるものではありません。</p>
+<h2 id="_1">なぜ比較表から入ると迷走するのか</h2>
+<p>ChatGPT、Claude、Gemini、Copilotといった主要なAIツールは、いずれも文章の作成、要約、翻訳、簡単なデータ整理といった基本機能をひととおり備えています。単純な機能一覧の比較では、差がつきにくいのが実情です。</p>
+<p>差が出るのは、「自社の特定の業務で、実際に使い続けられるか」という部分です。たとえば議事録の要約に使うのか、問い合わせメールの下書きに使うのか、Excelの関数を考えさせるのかによって、必要な機能も、社内で誰が触るかも変わります。使う場面を決めないまま比較表を見ると、「全部それなりに使えそう」という感想で終わり、決め手がないまま検討が止まってしまいます。</p>
+<h2 id="1">決めること1：どの業務の、どの工程に使うか</h2>
+<p>最初に決めたいのは、業務全体ではなく「工程」単位での使いどころです。「営業のAI活用」ではなく、「見積書のたたき台を作る工程」「商談メモを議事録形式に整える工程」のように、作業の単位まで具体化します。</p>
+<p>工程を絞ると、比較の軸も具体的になります。たとえば「メールの下書き」であれば、既存のメールソフトとの連携があるかどうかが重要になりますし、「議事録の要約」であれば、長時間の音声データを一度に扱えるかどうかが効いてきます。工程を決めないまま「AIを入れる」とだけ決めると、導入後に「結局どこで使えばいいか分からない」という状態になりやすいところです。</p>
+<p>工程を具体化しにくいのは、参考にできる事例が乏しいからでもあります。中小機構が中小企業を対象に実施した実態調査（有効回答1,647社、2025年11月17日〜12月12日）では、AI導入率は20.4%（n=1,647）で、企業が最も不足を訴えたのは技術でも予算でもなく成功事例の情報でした（不足83.3%、n=1,635。<a href="/articles/jp-smrj-chusho-ai-jittai-2026/">中小企業のAI導入率20.4%の中身</a>）。他社の万能な正解を探すより、自社のどの工程なら効くかを自分で切り出すほうが近道になります。</p>
+<h2 id="2">決めること2：誰が、どのくらいの頻度で使うか</h2>
+<p>次に、利用者と利用頻度を決めます。毎日何十件も同じ作業をする担当者が使うのか、月に数回だけ資料を作る管理職が使うのかで、向いているツールも料金体系も変わってきます。</p>
+<p>ここで「誰が使うか」を会社として決めておくことには、費用以外の意味もあります。商工中金が中小企業3,892社から回答を得た調査（2026年1月調査、商工中金取引先が母集団）では、生成AIを「会社として導入」しているのは16.2%にとどまり、64.9%は個人任せでした。同じ調査で経営へのプラス効果を感じている割合は、会社導入群36.6%に対し個人登録群26.0%と差がついています（<a href="/articles/jp-shokochukin-sme-genai-2026/">会社導入と個人任せで経営効果に差が出るか</a>）。つまり「誰が使うか」を決めるかどうかは、そのまま効果の出やすさに関わります。</p>
+<p>会社が把握しないまま使われている実態も裏づけがあります。JILPTが全国2.2万人の労働者に聞いた調査（2024年5月27日〜6月27日実施）では、適切利用の社内規定・ガイドラインが「策定されている」と答えた人は3.7%にとどまり、従業員99人以下では生成AI利用者の4割超が「会社の指示によらず自主的に使用」していました（<a href="/articles/jp-jilpt-256-ai-workplace-worker-survey/">社内ルールがあるのは3.7%</a>）。誰がどの工程で使うかを決めることは、そのままガバナンスとセキュリティの前提にもなります。</p>
+<p>料金の「考え方」も、この利用者設計と切り離せません。1人あたりの月額課金なのか、使った分だけ支払う従量課金なのかで、総額の膨らみ方が変わるからです。毎日使う担当者が1〜2人なら1人あたりの課金でも負担は大きくありませんが、「たまに数人が使う」という使い方だと、1人あたり課金のツールは割高に感じられることがあります。逆に、既存のWordやExcel、Outlookとの連携を重視するなら、単体のAIチャットツールより、業務ソフトに組み込まれた形のツールのほうが工程に馴染みやすい場合もあります。</p>
+<p>たとえば、経理担当が月に数回だけ請求書の文面をチェックするという工程と、営業担当5人が毎日商談メモを整理するという工程とでは、1人あたり課金を人数分で見込んだときの総額がまったく違ってきます。「1人分の料金だけ見て安いと判断したら、全員分にすると想定より膨らんだ」という声も、導入担当者からはよく聞かれるところです。金額そのものは改定で変わるため、比較すべきは「利用人数と頻度をかけ合わせたときに、どの料金体系が自社の使い方と噛み合うか」という構造のほうです。</p>
+<h2 id="_2">選定基準を具体的に並べる</h2>
+<p>工程と利用者が決まったら、次の4点を基準として並べておくと、比較表を見たときに判断がしやすくなります。</p>
+<ul>
+<li><strong>セキュリティ</strong>：入力したデータがAIの学習に使われない設定があるか、法人向けプランでデータの取り扱いポリシーが明示されているか。取引先の情報や個人情報を扱う工程では、この点の確認を先に済ませておく必要があります。帝国データバンクが1万312社から回答を得た調査（2026年3月調査）でも、生成AI活用の懸念・課題として情報の正確性50.4%に次いで情報漏洩のリスク33.5%が挙がっています（3つまでの複数回答、<a href="/articles/jp-tdb-seisei-ai-doko-2026/">生成AI活用の課題は情報の正確性と漏えい</a>）。また、ツール選定と同じくらい侵入経路の管理も効いてきます。警察庁がまとめた令和7年のランサムウェア被害報告226件（警察庁が把握した被害報告ベース）では、被害企業の約6割が中小企業で、侵入経路の6割以上がVPN機器でした（<a href="/articles/jp-npa-cyber-jousei-r7/">ランサム被害の約6割が中小企業、侵入経路の6割超がVPN</a>）。AIツールの設定だけでなく、社内ネットワークの入口を含めて工程を点検する必要があります。</li>
+<li><strong>既存システムとの連携</strong>：会計ソフト、CRM、社内のファイルサーバーなどと連携できるか。連携がない場合、AIツールへの入力・出力を人が手作業でコピーする工程が残り、業務時間の削減効果が薄まります。</li>
+<li><strong>料金体系</strong>：1人あたりの月額課金か、従量課金(使った分だけ支払う方式)か。利用頻度にばらつきがある部署では、従量課金のほうが総額を抑えられる場合があります。</li>
+<li><strong>サポート言語と問い合わせ窓口</strong>：日本語でのサポートがあるか、法人向けの問い合わせ窓口が用意されているか。海外製のツールでは、トラブル時のサポートが英語のみというケースもあります。</li>
+</ul>
+<p>これらの基準は、すべてを最高水準で満たすツールを探すためのものではありません。工程ごとに優先順位が変わるという前提で使うものです。社外秘の情報を扱う工程ではセキュリティを最優先にし、逆に社内の議事録整理のような工程では、連携のしやすさや料金の安さを優先するといった判断ができます。</p>
+<h2 id="_3">試用期間の使い方</h2>
+<p>多くのAIツールには、無料プランや数週間の試用期間が用意されています。この期間の使い方も、選定の精度を左右します。担当者が個人的にいくつか触ってみて感触で決めるより、決めておいた工程(たとえば「議事録の要約」)に絞って、実際の業務データに近い内容で試すほうが、比較の材料になります。</p>
+<p>試用期間中に確認しておきたいのは、出力の精度そのものより「その工程にかかっていた時間が、どのくらい減ったか」という点です。要約の文章が多少手直しを必要としても、もとの作業時間の半分で済むなら導入する価値があるという判断もできますし、逆に精度は高くても手直しの手間が変わらないなら、その工程には向いていないという判断にもなります。</p>
+<p>ここで重要なのは、実感ではなく実測で確かめることです。METRが熟練のオープンソース開発者16名・実課題246件をランダム割付で測った試験では、AIの使用を許可した条件のほうが完了時間が19%長くなりました。それでも同じ開発者たちは実験後も「20%速くなった」と信じていました（<a href="/articles/mx-metr-rct-ai-slowdown-experienced-devs/">AIで開発は本当に速くなるのか</a>）。速くなった「気がする」と、実際に時間が減ったかは別物だということです。パーソル総合研究所が正規雇用者3,000人を分析した調査（本調査n=3,000）でも、生成AIを使ったタスクの所要時間は平均16.7%短縮する一方、実際に業務時間が減ったと答えた生成AI利用者は約25.4%にとどまっていました（<a href="/articles/jp-persol-genai-work-2026/">タスクは短縮でも業務時間が減った人は約4人に1人</a>）。試用期間は、この「タスクは速くなったのに総時間は減らない」というずれが自社の工程で起きていないかを、実データで確認する場として使うのが有効です。</p>
+<h2 id="_4">では自社では何から始めるか</h2>
+<p>比較表を開く前に、「どの工程に」「誰が」「どのくらいの頻度で」使うのかを1枚のメモにまとめておくと、その後の比較検討がしやすくなるという考え方があります。工程が具体的であればあるほど、必要な機能も、許容できる料金体系も自然と絞られていきます。</p>
+<p>いきなり全社導入や高額プランから始めるのではなく、まず1つの工程で、無料プランや試用期間を使って試してみるという選択肢も考えられます。実際に触ってみて、その工程で本当に手が空くのかを確認してから、有料プランへの切り替えを検討するという進め方もあるかもしれません。</p>
+<p>自社だけで工程の切り出しや効果測定を設計しにくい場合は、相談先を決めておくのも一手です。日本政策金融公庫が中小企業4,328社から回答を得た調査（2025年3月調査）では、デジタル化の相談相手はITベンダーが50.5%で中心でした（<a href="/articles/jp-jfc-sme-digital-ai-2025/">中小企業のデジタル投資と相談先</a>）。誰に相談するかも含めて、比較表を開く前に決めておく項目の一つです。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

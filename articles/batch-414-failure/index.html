@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた · AIの鬼</title>
+  <meta name="description" content="自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/batch-414-failure/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/batch-414-failure/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた · AIの鬼">
+  <meta property="og:description" content="自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/batch-414-failure/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた · AIの鬼">
+  <meta name="twitter:description" content="自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた","item":"https://ai-oni.com/articles/batch-414-failure/"}]},{"@type":"Article","headline":"AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた","description":"自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/batch-414-failure/"},"url":"https://ai-oni.com/articles/batch-414-failure/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-batch-414-failure.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/batch-414-failure/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-batch-414-failure.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>AI処理414件を失敗させた話 — モデルを指定しなかっただけで、75%が落ちた</h1>
+<p class="article-lead">自社メディアの記事要約を一括処理したところ、553件のうち414件が失敗しました。原因は「使うAIモデルを指定しなかった」こと。何が起き、どう仕組みに落としたかを、実際のコードとログで公開します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIの導入事例は、うまくいった話ばかりが世に出ます。しかし実際に手を動かしている現場では、地味な設定ミス一つで数百件の処理が吹き飛びます。</p>
+<p>この記事は、私たち自身がやらかした失敗の記録です。2026年7月18日、自社メディアの記事要約を一括処理したところ、553件のうち414件（75%）が失敗しました。原因は技術的に高度なものではありません。「どのAIモデルを使うか」をスクリプトに書き忘れただけです。</p>
+<p>同じことをやろうとしている会社に、そのまま渡せる教訓があると考え、実際のコードとログを引用しながら公開します。</p>
+<h2 id="_1">何をやろうとしていたか</h2>
+<p>私たちは「UchUchU」（uchuchu.tech）という宇宙産業向けの情報メディアを自社で運営しています。海外の宇宙関連ニュースをRSSで自動収集し、日本語に翻訳して掲載するサイトです。</p>
+<p>このメディアには一つ、絶対条件がありました。<strong>運用の追加課金をゼロにすること</strong>です。自社メディアは直接売上を生むものではないため、毎月の従量課金が積み上がる作りにしたら続きません。そこで外部のAI APIは使わず、すでに契約しているClaude Codeのコマンドライン版（<code>claude</code> コマンド）をスクリプトから呼び出す設計にしました。</p>
+<p>処理は大きく2種類あります。</p>
+<p><strong>1つ目は翻訳です。</strong> 英語のニュース記事のタイトルと要約を、日本語の報道文らしい文体に直します。1回のリクエストに12件をまとめて渡し、JSONで返してもらう作りです。</p>
+<p><strong>2つ目は本文要約です。</strong> RSSが配信してくる要約は50〜150字程度で、しかも途中で切れていることが多い。それをそのまま載せた記事ページは読者にとって価値がなく、検索エンジンからも中身の薄いページと見なされます。そこで元記事の本文を取得し、600字以上の日本語要約を生成することにしました。本文そのものは保存も掲載もしません（著作権は元の発信者にあります）。生成するのは要約であって転載ではない、という線引きです。</p>
+<p>この本文要約が、今回の事故の舞台になりました。</p>
+<p>ここで用語を一つ。<strong>バッチ処理</strong>とは、大量のデータを人が見ていない状態でまとめて自動処理することです。今回でいえば「553件の記事について、順番に本文を取ってきてAIに要約させる」という作業を、人が張り付かずに走らせることを指します。</p>
+<h2 id="_2">何が起きたか</h2>
+<p>553件を対象に処理を走らせました。結果は、<strong>414件の失敗</strong>です。成功したのは139件だけでした。</p>
+<p>被害はそれだけで終わりませんでした。同じ時刻に別で走らせていた分析用のAI処理が3本、すべて巻き添えで停止しました。バッチ処理が利用枠を使い切ってしまったため、無関係なはずの処理まで動かなくなったのです。</p>
+<p>さらに悪いのは、<strong>この414件が「静かに」失敗したこと</strong>です。プログラムはエラーで停止したわけではありません。AIの呼び出しが失敗すると空の結果が返り、スクリプトは「要約できなかった記事」として淡々と次に進みます。414回、同じ空振りを繰り返しながら、最後まで走り切ってしまいました。</p>
+<h2 id="_3">なぜ起きたか</h2>
+<p>原因は一行です。スクリプトからAIを呼び出すとき、<strong>使うモデルを指定していませんでした</strong>。</p>
+<pre><code class="language-python"># 事故を起こしたコード（モデル未指定）
+subprocess.run([CLAUDE_BIN, &quot;-p&quot;, prompt], ...)
+</code></pre>
+<p>モデルを指定しないと、コマンドラインツールの既定モデル、つまり人間が対話で使うのと同じ上位モデルが選ばれます。上位モデルは賢い代わりに、1回あたりの消費が大きい。それを553回連続で呼べばどうなるか。答えは、途中でセッションの利用上限に到達する、です。</p>
+<p>ここで<strong>トークン</strong>という言葉を補足します。AIは文章を「トークン」という細かい単位に分けて処理し、その量で利用枠を消費します。日本語だとおおよそ1文字1トークン前後と考えてください。600字の要約を553件作ろうとすれば、入力の記事本文も含めて相当な量になります。それを最も高価なモデルで回したわけです。</p>
+<p>問題の本質は、消費量そのものよりも<strong>枠が共有されていたこと</strong>にあります。バッチ処理が使った枠は、経営者本人が対話で使っている枠と同じものでした。つまり、裏で無人で回していた作業が、表で人間がやっている仕事を止めたのです。同時刻の分析処理3本が巻き添えで落ちたのも、これが理由です。</p>
+<p>要約や翻訳や分類のような定型処理に、対話用の上位モデルは要りません。実測では、軽量モデルのHaikuで897〜1,085字の要約が問題なく生成できています。<strong>必要以上に賢いモデルを使ったことが、そのまま事故になりました。</strong></p>
+<h2 id="_4">どう直したか</h2>
+<p>再発防止として入れた対策は5つです。すべて現在の本番コードに入っています。</p>
+<h3 id="1">1. モデルを明示し、環境変数で上書きできるようにした</h3>
+<p>翻訳処理と要約処理の両方に、既定をHaikuとする定数を置きました。</p>
+<pre><code class="language-python"># uchuchu/collectors/fulltext.py
+BATCH_MODEL = os.environ.get(&quot;UCHUCHU_BATCH_MODEL&quot;, &quot;haiku&quot;)
+</code></pre>
+<p>呼び出し側でも必ず渡します。</p>
+<pre><code class="language-python">subprocess.run(
+    [translate.CLAUDE_BIN, &quot;--model&quot;, BATCH_MODEL, &quot;-p&quot;, prompt],
+    capture_output=True, text=True, timeout=300)
+</code></pre>
+<p>環境変数にしたのは、後から品質を上げたくなったときにコードを触らず切り替えられるようにするためです。既定値がHaikuなので、<strong>何も考えずに実行しても安全側に倒れます</strong>。ここが重要で、「気をつける」ではなく「気をつけなくても事故らない」形にしないと、同じことは必ず再発します。</p>
+<p>日次で回すシェルスクリプト側でも、念のため明示しています。</p>
+<pre><code class="language-bash"># バッチは必ず haiku。未指定だと上位モデルを使い、対話の枠まで食い潰す。
+export UCHUCHU_BATCH_MODEL=haiku
+</code></pre>
+<h3 id="2">2. 連続失敗で打ち切る</h3>
+<p>414件の空振りを許した最大の理由が、失敗しても止まらない作りでした。そこで、8件連続で失敗したら中断する仕組みを入れました。</p>
+<pre><code class="language-python">consecutive_fail += 1
+if consecutive_fail &gt;= 8:
+    print(&quot;    要約生成が8件連続で失敗。&quot;
+          &quot;利用上限に達した可能性が高いため中断する。&quot;,
+          file=sys.stderr)
+    if save_cb:
+        save_cb()
+    return done
+</code></pre>
+<p>1件2件の失敗は元記事側の事情でも起きます。しかし8件続けて空振りするなら、それは個別の記事の問題ではなく、AI側が使えなくなっているサインです。そこで止める。</p>
+<p>この仕組みは、<strong>実際に作動しています</strong>。2026年7月19日の日次ログにこう残っています。</p>
+<pre><code>── 本文要約
+    要約生成が8件連続で失敗。利用上限に達した可能性が高いため中断する。
+  [fulltext] 本文取得＋要約生成: 40件
+=== 今回 0件生成 / 累計 226件が本文要約つき ===
+</code></pre>
+<p>対象40件に対し、8件の失敗で止まりました。修正前なら40件すべてを空振りしていた場面です。しかも、すでに蓄積してある226件の要約は無傷のまま残っています。</p>
+<h3 id="3">3. 失敗に「処理済み」フラグを付けない</h3>
+<p>これは地味ですが効きます。要約に失敗した記事には、何も印を付けずに残します。</p>
+<pre><code class="language-python"># 一時的な失敗と恒久的な失敗を区別できないため、
+# フラグは付けずに次回の再試行対象として残す
+</code></pre>
+<p>もし失敗時に「処理済み」と記録してしまうと、再実行時にスキップされます。一時的な障害が、そのまま<strong>恒久的な欠落として固定される</strong>わけです。処理対象は「まだ要約がない記事」という条件だけで選ぶようにしたので、失敗した記事は次の実行で自動的に再挑戦されます。</p>
+<h3 id="4-5">4. 5件ごとに逐次保存する</h3>
+<p>全件処理はコード上、数時間かかる想定で書かれています。元記事のサーバーに負荷をかけないよう、同一サイトへのアクセス間隔を1.5秒空けているためです。</p>
+<p>その長丁場で、最後にまとめて保存する作りにしていたら、途中で落ちた瞬間にすべてが消えます。そこで5件ごとに保存し、書き込み中の破損を避けるため一時ファイルに書いてから置き換える方式にしました。</p>
+<pre><code class="language-python">def save():
+    tmp = path.with_suffix(&quot;.json.tmp&quot;)
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding=&quot;utf-8&quot;)
+    tmp.replace(path)   # 書き込み中の破損を避けるため原子的に置き換える
+</code></pre>
+<h3 id="5-1">5. 1回あたりの件数を絞り、事前に疎通確認する</h3>
+<p>553件を一度に回すのをやめました。日次の自動処理では1回40件までとし、1日2回（朝6時半と夕方6時半）走らせて、少しずつ未処理を減らす設計に変えています。</p>
+<p>加えて、処理を始める前にAIが本当に使えるかを1回だけ確かめます。</p>
+<pre><code class="language-bash">if ! claude -p --model haiku &quot;OK&quot; &gt;/dev/null 2&gt;&amp;1; then
+  echo &quot;⚠️ claude CLI が使えない（未ログイン/PATH）。要約はスキップされる。&quot;
+fi
+</code></pre>
+<p>気づかないまま空の記事を公開し続けるより、ログに明示する方がましだという判断です。</p>
+<h2 id="_5">現在の状態</h2>
+<p>2026年7月19日時点の実データです。</p>
+<ul>
+<li>収集済みニュース：570件</li>
+<li>本文要約つき：226件（要約の文字数は中央値972.5字、最小362字、最大2,030字）</li>
+<li>同日の推移：本文要約144件 → 223件 → 226件</li>
+</ul>
+<p>修正後、Haikuでの要約を積み上げて226件まで回復しています。品質面で問題は出ていません。<strong>上位モデルでなければ書けない要約ではなかった</strong>、というのが結論です。</p>
+<h2 id="_6">同じことをやろうとしている会社への教訓</h2>
+<p>AI専任者がいない中小企業がAIの一括処理を始めるとき、押さえるべき点を4つに絞ります。</p>
+<p><strong>1. スクリプトからAIを呼ぶ箇所には、必ずモデル名を書く。</strong></p>
+<p>これが今回の直接原因です。既定値に任せると、たいてい一番高いモデルが選ばれます。定型処理に上位モデルは要りません。要約・翻訳・分類は軽量モデルで十分足ります。書き忘れを防ぐには、既定値を安全側にした定数を1つ置き、全呼び出しでそれを使う形にするのが確実です。</p>
+<p><strong>2. 「止まる条件」を先に決める。</strong></p>
+<p>自動処理でいちばん怖いのは、エラーで止まることではなく、<strong>失敗したまま静かに走り続けること</strong>です。何件連続で失敗したら中断するかを、処理を書くのと同じタイミングで決めてください。8件でも10件でもかまいません。数字より、決めてあることが重要です。</p>
+<p><strong>3. 途中経過を保存する。</strong></p>
+<p>数時間かかる処理を最後まで抱え込むと、落ちた瞬間に全部消えます。N件ごとに保存し、失敗したものには印を付けない。これだけで、事故は「全損」から「途中まで進んだ」に変わります。</p>
+<p><strong>4. 裏で回す処理が、表の仕事を止めないか確認する。</strong></p>
+<p>今回いちばん見落としていた点がこれです。無人で回すバッチが、人間が使っている利用枠を共有していました。結果として、社長本人の作業と、動いていた分析処理3本が巻き添えで止まりました。<strong>バッチ処理は、それ単体で完結しません。</strong> 誰の枠を使うのか、止まったとき誰が困るのかを、走らせる前に確認してください。</p>
+<hr />
+<p>この失敗のコストは、金額ではありませんでした（外部APIの従量課金は一切使っていないため、請求は増えていません）。失ったのは、414件分の処理時間と、それに巻き込まれて止まった仕事の時間です。</p>
+<p>そして得たものは、コードに残った5つの仕組みです。7月19日のログが示すとおり、同じ状況が起きても、今度は8件で止まります。</p>
+<p>AIを業務に入れるというのは、こういう地味な作り込みの積み重ねです。「AIなら何でもできます」という話ではありません。<strong>できることを、落ちない形で回し続けられるようにする</strong>こと。それが実務だと考えています。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

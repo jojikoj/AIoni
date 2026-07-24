@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録 · AIの鬼</title>
+  <meta name="description" content="前の記事で、自社メディアの自動更新が最大91%抜けていたと書きました。その穴を塞ぐために「見張り役」を1本入れました。1時間ごとに全ジョブを見回り、止まっていたら自動で再始動します。導入初日、実際に3本を叩き起こし、59時間止まっていた記事生成を復活させました。ただし、この見張り役にも正直な弱点があります。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-media-watchdog/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-media-watchdog/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録 · AIの鬼">
+  <meta property="og:description" content="前の記事で、自社メディアの自動更新が最大91%抜けていたと書きました。その穴を塞ぐために「見張り役」を1本入れました。1時間ごとに全ジョブを見回り、止まっていたら自動で再始動します。導入初日、実際に3本を叩き起こし、59時間止まっていた記事生成を復活させました。ただし、この見張り役にも正直な弱点があります。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-media-watchdog/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録 · AIの鬼">
+  <meta name="twitter:description" content="前の記事で、自社メディアの自動更新が最大91%抜けていたと書きました。その穴を塞ぐために「見張り役」を1本入れました。1時間ごとに全ジョブを見回り、止まっていたら自動で再始動します。導入初日、実際に3本を叩き起こし、59時間止まっていた記事生成を復活させました。ただし、この見張り役にも正直な弱点があります。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録","item":"https://ai-oni.com/articles/toe-media-watchdog/"}]},{"@type":"Article","headline":"止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録","description":"前の記事で、自社メディアの自動更新が最大91%抜けていたと書きました。その穴を塞ぐために「見張り役」を1本入れました。1時間ごとに全ジョブを見回り、止まっていたら自動で再始動します。導入初日、実際に3本を叩き起こし、59時間止まっていた記事生成を復活させました。ただし、この見張り役にも正直な弱点があります。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-media-watchdog/"},"url":"https://ai-oni.com/articles/toe-media-watchdog/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-04.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-media-watchdog/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-04.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録</h1>
+<p class="article-lead">前の記事で、自社メディアの自動更新が最大91%抜けていたと書きました。その穴を塞ぐために「見張り役」を1本入れました。1時間ごとに全ジョブを見回り、止まっていたら自動で再始動します。導入初日、実際に3本を叩き起こし、59時間止まっていた記事生成を復活させました。ただし、この見張り役にも正直な弱点があります。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">この記事は、前の記録の続きです</h2>
+<p>前の記録（<a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a>）で、当社の自社メディア更新が最大91%抜けていた、という都合の悪い数字を出しました。</p>
+<p>穴が空いているとわかったら、塞ぐしかありません。塞ぎ方は2つあります。<strong>原因を突き止めて直す</strong>か、<strong>止まったら自動で叩き起こす</strong>か。原因（1回の処理が数十分と長いこと）の機序はまだ追い切れていないので、先に後者を入れました。<strong>「見張り役（watchdog）」</strong>です。</p>
+<p>結論から言うと、この見張り役は導入初日から仕事をしました。<strong>止まっていた3本を自動で叩き起こし、59時間止まっていた記事生成を51分かけて復活させました。</strong> ただし、見張り役自身にも正直な弱点があります。それも含めて載せます。</p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>見張り役（watchdog）</strong> … 他のジョブがちゃんと動いているかを定期的に見回り、止まっていたら再始動させる番人のプログラムです。今回は1時間ごとに動かしています。</li>
+<li><strong>「止まっている」の判定</strong> … 2通りで判断します。①起動した記録（run_start）だけ残って、終了の記録（run_end）が一定時間経っても来ない。②最後に成功してから、そのジョブの予定間隔＋余裕を過ぎても新しい成功がない。このどちらかなら「止まった」とみなします。</li>
+<li><strong>クールダウン</strong> … 同じジョブを短時間に何度も蹴らないための待ち時間です。一度再始動したら、次に蹴るまで一定時間あけます。暴走を防ぐ仕組みです。</li>
+</ul>
+<hr />
+<h2 id="_2">見張り役に持たせた「暴走しない」工夫</h2>
+<p>自動で再始動する仕組みは、作り方を間違えると<strong>それ自体が暴走</strong>します。全ジョブを一斉に何度も蹴り続けて、Macを過負荷で落とすからです。そうならないよう、3つの箍（たが）をはめました。</p>
+<ol>
+<li><strong>保守的なしきい値</strong>。「予定間隔＋余裕」を過ぎて初めて止まったと判断します。少し遅れただけで蹴りません。</li>
+<li><strong>クールダウン</strong>。一度再始動したジョブは、しばらく再始動の対象から外します。</li>
+<li><strong>1回あたりの再始動上限</strong>。1回の見回りで再始動するのは<strong>最大3本まで</strong>。多数が同時に止まっていても、一気に蹴らず、毎時すこしずつ回復させます。</li>
+</ol>
+<hr />
+<h2 id="_3">導入初日に、実際に起きたこと</h2>
+<p><strong>2026年7月23日 19:00、見張り役の初回の見回り。</strong></p>
+<p>見回った結果、<strong>7本が止まっていると判定されました。</strong> そのうち上限の3本を再始動し、残る4本は「今回の上限に達したので次回に回す」と記録されました。</p>
+<table>
+<thead>
+<tr>
+<th>判定</th>
+<th>ジョブ</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>再始動した</td>
+<td>朝の運用チェック</td>
+<td>成功実績なし</td>
+</tr>
+<tr>
+<td>再始動した</td>
+<td>補助金の鬼 データ更新</td>
+<td>成功実績なし</td>
+</tr>
+<tr>
+<td>再始動した</td>
+<td>補助金の鬼 記事生成</td>
+<td>最後の成功から<strong>59.4時間</strong>（許容30時間）</td>
+</tr>
+<tr>
+<td>次回に回す</td>
+<td>補助金の鬼 ストック生成</td>
+<td>上限3に到達</td>
+</tr>
+<tr>
+<td>次回に回す</td>
+<td>AIの鬼 note自動投稿</td>
+<td>上限3に到達</td>
+</tr>
+<tr>
+<td>次回に回す</td>
+<td>UchUchU 記事生成</td>
+<td>上限3に到達</td>
+</tr>
+<tr>
+<td>次回に回す</td>
+<td>UchUchU 週次レビュー</td>
+<td>上限3に到達</td>
+</tr>
+</tbody>
+</table>
+<p>そして、再始動した3本がどうなったか。</p>
+<ul>
+<li><strong>補助金の鬼 記事生成</strong> … 再始動して<strong>約9分で完走</strong>。その日の記事が1本、無事に生成されました。</li>
+<li><strong>補助金の鬼 データ更新</strong> … 再始動して<strong>約51分で完走</strong>。</li>
+<li><strong>朝の運用チェック</strong> … 再始動はしたものの、実行の中で「<strong>UchUchUの日次処理が3日前から動いていない</strong>」ことを検知して、エラーで終了しました。</li>
+</ul>
+<p>最後の1本が、地味にいちばん価値がありました。見張り役が叩き起こしたジョブが、<strong>さらに別の止まっているジョブを見つけてきた</strong>からです。穴の底に、もう一つ穴があったわけです。</p>
+<hr />
+<h2 id="_4">正直に書く、見張り役の弱点</h2>
+<p>この仕組みは初日から役に立ちました。が、万能ではありません。都合の悪いところも書きます。</p>
+<ul>
+<li><strong>見張り役自身も、cronで動く1本のジョブです。</strong> つまり、前の記事で書いた「cronが抜ける」問題は、この見張り役にも起こりえます。<strong>番人が寝ていたら、誰も番をしていません。</strong> 番人を見張る仕組みは、まだありません。</li>
+<li><strong>一度に3本しか戻せません。</strong> 初日は7本止まっていて、4本は次の時間に持ち越されました。同時多発で止まると、全部が戻るまで数時間かかります。</li>
+<li><strong>これは対症療法です。</strong> なぜメディア更新が数十分もかかり、抜けるのか——その根本原因は、まだ突き止められていません。叩き起こしているだけで、倒れる理由は直っていない。</li>
+<li><strong>導入したてで、実績はまだ初日の3本だけ</strong>です。「うまくいっている」と言い切るには早い。数週間まわして、再始動の回数と成功率がどう出るかを、また数えて報告します。</li>
+</ul>
+<p>それでも、この一手には意味があります。前の記事の問題は「<strong>止まっても誰も気づかない</strong>」ことでした。見張り役は、少なくとも<strong>気づいて、動く</strong>。気づかないまま何日も止まっているより、はるかにましです。</p>
+<hr />
+<h2 id="_5">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a> — この見張り役が塞ごうとしている穴の全数調査。</li>
+<li><a href="/articles/toe-automation-stops-silently/">自動化が3日間止まっていたのに、誰も気づかなかった</a> — 見張り役を作る動機になった、最初の事故。</li>
+<li><a href="/articles/toe-agent-dashboard/">自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた</a> — 「見る」画面と「叩き起こす」番人の役割分担。</li>
+</ul>
+<hr />
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>メディア更新が抜ける穴に対し、根本原因を直す前に「止まったら自動で再始動する見張り役」を入れた。</li>
+<li>見張り役は<strong>1時間ごと・1回3本まで・クールダウンあり</strong>で、暴走しないよう箍をはめている。</li>
+<li>導入初日、7本の停止を検知し3本を再始動。<strong>59時間止まっていた記事生成を51分かけて復活</strong>させた。</li>
+<li>叩き起こしたジョブが、<strong>さらに別の停止ジョブを発見</strong>した。</li>
+<li>弱点も正直に：<strong>番人自身がcronで動く</strong>ため番人が寝たら終わり、一度に3本しか戻せない、根本原因は未解決、実績はまだ初日だけ。</li>
+<li><strong>止まっても気づかない</strong>より、<strong>気づいて動く</strong>ほうが、ずっとまし。数週間まわしてまた数える。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

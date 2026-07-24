@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>終わったのに終わらないプロセスが翌朝の自分を締め出したので、「理由を問わず必ず終わる」仕掛けを5重にかけた · AIの鬼</title>
+  <meta name="description" content="平日だけ無人で動く営業支援ツールが、18時に処理を終えたのにexitせず居座り、翌朝8時の自動起動まで巻き込んで止まりました。launchdは同名のプロセスが生きていると再起動しないからです。原因を全部突き止める前に、「原因が何であれ、時間が来たら必ず終わる」多層防御を敷いて解決した一次記録です。銀の弾丸ではないことも含めて、そのまま書きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-aform-zombie-defense/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-aform-zombie-defense/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="終わったのに終わらないプロセスが翌朝の自分を締め出したので、「理由を問わず必ず終わる」仕掛けを5重にかけた · AIの鬼">
+  <meta property="og:description" content="平日だけ無人で動く営業支援ツールが、18時に処理を終えたのにexitせず居座り、翌朝8時の自動起動まで巻き込んで止まりました。launchdは同名のプロセスが生きていると再起動しないからです。原因を全部突き止める前に、「原因が何であれ、時間が来たら必ず終わる」多層防御を敷いて解決した一次記録です。銀の弾丸ではないことも含めて、そのまま書きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-aform-zombie-defense/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="終わったのに終わらないプロセスが翌朝の自分を締め出したので、「理由を問わず必ず終わる」仕掛けを5重にかけた · AIの鬼">
+  <meta name="twitter:description" content="平日だけ無人で動く営業支援ツールが、18時に処理を終えたのにexitせず居座り、翌朝8時の自動起動まで巻き込んで止まりました。launchdは同名のプロセスが生きていると再起動しないからです。原因を全部突き止める前に、「原因が何であれ、時間が来たら必ず終わる」多層防御を敷いて解決した一次記録です。銀の弾丸ではないことも含めて、そのまま書きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"終わったのに終わらないプロセスが翌朝の自分を締め出したので、「理由を問わず必ず終わる」仕掛けを5重にかけた","item":"https://ai-oni.com/articles/toe-aform-zombie-defense/"}]},{"@type":"Article","headline":"終わったのに終わらないプロセスが翌朝の自分を締め出したので、「理由を問わず必ず終わる」仕掛けを5重にかけた","description":"平日だけ無人で動く営業支援ツールが、18時に処理を終えたのにexitせず居座り、翌朝8時の自動起動まで巻き込んで止まりました。launchdは同名のプロセスが生きていると再起動しないからです。原因を全部突き止める前に、「原因が何であれ、時間が来たら必ず終わる」多層防御を敷いて解決した一次記録です。銀の弾丸ではないことも含めて、そのまま書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-aform-zombie-defense/"},"url":"https://ai-oni.com/articles/toe-aform-zombie-defense/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-15.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-aform-zombie-defense/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-15.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>終わったのに終わらないプロセスが翌朝の自分を締め出したので、「理由を問わず必ず終わる」仕掛けを5重にかけた</h1>
+<p class="article-lead">平日だけ無人で動く営業支援ツールが、18時に処理を終えたのにexitせず居座り、翌朝8時の自動起動まで巻き込んで止まりました。launchdは同名のプロセスが生きていると再起動しないからです。原因を全部突き止める前に、「原因が何であれ、時間が来たら必ず終わる」多層防御を敷いて解決した一次記録です。銀の弾丸ではないことも含めて、そのまま書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">結論から書きます</h2>
+<p>当社（株式会社TOE）は、問い合わせフォームへ自動送信するNode.js製の営業支援ツールを無人運用しています。平日、launchd（Macの定時起動の仕組み）で毎朝8時に自動起動し、夕方18時に停止する設計です。</p>
+<p>ある月曜、このツールが<strong>「終わったのに終わらない」</strong>状態に陥りました。18時に処理は正しく止まったのに、プロセスがexit（終了）しないまま居座り、①その日の日次レポートが送られず、②<strong>翌朝8時の自動起動まで止まりました。</strong> 居座ったゾンビが、翌日の自分を締め出したのです。</p>
+<p>打った手は、原因の完全解明ではありません。<strong>「原因が何であれ、時間が来たら必ず終わる」仕掛けを5重にかける</strong>ことでした。その一次記録です。</p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>launchd（ローンチディー）</strong> … Macで「毎朝8時に起動」のような定時実行を担う仕組みです。<strong>同じ名前（label）のプロセスがまだ生きていると、次の起動をかけません。</strong> 今回の障害の急所です。</li>
+<li><strong>ゾンビ化</strong> … 処理はすべて終わったのに、プロセスがexitせず居座り続ける状態を、この記事ではこう呼びます。</li>
+<li><strong>オープンハンドル</strong> … 開いたままの接続やタイマーのことです。Node.jsは、これが残っていると<strong>main関数がreturnしてもプロセスが終了しません。</strong> 「終わったのにexitしない」が起きる土台です。</li>
+</ul>
+<hr />
+<h2 id="_2">何が起きたか</h2>
+<p>月曜18時、送信バッチは予定どおり処理を停止しました。ところが、ブラウザの後始末などの<strong>終了処理でハング。</strong> 終了イベントが親プロセスに届かず、親は永久に待ち続けました。その日の日次レポートは飛ばず、翌朝のlaunchdは<strong>同名プロセスが生きていたため再起動せず</strong>、ツールは丸一日止まりました。金曜も同じ障害が再発し、月曜に人が手動で再起動しました。</p>
+<p>根因として判明しているのは「終了処理でのハング」までです。メール受信確認（IMAP）のハングも疑われましたが、<strong>どのハンドルが最後まで残っていたのかは特定できていません。</strong> そこは正直に、わからないと書きます。</p>
+<hr />
+<h2 id="5">打った手：5重の「必ず終わる」</h2>
+<p>設計思想は一つ、<strong>「原因不問で、必ず終わる」</strong>です。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>層</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>送信バッチ全体</td>
+<td>終了予定時刻+20分で強制終了（SIGKILL）するタイマーを付けた</td>
+</tr>
+<tr>
+<td>2</td>
+<td>メール受信確認（IMAP）</td>
+<td>接続15秒・全体45秒のタイムアウトを付けた</td>
+</tr>
+<tr>
+<td>3</td>
+<td>日次レポート処理</td>
+<td>全体を90秒で打ち切るようにした</td>
+</tr>
+<tr>
+<td>4</td>
+<td>main処理の最後</td>
+<td>必ず process.exit(0)（明示的な終了）を呼ぶようにした</td>
+</tr>
+<tr>
+<td>5</td>
+<td>最後の保険</td>
+<td>終了予定+60分で問答無用にプロセスを終わらせる見張りタイマーを足した</td>
+</tr>
+</tbody>
+</table>
+<p>疑わしい処理（2・3）→正常系の出口（4）→バッチ全体（1）→最終防衛線（5）。<strong>どこか1枚が破られても、次の層が受け止める</strong>構えです。</p>
+<p>もう一つ、<strong>日次レポートを独立したジョブに切り出しました。</strong> launchdで平日18:05に単独起動させます。本体がハングして死んでも、その日の報告だけは別経路で必ず届きます。「本体の生死」と「報告の生死」を切り離しました。</p>
+<hr />
+<h2 id="_3">なぜ「原因解明が先」にしなかったのか</h2>
+<p>「なぜ固まるのか」を完全に突き止めてから直そうとすると、<strong>突き止めるまでの間ずっと止まったまま</strong>になるからです。実際に月曜と金曜の2回、丸一日ずつ止まりました。だから順番を逆にしました。先に「理由が何であれ、時間が来たら必ず終わる」を何重にも保証し、原因の追跡は動かしながら続ける。これは、前の記録（<a href="/articles/toe-timeout-not-working/">15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた</a>）で観測した<strong>"プロセスが素直に死なない"問題</strong>に対する、実運用側の答えです。あちらが「観測」、この記事が「対策」にあたります。</p>
+<hr />
+<h2 id="_4">正直に書く点</h2>
+<ul>
+<li>これで<strong>「二度と止まらない」とは保証できません。</strong> 多層防御は"止まりにくくする"ものであって、完璧ではありません。</li>
+<li>この運用は他にも難しさを抱えています。例えば、再起動を繰り返すと処理が<strong>リストの先頭からやり直しになり、成果がゼロに見えてしまう</strong>問題です。止めない工夫と、止まっても進みを失わない工夫は別物で、後者はまだ課題です。</li>
+<li>根因の全容——最後まで残っていたハンドルが何だったのか——は特定しきれていません。銀の弾丸ではなく、箍を何重にもかけた、というだけの記録です。</li>
+</ul>
+<hr />
+<h2 id="_5">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-timeout-not-working/">15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた</a> — 同じ「死なないプロセス」問題の観測編。本記事はその対策編。</li>
+<li><a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a> — 居座るプロセスが「次の起動を止める」害を数字で見た全数調査。</li>
+</ul>
+<hr />
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>平日無人運用の営業支援ツールで、<strong>処理は終わったのにexitしない「ゾンビ化」障害</strong>が起きた。launchdは同名プロセスが生きていると再起動しないため、<strong>翌朝の自動起動まで止まった。</strong></li>
+<li>根因は終了処理でのハング。残ったハンドルの全容は未特定。</li>
+<li>対策は<strong>「原因不問で必ず終わる」5重の多層防御</strong>（+20分SIGKILL／IMAP15秒・45秒／レポート90秒／process.exit(0)／+60分の最終見張り）。加えて<strong>日次レポートを平日18:05の独立ジョブに切り出した。</strong></li>
+<li>教訓：<strong>原因の完全解明を待つと、その間ずっと止まる。先に「時間が来たら必ず終わる」箍をかけ、追跡は動かしながらやる。</strong> ただし銀の弾丸ではない。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

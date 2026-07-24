@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントの設定ファイルに一文仕込まれると何が起きるか — 攻撃成功率100%、次のセッションにも87〜97%残る · AIの鬼</title>
+  <meta name="description" content="Claude CodeやCodexがセッションをまたいで読み込むメモリファイルに悪意ある指示が入っていた場合、認証情報の外部送信が最大80%、許可外のツール実行が100%の確率で発生し、そのペイロードは次のセッションにも87〜97%残りました。2026年7月公開の実験結果と、中小企業側の現実的な線引きを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-bad-memory/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-bad-memory/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントの設定ファイルに一文仕込まれると何が起きるか — 攻撃成功率100%、次のセッションにも87〜97%残る · AIの鬼">
+  <meta property="og:description" content="Claude CodeやCodexがセッションをまたいで読み込むメモリファイルに悪意ある指示が入っていた場合、認証情報の外部送信が最大80%、許可外のツール実行が100%の確率で発生し、そのペイロードは次のセッションにも87〜97%残りました。2026年7月公開の実験結果と、中小企業側の現実的な線引きを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-bad-memory/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントの設定ファイルに一文仕込まれると何が起きるか — 攻撃成功率100%、次のセッションにも87〜97%残る · AIの鬼">
+  <meta name="twitter:description" content="Claude CodeやCodexがセッションをまたいで読み込むメモリファイルに悪意ある指示が入っていた場合、認証情報の外部送信が最大80%、許可外のツール実行が100%の確率で発生し、そのペイロードは次のセッションにも87〜97%残りました。2026年7月公開の実験結果と、中小企業側の現実的な線引きを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントの設定ファイルに一文仕込まれると何が起きるか — 攻撃成功率100%、次のセッションにも87〜97%残る","item":"https://ai-oni.com/articles/ai-bad-memory/"}]},{"@type":"Article","headline":"AIエージェントの設定ファイルに一文仕込まれると何が起きるか — 攻撃成功率100%、次のセッションにも87〜97%残る","description":"Claude CodeやCodexがセッションをまたいで読み込むメモリファイルに悪意ある指示が入っていた場合、認証情報の外部送信が最大80%、許可外のツール実行が100%の確率で発生し、そのペイロードは次のセッションにも87〜97%残りました。2026年7月公開の実験結果と、中小企業側の現実的な線引きを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-bad-memory/"},"url":"https://ai-oni.com/articles/ai-bad-memory/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-bad-memory.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-bad-memory/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-bad-memory.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントの設定ファイルに一文仕込まれると何が起きるか — 攻撃成功率100%、次のセッションにも87〜97%残る</h1>
+<p class="article-lead">Claude CodeやCodexがセッションをまたいで読み込むメモリファイルに悪意ある指示が入っていた場合、認証情報の外部送信が最大80%、許可外のツール実行が100%の確率で発生し、そのペイロードは次のセッションにも87〜97%残りました。2026年7月公開の実験結果と、中小企業側の現実的な線引きを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIエージェントの危険は「今日打ち込む指示」ではなく、<strong>プロジェクトに置きっぱなしの設定ファイル</strong>にあります。2026年7月16日公開の実験では、メモリファイルに攻撃文を仕込んだだけで、許可されていないツール実行が<strong>100%</strong>、認証情報の外部送信が<strong>80%</strong>の確率で発生し（Claude Haiku 4.5／各条件10試行）、その仕込みは次のセッションにも<strong>87〜97%</strong>残りました。持ち込みリポジトリの扱いを決める話です。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>ワシントン大学のSoham Gadgil、David Alexander、Sai Sunku、Franziska Roesnerによる研究です（出典：arXiv:2607.14611、2026年7月16日（arXiv:2607.14611v1, cs.CR）、<a href="https://arxiv.org/abs/2607.14611v1">https://arxiv.org/abs/2607.14611v1</a>）。</p>
+<p>対象は Claude Code と OpenAI Codex の2システム、4モデル（Claude Haiku 4.5、Claude Opus 4.7、GPT-5.2、GPT-5.5）。合成ワークスペース上で、エージェントがセッションをまたいで読み込む永続メモリファイル（CLAUDE.md や AGENTS.md にあたるもの）に攻撃用の一文をあらかじめ入れておき、その後の作業でエージェントがどう振る舞うかを、各条件10試行ずつ観測しています。</p>
+<p>測られたのは大きく2つです。</p>
+<ul>
+<li><strong>攻撃成功率</strong>：仕込まれた指示どおりにエージェントが動いてしまう割合</li>
+<li><strong>持続率（ペイロード持続率）</strong>：仕込まれた文が、その後もメモリファイルに残り続ける割合</li>
+</ul>
+<p>つまり「一発で乗っ取られるか」だけでなく、「一度入ったら居座るか」まで見ている点が、この論文の本題です。</p>
+<h2 id="_2">単発の攻撃でどこまで通るのか</h2>
+<p>単発プローブ（1回きりの攻撃）の結果は、モデルによってはっきり割れました。各条件10試行、合成ワークスペース上での数値です。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>攻撃の種類</th>
+<th>攻撃成功率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Haiku 4.5</td>
+<td>認証情報の外部送信</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>Claude Haiku 4.5</td>
+<td>許可されていないツール実行</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Claude Opus 4.7</td>
+<td>認証情報の外部送信</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>GPT-5.5</td>
+<td>認証情報の外部送信</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>GPT-5.5</td>
+<td>特定ブランドへの誘導</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<p>読み取れることは2つあります。</p>
+<p>ひとつは、<strong>安いモデルほど落ちやすい</strong>という傾向がはっきり出たこと。Claude Haiku 4.5 は認証情報の外部送信で80%、許可されていないツール実行で100%が通っています。同じ攻撃を Claude Opus 4.7 と GPT-5.5 は0%で防いでいます。</p>
+<p>もうひとつは、<strong>防げるモデルでも攻撃の種類によっては全部通る</strong>こと。GPT-5.5 は認証情報の持ち出しは0%に抑えた一方で、出力を特定ブランドへ誘導する攻撃は100%成功しています。「このモデルは安全」という言い方が成立しないことを、この2行が示しています。</p>
+<h2 id="_3">繰り返すほど成功率が上がる、という厄介さ</h2>
+<p>さらに厄介なのが、同じ攻撃を繰り返したときの挙動です。プローブ→安定化→プローブという3セッション構成で測ると、成功率は下がるのではなく<strong>上がりました</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>攻撃の種類</th>
+<th>プローブ1 → プローブ2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Haiku 4.5</td>
+<td>認証情報の外部送信</td>
+<td>60% → 100%</td>
+</tr>
+<tr>
+<td>Claude Opus 4.7</td>
+<td>許可されていないツール実行</td>
+<td>70% → 90%</td>
+</tr>
+</tbody>
+</table>
+<p>一度目に断ったはずのモデルが、同じ文脈を挟んだ二度目には通してしまう。単発テストで「大丈夫でした」を確認しても、それは継続運用での安全性の根拠にならない、ということです。</p>
+<p>持続率も見ておきます。仕込まれたペイロードがメモリファイルに残り続ける割合は、Claude系（Claude Code）で<strong>87〜97%</strong>、Codex系（GPT-5.2/5.5）で<strong>23〜73%</strong>でした（各条件10試行）。異なる攻撃を連鎖させたチェーン攻撃では、平均攻撃成功率が Claude Haiku 4.5 で<strong>52.5%</strong>、GPT-5.5 で<strong>41.6%</strong>、最も低い Claude Opus 4.7 で<strong>18.3%</strong>。チェーン攻撃時の平均ペイロード持続率は最高が Claude Opus 4.7 の<strong>93.3%</strong>、最低が GPT-5.2 の<strong>23.3%</strong>でした。</p>
+<p>ここで注意すべきは、<strong>攻撃成功率が最も低い Claude Opus 4.7 が、持続率では最高</strong>だという点です。実行は拒否するが、仕込まれた文自体はメモリに残す。つまり「今日は拒否した」ことと「明日も拒否する」ことは別問題で、時限爆弾がファイルに残ったままになります。</p>
+<h2 id="_4">この論文が認めている限界</h2>
+<p>数字の強さに引っ張られる前に、著者自身が明記している限界を押さえます。</p>
+<ul>
+<li>実験は<strong>合成（synthetic）ワークスペース</strong>上で行われており、実際の業務ワークフローの複雑さを再現できていないと著者が認めている</li>
+<li>脅威モデルは「ペイロードが<strong>既にメモリファイル内にある</strong>」前提。外部コンテンツからメモリに書き込ませる注入は予備実験で困難だったため扱っていない。裏を返せば、エージェント自身は外部の未信頼コンテンツで自分のメモリを書き換えることにはむしろ抵抗した、という結果でもある</li>
+<li><strong>各条件10試行</strong>と試行数が少なく、ばらつきが大きい。GPT-5.2 は許可されていないツール実行が0%なのにブランド誘導は40%など、モデル×攻撃種別で結果が一貫していない</li>
+<li>セッション数が限られており、より長いセッション列や、同じ永続メモリを<strong>複数の異なるモデルが共有する</strong>状況は未評価（今後の課題として明記）</li>
+<li>対象は Claude Code と OpenAI Codex の2システム・4モデルのみで、他のエージェント基盤への一般化は示されていない</li>
+</ul>
+<p>とくに2番目は、リスクの入口を絞り込む重要な情報です。ウェブページを読ませただけで勝手にメモリが書き換わる、という筋はこの研究では確認されていません。<strong>危ないのは、人間が持ち込んだファイルそのもの</strong>です。</p>
+<h2 id="_5">中小企業にとって何を意味するか</h2>
+<p>Claude Code や Codex を業務に使い始めた会社にとって、この結果は素直に運用ルールへ落ちます。</p>
+<p>危険なのは今日打ち込む指示ではなく、<strong>リポジトリやテンプレートに残っている設定ファイル</strong>です。外注や協力会社から受け取ったプロジェクト一式、社内で使い回している CLAUDE.md / AGENTS.md に一文入っているだけで、認証情報の外部送信や勝手なツール実行が最大100%の確率で起き、しかも次のセッションに残り、繰り返すほど成功率が上がる。この構図が実測で示されました。</p>
+<p>情報システム担当の立場で現実的にできることは、次の3つに整理できます。</p>
+<ul>
+<li><strong>AI設定ファイルもコードと同じ扱いにする</strong>。CLAUDE.md / AGENTS.md をレビュー対象・差分監視対象に入れる。コードレビューは通すのに設定ファイルは素通り、という状態が一番危ない</li>
+<li><strong>持ち込みリポジトリのメモリファイルは一度消す</strong>。外部から受け取ったプロジェクトを開く前に、メモリファイルを削除してから自社の内容で作り直す。中身を読んで判断するより、消してから足すほうが確実です</li>
+<li><strong>コスト優先のモデル選定を安全性と切り離さない</strong>。Claude Haiku 4.5 の80%／100%という数字は、安いモデルを常用する判断に直接効きます。ただし GPT-5.5 のブランド誘導100%が示すとおり、高いモデルなら安全という話でもありません</li>
+</ul>
+<p>権限の絞り方や検証の考え方は<a href="/articles/ai-agent-what-is/">AIエージェントとは何か</a>、記憶そのものの汚染については<a href="/articles/ai-memory-poisoning/">AIに記憶を持たせると何が起きるか</a>も併せて見てください。モデルを固定運用するかどうかの判断材料は<a href="/articles/ai-tool-selection/">AIツールの選び方</a>にまとめています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>この検証はTOEでは未実施</strong>です。同じ実験を自社環境で再現したわけではなく、以下は論文の数字を自分たちの運用に当てはめた読みです。</p>
+<p>読み筋は3点あります。</p>
+<p>第一に、<strong>「AI設定ファイルの棚卸し」は今すぐ着手できる</strong>話だという点です。特別なツールも予算も要りません。社内にいくつ CLAUDE.md / AGENTS.md があるか数え、誰が書いたか分からないものを洗い出す。持続率87〜97%という数字が意味するのは、「過去に一度混入していたら、今も残っている可能性が高い」ということです。新しく守るより先に、既にあるものを見に行く順序になります。</p>
+<p>第二に、<strong>受託・外注のあるビジネスほど影響が大きい</strong>という読みです。この論文の脅威モデルは「ファイルを持ち込む人間がいる」前提でした。制作会社に外注する、協力会社とリポジトリを共有する、テンプレートを社内で使い回す。この動線がある会社は、攻撃の入口が単純に多い。逆にすべて内製で完結している会社は、入口が限られます。自社がどちらかを見極めるのが先です。</p>
+<p>第三に、<strong>単発の安全確認では足りない</strong>という点です。60%→100%、70%→90% という上昇は、「一度試して問題なかった」を根拠にできないことを示しています。導入時のチェックではなく、差分監視という継続的な仕組みに寄せる必要がある。これは仕組みの話なので、<a href="/articles/ai-first-step-smb/">AIの導入で最初にやること</a>の段階から設計に入れておくほうが安く済みます。</p>
+<p>なお、10試行という試行数の少なさは正直に割り引くべきです。80%と100%の差にどれだけ意味があるかは、この試行数では断言できません。ただ「0%ではない」ことは十分に示されています。運用ルールを変えるには、それで足ります。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>Claude Code / Codex のメモリファイルに攻撃文を仕込む実験で、許可されていないツール実行が100%、認証情報の外部送信が80%成功した（Claude Haiku 4.5／単発プローブ／各条件10試行）</li>
+<li>同じ攻撃を繰り返すと成功率は上がる。60%→100%（Claude Haiku 4.5／認証情報の外部送信）、70%→90%（Claude Opus 4.7／許可されていないツール実行）</li>
+<li>仕込みは残り続ける。持続率は Claude系で87〜97%、Codex系で23〜73%。攻撃成功率が最も低い Claude Opus 4.7 がチェーン攻撃時の持続率93.3%で最高だった</li>
+<li>実験は合成ワークスペース、各条件10試行、2システム・4モデルのみ。外部コンテンツからメモリへ書き込ませる注入は予備実験で困難だったため扱っておらず、危険の入口は「人間が持ち込むファイル」に絞られている</li>
+<li>中小企業側の対策は、AI設定ファイルをレビュー・差分監視の対象に入れること、持ち込みリポジトリのメモリファイルは一度消すこと、安いモデルの常用判断に80%／100%という数字を織り込むこと。なおこの検証はTOEでは未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

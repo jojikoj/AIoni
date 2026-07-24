@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>公開ベンチマークのスコアはそのまま比較に使えるのか？同じLLaMA 65BのMMLUが63.7と48.8に割れている · AIの鬼</title>
+  <meta name="description" content="Hugging FaceとEvalEval Coalitionが、22,000超のモデル・2,200のベンチマークにまたがる229,000件の評価結果を1か所に集約しました。そこで露わになったのは、同一モデル・同一ベンチマークでもスコアが63.7と48.8に食い違うという事実です。ベンダー提示の点数をどう扱うべきかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-featuring-every-eval-ever/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-featuring-every-eval-ever/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="公開ベンチマークのスコアはそのまま比較に使えるのか？同じLLaMA 65BのMMLUが63.7と48.8に割れている · AIの鬼">
+  <meta property="og:description" content="Hugging FaceとEvalEval Coalitionが、22,000超のモデル・2,200のベンチマークにまたがる229,000件の評価結果を1か所に集約しました。そこで露わになったのは、同一モデル・同一ベンチマークでもスコアが63.7と48.8に食い違うという事実です。ベンダー提示の点数をどう扱うべきかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-featuring-every-eval-ever/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="公開ベンチマークのスコアはそのまま比較に使えるのか？同じLLaMA 65BのMMLUが63.7と48.8に割れている · AIの鬼">
+  <meta name="twitter:description" content="Hugging FaceとEvalEval Coalitionが、22,000超のモデル・2,200のベンチマークにまたがる229,000件の評価結果を1か所に集約しました。そこで露わになったのは、同一モデル・同一ベンチマークでもスコアが63.7と48.8に食い違うという事実です。ベンダー提示の点数をどう扱うべきかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"公開ベンチマークのスコアはそのまま比較に使えるのか？同じLLaMA 65BのMMLUが63.7と48.8に割れている","item":"https://ai-oni.com/articles/hf-featuring-every-eval-ever/"}]},{"@type":"Article","headline":"公開ベンチマークのスコアはそのまま比較に使えるのか？同じLLaMA 65BのMMLUが63.7と48.8に割れている","description":"Hugging FaceとEvalEval Coalitionが、22,000超のモデル・2,200のベンチマークにまたがる229,000件の評価結果を1か所に集約しました。そこで露わになったのは、同一モデル・同一ベンチマークでもスコアが63.7と48.8に食い違うという事実です。ベンダー提示の点数をどう扱うべきかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-featuring-every-eval-ever/"},"url":"https://ai-oni.com/articles/hf-featuring-every-eval-ever/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-featuring-every-eval-ever.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-featuring-every-eval-ever/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-featuring-every-eval-ever.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>公開ベンチマークのスコアはそのまま比較に使えるのか？同じLLaMA 65BのMMLUが63.7と48.8に割れている</h1>
+<p class="article-lead">Hugging FaceとEvalEval Coalitionが、22,000超のモデル・2,200のベンチマークにまたがる229,000件の評価結果を1か所に集約しました。そこで露わになったのは、同一モデル・同一ベンチマークでもスコアが63.7と48.8に食い違うという事実です。ベンダー提示の点数をどう扱うべきかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。公開されているベンチマークスコアは、そのままではモデル同士の比較材料になりません。同じLLaMA 65Bの同じMMLUというベンチマークで、報告値が63.7と48.8に割れている実例が示されました。差の原因は測定条件の違いです。点数は参考値として扱い、採否は自社データでの試行で決めてください。</p>
+<h2 id="every-eval-ever">Every Eval Everは何を集めたのか</h2>
+<p>Hugging FaceとEvalEval Coalitionが、あちこちに散らばっていたAIモデルの評価結果を一箇所に集約し、Hugging Faceのモデルページ上から参照できるようにした、という発表です。あわせて、コミュニティが自分で走らせた評価結果を投稿できる仕組み（Community Evals）も用意されました（出典：Hugging Face および EvalEval Coalition（著者として Sree Harsha Nelaturu、Avijit Ghosh、Nathan Habib、Jan Batzner、Leshem Choshen、Irene Solaiman、Julien Chaumond を記載）、2026-06-30、<a href="https://huggingface.co/blog/eee-community-evals">https://huggingface.co/blog/eee-community-evals</a>）。</p>
+<p>先に、読者が数字の出どころを判断できるよう明示しておきます。<strong>この記事は Hugging Face 社自身による発表であり、同社は当該製品（モデルページおよびCommunity Evals機能）の提供者です</strong>。自社プラットフォームへの投稿・利用を促す立場から書かれた情報である、という前提で読む必要があります。第三者による検証結果ではありません。</p>
+<p>集約された規模は以下のとおりです。いずれも記事公開時点（2026年6月30日）の累計値で、対象は公開されているモデル評価結果です。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>数値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>格納されている評価結果</td>
+<td>229,000件</td>
+<td>記事公開時点の累計。公開モデル評価結果が対象</td>
+</tr>
+<tr>
+<td>カバーしているモデル</td>
+<td>22,000超</td>
+<td>同データストア内、記事公開時点</td>
+</tr>
+<tr>
+<td>収録ベンチマーク</td>
+<td>2,200</td>
+<td>同データストア内、記事公開時点</td>
+</tr>
+<tr>
+<td>統合・正規化した報告フォーマット</td>
+<td>31種類</td>
+<td>集約対象とした既存の報告形式の数。期間・母集団の詳細は原文に記載なし</td>
+</tr>
+<tr>
+<td>コンバーターが公式対応するベンチマーク</td>
+<td>4種類</td>
+<td>MMLU-Pro、GPQA、HLE、GSM8K。記事公開時点</td>
+</tr>
+</tbody>
+</table>
+<p>31種類という数字が、この取り組みの実態をよく表しています。同じ「評価結果」でありながら、報告の書式が31通りに分かれていた。つまり、これまでスコアを横並びで比べようとしても、そもそも書式が揃っていなかったということです。</p>
+<h2 id="637488">63.7と48.8はなぜ割れたのか</h2>
+<p>この記事で最も重要な数字は、229,000でも22,000でもなく、63.7と48.8の2つです。</p>
+<p>同一モデル（LLaMA 65B）を、同一ベンチマーク（MMLU）で測った報告値が、63.7と48.8に食い違っています。約15ポイントの開きです。原文はこの差の要因を、評価手法すなわち測定設定の違いによるものとしています。プロンプトの与え方、生成パラメータ、採点方法といった条件が異なれば、同じモデルの同じ試験でも点数はここまで動く、ということです。</p>
+<p>なお、この比較が何件の報告を突き合わせた結果なのかは原文に記載がありません。「2つの報告が割れた」という事例なのか、多数の報告のうち最大と最小を取った値なのかは判断できません。ここは割り引いて読む必要があります。</p>
+<p>そして著者ら自身が、より不都合な事実を認めています。<strong>評価条件（測定設定）は一般に未記載であることが多い</strong>、と。この一文の重みは大きい。集約された229,000件の評価結果のなかにも、条件が揃っていない値、条件が書かれていない値が含まれ得るということです。集めて並べたからといって、比較可能になったわけではありません。</p>
+<h2 id="_1">中小企業の実務にどう関係するのか</h2>
+<p>「うちには関係ない話では」と思われるかもしれませんが、直結します。AIツールやモデルを検討するとき、ベンダーの資料や比較記事には必ずと言っていいほどベンチマークスコアが載っているからです。</p>
+<ul>
+<li>「A社のモデルはMMLUで◯点、B社は△点」という比較は、両者の測定条件が揃っていなければ意味を持ちません。63.7対48.8という事例が示すとおり、条件次第で15ポイント動き得ます</li>
+<li>提案を受ける側としては、スコアを持ち出された時点で「その数値はどの設定で測ったものですか」「出典はどこですか」と確認するのが妥当です。答えられない提案は、その項目を判断材料から外してください</li>
+<li>逆に、条件を明示できるベンダーは信頼度が高いと見てよいでしょう。開示できるかどうか自体が、ひとつの選別基準になります</li>
+</ul>
+<p>もうひとつ、この動き自体は中小企業にとって追い風です。横断的な評価データベースが整備されれば、「あるモデルについて、他の人はどう測って何点だったか」を確認する手間が下がります。これまでは各社の発表資料を個別に当たるしかなかったものが、一箇所で裏取りできる方向に向かう。モデル選定にかけるコストは下がる見込みです。ただし現時点では、コンバーターが公式に対応するベンチマークは4種（MMLU-Pro、GPQA、HLE、GSM8K）にとどまり、収録されている2,200のベンチマーク全体を網羅してはいません。整備は途上です。</p>
+<p>評価の基準を自社で持つという発想については、<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>も参考にしてください。</p>
+<h2 id="_2">この発表の限界はどこか</h2>
+<p>誠実に書けば、この取り組みには相応の弱点があります。導入判断の材料にする前に、以下は把握しておくべきです。</p>
+<ul>
+<li>発信元である Hugging Face 自身が、記事で紹介している Community Evals および Every Eval Ever 連携機能の提供者です。自社プラットフォームの利用を促す利害関係のある情報です</li>
+<li>評価条件が一般に未記載であることが多いと著者自身が認めており、229,000件のなかに条件不明の値が含まれ得ます</li>
+<li>コンバーターの公式対応は4種のみで、2,200ベンチマークの大半は対象外です</li>
+<li>評価結果の投稿はコミュニティ依存です。誰がどの条件で実行したかは投稿者のメタデータ記載精度に左右され、サンプル単位の出力ファイルの添付は任意とされています。つまり「検証可能な形で投稿されているとは限らない」ということです</li>
+<li>日本語性能、推論コスト、レイテンシといった、中小企業の業務適用に直結するデータは本文に含まれていません</li>
+</ul>
+<p>最後の点は特に効きます。日本の中小企業が実際に気にするのは「うちの見積書のPDFをちゃんと読めるか」「社内用語を誤変換しないか」「1件あたりいくらかかるか」であって、MMLUの点数ではありません。この種の指標は、公開ベンチマークからは原理的に出てきません。コスト側の見方は<a href="/articles/ai-cost-aware-evaluation/">コストを織り込んだ評価</a>で扱っています。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>ここからは株式会社TOEとしての見立てです。<strong>Every Eval Ever のデータストアおよび Community Evals 機能について、TOEでは未実施です</strong>。実際に投稿・参照した経験に基づく評価ではなく、公開されている発表内容からの判断であることを先に断っておきます。</p>
+<p>そのうえで、この発表の実務的な価値は「229,000件が集まった」ことよりも、「同じモデルの同じ試験でスコアが割れる」という事実が、業界の中心的なプラットフォームから公に示された点にあると見ています。これまで漠然と言われていた話に、63.7と48.8という具体的な数字が付きました。稟議や社内説明で使える形になった、ということです。</p>
+<p>TOEとしてお勧めする運用は3点です。</p>
+<ol>
+<li>スコア比較を含む提案を受けたら、測定条件の開示を求める。プロンプト設定、生成パラメータ、採点方法のいずれかが不明なら、その比較は判断材料から外す</li>
+<li>最終判断は、自社の実データ・実業務での小さな試行（PoC）で行う。自社の帳票20件、自社の問い合わせメール50件といった規模で構いません。公開ベンチマークの順位より、自社データでの結果のほうが常に強い証拠です</li>
+<li>稟議書に「ベンチマーク値は参考、採否は自社検証で決定」と一行入れておく。本記事の63.7と48.8はその根拠として使えます</li>
+</ol>
+<p>小さく試すところから始める手順は<a href="/articles/ai-first-step-smb/">中小企業のAI導入・最初の一歩</a>にまとめてあります。ツール選定そのものの考え方は<a href="/articles/ai-tool-selection/">ツール選定の判断軸</a>を併せてご覧ください。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>Hugging FaceとEvalEval Coalitionが、22,000超のモデル・2,200のベンチマークにわたる229,000件の評価結果を集約した（記事公開時点の累計、公開モデル評価結果が対象）。報告フォーマットは31種類に分かれていた</li>
+<li>同一モデル（LLaMA 65B）・同一ベンチマーク（MMLU）で報告値が63.7と48.8に割れており、差の要因は測定設定の違いとされる。ただし何件の報告を比較したかは原文に記載がない</li>
+<li>著者自身が、評価条件は一般に未記載であることが多いと認めている。集約された229,000件にも条件不明の値が含まれ得る</li>
+<li>この記事は Hugging Face 社自身による発表であり、同社は当該機能の提供者である。コンバーターの公式対応は4種（MMLU-Pro、GPQA、HLE、GSM8K）にとどまり、日本語性能・コスト・レイテンシのデータは含まれない</li>
+<li>実務では、スコア比較を持ち出す提案に測定条件の開示を求め、採否は自社データでの小さな試行で決める。TOEでは当該機能を未実施であり、本稿は公開情報に基づく判断である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

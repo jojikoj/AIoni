@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>手順書を足せばAIエージェントは賢くなるのか？正答率67%→43%、あるタスクでは100%→0%になった記録 · AIの鬼</title>
+  <meta name="description" content="Hugging Faceが自社ツール上でオープンモデルのエージェント能力を3段階の構成で測ったところ、手順書（Skill）を同梱した構成で小型モデルの一致率が67%から43%に落ち、あるタスクでは100%から0%になりました。同じ作業のトークン消費が約2,400から約23,000へ振れた例もあります。中小企業がPoCで何を測るべきかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="手順書を足せばAIエージェントは賢くなるのか？正答率67%→43%、あるタスクでは100%→0%になった記録 · AIの鬼">
+  <meta property="og:description" content="Hugging Faceが自社ツール上でオープンモデルのエージェント能力を3段階の構成で測ったところ、手順書（Skill）を同梱した構成で小型モデルの一致率が67%から43%に落ち、あるタスクでは100%から0%になりました。同じ作業のトークン消費が約2,400から約23,000へ振れた例もあります。中小企業がPoCで何を測るべきかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="手順書を足せばAIエージェントは賢くなるのか？正答率67%→43%、あるタスクでは100%→0%になった記録 · AIの鬼">
+  <meta name="twitter:description" content="Hugging Faceが自社ツール上でオープンモデルのエージェント能力を3段階の構成で測ったところ、手順書（Skill）を同梱した構成で小型モデルの一致率が67%から43%に落ち、あるタスクでは100%から0%になりました。同じ作業のトークン消費が約2,400から約23,000へ振れた例もあります。中小企業がPoCで何を測るべきかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"手順書を足せばAIエージェントは賢くなるのか？正答率67%→43%、あるタスクでは100%→0%になった記録","item":"https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/"}]},{"@type":"Article","headline":"手順書を足せばAIエージェントは賢くなるのか？正答率67%→43%、あるタスクでは100%→0%になった記録","description":"Hugging Faceが自社ツール上でオープンモデルのエージェント能力を3段階の構成で測ったところ、手順書（Skill）を同梱した構成で小型モデルの一致率が67%から43%に落ち、あるタスクでは100%から0%になりました。同じ作業のトークン消費が約2,400から約23,000へ振れた例もあります。中小企業がPoCで何を測るべきかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/"},"url":"https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-it-agentic-enough-benchmarking.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-it-agentic-enough-benchmarking/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-it-agentic-enough-benchmarking.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>手順書を足せばAIエージェントは賢くなるのか？正答率67%→43%、あるタスクでは100%→0%になった記録</h1>
+<p class="article-lead">Hugging Faceが自社ツール上でオープンモデルのエージェント能力を3段階の構成で測ったところ、手順書（Skill）を同梱した構成で小型モデルの一致率が67%から43%に落ち、あるタスクでは100%から0%になりました。同じ作業のトークン消費が約2,400から約23,000へ振れた例もあります。中小企業がPoCで何を測るべきかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIエージェントに社内の手順書を読ませれば必ず賢くなる、という前提は成り立ちません。Hugging Faceの実測では、手順書を同梱した構成で小型モデルの一致率が67%から43%に落ち、あるタスク単体では100%から0%になりました。効くかどうかは自社の実タスクで測るしかありません。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>Hugging Faceが公開した記事「Is it agentic enough? Benchmarking open models on your own tooling」は、AIコーディングエージェントを「成功したか失敗したか」だけでなく、「自社のツール上でどれだけ無駄なく仕事を終えられるか」で測ろうという趣旨の検証です。評価は3段階のティアで行われています。</p>
+<table>
+<thead>
+<tr>
+<th>ティア</th>
+<th>エージェントに与えた環境</th>
+<th>位置づけ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bare</td>
+<td>対象ライブラリを pip でインストールしただけ</td>
+<td>最小構成。手がかりが少ない</td>
+</tr>
+<tr>
+<td>clone</td>
+<td>ソースコード全体をチェックアウトして渡す</td>
+<td>情報量は最大だが読む負荷も大きい</td>
+</tr>
+<tr>
+<td>skill</td>
+<td>手順書をパッケージとして同梱する</td>
+<td>使い方を教えた構成</td>
+</tr>
+</tbody>
+</table>
+<p>この3段階で同じタスクを走らせ、正解と厳密に一致したかどうか（match rate）と、生成された新規トークン量を比べています。主な実測値は次のとおりです。</p>
+<ul>
+<li><strong>1.3〜1.8倍（最大6倍）のトークン削減</strong>：新しいCLIとSkillを併用した場合の削減率。条件は hf CLI 上でのベースライン手法との比較で、対象は同一ハーネスで評価した複数のオープンモデル。期間・n数の明記はありません</li>
+<li><strong>67% → 43%</strong>：Qwen3-14B の一致率。bare構成（pipインストールのみ）から skill構成（手順書同梱）に変えた場合の、同一タスクセットでの比較</li>
+<li><strong>100% → 0%</strong>：Qwen3-14B の classify-sentiment タスク単体の一致率。clone構成（ソース全体をチェックアウト）から skill構成へ変えた場合の、単一タスクでの結果</li>
+<li><strong>約2,400トークン → 約23,000トークン</strong>：Qwen3-4B が生成した新規トークンの中央値。clone構成でCLI導入コミットを適用した際の変化で、中央値ベース</li>
+<li><strong>55.3%</strong>：テスト対象モデルにおけるCLIの採用率（実際にCLIを使った割合）。skill構成での集計で、対象モデル数の内訳は記載されていません</li>
+</ul>
+<p>つまり、同じ「手順書を足す」という操作が、あるモデルではトークンを1.3〜1.8倍削減し、別のモデルでは正答率をほぼ半減させています。<strong>方向が逆に出ている</strong>というのがこの検証の中心的な事実です。</p>
+<p>（出典：Hugging Face（本文中で自社ライブラリ transformers・hf CLI、および評価ツール agent-eval を扱う同社発信の公式ブログ）、2026-06-18、<a href="https://huggingface.co/blog/is-it-agentic-enough">https://huggingface.co/blog/is-it-agentic-enough</a>）</p>
+<h2 id="_2">この数字は誰が出しているのか</h2>
+<p>読む前に押さえておくべき前提があります。<strong>この記事は Hugging Face 自身による発表であり、同社は評価対象である transformers ライブラリ・hf CLI、および評価ツール agent-eval の提供者そのものです。</strong> 自社製品を有利に見せる利害関係のある発信元が、自ら設計した評価軸で、自ら測って公開した数字です。</p>
+<p>これは「だから信用できない」という話ではありません。むしろこの記事は、後述するとおり自社にとって不都合な結果も本文に書いています。ただ、評価の枠組み（3ティアという分け方、トークン量を主要指標に据えること）自体が発信元の製品設計に沿って作られている以上、<strong>その枠組みごと自社に持ち込んでよいかは読む側が判断する必要があります</strong>。発信元の立場を確認してから数字を読む習慣については、<a href="/articles/ai-answer-vs-reasoning-quality/">AIの回答品質と推論品質は別物か</a> でも同じ論点を扱っています。</p>
+<h2 id="_3">読者への意味：ベンチマーク上位は「うちで使える」を意味しない</h2>
+<p>中小企業の経営者・情報システム担当にとって、この実測が持つ意味は2つです。</p>
+<h3 id="1">1. 社内手順書を足しても、賢くなるとは限らない</h3>
+<p>「うちの業務マニュアルをAIに読ませれば精度が上がるはずだ」という期待は、実務でよく出ます。しかしこの検証では、手順書を同梱した構成で小型モデルの一致率が67%から43%へ落ちました。単一タスクでは100%から0%です。</p>
+<p>原因として考えられるのは、手順書が増えることでモデルが処理すべき文脈が増え、小型モデルの処理能力を超えるという構造です。<strong>情報を足すことは、負荷を足すことでもあります。</strong> 大型モデルなら消化できる量が、小型モデルでは逆効果になる。安いモデルでコストを抑えつつ手順書で補う、という設計は、この結果を見る限り無条件には成立しません。</p>
+<h3 id="2-10">2. 同じ作業のトークン消費が10倍に振れうる＝料金が振れる</h3>
+<p>Qwen3-4B の例では、生成トークンの中央値が約2,400から約23,000へ変化しています。約10倍です。トークン量はそのままAPI料金です。<strong>同じ作業を頼んでいるつもりでも、構成が変われば請求額が一桁変わりうる</strong>ということになります。</p>
+<p>逆に言えば、条件が合えば1.3〜1.8倍（最大6倍）の削減も出ています。社内向けAI手順書の整備は、精度対策としてではなく<strong>コスト削減策として検証する価値がある</strong>、という読み方が実務的です。ただし検証してから、です。コストの見積もり方については <a href="/articles/ai-cost-structure/">AIの利用コストは何で決まるのか</a> と <a href="/articles/ai-cost-aware-evaluation/">コストを含めて評価する</a> が参考になります。</p>
+<p>結論として実務に落とすなら、<strong>PoCは自社の実タスク・実ツールで、小さく、実測ベースで</strong>やるしかありません。ベンダーのベンチマークで上位だから自社でも使える、という推論は、この記事の数字がまさに否定しています。自社基準での評価の組み方は <a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a> で整理しています。</p>
+<h2 id="_4">一次資料が自ら認めている限界</h2>
+<p>この検証には、記事自身が明記している制約が複数あります。都合の悪いものも含めて列挙します。</p>
+<ul>
+<li><strong>利害関係</strong>：前述のとおり、発信元 Hugging Face は評価対象のライブラリ・CLI・評価ツールすべての提供者です</li>
+<li><strong>トークン増加は最悪ケースに近い</strong>：各実行はエージェントを毎回まっさらな状態として扱うため、計測されたトークン増加は「実運用で利用者が体感する値」ではないと本文が明言しています</li>
+<li><strong>決定論的タスクに限定</strong>：評価対象は正解が厳密一致で判定できるタスクのみです。要約や顧客対応のような、答えが一つに定まらない曖昧な業務タスクへ一般化することはできません</li>
+<li><strong>モデル間の比較が難しい</strong>：モデルごとにタスクのカバー範囲が不揃いなため、公平な比較には「共通タスクのみ」に絞る操作が必要だと断っています</li>
+<li><strong>セキュリティ上の注意</strong>：コード実行時に権限チェックを回避（bypassed permissions）しており、実行トレースにはプロンプト・出力・ローカルパスが含まれます。信頼できるローカル環境でのみ使うよう警告されています</li>
+<li><strong>効果がモデル規模に依存する</strong>：改善はモデル規模次第で、大型モデルでは処理時間の中央値が改善する一方、小型モデルでは悪化するという、発信元にとって不都合な結果が出ています</li>
+</ul>
+<p>最後の項目は特に重要です。<strong>発信元が自社に不利な結果を消さずに書いている</strong>という点は、この記事の信頼性を上げる材料であると同時に、読者に対しては「あなたが使う規模のモデルでは効かないかもしれない」という直接の警告になっています。エージェントに与える道具や権限の設計については <a href="/articles/ai-agent-tool-evolution/">エージェントに渡すツールはどう進化してきたか</a> も参照してください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>ここからは株式会社TOEの見立てです。<strong>この検証と同じ手順をTOEでは未実施であり、以下は一次資料からの推論です。</strong></p>
+<p>第一に、社内AI導入の順番を変える材料になると見ています。よくある進め方は「モデルを決める → 手順書を書く → 展開する」ですが、この実測が示しているのは、手順書の効果がモデル規模に依存して逆転しうるということです。だとすれば、<strong>手順書を書き切る前に、候補モデル2つで最小の手順書を試して方向を確認する</strong>ほうが手戻りが小さい。手順書の整備は工数のかかる仕事なので、書いてから効かないと分かるのが一番痛い。</p>
+<p>第二に、トークン量を導入判断の指標に入れるべきだと考えています。多くのPoCは「できた／できない」で終わりますが、この記事の枠組みは「どれだけ無駄なく終えたか」を測っています。同じ結果に至るのに10倍のトークンを使うエージェントは、月次の請求書で差が出ます。<strong>PoCの評価シートに「所要トークン」の列を1本足すだけ</strong>で、運用に入ってからの想定外がかなり減るはずです。</p>
+<p>第三に、セキュリティの扱いです。一次資料が権限チェック回避を前提にしている点は、そのまま社内に持ち込めない条件です。エージェントにファイル操作やコマンド実行をさせる構成を検討する場合、実行トレースに社内パスや入力内容が残ることを前提にした保管ルールが要ります。ここは技術検証とは別に、先に決めておくべき部分だと見ています。</p>
+<p>いずれもTOEでの実測結果ではなく、一次資料から導いた仮説です。実際に検証した際は、数字とともに改めて記事にします。</p>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Hugging Faceの実測で、手順書（Skill）を同梱した構成に変えたところ Qwen3-14B の一致率が67%から43%へ低下し、classify-sentiment タスク単体では100%から0%になった（同一タスクセットでの比較）</li>
+<li>同じ作業でも構成が変わればトークン消費は約2,400から約23,000（中央値）へ振れうる一方、条件が合えば1.3〜1.8倍（最大6倍）の削減も出ており、そのままAPI料金の変動になる</li>
+<li>この記事は Hugging Face 自身による発表であり、同社は評価対象の transformers・hf CLI・agent-eval すべての提供者である。数字の出どころとして前提に置く必要がある</li>
+<li>一次資料は、トークン増加が実運用の体感値ではないこと、決定論的タスクに限定されること、小型モデルでは処理時間が悪化することなど、自社に不都合な限界も明記している</li>
+<li>TOEでは同じ検証を未実施だが、PoCの評価シートに「所要トークン」の列を足すこと、手順書を書き切る前に最小構成で方向を確認することを、実務上の打ち手として推している</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

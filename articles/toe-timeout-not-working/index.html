@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた · AIの鬼</title>
+  <meta name="description" content="前の記事で「15分の強制終了設定があるのに51分完走した記録があり、機序が未解明」と宿題にしました。その謎の一つの答えが出ました。記録には「timeout 900s」と残っているのに、実際のプロセスは2時間以上生きていた実データが2件見つかりました。タイムアウトは&#34;効いたことになっていた&#34;だけでした。まだ直せていないことも含めて、そのまま載せます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-timeout-not-working/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-timeout-not-working/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた · AIの鬼">
+  <meta property="og:description" content="前の記事で「15分の強制終了設定があるのに51分完走した記録があり、機序が未解明」と宿題にしました。その謎の一つの答えが出ました。記録には「timeout 900s」と残っているのに、実際のプロセスは2時間以上生きていた実データが2件見つかりました。タイムアウトは&#34;効いたことになっていた&#34;だけでした。まだ直せていないことも含めて、そのまま載せます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-timeout-not-working/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた · AIの鬼">
+  <meta name="twitter:description" content="前の記事で「15分の強制終了設定があるのに51分完走した記録があり、機序が未解明」と宿題にしました。その謎の一つの答えが出ました。記録には「timeout 900s」と残っているのに、実際のプロセスは2時間以上生きていた実データが2件見つかりました。タイムアウトは&#34;効いたことになっていた&#34;だけでした。まだ直せていないことも含めて、そのまま載せます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた","item":"https://ai-oni.com/articles/toe-timeout-not-working/"}]},{"@type":"Article","headline":"15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた","description":"前の記事で「15分の強制終了設定があるのに51分完走した記録があり、機序が未解明」と宿題にしました。その謎の一つの答えが出ました。記録には「timeout 900s」と残っているのに、実際のプロセスは2時間以上生きていた実データが2件見つかりました。タイムアウトは\"効いたことになっていた\"だけでした。まだ直せていないことも含めて、そのまま載せます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-timeout-not-working/"},"url":"https://ai-oni.com/articles/toe-timeout-not-working/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-11.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-timeout-not-working/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-11.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>15分で止めるはずのAI処理が、記録の上だけ死んで、実際は139分生きていた</h1>
+<p class="article-lead">前の記事で「15分の強制終了設定があるのに51分完走した記録があり、機序が未解明」と宿題にしました。その謎の一つの答えが出ました。記録には「timeout 900s」と残っているのに、実際のプロセスは2時間以上生きていた実データが2件見つかりました。タイムアウトは&#34;効いたことになっていた&#34;だけでした。まだ直せていないことも含めて、そのまま載せます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">この記事は、前の記録の「回答編」です</h2>
+<p>前の記録（<a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a>）で、当社は一つ宿題を残しました。<strong>「メディア系ジョブは15分（900秒）で強制終了する設定のはずなのに、51分完走した記録がある。機序は未解明」</strong>——分かった気になって書くより、分からないと書いたところです。</p>
+<p>その謎の一つの答えが、履歴の中から出てきました。結論から言います。<strong>タイムアウトは、記録の上では効いていました。しかし、実際のプロセスは死んでいませんでした。</strong> エラー名が「timeout 900s」なのに、実測では<strong>139分間ぶら下がっていた</strong>記録が残っています。15分で止めたことになっているだけで、止まっていなかったのです。</p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>タイムアウト</strong> … 処理に制限時間を掛け、超えたら強制終了させる仕組みです。当社の自動化基盤は、各ジョブを子プロセスとして起動し、Pythonのsubprocessに<strong>timeout=900秒（15分）</strong>を掛けています。超えたら記録上は status=error・error="timeout 900s" と残る設計です。</li>
+<li><strong>子プロセスと孫プロセス</strong> … ジョブとして起動したプログラムが「子」。その子がさらに起動する重い処理（AIのCLIやブラウザ等）が「孫」です。今回の主役です。</li>
+<li><strong>ゾンビ的プロセス</strong> … 親を止めたのに死なずに居座り続けるプロセスを、この記事ではこう呼びます。次の起動をブロックしたり、同じ処理を重複させたりします。</li>
+</ul>
+<hr />
+<h2 id="_2">見つかった矛盾の実データ</h2>
+<p>対象は、5分ごとに動くメール意思決定ジョブ（decide_mail）です。実測5.3日で468回起動し、うち27回がタイムアウトのerrorで終わっていました。その27回の中に、おかしな記録が2件ありました。<strong>2026年7月21日の実データ</strong>です。</p>
+<table>
+<thead>
+<tr>
+<th>run_id</th>
+<th>開始</th>
+<th>終了</th>
+<th style="text-align: right;">実時間</th>
+<th>記録上のエラー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>decide_mail-33beef9c39</td>
+<td>01:20:03</td>
+<td>03:24:02</td>
+<td style="text-align: right;"><strong>124.0分</strong></td>
+<td>timeout 900s</td>
+</tr>
+<tr>
+<td>decide_mail-9412483576</td>
+<td>04:21:33</td>
+<td>06:41:02</td>
+<td style="text-align: right;"><strong>139.5分</strong></td>
+<td>timeout 900s</td>
+</tr>
+</tbody>
+</table>
+<p>「900秒＝15分で切った」という名前のエラーなのに、記録上の開始から終了まで<strong>2時間以上</strong>空いています。15分でタイムアウトを検知したはずの処理が、終了の記録を書くまでに、さらに2時間近くかかっていたことになります。</p>
+<hr />
+<h2 id="_3">なぜこうなるのか</h2>
+<p>Pythonのsubprocessにtimeoutを掛けたとき、それが直接殺すのは<strong>起動した子プロセスだけ</strong>です。その子がさらに孫プロセス——AIのCLIやブラウザといった重い処理——を産んでいると、<strong>親を止めても孫が生き残る</strong>ことがあります。そして親側は、終了処理（後始末やハンドルのクローズ等）でブロックし、記録上の「終了」がずっと後ろにずれこみます。</p>
+<p>つまり今回の記録は、こう読めます。<strong>15分の時点でタイムアウトの判定自体は下りた。しかし、産まれた孫までは殺しきれず、親の終了処理が2時間以上ブロックされ、終了の記録が139分後になった。</strong> その間、実際のプロセスは生きていました。</p>
+<p>同種の障害は、当社の別のアプリでも実際に起きています。「終了処理でハングし、exitイベントが来ず、親が永久にawaitし続ける」「（Node.jsは）オープンハンドルが残っていると、main関数がreturnした後もプロセスが終了しない」——言語もアプリも違いますが、構造は同じです。<strong>上位に掛けたタイムアウトは、子孫のプロセスまで確実に殺せるとは限らない。</strong></p>
+<hr />
+<h2 id="_4">何が困るのか</h2>
+<p>居座ったゾンビ的プロセスは、放っておくと2つの害を出します。<strong>次の起動をブロックする</strong>こと、そして<strong>同じ処理を重複して走らせる</strong>ことです。前の記事で見た「発火したはずのジョブが抜ける」「実行が異常に長時間化する」という現象の、一因がこれです。5分ごとに動くはずのジョブの前に、2時間居座る先客がいたわけです。</p>
+<hr />
+<h2 id="_5">正直に書く点</h2>
+<ul>
+<li>これは<strong>「タイムアウトが効いていない」バグ</strong>です。そして、<strong>まだ完全には直せていません。</strong> プロセスグループごと確実に殺す等の対策を検討している段階です。</li>
+<li><strong>原因の全部を解明したとも言いません。</strong> decide_mailがそもそも何に時間を食っていたのか——AIの応答待ちなのか、メール取得待ちなのか——の切り分けは、まだ途中です。分かったのは「記録上のタイムアウトと、実際のプロセスの生死は別物だった」というところまでです。</li>
+</ul>
+<hr />
+<h2 id="_6">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a> — この謎を宿題として残した全数調査。</li>
+<li><a href="/articles/toe-media-watchdog/">止まったメディア更新を、見張り役が自動で叩き起こしていた話</a> — 原因を直す前に入れた対症療法の側。</li>
+</ul>
+<hr />
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>自動化基盤には<strong>15分（900秒）で強制終了するタイムアウト</strong>を掛けている。記録上も「timeout 900s」のエラーが残る。</li>
+<li>しかし実データ2件で、<strong>開始から終了まで124分・139.5分</strong>という記録が見つかった。タイムアウトは"効いたことになっていた"だけだった。</li>
+<li>機序は、<strong>subprocessのtimeoutが殺すのは子プロセスだけ</strong>で、孫プロセスが生き残り、親の終了処理がブロックされるため。当社の別アプリでも同じ構造の障害が起きている。</li>
+<li>居座ったプロセスは<strong>次の起動をブロックし、処理を重複させうる</strong>。前記事の「抜け・長時間化」の一因。</li>
+<li><strong>まだ直っていない。</strong> プロセスグループごと殺す対策は検討中。何に時間を食っていたかの切り分けも途中。分かったところまでを、そのまま書いた。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

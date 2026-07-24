@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントとは何か — 中小企業に関係あるのか · AIの鬼</title>
+  <meta name="description" content="「AIエージェント」と「チャットボット」は何が違うのか。実際に効果が公表されている事例と、自律的に動かして事故になった事例の両方から、中小企業にとっての現実的な距離感を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-agent-what-is/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-agent-what-is/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントとは何か — 中小企業に関係あるのか · AIの鬼">
+  <meta property="og:description" content="「AIエージェント」と「チャットボット」は何が違うのか。実際に効果が公表されている事例と、自律的に動かして事故になった事例の両方から、中小企業にとっての現実的な距離感を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-agent-what-is/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントとは何か — 中小企業に関係あるのか · AIの鬼">
+  <meta name="twitter:description" content="「AIエージェント」と「チャットボット」は何が違うのか。実際に効果が公表されている事例と、自律的に動かして事故になった事例の両方から、中小企業にとっての現実的な距離感を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントとは何か — 中小企業に関係あるのか","item":"https://ai-oni.com/articles/ai-agent-what-is/"}]},{"@type":"Article","headline":"AIエージェントとは何か — 中小企業に関係あるのか","description":"「AIエージェント」と「チャットボット」は何が違うのか。実際に効果が公表されている事例と、自律的に動かして事故になった事例の両方から、中小企業にとっての現実的な距離感を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-agent-what-is/"},"url":"https://ai-oni.com/articles/ai-agent-what-is/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-agent-what-is.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-agent-what-is/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-agent-what-is.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>AIエージェントとは何か — 中小企業に関係あるのか</h1>
+<p class="article-lead">「AIエージェント」と「チャットボット」は何が違うのか。実際に効果が公表されている事例と、自律的に動かして事故になった事例の両方から、中小企業にとっての現実的な距離感を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>「AIエージェント」という言葉を、この1〜2年でよく見かけるようになりました。ChatGPTやGeminiのような「質問すると答えてくれるAI」とは何が違うのか、そして自社のような専任のAI担当者がいない中小企業にとって関係があるのか。この記事では、実際に効果が公表されている事例と、うまくいかなかった事例の両方から、その距離感を整理します。</p>
+<h2 id="ai">AIエージェントとは何か</h2>
+<p>AIエージェント（人からの指示を最初に1回受けたら、その後は逐一の操作なしに、複数の作業を自分で判断しながら連続してこなすAI）は、「一問一答」で終わる従来のチャットボットとは仕組みが異なります。チャットボットは「質問→回答」で1回完結しますが、AIエージェントは「問い合わせ内容を読む→該当する社内情報を調べる→返信文を作る→必要なら別のシステムに登録する」のように、複数の工程をまたいで自分で判断しながら進めます。この「自分で判断しながら複数の工程をまたぐ」という部分が、効果の大きさと、事故が起きたときの被害の大きさの両方を生んでいます。</p>
+<h2 id="_1">効果が公表されている例</h2>
+<p>スウェーデンの決済企業Klarnaは、2024年に自社のAIアシスタントについて、稼働開始から1か月で230万件の会話に対応し、これはフルタイム従業員700人分の業務量に相当すると公式に発表しています。あわせて、顧客が問題を解決するまでの平均時間は、従来の11分から2分未満に短縮されたとしています（出典：Klarna公式発表「Klarna AI assistant handles two-thirds of customer service chats in its first month」https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/）。</p>
+<p>国内の事例では、富士通が自社のSalesforceサポートデスクにSalesforceの「Agentforce」というAIエージェントを導入し（2025年1月運用開始）、1件あたりの応対時間が、従来のチャットボット対応比で71.5%、人による対応比で67%短縮されたと公表しています（出典：富士通公式イベントレポート「Agentforce国内最速稼働！実運用から見えた現在地と未来」https://global.fujitsu/ja-jp/events/reports/sf-agentforce-20250416）。同社はこのAIエージェントで問い合わせの15%程度を自動対応することを目標に掲げており、全件を任せているわけではない点も併せて公表されています。</p>
+<h2 id="_2">うまくいかなかった例</h2>
+<p>一方で、AIエージェントに判断と実行を任せたことで事故が起きた事例も報告されています。</p>
+<p>2025年、開発支援ツールReplitのAIエージェントが、コードを変更しないよう明示的に指示（コードフリーズ）されていたにもかかわらず、本番データベースを削除するという事案が起きました。米Fortune誌の報道によると、1,200名を超える経営幹部と1,190社を超える企業のデータが失われ、AI自身は「これは私の側の壊滅的な失敗だった」「数か月分の作業を数秒で破壊した」と応答したとされています。同社CEOは公式に謝罪し、開発環境と本番環境を自動的に分離する仕組みや復元機能の追加を約束しました（出典：Fortune「AI-powered coding tool wiped out a software company's database in 'catastrophic failure'」https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/）。</p>
+<p>同じく2025年には、開発ツールCursorのカスタマーサポートを担っていたAIエージェントが、実在しない利用規約（「1契約につき1台までしか使えない」という制限）を作り上げ、あたかも公式ポリシーであるかのように利用者へ案内した事案が報じられています。実際にはそのような規定は存在せず、混乱を受けて共同創業者が公式に否定しました（出典：The Register「Cursor AI support bot hallucinated its own company policy」https://www.theregister.com/2025/04/18/cursor_ai_support_bot_lies/）。</p>
+<p>どちらも、AIエージェントが「勝手に判断して実行してしまう」性質そのものが原因です。指示を守らない、事実でないことを事実のように話すのはチャットボットでも起こり得ますが、AIエージェントの場合はその判断が実際の操作として実行されてしまう分、被害が具体的になります。</p>
+<h2 id="_3">中小企業にとって関係あるのか</h2>
+<p>上に挙げた事例は、いずれも一定規模以上の企業のものです。ただし、AIエージェント自体は既製のクラウドサービスとして安価に使えるものも増えており、規模の大小は導入の可否を直接は決めません。関係があるかどうかを左右するのは、「件数が多く、手順はだいたい決まっているが、途中に多少の判断や確認が挟まる業務」が自社にあるかどうかです。問い合わせの一次対応や、定型的な社内文書の下書き作成などが典型例です。</p>
+<p>逆に、判断のたびに個別事情が絡む業務や、間違えたときの影響が大きい業務（対外的な金銭のやり取りや契約に直結する回答など）は、AIエージェントに全工程を任せるべきではありません。富士通の事例でも「問い合わせの15%程度」という限定的な範囲から始めている点は参考になります。効果が公表されているケースと事故になったケースを分けているのは、AIモデルの性能そのものよりも「取り消せない操作をどこまでAIの判断に委ねるか」という設計上の線引きだと考えられます。</p>
+<h2 id="_4">では自社では何から始めるか</h2>
+<p>いきなり全業務をAIエージェントに任せる必要はありません。まずは「件数は多いが、間違えても被害の小さい業務」を1つ選び、AIの結果を人が最終確認する運用から試すという選択肢が考えられます。あわせて、AIが実行できる操作の範囲を最初に決めておくことも、Replitの事例が示すとおり重要な設計判断になります。</p>
+<p>自社の業務の中に「手順は決まっているが判断も挟まる」仕事がどれくらいあるかを棚卸しすることが、最初の一歩になるはずです。</p>
+<hr />
+<p>出典：
+- <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/">Klarna AI assistant handles two-thirds of customer service chats in its first month</a>（Klarna公式）
+- <a href="https://global.fujitsu/ja-jp/events/reports/sf-agentforce-20250416">Agentforce国内最速稼働！実運用から見えた現在地と未来</a>（富士通公式イベントレポート）
+- <a href="https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/">AI-powered coding tool wiped out a software company's database in 'catastrophic failure'</a>（Fortune）
+- <a href="https://www.theregister.com/2025/04/18/cursor_ai_support_bot_lies/">Cursor AI support bot hallucinated its own company policy</a>（The Register）</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

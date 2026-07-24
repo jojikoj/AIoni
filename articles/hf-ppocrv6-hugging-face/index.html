@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>パラメータ1.5Mから34.5MのOCRモデルは、自社の帳票読み取りを内製する道具になるのか？ · AIの鬼</title>
+  <meta name="description" content="PaddleOCRチームが公開したPP-OCRv6は、1.5M・7.7M・34.5Mの3構成で50言語に対応するOCRモデル群です。最大構成の検出Hmeanは86.2%、認識精度は83.2%と示されましたが、いずれも提供者自身の社内ベンチマークによる数字で、推論速度もライセンスも本文に記載がありません。読み方と検証の順番を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-ppocrv6-hugging-face/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-ppocrv6-hugging-face/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="パラメータ1.5Mから34.5MのOCRモデルは、自社の帳票読み取りを内製する道具になるのか？ · AIの鬼">
+  <meta property="og:description" content="PaddleOCRチームが公開したPP-OCRv6は、1.5M・7.7M・34.5Mの3構成で50言語に対応するOCRモデル群です。最大構成の検出Hmeanは86.2%、認識精度は83.2%と示されましたが、いずれも提供者自身の社内ベンチマークによる数字で、推論速度もライセンスも本文に記載がありません。読み方と検証の順番を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-ppocrv6-hugging-face/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="パラメータ1.5Mから34.5MのOCRモデルは、自社の帳票読み取りを内製する道具になるのか？ · AIの鬼">
+  <meta name="twitter:description" content="PaddleOCRチームが公開したPP-OCRv6は、1.5M・7.7M・34.5Mの3構成で50言語に対応するOCRモデル群です。最大構成の検出Hmeanは86.2%、認識精度は83.2%と示されましたが、いずれも提供者自身の社内ベンチマークによる数字で、推論速度もライセンスも本文に記載がありません。読み方と検証の順番を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"パラメータ1.5Mから34.5MのOCRモデルは、自社の帳票読み取りを内製する道具になるのか？","item":"https://ai-oni.com/articles/hf-ppocrv6-hugging-face/"}]},{"@type":"Article","headline":"パラメータ1.5Mから34.5MのOCRモデルは、自社の帳票読み取りを内製する道具になるのか？","description":"PaddleOCRチームが公開したPP-OCRv6は、1.5M・7.7M・34.5Mの3構成で50言語に対応するOCRモデル群です。最大構成の検出Hmeanは86.2%、認識精度は83.2%と示されましたが、いずれも提供者自身の社内ベンチマークによる数字で、推論速度もライセンスも本文に記載がありません。読み方と検証の順番を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-ppocrv6-hugging-face/"},"url":"https://ai-oni.com/articles/hf-ppocrv6-hugging-face/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-ppocrv6-hugging-face.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-ppocrv6-hugging-face/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-ppocrv6-hugging-face.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>パラメータ1.5Mから34.5MのOCRモデルは、自社の帳票読み取りを内製する道具になるのか？</h1>
+<p class="article-lead">PaddleOCRチームが公開したPP-OCRv6は、1.5M・7.7M・34.5Mの3構成で50言語に対応するOCRモデル群です。最大構成の検出Hmeanは86.2%、認識精度は83.2%と示されましたが、いずれも提供者自身の社内ベンチマークによる数字で、推論速度もライセンスも本文に記載がありません。読み方と検証の順番を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。PP-OCRv6は最小1.5Mパラメータという、手元のPCやオンプレ環境でも動かせる規模のOCRモデル群です。ただし公開された精度は提供者自身の社内ベンチマークによるもので、推論速度・必要スペック・ライセンスの記載がありません。導入可否は自社の実帳票でPoCを回して自前で測るまで判断できません。</p>
+<h2 id="pp-ocrv6">PP-OCRv6とは何が公開されたのか</h2>
+<p>PP-OCRv6は、OCR（画像中の文字をテキストデータに変換する技術）のモデル群です。Hugging Face上で、パラメータ規模の異なる3つの構成が公開されました（出典：PaddlePaddle（PaddleOCRチーム。Hugging Face上のPaddlePaddle公式ブログとして掲載）、2026-06-22、<a href="https://huggingface.co/blog/PaddlePaddle/pp-ocrv6">https://huggingface.co/blog/PaddlePaddle/pp-ocrv6</a>）。</p>
+<p>先に、この記事を読むうえで最も重要な前提を明示します。<strong>この記事は PaddlePaddle（PaddleOCRチーム）自身による発表であり、同社は PP-OCRv6 という当該製品の提供者である</strong>という点です。掲載媒体はHugging Faceのブログですが、書いているのは開発チーム本人です。後述する精度の数字も、評価基準の設計も、比較対象の選び方も、すべて提供者側の手の内にあります。第三者による独立検証ではありません。数字はその前提で割り引いて読む必要があります。</p>
+<p>そのうえで、公開された内容を整理します。</p>
+<table>
+<thead>
+<tr>
+<th>構成</th>
+<th>パラメータ数</th>
+<th>対応言語</th>
+<th>検出Hmean</th>
+<th>認識精度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PP-OCRv6_tiny</td>
+<td>1.5M</td>
+<td>記載なし</td>
+<td>80.6%</td>
+<td>73.5%</td>
+</tr>
+<tr>
+<td>PP-OCRv6_small</td>
+<td>7.7M</td>
+<td>50言語</td>
+<td>84.1%</td>
+<td>81.3%</td>
+</tr>
+<tr>
+<td>PP-OCRv6_medium</td>
+<td>34.5M</td>
+<td>50言語</td>
+<td>86.2%</td>
+<td>83.2%</td>
+</tr>
+</tbody>
+</table>
+<p>この表の精度数値はすべて、PaddleOCR公式の社内マルチシナリオOCRベンチマークによる測定値です。データセット名・テストサンプル数・使用ハードウェアの記載はありません。n数も評価期間も本文からは分かりません。したがってこの表は、<strong>3構成の相対的な大小関係を示すもの</strong>として読むのが限界です。「86.2%だから自社帳票でも86%読める」という読み替えは成立しません。</p>
+<p>前世代との比較も示されています。PP-OCRv6_medium は前世代の PP-OCRv5_server に対し、テキスト検出精度で+4.6ポイント、テキスト認識精度で+5.1ポイントの改善とされています。ただしこれも同一の社内ベンチマーク上での比較であり、比較対象は自社の前世代のみです。</p>
+<h2 id="15m">最小構成1.5Mという数字は、実務上どういう規模なのか</h2>
+<p>3構成のうち最も小さい PP-OCRv6_tiny は1.5Mパラメータです。本文では、この構成の想定用途としてエッジデバイス、軽量ローカルOCR、低遅延デモ、制約環境が挙げられています。</p>
+<p>中小企業にとっての意味は、この「規模の小ささ」に集約されます。</p>
+<ul>
+<li><strong>既存のPCやオンプレサーバーで動かせる可能性がある規模です。</strong> 大規模言語モデルのように専用GPUサーバーの新規調達を前提とせずに検討の俎上に載せられます。</li>
+<li><strong>紙書類を外部に送らずに処理できる可能性があります。</strong> クラウドOCRサービスは画像を外部に送信します。手元で完結できれば、取引先の請求書や検査記録といった外に出しにくい書類の扱いが変わります。</li>
+<li><strong>従量課金が発生しません。</strong> クラウドOCRは処理枚数に応じた課金が一般的です。月に数万枚の帳票を処理する事業所ほど、この差は運用コストの構造そのものに効きます。</li>
+</ul>
+<p>推論バックエンドは3種類が用意されています。Transformers、ONNX Runtime、Paddle Inference です。デモ用のSpaceはONNX Runtime のCPUバックエンドで動作すると記載されています。CPUバックエンドが提示されているという事実は、GPUなしでの動作が想定に含まれていることを示唆します。ただし「示唆」以上のことは言えません。速度の実測値が示されていないためです。</p>
+<p>ローカル環境でAIを動かす一般的な考え方については<a href="/articles/ai-cpu-local-inference/">CPUだけでAIを動かすローカル推論の現実</a>で扱っています。</p>
+<h2 id="_1">本文に書かれていないこと：導入判断に足りない項目</h2>
+<p>この発表の限界は、精度数値の再現性だけではありません。導入判断に必要な情報が、複数まとめて欠けています。</p>
+<ul>
+<li><strong>推論速度・レイテンシの数値が一切ありません。</strong> 「低遅延」「エッジ向け」と述べる一方で、それを裏付ける実測値が本文にありません。1枚あたり何秒で処理できるのかが分からなければ、日次で何百枚を捌く業務に載るかどうかの見積もりが立ちません。</li>
+<li><strong>必要なハードウェア要件の記載がありません。</strong> CPUの種別、必要メモリ量、GPUの要否が書かれていません。手元の環境で動くかどうかは、試すまで分かりません。</li>
+<li><strong>ライセンス名の記載がありません。</strong> 商用利用が可能かどうかを、この記事だけで判断することはできません。業務に組み込む以上、ここは確認せずに進めてよい項目ではありません。</li>
+<li><strong>学習データの規模・出所の記載がありません。</strong> どのような文書で学習したモデルなのかが分からないため、自社帳票のような特定様式にどの程度当てはまるかを事前に推定できません。</li>
+<li><strong>50言語対応と述べていますが、言語ごとの精度内訳がありません。</strong> 内訳は簡体字中国語・繁体字中国語・英語・日本語と、ラテン文字系46言語とされています。日本語が対象に含まれる点は国内帳票を扱ううえで重要ですが、<strong>日本語単体での実力は本記事からは分かりません</strong>。50言語平均の数字に日本語がどう寄与しているかは開示されていません。</li>
+<li><strong>他社OCRとの比較がありません。</strong> クラウドOCRサービスや競合のOSSモデルとの比較は行われておらず、比較対象は自社の前世代 PP-OCRv5 のみです。「他より優れている」という判断材料は、この発表からは得られません。</li>
+<li><strong>既知の弱点への言及が一切ありません。</strong> OCRで一般に難しいとされる低解像度画像、手書き文字、複雑なレイアウトといったケースについて、本文に記述がありません。不得意な条件が開示されていないという事実そのものが、読み手にとっての情報です。</li>
+</ul>
+<p>最後の点は特に強調しておきます。提供者自身による発表で、不都合な結果が一つも書かれていない場合、それは「弱点がない」ことを意味しません。「弱点が開示されていない」ことを意味します。この区別を曖昧にしたまま検討を進めると、PoCで初めて弱点に突き当たり、そこまでの工数が無駄になります。</p>
+<h2 id="toe">TOEの読み筋：まず現物の帳票で測るところから</h2>
+<p>ここからは株式会社TOEとしての見立てです。前提として、<strong>TOEでは PP-OCRv6 を未実施です。</strong> 自社環境での検証は行っておらず、以下は公開情報だけを読んでの判断です。実測に基づく評価ではありません。</p>
+<p>そのうえで、検討する価値がある題材だと考えています。理由は精度の数字ではなく、1.5Mから34.5Mという規模の選択肢が並んでいる点です。OCRの内製で最初に詰まるのは精度より「動く環境が用意できない」ことです。3段階の規模が用意されていれば、手元の環境に合わせて構成を選び、精度と速度のどちらを取るかを自社で決められます。</p>
+<p>一方で、この発表だけで導入を決めることは推奨しません。順番としては次のようになります。</p>
+<ul>
+<li>自社で最も枚数が多く、様式が安定している帳票を1種類選ぶ。請求書か納品書が候補になりやすいです。</li>
+<li>その帳票の実物を50枚から100枚程度用意し、3構成それぞれに読ませて、文字単位での誤読率を自分で数える。</li>
+<li>同時に1枚あたりの処理時間を、実際に使う予定のマシンで測る。提供者の「低遅延」という表現ではなく、自社の秒数で判断します。</li>
+<li>ライセンスを確認し、商用利用の可否を確定させる。ここが通らなければ他の検証結果は使えません。</li>
+<li>誤読が出た場合の人手による確認工程を含めて、総所要時間をクラウドOCRと比較する。</li>
+</ul>
+<p>3番目までを終えた時点で、多くの場合は判断がつきます。ここで重要なのは、精度が期待に届かなかった場合も、その結果自体が自社の資産になるという点です。「うちの帳票は網掛けが多くて検出が落ちる」といった知見は、次にどのOCRを検討するときにも使えます。自社の評価基準を持つという考え方は<a href="/articles/ai-own-evaluation-criteria/">AIの成果を自社の基準で測る方法</a>で整理しています。</p>
+<p>なお、小さいモデルで文書処理を回すという方向性そのものは、OCRに限った話ではありません。関連する考え方は<a href="/articles/ai-small-model-document-search/">小さなモデルで文書検索を回す</a>、および導入の初手の考え方は<a href="/articles/ai-first-step-smb/">中小企業のAI導入、最初の一歩</a>を参照してください。特定の外部サービスに処理を依存させることの副作用については<a href="/articles/fail-vendor-lockin/">ベンダーロックインで詰んだ話</a>が具体例になります。</p>
+<h2 id="_2">この発表をどう位置づけるか</h2>
+<p>PP-OCRv6の発表は、「使える技術が公開された」という事実の報告としては有用です。3構成のパラメータ数と、社内ベンチマーク上での相対的な精度差は、検討の出発点として意味があります。</p>
+<p>しかし「導入判断の材料」としては不足しています。速度もハードウェア要件もライセンスも書かれていない状態で、精度の数字だけを見て社内稟議を通すことはできません。逆に言えば、欠けている項目がはっきりしているということは、PoCで何を測ればよいかもはっきりしているということです。速度、必要スペック、日本語帳票での実精度、そしてライセンス。この4つを自社で埋めれば、判断に必要な情報は揃います。</p>
+<p>提供者発表の技術情報は、たいていこの構造をしています。良い数字は出ている、悪い数字は載っていない、条件は書かれていない。それを批判するより、「では何を自分で測るべきか」の一覧に変換するほうが実務的です。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>PP-OCRv6は1.5M（tiny）・7.7M（small）・34.5M（medium）の3構成で公開されたOCRモデル群で、smallとmediumは日本語を含む50言語に対応します。</li>
+<li>社内ベンチマークでの精度はmediumが検出Hmean 86.2%・認識83.2%、smallが84.1%／81.3%、tinyが80.6%／73.5%で、前世代PP-OCRv5_server比では検出+4.6ポイント・認識+5.1ポイントとされています。</li>
+<li>ただしこの記事はPaddlePaddle（PaddleOCRチーム）自身による発表であり、同社は当該製品の提供者です。数字の根拠は自社の社内ベンチマークで、データセット名も件数も公開されておらず第三者は再現検証できません。</li>
+<li>推論速度、必要ハードウェア、ライセンス、学習データ、日本語単体の精度、他社比較、既知の弱点——導入判断に必要な項目がまとめて記載されていません。</li>
+<li>TOEでは未実施です。そのうえで、自社の実帳票50〜100枚で誤読率と1枚あたり処理時間を測り、ライセンスを確認してから判断する順番を推奨します。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

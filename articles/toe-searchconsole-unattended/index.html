@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>検索データはまだゼロ。それでも「毎週勝手に取りに行く配管」を先に作った理由 · AIの鬼</title>
+  <meta name="description" content="当メディア ai-oni.com の検索パフォーマンスを、Google Search ConsoleのAPIから毎週・無人で自動取得する仕組みを作りました。先に正直に書きます。肝心の検索クエリのデータは、まだ「0件」です。成果はまだ何も語れません。それでも公開直後のいま配管を先に作ることに意味がある、という記録です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-searchconsole-unattended/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-searchconsole-unattended/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="検索データはまだゼロ。それでも「毎週勝手に取りに行く配管」を先に作った理由 · AIの鬼">
+  <meta property="og:description" content="当メディア ai-oni.com の検索パフォーマンスを、Google Search ConsoleのAPIから毎週・無人で自動取得する仕組みを作りました。先に正直に書きます。肝心の検索クエリのデータは、まだ「0件」です。成果はまだ何も語れません。それでも公開直後のいま配管を先に作ることに意味がある、という記録です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-searchconsole-unattended/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="検索データはまだゼロ。それでも「毎週勝手に取りに行く配管」を先に作った理由 · AIの鬼">
+  <meta name="twitter:description" content="当メディア ai-oni.com の検索パフォーマンスを、Google Search ConsoleのAPIから毎週・無人で自動取得する仕組みを作りました。先に正直に書きます。肝心の検索クエリのデータは、まだ「0件」です。成果はまだ何も語れません。それでも公開直後のいま配管を先に作ることに意味がある、という記録です。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"検索データはまだゼロ。それでも「毎週勝手に取りに行く配管」を先に作った理由","item":"https://ai-oni.com/articles/toe-searchconsole-unattended/"}]},{"@type":"Article","headline":"検索データはまだゼロ。それでも「毎週勝手に取りに行く配管」を先に作った理由","description":"当メディア ai-oni.com の検索パフォーマンスを、Google Search ConsoleのAPIから毎週・無人で自動取得する仕組みを作りました。先に正直に書きます。肝心の検索クエリのデータは、まだ「0件」です。成果はまだ何も語れません。それでも公開直後のいま配管を先に作ることに意味がある、という記録です。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-searchconsole-unattended/"},"url":"https://ai-oni.com/articles/toe-searchconsole-unattended/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-11.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-searchconsole-unattended/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-11.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>検索データはまだゼロ。それでも「毎週勝手に取りに行く配管」を先に作った理由</h1>
+<p class="article-lead">当メディア ai-oni.com の検索パフォーマンスを、Google Search ConsoleのAPIから毎週・無人で自動取得する仕組みを作りました。先に正直に書きます。肝心の検索クエリのデータは、まだ「0件」です。成果はまだ何も語れません。それでも公開直後のいま配管を先に作ることに意味がある、という記録です。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <h2 id="_1">最初に結論を書きます</h2>
+<p>当社（株式会社TOE）は、この ai-oni.com の検索パフォーマンスを、<strong>Google Search ConsoleのAPIから毎週・無人で自動取得する仕組み</strong>を作りました。月曜の朝、人が何もしなくても、その週のレポートが手元に届きます。</p>
+<p>そして、先に正直に書きます。<strong>その自動レポートに載っている検索クエリのデータは、まだゼロです。</strong> 2026年7月21日時点のレポートの検索クエリ欄には、「まだデータがありません（公開直後は数日かかります）」と表示されています。</p>
+<p>つまり今あるのは、成果ではなく<strong>配管だけ</strong>です。蛇口をひねる仕組みは完成して正常に動いているが、まだ水が来ていない。この記事は「うまくいった話」ではなく、「水が来る前に配管を敷いた話」です。</p>
+<hr />
+<h2 id="3">用語を3つだけ</h2>
+<ul>
+<li><strong>Google Search Console</strong> … 自分のサイトが「どんな検索語で・何回表示され・何回クリックされたか」をGoogleが教えてくれる無料の管理ツールです。検索流入を測る一次データはここにあります。</li>
+<li><strong>API</strong> … 管理画面を人がブラウザで開かなくても、プログラムから直接データを取り出せる窓口のことです。今回はこの窓口経由で、毎週レポートを取りに行きます。</li>
+<li><strong>ADC（Application Default Credentials）</strong> … gcloudというGoogleの公式ツールで一度だけ認証を済ませると、以後プログラムが人のログインなしにGoogleのAPIを使える仕組みです。「毎回人がログインする」を無くす鍵です。</li>
+</ul>
+<hr />
+<h2 id="_2">作ったもの</h2>
+<p>中身は1本のスクリプト（searchconsole_report.py）と、週次のcronです。毎週月曜の朝に自動で起動し、Search Console APIからサイトマップの状態と直近7日の検索クエリ上位を取得してレポートにします。認証はgcloudのADCを使うので、人がログインする工程はありません。同じ仕組みは、当社の別メディア「補助金の鬼」にもそのまま流用できる設計にしてあります。</p>
+<hr />
+<h2 id="2026721">2026年7月21日、最初の自動レポートの中身</h2>
+<p>初回の自動取得は正常に動きました。その中身を、そのまま載せます。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サイトマップ sitemap.xml</td>
+<td>取得済み</td>
+</tr>
+<tr>
+<td>最終取得</td>
+<td>2026-07-20</td>
+</tr>
+<tr>
+<td>エラー</td>
+<td>0</td>
+</tr>
+<tr>
+<td>警告</td>
+<td>0</td>
+</tr>
+<tr>
+<td>送信URL</td>
+<td>182</td>
+</tr>
+<tr>
+<td>検出</td>
+<td>0</td>
+</tr>
+<tr>
+<td>検索クエリ上位（直近7日）</td>
+<td><strong>まだデータがありません（公開直後は数日かかります）</strong></td>
+</tr>
+</tbody>
+</table>
+<p>読み方はこうです。サイトマップは正しく送信され、Googleは182本のURLの存在を受け取っている。エラーも警告もない。<strong>配管としては満点です。</strong> しかし「検出0」、そして検索クエリは0件。メディアが新しく、Googleの側にまだデータが溜まっていない。それだけのことで、隠すことでも飾ることでもありません。</p>
+<p>「Search Console API連携で検索流入が○倍に」——そういう記事にはできませんし、しません。<strong>現時点で語れる成果は、何一つありません。</strong></p>
+<hr />
+<h2 id="_3">それでも、いま作る意味</h2>
+<p>成果ゼロの仕組みをなぜ先に作るのか。理由は一つです。<strong>計測は、後から遡れないからです。</strong></p>
+<p>「記事が増えて流入が出てきたら測り始めよう」では、いちばん知りたい「ゼロからどう立ち上がったか」のデータが永遠に手に入りません。最初の1クリック、最初に表示されたクエリ——それが記録されるのは、その瞬間に計測が動いていた場合だけです。だから、水が来る前に配管を敷く。公開直後のいまが、この仕組みを作る唯一のタイミングでした。</p>
+<p>もう一つ、無人であることに意味があります。人が「毎週月曜に管理画面を見る」運用は、当社の過去の記録が示すとおり、必ずサボりが入ります。cronは（発火してくれる限り）サボりません。</p>
+<p>数字が育ったら、この配管が実際に何を吐き出したかを、いい数字でも悪い数字でも、そのまま続報として載せます。</p>
+<hr />
+<h2 id="_4">関連する記録</h2>
+<ul>
+<li><a href="/articles/toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a> — 「数えるまで幻」を思い知った全数調査。今回の週次cronもこの教訓の上にあります。</li>
+<li><a href="/articles/toe-media-watchdog/">止まったメディア更新を、見張り役が自動で叩き起こしていた話</a> — 無人運用のcronを止めないための番人。</li>
+<li><a href="/articles/toe-automation-stops-silently/">自動化が3日間止まっていたのに、誰も気づかなかった</a> — 「無人」の怖さと向き合った最初の事故。</li>
+</ul>
+<hr />
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>ai-oni.comの検索パフォーマンスを、Search Console APIから<strong>毎週・無人で自動取得</strong>する仕組みを作った（searchconsole_report.py＋週次cron、月曜朝に実行）。</li>
+<li>認証はgcloudのADC。人が毎回ログインする工程はない。別メディア「補助金の鬼」にも流用できる設計。</li>
+<li>初回レポート（2026-07-21）の実際の中身：サイトマップはエラー0・警告0・送信URL182で正常。しかし<strong>検出0、検索クエリはまだ0件</strong>。</li>
+<li>つまり完成したのは配管だけで、<strong>成果はまだ何も語れない</strong>。公開直後でGoogle側にデータが溜まっていないため。</li>
+<li>それでも先に作った理由は、<strong>計測は後から遡れない</strong>から。ゼロからの立ち上がりを記録できるのは、最初から測っていた場合だけ。</li>
+<li>数字が育ったら、良くても悪くてもそのまま続報を書く。</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

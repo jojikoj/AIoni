@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIが書いたコードは自動テストに通れば完成なのか？自動採点38%に対しレビュー通過0件だった記録 · AIの鬼</title>
+  <meta name="description" content="METRが大規模OSS18課題でAIエージェントの成果物を測ったところ、人間が書いたテストによる自動採点は38%（±19%）だった一方、人間のレビュアーがそのままマージ可能と判断したPRは15件中0件でした。テストに通った4件でも修正見積りは平均26分。中小企業がAI開発ツールの投資対効果を試算するときに、何を工数に計上すべきかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIが書いたコードは自動テストに通れば完成なのか？自動採点38%に対しレビュー通過0件だった記録 · AIの鬼">
+  <meta property="og:description" content="METRが大規模OSS18課題でAIエージェントの成果物を測ったところ、人間が書いたテストによる自動採点は38%（±19%）だった一方、人間のレビュアーがそのままマージ可能と判断したPRは15件中0件でした。テストに通った4件でも修正見積りは平均26分。中小企業がAI開発ツールの投資対効果を試算するときに、何を工数に計上すべきかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIが書いたコードは自動テストに通れば完成なのか？自動採点38%に対しレビュー通過0件だった記録 · AIの鬼">
+  <meta name="twitter:description" content="METRが大規模OSS18課題でAIエージェントの成果物を測ったところ、人間が書いたテストによる自動採点は38%（±19%）だった一方、人間のレビュアーがそのままマージ可能と判断したPRは15件中0件でした。テストに通った4件でも修正見積りは平均26分。中小企業がAI開発ツールの投資対効果を試算するときに、何を工数に計上すべきかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIが書いたコードは自動テストに通れば完成なのか？自動採点38%に対しレビュー通過0件だった記録","item":"https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/"}]},{"@type":"Article","headline":"AIが書いたコードは自動テストに通れば完成なのか？自動採点38%に対しレビュー通過0件だった記録","description":"METRが大規模OSS18課題でAIエージェントの成果物を測ったところ、人間が書いたテストによる自動採点は38%（±19%）だった一方、人間のレビュアーがそのままマージ可能と判断したPRは15件中0件でした。テストに通った4件でも修正見積りは平均26分。中小企業がAI開発ツールの投資対効果を試算するときに、何を工数に計上すべきかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/"},"url":"https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-mx-metr-benchmark-pass-vs-mergeable-pr.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/mx-metr-benchmark-pass-vs-mergeable-pr/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-mx-metr-benchmark-pass-vs-mergeable-pr.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIが書いたコードは自動テストに通れば完成なのか？自動採点38%に対しレビュー通過0件だった記録</h1>
+<p class="article-lead">METRが大規模OSS18課題でAIエージェントの成果物を測ったところ、人間が書いたテストによる自動採点は38%（±19%）だった一方、人間のレビュアーがそのままマージ可能と判断したPRは15件中0件でした。テストに通った4件でも修正見積りは平均26分。中小企業がAI開発ツールの投資対効果を試算するときに、何を工数に計上すべきかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。自動テストの通過は、そのまま使える成果物であることを意味しません。METRの実測では、人間が書いたテストによる自動採点が38%（±19%）だったのに対し、人間のレビュアーが手直しなしでマージ可能と判断したPRは15件中0件でした。テストに通った分でも修正見積りは平均26分です。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測）</h2>
+<p>METRが公開した記事「Research Update: Algorithmic vs. Holistic Evaluation」は、AIエージェントが書いたプルリクエスト（PR）を、二通りのやり方で採点し直した検証です。ひとつは人間が書いたテストケースを自動で走らせて合否を判定する「アルゴリズム的評価」、もうひとつは実際のOSSメンテナが受け入れ基準に照らして中身を読む「全体的評価」です。</p>
+<p>対象と条件は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象リポジトリ</td>
+<td>stdlib-js（約800万行）、hypothesis（約10万行）</td>
+</tr>
+<tr>
+<td>課題数</td>
+<td>実課題18件（stdlib-js から15件、hypothesis から3件）</td>
+</tr>
+<tr>
+<td>人手レビュー対象</td>
+<td>上記のうち15PR</td>
+</tr>
+<tr>
+<td>エージェント構成</td>
+<td>Claude 3.7 Sonnet／Inspect ReAct スキャフォールド</td>
+</tr>
+<tr>
+<td>記事の公開時期</td>
+<td>2025年8月</td>
+</tr>
+<tr>
+<td>課題の絞り込み条件</td>
+<td>大量の高品質なテストケースが書かれているPR</td>
+</tr>
+</tbody>
+</table>
+<p>この条件下での主な実測値は次のとおりです。</p>
+<ul>
+<li><strong>38%（±19%、95%信頼区間）</strong>：人間が書いたテストケースによる自動採点でのエージェント平均成功率。分母は実課題18件。n が小さく、信頼区間は±19%と幅があります</li>
+<li><strong>27%（±20、95%信頼区間）</strong>：人手レビュー対象サブセットでの自動採点成功率。分母は人手レビューした15PR</li>
+<li><strong>0件（15件中）</strong>：人間のレビュアーがそのままマージ可能と判断したPRの数。判定基準は大規模成熟OSSリポジトリの受け入れ基準</li>
+<li><strong>平均42分</strong>：エージェントのPRをマージ可能な状態にするのに要する修正時間の見積り。分母は人手レビューした15PR全体。レビュアーによる見積り値であり、実際に修正した実測値ではありません</li>
+<li><strong>平均26分（最短15分）</strong>：エージェントがテストに通っていたPRの修正所要時間の見積り。分母はテストに通った4PR</li>
+<li><strong>20分〜4時間、平均1.3時間</strong>：同じ18課題を人間のOSSメンテナ自身が処理するのに要した時間</li>
+</ul>
+<p>（出典：METR、2025-08-13、<a href="https://metr.org/blog/2025-08-12-research-update-towards-reconciling-slowdown-with-time-horizons/">https://metr.org/blog/2025-08-12-research-update-towards-reconciling-slowdown-with-time-horizons/</a>）</p>
+<h2 id="_2">この数字は誰が出しているのか</h2>
+<p>読む前に押さえておくべき前提があります。<strong>この記事はMETR自身による発表であり、同社はAIエージェントの能力評価手法（時間ホライズン指標）そのものの提供者です。</strong> METRは自社の先行研究、すなわち開発者生産性のランダム化比較試験で観測された「AI利用による減速」と、自社の時間ホライズン指標が示す高い能力評価との食い違いを説明する目的で、この調査を実施しています。つまり、自社の評価手法をめぐる論点について、当事者が自ら測って公開した数字です。</p>
+<p>これは「だから信用できない」という話ではありません。後述するとおり、この記事は自社の評価手法にとって不都合な結果を本文に明記しています。ただ、何を「成功」と定義するかという枠組み自体が発信元の関心に沿って設計されている以上、<strong>その枠組みごと自社に持ち込んでよいかは読む側が判断する必要があります</strong>。発信元の立場を確認してから数字を読む姿勢については、<a href="/articles/ai-answer-vs-reasoning-quality/">AIの回答品質と推論品質は別物か</a> でも同じ論点を扱っています。</p>
+<h2 id="_3">テストに通ってもなお、何が足りなかったのか</h2>
+<p>この検証で興味深いのは、指摘された不備の内訳です。テストに失敗した実行と、テストに通った実行とで、レビュアーが指摘した不備の種類が違います。</p>
+<table>
+<thead>
+<tr>
+<th>指摘された不備の種類</th>
+<th>テストに失敗した実行（n=11）</th>
+<th>テストに通った実行（n=4）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中核機能</td>
+<td>100%</td>
+<td>25%</td>
+</tr>
+<tr>
+<td>テスト網羅</td>
+<td>91%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>文書</td>
+<td>89%</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>lint・整形</td>
+<td>73%</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>コード品質</td>
+<td>64%</td>
+<td>50%</td>
+</tr>
+</tbody>
+</table>
+<p>読み取れることははっきりしています。テストに失敗した実行では、そもそも中核機能が動いていない指摘が100%でした。一方、<strong>テストに通った実行でも、テスト網羅の不備は100%、文書の不備は75%、lint・整形の不備は75%で指摘されています</strong>。中核機能の指摘は25%まで下がりますが、ゼロにはなりません。</p>
+<p>つまり自動テストは、中核機能が動くかどうかについてはある程度の判別力を持っている一方で、テスト網羅・文書・整形といった「人が読んで初めてわかる不備」はほぼ素通りさせます。テスト通過は不備の有無ではなく、不備の種類が変わる境目でしかありません。</p>
+<p>なお、n=11 と n=4 というサブグループの母数は極めて小さく、割合は1〜2件の増減で大きく動きます。100%と書かれていても、4件中4件という意味です。この規模感を外して割合だけを引用すると誤読になります。</p>
+<h2 id="_4">読者への意味：完成の合図をどこに置くか</h2>
+<p>中小企業の経営者・情報システム担当にとって、この実測が持つ意味は2つです。</p>
+<h3 id="1">1.「テストが通った」を完成の合図にすると人的コストを読み違える</h3>
+<p>AI開発ツールの導入検討では、「AIが書いたコードがテストを通った件数」が成果指標として提案されることがあります。しかしこの検証の条件下では、自動採点38%に対してレビュー通過は0件でした。<strong>テスト通過は、人の手が要らないことを一切保証していません。</strong></p>
+<p>さらに、テストに通った4PRですら修正見積りは平均26分、最短でも15分でした。ゼロ分のケースが1件も出ていない、というのがこの数字の要点です。投資対効果の試算をするなら、<strong>「レビューと手直しの人件費」を必ず工数に計上すべき</strong>根拠になります。この計上を落とすと、削減できたつもりの時間が別の担当者の残業として現れます。</p>
+<h3 id="2">2. 比較対象は「人間が同じ課題にかけた時間」で見る</h3>
+<p>同じ18課題を人間のメンテナ自身が処理した時間は、20分〜4時間、平均1.3時間でした。一方、エージェントのPRをマージ可能にする修正見積りは平均42分です。この2つを並べると、少なくともこの条件下では、AIに書かせて人が直す経路が人が最初から書く経路を圧倒的に上回る、とは言えません。</p>
+<p>大事なのは、<strong>自社で判断するときも同じ2つの数字を並べること</strong>です。AI導入後の所要時間だけを測っても意味がなく、同じ課題を自社の担当者がゼロから処理した時間と比べて初めて効果が出ます。自社基準での評価の組み方は <a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を持つ</a> で整理しています。また、AI開発ツールを工程全体の成功率としてどう測るかは <a href="/articles/ai-engineering-workflow-success-rate/">AIエンジニアリング業務の成功率</a> が参考になります。</p>
+<h2 id="_5">一次資料が自ら認めている限界</h2>
+<p>この検証には、本文自身が明記している制約が複数あります。中小企業がそのまま自社に当てはめるのは適切ではありません。</p>
+<ul>
+<li><strong>対象が大規模成熟OSSに限定されている</strong>。stdlib-js は約800万行、hypothesis は約10万行で、いずれも貢献者数百人規模です。本文自身が「多くのソフトウェア開発案件はここまでの文書・品質要件を持たない」と認めています。社内ツールなど基準の緩い開発にそのまま当てはめることはできません</li>
+<li><strong>課題選定にバイアスがある</strong>。本文は「大量の高品質なテストケースが書かれているPR」で絞り込んだと明記しており、通常の業務課題より明確にスコープされた問題に偏る可能性があります</li>
+<li><strong>サンプルが極めて小さい</strong>。全18課題、人手レビューは15PR、サブグループは n=11 と n=4 です。38%の信頼区間は±19%と広く、サブグループの割合は数件の増減で大きく動きます</li>
+<li><strong>エージェント構成が基本的</strong>。使用したのは「基本的なエージェントスキャフォールド」で、並列推論など高度な計算資源の活用をしていません。より優れたツール構成なら成績が上がる余地があると本文が認めています</li>
+<li><strong>モデル世代が限定される</strong>。評価モデルは Claude 3.7 Sonnet であり、記事の公開は2025年8月です。以後のモデル世代に同じ数字が当てはまるとは限りません</li>
+<li><strong>42分・26分は見積りであって実測ではない</strong>。レビュアーが「これを直すならこのくらい」と見積もった値で、実際に修正作業を行って計測した時間ではありません</li>
+</ul>
+<p>とくに1点目は、中小企業の読者にとって決定的です。<strong>この0件という結果は「AIのコードは使えない」ではなく「数百人が読む前提の成熟OSSの受け入れ基準では、そのままマージできるものは出なかった」という意味</strong>です。自社の受け入れ基準が違えば、結果も変わります。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>ここからは編集部の解釈です。<strong>TOEでは、この検証と同じ条件でのAIエージェントによるPR生成・レビュー計測を未実施です。</strong> 以下は一次資料と自社の一般的な開発実務からの推論であり、実測に基づく主張ではありません。</p>
+<p>第一に、この記事から持ち帰るべきは数字そのものではなく、<strong>「完成の定義を誰が握っているか」という問い</strong>だと考えています。テスト通過という定義は自動化しやすく、だからこそ指標に採用されやすい。しかし採用される理由が「測りやすいから」である指標は、測れない部分をコストとして外に押し出します。今回で言えば、文書・テスト網羅・整形の不備がレビュアーの時間として現れました。</p>
+<p>第二に、実務での現実的な扱いとしては、<strong>AI開発ツールの効果を「書く時間の削減」ではなく「レビュー込みの1件あたり総時間」で測る</strong>のが妥当だと考えます。前者だけを見ると必ず良い数字が出ますが、それは工数が移動しただけかもしれません。</p>
+<p>第三に、自社の受け入れ基準を先に言語化しておくことです。何をもってマージ可能とするかが文書化されていない組織では、AIの成果物を評価する軸自体が人によってぶれます。この点は、AIを入れるより前の話です。導入初期の進め方は <a href="/articles/ai-first-step-smb/">中小企業のAI導入 最初の一歩</a> と <a href="/articles/ai-small-team-adoption/">少人数チームでのAI導入</a> で扱っています。</p>
+<p>いずれも、自社の課題・自社のリポジトリ・自社の基準で小さく測ってからでないと判断できません。ベンチマークの数字は、測り方を設計するための参考であって、結論ではありません。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>METRの検証では、人間が書いたテストによる自動採点が38%（±19%、95%信頼区間、実課題18件）だったのに対し、人間のレビュアーがそのままマージ可能と判断したPRは15件中0件でした（出典：METR、2025-08-13）</li>
+<li>テストに通った4PRでも修正見積りは平均26分・最短15分で、ゼロ分の事例は出ていません。テスト通過は「手直し不要」を意味しません</li>
+<li>テストに通った実行（n=4）でも、テスト網羅の不備は100%、文書とlint・整形の不備は各75%で指摘されました。自動テストは人が読んで初めてわかる不備を素通りさせます</li>
+<li>ただし対象は貢献者数百人規模の大規模成熟OSS（stdlib-js 約800万行、hypothesis 約10万行）に限られ、本文自身が一般のソフトウェア開発はここまでの品質要件を持たないと認めています。社内ツール開発にそのまま一般化はできません</li>
+<li>サンプルは全18課題・人手レビュー15PR・サブグループ n=11 と n=4 と極めて小さく、42分・26分はレビュアーの見積りで実測値ではありません。またMETRは自社の評価手法をめぐる論点の当事者です</li>
+<li>中小企業が持ち帰るべきは、AI開発ツールの投資対効果を「レビューと手直しの人件費」込みで試算すること。TOEではこの検証と同条件の計測は未実施です</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

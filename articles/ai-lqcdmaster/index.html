@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>素のAIエージェントが20件全滅、手順書と検算を足したら70件中63件が専門家一致——差はどこで生まれたのか · AIの鬼</title>
+  <meta name="description" content="研究チームが、格子QCDという専門的な科学計算のコード生成をAIエージェントに任せた結果を公開した。汎用のコーディングエージェントは基本タスク20件すべてに失敗し、業務知識・固定処理・人間の確認を組み込んだ構成は70件中63件で専門家と機械精度一致。差がどこで生まれたかを中小企業の実務に翻訳する。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-lqcdmaster/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-lqcdmaster/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="素のAIエージェントが20件全滅、手順書と検算を足したら70件中63件が専門家一致——差はどこで生まれたのか · AIの鬼">
+  <meta property="og:description" content="研究チームが、格子QCDという専門的な科学計算のコード生成をAIエージェントに任せた結果を公開した。汎用のコーディングエージェントは基本タスク20件すべてに失敗し、業務知識・固定処理・人間の確認を組み込んだ構成は70件中63件で専門家と機械精度一致。差がどこで生まれたかを中小企業の実務に翻訳する。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-lqcdmaster/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="素のAIエージェントが20件全滅、手順書と検算を足したら70件中63件が専門家一致——差はどこで生まれたのか · AIの鬼">
+  <meta name="twitter:description" content="研究チームが、格子QCDという専門的な科学計算のコード生成をAIエージェントに任せた結果を公開した。汎用のコーディングエージェントは基本タスク20件すべてに失敗し、業務知識・固定処理・人間の確認を組み込んだ構成は70件中63件で専門家と機械精度一致。差がどこで生まれたかを中小企業の実務に翻訳する。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"素のAIエージェントが20件全滅、手順書と検算を足したら70件中63件が専門家一致——差はどこで生まれたのか","item":"https://ai-oni.com/articles/ai-lqcdmaster/"}]},{"@type":"Article","headline":"素のAIエージェントが20件全滅、手順書と検算を足したら70件中63件が専門家一致——差はどこで生まれたのか","description":"研究チームが、格子QCDという専門的な科学計算のコード生成をAIエージェントに任せた結果を公開した。汎用のコーディングエージェントは基本タスク20件すべてに失敗し、業務知識・固定処理・人間の確認を組み込んだ構成は70件中63件で専門家と機械精度一致。差がどこで生まれたかを中小企業の実務に翻訳する。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-lqcdmaster/"},"url":"https://ai-oni.com/articles/ai-lqcdmaster/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-lqcdmaster.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-lqcdmaster/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-lqcdmaster.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>素のAIエージェントが20件全滅、手順書と検算を足したら70件中63件が専門家一致——差はどこで生まれたのか</h1>
+<p class="article-lead">研究チームが、格子QCDという専門的な科学計算のコード生成をAIエージェントに任せた結果を公開した。汎用のコーディングエージェントは基本タスク20件すべてに失敗し、業務知識・固定処理・人間の確認を組み込んだ構成は70件中63件で専門家と機械精度一致。差がどこで生まれたかを中小企業の実務に翻訳する。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>同じAIエージェントでも、「そのまま使う」と「業務知識と検算の仕組みを足して使う」では結果が別物になる。研究チームが2026年7月16日に公開した論文で、汎用のコーディングエージェントは最も基本的なタスク20件すべてに失敗した一方、業務知識・固定処理・人間の確認を組み込んだ構成は70件中63件（90%）で専門家の実装と機械精度で一致した（出典：arXiv:2607.15001、2026年7月16日（arXiv:2607.15001v1）、<a href="https://arxiv.org/abs/2607.15001v1">https://arxiv.org/abs/2607.15001v1</a>）。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>論文は「LQCDMaster: Agentic Scientific Computing for Lattice Quantum Chromodynamics Research」。格子量子色力学（格子QCD）という、素粒子物理の数値計算分野が対象だ。専門家でなければ書けない解析コードを、自然言語の指示から自動生成できるかを検証している。著者名・所属機関の詳細は原論文（arXiv:2607.15001v1）を参照されたい。</p>
+<p>ベンチマークは格子QCDの実タスク70件。CLQCD共同研究のC24Pアンサンブルから作成されている。内訳は次のとおり。</p>
+<table>
+<thead>
+<tr>
+<th>タスク種別</th>
+<th>件数</th>
+<th>専門家の手作業所要時間</th>
+<th>生成後の所要時間</th>
+<th>短縮倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>局所2点関数</td>
+<td>20件</td>
+<td>2時間</td>
+<td>3.5分</td>
+<td>17倍</td>
+</tr>
+<tr>
+<td>非局所ウィルソンライン2点</td>
+<td>10件</td>
+<td>記載対象外</td>
+<td>記載対象外</td>
+<td>記載対象外</td>
+</tr>
+<tr>
+<td>中間子3点関数</td>
+<td>13件</td>
+<td>記載対象外</td>
+<td>記載対象外</td>
+<td>記載対象外</td>
+</tr>
+<tr>
+<td>バリオン3点関数</td>
+<td>15件</td>
+<td>8時間</td>
+<td>10.9分</td>
+<td>44倍</td>
+</tr>
+<tr>
+<td>ウィルソンループ測定</td>
+<td>12件</td>
+<td>1時間</td>
+<td>1分</td>
+<td>54倍</td>
+</tr>
+</tbody>
+</table>
+<p>この70件のうち、生成されたワークフローが専門家の実装と機械精度（差が10のマイナス12乗程度以下）で一致したのが63件、つまり90%だった。</p>
+<p>一致しなかった7件の内訳は、失敗が4件、慣習不一致が3件。失敗4件はすべてバリオン3点関数に集中している。慣習不一致の3件は、計算そのものは合っているのに全体符号など計算規約の取り方が違ったために不一致と判定されたものだ。</p>
+<h2 id="ai">「素のAIエージェント」との差</h2>
+<p>この記事で最も注目すべきなのは、比較実験の数字だ。汎用のコーディングエージェント（Claude Code）に、同じベンチマークのうち最も基本的な局所2点関数20件をそのまま解かせたところ、成功は0件だった。20件全滅である。</p>
+<p>つまり、90%と0%を分けたのはモデルの賢さではない。同じ土俵で、構成の違いだけがこれだけの差になった。論文の構成が素のエージェントに足しているものは、大きく3つに整理できる。</p>
+<ul>
+<li>分野固有の業務知識を、エージェントが参照できる手順書・規約として明示的に与えている</li>
+<li>間違えたら致命的になる数値計算の中核部分は、エージェントに自由記述させず、検証済みの固定処理として外に出している</li>
+<li>生成物を実行する前に、参照実装との比較と人間のレビューを通す段取りを置いている</li>
+</ul>
+<p>基盤モデルへの依存度も測られている。バックボーンをDeepSeek-V4-Proに差し替えた場合、同じ70件ベンチマークでの完全一致は56件（80%）だった。90%から80%へ下がってはいるが、素のエージェントの0%とは桁が違う。構成が効いている、という読み方ができる数字だ。</p>
+<h2 id="_2">論文が認めている限界</h2>
+<p>ここは正確に書く。この論文は成功事例集ではなく、限界を明記している。</p>
+<p>第一に、ベンチマーク70件は代表的なタスクに留まり、網羅的ではない。切断ダイアグラム、4点相関、有限温度観測量、大規模多粒子演算子は未対応と論文自身が明記している。</p>
+<p>第二に、失敗4件がすべてバリオン3点関数に集中している点。特定の複雑度を超えるタスクでは信頼できない、という素直な読みになる。</p>
+<p>第三に、これが最も実務に効く指摘だが、バリオンの縮約ロジックの誤りは構文チェックもテスト実行も通過してしまう。数値を比較して初めて誤りが発覚する。言い換えれば、正解データが無ければ誤りを検出できない。「動いたから正しい」が成立しない領域があるということだ。</p>
+<p>第四に、観測量パラメータの意味的な妥当性検証は、依然として基盤モデルの知識に部分的に依存している。</p>
+<p>第五に、著者自身が「新しい観測量クラスや新規タスクでは、参照実装との比較と人間のレビューが堅牢なワークフローに不可欠であり続ける」と述べている。無人運用は最初から想定されていない。</p>
+<p>さらに、正解しているのに符号の慣習が違うだけで不一致と判定された3件についても、最終的には人手での確認が必要だった。自動判定だけでは白黒がつかなかったということだ。</p>
+<h2 id="_3">中小企業にとって何を意味するか</h2>
+<p>まず前置きを置く。この論文は素粒子物理の数値計算の研究であって、AIの業務利用の研究ではない。以下は他分野の実験結果からの類推であり、中小企業の業務で同じ数字が出るという保証はない。</p>
+<p>そのうえで、実務に効く示唆は明確だと考える。</p>
+<p>同じAIに同じ課題を出しても、渡し方で0%と90%に割れた。この構造は業務にそのまま重なる。中小企業の現場で「AIに任せてみたが使い物にならなかった」という結論が出るとき、その多くは素のエージェントに丸投げした状態、つまり0%側の実験をしているだけの可能性がある。</p>
+<p>具体的に置き換えると、こうなる。</p>
+<table>
+<thead>
+<tr>
+<th>論文での要素</th>
+<th>中小企業の業務に置き換えると</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分野固有の知識を手順書として与える</td>
+<td>自社の見積ルール・原価の考え方・過去の判断基準を文書化してAIに渡す</td>
+</tr>
+<tr>
+<td>数値計算の中核を固定処理に外出し</td>
+<td>金額計算・税計算・数量積算はAIに書かせず、既存のExcel関数や社内システムに任せる</td>
+</tr>
+<tr>
+<td>参照実装との比較と人間のレビュー</td>
+<td>過去の確定案件の数字と突き合わせ、提出前に担当者が確認する</td>
+</tr>
+<tr>
+<td>正解データが無いと誤りが出ない</td>
+<td>正解が用意できない新規業務にいきなり適用しない</td>
+</tr>
+</tbody>
+</table>
+<p>見積書、原価計算、補助金の申請書。中小企業で「間違いが許されない処理」はどれも、文章部分と計算部分が混ざっている。この論文が示しているのは、文章はAIに書かせ、計算は既存の確定した仕組みに任せる、という分業が成立するということだ。AIツールの選び方そのものについては<a href="/articles/ai-tool-selection/">AIツールをどう選ぶか</a>、最初の一歩の踏み出し方は<a href="/articles/ai-first-step-smb/">中小企業のAI導入の第一歩</a>で扱っている。</p>
+<p>もう一つ、時間の数字も見逃せない。2時間が3.5分、8時間が10.9分、1時間が1分。効果が大きいのは、いずれも専門家しか手を出せない属人化した作業だ。誰でもできる作業ではなく、一人しかできない作業ほど倍率が上がっている。社内で「あの人しかできない」と言われている作業を先に洗い出すほうが、汎用的な効率化より効くという読み方ができる。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>TOEでは格子QCDの計算は当然ながら未実施であり、この論文の構成を自社業務でそのまま再現した検証も未実施だ。そのうえでの読みを書く。</p>
+<p>この論文で一番価値があるのは90%という数字ではなく、0/20件という数字のほうだと見ている。90%は「うまくやればできる」という話にすぎないが、0/20件は「何もしなければ何もできない」という話だ。後者のほうが、AI導入の失敗の説明として現場に届く。</p>
+<p>我々が案件で繰り返し見てきたのは、AIが期待外れだったという評価の大半が、業務知識をまったく渡さない状態での試用に基づいているということだ。この論文はその状態がどれだけ不利かを、比較可能な形で数値にした。素のエージェントが失敗したタスクは、難問ではなく最も基本的な20件である点も重い。</p>
+<p>同時に、この論文を「AIに任せれば済む」の根拠に使うのは誤読だと考える。著者自身が人間のレビューを必須と書いており、しかも誤りが構文チェックもテスト実行も通り抜けた事例が報告されている。ここは業務でも同じ形で現れるはずだ。金額が計算されて出力されたPDFは、桁が一つ違っていても「動いている」ように見える。正解データとの突き合わせを設計に組み込まない限り、この種の誤りは検出できない。</p>
+<p>つまり実務的な結論は、AIを使うかどうかではなく、検算の仕組みを先に用意できるかどうかが導入可否を決める、ということになる。検算できない業務は後回しでよい。関連して、AIの評価基準を自社でどう持つかは<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をつくる</a>、業務フロー全体への組み込みは<a href="/articles/ai-workflow-automation/">AIによる業務自動化</a>で扱っている。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>研究チームが2026年7月16日に公開した論文で、格子QCDの実タスク70件のうち63件（90%）が専門家の実装と機械精度（差10のマイナス12乗程度以下）で一致した（出典：arXiv:2607.15001、2026年7月16日（arXiv:2607.15001v1）、<a href="https://arxiv.org/abs/2607.15001v1">https://arxiv.org/abs/2607.15001v1</a>）</li>
+<li>同じベンチマークの最も基本的な局所2点関数20件を汎用コーディングエージェント（Claude Code）にそのまま解かせた場合、成功は0件。業務知識・固定処理・人間の確認の有無が結果を分けている</li>
+<li>作業時間は局所2点関数で2時間→3.5分（17倍）、バリオン3点関数で8時間→10.9分（44倍）、ウィルソンループ測定で1時間→1分（54倍）。属人化した重い作業ほど倍率が大きい</li>
+<li>限界も明記されている。不一致7件のうち失敗4件はすべてバリオン3点関数に集中し、切断ダイアグラム・4点相関・有限温度観測量・大規模多粒子演算子は未対応。誤りは構文チェックもテスト実行も通過し、正解データとの数値比較で初めて発覚した</li>
+<li>TOEでは同構成の自社検証は未実施。そのうえでの読みは、AIを使うかどうかより検算の仕組みを先に用意できるかが導入可否を決める、というもの。なお本論文はAI業務利用の研究ではないため、以上は他分野の実験結果からの類推である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

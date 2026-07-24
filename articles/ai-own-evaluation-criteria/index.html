@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIの良し悪しを自社基準でどう測るか — 公開ベンチマークが当てにならない理由 · AIの鬼</title>
+  <meta name="description" content="AI導入の判断で公開ベンチマークの順位を見ても、自社の業務とは条件が違います。2026年7月公開の研究は、自社専用の採点基準を作る手順と、AIによる自動採点をいつ信用してよいかの線引きを示しました。中小企業がすぐ真似できる部分を抜き出します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-own-evaluation-criteria/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-own-evaluation-criteria/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIの良し悪しを自社基準でどう測るか — 公開ベンチマークが当てにならない理由 · AIの鬼">
+  <meta property="og:description" content="AI導入の判断で公開ベンチマークの順位を見ても、自社の業務とは条件が違います。2026年7月公開の研究は、自社専用の採点基準を作る手順と、AIによる自動採点をいつ信用してよいかの線引きを示しました。中小企業がすぐ真似できる部分を抜き出します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-own-evaluation-criteria/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIの良し悪しを自社基準でどう測るか — 公開ベンチマークが当てにならない理由 · AIの鬼">
+  <meta name="twitter:description" content="AI導入の判断で公開ベンチマークの順位を見ても、自社の業務とは条件が違います。2026年7月公開の研究は、自社専用の採点基準を作る手順と、AIによる自動採点をいつ信用してよいかの線引きを示しました。中小企業がすぐ真似できる部分を抜き出します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIの良し悪しを自社基準でどう測るか — 公開ベンチマークが当てにならない理由","item":"https://ai-oni.com/articles/ai-own-evaluation-criteria/"}]},{"@type":"Article","headline":"AIの良し悪しを自社基準でどう測るか — 公開ベンチマークが当てにならない理由","description":"AI導入の判断で公開ベンチマークの順位を見ても、自社の業務とは条件が違います。2026年7月公開の研究は、自社専用の採点基準を作る手順と、AIによる自動採点をいつ信用してよいかの線引きを示しました。中小企業がすぐ真似できる部分を抜き出します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-own-evaluation-criteria/"},"url":"https://ai-oni.com/articles/ai-own-evaluation-criteria/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-own-evaluation-criteria.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-own-evaluation-criteria/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-own-evaluation-criteria.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>AIの良し悪しを自社基準でどう測るか — 公開ベンチマークが当てにならない理由</h1>
+<p class="article-lead">AI導入の判断で公開ベンチマークの順位を見ても、自社の業務とは条件が違います。2026年7月公開の研究は、自社専用の採点基準を作る手順と、AIによる自動採点をいつ信用してよいかの線引きを示しました。中小企業がすぐ真似できる部分を抜き出します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AI導入を検討するとき、公開されているベンチマークの順位を参考にしがちです。しかしそれらは<strong>自社の利用者・業務・社内ルールとは条件が違います。</strong>2026年7月16日公開の研究は、この問題を「導入のボトルネック」と明言し、自社専用の採点基準を作る手順と、<strong>AIによる自動採点をいつ信用してよいか</strong>の線引きを示しました。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>「Kaleidoscope」という評価の進め方を提案した論文です（出典：arXiv:2607.14673、2026年7月16日、<a href="https://arxiv.org/abs/2607.14673v1">https://arxiv.org/abs/2607.14673v1</a>）。公共部門でのAI活用の経験から生まれたもので、<strong>地域の政策や統治上の要件を満たさなければならない</strong>アプリケーションで繰り返し起きた評価の問題に取り組んでいます。</p>
+<p>論文が指摘する問題は明快です。</p>
+<ul>
+<li>公開ベンチマークは、自社の利用者・文脈・ルールと一致することがほとんどない</li>
+<li>かといって人間がすべて確認するのは、手間がかかりすぎて量をこなせない</li>
+</ul>
+<p>この板挟みが、AI導入を止めている、と。</p>
+<p>提案されている手順は3段階です。</p>
+<ol>
+<li><strong>想定利用者（ペルソナ）を決めて、そこからテスト事例を生成する</strong></li>
+<li><strong>自社の状況に合わせた採点基準（ルーブリック）を作り、それで採点する</strong></li>
+<li><strong>人間が採点したものを正解として持ち、AI審査員の判定がそれとどれだけ一致するかを測る</strong></li>
+</ol>
+<p>そして最も重要なのが3番目の使い方です。<strong>AI審査員に自動採点をさせるのは、人間の採点との一致率が設定した閾値を超えたときだけ</strong>、という制約をかけています。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>試験運用の期間</td>
+<td>3週間</td>
+</tr>
+<tr>
+<td>対象</td>
+<td>4つの組織の利用事例</td>
+</tr>
+<tr>
+<td>注釈付きQ&amp;A</td>
+<td><strong>108組</strong></td>
+</tr>
+<tr>
+<td>対象領域</td>
+<td>4分野</td>
+</tr>
+<tr>
+<td>評価の観点</td>
+<td><strong>14項目</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">なぜこの「一致率で門番をする」考え方が重要か</h2>
+<p>AIの出力をAIに採点させる方法は、手軽で広く使われています。しかし<strong>その採点自体が正しい保証はどこにもありません。</strong></p>
+<p>この論文の設計は、そこに歯止めをかけています。まず人間が採点する。次にAI審査員の判定が人間とどれだけ一致するかを測る。<strong>一致率が基準に届かないうちは、自動採点を使わない。</strong></p>
+<p>これは中小企業がそのまま真似できる考え方です。「AIに評価させれば楽になる」と考える前に、<strong>その評価が信用できるかを一度は人手で確かめる</strong>。この一手間を飛ばすと、間違った基準で大量に判定することになります。</p>
+<h2 id="_3">中小企業がすぐ真似できること</h2>
+<p>論文の仕組み全体を導入する必要はありません。効くのは以下の3点です。</p>
+<ul>
+<li><strong>自社の合格基準を、先に文章にする。</strong> 「良い回答」ではなく「見積書の必須5項目がすべて入っている」「社外秘の語を含まない」のように、<strong>採点できる形</strong>で書く</li>
+<li><strong>自社の実例で20〜30件のテストセットを作る。</strong> 実際に来た問い合わせ、実際に作った書類を使う。公開ベンチマークより、自社の20件のほうが判断に効きます</li>
+<li><strong>人間が採点した結果を残しておく。</strong> これが、後からAIに自動採点させるときの答え合わせになります</li>
+</ul>
+<p>この3点は、AIツールの導入前でも導入後でもできます。<strong>むしろ導入前に作っておくと、複数のツールを同じ物差しで比べられます。</strong></p>
+<h2 id="toe">TOEではどうか</h2>
+<p>TOEでは、これに近いことを一度だけ実施しています。<strong>AI検索（ChatGPT・Perplexity など）で自社が引用元として表示されるかを、実際に測定しました。</strong>公開されている一般論ではなく、自社のサイトで、自社が測った数字です。</p>
+<p>その結果として分かったのは、個社サイトは引用されていた一方で、<strong>構造化データは効かず、測定そのものが極めて不安定</strong>だということでした。都合の悪い結果も含めて<a href="/articles/ai-search-measurement/">ChatGPTやPerplexityで自社が出るか、実際に測ってみました</a>に書いています。</p>
+<p>ただし、<strong>この論文のような体系的な評価の仕組みは、TOEでは構築していません。</strong>測ったのは1テーマのみで、ペルソナ生成も、AI審査員の一致率による門番も導入していません。今後の課題です。</p>
+<p>ツール選定そのものの考え方は<a href="/articles/ai-tool-selection/">AIツールの選び方</a>にまとめています。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>公開ベンチマークは自社の利用者・文脈・ルールと一致せず、<strong>AI導入のボトルネックになっている</strong>（arXiv:2607.14673、2026年7月16日）</li>
+<li>提案手法は、想定利用者からテストを作り、自社専用の採点基準で採点し、<strong>人間の採点との一致率が閾値を超えたときだけAIの自動採点を使う</strong></li>
+<li>試験運用は3週間・4組織、<strong>108組のQ&amp;A・14の評価観点</strong>で検証</li>
+<li>中小企業がすぐ真似できるのは「<strong>合格基準を採点できる形で文章にする</strong>」「<strong>自社の実例20〜30件でテストセットを作る</strong>」「<strong>人間の採点結果を残す</strong>」の3点</li>
+<li><strong>TOEでは体系的な評価の仕組みは未構築。</strong>AI検索の実測を1テーマ行ったのみ</li>
+</ul>
+<p>AI導入で最初に問われるのは「どれが一番賢いか」ではありません。<strong>自社にとっての合格点を、誰が決めているのか</strong>です。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

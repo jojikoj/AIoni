@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>音声AIの「人間らしさ」は40以上のモデル比較でどこまで測れたのか · AIの鬼</title>
+  <meta name="description" content="Hume AIが40以上の音声モデルを15以上の評価軸・60以上の指標で比較し、100万件以上の人間評価を集めた結果を公開しました。8つの能力グループ全てで上位5位に入る構成は0、ノイズ背景の文字起こし誤り率は音楽背景の約4倍。自社導入の判断にどう使うかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="音声AIの「人間らしさ」は40以上のモデル比較でどこまで測れたのか · AIの鬼">
+  <meta property="og:description" content="Hume AIが40以上の音声モデルを15以上の評価軸・60以上の指標で比較し、100万件以上の人間評価を集めた結果を公開しました。8つの能力グループ全てで上位5位に入る構成は0、ノイズ背景の文字起こし誤り率は音楽背景の約4倍。自社導入の判断にどう使うかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="音声AIの「人間らしさ」は40以上のモデル比較でどこまで測れたのか · AIの鬼">
+  <meta name="twitter:description" content="Hume AIが40以上の音声モデルを15以上の評価軸・60以上の指標で比較し、100万件以上の人間評価を集めた結果を公開しました。8つの能力グループ全てで上位5位に入る構成は0、ノイズ背景の文字起こし誤り率は音楽背景の約4倍。自社導入の判断にどう使うかを整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"音声AIの「人間らしさ」は40以上のモデル比較でどこまで測れたのか","item":"https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/"}]},{"@type":"Article","headline":"音声AIの「人間らしさ」は40以上のモデル比較でどこまで測れたのか","description":"Hume AIが40以上の音声モデルを15以上の評価軸・60以上の指標で比較し、100万件以上の人間評価を集めた結果を公開しました。8つの能力グループ全てで上位5位に入る構成は0、ノイズ背景の文字起こし誤り率は音楽背景の約4倍。自社導入の判断にどう使うかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/"},"url":"https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-introducing-real-world-voiceeq.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-introducing-real-world-voiceeq/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-introducing-real-world-voiceeq.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>音声AIの「人間らしさ」は40以上のモデル比較でどこまで測れたのか</h1>
+<p class="article-lead">Hume AIが40以上の音声モデルを15以上の評価軸・60以上の指標で比較し、100万件以上の人間評価を集めた結果を公開しました。8つの能力グループ全てで上位5位に入る構成は0、ノイズ背景の文字起こし誤り率は音楽背景の約4倍。自社導入の判断にどう使うかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>音声AIの比較は「精度」だけでは足りません。Hume AIが公開した評価ベンチマークでは、8つの能力グループすべてで上位5位に入ったシステム構成は0でした。万能な音声AIは存在せず、用途ごとに選ぶ必要がある——これが中小企業にとっての結論です。</p>
+<h2 id="_1">何が測られたのか（一次資料の実測値）</h2>
+<p>Hume AIが2026年7月15日にHugging Faceブログへ寄稿した記事で、音声AIの評価ベンチマーク「Real World VoiceEQ」が公開されました。ブログ本文に記載されている実測値は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>数値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>評価対象モデル数</td>
+<td>40以上</td>
+<td>商用（プロプライエタリ）およびオープンソースの主要音声モデル。個別のモデル名・順位はブログ本文に記載なし</td>
+</tr>
+<tr>
+<td>評価軸（ディメンション）数</td>
+<td>15以上</td>
+<td>ASR・TTS・S2S（音声対音声）・音声理解の4カテゴリにまたがる</td>
+</tr>
+<tr>
+<td>測定指標（メトリクス）数</td>
+<td>60以上</td>
+<td>上記15以上の評価軸の下位指標。内訳の記載なし</td>
+</tr>
+<tr>
+<td>人間による個別評価の総数</td>
+<td>100万件以上</td>
+<td>異なる属性（demographics）・話し方・音響環境にまたがって収集。1サンプルあたりの評価者数の記載なし</td>
+</tr>
+<tr>
+<td>TTS評価での人間評価件数</td>
+<td>78万5,000件</td>
+<td>テキスト読み上げ評価分。期間の記載なし</td>
+</tr>
+<tr>
+<td>S2S評価での人間評価件数</td>
+<td>4万8,000件</td>
+<td>音声対音声評価分。期間の記載なし</td>
+</tr>
+<tr>
+<td>8能力グループ全てで上位5位の構成数</td>
+<td>0構成</td>
+<td>TTS評価における8つの能力グループ横断での比較</td>
+</tr>
+<tr>
+<td>文字起こし単語誤り率（WER）の差</td>
+<td>約4倍</td>
+<td>背景がノイズの音声 対 背景が音楽の音声。絶対値のWERは本文に記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>（出典：Hume AI（Hugging Faceブログへの寄稿。15名以上のHume AI所属の寄稿者名が記載）、2026-07-15、<a href="https://huggingface.co/blog/real-world-voiceeq">https://huggingface.co/blog/real-world-voiceeq</a>）</p>
+<p>ここで先に書いておくべきことがあります。<strong>この記事はHume AI自身による発表であり、同社は音声AIの提供事業者、すなわち当該製品カテゴリの当事者です。</strong>さらに、このベンチマークは同社の評価基盤「Kairos」上で実施されています。自社モデルが評価対象に含まれるのか、含まれる場合に何位だったのかは、ブログ本文には記載がありません。数字そのものは有用ですが、「誰が、何のインフラで測ったか」を切り離さずに読む必要があります。</p>
+<h2 id="50">「上位5位に入る構成が0」は何を意味するのか</h2>
+<p>TTS（テキスト読み上げ）の評価では、8つの能力グループのすべてで上位5位に入ったシステム構成が0だったと報告されています。つまり、どの音声モデルにも得意・不得意の偏りがあり、総合1位という概念が成立しないということです。</p>
+<p>中小企業の実務に落とすと、判断の順番が変わります。</p>
+<ul>
+<li>「どの音声AIが一番いいか」ではなく、「うちの用途はどの能力グループに当たるか」から決める</li>
+<li>電話の一次受けなら、対話の自然さ・割り込み耐性・応答の間（ま）が効く</li>
+<li>社内マニュアルの読み上げや館内アナウンスなら、長文の安定性・読み間違いの少なさが効く</li>
+<li>用途が2つ以上あるなら、1本のモデルで統一しようとせず、分けて選ぶ選択肢を最初から持つ</li>
+</ul>
+<p>評価軸を自社側で先に言語化しておく話は、<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>でも扱っています。ベンダー比較の前に、社内の合格ラインを紙に落としておくほうが結果的に早く決まります。</p>
+<h2 id="4">ノイズ約4倍は「デモ環境の精度は当てにならない」という意味</h2>
+<p>もう一つ実務に直結するのが、背景がノイズの音声では、背景が音楽の音声に比べて文字起こしの単語誤り率（WER）が約4倍だったという結果です。ブログ本文には絶対値のWERは記載されていないため、「元が5%なのか20%なのか」は分かりません。分かるのは比率だけです。</p>
+<p>それでも示唆は明確です。静かな会議室で録ったデモ音声で通った精度は、工場のライン脇、店舗のフロア、屋外の現場では再現しない可能性が高い。ここを詰めずに導入すると、稼働後に「聞き取れていない」というクレームから逆算してやり直すことになります。</p>
+<p>導入前に自社でやるべき最低限の確認は次の3点です。</p>
+<ul>
+<li>実際に使う場所・時間帯で、実際のスタッフの声で、10〜20本程度の音声を録って試す</li>
+<li>静音環境と騒音環境の両方で同じ台本を読ませ、誤りの出方の差を自分の目で比べる</li>
+<li>誤りが「聞き取れない」なのか「固有名詞・型番を知らない」なのかを切り分ける（後者は辞書登録で改善余地がある）</li>
+</ul>
+<p>音声の文字起こしを業務に組み込む際の基本的な手順は、<a href="/articles/ai-voice-transcription/">音声の文字起こしを業務に組み込む</a>にまとめています。</p>
+<h2 id="_2">自動評価はまだ人間の耳を置き換えない</h2>
+<p>このベンチマークで注目すべきは、発信元自身が限界を明記している点です。ブログ本文では、音声言語モデル（SLM）を評価者として使うことには慎重であるべきだとし、自動評価と人間評価の一致度は、より主観的な評価項目になるほど低下したと述べています。そして、自動評価は現時点で人間のリスナーの代替にはならない、と結論づけています。</p>
+<p>100万件以上の人間評価をわざわざ集めているという事実そのものが、この主張の裏付けにもなっています。自動で済むなら、そこまでのコストはかけません。</p>
+<p>実務側の意味はシンプルです。ベンダーから提示されたスコアが自動評価によるものである場合、それは「機械が聞いた印象」であって、顧客が受ける印象とは別物かもしれない。特に「丁寧に聞こえるか」「不快感がないか」といった主観に近い項目ほど、ずれが大きくなる可能性があります。決裁の前に、自社の担当者が実際に音声を聞いて判断する工程は残すべきです。</p>
+<h2 id="_3">このベンチマークで分からないこと</h2>
+<p>誠実に書くべき限界を整理します。ブログ本文からは、以下が読み取れませんでした。</p>
+<ul>
+<li>個別のモデル名、順位、上位と下位のスコア差</li>
+<li>レイテンシ（応答の速さ）と対応言語数</li>
+<li>評価の実施期間、1サンプルあたりの評価者数などのサンプリング条件</li>
+<li>60以上の指標の内訳</li>
+</ul>
+<p>これらは別途の技術レポートおよびリーダーボードに委ねられている、とされています。したがって現時点でこのブログ単体から言えるのは「音声AIには全方位で勝つ構成が存在しない」「騒音環境は文字起こしを大きく劣化させる」「自動評価は人間評価の代替にならない」という3点の傾向であり、特定製品の採否を決める材料ではありません。同ベンチマークの位置づけについては<a href="/articles/ai-rwvoiceeq-bench/">音声AIベンチマークの読み方</a>も併せてご覧ください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前提として、<strong>TOEではReal World VoiceEQのベンチマークを自社で追試していません。以下は未実施の状態での読み筋です。</strong></p>
+<p>私たちが顧客の音声AI案件で見るポイントは、この発表と方向が一致しています。第一に、用途を1つに絞らないまま「音声AIを入れたい」と始まった案件は、選定基準が定まらず長引きます。読み上げなのか対話なのか、まずそこを決める。第二に、精度検証は必ず顧客の現場で行う。営業所の応接室で試して合格し、工場で使ったら通らない、という順序を踏むと信頼を失います。</p>
+<p>一方で、このベンチマークをそのまま採用根拠に使うことは勧めません。提供事業者が自社基盤の上で測った結果である以上、社内稟議に「第三者評価」として添付するのは不正確です。使うなら「音声AIには万能解がないことの傍証」「騒音環境の検証を必須工程に入れる根拠」という位置づけが妥当だと考えています。</p>
+<p>導入の初手をどう置くかは、<a href="/articles/ai-first-step-smb/">中小企業のAI導入・最初の一歩</a>の考え方が土台になります。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>Hume AIが40以上の音声モデルを15以上の評価軸・60以上の指標で比較し、100万件以上の人間評価（TTS 78万5,000件、S2S 4万8,000件）を収集したベンチマークを公開した（出典：Hume AI、2026-07-15、<a href="https://huggingface.co/blog/real-world-voiceeq">https://huggingface.co/blog/real-world-voiceeq</a>）</li>
+<li>TTS評価では8つの能力グループすべてで上位5位に入った構成が0で、万能な音声AIは存在しない。用途を先に決めてから選ぶ</li>
+<li>背景ノイズの音声は背景音楽の音声に比べ文字起こし誤り率が約4倍。絶対値は非公開だが、静音デモの精度を現場に当てはめてはいけない</li>
+<li>発信元自身が「自動評価は人間のリスナーの代替にならない」「主観的な項目ほど自動評価と人間評価の一致度が下がる」と限界を明記している。担当者が聞いて判断する工程を残す</li>
+<li>この発表はHume AI自身によるもので、同社は音声AIの提供事業者であり、評価も自社基盤「Kairos」上で実施されている。第三者評価として扱わず、傾向の傍証として読む。TOEでは追試を未実施</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

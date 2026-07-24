@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に · AIの鬼</title>
+  <meta name="description" content="生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に">
+  <link rel="canonical" href="https://ai-oni.com/news/zenn_ai-2c57a50671/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/zenn_ai-2c57a50671/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に · AIの鬼">
+  <meta property="og:description" content="生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に">
+  <meta property="og:url" content="https://ai-oni.com/news/zenn_ai-2c57a50671/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に · AIの鬼">
+  <meta name="twitter:description" content="生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/zenn_ai-2c57a50671/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Zenn AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+<span class="tag-hash">#開発・実装</span>        <span class="src">Zenn AI</span>
+<time datetime="2026-07-19T06:16:45+00:00">2026年7月19日</time>      </div>
+      <h1>生成AIベンチマークの点数は、誰の実力なのか？――モデル単体の固定的な能力値と信じる前に</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="https://res.cloudinary.com/zenn/image/upload/s--mR_OZ6rD--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E7%2594%259F%25E6%2588%2590AI%25E3%2583%2599%25E3%2583%25B3%25E3%2583%2581%25E3%2583%259E%25E3%2583%25BC%25E3%2582%25AF%25E3%2581%25AE%25E7%2582%25B9%25E6%2595%25B0%25E3%2581%25AF%25E3%2580%2581%25E8%25AA%25B0%25E3%2581%25AE%25E5%25AE%259F%25E5%258A%259B%25E3%2581%25AA%25E3%2581%25AE%25E3%2581%258B%25EF%25BC%259F%25E2%2580%2595%25E2%2580%2595%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25AB%25E5%258D%2598%25E4%25BD%2593%25E3%2581%25AE%25E5%259B%25BA%25E5%25AE%259A%25E7%259A%2584%25E3%2581%25AA%25E8%2583%25BD%25E5%258A%259B%25E5%2580%25A4%25E3%2581%25A8%25E4%25BF%25A1%25E3%2581%2598%25E3%2582%258B%25E5%2589%258D%25E3%2581%25AB%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_37:albatrosary%2Cx_203%2Cy_121/g_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly96ZW5uLWRldi5naXRodWIuaW8vZGVmYXVsdC1hdmF0YXJzL2RhcmsvYS5wbmc=%2Cr_max%2Cw_90%2Cx_87%2Cy_95/v1627283836/default/og-base-w1200-v2.png?_a=BACMTiAE" alt="" loading="lazy" referrerpolicy="no-referrer"
+           onerror="this.closest('figure').style.display='none'">
+      <figcaption>画像: Zenn AI（配信元より）</figcaption>
+    </figure>
+
+    <blockquote class="news-summary-quote">
+      <p>! TL;DR 生成AIのベンチマーク得点は、モデル単体に備わった固定的な「知能」や「技術力」ではない。より正確には、 モデル 問題データ プロンプト 入力コンテキスト 推論方法 ツール エージェントやハーネス 試行回数 採点方法 を組み合わせたときに得られる、特定条件下の観測値である。 したがって、ベンチマークはモデル間の大まかな位置関係や得意分野を把握するためには役立つが、実際のソフトウェア開発で「使える」ことの証明にはならない。 ある水準を超えた生成AIについては、総合点の数ポイントよりも、実際の用途における意味保存、安定性、修正能力、ツール利用、検証可能性を確認する方が重要で...</p>
+      <cite>出典: Zenn AI（配信元の紹介文より引用）</cite>
+    </blockquote>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://zenn.dev/albatrosary/articles/3a776ff776d43f" target="_blank" rel="noopener nofollow">
+        Zenn AIで元記事を読む →
+      </a>
+    </p>
+
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        ニュースの背景を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-epoch-ipsos-ai-at-work-2026/">
+<div class="card-media"><img src="../../static/img/article-mx-epoch-ipsos-ai-at-work-2026.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">会社がAIのサブスク代を払うと、業務利用は本当に深くなるのか ― 無料版38%・勤務先提供76%という差をどう読むか</h3>
+<p class="card-summary">Epoch AIが米国成人2,021人を対象にIpsos KnowledgePanelで実施した調査で、仕事中心にAIを使っている割合は無料版38%、勤務先提供のサブスクで76%でした。会社が費用を負担するかどうかが業務利用の深さと相関しています。分母のn数が公開されていない点まで含めて、中小企業がどう読むべきかを整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/co-anthropic-economic-index-cadences/">
+<div class="card-media"><img src="../../static/img/article-co-anthropic-economic-index-cadences.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIの利用は曜日でどう変わるのか？平日35%・週末50%弱という個人利用比率と、利用者86%が答えた「速くなった」の中身</h3>
+<p class="card-summary">Anthropicが2026年6月に公開した経済指標レポートから、AI利用の曜日・季節変動と利用者9,700人の自己申告効果を読み解きます。平日と週末で個人利用比率が約15ポイント動き、確定申告直前には税務用途が8倍に。ただし回答者はClaude利用者に偏り、一般労働者の実態ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/dm-sierra-leone-guided-learning-rct/">
+<div class="card-media"><img src="../../static/img/article-dm-sierra-leone-guided-learning-rct.jpg" alt="" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIに答えさせず問い返させると、成果は変わるのか（対照群比+0.258標準偏差、n=1,763・8週間）</h3>
+<p class="card-summary">Google DeepMindがシエラレオネの中等学校12校・生徒1,763人・8週間の事前登録済みRCTで、AIに直接解答をさせず問い返させる「ガイド付き学習」を検証。数学スコアは対照群比+0.258標準偏差。ただし発信元は製品提供者本人であり、学力層による効果の偏りも自ら認めている。読み方を整理する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

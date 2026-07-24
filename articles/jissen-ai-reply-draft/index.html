@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順 · AIの鬼</title>
+  <meta name="description" content="規程やFAQ、過去の返信を都度貼り付けるのは面倒です。ChatGPTやClaudeの「プロジェクト」機能に社内文書を一度入れておき、問い合わせ返信の下書きを作らせる手順を、中小企業がそのまま再現できる形でまとめます。機密の扱いと、人の確認が必ず要る理由も正直に書きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/jissen-ai-reply-draft/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/jissen-ai-reply-draft/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順 · AIの鬼">
+  <meta property="og:description" content="規程やFAQ、過去の返信を都度貼り付けるのは面倒です。ChatGPTやClaudeの「プロジェクト」機能に社内文書を一度入れておき、問い合わせ返信の下書きを作らせる手順を、中小企業がそのまま再現できる形でまとめます。機密の扱いと、人の確認が必ず要る理由も正直に書きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/jissen-ai-reply-draft/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順 · AIの鬼">
+  <meta name="twitter:description" content="規程やFAQ、過去の返信を都度貼り付けるのは面倒です。ChatGPTやClaudeの「プロジェクト」機能に社内文書を一度入れておき、問い合わせ返信の下書きを作らせる手順を、中小企業がそのまま再現できる形でまとめます。機密の扱いと、人の確認が必ず要る理由も正直に書きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順","item":"https://ai-oni.com/articles/jissen-ai-reply-draft/"}]},{"@type":"Article","headline":"社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順","description":"規程やFAQ、過去の返信を都度貼り付けるのは面倒です。ChatGPTやClaudeの「プロジェクト」機能に社内文書を一度入れておき、問い合わせ返信の下書きを作らせる手順を、中小企業がそのまま再現できる形でまとめます。機密の扱いと、人の確認が必ず要る理由も正直に書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/jissen-ai-reply-draft/"},"url":"https://ai-oni.com/articles/jissen-ai-reply-draft/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-23","dateModified":"2026-07-23","image":"https://ai-oni.com/static/img/news-tools-08.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/jissen-ai-reply-draft/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-tools-08.svg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順</h1>
+<p class="article-lead">規程やFAQ、過去の返信を都度貼り付けるのは面倒です。ChatGPTやClaudeの「プロジェクト」機能に社内文書を一度入れておき、問い合わせ返信の下書きを作らせる手順を、中小企業がそのまま再現できる形でまとめます。機密の扱いと、人の確認が必ず要る理由も正直に書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>先に結論です。<strong>ChatGPTやClaudeの「プロジェクト（Projects）」機能に、自社の規程・FAQ・過去の返信メールを一度入れておくと、問い合わせのたびに文書を貼り直さなくても、その会社の文脈に沿った返信の下書きが作れます。</strong> ただし出てきた下書きは必ず人が確認します。ここでは、中小企業がそのまま試せる手順と、外せない注意点を書きます。</p>
+<h2 id="_1">この手順で解決したいこと</h2>
+<p>問い合わせ対応をAIに手伝わせるとき、よくある詰まりが「毎回、自社のルールや料金表を貼り付け直す」手間です。1件なら我慢できても、日に何件もあると、その準備だけで時間が溶けます。かといって貼らずに聞くと、AIは一般論しか返せず、自社の実情に合いません。</p>
+<p><strong>「プロジェクト」機能は、この貼り直しをなくすための箱</strong>です。箱に自社の文書を入れておけば、その箱の中での会話はすべて、入れた文書を踏まえて答えてくれます。</p>
+<h2 id="_2">手順の全体像</h2>
+<table>
+<thead>
+<tr>
+<th>工程</th>
+<th>やること</th>
+<th>担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 素材を集める</td>
+<td>規程・料金表・FAQ・良い返信の見本を用意</td>
+<td>人</td>
+</tr>
+<tr>
+<td>2. 箱を作る</td>
+<td>ChatGPT/Claudeでプロジェクトを新規作成</td>
+<td>人</td>
+</tr>
+<tr>
+<td>3. 文書を入れる</td>
+<td>集めた素材を箱に登録する</td>
+<td>人</td>
+</tr>
+<tr>
+<td>4. 指示を固定する</td>
+<td>返信のトーン・禁止事項を箱の指示欄に書く</td>
+<td>人</td>
+</tr>
+<tr>
+<td>5. 下書きを作る</td>
+<td>問い合わせ本文を貼って下書きを生成</td>
+<td>AI</td>
+</tr>
+<tr>
+<td>6. 確認して送る</td>
+<td>事実・金額・言い回しを人が点検して送信</td>
+<td>人</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14">手順1〜4：箱を用意する</h2>
+<p>まず素材を集めます。<strong>料金表、対応範囲、よくある質問と模範回答、そして「これは良い」と思える過去の返信メールを数通。</strong>この見本が、後で下書きの質を決めます。</p>
+<p>次にChatGPTかClaudeで新しいプロジェクトを作り、集めた文書を登録します。どちらのサービスも、プロジェクト単位でファイルや長い文章を保持し、その中の会話で参照できる機能を備えています。</p>
+<p>登録できたら、箱の指示欄（カスタム指示・プロジェクト指示にあたる欄）に、返信の方針を固定します。例：</p>
+<ul>
+<li>敬体で、結論から書く</li>
+<li>料金は添付の料金表の数字だけを使い、推測で金額を出さない</li>
+<li>分からないことは「確認します」と書き、断定しない</li>
+<li>署名・定型の挨拶はこの形にする</li>
+</ul>
+<p><strong>「推測で金額を出さない」「分からないことは断定しない」は必ず入れてください。</strong>AIは、それらしい数字を作ってしまうことがあります。</p>
+<h2 id="56">手順5〜6：下書きを作り、人が確認する</h2>
+<p>準備ができたら、実際の問い合わせ本文を貼って「これへの返信の下書きを」と頼みます。箱の文書と指示を踏まえた下書きが返ります。</p>
+<p>ここで<strong>必ず人が確認します。</strong>点検するのは主に3点です。</p>
+<ul>
+<li><strong>金額・納期・数字</strong> — 料金表と突き合わせる。ここは誤りが最も高くつきます</li>
+<li><strong>事実の断定</strong> — 「できます」と言い切っている箇所が、本当に対応可能か</li>
+<li><strong>言い回し</strong> — 相手や状況に合っているか</li>
+</ul>
+<p>下書きは「ゼロから書く手間を省くもの」であって、「そのまま送るもの」ではありません。この線引きは、自社の自動化でも一貫して守っている考え方です（<a href="/articles/toe-note-semi-automation/">note投稿はどこまで自動化できるか</a>）。</p>
+<h2 id="_3">機密の扱い — 入れる前に決めること</h2>
+<p>社内文書を外部のAIサービスに入れる以上、<strong>何を入れて何を入れないかは、始める前に決めます。</strong></p>
+<ul>
+<li>個人情報（顧客の氏名・連絡先）は、下書き作成時にマスクするか、入れない</li>
+<li>契約上の秘密や、外部保存が禁じられている資料は入れない</li>
+<li>利用するAIサービスのデータ利用条件（入力が学習に使われるか等）を確認し、必要なら学習オフの設定・プランを選ぶ</li>
+</ul>
+<p>この判断は業種や契約で変わります。迷う場合は、一般公開してよいFAQや料金表だけから始めるのが安全です。導入の第一歩の選び方は<a href="/articles/ai-first-step-smb/">中小企業が最初にAI化すべき業務の見つけ方</a>も参考になります。</p>
+<h2 id="_4">正直に書いておく限界</h2>
+<ul>
+<li><strong>下書きの質は、入れた見本の質で決まります。</strong>良い返信の見本が薄いと、下書きも凡庸になります</li>
+<li><strong>金額や事実の誤りは起こりえます。</strong>人の確認を省いた瞬間に、この手順は危険になります</li>
+<li><strong>どれだけ時間が減ったかは、会社ごとに違います。</strong>本記事は特定の削減率を主張しません。まず1週間、自分の問い合わせで試して、自社で測ってみてください</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>プロジェクト機能に自社文書を一度入れれば、貼り直しなしで自社文脈の返信下書きが作れる</li>
+<li>箱の指示に「推測で金額を出さない」「分からないことは断定しない」を必ず入れる</li>
+<li>下書きは人が金額・事実・言い回しを確認してから送る。そのまま送らない</li>
+<li>機密の線引きは始める前に決める。迷うなら公開してよい文書だけから始める</li>
+</ul>
+<p>問い合わせ対応へのAI導入を自社に合わせて設計したい場合は、株式会社TOEまでご相談ください。</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

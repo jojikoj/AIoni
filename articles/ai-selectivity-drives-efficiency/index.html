@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>学習データを71%捨てても精度は落ちないのか？場所認識AIの実測で見る「データ選別」の費用対効果 · AIの鬼</title>
+  <meta name="description" content="AIの精度はデータ量で決まる、という前提を疑う実測が出ました。画像による場所認識AIの学習で、データを71%削減しても精度は維持され、総学習時間は19.152時間から4.825時間へ74.8%削減。データを増やす前に選別する工程を挟む、という予算配分の話として読めます。ただし対象は特定タスクに限られます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-selectivity-drives-efficiency/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-selectivity-drives-efficiency/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="学習データを71%捨てても精度は落ちないのか？場所認識AIの実測で見る「データ選別」の費用対効果 · AIの鬼">
+  <meta property="og:description" content="AIの精度はデータ量で決まる、という前提を疑う実測が出ました。画像による場所認識AIの学習で、データを71%削減しても精度は維持され、総学習時間は19.152時間から4.825時間へ74.8%削減。データを増やす前に選別する工程を挟む、という予算配分の話として読めます。ただし対象は特定タスクに限られます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-selectivity-drives-efficiency/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="学習データを71%捨てても精度は落ちないのか？場所認識AIの実測で見る「データ選別」の費用対効果 · AIの鬼">
+  <meta name="twitter:description" content="AIの精度はデータ量で決まる、という前提を疑う実測が出ました。画像による場所認識AIの学習で、データを71%削減しても精度は維持され、総学習時間は19.152時間から4.825時間へ74.8%削減。データを増やす前に選別する工程を挟む、という予算配分の話として読めます。ただし対象は特定タスクに限られます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"学習データを71%捨てても精度は落ちないのか？場所認識AIの実測で見る「データ選別」の費用対効果","item":"https://ai-oni.com/articles/ai-selectivity-drives-efficiency/"}]},{"@type":"Article","headline":"学習データを71%捨てても精度は落ちないのか？場所認識AIの実測で見る「データ選別」の費用対効果","description":"AIの精度はデータ量で決まる、という前提を疑う実測が出ました。画像による場所認識AIの学習で、データを71%削減しても精度は維持され、総学習時間は19.152時間から4.825時間へ74.8%削減。データを増やす前に選別する工程を挟む、という予算配分の話として読めます。ただし対象は特定タスクに限られます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-selectivity-drives-efficiency/"},"url":"https://ai-oni.com/articles/ai-selectivity-drives-efficiency/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-selectivity-drives-efficiency.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-selectivity-drives-efficiency/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-selectivity-drives-efficiency.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>学習データを71%捨てても精度は落ちないのか？場所認識AIの実測で見る「データ選別」の費用対効果</h1>
+<p class="article-lead">AIの精度はデータ量で決まる、という前提を疑う実測が出ました。画像による場所認識AIの学習で、データを71%削減しても精度は維持され、総学習時間は19.152時間から4.825時間へ74.8%削減。データを増やす前に選別する工程を挟む、という予算配分の話として読めます。ただし対象は特定タスクに限られます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。画像で場所を認識するAIの学習において、学習データを71%削減しても精度は維持され、総学習時間は19.152時間から4.825時間へ74.8%削減されたという実測が出ました（出典：arXiv:2607.14897、2026年7月16日、<a href="https://arxiv.org/abs/2607.14897v1">https://arxiv.org/abs/2607.14897v1</a>）。データを増やす前に「どのデータが効いているか」を選別する工程を挟むほうが、GPU費用も納期も圧縮できる可能性があります。</p>
+<h2 id="_1">何が測られたのか</h2>
+<p>論文タイトルは「Selectivity Drives Efficiency: Dataset Pruning for Visual Place Recognition」。著者は Tong Jin、Yunpeng Liu、Shuyu Hu、Chun Yuan、Song Wang、Feng Lu の6氏です。扱っているのは VPR（Visual Place Recognition／視覚的場所認識）と呼ばれるタスクで、カメラで撮った画像から「ここはどこか」を当てるAIのことです。自動運転やロボットの自己位置推定に使われる領域だと考えてください。</p>
+<p>この研究が問うているのは単純です。学習データを闇雲に増やすのではなく、「場所」という単位で選別して減らしたら、精度はどこまで保てるのか。</p>
+<p>使われたデータセットは2種類です。</p>
+<ul>
+<li>GSV-Cities：62,514 places（学習用。画像枚数ではなく「場所」単位でのカウント）</li>
+<li>Merged Dataset：210,000 places 超、GSV-Cities の約3.5倍の規模（学習用。複数データセットを統合したもの）</li>
+</ul>
+<p>評価は4つのデータセットで行われています。Pitts30k（DB 1万枚・クエリ6,816）、MSLS-val（DB 18,871・クエリ740）、Nordland（DB/クエリ各27,592）などです。指標は Recall@1、つまり「一発目の候補が正解だった割合」です。</p>
+<h2 id="_2">削減率ごとに精度はどう動いたか</h2>
+<p>GSV-Cities を学習データとして、削減率を変えたときの Recall@1 は以下の通りです。カッコ内は全件学習との差分です。</p>
+<table>
+<thead>
+<tr>
+<th>削減率</th>
+<th>Pitts30k R@1</th>
+<th>MSLS-val R@1</th>
+<th>Nordland R@1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0%（全件学習）</td>
+<td>92.9%</td>
+<td>92.6%</td>
+<td>87.3%</td>
+</tr>
+<tr>
+<td>30%削減</td>
+<td>92.9%（±0）</td>
+<td>92.6%（±0）</td>
+<td>88.3%（+1.0pt）</td>
+</tr>
+<tr>
+<td>50%削減</td>
+<td>92.8%（-0.1pt）</td>
+<td>92.2%（-0.4pt）</td>
+<td>85.6%（-1.7pt）</td>
+</tr>
+<tr>
+<td>70%削減</td>
+<td>92.5%（-0.4pt）</td>
+<td>91.0%（-1.6pt）</td>
+<td>84.3%（-3.0pt）</td>
+</tr>
+</tbody>
+</table>
+<p>30%削減の時点では、Pitts30k と MSLS-val は全件学習と同じ数値です。Nordland にいたっては 87.3% から 88.3% へ 1.0ポイント上がっています。減らしたほうが良くなった、ということが起きています。</p>
+<p>一方で、削減率を上げると精度は確実に落ちます。Nordland は30%削減で +1.0ポイントだったものが、70%削減では -3.0ポイントまで悪化しました。同じ70%削減でも Pitts30k は -0.4ポイントに留まっており、評価データセットによって劣化の度合いが大きく異なります。「71%捨てても大丈夫」という話を、どんな条件でも成り立つ法則として受け取るべきではありません。</p>
+<p>統合データセット（210,000 places 超）を71%削減して GSV-Cities 相当の規模に圧縮した場合は、MSLS-val R@1 94.5%、Nordland R@1 97.0% という数値が報告されています。ただしこの結果はバックボーンに NetVLAD のみを使用した条件下のものです。</p>
+<h2 id="_3">コストはどれだけ下がったのか</h2>
+<p>この論文で経営判断に直結するのは、精度よりむしろ時間の数字です。</p>
+<ul>
+<li>GSV-Cities を30%プルーニングした場合：総学習時間 3.545時間 → 2.493時間（29.7%削減）</li>
+<li>統合データセットを71%プルーニングした場合：総学習時間 19.152時間 → 3.912時間（79.6%削減）</li>
+</ul>
+<p>ここで注意したいのは、選別処理そのものにもコストがかかるという点です。その追加コストを含めた総コストで見ると、GSV-Cities・30%プルーニングで 22.2%削減、統合データセット・71%プルーニングで 19.152時間 → 4.825時間、74.8%削減となっています。追加コストを算入しても、7割以上の圧縮が残ったということです。</p>
+<p>なぜ追加コストが小さいのか。選別処理そのものに要する時間が、GSV-Cities で1秒未満、統合データセットで1.74秒だからです。比較対象として挙げられている既存手法 D2Pruning は同じ処理に約40分（30%プルーニング時）かかっています。</p>
+<p>精度面での比較も報告されています。ランダムにデータを抜く方法に対しては、Nordland・70%プルーニング時に 16.7ポイント優位。D2Pruning に対しては、50%プルーニング時に4つの評価データセット横断で 0.4／0.7／5.0／0.5 ポイント優位でした。</p>
+<h2 id="_4">中小企業にとって何を意味するか</h2>
+<p>「AIの精度は結局データ量で決まる」という説明を、ベンダーからも社内からも聞いたことがあると思います。この論文は、その通説に対して数字で反証を出している一次資料として使えます。少なくとも VPR というタスクにおいては、全件の29%だけで学習しても実用上の精度が保てた、という実測があるわけです。</p>
+<p>実務に引き寄せると、話は予算配分の順序になります。</p>
+<ul>
+<li>データを「集める」「保管する」「アノテーションを付ける」工程に費用を積む前に、どのデータが効いているかを見る工程を挟む</li>
+<li>選別処理は数秒で終わる一方、GPUを回す学習は数時間から数十時間かかる。つまり「前処理の工夫は安く、計算資源は高い」</li>
+<li>外注見積もりを受け取ったとき、データ量に比例した金額になっていないか確認する余地が生まれる</li>
+</ul>
+<p>AI開発の費用構造そのものについては<a href="/articles/ai-cost-structure/">AIのコスト構造をどう見るか</a>、外注と内製の判断軸については<a href="/articles/ai-tool-selection/">AIツールをどう選ぶか</a>も併せてご覧ください。</p>
+<p>同時に、この論文が扱っていない範囲もはっきりさせておきます。対象は画像認識モデルの学習です。社内文書のRAG構築や生成AIの業務活用に、ここの数値をそのまま当てはめることはできません。「71%削って74.8%コストが下がった」を社内のAI導入案件にそのまま持ち込むと、根拠のない期待値になります。示唆としては、正直なところやや弱い部類です。</p>
+<h2 id="_5">論文が自ら認めている限界</h2>
+<p>編集部として、都合の悪い記述も並べておきます。</p>
+<p>第一に、この選別手法はプロキシモデルで特徴記述子（descriptor）を抽出する必要があり、大規模データではその記述子の保存コストがかかると著者自身が明記しています。選別が数秒で終わるという数字は、この保存コストとは別の話です。</p>
+<p>第二に、極端に高い削減率（aggressive pruning ratio）の下では現行の指標だけでは不十分であり、シーンの希少性や多様性といった要素を追加しないと信頼できるコアセットは作れない、と著者が課題として認めています。つまり削減率を上げれば上げるほど良い、という手法ではありません。</p>
+<p>第三に、統合データセット71%削減の主要結果はバックボーンが NetVLAD のみで示されており、他のアーキテクチャで同じ結果が出るかは、本文の該当記述からは確認できません。</p>
+<p>第四に、前掲の表の通り、削減率と精度低下の関係はデータセットによって大きくばらつきます。Nordland のように3.0ポイント落ちるケースと、Pitts30k のように0.4ポイントで済むケースが同居しています。</p>
+<p>第五に、対象は VPR という特定タスクであり、他ドメインへの転用可能性は示されていません。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。この手法をTOEでは未実施です。TOEはVPRモデルの学習を行っておらず、この論文の再現も検証もしていません。以下は読みであって、実績ではありません。</p>
+<p>そのうえで、我々がこの論文から取りたい構えは一つです。「データを足す」より前に「データを見る」工程を、見積もり項目として立てる、という発想です。</p>
+<p>AI案件の見積もりは、データ量に比例した工数として組まれがちです。画像を1万枚集めるなら1万枚分、10万枚なら10万枚分。しかしこの論文が示しているのは、その1万枚のうち何枚が実際に精度に寄与しているかは事前には分からない、そして選別自体は極めて安く済む場合がある、ということです。であれば、契約の初期段階に「選別・妥当性確認のフェーズ」を数日置くことは、後段のGPU費用と納期を守るための保険になり得ます。</p>
+<p>もう一点。30%削減で Nordland の精度が上がったという結果は、「不要なデータはノイズとして精度を下げていることがある」ことを示唆します。社内でAIに食わせるデータを整備している最中の会社にとっては、量を集める作業と質を絞る作業のどちらに人手を割くかという問いになります。中小企業のAI導入の入口については<a href="/articles/ai-first-step-smb/">中小企業のAI導入・最初の一歩</a>にまとめています。</p>
+<p>ただ繰り返しますが、これは画像認識の話です。生成AIの社内活用の文脈にそのまま持ち込むのは誤読です。我々としては「データ量神話への反証の一例」として引き出しに入れておく、その程度の扱いが誠実だと考えています。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>画像による場所認識AIの学習で、GSV-Cities（62,514 places）を30%削減しても Pitts30k R@1 92.9%、MSLS-val R@1 92.6% と全件学習と同値、Nordland は 87.3%→88.3% と1.0ポイント向上した</li>
+<li>統合データセット（210,000 places 超）を71%削減した場合、選別処理の追加コストを含めた総コストで 19.152時間 → 4.825時間、74.8%削減。選別処理自体は1.74秒で、比較対象の D2Pruning の約40分と対照的</li>
+<li>ただし削減率を上げると精度は確実に落ち、Nordland は70%削減で -3.0ポイント。同条件でも Pitts30k は -0.4ポイントで、評価データセットによる差が大きい</li>
+<li>著者自身が、記述子の保存コスト、極端な削減率での指標の不十分さを限界として明記している。統合データセットの主要結果は NetVLAD のみでの検証</li>
+<li>中小企業にとっては「データを増やす前に選別する工程を予算に入れる」という読み方が可能。ただし対象は VPR という特定タスクであり、社内文書のRAGや生成AI活用に数値をそのまま当てはめることはできない。TOEでは未実施</li>
+</ul>
+<p>（出典：arXiv:2607.14897、2026年7月16日、<a href="https://arxiv.org/abs/2607.14897v1">https://arxiv.org/abs/2607.14897v1</a>）</p>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

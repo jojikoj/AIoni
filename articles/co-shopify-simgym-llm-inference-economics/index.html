@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から · AIの鬼</title>
+  <meta name="description" content="Shopifyが自社の買い物シミュレーション基盤SimGymの運用実測を公開しました。1日40万セッション、GPU分割で平均LLMレイテンシ27.8秒→21.9秒。一方で推論の手抜きはエラー率を0.5〜0.75%から4.5〜10.9%へ押し上げたと結論しています。中小ECと社内AI運用の担当者が読むべき点を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から · AIの鬼">
+  <meta property="og:description" content="Shopifyが自社の買い物シミュレーション基盤SimGymの運用実測を公開しました。1日40万セッション、GPU分割で平均LLMレイテンシ27.8秒→21.9秒。一方で推論の手抜きはエラー率を0.5〜0.75%から4.5〜10.9%へ押し上げたと結論しています。中小ECと社内AI運用の担当者が読むべき点を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から · AIの鬼">
+  <meta name="twitter:description" content="Shopifyが自社の買い物シミュレーション基盤SimGymの運用実測を公開しました。1日40万セッション、GPU分割で平均LLMレイテンシ27.8秒→21.9秒。一方で推論の手抜きはエラー率を0.5〜0.75%から4.5〜10.9%へ押し上げたと結論しています。中小ECと社内AI運用の担当者が読むべき点を整理します。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から","item":"https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/"}]},{"@type":"Article","headline":"実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から","description":"Shopifyが自社の買い物シミュレーション基盤SimGymの運用実測を公開しました。1日40万セッション、GPU分割で平均LLMレイテンシ27.8秒→21.9秒。一方で推論の手抜きはエラー率を0.5〜0.75%から4.5〜10.9%へ押し上げたと結論しています。中小ECと社内AI運用の担当者が読むべき点を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/"},"url":"https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-20","dateModified":"2026-07-20","image":"https://ai-oni.com/static/img/article-co-shopify-simgym-llm-inference-economics.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/co-shopify-simgym-llm-inference-economics/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-co-shopify-simgym-llm-inference-economics.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>実トラフィックのない自社ECでも、AIが演じる買い物客でA/Bテストはできるのか——1日40万セッションの実測から</h1>
+<p class="article-lead">Shopifyが自社の買い物シミュレーション基盤SimGymの運用実測を公開しました。1日40万セッション、GPU分割で平均LLMレイテンシ27.8秒→21.9秒。一方で推論の手抜きはエラー率を0.5〜0.75%から4.5〜10.9%へ押し上げたと結論しています。中小ECと社内AI運用の担当者が読むべき点を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月20日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。アクセス数が足りずA/Bテストを諦めてきた小規模ECにとって、AIエージェントに買い物客を演じさせる検証は「筋道としては現実味が出てきた」段階です。ただし、擬似客の行動が実際の人間の購買と一致するかの検証は、今回の発表では一切扱われていません。判断材料であって答えではありません。</p>
+<h2 id="_1">何が公開されたのか（一次資料の実測）</h2>
+<p>Shopify Engineeringが2026年2月27日に公開した記事で、同社の買い物シミュレーション基盤「SimGym」の運用実測が示されました。SimGymは、AIエージェントに買い物客としてストアを回遊させ、サイト改修の良し悪しを比較するための仕組みです。</p>
+<p>まず前提として重要なことを書きます。<strong>この記事はShopify社自身による発表であり、同社は当該製品（SimGym）の提供者です。</strong> さらに本文には「A Shopify + NVIDIA collaboration」と明記されており、NVIDIA／CentMLおよびオープンソース貢献者との協業成果として公開されています。つまり、後述するGPU世代間の比較にはハードウェアベンダー側の利害も乗っている、という前提で数字を読む必要があります。第三者による検証ではありません。</p>
+<p>公開された実測値は以下のとおりです。すべてShopify SimGymの本番環境、2026年2月時点の値です。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>変更前</th>
+<th>変更後</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平均LLMレイテンシ</td>
+<td>27.8秒</td>
+<td>21.9秒（約20%削減）</td>
+<td>MIG（GPU分割）導入前後の同一比較。本文は「No quality regression（品質劣化なし）」と明記</td>
+</tr>
+<tr>
+<td>1セッション所要時間（マーチャント1件あたりのrun）</td>
+<td>7.3分</td>
+<td>6.6分</td>
+<td>MIG導入前後の同一比較</td>
+</tr>
+<tr>
+<td>日次スループット</td>
+<td>1,311 runs</td>
+<td>1,463 runs（約12%増）</td>
+<td>MIG導入前後の同一比較。分母はマーチャント単位run</td>
+</tr>
+<tr>
+<td>マーチャント1runあたりのコスト</td>
+<td>—</td>
+<td>約10%削減</td>
+<td>約20%のレイテンシ削減に対して。全トークンの94%が入力トークンというSimGym固有の構成が前提</td>
+</tr>
+<tr>
+<td>GPU1枚あたりトークン処理速度</td>
+<td>H200：11K tokens/秒</td>
+<td>B200：57K tokens/秒（5.2倍）</td>
+<td>同一ワークロード条件下での世代間比較。比較対象はH200であり、H100は本文に記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>規模の指標としては、SimGymが起動するショッピングセッションが1日40万セッションと示されています。これは上の表にある日次1,311〜1,463 runsとは粒度が異なる指標です。runはマーチャント単位、40万はセッション単位で、同じものを数えていません。また既存ソリューションが毎分500万トークンで頭打ちになったため専用インフラを自前構築した、という経緯も本文に書かれています。</p>
+<p>（出典：Shopify Engineering（本文に「A Shopify + NVIDIA collaboration」と明記。NVIDIA/CentMLおよびオープンソース貢献者との協業）、2026-02-27、<a href="https://shopify.engineering/simgym">https://shopify.engineering/simgym</a>）</p>
+<h2 id="ec">中小ECにとって、これは「関係ある話」なのか</h2>
+<p>正直に切り分けます。関係がある部分と、ない部分がはっきり分かれます。</p>
+<p>関係がある部分は、A/Bテストの前提が変わりうるという点です。中小ECの最大の壁は、統計的に意味のある差を出すだけのアクセス数がないことです。月間数百セッション規模の自社ECでは、カートボタンの色やLPの構成を変えても、結果が偶然の揺れなのか改善なのか判別できません。だから多くの現場で、リニューアルの可否は勘と社内の声の大きさで決まってきました。SimGymが示しているのは、実トラフィックがゼロでも数分でA/B比較の材料を出す方向性です。中小ECにとっては、検証できなかったものが検証の俎上に載る可能性がある、という意味を持ちます。</p>
+<p>関係がない部分も明確です。SimGymはShopify基盤上のストアと、Shopify自社インフラを前提とした仕組みです。他のECプラットフォームを使う企業がそのまま導入したり再現したりできる話ではありません。数値もすべて、B200／H200を並べMIGで分割した大規模GPUクラスタでの実測であり、この規模の環境を持たない企業に直接あてはまるものではありません。「うちのECでも明日から使える」という記事ではない、と読むのが正確です。</p>
+<h2 id="_2">最大の未検証点は「擬似客は本物の客と同じか」</h2>
+<p>この発表で最も大きな空白は、シミュレーションされたAI買い物客の行動が、実際の人間の購買行動と一致するかどうかです。忠実性・妥当性の検証は本文で一切扱われていません。A/Bテストの結果が現実の売上と相関するという保証も、本文中には示されていません。</p>
+<p>インフラの話（レイテンシ、スループット、コスト）は厚く書かれている一方、「そのシミュレーションは当たるのか」という最も本質的な問いには踏み込んでいない構成になっています。導入検討の立場からは、ここが空白であることを認識せずに数字だけ持ち帰るのが最も危険です。</p>
+<p>もう一点、初期プロトタイプの成果として「100人の擬似バイヤーのうち75人がタスクを完了」という記述がありますが、これはプロトタイプ段階の値であり本番指標ではありません。本番の完了率として引用するのは誤りになります。</p>
+<ul>
+<li>擬似客の行動が人間と一致するかの検証結果は、本文にない</li>
+<li>A/Bテスト結果と実売上の相関を示すデータも、本文にない</li>
+<li>「品質劣化なし」の判定根拠となる品質指標の定義・測定方法も、本文に示されていない</li>
+</ul>
+<h2 id="_3">削ってよいコストと、削ると壊れるコスト</h2>
+<p>中小企業の情報システム担当にとって、実は本題より使える情報がこちらだと考えています。AI処理のコストを下げる手段として「推論の手抜き」——reasoning effortを下げる——を試した結果が、失敗例として数値付きで公開されています。</p>
+<p>複数トライアルでの測定では、セッション時間は約75%短縮できました。しかし同時に、エラー率がベースラインの0.5〜0.75%から4.5〜10.9%へ上昇しています。Shopifyの結論は「Not worth it（割に合わない）」でした。</p>
+<p>コスト削減の打ち手を、性質で分けて考える材料になります。</p>
+<ul>
+<li><strong>インフラ側の効率化</strong>：MIGによるGPU分割は、レイテンシ約20%削減・スループット約12%増を、品質劣化なしとして達成している（ただし品質指標の定義は非公開）</li>
+<li><strong>モデルの思考量を削る</strong>：時間は約75%減るが、エラー率が最大で1桁台後半まで跳ね上がり、割に合わないと判断されている</li>
+<li><strong>削減率は素直に効かない</strong>：レイテンシ約20%削減がコスト約10%削減にしかならず、しかもこの比率は「全トークンの94%が入力」というSimGym固有の構成に依存する</li>
+</ul>
+<p>3つ目は見落とされやすい点です。速くなった割合がそのままコストの割合にならないこと、そしてその換算率が自社のワークロード構成次第で変わることを、見積もりの段階で織り込む必要があります。入力と出力のトークン比率が違えば、この10%という数字は成立しません。コストの内訳の見方は<a href="/articles/ai-cost-structure/">AIのコスト構造をどう分解するか</a>、評価と費用を同時に見る考え方は<a href="/articles/ai-cost-aware-evaluation/">コストを織り込んだAI評価のやり方</a>も併せてご確認ください。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>先に明記します。<strong>TOEでは、SimGymおよび同種の擬似トラフィックによるA/Bテストは未実施です。</strong> 以下は実測に基づく報告ではなく、読み筋です。</p>
+<p>第一に、中小ECがこの発表から今すぐ取れる行動は「SimGymを待つ」ことではなく、自社の検証基準を先に決めることだと考えています。擬似客であれ実客であれ、何をもって改善と呼ぶのかが決まっていなければ、テスト手段が増えても判断は変わりません。この点は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準を先に決める</a>で扱った論点と同じ構造です。</p>
+<p>第二に、擬似トラフィックによる検証は、当面「仮説の足切り」に用途を限るのが妥当だと見ています。忠実性の検証結果が公開されていない以上、擬似客のA/Bで勝った案をそのまま本番採用するのは早すぎます。明らかに動線が破綻している案を早期に落とす用途であれば、忠実性が完全でなくても実務価値が出ます。</p>
+<p>第三に、コスト面の示唆はShopify基盤の外でも通用すると考えています。社内でAI業務自動化を運用している企業が、費用を詰めようとしてモデルの思考量から削り始めるのはよくある流れです。今回の数値は、そこが最初に手を付ける場所ではないことを、失敗の実測として示しています。まず処理の実行環境や実行単位の設計を見直し、モデルの推論品質は最後に触る。この順序は、規模が小さい環境でも同じだろうと見ています。</p>
+<p>第四に、GPU世代間の5.2倍という数字については距離を置いて読んでいます。同一ワークロード条件下の比較とはいえ、協業発表という性格上、条件の切り出し方に発信側の意図が入りうるためです。自社で同じ倍率が出る前提で計画を立てるべき数字ではありません。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>Shopifyが買い物シミュレーション基盤SimGymの本番実測を公開。MIG導入で平均LLMレイテンシ27.8秒→21.9秒（約20%削減）、日次スループット1,311→1,463 runs（約12%増）、1セッション7.3分→6.6分（いずれも2026年2月時点、同一比較）</li>
+<li>この記事はShopify社自身による発表であり、同社は当該製品の提供者。NVIDIA／CentMLとの協業発表でもあり、B200（57K tokens/秒）対H200（11K tokens/秒）＝5.2倍のGPU比較にはベンダー側の利害も乗る。第三者検証ではない</li>
+<li>最大の未検証点は、擬似買い物客の行動が実際の人間の購買と一致するか。忠実性・妥当性の検証も、A/B結果と実売上の相関も本文には示されていない</li>
+<li>中小企業に直接効くのはコスト面の失敗例。推論負荷を下げるとセッション時間は約75%短縮できる一方、エラー率が0.5〜0.75%から4.5〜10.9%へ上昇し、Shopifyは「割に合わない」と結論している（複数トライアルでの測定）</li>
+<li>適用範囲はShopify基盤上のストアと同社の大規模GPU環境に限定される。レイテンシ約20%減→コスト約10%減という換算も「全トークンの94%が入力」という固有構成が前提。TOEでは未実施であり、上記の読み筋は実測に基づく報告ではない</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

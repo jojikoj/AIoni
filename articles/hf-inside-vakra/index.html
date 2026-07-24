@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントはどこで失敗するのか？8,000超のAPI・62ドメインで測ったVAKRAが示す設計の上限 · AIの鬼</title>
+  <meta name="description" content="IBM Researchが公開したエージェント評価基盤VAKRAは、8,000以上のAPIと62ドメインを模した環境で、推論チェーン3〜7ステップを要しうる課題を解かせるものです。ツール候補の多さ、手順の長さ、社内ルールの遵守という3条件で失敗が増える構造を、中小企業の設計判断に引き直して読み解きます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/hf-inside-vakra/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/hf-inside-vakra/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントはどこで失敗するのか？8,000超のAPI・62ドメインで測ったVAKRAが示す設計の上限 · AIの鬼">
+  <meta property="og:description" content="IBM Researchが公開したエージェント評価基盤VAKRAは、8,000以上のAPIと62ドメインを模した環境で、推論チェーン3〜7ステップを要しうる課題を解かせるものです。ツール候補の多さ、手順の長さ、社内ルールの遵守という3条件で失敗が増える構造を、中小企業の設計判断に引き直して読み解きます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/hf-inside-vakra/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIエージェントはどこで失敗するのか？8,000超のAPI・62ドメインで測ったVAKRAが示す設計の上限 · AIの鬼">
+  <meta name="twitter:description" content="IBM Researchが公開したエージェント評価基盤VAKRAは、8,000以上のAPIと62ドメインを模した環境で、推論チェーン3〜7ステップを要しうる課題を解かせるものです。ツール候補の多さ、手順の長さ、社内ルールの遵守という3条件で失敗が増える構造を、中小企業の設計判断に引き直して読み解きます。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントはどこで失敗するのか？8,000超のAPI・62ドメインで測ったVAKRAが示す設計の上限","item":"https://ai-oni.com/articles/hf-inside-vakra/"}]},{"@type":"Article","headline":"AIエージェントはどこで失敗するのか？8,000超のAPI・62ドメインで測ったVAKRAが示す設計の上限","description":"IBM Researchが公開したエージェント評価基盤VAKRAは、8,000以上のAPIと62ドメインを模した環境で、推論チェーン3〜7ステップを要しうる課題を解かせるものです。ツール候補の多さ、手順の長さ、社内ルールの遵守という3条件で失敗が増える構造を、中小企業の設計判断に引き直して読み解きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/hf-inside-vakra/"},"url":"https://ai-oni.com/articles/hf-inside-vakra/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-hf-inside-vakra.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/hf-inside-vakra/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-hf-inside-vakra.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントはどこで失敗するのか？8,000超のAPI・62ドメインで測ったVAKRAが示す設計の上限</h1>
+<p class="article-lead">IBM Researchが公開したエージェント評価基盤VAKRAは、8,000以上のAPIと62ドメインを模した環境で、推論チェーン3〜7ステップを要しうる課題を解かせるものです。ツール候補の多さ、手順の長さ、社内ルールの遵守という3条件で失敗が増える構造を、中小企業の設計判断に引き直して読み解きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIエージェントが業務で失敗する条件は、モデルの賢さより設計で決まります。IBM Researchの評価基盤VAKRAは、候補ツールが多いほど、手順が長いほど、そして社内ルールを守らせるほど精度が落ちる傾向を示しました。打ち手は「小さく切る・道具を絞る・ルールは外側で縛る」です。</p>
+<h2 id="vakra">VAKRAとは何を測っている基盤なのか（一次資料の実測）</h2>
+<p>VAKRAは、企業業務を模した実行可能な環境の上でAIエージェントを走らせ、その推論・ツール利用・失敗の仕方を分解して観察するための評価基盤です。公開された分析記事によれば、環境には8,000以上のローカルホストされたAPIが用意され、62のドメインにまたがる企業類似の業務と文書コレクションが構築されています。ここで重要なのは、この8,000超のAPIも62ドメインも、実企業の実データ・実システムではなく、評価のために作られた模擬環境だという点です。</p>
+<p>課題そのものの設計値も公開されています。一次資料の表現では、課題は3〜7ステップの推論チェーンを要しうる（can require）とされており、単発の質問応答ではなく、複数の段階を組み合わせて答えに到達する構成的推論（compositional reasoning）を試すことが狙いです。なお「全問が必ず3〜7ステップ」と書かれているわけではなく、そこまで踏ませうる設計だという記述にとどまります。</p>
+<p>（出典：IBM Research（著者: Ankita Naik, Anupama Murthi, Praveen Venkateswaran ほか。記事は Hugging Face の ibm-research アカウントより公開）、2026-04-15、<a href="https://huggingface.co/blog/ibm-research/vakra-benchmark-analysis">https://huggingface.co/blog/ibm-research/vakra-benchmark-analysis</a>）</p>
+<p>そして、読む前に必ず押さえるべき前提があります。この記事はIBM Research自身による発表であり、同社は当該ベンチマークVAKRAそのものの開発者・提供者です。つまり、自社が作った評価基準で、自社モデルを含む複数モデルを評価した自己申告型の分析にあたります。数字を捨てろという話ではなく、出どころを踏まえて割り引いて読む必要がある、という意味です。</p>
+<h2 id="4">4つの能力カテゴリと、その件数の偏り</h2>
+<p>VAKRAの分析は、エージェントに求められる能力を分けて計測しています。比較対象となったモデルは GPT-OSS-120B、Gemini-3-flash-preview、Claude-Sonnet-4-5、そしてIBM自社の Granite-4.0-h-Small-32B の4つです。ただし全カテゴリで同一の4モデルが揃って比較されているとは明記されておらず、節によって取り上げられるモデルは異なります。</p>
+<table>
+<thead>
+<tr>
+<th>能力カテゴリ</th>
+<th>内容</th>
+<th>テスト件数</th>
+<th>ドメイン数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>能力1</td>
+<td>APIチェーン（BI系API）の連結実行</td>
+<td>2,077件</td>
+<td>54ドメイン</td>
+</tr>
+<tr>
+<td>能力2</td>
+<td>大量候補からのツール選択（ダッシュボードAPI）</td>
+<td>1,597件</td>
+<td>17ドメイン</td>
+</tr>
+<tr>
+<td>能力3</td>
+<td>マルチホップ推論（ダッシュボードAPI。論理ホップ数1〜5）</td>
+<td>869件</td>
+<td>38ドメイン</td>
+</tr>
+<tr>
+<td>能力4</td>
+<td>マルチホップ・複数ソース推論＋ポリシー遵守</td>
+<td>644件</td>
+<td>41ドメイン</td>
+</tr>
+</tbody>
+</table>
+<p>この表を見てすぐ分かる不都合が一つあります。件数もドメイン数も、カテゴリごとに大きく偏っています。能力1は2,077件・54ドメインある一方、能力2は1,597件でありながらドメインは17しかありません。したがって「能力2のほうが難しい／簡単」といった能力間の単純比較には向きません。同じ物差しで並んでいるように見えて、母集団の広さが違うからです。評価の読み方については<a href="/articles/ai-answer-vs-reasoning-quality/">AIの答えの良し悪しは何で測るのか</a>でも整理していますが、件数と条件を確認せずに順位だけ拾うのが一番危ない読み方です。</p>
+<h2 id="3">失敗が増える3つの条件</h2>
+<p>分析から読み取れる実務上の含意は、次の3点に集約できます。</p>
+<ul>
+<li>ツール候補が多いと選択ミスが増える。能力2はまさに「大量のツール候補から正しいものを選ばせる」設定であり、選択そのものが独立した難所として切り出されています。</li>
+<li>手順（ホップ）が長いほど精度が落ちる。能力3は1〜5の論理ホップを要する課題で構成され、一次資料は「全モデルが1ホップの問題で最も良い結果を示し、2ホップ、さらに3ホップ以上で性能が低下した」と述べています。</li>
+<li>ポリシー（社内ルール）を守らせると精度が下がる傾向がある。能力4はAPIと文書検索を併用しつつ、アクセス可能な知識ソースを平文で指示するツール利用ポリシーの下での挙動を比較する設計です。</li>
+</ul>
+<p>ここで著者自身が挙げている限界も併記しておきます。1つのサンプルが複数ステップにまたがる複数のエラーを含みうるため、二重計上を避ける目的で、各事例は「最初に失敗した段階」へ順次分類されています。つまり失敗モードの内訳は、この分類手順に依存します。「どの失敗が何割か」という数字は、分類ルールを変えれば動きうる性質のものだと理解しておくべきです。</p>
+<p>さらに、自社モデルの扱いにも注意が要ります。関連情報源へのアクセスを制限するポリシー制約下で性能低下を示さなかった唯一のモデルとして、IBM自社の Granite-4.0-h-Small-32B が挙げられています。発信元が開発者であり評価者でもある以上、この結論は特に割り引いて読む対象です。</p>
+<p>なお本記事の取得時点では、各モデルの具体的な正答率（%）までは抽出できていません。数値の細部が必要な場合は、原文の図表で直接確認してください。データセット・コード・公開リーダーボードは外部検証手段として提供されていますが、記事公開時点で第三者による独立再現の結果は示されていません。</p>
+<h2 id="_1">中小企業にとって、で、うちに関係あるのか</h2>
+<p>関係します。ただし「どのモデルを買うか」ではなく「どう設計するか」の話としてです。VAKRAが示しているのは、AIエージェントを基幹業務に繋ぐときの設計上の上限だからです。</p>
+<p>第一に、使わせるツール／APIの候補を絞ることです。社内の全システムを一気に繋いで「あとはAIが適切に選ぶ」という設計は、選択ミスを増やす方向に働きます。用途ごとに接続先を限定したエージェントを複数用意するほうが、実務では安全です。ツール接続の考え方は<a href="/articles/ai-agent-tool-evolution/">AIエージェントのツール接続はどう変わってきたか</a>で扱っています。</p>
+<p>第二に、1つの依頼で踏ませる手順を短くすることです。一次資料が構成的推論の難所として置いた水準が、3〜7ステップという幅でした。長い業務は工程で分割し、節目で人が確認して次に渡す。全自動より、人の確認を挟んだ半自動のほうが実装も検証も容易です。</p>
+<p>第三に、ルールはプロンプトに書くのではなく、システム側のガードで担保することです。「この条件では実行不可」といった制約は、モデルの遵守能力に賭けるのではなく、実行前のチェックや権限設計で機械的に止めるべきものです。ポリシー遵守が精度を下げる傾向があるという観察は、裏を返せば「モデルにルールを背負わせるほど本来の仕事が雑になる」ことを示しています。</p>
+<ul>
+<li>接続するAPIは業務単位で最小限に絞る</li>
+<li>依頼は1回あたりの手順を短くし、節目で人が確認する</li>
+<li>禁止条件はコード・権限側で止め、プロンプト任せにしない</li>
+</ul>
+<h2 id="toe">TOEの読み筋</h2>
+<p>TOEでは、VAKRAを用いた検証は未実施です。ベンチマークの再現も、自社データでの追試も行っていません。そのうえで、この分析をどう受け止めているかを書きます。</p>
+<p>読み筋は「賢いモデルを探す前に、タスクを小さくする」です。エージェント導入の相談を受けると、最初の設計はたいてい欲張りになります。既存の業務フローをそのまま1本のエージェントに任せ、必要そうなシステムを片っ端から繋ぐ。VAKRAの構造が示唆するのは、その設計がまさに失敗が増える三条件を全部踏んでいる、ということです。</p>
+<p>もう一つの読み筋は、模擬環境の数字を自社の期待値に読み替えないことです。8,000超のAPIはすべてローカルにホストされた模擬環境であり、実企業の実データ・実システムでの精度を保証しません。自社で判断したいなら、自社の業務を5件から10件ほど切り出し、自分たちの基準で測るのが確実です。その考え方は<a href="/articles/ai-own-evaluation-criteria/">自社の評価基準をどう作るか</a>にまとめています。</p>
+<h2 id="_2">まとめ</h2>
+<ul>
+<li>VAKRAは8,000以上のローカルホストAPIと62ドメインの模擬企業環境で、3〜7ステップの推論を要しうる課題をエージェントに解かせる評価基盤である</li>
+<li>4つの能力カテゴリは 2,077件／54ドメイン、1,597件／17ドメイン、869件／38ドメイン、644件／41ドメインと規模が大きく偏っており、能力間の単純比較には向かない</li>
+<li>この記事はIBM Research自身による発表であり、同社はVAKRAの開発者かつ評価対象モデルの提供者でもある。自社の Granite だけがポリシー制約下で性能低下を示さなかったという結論は、特に割り引いて読む</li>
+<li>失敗モードの内訳は二重計上を避けるための順次分類に依存し、模擬環境の結果は実システムでの精度を保証しない</li>
+<li>中小企業が取るべき打ち手は、接続ツールを絞る・手順を短く切る・ルールはシステム側のガードで縛る、の3点である</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>

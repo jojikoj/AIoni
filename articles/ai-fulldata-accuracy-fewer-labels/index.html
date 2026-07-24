@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴 · AIの鬼</title>
+  <meta name="description" content="7,241件のデータプールからAI自身の不確実性で100件だけ選ぶと、全データ学習とほぼ同じ精度に届いた。一方で1回きりの微調整は9シード中5シードが物理的にありえない出力を学習し、検証スコアはそれを検知できなかった。ラベル作成コストに悩む中小企業が読むべき、選び方と止め方の設計を解説する。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴 · AIの鬼">
+  <meta property="og:description" content="7,241件のデータプールからAI自身の不確実性で100件だけ選ぶと、全データ学習とほぼ同じ精度に届いた。一方で1回きりの微調整は9シード中5シードが物理的にありえない出力を学習し、検証スコアはそれを検知できなかった。ラベル作成コストに悩む中小企業が読むべき、選び方と止め方の設計を解説する。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://ai-oni.com/static/img/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴 · AIの鬼">
+  <meta name="twitter:description" content="7,241件のデータプールからAI自身の不確実性で100件だけ選ぶと、全データ学習とほぼ同じ精度に届いた。一方で1回きりの微調整は9シード中5シードが物理的にありえない出力を学習し、検証スコアはそれを検知できなかった。ラベル作成コストに悩む中小企業が読むべき、選び方と止め方の設計を解説する。">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/ogp.png">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","url":"https://ai-oni.com/","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/ogp.png"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴","item":"https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/"}]},{"@type":"Article","headline":"AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴","description":"7,241件のデータプールからAI自身の不確実性で100件だけ選ぶと、全データ学習とほぼ同じ精度に届いた。一方で1回きりの微調整は9シード中5シードが物理的にありえない出力を学習し、検証スコアはそれを検知できなかった。ラベル作成コストに悩む中小企業が読むべき、選び方と止め方の設計を解説する。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/"},"url":"https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"datePublished":"2026-07-19","dateModified":"2026-07-19","image":"https://ai-oni.com/static/img/article-ai-fulldata-accuracy-fewer-labels.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <link rel="icon" href="../../static/img/favicon.svg?v=11936356" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=11936356">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-fulldata-accuracy-fewer-labels/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-fulldata-accuracy-fewer-labels.jpg"
+         alt="" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴</h1>
+<p class="article-lead">7,241件のデータプールからAI自身の不確実性で100件だけ選ぶと、全データ学習とほぼ同じ精度に届いた。一方で1回きりの微調整は9シード中5シードが物理的にありえない出力を学習し、検証スコアはそれを検知できなかった。ラベル作成コストに悩む中小企業が読むべき、選び方と止め方の設計を解説する。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AIに教え込むための正解データは、全部そろえる必要はありません。機械学習力場に関する研究では、7,241件のデータプールから「AIが自信を持てない100件」だけを選んで学習させ、全データ学習とほぼ同じ精度に到達しました。ただし1回きりの微調整では9回中5回、AIが物理的にありえない出力を学習し、しかも通常の検証スコアはその失敗を検知できませんでした。</p>
+<h2 id="7241100">何が測られたのか：7,241件のプールから100件を選ぶ</h2>
+<p>対象になった論文は「Full-data accuracy with fewer labels for training and fine-tuning machine-learning force fields」です（出典：arXiv:2607.14486、2026-07-16（arXiv:2607.14486v1、physics.chem-ph / cond-mat.mtrl-sci / cs.LG）、<a href="https://arxiv.org/abs/2607.14486v1">https://arxiv.org/abs/2607.14486v1</a>）。著者は Sheng Bi、Yi-Ze Wang、Jun Cheng の各氏です。</p>
+<p>扱っているのは機械学習力場、つまり分子や材料の振る舞いを予測するAIモデルです。この分野の悩みは、中小企業のAI導入の悩みとほぼ同じ形をしています。学習させたいデータそのものは大量に作れるのに、1件ずつの「正解」を出すのが非常に高くつく、という構造です。化学の世界ではその正解を量子化学計算で出すため、1件あたりの計算コストが重くのしかかります。</p>
+<p>そこで著者らが使ったのが LLPR（last-layer prediction rigidity）という不確実性の推定方法です。要は、AIに「この入力について、自分はどれくらい自信がないか」を申告させ、自信のない順にラベルを付けていくというやり方です。この選び方を、水・氷の系（データプール7,241配置）で検証しています。</p>
+<p>ゼロから学習させた場合の結果が次の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>エネルギー誤差</th>
+<th>力の誤差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全データ学習（上限性能）</td>
+<td>1.30 meV/atom</td>
+<td>0.043 eV/Å</td>
+</tr>
+<tr>
+<td>LLPRで選んだラベル100件</td>
+<td>1.7 meV/atom（+31%）</td>
+<td>0.047 eV/Å（+9%）</td>
+</tr>
+</tbody>
+</table>
+<p>ラベルの数は7,241件から100件まで減っているのに、力の誤差の悪化は9%にとどまっています。エネルギー誤差の+31%という差をどう見るかは用途次第ですが、少なくとも「桁が変わらない」水準です。</p>
+<h2 id="501200">選び方を間違えると、同じ50件でも1,200倍違う</h2>
+<p>さらに実務的に効くのは、基盤モデルの微調整（ファインチューニング）の結果です。ここで言う基盤モデルとは、あらかじめ大量の材料データで訓練された汎用モデル、MACE-MP-0 や OMAT-small などを指します。</p>
+<p>まず前提として、基盤モデルをそのまま水・氷の系に当てはめると、MACE-MP-0 small で 72,825 meV/atom、medium で 15,134 meV/atom の誤差でした。汎用モデルを自分の領域にそのまま持ってきても使い物にならない、という当たり前の事実がここで確認されています。</p>
+<p>そこから微調整をかけたときの、ラベルの「選び方」による差が次の表です。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>ラベル数</th>
+<th>LLPR選択</th>
+<th>ランダム選択</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MACE-MP-0 small、水・氷</td>
+<td>50件</td>
+<td>5.4 meV/atom</td>
+<td>6,550 meV/atom</td>
+</tr>
+<tr>
+<td>MACE-MP-0 medium、水・氷</td>
+<td>100件</td>
+<td>約1.17 meV/atom</td>
+<td>約6.66 meV/atom</td>
+</tr>
+<tr>
+<td>全プールで微調整（上限）</td>
+<td>全件</td>
+<td>1.18 meV/atom</td>
+<td>―</td>
+</tr>
+</tbody>
+</table>
+<p>50件のときの差は約1,200倍です。100件では、LLPR選択の約1.17 meV/atom が全プール微調整の1.18 meV/atom とほぼ同等に達しています。同じ50件、同じ100件を人間が用意するにしても、「どの50件か」で結果がここまで割れるということです。</p>
+<p>再現性の差も出ています。乱数シードを変えたときの結果のブレは、K=50 の基盤モデル微調整で LLPR が 0.06 meV/atom、ランダムが 9,196 meV/atom でした。ランダムに選ぶやり方は、たまたま良い結果が出ることもあれば壊滅することもある、という運頼みの運用になります。</p>
+<h2 id="_1">中小企業にとって何を意味するか</h2>
+<p>AIを自社の業務に合わせ込むとき、実際に一番高くつくのは計算資源ではなく、人が正解データを作る手間です。過去の見積書に「この判断は正しい／誤り」を付けていく、問い合わせメールに「この分類が正解」とラベルを打っていく。この作業を何千件と積むから、AI導入が止まります。</p>
+<p>この論文が示しているのは、その作業量を2桁減らせる可能性です。実務に翻訳すると、こういう手順になります。</p>
+<ul>
+<li>全件にラベルを付けるのではなく、まず少数（数十件）で仮のモデルを作る</li>
+<li>そのモデルに残り全件を通し、「自信がない」と申告した順に並べる</li>
+<li>上位だけ人間がラベルを付け、モデルを更新する。以下これを繰り返す</li>
+</ul>
+<p>大事なのは、この「自信がない順」がAI側から自動で出てくる点です。どの案件が難しいかを人間が事前に見極める必要がありません。AIツールの選定基準を考えるうえでも、不確実性やスコアを外に出せるかどうかは見るべき観点になります（参考：<a href="/articles/ai-tool-selection/">AIツールの選び方</a>）。</p>
+<p>もうひとつ効くのが、打ち切り基準です。電解質系（LiTFSI 21 molal）の反復学習では、不確実性の指標が1巡目の約2,300 meV/Å から6巡目の約150 meV/Å まで下がり、そこで自動停止しました。「不確実性が下がりきったら終わり」という客観的な基準が置けるので、データを際限なく集め続ける事態を止められます。データ整備の目的が曖昧なまま予算だけ膨らむのは、<a href="/articles/ai-cost-structure/">AIの費用構造</a>を考えるうえで最も避けたい形です。</p>
+<h2 id="_2">本当に怖いのは「テストに合格した失敗作」</h2>
+<p>この論文で一番読む価値があるのは、成功例ではなく失敗例のほうです。</p>
+<p>LiTFSI電解質（21 molal）に対し、OMAT-small をラベル100件で「1回きり」微調整したところ、9シード中5シードが幻覚を継承しました。具体的には、リチウムイオンと酸素が 0.53 Å という物理的にありえない距離で接触する構造を、モデルが正しいものとして学習してしまったのです。</p>
+<p>問題は、この失敗が検証データ上では見えなかったことです。力のRMSEは約 0.040 eV/Å で、数字上は正常でした。つまり、テストスコアを見て「合格」と判定した先で、実際のシミュレーションは破綻していたことになります。</p>
+<p>これを反復型の能動学習に切り替えると、約50ラベル・8ラウンドで実用品質に到達しました。最終的な密度は 1.705 ± 0.044 g/cm³ で、実測値 1.7126 g/cm³ と一致しています。同じくらいのラベル数でも、一発でやるか反復するかで結果が分かれたということです。</p>
+<p>中小企業の現場に置き換えると、「少数のサンプルデータで一度ファインチューニングし、テスト用データで正答率を確認して本番投入」という、いかにも普通に見える運用が危ないという話になります。指標が良好でも中身が壊れていることがある。これは<a href="/articles/fail-vendor-lockin/">AI導入の失敗パターン</a>として押さえておく価値があります。ベンダー提案を受ける側としては、「一発で仕上げます」ではなく「反復して、途中で人が見ます」と書いてある提案のほうを信用すべきです。</p>
+<h2 id="_3">論文が認めている限界</h2>
+<p>不都合な結果も本文にきちんと書かれています。</p>
+<ul>
+<li>力（force）に基づく LLPR 不確実性は、1回の順伝播統計しか使わないため原子ごとの分解能がノイジーで、エネルギー基準より劣る</li>
+<li>力の信号では、訓練分布外（OOD）の構成をエネルギー基準ほどきれいに分離できない</li>
+<li>1回きりの微調整では幻覚を検知できず、反復的な能動学習が必須である（K=100の一発微調整で9シード中5シードが幻覚を継承）</li>
+<li>通常の検証指標が品質保証にならない。力のRMSEが約 0.040 eV/Å と良好でも、実際のMDは破綻しうる</li>
+<li>ランダム選択との差は、ラベル予算が増えるほど縮む。バルク水での検証では、予算比5%で6.0倍だった優位が、20%では1.7倍まで低下した</li>
+<li>検証対象は分子・凝縮相・電解質という化学系に限られ、他ドメインへの一般化は本論文では示されていない</li>
+<li>少数ラベル領域はシード依存性が大きく、ランダム選択のシード間標準偏差は約 40 meV/atom に達する</li>
+</ul>
+<p>最後から3番目は特に重要です。予算比20%まで用意できるなら、賢く選ぶ手法の旨味は1.7倍まで落ちます。すでに十分なラベル付きデータを持っている会社にとっては、この手法の投資対効果は小さいということです。裏を返せば、この論文が効くのは「正解データがほとんど無い、これから作る」段階の組織です。</p>
+<h2 id="toe">TOEの読み筋</h2>
+<p>前置きとして、TOEではこの手法を実務に適用していません。機械学習力場は化学計算の領域であり、当社が扱う業務AIとは対象が違います。以下は論文から読める運用設計の話です。</p>
+<p>そのうえで、TOEはこの論文の実質を「ラベル削減のテクニック」ではなく「検収基準の話」だと読んでいます。</p>
+<p>数字の並びを見ると、100件で全データ相当に届いた事実より、検証RMSEが正常なのに5/9が壊れていた事実のほうが射程が広い。業務AIの導入現場では、テストデータでの正答率を検収条件に書くことが多く、それは本質的に同じ穴を持ちます。正答率90%という数字は、残り10%がどこに偏っているかを一切語りません。</p>
+<p>そこで読める設計は3つです。</p>
+<ul>
+<li>検収条件に「精度指標」だけでなく「AIが自信を持てなかった件数と、その中身」を含める</li>
+<li>一発納品を前提にせず、稼働後に人が判定を返す反復ループを最初から契約に組み込む</li>
+<li>学習の終了条件を件数ではなく、不確実性の収束で定義する（この論文では1巡目の約2,300 meV/Å が6巡目に約150 meV/Å へ収束した時点で停止）</li>
+</ul>
+<p>自社の評価基準を自分で設計する話は<a href="/articles/ai-own-evaluation-criteria/">AIの評価基準を自社で作る</a>でも扱っていますが、今回の論文はそれを裏側から補強しています。汎用の評価指標に任せた瞬間、壊れたモデルが合格印を持って本番に出ていく。</p>
+<p>もうひとつの読み筋は、基盤モデルの扱い方です。MACE-MP-0 のゼロショット誤差が small で 72,825 meV/atom、medium で 15,134 meV/atom だったという数字は、汎用の高性能モデルをそのまま自社領域に当てても機能しないことの実例です。ただし50〜100件の正しく選ばれたラベルで実用域まで来る。「大きなモデルを買えば解決する」でも「全部自前で作るしかない」でもなく、少量の自社データで方向を合わせる、という中間解が現実的だという読みになります。これは<a href="/articles/ai-first-step-smb/">中小企業のAI最初の一歩</a>で書いた進め方とも整合します。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>水・氷系のデータプール7,241件に対し、AI自身の不確実性（LLPR）で選んだ100件のラベルで、エネルギー誤差 1.7 meV/atom（全データ 1.30 meV/atom の+31%）、力の誤差 0.047 eV/Å（全データ 0.043 eV/Å の+9%）に到達した</li>
+<li>基盤モデルの微調整では、同じ50件でも LLPR選択 5.4 meV/atom に対しランダム選択 6,550 meV/atom と約1,200倍の差が出た。件数より「どれを選ぶか」が効く</li>
+<li>一方で、ラベル100件の1回きりの微調整は9シード中5シードが物理的にありえない構造（Li+とOが0.53 Å）を学習し、力のRMSE 約0.040 eV/Å という正常な検証スコアではそれを検知できなかった</li>
+<li>反復型の能動学習に切り替えると約50ラベル・8ラウンドで実用品質に達し、密度 1.705 ± 0.044 g/cm³ が実測値 1.7126 g/cm³ と一致した。一発ではなく反復が必須</li>
+<li>ただしラベル予算が潤沢なら優位は縮み（予算比5%で6.0倍→20%で1.7倍）、検証は化学系に限られる。TOEでは未実施だが、検収条件に精度指標だけでなく「AIが自信を持てなかった件数」を含める設計として読んでいる</li>
+</ul>
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h4>実践</h4>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h4>資料</h4>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h4>運営・その他</h4>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h4>データ提供</h4>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-07-24 17:55 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=11936356" defer></script>
+</body>
+</html>
