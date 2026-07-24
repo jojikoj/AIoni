@@ -563,10 +563,13 @@ class Builder:
         # AI解体新書（外部の研究・調査・事例を中小企業向けに読み解く解説）。
         # 一次記録ではないが本数の主力。実践・実測の下の第2階層として置く。
         explainer = [a for a in articles if a.get("category") == "kaisetsu"]
+        # naka = 中の鬼（中の人の雑記）。実測ラボの手前で人間くささを見せる導線。
+        naka = [a for a in articles if a.get("category") == "naka"]
         ctx.update(news=news, papers=papers, articles=articles,
                    featured=featured, latest=latest[:8], topic_nav=topic_nav,
                    hero_copy=config.HERO_COPY, hero_sub=config.HERO_SUB,
                    practice=practice, observation=observation, explainer=explainer,
+                   naka=naka,
                    proof_stats=config.PROOF_STATS,
                    news_count=len(news))
         ctx["jsonld"] = seo.build_jsonld(
