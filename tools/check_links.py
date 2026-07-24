@@ -26,10 +26,16 @@ STATIC_PATHS = {
 # （「最高성능」など）。目視では見落とすのでここで落とす。
 FOREIGN = re.compile(r"[가-힯Ѐ-ӿ฀-๿]")
 
+# 外国語の混入そのものを主題にしている記事は、当該文字を含むのが正しい。
+# （例：AIの回答に一語だけロシア語が紛れた愛嬌を紹介する記事）
+FOREIGN_OK_FILES = {"ai-life-consultation-3models.ja.md"}
+
 
 def check_foreign_chars() -> list[tuple[str, str, str]]:
     bad = []
     for f in sorted(ARTICLES.glob("*.ja.md")):
+        if f.name in FOREIGN_OK_FILES:
+            continue
         for i, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
             m = FOREIGN.search(line)
             if m:

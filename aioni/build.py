@@ -560,7 +560,7 @@ class Builder:
         # 一次記録ではないが本数の主力。実践・実測の下の第2階層として置く。
         explainer = [a for a in articles if a.get("category") == "kaisetsu"]
         ctx.update(news=news, papers=papers, articles=articles,
-                   featured=featured, latest=latest[:6], topic_nav=topic_nav,
+                   featured=featured, latest=latest[:8], topic_nav=topic_nav,
                    hero_copy=config.HERO_COPY, hero_sub=config.HERO_SUB,
                    practice=practice, observation=observation, explainer=explainer,
                    proof_stats=config.PROOF_STATS,
