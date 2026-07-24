@@ -35,7 +35,12 @@
     </figure>
     {% endif %}
 
-    {% if news.display_summary %}
+    {% if news.body_long %}
+    <div class="news-body">
+      {% for para in news.body_long.split('\n\n') %}{% if para.strip() %}<p>{{ para.strip() }}</p>{% endif %}{% endfor %}
+    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+    {% elif news.display_summary %}
     <blockquote class="news-summary-quote">
       <p>{{ news.display_summary }}</p>
       <cite>出典: {{ news.source }}（配信元の紹介文より引用）</cite>
