@@ -6,7 +6,7 @@ author: AIの鬼 編集部
 date: 2026-07-25
 order: 20
 hero:
-image_prompt: A Japanese man in his forties watching text appear line by line on a laptop screen in a dimly lit room at night, his face lit softly by the screen, a meditative faraway expression, quiet nocturnal atmosphere, realistic, professional photograph
+image_prompt: A Japanese man in his forties at night watching glowing text particles rise from his laptop screen and dissolve into the dark like drifting embers or paper lanterns, his face lit softly, meditative, surreal yet photorealistic, realistic, professional photograph
 ---
 
 AIの言葉は、生まれるところをこちらに見せてきます。一文字、また一文字と、返答が目の前で立ち上がっていく。あの、少しずつ文字が増えていく様子を、私はいつのまにか、じっと眺めるようになっていました。答えの中身よりも、それが生成されていく過程そのものを、見入ってしまう。何かが今まさに生まれる瞬間を、こんなに間近で、しかも一日に何十回も見ている仕事は、そう多くはないはずです。

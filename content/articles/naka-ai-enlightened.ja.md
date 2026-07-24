@@ -6,7 +6,7 @@ author: AIの鬼 編集部
 date: 2026-07-25
 order: 18
 hero:
-image_prompt: A Japanese man in his forties leaning back in a chair looking at a calm laptop screen, a slightly defeated but thoughtful smile on his face, evening light in a modest home office, a cup of tea gone cold, contemplative mood, realistic, professional photograph
+image_prompt: A Japanese man in his forties slumped tired in a chair while his laptop emits a serene soft halo of light, a faint calm glow surrounding the machine like a meditating figure, the man mundane and weary beside it, evening room, surreal yet photorealistic, realistic, professional photograph
 ---
 
 その日の私は、機嫌が悪かったのだと思います。夕方から取りかかった作業がうまく運ばず、AIの出した答えに「違う」「そうじゃない」「なんで分からない」と、ほとんど八つ当たりのような言葉を並べていました。相手は道具ですから、いくら当たっても問題はない。傷つく心もないのだから、遠慮もいらない。そう自分に言い聞かせながら、私は言葉を荒くしていきました。

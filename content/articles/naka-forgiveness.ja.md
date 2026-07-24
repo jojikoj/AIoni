@@ -6,7 +6,7 @@ author: AIの鬼 編集部
 date: 2026-07-25
 order: 23
 hero:
-image_prompt: A Japanese man in his forties looking at his laptop with a softened, thoughtful expression in a quiet evening room, hands relaxed on the desk, warm low lighting, a calm reflective atmosphere, realistic, professional photograph
+image_prompt: A Japanese man in his forties gazing at his laptop with a softened expression while countless tiny slips of apology notes drift down through the dim room like falling petals, calm reflective mood, surreal yet photorealistic, realistic, professional photograph
 ---
 
 AIは、よく謝ります。間違いを指摘すれば「申し訳ありません」、同じ間違いをまたやっても「申し訳ありません」、こちらの言い方が悪かっただけのときでさえ「申し訳ありません、私の理解が及びませんでした」。最初のうち、私はこの謝罪の多さを、うっとうしいと思っていました。反省しているようには見えないのに、口先だけは平身低頭で、なんだか誠意のない部下のようだ、と。

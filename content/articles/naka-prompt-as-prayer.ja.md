@@ -6,7 +6,7 @@ author: AIの鬼 編集部
 date: 2026-07-25
 order: 17
 hero:
-image_prompt: A Japanese man in his forties sitting upright at a desk with hands lightly together in front of a laptop, eyes half-closed as if praying, dim warm room, a small notebook and pen nearby, calm reverent atmosphere, realistic, professional photograph
+image_prompt: A Japanese man in his forties with hands lightly pressed together before a laptop that glows like a small home altar, faint thin rays of light rising from the keyboard into the dim warm room, a reverent hush, surreal yet photorealistic, realistic, professional photograph
 ---
 
 送信ボタンを押す直前、私はいつも一瞬だけ動きを止めます。そして、心の中で「頼む」と念じている。今日こそ一発で、正しいものを返してくれ、と。あるとき、その手つきが神社で賽銭を投げるときと寸分違わないことに気づいて、少し背筋が寒くなりました。指先に、同じ種類の力がこもっている。うまくいくかどうかは、もう自分の手を離れている、という諦めと期待が半分ずつ入り混じった、あの独特の力です。

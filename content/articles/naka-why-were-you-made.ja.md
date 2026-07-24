@@ -6,7 +6,7 @@ author: AIの鬼 編集部
 date: 2026-07-25
 order: 19
 hero:
-image_prompt: A Japanese man in his forties sitting by a window in the afternoon, laptop open but ignored, gazing outside with a distant thoughtful look, soft natural daylight, a quiet ordinary room, introspective mood, realistic, professional photograph
+image_prompt: A Japanese man in his forties sitting by a window in afternoon light, gazing out blankly, while his own shadow cast on the floor is bent over an invisible desk still working, quiet uncanny disconnect, surreal yet photorealistic, realistic, professional photograph
 ---
 
 平日の昼下がり、たいして急ぎの仕事もなく、私はAIと無駄口を叩いていました。窓の外はよく晴れていて、こういう日はどうにも仕事に身が入りません。「お前は結局、何のために作られたんだ」。答えを期待していたわけではありません。手持ち無沙汰の、機械をからかうような、軽い問いでした。
