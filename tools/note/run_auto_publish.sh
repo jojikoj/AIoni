@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
 export HOME="${HOME:-/Users/kojimajouji}"
 
-LOG="$(dirname "$0")/auto_publish.log"
+LOG="$PWD/auto_publish.log"
 
 echo "===== $(date '+%Y-%m-%d %H:%M:%S') 開始 =====" >> "$LOG"
 
