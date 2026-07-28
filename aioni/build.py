@@ -250,6 +250,10 @@ def load_articles(lang: str) -> list[dict]:
         # hero 指定が無い記事には、カテゴリに応じたイメージ写真を当てる。
         # 一覧でグレーの矩形が並ぶと、記事そのものが読まれなくなるため。
         hero = meta.get("hero", "")
+        # 中の鬼は「とがった実写hero」を必ず持たせる運用。hero未指定でも
+        # slugからファイル名を自動導出（画像はgen_flux_images.pyが生成）。
+        if not hero and tag == "中の鬼":
+            hero = f"article-{slug}.jpg"
         if not hero:
             hero = _fallback_image(
                 [_ARTICLE_CAT_TO_TOPIC.get(cat["id"] if cat else "", "")], slug)

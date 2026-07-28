@@ -267,12 +267,21 @@ def article_jobs() -> list[tuple[str, str]]:
         if not text.startswith("---"):
             continue
         fm = text.split("---", 2)[1]
-        hero = prompt = ""
+        hero = prompt = tag = ""
         for line in fm.splitlines():
             if line.startswith("hero:"):
                 hero = line.split(":", 1)[1].strip()
             elif line.startswith("image_prompt:"):
                 prompt = line.split(":", 1)[1].strip()
+            elif line.startswith("tag:"):
+                tag = line.split(":", 1)[1].strip()
+        # 中の鬼は hero 未指定でも slug から自動導出（build.py と対の運用）。
+        if not hero and tag == "中の鬼":
+            name = md.name
+            for suf in (".ja.md", ".en.md", ".md"):
+                if name.endswith(suf):
+                    hero = f"article-{name[:-len(suf)]}.jpg"
+                    break
         if not hero:
             continue
         if not prompt:
