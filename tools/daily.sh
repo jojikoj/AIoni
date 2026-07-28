@@ -64,4 +64,7 @@ p.write_text((p.read_text(encoding="utf-8") if p.exists() else
 print("   " + line.replace("\t", "  "))
 PY
 
+# --- 旬ネタ提案: いま検索/世間で伸びているAI話題を _旬ネタ/提案.md に更新 ---
+python3 "$(dirname "$0")/trend_intake.py" || echo "旬ネタ提案skip"
+
 echo "════════ $(date '+%F %T') 終了 ════════"
