@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
 order: 22
-hero:
-image_prompt: A Japanese man in his forties sitting cross-legged on his chair in mock meditation before a laptop stalled on a loading screen, small folded paper cranes and faint floating question marks drifting in the dim air around him, gently absurd, surreal yet photorealistic, realistic, professional photograph
+hero: article-naka-satori-error.jpg
+image_prompt: A Japanese man with small red demon horns sitting cross-legged in mock meditation on his office chair, eyes closed serenely, while the laptop in front blares a red ERROR screen, incense smoke, comedic, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 眠れない夜というのは、ろくなことを思いつきません。頭は疲れているのに冴えていて、体は休みたいのに寝つけない。そういう中途半端な時間に、人はたいてい、昼間なら絶対にやらないことを始めます。その夜の私は、AIに向かって「一緒に悟りを開こう」と持ちかけていました。相手は道具ですから、断りません。「やってみましょう。どのように進めますか」と、律儀に付き合ってきます。

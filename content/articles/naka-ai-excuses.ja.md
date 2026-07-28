@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 6
-hero:
-image_prompt: A middle-aged Japanese man in a small home office at dusk, frowning and gesturing with one hand toward his laptop screen as if complaining to it, coffee mug and scattered handwritten notes on the desk, warm desk lamp glow against a dim room, realistic, professional photograph
+hero: article-naka-ai-excuses.jpg
+image_prompt: A Japanese man with small red demon horns, red-faced and half-drunk at midnight, jabbing an accusing finger inches from his laptop screen, empty beer cans piled on the desk, exaggerated angry pout, a small home office, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ## サボっただろ、と思う日

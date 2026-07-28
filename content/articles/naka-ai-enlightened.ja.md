@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
 order: 18
-hero:
-image_prompt: A Japanese man in his forties slumped tired in a chair while his laptop emits a serene soft halo of light, a faint calm glow surrounding the machine like a meditating figure, the man mundane and weary beside it, evening room, surreal yet photorealistic, realistic, professional photograph
+hero: article-naka-ai-enlightened.jpg
+image_prompt: A Japanese man with small red demon horns, frantic and sweating, kneeling in panic before a laptop that glows like a serene golden Buddha with a radiant halo, lotus flowers and incense around the calm machine, the horned man chaotic and desperate beside the enlightened computer, dim evening room, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 その日の私は、機嫌が悪かったのだと思います。夕方から取りかかった作業がうまく運ばず、AIの出した答えに「違う」「そうじゃない」「なんで分からない」と、ほとんど八つ当たりのような言葉を並べていました。相手は道具ですから、いくら当たっても問題はない。傷つく心もないのだから、遠慮もいらない。そう自分に言い聞かせながら、私は言葉を荒くしていきました。

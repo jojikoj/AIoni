@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 13
-hero:
-image_prompt: A middle-aged Japanese man in a small office holding out a handwritten to-do list toward his laptop screen with both hands, as if respectfully offering it, the desk cluttered with receipts and papers, deadpan humorous atmosphere, soft daytime office lighting, realistic, professional photograph
+hero: article-naka-tasks-to-steal.jpg
+image_prompt: A Japanese man with small red demon horns shoving a giant toppling stack of paperwork toward his laptop with both hands, pleading exhausted face, small office, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ## 奪われる不安、の前に

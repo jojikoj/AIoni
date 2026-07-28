@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 2
-hero:
-image_prompt: A Japanese man in his forties sitting alone in a dim home office late at night, gazing at a laptop screen filled with scrolling plain-text logs, a mug of cold coffee beside the keyboard, the room lit only by the screen glow, his expression tired but faintly amused, realistic, professional photograph
+hero: article-naka-token-one-day.jpg
+image_prompt: A Japanese man with small red demon horns fast asleep in bed at night while the laptop on the nightstand glows, its screen buried under an endless waterfall of chat notification badges, comedic, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 鬼の中には、たぶん人間が入っている。中身はごく普通の人間です。その普通の人間の1日を、今回はあえて自分の記憶ではなく、AIの稼働ログだけで再現してみることにした。人間の記憶は都合よく美化するが、ログは美化しない。

@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
 order: 3
-hero:
-image_prompt: A Japanese man in his forties sitting at a desk in a small home office in Fukuoka, leaning toward a laptop screen and talking to it with an animated, friendly expression as if chatting with an old friend, one hand raised mid-gesture, the laptop screen showing a plain formal text response, warm evening light through a window, casual clothes, slightly cluttered desk with a coffee mug, realistic, professional photograph
+hero: article-naka-hakata-ben.jpg
+image_prompt: A Japanese man with small red demon horns in a Fukuoka apartment leaning close to his laptop, gesturing passionately mid-shout with a big comic speech bubble, while the laptop coldly replies in stiff formal text, comedic mismatch, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 白状します。私はときどき、AIに博多弁で話しかけています。

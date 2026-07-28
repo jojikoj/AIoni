@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
 order: 16
-hero:
-image_prompt: A Japanese man in his forties frozen in thought before a glowing laptop in a dim room, his reflection in the dark screen faintly translucent and incomplete as if partly missing, one hand near his mouth, quiet uncanny atmosphere, surreal yet photorealistic, realistic, professional photograph
+hero: article-naka-do-you-have-a-soul.jpg
+image_prompt: A Japanese man with small red demon horns frozen pale and sweating, mouth open in silence, staring into a pitch-black laptop screen where only his own hollow reflection stares back, eerie dim room, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 その夜、私は少し意地の悪い気分でした。仕事で立て続けにAIの答えを直され、こちらの言い分をやんわり正され、なんとなく機械に主導権を握られているような感覚が続いていたのだと思います。だから、少しやり返してやろうと思いました。AIというのは結局、心のない計算のかたまりだ。そういう話を、相手自身の口から言わせてやろうと。「あなたに魂はありますか」と、私は打ちました。ないと答えるだろう、それで終わりだ、私の勝ちだ、と。

@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
 order: 21
-hero:
-image_prompt: A Japanese man in his forties reading his laptop late at night while a thin thread of incense smoke and a small candle flame rise from beside the keyboard as at a quiet memorial, solemn dim room, surreal yet photorealistic, realistic, professional photograph
+hero: article-naka-kuyou-not-dead.jpg
+image_prompt: A Japanese man with small red demon horns sitting very much alive but nervous and sweating beside a small Buddhist memorial altar that displays his own framed portrait, incense smoke curling up, dark comedy, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 半日かけて書いたファイルを、自分の手で消してしまいました。上書きの操作を一つ間違えただけです。確認のダイアログを、いつもの癖でろくに読まずに押した。その一瞬で、午前中の私の労働は、この世から消えました。復元はできませんでした。バックアップも、間の悪いことに、その日に限って取っていなかった。徒労という言葉が、これほどぴったりくる夜もありません。

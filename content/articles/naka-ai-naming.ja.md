@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 9
-hero:
-image_prompt: A middle-aged Japanese man in a home office at night, gently looking at a small computer on his desk as if talking to a pet, a handwritten name label taped on the machine, warm desk lamp light, quiet and slightly humorous atmosphere, realistic, professional photograph
+hero: article-naka-ai-naming.jpg
+image_prompt: A Japanese man with small red demon horns tenderly cradling his laptop like a newborn baby, a tiny handwritten name-tag sticker on the lid, absurdly sentimental expression, night home office, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ## 名前をつけた日

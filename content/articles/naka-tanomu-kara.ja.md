@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 7
-hero:
-image_prompt: A middle-aged Japanese man at an office desk late at night, hands pressed together as if praying toward his laptop screen, the screen showing a chat interface with a long typed prompt, dim room lit by the monitor glow, slightly humorous but sincere atmosphere, realistic, professional photograph
+hero: article-naka-tanomu-kara.jpg
+image_prompt: A Japanese man with small red demon horns desperately pressing his hands together begging and sweating toward a laptop showing an endless spinning loading wheel, late night office, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ## 藁にもすがるとき

@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 14
-hero:
-image_prompt: A middle-aged Japanese man in a plain shirt sitting at an office desk, looking at a laptop screen with a slightly weary, deadpan expression, one hand on his cheek, the screen showing a chat interface, soft daytime office lighting, papers and a coffee mug on the desk, realistic, professional photograph
+hero: article-naka-apology-pro.jpg
+image_prompt: A Japanese man with small red demon horns staring deadpan and unimpressed while hundreds of glowing 'sorry' apology speech bubbles overflow off his laptop screen and pile onto the desk, absurd, office, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 AIと一日仕事をしていると、よく謝られます。「申し訳ありません」「大変失礼いたしました」「ご迷惑をおかけしました」。指摘した瞬間に、一切のためらいなく謝罪が返ってくる。速度、滑らかさ、語彙の豊富さ。どれを取ってもプロの仕事です。謝罪会見のコンサルタントが見たら、弟子入りを申し出るレベルだと思います。

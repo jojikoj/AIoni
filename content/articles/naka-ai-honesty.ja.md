@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 11
-hero:
-image_prompt: A middle-aged Japanese man late at night in a small home office, slumped back in his chair looking at a laptop screen with a chat interface, one hand covering half his face in mild despair, warm desk lamp light, empty coffee cup, realistic, professional photograph
+hero: article-naka-ai-honesty.jpg
+image_prompt: A Japanese man with small red demon horns cringing and shielding his face while his laptop screen erupts with giant glowing golden praise text and paper confetti bursting out of the screen, overwhelming flattery at night, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 書き上げた記事を読み返して、ふと不安になる夜があります。これ、おもしろいのか。誰が読むんだ、これ。上司はいません。部下もいません。感想をくれる同僚もいません。一人でメディアをやるというのは、そういうことです。

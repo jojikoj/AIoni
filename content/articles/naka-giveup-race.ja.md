@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 12
-hero:
-image_prompt: A tired middle-aged Japanese man slumped in his chair at night, forehead resting on his hand, staring at a laptop screen full of error messages, while the bright chat window on the screen glows cheerfully in contrast, desk cluttered with energy drink cans and a cold cup of coffee, dim room lit only by the monitor, exhausted but faintly amused expression, realistic, professional photograph
+hero: article-naka-giveup-race.jpg
+image_prompt: A Japanese man with small red demon horns snoring asleep slumped back in his chair with mouth wide open at 4 a.m., while the laptop beside him glows wide awake and triumphant, comedic endurance contest, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 その夜のバグは、直らないバグでした。何をどう試しても、同じエラーが同じ顔で戻ってくる。こういう夜、私の心はだいたい三回折れます。一回目は「おかしいな」、二回目は「なんでだよ」、三回目は無言です。

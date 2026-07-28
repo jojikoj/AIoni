@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 8
-hero:
-image_prompt: A tired Japanese man in his forties working alone at a desk late at night, his face lit only by a laptop screen showing a chat interface, dark quiet home office, a cold cup of coffee beside the keyboard, slouched posture, realistic, professional photograph
+hero: article-naka-ai-told-rest.jpg
+image_prompt: A Japanese man with small red demon horns collapsed face-down asleep on a cluttered desk at 3 a.m., drooling, while the laptop screen gently glows with a caring message, comedic role reversal, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ## 深夜の作業部屋で

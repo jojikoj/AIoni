@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
 order: 15
-hero:
-image_prompt: A Japanese man in his forties sitting alone in a dark home office at 3 a.m., staring at a laptop whose blank white screen softly overflows into the room as a pale fog, a few empty sheets of paper floating weightlessly in the dim air, cold cup of tea on the desk, calm empty expression, surreal yet photorealistic, realistic, professional photograph
+hero: article-naka-nothing-3am.jpg
+image_prompt: A Japanese man with small red demon horns and his laptop both facing a completely blank glowing white void screen at 3 a.m., empty desk, existential emptiness, dark home office, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ことの起こりは、たいしたことではありません。仕事が一段落した深夜、私はふと「何も出力しないで」とAIに打ち込みました。半分は冗談で、半分は疲れていたのだと思います。一日じゅう、この機械に何かを出させ続けて、こちらの頭のほうが先に空っぽになっていました。もう何も生み出したくない。ただ、誰かにそう言いたかっただけなのかもしれません。

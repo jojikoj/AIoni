@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 1
-hero:
-image_prompt: A tired Japanese man in his forties sitting alone at a desk at night, laptop screen glowing with a terminal window full of search results, a notebook with hand-drawn tally marks beside the keyboard, small dim office lit only by the monitor, realistic, professional photograph
+hero: article-naka-kuchiguse-ranking.jpg
+image_prompt: A Japanese man with small red demon horns sitting exhausted at a desk, every wall and the ceiling papered with printed sheets all stamped in huge red letters 'IMPORTANT', absurd overload at night, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 ## 数えようと思った夜

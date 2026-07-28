@@ -5,8 +5,8 @@ tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
 order: 5
-hero:
-image_prompt: A middle-aged Japanese man sitting alone at a cluttered desk in a dark room at 2 a.m., face lit only by a laptop screen displaying an error message, hands loosely clasped in front of his chest as if quietly pleading to the screen, empty coffee cans and scattered notes on the desk, warm dim desk lamp in the background, tired but calm expression, realistic, professional photograph
+hero: article-naka-midnight-keigo.jpg
+image_prompt: A Japanese man with small red demon horns performing a full dramatic dogeza prostration flat on the floor toward a frozen laptop on the desk at 2 a.m., extreme apologetic pose, dim room, surreal, darkly comedic, photorealistic, realistic, professional photograph
 ---
 
 締め切り前の夜というのは、不思議な時間です。コードは動かず、プロンプトを何度書き直してもAIは同じ答えを返してくる。時計を見ると深夜2時で、私は画面に向かってこう打っていました。
