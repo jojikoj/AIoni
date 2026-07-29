@@ -203,10 +203,14 @@
       if(d.sources&&d.sources.length){
         // 自分の目で「うちのサイトが無い」と気づいてもらう。こちらは煽らない。
         // 同じサイトの別ページが複数返ることがある。ドメイン単位で1件にまとめる。
+        // uri は vertexaisearch.cloud.google.com の中継URLで返ることがある。
+        // その場合 title に実サイトのドメインが入っているので、そちらを表示する。
         var seen={},items=[];
         d.sources.forEach(function(s){
           var h=host(s.uri);
-          if(seen[h])return;
+          if(/vertexaisearch|googleapis|google\.com$/.test(h)) h=s.title||h;
+          else h=s.title||h;
+          if(!h||seen[h])return;
           seen[h]=1;
           items.push('<li><a href="'+esc(s.uri)+'" target="_blank" rel="noopener">'+esc(h)+'</a></li>');
         });
