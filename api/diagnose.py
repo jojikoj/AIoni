@@ -119,6 +119,15 @@ def _build_prompt(company, product):
         "- 推測で内容を補わないでください。検索で分かった事実だけを述べてください。",
         "- 情報がほとんど見つからない場合は、正直に「情報が少ない」と述べてください。",
         "- 特定の会社を宣伝したり評価を誇張したりしないでください。",
+        "",
+        "最後に、説明文とは別の行として、次の形式の1行だけを必ず出力してください。",
+        "JUDGE: found=<yes|no>; official=<yes|no>; specificity=<0|1|2|3>",
+        "  found       … その会社を特定でき、事業内容を説明できたか",
+        "  official    … その会社自身の公式サイトを情報源として確認できたか"
+        "（求人サイト・企業データベース・百科事典は公式ではありません）",
+        "  specificity … 0:分からない 1:業種が分かる程度"
+        " 2:事業内容が具体的に分かる 3:製品名や実績まで具体的に分かる",
+        "- 評価を甘くしないでください。確認できないものは no / 低い数字にしてください。",
     ]
     return "\n".join(lines)
 
@@ -161,6 +170,33 @@ def _call_gemini(company, product):
         return json.loads(resp.read().decode("utf-8"))
 
 
+def _extract_judge(text):
+    """末尾のJUDGE行を取り出し、表示用テキストからは取り除く。
+
+    行が無い／壊れている場合は None を返し、呼び出し側で保守的に採点する。
+    """
+    judge = None
+    kept = []
+    for line in text.splitlines():
+        s = line.strip()
+        if s.upper().startswith("JUDGE:"):
+            body = s.split(":", 1)[1]
+            d = {}
+            for part in body.split(";"):
+                if "=" in part:
+                    k, v = part.split("=", 1)
+                    d[k.strip().lower()] = v.strip().lower()
+            judge = {
+                "found": d.get("found") == "yes",
+                "official": d.get("official") == "yes",
+                "specificity": int(d["specificity"])
+                if d.get("specificity", "").isdigit() else 0,
+            }
+            continue
+        kept.append(line)
+    return "\n".join(kept).strip(), judge
+
+
 def _parse(raw):
     text = ""
     sources = []
@@ -182,19 +218,90 @@ def _parse(raw):
     return text.strip(), sources
 
 
-def _score(text, sources):
-    """AI認知スコア（0-100）の目安。捏造ではなく、実測の手応えの近似指標。"""
+# 第三者のデータベース・求人・百科事典など。ここに載っていても
+# 「その会社自身が発信できている」ことにはならないので、公式扱いしない。
+AGGREGATOR_DOMAINS = (
+    "wikipedia.org", "ipros.com", "salesnow.jp", "baseconnect.in", "houjin.jp",
+    "houjin-bangou.nta.go.jp", "gbiz-info.go.jp", "info.gbiz.go.jp", "alarmbox.jp",
+    "tsr-net.co.jp", "tdb.co.jp", "itp.ne.jp", "navit-j.com", "ekiten.jp",
+    "mynavi.jp", "rikunabi.com", "en-japan.com", "doda.jp", "indeed.com",
+    "openwork.jp", "en-hyouban.com", "job-medley.com", "hellowork.mhlw.go.jp",
+    "wantedly.com", "green-japan.com", "facebook.com", "twitter.com", "x.com",
+    "instagram.com", "note.com", "ameblo.jp", "hatenablog.com", "fc2.com",
+    "livedoor.jp", "google.com", "goo.ne.jp", "yahoo.co.jp", "navitime.co.jp",
+    "mapion.co.jp", "prtimes.jp",
+)
+
+
+def _domains(sources):
+    out = []
+    for s in sources:
+        uri = s.get("uri") or ""
+        host = ""
+        try:
+            host = urllib.parse.urlparse(uri).netloc.lower()
+        except Exception:
+            host = ""
+        # groundingChunk の title には実サイトのドメインが入ることが多い
+        if not host or "vertexaisearch" in host or "googleapis" in host:
+            host = (s.get("title") or "").lower()
+        host = host.replace("www.", "").strip()
+        if host and host not in out:
+            out.append(host)
+    return out
+
+
+def _is_aggregator(domain):
+    return any(domain == a or domain.endswith("." + a) for a in AGGREGATOR_DOMAINS)
+
+
+def _score(text, sources, judge=None):
+    """AI認知スコア（0-100）。
+
+    旧版は「情報源の件数×15」で6割が決まり、求人サイトに数件載っているだけの
+    会社でも60点台が出ていた（＝甘すぎる）。件数ではなく中身で採点する:
+      - 事業内容を説明できたか              20点
+      - 説明の具体性（業種止まり〜製品名まで）30点
+      - 根拠に「その会社自身の公式サイト」があるか 30点  ← ここが本質
+      - 公式以外の独立した情報源のドメイン数   20点（第三者DB・求人は数えない）
+    説明できていなければ上限15点に抑える。
+    """
     if not text:
         return 0, False
-    low = text[:60]
-    poor = ("情報が少ない" in low) or ("情報が乏しい" in low) or ("見つかりません" in low) or ("見つかりませんでした" in text[:120])
-    recognized = (len(sources) > 0) and (len(text) > 80) and not poor
+
+    low = text[:80]
+    poor = ("情報が少な" in low) or ("情報が乏し" in low) or ("見つかりません" in low) \
+        or ("見つかりませんでした" in text[:150]) or ("特定できません" in low)
+
+    domains = _domains(sources)
+    non_agg = [d for d in domains if not _is_aggregator(d)]
+
+    if judge is None:
+        # JUDGE行が取れなかった場合は保守的に見積もる（甘くしない）
+        judge = {
+            "found": (not poor) and len(text) > 80 and len(domains) > 0,
+            "official": len(non_agg) > 0,
+            "specificity": 2 if len(text) > 160 else (1 if len(text) > 80 else 0),
+        }
+
+    found = bool(judge.get("found")) and not poor
+    # モデルが official=yes と言っても、根拠に非アグリゲータのドメインが
+    # 1つも無ければ公式は確認できていない扱いにする（甘く出さない）。
+    official = bool(judge.get("official")) and len(non_agg) > 0
+    spec = max(0, min(3, int(judge.get("specificity", 0))))
+
     score = 0
-    score += min(60, len(sources) * 15)
-    score += 25 if len(text) > 140 else (12 if len(text) > 60 else 0)
-    if poor:
-        score = min(score, 20)
-    return min(100, score), recognized
+    if found:
+        score += 20
+    score += {0: 0, 1: 10, 2: 20, 3: 30}[spec]
+    if official:
+        score += 30
+    extra = [d for d in non_agg if not official or d != non_agg[0]]
+    score += min(20, len(extra) * 10)
+
+    if not found:
+        score = min(score, 15)
+    return min(100, score), found
 
 
 class handler(BaseHTTPRequestHandler):
@@ -264,7 +371,8 @@ class handler(BaseHTTPRequestHandler):
             return self._send(500, {"error": "実測に失敗しました"})
 
         text, sources = _parse(raw)
-        score, recognized = _score(text, sources)
+        text, judge = _extract_judge(text)
+        score, recognized = _score(text, sources, judge)
         self._send(200, {
             "company": company,
             "recognized": recognized,
