@@ -107,7 +107,7 @@
 
   <span class="ac-eyebrow">その場で実測</span>
   <h2 id="ac-head" class="ac-head">あなたの会社、AIはどう説明する？</h2>
-  <p class="ac-sub">会社名を入れると、AI（Gemini）がGoogle検索して御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</p>
+  <p class="ac-sub">会社名を入れると、AIが御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</p>
 
   <form class="ac-form" id="ac-form" autocomplete="off">
     <input type="text" id="ac-company" name="company" placeholder="会社名（例：株式会社◯◯製作所）" maxlength="80" required>
@@ -165,7 +165,7 @@
       var tsToken='';
       {% endif %}
       box.hidden=false;btn.disabled=true;
-      box.innerHTML='<p class="ac-loading">AIがGoogle検索して実測中です…（10〜20秒ほどかかります）</p>';
+      box.innerHTML='<p class="ac-loading">AIが実測中です…（10〜20秒ほどかかります）</p>';
       fetch('{{ diagnose_endpoint }}',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({company:company,product:product,turnstile_token:tsToken})})
         .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
