@@ -91,12 +91,18 @@
     .ac-score-num{font-size:clamp(52px,11vw,76px);font-weight:800;letter-spacing:-.03em}
     .ac-score-max{font-size:18px;font-weight:800;margin-left:3px;color:var(--text-3)}
     .ac-scorewrap.hi .ac-score-num{color:var(--teal)}
-    .ac-scorewrap.mid .ac-score-num,
-    .ac-scorewrap.solo .ac-score-num{color:var(--amber)}
+    .ac-scorewrap.mid .ac-score-num{color:var(--amber)}
     .ac-scorewrap.lo .ac-score-num{color:var(--accent-ink)}
     .ac-score-side{flex:1 1 240px;min-width:0}
     .ac-score-label{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--text-3);margin:0 0 6px}
-    .ac-verdict-head{font-size:clamp(17px,2.6vw,21px);font-weight:800;line-height:1.45;color:var(--text)}
+    .ac-level-label{font-size:clamp(16px,2.4vw,19px);font-weight:800;color:var(--text);line-height:1.4}
+    /* 4段階のどこにいるかを図で示す。数値の精度を装わないための見せ方。 */
+    .ac-steps{display:flex;gap:5px;margin:10px 0 0}
+    .ac-step{flex:1 1 0;height:7px;border-radius:99px;background:var(--line)}
+    .ac-scorewrap.lo .ac-step.on{background:var(--accent-ink)}
+    .ac-scorewrap.mid .ac-step.on{background:var(--amber)}
+    .ac-scorewrap.hi .ac-step.on{background:var(--teal)}
+    .ac-verdict-head{font-size:clamp(17px,2.6vw,21px);font-weight:800;line-height:1.45;color:var(--text);margin:0 0 10px}
     .ac-verdict-body{font-size:14.5px;line-height:1.8;color:var(--text-2);margin:0 0 16px}
     /* 改善提案は一般論に留め、個別最適は相談に残す（全部答えると相談する理由が消える） */
     .ac-tips{background:var(--accent-soft);border-radius:12px;padding:16px 18px;margin:0 0 16px}
@@ -146,10 +152,21 @@
     var box=document.getElementById('ac-result');
     function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
     function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}}
-    // 判定は3段階。事実（実測結果）の含意だけを言い切り、煽りや断定は足さない。
-    // 高スコアでも「競合との比較は測っていない」という本当のことで次の一歩を作る。
-    var BANDS={
-      lo:{
+    // 判定は4段階。0-100点は廃止した（同一企業を3回測ると 86/76/92 と振れ、
+    // 判定まで反転したため。客が2回試して違う結果が出るツールは信用されない）。
+    // 実行ごとにブレない事実だけで区分し、点数のような見せかけの精度を出さない。
+    var LEVELS={
+      0:{ // 同名の会社が複数あって特定できない
+        label:'同名他社と区別されていない',
+        head:'AIは御社を、同じ社名の別会社と区別できていません。',
+        body:'御社の名前で尋ねても、AIはどの会社のことか特定できませんでした。別の会社の情報が御社の説明として返る可能性があります。',
+        tips:['社名だけでなく「地域＋事業内容」が結びつく形で書く（例: ○○県の△△加工）',
+              '所在地・設立・代表者・主要設備など、他社と区別できる情報を明記する'],
+        cta:'同名他社に埋もれない書き方を相談しませんか',
+        btn:'無料でAI検索を相談する →'
+      },
+      1:{ // そもそも情報が無い
+        label:'AIに認識されていない',
         head:'AIは御社を説明できませんでした。',
         body:'AIに御社のことを尋ねた見込み客には、情報がほとんど届きません。判断材料がないため、AIは説明を避けるか、別の会社の情報を答えることがあります。',
         tips:['公式サイトに「何を・誰に・どこで作っているか」を文章で書く（画像やPDFの中の文字はAIに読まれにくい）',
@@ -157,27 +174,19 @@
         cta:'何が足りないのかを一緒に確認しませんか',
         btn:'無料でAI検索を相談する →'
       },
-      mid:{
-        head:'AIは御社を断片的にしか説明できていません。',
-        body:'伝わっているのは一部です。御社が本当に伝えたい強みが、AIの説明に含まれていない可能性があります。',
-        tips:['主力製品を、社内の呼び方ではなく「客が検索する言葉」で書く',
-              '対応できる加工・仕様・ロットを、数字と条件を添えて明記する'],
-        cta:'どこが欠けているのか、一緒に見てみませんか',
+      2:{ // 説明はできるが、根拠が第三者情報だけ
+        label:'第三者の情報だけで語られている',
+        head:'AIは御社を説明できましたが、根拠に公式サイトがありません。',
+        body:'AIが見ているのは、求人サイトや企業データベースなど第三者の情報です。御社自身が伝えたい内容ではなく、他人が書いた情報で説明されています。',
+        tips:['公式サイトの事業内容を、検索される言葉で本文に書く（画像やPDF任せにしない）',
+              '主力製品・対応できる加工や仕様を、数字と条件を添えて明記する'],
+        cta:'御社の言葉でAIに伝わる状態にしませんか',
         btn:'無料でAI検索を相談する →'
       },
-      // 公式サイトは読まれているが、外部からの言及が無い状態。
-      // 「自社発信しか根拠がない」は事実として指摘できる弱点で、刺さる。
-      solo:{
-        head:'AIの根拠は、御社の自社サイトだけでした。',
-        body:'御社の説明は自社サイトから読み取られています。一方で、それを裏づける第三者の情報源が見当たりません。AIは裏づけの取れない情報を控えめに扱うことがあります。',
-        tips:['取引先・業界メディア・技術記事など、外部に言及される機会をつくる',
-              '導入事例や技術解説を自社で継続的に出し、引用される材料を増やす'],
-        cta:'第三者に語られる状態のつくり方を相談しませんか',
-        btn:'無料でAI検索を相談する →'
-      },
-      hi:{
-        head:'AIは御社の事業内容を説明できました。',
-        body:'必要な情報は概ね伝わっています。ただし、同じ質問で競合がどう説明されるか、どちらが先に挙がるかは、この実測では測っていません。',
+      3:{ // 公式サイトが根拠として使われている
+        label:'公式サイトが根拠になっている',
+        head:'AIは御社の公式サイトを根拠に説明できています。',
+        body:'御社の発信はAIに届いています。ただし、同じ質問で競合がどう説明されるか、どちらが先に挙がるかは、この実測では測っていません。',
         tips:['競合と比べられたときの差別化点を、サイト上に明文で置く',
               '自社の実績や技術解説など一次情報を出し続け、引用され続ける状態をつくる'],
         cta:'競合と比べた見え方を確認しませんか',
@@ -186,13 +195,10 @@
     };
     function render(d){
       // 甘く出さない。高評価は点数だけでは出さず、
-      // 「公式サイトが根拠にある」かつ「製品名や実績まで具体的に説明できた」場合に限る。
-      var lvl;
-      if(!d.recognized || d.score<45) lvl='lo';
-      else if(d.score>=80 && d.official && d.specificity>=3) lvl='hi';
-      else if(d.official && d.third_party===0) lvl='solo';
-      else lvl='mid';
-      var b = BANDS[lvl];
+      var lv = (typeof d.level==='number') ? d.level : 1;
+      var b = LEVELS[lv] || LEVELS[1];
+      // 0=同名で特定不可 は「届いていない」側なので、1と同じ赤で見せる
+      var tone = (lv>=3) ? 'hi' : (lv===2 ? 'mid' : 'lo');
       var src='';
       if(d.sources&&d.sources.length){
         // 自分の目で「うちのサイトが無い」と気づいてもらう。こちらは煽らない。
@@ -210,11 +216,17 @@
       var tips='<div class="ac-tips"><div class="ac-tips-h">まず打てる手</div><ul>'
         + b.tips.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')
         + '</ul><p class="ac-tips-note">一般的な対策です。御社に何が効くかは、実際の見え方を見ないと分かりません。</p></div>';
+      // 4段階のうちどこかを図で示す。数値スコアは出さない（精度を装わない）。
+      var steps='<div class="ac-steps" aria-hidden="true">';
+      for(var i=0;i<4;i++){steps+='<span class="ac-step'+(i<=lv?' on':'')+'"></span>';}
+      steps+='</div>';
       box.innerHTML='<div class="ac-card">'
-        +'<div class="ac-scorewrap '+lvl+'">'
-        +'<div class="ac-score"><span class="ac-score-num">'+d.score+'</span><span class="ac-score-max">/100</span></div>'
-        +'<div class="ac-score-side"><div class="ac-score-label">AI認知スコア</div>'
-        +'<div class="ac-verdict-head">'+esc(b.head)+'</div></div></div>'
+        +'<div class="ac-scorewrap '+tone+'">'
+        +'<div class="ac-score"><span class="ac-score-num">'+lv+'</span>'
+        +'<span class="ac-score-max">/3</span></div>'
+        +'<div class="ac-score-side"><div class="ac-score-label">AI可視性レベル</div>'
+        +'<div class="ac-level-label">'+esc(b.label)+'</div>'+steps+'</div></div>'
+        +'<div class="ac-verdict-head">'+esc(b.head)+'</div>'
         +'<p class="ac-verdict-body">'+esc(b.body)+'</p>'
         +(d.summary?'<div class="ac-summary">'+esc(d.summary)+'</div>':'')
         +src

@@ -121,12 +121,11 @@ def _build_prompt(company, product):
         "- 特定の会社を宣伝したり評価を誇張したりしないでください。",
         "",
         "最後に、説明文とは別の行として、次の形式の1行だけを必ず出力してください。",
-        "JUDGE: found=<yes|no>; official=<yes|no>; specificity=<0|1|2|3>",
+        "JUDGE: found=<yes|no>; official=<yes|no>; ambiguous=<yes|no>",
         "  found       … その会社を特定でき、事業内容を説明できたか",
         "  official    … その会社自身の公式サイトを情報源として確認できたか"
         "（求人サイト・企業データベース・百科事典は公式ではありません）",
-        "  specificity … 0:分からない 1:業種が分かる程度"
-        " 2:事業内容が具体的に分かる 3:製品名や実績まで具体的に分かる",
+        "  ambiguous   … 同じ社名の会社が複数あり、どの会社か特定できない場合は yes",
         "- 評価を甘くしないでください。確認できないものは no / 低い数字にしてください。",
     ]
     return "\n".join(lines)
@@ -189,8 +188,7 @@ def _extract_judge(text):
             judge = {
                 "found": d.get("found") == "yes",
                 "official": d.get("official") == "yes",
-                "specificity": int(d["specificity"])
-                if d.get("specificity", "").isdigit() else 0,
+                "ambiguous": d.get("ambiguous") == "yes",
             }
             continue
         kept.append(line)
@@ -268,19 +266,25 @@ def _is_aggregator(domain):
     return any(w in head for w in AGGREGATOR_WORDS)
 
 
-def _score(text, sources, judge=None):
-    """AI認知スコア（0-100）。
+def _judge_level(text, sources, judge=None):
+    """AI可視性を3段階で判定する。
 
-    旧版は「情報源の件数×15」で6割が決まり、求人サイトに数件載っているだけの
-    会社でも60点台が出ていた（＝甘すぎる）。件数ではなく中身で採点する:
-      - 事業内容を説明できたか              20点
-      - 説明の具体性（業種止まり〜製品名まで）30点
-      - 根拠に「その会社自身の公式サイト」があるか 30点  ← ここが本質
-      - 公式以外の独立した情報源のドメイン数   20点（第三者DB・求人は数えない）
-    説明できていなければ上限15点に抑える。
+    設計方針（2026-07-29 全面刷新）:
+      旧版は0-100点だったが、点数の大半が「検索で何件返ったか」と
+      モデルの主観評価(specificity 0-3)に依存していた。どちらも実行ごとに
+      変わるため、同じ会社を3回測ると 86/76/92 と振れ、判定まで反転した
+      （実測）。客が2回試して違う結果が出るツールは信用されない。
+
+      そこで、実行ごとにブレない二値の事実だけで判定する:
+        レベル1 … AIが会社を特定できない
+        レベル2 … 説明はできるが、根拠に公式サイトが無い（第三者情報だけ）
+        レベル3 … 公式サイトを根拠に説明できている
+      件数やモデルの主観点は判定に使わない（表示の補足にのみ使う）。
+
+    戻り値: (level, found, official, third_party_present)
     """
     if not text:
-        return 0, False
+        return 1, False, False, False
 
     low = text[:80]
     poor = ("情報が少な" in low) or ("情報が乏し" in low) or ("見つかりません" in low) \
@@ -290,37 +294,38 @@ def _score(text, sources, judge=None):
     non_agg = [d for d in domains if not _is_aggregator(d)]
 
     if judge is None:
-        # JUDGE行が取れなかった場合は保守的に見積もる（甘くしない）
-        judge = {
-            "found": (not poor) and len(text) > 80 and len(domains) > 0,
-            "official": len(non_agg) > 0,
-            "specificity": 2 if len(text) > 160 else (1 if len(text) > 80 else 0),
-        }
+        # JUDGE行が無いときは保守的に（甘くしない）
+        judge = {"found": (not poor) and len(text) > 80 and len(domains) > 0,
+                 "official": len(non_agg) > 0}
 
     found = bool(judge.get("found")) and not poor
-    # モデルが official=yes と言っても、根拠に非アグリゲータのドメインが
-    # 1つも無ければ公式は確認できていない扱いにする（甘く出さない）。
-    official = bool(judge.get("official")) and len(non_agg) > 0
-    spec = max(0, min(3, int(judge.get("specificity", 0))))
 
-    # 自社サイトが1枚あるだけで満点近くにならないよう配分する。
-    # 旧配分では found20+具体30+公式30＝80が確定し、地方の町工場が100点、
-    # トヨタが90点という逆転が出た（実測）。第三者に語られているかを重くする。
-    score = 0
-    if found:
-        score += 10
-    score += {0: 0, 1: 8, 2: 18, 3: 26}[spec]
-    if official:
-        score += 26
+    # 実測で分かったこと: モデルのJUDGEは毎回同じでも、groundingChunks は
+    # 返ってくる回と 0 件の回がある（TOEを4回測って 4件/0件/0件/3件）。
+    # ドメインの有無をそのまま判定に使うと、同じ会社がレベル3と2で反転する。
+    # そこで「証拠がある時だけ証拠を優先し、無い時はモデルの判定に従う」。
+    has_evidence = len(domains) > 0
+    if has_evidence:
+        # 根拠が第三者DB・求人・名簿しか無いなら、公式が使われたとは言えない
+        official = len(non_agg) > 0
+    else:
+        official = bool(judge.get("official"))
 
-    # 公式サイト以外に、第三者DB・求人・名簿ではない独立した情報源があるか。
-    # 自社発信しかない状態と、外からも語られている状態を明確に分ける。
-    others = [d for d in non_agg if not (official and d == non_agg[0])]
-    score += {0: 0, 1: 14}.get(len(others), 24 if len(others) == 2 else 30)
+    # 公式以外の独立した情報源。証拠が無い回は判断できないので False 固定にせず、
+    # 文言側で「証拠あり」のときだけ使う。
+    third = has_evidence and len([
+        d for d in non_agg if not (official and non_agg and d == non_agg[0])
+    ]) > 0
+
+    # 同名の会社が複数あって特定できない場合。実測では「有限会社山田製作所」で
+    # found が yes/no に揺れた。これは論理の穴ではなく実態なので、
+    # 揺れを判定に持ち込まず「特定できない」として独立に扱う。
+    if bool(judge.get("ambiguous")):
+        return 0, False, False, False
 
     if not found:
-        score = min(score, 15)
-    return min(100, score), found, official, spec, len(others)
+        return 1, False, False, False
+    return (3 if official else 2), True, official, third
 
 
 class handler(BaseHTTPRequestHandler):
@@ -391,15 +396,14 @@ class handler(BaseHTTPRequestHandler):
 
         text, sources = _parse(raw)
         text, judge = _extract_judge(text)
-        score, recognized, official, spec, third = _score(text, sources, judge)
+        level, recognized, official, third = _judge_level(text, sources, judge)
         self._send(200, {
             "company": company,
             "recognized": recognized,
-            "score": score,
-            # 高評価にするかの判断はフロントで行うため内訳も返す。
-            # 点数だけで褒めると、公式サイトが根拠に無い会社まで褒めてしまう。
+            # 0-100の点数は廃止した。実行ごとに振れて判定まで反転したため
+            # （同一企業3回で 86/76/92）。ブレない3段階だけを返す。
+            "level": level,
             "official": official,
-            "specificity": spec,
             "third_party": third,
             "summary": text,
             "sources": sources[:6],
