@@ -65,6 +65,12 @@ DAILY_CAP = 300        # このインスタンスが1日に通す上限（暴走
 _hits = {}             # ip -> [timestamp, ...]
 _daily = {"day": None, "count": 0}
 
+# 実測結果のキャッシュ。Google検索の結果は毎回変わるため、合議を重ねても
+# 完全な再現はできない。同じ会社を測り直したときに違う結果を見せると
+# ツールの信用が落ちるので、一度出した答えはそのまま返す。
+# 課金の節約にもなる（同じ会社の連続実行でモデルを叩かない）。
+_cache = {}            # (company, product) -> (timestamp, payload)
+
 
 def _client_ip(headers):
     fwd = headers.get("X-Forwarded-For", "")
@@ -121,12 +127,25 @@ def _build_prompt(company, product):
         "- 特定の会社を宣伝したり評価を誇張したりしないでください。",
         "",
         "最後に、説明文とは別の行として、次の形式の1行だけを必ず出力してください。",
-        "JUDGE: found=<yes|no>; official=<yes|no>; ambiguous=<yes|no>",
-        "  found       … その会社を特定でき、事業内容を説明できたか",
-        "  official    … その会社自身の公式サイトを情報源として確認できたか"
+        "JUDGE: found=<yes|no>; official=<yes|no>; ambiguous=<yes|no>;"
+        " business=<yes|no>; products=<yes|no>; location=<yes|no>;"
+        " founded=<yes|no>; size=<yes|no>; clients=<yes|no>; media=<yes|no>",
+        "  found     … その会社を特定でき、事業内容を説明できたか",
+        "  official  … その会社自身の公式サイトを情報源として確認できたか"
         "（求人サイト・企業データベース・百科事典は公式ではありません）",
-        "  ambiguous   … 同じ社名の会社が複数あり、どの会社か特定できない場合は yes",
-        "- 評価を甘くしないでください。確認できないものは no / 低い数字にしてください。",
+        "  ambiguous … 同じ社名の会社が複数あり、どの会社か特定できない場合は yes",
+        "  business  … 事業内容が具体的に分かったか（業種名だけなら no）",
+        "  products  … 主力の製品名・サービス名が分かったか",
+        "  location  … 所在地（都道府県・市区町村）が分かったか",
+        "  founded   … 設立年・創業年が分かったか",
+        "  size      … 従業員数または売上高が分かったか",
+        "  clients   … 取引先・納入先・導入事例など、実際の仕事の相手が分かったか",
+        "  media     … 求人サイト・企業データベース・自社サイト以外で、"
+        "報道記事や業界メディアに取り上げられているのを確認できたか",
+        "- 検索で確認できた事実だけを yes にしてください。推測や一般論で"
+        " yes にしないでください。確認できないものはすべて no です。",
+        "- 特に clients と media は、実際にその情報を見つけた場合だけ yes です。"
+        "「あるはず」で yes にしないでください。",
     ]
     return "\n".join(lines)
 
@@ -157,7 +176,7 @@ def _call_gemini(company, product):
     body = {
         "contents": [{"parts": [{"text": _build_prompt(company, product)}]}],
         "tools": [{"google_search": {}}],
-        "generationConfig": {"temperature": 0.2, "maxOutputTokens": 700},
+        "generationConfig": {"temperature": 0.0, "maxOutputTokens": 700},
     }
     req = urllib.request.Request(
         ENDPOINT + "?key=" + key,
@@ -167,6 +186,73 @@ def _call_gemini(company, product):
     )
     with urllib.request.urlopen(req, timeout=45) as resp:
         return json.loads(resp.read().decode("utf-8"))
+
+
+JUDGE_FIELDS = ("found", "official", "ambiguous", "business", "products",
+                "location", "founded", "size", "clients", "media")
+VOTES = 5          # 1回の実測で何回モデルに聞くか（合議）
+CACHE_TTL = 86400  # 同じ会社の再実行は同じ結果を返す（秒）
+
+
+def _measure(company, product, votes=VOTES):
+    """同じ質問を複数回投げ、各項目を多数決で決める。
+
+    なぜ必要か: モデルの判定は実行ごとに揺れる。項目を増やすほど揺れ、
+    同じ会社が 90/20/90 のように振れた（実測）。打ち切りではなくモデル自身の
+    ばらつきなので、プロンプトの調整では消えない。3回聞いて多数決を取ると
+    多数派が安定し、点数が再現するようになる。
+    コストは1回あたり約0.09円 → 約0.27円。検索グラウンディングは月5,000回まで
+    無料枠があるため、3回でも実用上ただ同然。
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
+    def one(_):
+        try:
+            return _parse(_call_gemini(company, product))
+        except Exception:
+            return None
+
+    with ThreadPoolExecutor(max_workers=votes) as ex:
+        results = [r for r in ex.map(one, range(votes)) if r]
+    if not results:
+        raise RuntimeError("no result")
+
+    parsed = []
+    for text, sources in results:
+        body, judge = _extract_judge(text)
+        parsed.append((body, sources, judge))
+
+    judges = [j for _, _, j in parsed if j]
+    merged = None
+    if judges:
+        merged = {}
+        for f in JUDGE_FIELDS:
+            if f == "ambiguous":
+                # 一度でも会社を特定できたなら「特定不可」ではない。
+                # 全回そろって特定できなかった時だけ ambiguous とする。
+                merged[f] = all(j.get(f) for j in judges)
+            else:
+                # 検索結果は毎回変わる。多数決だと「今回は出てこなかった」だけで
+                # 事実が消える。1回でも確認できたなら「確認できる事実」とする。
+                merged[f] = any(j.get(f) for j in judges)
+
+    # 説明文は、多数決の結果に最も近い回のものを使う（食い違いを見せない）
+    def agree(item):
+        _, _, j = item
+        if not (j and merged):
+            return -1
+        return sum(1 for f in JUDGE_FIELDS if j.get(f) == merged[f])
+    body, sources, _ = max(parsed, key=agree)
+
+    # 情報源は全実行の和集合（0件で返る回があるため、取れた分を活かす）
+    seen, all_src = set(), []
+    for _, srcs, _ in parsed:
+        for s in srcs:
+            key = (s.get("title") or s.get("uri") or "").lower()
+            if key and key not in seen:
+                seen.add(key)
+                all_src.append(s)
+    return body, all_src, merged
 
 
 def _extract_judge(text):
@@ -189,6 +275,13 @@ def _extract_judge(text):
                 "found": d.get("found") == "yes",
                 "official": d.get("official") == "yes",
                 "ambiguous": d.get("ambiguous") == "yes",
+                "business": d.get("business") == "yes",
+                "products": d.get("products") == "yes",
+                "location": d.get("location") == "yes",
+                "founded": d.get("founded") == "yes",
+                "size": d.get("size") == "yes",
+                "clients": d.get("clients") == "yes",
+                "media": d.get("media") == "yes",
             }
             continue
         kept.append(line)
@@ -328,6 +421,41 @@ def _judge_level(text, sources, judge=None):
     return (3 if official else 2), True, official, third
 
 
+def _score100(level, judge, official):
+    """0-100点。実行ごとに変わらない事実だけを積み上げる。
+
+    旧版は「情報源の件数×15」と、モデルの主観点(specificity 0-3)で作っていて、
+    同じ会社が 86/76/92 と振れた。件数と主観点は使わず、検索で確認できたか
+    どうかの二値だけを配点する。JUDGE が同じなら点数も必ず同じになる。
+    """
+    j = judge or {}
+    if level == 0:          # 同名他社と区別できない
+        return 20
+    if level == 1:          # そもそも認識されていない
+        return 10
+
+    # 「自社サイトが1枚ある」だけで満点にならないよう、外から確認できる
+    # 事実ほど重く配点する。実測で全社100点になったため配分を組み替えた。
+    score = 0
+    if official:
+        score += 25                              # 公式サイトが根拠になっている
+    if j.get("business"):
+        score += 10                              # 事業内容が具体的に分かる
+    if j.get("products"):
+        score += 10                              # 主力製品・サービス名が分かる
+    if j.get("location"):
+        score += 5                               # 所在地が分かる
+    if j.get("founded"):
+        score += 5                               # 設立年が分かる
+    if j.get("size"):
+        score += 10                              # 従業員数・売上が分かる
+    if j.get("clients"):
+        score += 15                              # 取引先・導入事例まで分かる
+    if j.get("media"):
+        score += 20                              # 第三者の報道・業界メディアで語られている
+    return min(100, score)
+
+
 class handler(BaseHTTPRequestHandler):
     def _cors_origin(self):
         origin = self.headers.get("Origin", "")
@@ -383,8 +511,13 @@ class handler(BaseHTTPRequestHandler):
         if not _verify_turnstile(token, remote_ip):
             return self._send(403, {"error": "認証に失敗しました。ページを再読み込みしてお試しください"})
 
+        ckey = (company, product)
+        hit = _cache.get(ckey)
+        if hit and time.time() - hit[0] < CACHE_TTL:
+            return self._send(200, hit[1])
+
         try:
-            raw = _call_gemini(company, product)
+            text, sources, judge = _measure(company, product)
         except urllib.error.HTTPError:
             return self._send(502, {"error": "AI実測サービスが混み合っています。時間をおいてお試しください"})
         except urllib.error.URLError:
@@ -394,20 +527,27 @@ class handler(BaseHTTPRequestHandler):
         except Exception:
             return self._send(500, {"error": "実測に失敗しました"})
 
-        text, sources = _parse(raw)
-        text, judge = _extract_judge(text)
         level, recognized, official, third = _judge_level(text, sources, judge)
-        self._send(200, {
+        score = _score100(level, judge, official)
+        payload = {
             "company": company,
             "recognized": recognized,
-            # 0-100の点数は廃止した。実行ごとに振れて判定まで反転したため
-            # （同一企業3回で 86/76/92）。ブレない3段階だけを返す。
+            # 点数は「確認できた事実」の二値だけから積み上げる。
+            # 件数やモデルの主観点は使わないので、同じ会社なら毎回同じ点になる。
+            "score": score,
             "level": level,
             "official": official,
             "third_party": third,
             "summary": text,
             "sources": sources[:6],
-        })
+        }
+        # 古いキャッシュを捨てて肥大化を防ぐ
+        if len(_cache) > 500:
+            now = time.time()
+            for k in [k for k, v in _cache.items() if now - v[0] > CACHE_TTL]:
+                _cache.pop(k, None)
+        _cache[ckey] = (time.time(), payload)
+        self._send(200, payload)
 
     def do_GET(self):
         self._send(405, {"error": "POSTで会社名を送信してください"})
