@@ -251,8 +251,19 @@ def _domains(sources):
     return out
 
 
+# 求人・企業DBは無数にあり列挙しきれないので、ドメイン名の語でも判定する。
+AGGREGATOR_WORDS = (
+    "job", "kyujin", "recruit", "recruiting", "work", "career", "baito",
+    "hellowork", "shukatsu", "tenshoku", "hakenn", "haken", "kuchikomi",
+    "houjin", "kigyo", "corp-db", "companydb", "townpage", "tenpo",
+)
+
+
 def _is_aggregator(domain):
-    return any(domain == a or domain.endswith("." + a) for a in AGGREGATOR_DOMAINS)
+    if any(domain == a or domain.endswith("." + a) for a in AGGREGATOR_DOMAINS):
+        return True
+    head = domain.split(".")[0]
+    return any(w in head for w in AGGREGATOR_WORDS)
 
 
 def _score(text, sources, judge=None):
@@ -301,7 +312,7 @@ def _score(text, sources, judge=None):
 
     if not found:
         score = min(score, 15)
-    return min(100, score), found
+    return min(100, score), found, official, spec
 
 
 class handler(BaseHTTPRequestHandler):
@@ -372,11 +383,15 @@ class handler(BaseHTTPRequestHandler):
 
         text, sources = _parse(raw)
         text, judge = _extract_judge(text)
-        score, recognized = _score(text, sources, judge)
+        score, recognized, official, spec = _score(text, sources, judge)
         self._send(200, {
             "company": company,
             "recognized": recognized,
             "score": score,
+            # 高評価にするかの判断はフロントで行うため内訳も返す。
+            # 点数だけで褒めると、公式サイトが根拠に無い会社まで褒めてしまう。
+            "official": official,
+            "specificity": spec,
             "summary": text,
             "sources": sources[:6],
         })

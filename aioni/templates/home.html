@@ -174,8 +174,12 @@
       }
     };
     function render(d){
-      // 甘く出さない。高評価は「公式サイトが根拠にある＋具体的に説明できた」水準のみ。
-      var lvl = (!d.recognized || d.score<45) ? 'lo' : (d.score<80 ? 'mid' : 'hi');
+      // 甘く出さない。高評価は点数だけでは出さず、
+      // 「公式サイトが根拠にある」かつ「製品名や実績まで具体的に説明できた」場合に限る。
+      var lvl;
+      if(!d.recognized || d.score<45) lvl='lo';
+      else if(d.score>=80 && d.official && d.specificity>=3) lvl='hi';
+      else lvl='mid';
       var b = BANDS[lvl];
       var src='';
       if(d.sources&&d.sources.length){
