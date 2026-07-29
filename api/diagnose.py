@@ -256,6 +256,8 @@ AGGREGATOR_WORDS = (
     "job", "kyujin", "recruit", "recruiting", "work", "career", "baito",
     "hellowork", "shukatsu", "tenshoku", "hakenn", "haken", "kuchikomi",
     "houjin", "kigyo", "corp-db", "companydb", "townpage", "tenpo",
+    # 商工会議所・商工会・産業振興系の名簿も「第三者に載っているだけ」
+    "cci", "shokokai", "shinko", "sangyo",
 )
 
 
@@ -301,18 +303,24 @@ def _score(text, sources, judge=None):
     official = bool(judge.get("official")) and len(non_agg) > 0
     spec = max(0, min(3, int(judge.get("specificity", 0))))
 
+    # 自社サイトが1枚あるだけで満点近くにならないよう配分する。
+    # 旧配分では found20+具体30+公式30＝80が確定し、地方の町工場が100点、
+    # トヨタが90点という逆転が出た（実測）。第三者に語られているかを重くする。
     score = 0
     if found:
-        score += 20
-    score += {0: 0, 1: 10, 2: 20, 3: 30}[spec]
+        score += 10
+    score += {0: 0, 1: 8, 2: 18, 3: 26}[spec]
     if official:
-        score += 30
-    extra = [d for d in non_agg if not official or d != non_agg[0]]
-    score += min(20, len(extra) * 10)
+        score += 26
+
+    # 公式サイト以外に、第三者DB・求人・名簿ではない独立した情報源があるか。
+    # 自社発信しかない状態と、外からも語られている状態を明確に分ける。
+    others = [d for d in non_agg if not (official and d == non_agg[0])]
+    score += {0: 0, 1: 14}.get(len(others), 24 if len(others) == 2 else 30)
 
     if not found:
         score = min(score, 15)
-    return min(100, score), found, official, spec
+    return min(100, score), found, official, spec, len(others)
 
 
 class handler(BaseHTTPRequestHandler):
@@ -383,7 +391,7 @@ class handler(BaseHTTPRequestHandler):
 
         text, sources = _parse(raw)
         text, judge = _extract_judge(text)
-        score, recognized, official, spec = _score(text, sources, judge)
+        score, recognized, official, spec, third = _score(text, sources, judge)
         self._send(200, {
             "company": company,
             "recognized": recognized,
@@ -392,6 +400,7 @@ class handler(BaseHTTPRequestHandler):
             # 点数だけで褒めると、公式サイトが根拠に無い会社まで褒めてしまう。
             "official": official,
             "specificity": spec,
+            "third_party": third,
             "summary": text,
             "sources": sources[:6],
         })

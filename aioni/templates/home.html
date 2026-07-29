@@ -91,7 +91,8 @@
     .ac-score-num{font-size:clamp(52px,11vw,76px);font-weight:800;letter-spacing:-.03em}
     .ac-score-max{font-size:18px;font-weight:800;margin-left:3px;color:var(--text-3)}
     .ac-scorewrap.hi .ac-score-num{color:var(--teal)}
-    .ac-scorewrap.mid .ac-score-num{color:var(--amber)}
+    .ac-scorewrap.mid .ac-score-num,
+    .ac-scorewrap.solo .ac-score-num{color:var(--amber)}
     .ac-scorewrap.lo .ac-score-num{color:var(--accent-ink)}
     .ac-score-side{flex:1 1 240px;min-width:0}
     .ac-score-label{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--text-3);margin:0 0 6px}
@@ -164,6 +165,16 @@
         cta:'どこが欠けているのか、一緒に見てみませんか',
         btn:'無料でAI検索を相談する →'
       },
+      // 公式サイトは読まれているが、外部からの言及が無い状態。
+      // 「自社発信しか根拠がない」は事実として指摘できる弱点で、刺さる。
+      solo:{
+        head:'AIの根拠は、御社の自社サイトだけでした。',
+        body:'御社の説明は自社サイトから読み取られています。一方で、それを裏づける第三者の情報源が見当たりません。AIは裏づけの取れない情報を控えめに扱うことがあります。',
+        tips:['取引先・業界メディア・技術記事など、外部に言及される機会をつくる',
+              '導入事例や技術解説を自社で継続的に出し、引用される材料を増やす'],
+        cta:'第三者に語られる状態のつくり方を相談しませんか',
+        btn:'無料でAI検索を相談する →'
+      },
       hi:{
         head:'AIは御社の事業内容を説明できました。',
         body:'必要な情報は概ね伝わっています。ただし、同じ質問で競合がどう説明されるか、どちらが先に挙がるかは、この実測では測っていません。',
@@ -179,6 +190,7 @@
       var lvl;
       if(!d.recognized || d.score<45) lvl='lo';
       else if(d.score>=80 && d.official && d.specificity>=3) lvl='hi';
+      else if(d.official && d.third_party===0) lvl='solo';
       else lvl='mid';
       var b = BANDS[lvl];
       var src='';
