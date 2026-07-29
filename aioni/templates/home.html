@@ -84,12 +84,25 @@
     .ac-error{font-size:14px;color:var(--accent-ink);padding:10px 2px}
     .ac-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
         padding:20px 20px 22px;box-shadow:var(--sh-1)}
-    .ac-verdict{display:flex;align-items:center;gap:12px;margin:0 0 14px;flex-wrap:wrap}
-    .ac-badge{font-size:12px;font-weight:800;letter-spacing:.04em;padding:6px 12px;border-radius:999px}
-    .ac-badge.hi{background:var(--teal-soft);color:var(--teal)}
-    .ac-badge.mid{background:var(--amber-soft);color:var(--amber)}
-    .ac-badge.lo{background:var(--accent-soft);color:var(--accent-ink)}
-    .ac-verdict-txt{font-size:15px;font-weight:700;color:var(--text)}
+    /* スコアは結果の主役。ひと目で刺さるよう大きく出す。 */
+    .ac-scorewrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+        padding:0 0 16px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+    .ac-score{display:flex;align-items:baseline;line-height:1;flex:0 0 auto}
+    .ac-score-num{font-size:clamp(52px,11vw,76px);font-weight:800;letter-spacing:-.03em}
+    .ac-score-max{font-size:18px;font-weight:800;margin-left:3px;color:var(--text-3)}
+    .ac-scorewrap.hi .ac-score-num{color:var(--teal)}
+    .ac-scorewrap.mid .ac-score-num{color:var(--amber)}
+    .ac-scorewrap.lo .ac-score-num{color:var(--accent-ink)}
+    .ac-score-side{flex:1 1 240px;min-width:0}
+    .ac-score-label{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--text-3);margin:0 0 6px}
+    .ac-verdict-head{font-size:clamp(17px,2.6vw,21px);font-weight:800;line-height:1.45;color:var(--text)}
+    .ac-verdict-body{font-size:14.5px;line-height:1.8;color:var(--text-2);margin:0 0 16px}
+    /* 改善提案は一般論に留め、個別最適は相談に残す（全部答えると相談する理由が消える） */
+    .ac-tips{background:var(--accent-soft);border-radius:12px;padding:16px 18px;margin:0 0 16px}
+    .ac-tips-h{font-size:13px;font-weight:800;color:var(--accent-ink);margin:0 0 8px}
+    .ac-tips ul{margin:0;padding-left:1.15em;display:grid;gap:6px}
+    .ac-tips li{font-size:13.5px;line-height:1.7;color:var(--text-2)}
+    .ac-tips-note{font-size:12px;color:var(--text-3);margin:10px 0 0;line-height:1.6}
     .ac-summary{font-size:14px;line-height:1.8;color:var(--text-2);white-space:pre-wrap;margin:0 0 16px}
     .ac-src-h{font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:.06em;margin:0 0 8px}
     .ac-src{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:6px}
@@ -132,24 +145,58 @@
     var box=document.getElementById('ac-result');
     function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
     function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}}
+    // 判定は3段階。事実（実測結果）の含意だけを言い切り、煽りや断定は足さない。
+    // 高スコアでも「競合との比較は測っていない」という本当のことで次の一歩を作る。
+    var BANDS={
+      lo:{
+        head:'AIは御社を説明できませんでした。',
+        body:'AIに御社のことを尋ねた見込み客には、情報がほとんど届きません。判断材料がないため、AIは説明を避けるか、別の会社の情報を答えることがあります。',
+        tips:['公式サイトに「何を・誰に・どこで作っているか」を文章で書く（画像やPDFの中の文字はAIに読まれにくい）',
+              '会社概要に、所在地・設立・主要設備・対応分野を具体的に載せる'],
+        cta:'何が足りないのかを一緒に確認しませんか',
+        btn:'無料でAI検索を相談する →'
+      },
+      mid:{
+        head:'AIは御社を断片的にしか説明できていません。',
+        body:'伝わっているのは一部です。御社が本当に伝えたい強みが、AIの説明に含まれていない可能性があります。',
+        tips:['主力製品を、社内の呼び方ではなく「客が検索する言葉」で書く',
+              '対応できる加工・仕様・ロットを、数字と条件を添えて明記する'],
+        cta:'どこが欠けているのか、一緒に見てみませんか',
+        btn:'無料でAI検索を相談する →'
+      },
+      hi:{
+        head:'AIは御社を正しく説明できています。',
+        body:'ここまで伝わっている会社は多くありません。ただし、同じ質問で競合がどう説明されるか、どちらが先に挙がるかは、この実測では測っていません。',
+        tips:['競合と比べられたときの差別化点を、サイト上に明文で置く',
+              '自社の実績や技術解説など一次情報を出し続け、引用され続ける状態をつくる'],
+        cta:'競合と比べた見え方を確認しませんか',
+        btn:'競合との比較を相談する →'
+      }
+    };
     function render(d){
-      var lvl = d.score>=60?'hi':(d.score>=30?'mid':'lo');
-      var verdict = d.recognized
-        ? 'AIは御社を認識しています。伝わり方を強くする余地があります。'
-        : 'AIは御社をほとんど認識していません。今のままではAI検索で見つけてもらえません。';
+      var lvl = (!d.recognized || d.score<40) ? 'lo' : (d.score<70 ? 'mid' : 'hi');
+      var b = BANDS[lvl];
       var src='';
       if(d.sources&&d.sources.length){
-        src='<div class="ac-src-h">AIが参照した情報源</div><ul class="ac-src">';
+        // 自分の目で「うちのサイトが無い」と気づいてもらう。こちらは煽らない。
+        src='<div class="ac-src-h">AIがこの説明の根拠にしたサイトです。ここに御社の公式発信が入っているか、確認してください。</div><ul class="ac-src">';
         d.sources.forEach(function(s){src+='<li><a href="'+esc(s.uri)+'" target="_blank" rel="noopener">'+esc(s.title||host(s.uri))+'</a></li>';});
         src+='</ul>';
       }
+      var tips='<div class="ac-tips"><div class="ac-tips-h">まず打てる手</div><ul>'
+        + b.tips.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')
+        + '</ul><p class="ac-tips-note">一般的な対策です。御社に何が効くかは、実際の見え方を見ないと分かりません。</p></div>';
       box.innerHTML='<div class="ac-card">'
-        +'<div class="ac-verdict"><span class="ac-badge '+lvl+'">AI認知スコア '+d.score+'/100</span>'
-        +'<span class="ac-verdict-txt">'+esc(verdict)+'</span></div>'
+        +'<div class="ac-scorewrap '+lvl+'">'
+        +'<div class="ac-score"><span class="ac-score-num">'+d.score+'</span><span class="ac-score-max">/100</span></div>'
+        +'<div class="ac-score-side"><div class="ac-score-label">AI認知スコア</div>'
+        +'<div class="ac-verdict-head">'+esc(b.head)+'</div></div></div>'
+        +'<p class="ac-verdict-body">'+esc(b.body)+'</p>'
         +(d.summary?'<div class="ac-summary">'+esc(d.summary)+'</div>':'')
         +src
-        +'<div class="ac-cta"><span class="ac-cta-txt">この見え方は、サイトと情報発信の改善で変えられます。まずは無料でAI検索の現状を一緒に確認しませんか。</span>'
-        +'<a href="{{ rel }}contact/">無料でAI検索を相談する →</a></div>'
+        +tips
+        +'<div class="ac-cta"><span class="ac-cta-txt">'+esc(b.cta)+'</span>'
+        +'<a href="{{ rel }}contact/">'+esc(b.btn)+'</a></div>'
         +'</div>';
     }
     form.addEventListener('submit',function(e){
