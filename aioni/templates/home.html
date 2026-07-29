@@ -174,7 +174,13 @@
           render(res.j);
           if(window.gtag)gtag('event','ai_check',{company_len:company.length});
         })
-        .catch(function(){box.innerHTML='<p class="ac-error">実測に失敗しました。時間をおいて再度お試しください。</p>';})
+        .catch(function(err){
+          // サーバーが理由を返している場合（レート制限など）はそれを見せる。
+          // 「実測に失敗」だけだと、混雑なのか故障なのか利用者に伝わらない。
+          var msg=(err&&err.message&&err.message!=='error')
+            ?err.message:'実測に失敗しました。時間をおいて再度お試しください。';
+          box.innerHTML='<p class="ac-error">'+esc(msg)+'</p>';
+        })
         .finally(function(){btn.disabled=false;
           {% if turnstile_site_key %}if(window.turnstile){try{window.turnstile.reset();}catch(e){}}{% endif %}
         });
