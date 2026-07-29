@@ -244,14 +244,23 @@ def _measure(company, product, votes=VOTES):
         return sum(1 for f in JUDGE_FIELDS if j.get(f) == merged[f])
     body, sources, _ = max(parsed, key=agree)
 
-    # 情報源は全実行の和集合（0件で返る回があるため、取れた分を活かす）
-    seen, all_src = set(), []
+    # 情報源は全実行から集める（0件で返る回があるため）。ただし単純に足すと
+    # 求人サイトやポータルが上位を占め、肝心の公式サイトが表示から溢れる。
+    # 「何回の実行で出てきたか」で重要度を測り、第三者DBより実サイトを先に出す。
+    counts, first = {}, {}
     for _, srcs, _ in parsed:
         for s in srcs:
-            key = (s.get("title") or s.get("uri") or "").lower()
-            if key and key not in seen:
-                seen.add(key)
-                all_src.append(s)
+            dom = (s.get("title") or "").lower().replace("www.", "").strip()
+            if not dom:
+                dom = _domains([s])[0] if _domains([s]) else ""
+            if not dom:
+                continue
+            counts[dom] = counts.get(dom, 0) + 1
+            first.setdefault(dom, s)
+    # 求人サイトは毎回出てくるので回数で並べると上位を占める。
+    # 見せたいのは「御社の発信が入っているか」なので、実サイトを先に出す。
+    ranked = sorted(counts, key=lambda d: (_is_aggregator(d), -counts[d], d))
+    all_src = [first[d] for d in ranked]
     return body, all_src, merged
 
 
