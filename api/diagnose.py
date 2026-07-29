@@ -9,16 +9,22 @@
   - 捏造しない。Gemini が検索で得た事実と、実際に参照したソースだけを返す。
     認識できなければ「認識していない」と正直に返す。
 
-注意（本番前に足すべきもの、MVPでは未実装）:
-  - レート制限 / bot 除け。Vercel はステートレスなので、恒久的な制限には
-    Vercel KV などの外部ストア、または Cloudflare Turnstile が必要。
-    Gemini 2.5 系のグラウンディングは 1,500 リクエスト/日まで無料、
-    超過後は $35 / 1,000 リクエスト。暴走課金を避けるため本番前に必ず追加する。
+課金暴走への防御（外部サービス不要で完結させている）:
+  グラウンディングは課金プロジェクトのキーで動くため、いたずら連打が実費になる。
+  Cloudflare Turnstile は他社アカウントが要るので、代わりに次の3段で守る。
+    1. Origin 強制 — ai-oni.com 以外からの POST を拒否。ブラウザは
+       クロスオリジンPOSTで必ず Origin を送るため、curl/bot の直叩きを弾ける。
+    2. IPごとのレート制限 — ウォームインスタンス内で保持する簡易スライディング窓。
+    3. インスタンス単位の日次上限 — 万一すり抜けても総量で頭打ちにする。
+  Vercel はステートレスなのでインスタンスをまたぐ厳密な制限にはならないが、
+  「1台のbotが連打して課金が爆発する」という現実的な最悪ケースは止められる。
+  Turnstile の検証も残してあり、TURNSTILE_SECRET を入れれば追加で有効になる。
 """
 
 from http.server import BaseHTTPRequestHandler
 import json
 import os
+import time
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -46,6 +52,51 @@ ALLOWED_ORIGINS = {
     "https://www.ai-oni.com",
 }
 DEFAULT_ORIGIN = "https://ai-oni.com"
+
+# --- レート制限のパラメータ ---------------------------------------------
+# 実測は1回2〜3秒。人間が真面目に使うなら数回で足りるので、
+# 「普通の見込み客は絶対に引っかからないが、連打は止まる」水準に置く。
+RATE_WINDOW = 3600     # 集計窓（秒）
+RATE_PER_IP = 8        # 同一IPが RATE_WINDOW 内に実行できる回数
+DAILY_CAP = 300        # このインスタンスが1日に通す上限（暴走の最終ブレーキ）
+
+# ウォームなインスタンスの間だけ保持する。コールドスタートで消えるが、
+# 連打は同一インスタンスに流れやすいので実用上は効く。
+_hits = {}             # ip -> [timestamp, ...]
+_daily = {"day": None, "count": 0}
+
+
+def _client_ip(headers):
+    fwd = headers.get("X-Forwarded-For", "")
+    if fwd:
+        return fwd.split(",")[0].strip()
+    return headers.get("X-Real-IP", "") or "unknown"
+
+
+def _rate_limited(ip):
+    """レート超過なら True。副作用として今回の実行を記録する。"""
+    now = time.time()
+
+    day = time.strftime("%Y-%m-%d", time.gmtime(now))
+    if _daily["day"] != day:
+        _daily["day"], _daily["count"] = day, 0
+    if _daily["count"] >= DAILY_CAP:
+        return True
+
+    recent = [t for t in _hits.get(ip, []) if now - t < RATE_WINDOW]
+    if len(recent) >= RATE_PER_IP:
+        _hits[ip] = recent
+        return True
+
+    recent.append(now)
+    _hits[ip] = recent
+    _daily["count"] += 1
+
+    # 古いIPを掃除してメモリを膨らませない
+    if len(_hits) > 2000:
+        for k in [k for k, v in _hits.items() if not v or now - v[-1] > RATE_WINDOW]:
+            _hits.pop(k, None)
+    return False
 
 
 def _build_prompt(company, product):
@@ -172,6 +223,15 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
+        # ① Origin 強制。ブラウザはクロスオリジンPOSTで必ず Origin を送るので、
+        #    ここを通れないのは bot / 直叩き。課金を伴う処理の手前で落とす。
+        if self.headers.get("Origin", "") not in ALLOWED_ORIGINS:
+            return self._send(403, {"error": "このURLからは利用できません"})
+
+        # ② レート制限。人間の利用では踏まない水準（1時間に8回まで）。
+        if _rate_limited(_client_ip(self.headers)):
+            return self._send(429, {"error": "お試しが集中しています。しばらく時間をおいてからお願いします"})
+
         try:
             length = int(self.headers.get("Content-Length", 0))
             if length <= 0 or length > MAX_BODY:
