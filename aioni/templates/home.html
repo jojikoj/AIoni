@@ -179,9 +179,16 @@
       var src='';
       if(d.sources&&d.sources.length){
         // 自分の目で「うちのサイトが無い」と気づいてもらう。こちらは煽らない。
-        src='<div class="ac-src-h">AIがこの説明の根拠にしたサイトです。ここに御社の公式発信が入っているか、確認してください。</div><ul class="ac-src">';
-        d.sources.forEach(function(s){src+='<li><a href="'+esc(s.uri)+'" target="_blank" rel="noopener">'+esc(s.title||host(s.uri))+'</a></li>';});
-        src+='</ul>';
+        // 同じサイトの別ページが複数返ることがある。ドメイン単位で1件にまとめる。
+        var seen={},items=[];
+        d.sources.forEach(function(s){
+          var h=host(s.uri);
+          if(seen[h])return;
+          seen[h]=1;
+          items.push('<li><a href="'+esc(s.uri)+'" target="_blank" rel="noopener">'+esc(h)+'</a></li>');
+        });
+        src='<div class="ac-src-h">AIがこの説明の根拠にしたサイトです。ここに御社の公式発信が入っているか、確認してください。</div>'
+          +'<ul class="ac-src">'+items.join('')+'</ul>';
       }
       var tips='<div class="ac-tips"><div class="ac-tips-h">まず打てる手</div><ul>'
         + b.tips.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')
