@@ -40,28 +40,62 @@ GA4_SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPORTS = ROOT / "reports"
 
-# GA4 プロパティID（数字）。空のあいだは GA4 セクションを出力しない。
+# GA4 プロパティID（数字）。空なら accountSummaries から自動で探す。
 # 測定ID(G-SNQPGVMWWW)ではなくプロパティIDを入れること。
-# GA4管理画面 → 管理 → プロパティの詳細 → 「プロパティID」
 GA4_PROPERTY_ID = os.environ.get("GA4_PROPERTY_ID", "")
 
-# GA4 を読むには ADC に analytics.readonly スコープが必要。
-# 一度だけ次を実行する（Search Console のスコープも同時に付け直す）:
-#   gcloud auth application-default login \
-#     --scopes=https://www.googleapis.com/auth/webmasters.readonly,\
-# https://www.googleapis.com/auth/analytics.readonly,\
-# https://www.googleapis.com/auth/cloud-platform
-GA4_SCOPE_HINT = (
-    "gcloud auth application-default login --scopes="
-    "https://www.googleapis.com/auth/webmasters.readonly,"
-    "https://www.googleapis.com/auth/analytics.readonly,"
-    "https://www.googleapis.com/auth/cloud-platform"
-)
+# GA4はサービスアカウントで読む。
+#
+# なぜ ADC ではないのか（2026-07-30）:
+#   gcloud の既定クライアントIDでは analytics.readonly が Google 側で
+#   ブロックされており、`gcloud auth application-default login
+#   --scopes=...analytics.readonly` は同意画面で拒否される。
+#   （gcloud自身が「blocked soon for the default client ID」と警告する）
+#   サービスアカウントなら同意画面を通らず、無人cronにも向く。
+#
+# 準備（一度だけ）:
+#   1. 鍵は tools/ が作成済み → ~/.config/aioni-ga4-sa.json
+#   2. GA4管理画面 → 管理 → プロパティのアクセス管理 → ＋ →
+#      下記のメールアドレスを「閲覧者」で追加
+GA4_SA_KEY = pathlib.Path(
+    os.environ.get("GA4_SA_KEY", pathlib.Path.home() / ".config" / "aioni-ga4-sa.json"))
+GA4_SA_EMAIL = "aioni-ga4-reader@a-form-prod.iam.gserviceaccount.com"
 
 
 def service():
     creds, _ = google.auth.default(scopes=SCOPES)
     return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
+
+
+def _ga4_creds():
+    """GA4用の資格情報。サービスアカウント鍵があればそれを使う。"""
+    if GA4_SA_KEY.exists():
+        from google.oauth2 import service_account
+        return service_account.Credentials.from_service_account_file(
+            str(GA4_SA_KEY), scopes=GA4_SCOPES)
+    # 鍵が無ければ ADC を試す（スコープが付いていれば動く）
+    creds, _ = google.auth.default(scopes=GA4_SCOPES)
+    return creds
+
+
+def ga4_property_id(creds) -> str:
+    """プロパティIDを自動で見つける。環境変数があればそれを優先。"""
+    if GA4_PROPERTY_ID:
+        return GA4_PROPERTY_ID
+    admin = build("analyticsadmin", "v1beta", credentials=creds,
+                  cache_discovery=False)
+    res = admin.accountSummaries().list().execute()
+    for acc in res.get("accountSummaries", []):
+        for p in acc.get("propertySummaries", []):
+            # 「AIの鬼」「AIoni」「ai-oni」を含むプロパティを優先
+            name = (p.get("displayName") or "").lower()
+            if any(k in name for k in ("鬼", "aioni", "ai-oni", "ai oni")):
+                return p["property"].split("/")[-1]
+    # 見つからなければ最初のプロパティ
+    for acc in res.get("accountSummaries", []):
+        for p in acc.get("propertySummaries", []):
+            return p["property"].split("/")[-1]
+    return ""
 
 
 def ga4_section(days: int = 28) -> list[str]:
@@ -71,12 +105,13 @@ def ga4_section(days: int = 28) -> list[str]:
     サイトに来たあとどう動いたか（流入元・直帰・/contact/ 到達）は
     GA4 にしかない。スコープ未付与のあいだは手順を出して先に進む。
     """
-    if not GA4_PROPERTY_ID:
-        return ["- GA4_PROPERTY_ID が未設定のためスキップ",
-                "  （GA4管理画面 → 管理 → プロパティの詳細 → プロパティID を "
-                "環境変数 GA4_PROPERTY_ID に入れる）"]
     try:
-        creds, _ = google.auth.default(scopes=GA4_SCOPES)
+        creds = _ga4_creds()
+        prop = ga4_property_id(creds)
+        if not prop:
+            return ["- GA4のプロパティが見つかりません。",
+                    f"  GA4管理画面 → 管理 → プロパティのアクセス管理 で "
+                    f"`{GA4_SA_EMAIL}` を「閲覧者」で追加してください。"]
         ga = build("analyticsdata", "v1beta", credentials=creds,
                    cache_discovery=False)
         body = {
@@ -87,7 +122,7 @@ def ga4_section(days: int = 28) -> list[str]:
             "limit": 20,
         }
         res = ga.properties().runReport(
-            property=f"properties/{GA4_PROPERTY_ID}", body=body).execute()
+            property=f"properties/{prop}", body=body).execute()
         lines = [f"### 流入チャネル別（直近{days}日）"]
         for r in res.get("rows", []):
             ch = r["dimensionValues"][0]["value"]
@@ -107,7 +142,7 @@ def ga4_section(days: int = 28) -> list[str]:
             "limit": 15,
         }
         res2 = ga.properties().runReport(
-            property=f"properties/{GA4_PROPERTY_ID}", body=body2).execute()
+            property=f"properties/{prop}", body=body2).execute()
         lines.append("")
         lines.append(f"### ページ別 上位（直近{days}日）")
         for r in res2.get("rows", []):
@@ -118,10 +153,11 @@ def ga4_section(days: int = 28) -> list[str]:
         return lines
     except Exception as e:
         msg = str(e)
-        if "ACCESS_TOKEN_SCOPE_INSUFFICIENT" in msg or "insufficient" in msg:
-            return ["- GA4 を読む権限がありません（ADC のスコープ不足）。",
-                    "  一度だけ次を実行してください:",
-                    f"  `{GA4_SCOPE_HINT}`"]
+        if ("PERMISSION_DENIED" in msg or "insufficient" in msg
+                or "does not have sufficient" in msg or "403" in msg):
+            return ["- GA4 を読む権限がありません。",
+                    "  GA4管理画面 → 管理 → プロパティのアクセス管理 → ＋ で",
+                    f"  `{GA4_SA_EMAIL}` を「閲覧者」として追加してください。"]
         return [f"- 取得失敗: {msg[:300]}"]
 
 

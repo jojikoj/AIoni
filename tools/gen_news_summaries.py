@@ -51,6 +51,10 @@ PROMPT_HEAD = """あなたはAIメディア「AIの鬼」の編集者です。
 以下のJSONは各AI関連ニュースの見出しと要約です。1件ごとに、
 そのニュースを扱った日本語のオリジナル解説記事（本文のみ、約800字）を書いてください。
 
+article_body があるものは、それが配信元の記事本文です。事実はそこから取ってください
+（無いものは title / summary の範囲だけで書き、足りない分は事実を作らずに
+業界文脈と実務含意で厚みを出してください）。
+
 【構成】各記事は次の流れで、見出し記号や箇条書きを使わず段落で書く（2〜4段落）:
   1. 何が起きたのか（入力の事実を、自分の言葉で分かりやすく言い直す）
   2. AIの鬼の視点 — ここが主役。「面白いのはここ」「引っかかるのはここ」
@@ -116,13 +120,23 @@ def _call(payload: dict) -> dict | None:
 
 
 def _material(it: dict) -> dict:
-    """生成の入力素材。日本語訳があれば読みやすさのため併記する。"""
-    return {
+    """生成の入力素材。日本語訳があれば読みやすさのため併記する。
+
+    body_src（aioni.collectors.fulltext が取得した記事本文）があれば入れる。
+    2026-07-30 まではRSSの紹介文だけを素材に約800字を書かせていたため、
+    素材が薄い記事で水増しに寄りやすかった。本文があるならそれを読ませる。
+    """
+    m = {
         "title": clean_for_translation(it.get("title", "")),
         "title_ja": (it.get("title_ja") or "").strip(),
         "summary": clean_for_translation(it.get("summary", "")),
         "summary_ja": (it.get("summary_ja") or "").strip(),
     }
+    src = (it.get("body_src") or "").strip()
+    if src:
+        # 長い本文はプロンプトを膨らませるので先頭のみ（結論が先の記事が多い）
+        m["article_body"] = src[:4000]
+    return m
 
 
 def main() -> int:

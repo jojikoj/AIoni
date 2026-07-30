@@ -42,25 +42,41 @@ step() {   # step <名前> <コマンド...>
 # 1. 収集（RSS/API。無料ソースのみ）
 step "収集" python3 -m aioni.collectors.collect_all
 
-# 2. 本文取得と日本語要約
+# 2. 記事本文の取得（body_src に保存。次段の素材になる）
 #    1回あたりの件数を絞る。全件を一度に回すと数時間かかるため、
 #    毎日少しずつ消化して未処理を減らす設計にしている。
-step "本文要約" python3 -m aioni.collectors.fulltext --limit=40
+step "本文取得" python3 -m aioni.collectors.fulltext --limit=40
 
-# 3. 内部リンク検査 → ビルド → 公開 → IndexNow
+# 3. 個別ページに表示する約800字の解説（body_long）を生成する。
+#
+#    ⚠️ 2026-07-30 まで、この工程が daily.sh に入っていなかった。
+#    fulltext は body_ja に書くが、サイト（build.py / news_article.html）が
+#    読むのは body_long。つまり毎日 claude を40件叩いた結果を、サイトは
+#    一度も表示していなかった。新着ニュースの個別ページは本文が空のまま
+#    「出典リンクと関連記事だけ」の薄いページになっていた。
+#    body_long を作るのはこのスクリプトなので、日次に入れる。
+step "解説生成" python3 tools/gen_news_summaries.py --limit=20
+
+# 4. 内部リンク検査 → ビルド → 公開 → IndexNow
 step "公開" ./tools/deploy.sh
 
-# 4. 状況を1行で残す（週次の振り返りで読む）
+# 5. 状況を1行で残す（週次の振り返りで読む）
+#    ⚠️ 2026-07-30 修正: ここは body_ja を数えていた。body_ja はサイトが
+#    表示しないフィールドなので、この列が増えても記事の中身は増えていない。
+#    「数字は動いているのに実物は空」という一番気づけない壊れ方だった。
+#    サイトが実際に表示する body_long を数える。
 python3 - <<'PY'
 import json, pathlib, datetime
 d = json.loads(pathlib.Path("data/news.json").read_text(encoding="utf-8"))
 items = d["items"]
-body = sum(1 for i in items if i.get("body_ja"))
+body = sum(1 for i in items if (i.get("body_long") or "").strip())
+src = sum(1 for i in items if (i.get("body_src") or "").strip())
 line = (f"{datetime.date.today()}\tニュース{len(items)}\t本文{body}"
+        f"\t素材{src}"
         f"\t記事{len(list(pathlib.Path('content/articles').glob('*.ja.md')))}")
 p = pathlib.Path("data/daily_stats.tsv")
 p.write_text((p.read_text(encoding="utf-8") if p.exists() else
-              "date\tnews\tbody\tarticles\n") + line + "\n", encoding="utf-8")
+              "date\tnews\tbody\tsrc\tarticles\n") + line + "\n", encoding="utf-8")
 print("   " + line.replace("\t", "  "))
 PY
 

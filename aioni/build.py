@@ -577,6 +577,9 @@ class Builder:
         self.paper_readings = readings if isinstance(readings, dict) else {}
         # 言語ごとに実際に出力したパスを記録（sitemap生成に使う）
         self.paths_by_lang: dict[str, list[str]] = {l: [] for l in config.LANGS}
+        # canonical を他ページに向けたパス。sitemap には載せない
+        # （正本でないURLを申告すると矛盾したシグナルになる）
+        self.noncanonical: dict[str, set[str]] = {l: set() for l in config.LANGS}
 
     # 相対パス prefix（dist直下=ルート、ページ深さに応じて ../ を積む）
     @staticmethod
@@ -597,7 +600,7 @@ class Builder:
 
     def _ctx(self, lang: str, *, depth: int, active: str, path: str,
              page_description: str = "", title_suffix: str | None = None,
-             noindex: bool = False) -> dict:
+             noindex: bool = False, canonical_path: str | None = None) -> dict:
         rel = self._rel(depth)  # 言語ルート基準（ナビ用）
         # アセット(css/js/img)はサイトルート(dist/)基準。en配下は1階層深いので補正。
         asset = rel + ("../" if lang != config.DEFAULT_LANG else "")
@@ -626,7 +629,11 @@ class Builder:
             "active": active,
             "year": self.year,
             "build_time": self.build_time,
-            "canonical": self._url_for(lang, path),
+            # canonical_path を渡すと、そのURLを正本として申告する。
+            # 同一記事が複数の配信元から入って中身が同じページが2枚できたときに
+            # 片方へ統合するために使う（2026-07-30、Qiita×Zennの相互投稿で4組）。
+            "canonical": self._url_for(lang, canonical_path
+                                       if canonical_path is not None else path),
             "site_base_url": self.base_url,
             # 記事カテゴリはナビ・カテゴリチップの両方で使うので常に渡す
             "article_categories": config.ARTICLE_CATEGORIES,
@@ -726,13 +733,22 @@ class Builder:
 
         # 一覧ページ（言語ルートから1階層 → rel="../"）
         # 件数が多いものはページ分割する。1ページ目は news/、2ページ目以降は news/2/。
+        # 一覧ページは自前の description を持たせる。
+        # 2026-07-30 実測: /news/ /papers/ /articles/ とトップの4ページが
+        # site_description をそのまま出力していて、検索結果で同一文が4回並んでいた。
         paged = [
-            ("news/", "news.html", "news", "news", news),
-            ("papers/", "papers.html", "papers", "papers", papers),
-            ("articles/", "articles.html", "articles", "articles", articles),
+            ("news/", "news.html", "news", "news", news,
+             "国内外のAI開発元の発表と専門メディアを1日2回横断して集約。"
+             "英語ソースは日本語に翻訳し、要点と中小企業の実務への影響を添えています。"),
+            ("papers/", "papers.html", "papers", "papers", papers,
+             "arXiv から機械学習・自然言語処理・コンピュータビジョンの最新プレプリントを"
+             "集約。注目論文は日本語で読み解き、中小企業の実務に何を意味するかまで整理します。"),
+            ("articles/", "articles.html", "articles", "articles", articles,
+             "株式会社TOEが自社の業務でAIを動かした一次記録と、AI検索を実際に測った結果。"
+             "処理件数・所要時間・失敗件数を実ログのまま載せています。"),
         ]
         total_pages_built = 0
-        for base_path, tpl, active, var, all_items in paged:
+        for base_path, tpl, active, var, all_items, list_desc in paged:
             chunks = _paginate(all_items, config.PAGE_SIZE)
             for pno, chunk in enumerate(chunks, 1):
                 path = base_path if pno == 1 else f"{base_path}{pno}/"
@@ -742,7 +758,7 @@ class Builder:
                 # 一覧の断片が検索結果に出ても読者は答えに着地できない。
                 # follow は残すので個別ページの発見性は落ちない。
                 ctx = self._ctx(lang, depth=depth, active=active, path=path,
-                                noindex=pno > 1)
+                                noindex=pno > 1, page_description=list_desc)
                 ctx[var] = chunk
                 ctx["pagination"] = _pagination_ctx(pno, len(chunks))
                 # 読み解きを用意した論文の入口は /papers/ の1ページ目だけに出す。
@@ -811,12 +827,48 @@ class Builder:
         for a in related_pool:
             a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
         matched_count = 0
+        # 同じ記事を Qiita と Zenn の両方に投稿している著者がいるため、
+        # 配信元が違うのに <title> が完全一致するページが生まれる
+        # （2026-07-30 実測で4組）。重複するものだけ配信元名を足して区別する。
+        # 中身が同じページが2枚できるので、最初に現れたものを正本にして
+        # 残りは canonical でそこへ統合する。表示上は配信元名で区別する。
+        # 突き合わせは2種類。
+        #   ・display_title 一致 … 同じ記事を複数サイトに相互投稿した著者のケース
+        #   ・要約本文一致     … 別媒体が同じニュースを報じ、要約が同一になったケース
+        #                        （タイトルは違うので title だけでは検出できない）
+        title_counts: dict[str, int] = {}
+        canonical_of: dict[str, str] = {}
+        body_counts: dict[str, int] = {}
+        canonical_by_body: dict[str, str] = {}
+        for n in news:
+            key = n.get("display_title", "")
+            title_counts[key] = title_counts.get(key, 0) + 1
+            canonical_of.setdefault(key, f"news/{n['slug']}/")
+            body = (n.get("body_long") or "").strip()
+            if body:
+                body_counts[body] = body_counts.get(body, 0) + 1
+                canonical_by_body.setdefault(body, f"news/{n['slug']}/")
+
+        dup_merged = 0
         for idx, n in enumerate(news):
             npath = f"news/{n['slug']}/"
             npage_url = self._url_for(lang, npath)
             title_tail, ndesc = news_meta(n, lang)
+            key = n.get("display_title", "")
+            body = (n.get("body_long") or "").strip()
+            canon = None
+            if title_counts.get(key, 0) > 1:
+                title_tail = f"{title_tail}（{n.get('source', '')}）"
+                if canonical_of[key] != npath:
+                    canon = canonical_of[key]
+            if canon is None and body and body_counts.get(body, 0) > 1:
+                if canonical_by_body[body] != npath:
+                    canon = canonical_by_body[body]
+            if canon:
+                dup_merged += 1
+                self.noncanonical[lang].add(npath)
             ctx = self._ctx(lang, depth=2, active="news", path=npath,
-                            page_description=ndesc)
+                            page_description=ndesc, canonical_path=canon)
             ctx["news"] = n
             ctx["news_title_tail"] = title_tail
             # まず本当に関連する記事。足りない分だけ従来のローテーションで補う。
@@ -846,7 +898,8 @@ class Builder:
             html = self.env.get_template("news_article.html").render(**ctx)
             self._write(lang, f"news/{n['slug']}", html)
         if news:
-            print(f"  [{lang}] 関連記事の実マッチ {matched_count}/{len(news)}件")
+            print(f"  [{lang}] 関連記事の実マッチ {matched_count}/{len(news)}件"
+                  f" / 重複ニュースをcanonical統合 {dup_merged}件")
 
         # 注目論文の個別ページ（papers/<arxiv_id>/ → depth 2）
         # 全250件には作らない。読み解きを用意した本数だけ。
@@ -1073,9 +1126,14 @@ class Builder:
             seo.build_robots(self.base_url), encoding="utf-8")
 
         # sitemap.xml（実際に生成したページのみ / lastmod + hreflang）
+        # canonical を他へ向けたページは除く
         articles_ja = load_articles(config.DEFAULT_LANG)
+        sitemap_paths = {
+            l: [p for p in paths if p not in self.noncanonical.get(l, set())]
+            for l, paths in self.paths_by_lang.items()
+        }
         (config.DIST_DIR / "sitemap.xml").write_text(
-            seo.build_sitemap(self.base_url, self.paths_by_lang, self.now),
+            seo.build_sitemap(self.base_url, sitemap_paths, self.now),
             encoding="utf-8")
 
         # IndexNow の鍵ファイル。検索エンジンがこれを取得して

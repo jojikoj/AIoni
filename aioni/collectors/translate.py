@@ -131,8 +131,18 @@ def translate_items_claude(items: list[dict]) -> int:
             got = result.get(str(n))
             if not isinstance(got, dict):
                 continue
-            title = (got.get("title") or "").strip()
-            summary = (got.get("summary") or "").strip()
+            # 用語辞書はこちらの経路でも必ず通す。
+            # 2026-07-30 まで polish_ja は argos 経路だけに掛かっており、
+            # 実運用で使われる claude 経路が素通しだった（固有名詞の
+            # カタカナ開きが本番のページタイトルに出ていた）。
+            title = polish_ja((got.get("title") or "").strip())
+            summary = polish_ja((got.get("summary") or "").strip())
+            # 構文が壊れている訳は載せない。原題のまま出す方が読める
+            # （どのページにも「自動翻訳」バッジが出るので誤解は生じない）。
+            if title and looks_broken_ja(title):
+                print(f"    [claude] 訳が壊れているため原題を使う: {title[:40]}",
+                      file=sys.stderr)
+                title = ""
             if title:
                 # 元要約が字数で切り詰められている場合、訳文も途中で終わるため
                 # 省略記号を補って「続きがある」ことを示す。
@@ -166,16 +176,69 @@ _GLOSSARY_JA = [
     (re.compile(r"推論時間"), "推論"),
     (re.compile(r"\s*(?:ログイン|投稿|コンテンツ)\s*$"), ""),
     (re.compile(r"^\s*(?:ログイン|投稿|コンテンツ)\s*"), ""),
+
+    # --- 固有名詞のカタカナ開き戻し（2026-07-30 追加） ---
+    # プロンプトで「製品名・モデル名・企業名は原綴りのまま」と指示しているが、
+    # haiku は数%の割合でカタカナに開く。実測では182件中4件（2.2%）で、
+    # 「壁通り（Wall Street）」「キミK3（Kimi K3）」のように読めない見出しになる。
+    # 決定的な後処理で戻す。指示だけに頼らない。
+    (re.compile(r"チャット\s?GPT", re.I), "ChatGPT"),
+    (re.compile(r"オープン\s?AI(?!の鬼)"), "OpenAI"),
+    (re.compile(r"アンソロピック|アンスロピック"), "Anthropic"),
+    (re.compile(r"ジェミニ"), "Gemini"),
+    (re.compile(r"クロード\s?コード"), "Claude Code"),
+    (re.compile(r"(?<![ァ-ヶ])クロード(?![ァ-ヶ])"), "Claude"),
+    (re.compile(r"ハギング\s?フェイス"), "Hugging Face"),
+    (re.compile(r"キミ\s?K3"), "Kimi K3"),
+    (re.compile(r"ディープシーク"), "DeepSeek"),
+    (re.compile(r"マイクロソフト\s?コパイロット"), "Microsoft Copilot"),
+    # 慣用表現の直訳。「壁通り」は Wall Street の逐語訳。
+    (re.compile(r"壁通り"), "ウォール街"),
+    (re.compile(r"シリコン\s?バレー"), "シリコンバレー"),
 ]
+
+# 和文の途中に半角/全角スペースが入って文が分断される崩れ。
+# 例: 「OpenAIがチャットGPTを作る すべての米国人ユーザーが利用できる健康」
+# これは訳の構文自体が壊れているため、置換では直せない。検出して呼び出し側に
+# 原題へのフォールバックを判断させる。
+_BROKEN_JA = re.compile(r"[ぁ-んー]\s+[ぁ-んァ-ヶ一-龥]")
+
+
+def looks_broken_ja(text: str) -> bool:
+    """訳文の構文が壊れていそうなら True（原題へ戻す判断に使う）。"""
+    if not text:
+        return True
+    return bool(_BROKEN_JA.search(text))
 
 
 def polish_ja(text: str) -> str:
+    """1行テキスト（title / summary）用。空白は1つに畳む。"""
     if not text:
         return text
     out = text
     for pat, rep in _GLOSSARY_JA:
         out = pat.sub(rep, out)
     return re.sub(r"\s+", " ", out).strip()
+
+
+def polish_ja_multiline(text: str) -> str:
+    """複数段落テキスト（body_long）用。**段落区切りを壊さない。**
+
+    polish_ja は末尾で \\s+ を空白1つに畳むため、body_long に掛けると
+    段落区切りの \\n\\n が空白になり、news_article.html の
+    `body_long.split('\\n\\n')` が段落を1つしか作れなくなる
+    （本文全体が1つの <p> に潰れる）。行ごとに辞書を当てる。
+    """
+    if not text:
+        return text
+    lines = []
+    for line in text.split("\n"):
+        out = line
+        for pat, rep in _GLOSSARY_JA:
+            out = pat.sub(rep, out)
+        # 行内の連続空白だけ畳む。改行そのものは触らない。
+        lines.append(re.sub(r"[ \t　]+", " ", out).rstrip())
+    return "\n".join(lines).strip("\n")
 
 
 def _load_engine():

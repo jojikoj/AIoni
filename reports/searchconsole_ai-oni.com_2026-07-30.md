@@ -26,5 +26,5 @@
 - aiキルスイッチ … 表示 1 / クリック 0 / CTR 0.0% / 掲載順位 38.0
 
 ## GA4（流入元・回遊・問い合わせ到達）
-- GA4_PROPERTY_ID が未設定のためスキップ
-  （GA4管理画面 → 管理 → プロパティの詳細 → プロパティID を 環境変数 GA4_PROPERTY_ID に入れる）
+- GA4のプロパティが見つかりません。
+  GA4管理画面 → 管理 → プロパティのアクセス管理 で `aioni-ga4-reader@a-form-prod.iam.gserviceaccount.com` を「閲覧者」で追加してください。

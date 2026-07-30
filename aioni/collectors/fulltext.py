@@ -184,6 +184,13 @@ def enrich(items: list[dict], limit: int | None = None,
             it["body_skip"] = "no_body"
             skipped += 1
         else:
+            # 取得した記事本文を素材として残す。
+            # 2026-07-30 まで body は要約に使ったあと破棄していたため、
+            # tools/gen_news_summaries.py が800字の解説を「RSSの紹介文だけ」から
+            # 書く状態になっていた（素材が薄く水増しに寄りやすい）。
+            # 本文があるものはこちらを素材に使わせる。転載しないので
+            # サイトには出力せず、data/ に置くだけ。
+            it["body_src"] = body[:8000]
             summary = summarize(it.get("title", ""), body)
             if summary and len(summary) >= 300:
                 it["body_ja"] = summary
