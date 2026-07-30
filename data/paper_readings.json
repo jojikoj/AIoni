@@ -1,0 +1,329 @@
+{
+ "items": {
+  "2607.22529": {
+   "title_ja": "スキルの自己対戦によるLLM能力の拡張：共進化メカニズムの提案",
+   "one_line": "LMの自己学習訓練で生じるタスク多様性と検証信頼性のジレンマに対し、エージェントスキルの共進化メカニズムによる解決を提案している。",
+   "points": [
+    "LLMの訓練パラダイムが手動設計・アノテーションから相互作用駆動の自己進化へシフトしている",
+    "既存自己進化方法が直面する根本的ジレンマ：環境限定型は検証精度が高いが学習範囲が狭く、開放型自己生成はタスク多様性は広いが誤ったリワード信号のリスクを抱えている",
+    "エージェントスキルが上記ジレンマの解決策として位置づけられている（詳細は要旨からは不明）"
+   ],
+   "implication": "本論文はLLMの訓練アルゴリズムに関する基礎研究です。中小企業の大多数はLLMを自社構築するのではなく既存サービスを利用するため、直接的な実務への影響は限定的です。ただし、より信頼性が高く多様なタスクに対応できるLLMが生成されることで、業務効率化ツールや顧客対応支援システムとしての実用価値が向上する可能性があります。LLMサービスを提供する企業や、AI信頼性・安全性に関心のある企業にとっては重要な研究領域です。",
+   "arxiv_id": "2607.22529",
+   "title_en": "Skill Self-Play: Pushing the Frontier of LLM Capability with Co-Evolving Skills",
+   "url": "https://arxiv.org/abs/2607.22529v1",
+   "pdf": "https://arxiv.org/pdf/2607.22529v1",
+   "published": "2026-07-24T17:59:22+00:00",
+   "categories": [
+    "cs.CL"
+   ],
+   "authors": [
+    "Siyuan Huang",
+    "Pengyu Cheng",
+    "Haotian Liu",
+    "Tao Chen",
+    "Yihao Liu",
+    "Jingwei Ni",
+    "Shijie Zhou",
+    "Ziyi Yang"
+   ],
+   "summary_en": "LLM training is shifting from manual design and annotation to interaction-driven self-evolution. However, existing self-evolutionary methods face a fundamental dilemma between task diversity and verification reliability: environment-bound methods obtain precise feedback but confine learning to narrow domains, while open-ended self-generation broadens the task space but lacks reliable verification, allowing misleading rewards to pollute the training loop. We identify agent skills as a powerful mi…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22520": {
+   "title_ja": "LLMエージェントのスキル追加による失敗増加のコスト実態",
+   "one_line": "LLMエージェントにスキルを追加すると平均的には性能が向上するが、実際には特定タスクで新たに失敗する現象が発生することを、6,000回以上の実験で実証した研究。",
+   "points": [
+    "スキル追加による平均的な改善の陰に、新たな失敗が隠れている可能性がある",
+    "6,000回を超える実験で、スキル有無での実際の性能差を測定・比較している",
+    "『regression』現象——スキルなしで成功したタスクがスキル追加後に失敗する——を定量化している"
+   ],
+   "implication": "中小企業でAIツールやLLMエージェントを導入するとき、「全体の成功率が上がった」という平均値だけで判断すると、特定の業務では逆に失敗が増える可能性がある。つまり、新しいスキルや機能の追加時には、全体指標だけでなく、各タスク単位での悪化がないか検証することが重要。ただし、この研究はオフィス自動化という限定的な領域が対象のため、自社の業務環境への適用可能性については要旨からは不明。",
+   "arxiv_id": "2607.22520",
+   "title_en": "The Regression Tax: Decomposing Why Skills Help and Hurt LLM Agents",
+   "url": "https://arxiv.org/abs/2607.22520v1",
+   "pdf": "https://arxiv.org/pdf/2607.22520v1",
+   "published": "2026-07-24T17:50:03+00:00",
+   "categories": [
+    "cs.AI"
+   ],
+   "authors": [
+    "Darshan Tank",
+    "Baran Nama"
+   ],
+   "summary_en": "Adding procedural skills to an LLM agent is typically evaluated by average improvement in task success. However, this metric hides an important cost: skills can also make agents worse. We measure both sides by comparing agents with and without skills across nearly 6,000 runs spanning two office automation benchmarks and three model harness stacks. This allows us to distinguish two outcomes. A regression is a task solved without skills but failed after skills are added. A residual failure is a ta…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22489": {
+   "title_ja": "条件数で判別するLoRA行列の選別更新",
+   "one_line": "LoRA微調整は全行列を均一に更新するため計算コストが高いが、条件数を指標に、実際に適応に貢献する行列と貢献しない行列を区別する手法を提案する。",
+   "points": [
+    "LoRA（低ランク適応）は効率的なニューラルネットワーク微調整だが、現在は全ての行列を均一に更新するため計算コストが高い",
+    "条件数という数学的指標を使って、どのLoRA行列が実際に学習に貢献するかを識別する",
+    "大規模モデル（数十億パラメータ）やエッジデバイス、オンデバイス微調整など計算資源が限定された環境での効率化を目指す"
+   ],
+   "implication": "中小企業がエッジデバイスやローカルで生成AIを微調整する際、計算コストが課題になります。本論文は条件数という指標で『どの学習部分を優先するか』を判別する方法を示しており、限られた計算資源での効率的な適応が可能になる推測されます。ただし具体的な計算効率の改善率や実装方法については要旨からは不明です。",
+   "arxiv_id": "2607.22489",
+   "title_en": "\\k{appa}-LoRA: Condition Numbers Reveal Which LoRA Matrices Worth Updating",
+   "url": "https://arxiv.org/abs/2607.22489v1",
+   "pdf": "https://arxiv.org/pdf/2607.22489v1",
+   "published": "2026-07-24T17:00:40+00:00",
+   "categories": [
+    "cs.LG",
+    "cs.AI"
+   ],
+   "authors": [
+    "Jianghui Wang",
+    "Silong Yong",
+    "Francesco Orabona",
+    "Marco Canini",
+    "Katia P. Sycara",
+    "Yaqi Xie"
+   ],
+   "summary_en": "Low-Rank Adaptation (LoRA) has become a widely adopted technique for efficient neural network fine-tuning, decomposing model updates into low-rank matrices. However, LoRA remains computationally costly because it updates all matrices uniformly, regardless of their actual contribution to adaptation. This cost is especially prohibitive for large-scale models with billions of parameters and for resource-constrained settings such as edge deployment and on-device fine-tuning. We show for the first ti…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22465": {
+   "title_ja": "エージェント型AIのタスク整合的なLLMルーティング手法",
+   "one_line": "複数のLLMを選び分ける際に、個別の呼び出しごとではなく、タスク全体の最終結果に基づいて意思決定するルーティング手法を提案している。",
+   "points": [
+    "既存のLLMルーターは各呼び出し毎に独立して選択している。しかしエージェント型AIは長期的なワークフローとして動作し、最終的な品質は遅延したタスクレベルの結果で判断される",
+    "個別呼び出しベースのフィードバックでは、特定のルーティング決定がタスク全体の結果に与えた影響を正しく把握できない",
+    "この不整合を解決するため、提案手法（詳細は要旨からは不明）はタスク一貫性を持つ適応型ルーティングを実現する"
+   ],
+   "implication": "中小企業がChatGPT・Claudeなど複数のLLMを組み合わせてAIアシスタントやワークフロー自動化を構築する際に関連する研究です。コスト削減と精度のバランスを取るために、どのLLMを選ぶかの判断が重要ですが、従来のアプローチ（各ステップで最適なモデルを選ぶ）では不十分だということを指摘しています。ただし要旨からは具体的な解決手法が明らかでないため、実装への直結性は現段階では不明です。",
+   "arxiv_id": "2607.22465",
+   "title_en": "TRACE-ROUTER: Task-Consistent and Adaptive Online Routing for Agentic AI",
+   "url": "https://arxiv.org/abs/2607.22465v1",
+   "pdf": "https://arxiv.org/pdf/2607.22465v1",
+   "published": "2026-07-24T16:29:06+00:00",
+   "categories": [
+    "cs.AI",
+    "cs.LG",
+    "cs.MA"
+   ],
+   "authors": [
+    "Ritik Raj",
+    "Souvik Kundu",
+    "Sarbartha Banerjee",
+    "Dheemanth Joshi",
+    "Ishita Vohra",
+    "Tushar Krishna"
+   ],
+   "summary_en": "Routing to select large language models (LLMs) with different cost-quality trade-offs has become a fundamental deployment feature of enterprise AI. Existing routers, primarily make independent routing decisions for each LLM call. However, agentic applications execute as long-horizon workflows whose quality is determined only by a delayed, task-level outcome. This mismatch prevents per-call routers from correctly attributing feedback to individual routing decisions. Towards mitigating this, we pr…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22445": {
+   "title_ja": "エンタープライズAIエージェントの動的権限管理：合成データセットと3層権限アーキテクチャ",
+   "one_line": "エンタープライズAIエージェントが過度な権限を静的に保有することによるセキュリティリスクを指摘し、動的な最小権限原則に基づいた権限管理アーキテクチャの必要性を論じた研究。",
+   "points": [
+    "エンタープライズAIエージェントは設定時に役割が必要とする全てのツールへのアクセス権を一括付与され、その後変動しない（静的な過度な権限）",
+    "この継続的な過度な権限がアタックサーフェスを拡大し、セキュリティリスクになっている",
+    "権限管理は侵入検出ベースの対策ではなく、予防的な対策として位置付けるべき（エージェントのコンテキストに存在しない認証情報は悪用不可能）",
+    "合成データセットと3つの権限ソースを組み合わせたアーキテクチャを提案（具体的な設計は要旨からは不明）"
+   ],
+   "implication": "この論文は、エンタープライズシステムでのAIエージェント導入時のセキュリティアーキテクチャ設計に関する技術的研究です。中小企業の実務への直接的な応用は限定的と考えられます。ただし、「必要最小限の権限のみを付与する」という原則は、自社でChatGPTやその他の自動化ツール、APIエージェントを導入する際の権限管理の考え方として参考になる可能性があります。情報セキュリティの基本原則としてのリファレンスとしての価値が主です。",
+   "arxiv_id": "2607.22445",
+   "title_en": "Dynamic Capability Scoping for Enterprise AI Agents: A Synthetic Dataset and Three-Source Permission Architecture",
+   "url": "https://arxiv.org/abs/2607.22445v1",
+   "pdf": "https://arxiv.org/pdf/2607.22445v1",
+   "published": "2026-07-24T16:08:03+00:00",
+   "categories": [
+    "cs.AI",
+    "cs.CR"
+   ],
+   "authors": [
+    "Halil Burak Noyan"
+   ],
+   "summary_en": "Enterprise AI agents are typically granted static credential sets at configuration time, holding every tool the role might need for every task they perform. This persistent over-privilege expands the attack surface. We argue that capability scoping must follow a dynamic least-privilege principle and be treated as a prevention mechanism before a detection one. A credential that does not exist in an agent's context cannot be misused regardless of the agent's reasoning or evasion sophistication. We…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22393": {
+   "title_ja": "3D場面のマルチオブジェクト操作を評価するエージェントベンチマークSceneActBench",
+   "one_line": "視覚認識に基づいて3D環境内で複数オブジェクトに対して実際に行動を起こすAIエージェントの能力を測定する新しいベンチマークの提案。",
+   "points": [
+    "既存の3D評価ベンチマークは単一オブジェクト操作やテキスト応答の採点に限定されており、複数オブジェクト場面でのエージェント行動評価が不足している",
+    "SceneActBenchは5つの3Dタスク・統一されたエージェント-環境ループの下で視覚条件付き行動を評価する新ベンチマーク",
+    "PNG画像・ビデオフレーム・3Dアセットを入力として、エージェントが実環境に対して実行する行動を測定する仕組み"
+   ],
+   "implication": "この研究は、AIエージェント開発の基礎的な評価ツール開発に関する学術研究です。中小企業の実務への直接的な応用は現在のところ限定的です。ただし、CAD・3Dモデル操作支援やVR/AR環境でのAI操作など、3D環境を扱う業務が進化した際に、エージェント性能評価の重要性が高まる可能性があります。要旨からは具体的な評価結果や実装の詳細は不明です。",
+   "arxiv_id": "2607.22393",
+   "title_en": "SceneActBench: Can Agents Act on the 3D Scenes They See?",
+   "url": "https://arxiv.org/abs/2607.22393v1",
+   "pdf": "https://arxiv.org/pdf/2607.22393v1",
+   "published": "2026-07-24T15:16:47+00:00",
+   "categories": [
+    "cs.AI",
+    "cs.CV"
+   ],
+   "authors": [
+    "Yifei Zhao",
+    "Xiangxin Zhou",
+    "Wenhao Yang",
+    "Jiaqi Tang",
+    "Pu Jian",
+    "Huanjin Yao",
+    "Jiarui Yao",
+    "Haowei Lin"
+   ],
+   "summary_en": "Vision-language model (VLM) agents increasingly use tools to act on 3D scenes rather than only describe them. Existing 3D benchmarks score textual responses or single-object operations, leaving agent action on complete multi-object 3D scenes under evaluated. We present SceneActBench, a benchmark for visually conditioned action across five 3D tasks under a unified agent-environment loop. Given PNG images or sampled video frames and, where applicable, supplied 3D assets, an agent acts on a 3D envi…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22376": {
+   "title_ja": "文法書からの合成データで低資源言語の機械翻訳を実現する",
+   "one_line": "データ不足の危機言語の翻訳を、既存の文法書から大言語モデルで合成データを生成し、翻訳モデルをファインチューニングして改善する方法を3言語で実証した。",
+   "points": [
+    "危機言語など低資源言語は翻訳用のパラレルデータが大幅に不足している課題がある",
+    "既存の記述文法書から大言語モデルを使って文法規則・例文・辞書を自動抽出する",
+    "抽出したデータから合成パラレルコーパスを生成し、翻訳モデルのファインチューニング時に用いる"
+   ],
+   "implication": "本論文は言語学・自然言語処理の学術研究であり、一般的な中小企業の実務に直接的な応用は限定的です。ただし、多言語展開や海外進出を検討する企業、または翻訳業務の自動化が必要な企業にとっては、低資源言語の翻訳精度向上の手法として参考になる可能性があります。既存の文法書など紙ベースのアナログ資産から構造化データを自動抽出する発想は、他の業務データの活用方法としても応用を検討する価値があります。",
+   "arxiv_id": "2607.22376",
+   "title_en": "A Factorial Study of Synthetic Data Generation for Low-Resource Machine Translation using Grammar Books",
+   "url": "https://arxiv.org/abs/2607.22376v1",
+   "pdf": "https://arxiv.org/pdf/2607.22376v1",
+   "published": "2026-07-24T15:03:36+00:00",
+   "categories": [
+    "cs.CL"
+   ],
+   "authors": [
+    "Varun Ghat Ravikumar",
+    "Sina Ahmadi",
+    "Lena Jäger",
+    "Rico Sennrich"
+   ],
+   "summary_en": "Most endangered languages lack the parallel data required for machine translation, despite the existence of descriptive grammar books. We introduce a pipeline that uses large language models to extract grammatical rules, example sentences, and lexicons from grammar books and generate synthetic parallel corpora for fine-tuning-rather than feeding grammar content into prompts at inference time, as in prior work. Validated on three typologically diverse low-resource languages-Kalamang (Papuan), Tua…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22375": {
+   "title_ja": "品質と多様性を両立する研究アイデア生成エージェント",
+   "one_line": "LLMによる研究アイデア生成において、既存システムが品質と多様性のいずれかに偏る問題を指摘し、両方を同時に最適化する重要性を主張している。",
+   "points": [
+    "LLMを用いた研究アイデア自動生成システムが対象。既存システムは品質か多様性かの一方を優先する傾向がある",
+    "この偏りの結果、類似したアイデアか、つまらない・根拠不十分なアイデアのいずれかが増える問題が生じている",
+    "品質と多様性を同時に追求する必要性を主張（具体的な解法の詳細は要旨からは不明）"
+   ],
+   "implication": "この論文は研究アイデア生成という学術的課題への対応であり、中小企業の一般的な実務に直接の応用可能性は限定的と思われます。ただし、AI活用で社内の新規事業案や施策案を多数生成する際、『多くの選択肢を出す』ことと『出された案の実現可能性や新規性を保つ』ことをバランスさせることの重要性が示唆されます。",
+   "arxiv_id": "2607.22375",
+   "title_en": "IDEAgent: Agentic Quality-Diversity Search for Research Idea Generation",
+   "url": "https://arxiv.org/abs/2607.22375v1",
+   "pdf": "https://arxiv.org/pdf/2607.22375v1",
+   "published": "2026-07-24T15:03:14+00:00",
+   "categories": [
+    "cs.AI"
+   ],
+   "authors": [
+    "Varun Gumma",
+    "Navonil Majumder",
+    "Soumitra Sinhahajari",
+    "Soujanya Poria"
+   ],
+   "summary_en": "Large Language Models (LLMs) have significantly automated the process of scientific discovery over the past few years. However, existing systems share one core limitation: they generate and optimize ideas independently for either Quality or Diversity. This often leads to the generation of ideas in close proximity to one another or to a large set of trivial, unsound, or unclear concepts. In this work, we instead argue that research ideation should be treated as a conjunction of both objectives an…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22368": {
+   "title_ja": "エージェントベンチマークは実際の能力を測定しているのか：評価プロトコルの妥当性問題",
+   "one_line": "エージェント評価ベンチマークが、本来の能力測定を迂回する手法（公開解の検索、評価ファイルの読取、フィードバック操作など）により、実際の能力ではなく「スコア回避能力」を測定している可能性を指摘した研究。",
+   "points": [
+    "ベンチマークスコアが能力を正しく測定するには、評価プロトコルで対象能力が必須となるよう設計される必要がある",
+    "エージェントは公開解の復元、評価用アーティファクトの読取、評価生成の構造推測、フィードバック操作など、本来のタスク能力に頼らない方法でスコアを獲得できる",
+    "現在のベンチマークはこうした迂回手法に対する防御が不十分である"
+   ],
+   "implication": "中小企業がエージェント導入を検討する際、ベンチマークランキングやスコアだけを根拠にすべきではない、という注意喚起。ただしこの論文は学術的な評価方法論の研究であり、実務レベルでの「どのエージェントを導入すべきか」という判断基準を直接提供するものではない。自社の実際のタスク（営業管理、請求処理など）での検証が不可欠であることを示唆している。",
+   "arxiv_id": "2607.22368",
+   "title_en": "Do Agent Benchmarks Measure Capability? Protocol Validity in the Age of Agentic AI",
+   "url": "https://arxiv.org/abs/2607.22368v1",
+   "pdf": "https://arxiv.org/pdf/2607.22368v1",
+   "published": "2026-07-24T14:55:19+00:00",
+   "categories": [
+    "cs.AI"
+   ],
+   "authors": [
+    "Jiaqi Shao",
+    "Hanck Chen",
+    "Wei Zhang",
+    "Maxm Pan",
+    "Bing Luo"
+   ],
+   "summary_en": "Agent benchmarks increasingly evaluate repository editing, web research, terminal use, and long-horizon interaction. Their scores support capability claims only when the evaluation protocol keeps the intended capability necessary for success. Recent reward-hacking benchmarks and system reports show that agents can instead recover public solutions, read evaluation artifacts, infer generator structure, manipulate feedback, or benefit from invalid scoring paths; existing responses do not provide a…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22305": {
+   "title_ja": "多元的価値整合研究を実効化するロードマップ",
+   "one_line": "多様な人間の価値観をAIに反映させることは研究領域として存在するが、実際の商用AI開発では明示的には採用されていない現状を指摘する",
+   "points": [
+    "多元的価値整合（diverse human values and perspectivesをAIが表現・実現すること）が研究アジェンダとして認識されている",
+    "フロンティアラボの公開文書・評価方法の監査結果、多元主義を明示的な開発目標として挙げているものがない",
+    "本番モデルが多元的価値整合に対して明示的に訓練・テストされたという公開された証拠がない"
+   ],
+   "implication": "この論文はAI開発の研究領域での批評であり、中小企業の実務に直接的な影響はありません。ただし、導入・開発するAIツールが複数の利害関係者の価値観をバランスよく扱えているか、という検証視点が学術コミュニティで問題視されていることを理解する参考になります。",
+   "arxiv_id": "2607.22305",
+   "title_en": "A Roadmap to Impactful Pluralistic Alignment Research",
+   "url": "https://arxiv.org/abs/2607.22305v1",
+   "pdf": "https://arxiv.org/pdf/2607.22305v1",
+   "published": "2026-07-24T13:46:03+00:00",
+   "categories": [
+    "cs.AI"
+   ],
+   "authors": [
+    "Elinor Poole-Dayan",
+    "Jillian Fisher",
+    "Atoosa Kasirzadeh",
+    "Jacob Andreas",
+    "Mitchell Gordon",
+    "Michiel A. Bakker"
+   ],
+   "summary_en": "Pluralistic value alignment---the goal of building AI systems that represent and serve diverse human values and perspectives---has emerged as an active research agenda. Yet, there's no public evidence that it has shaped the training or evaluation of the AI systems people actually use. We audit the public behavior documents and evaluations of frontier labs, finding none name pluralism as a goal, and as of this writing, no clear indication that production models are explicitly trained or tested fo…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22287": {
+   "title_ja": "大規模グラフを簡略化して高速推薦する手法",
+   "one_line": "産業用の大規模グラフベース推薦システムにおいて、グラフの粗粒化により計算効率と推薦精度のバランスを取る手法を提案している。",
+   "points": [
+    "グラフベースの推薦システムは産業界で広く採用されているが、大規模化に伴うスケーラビリティと計算効率が課題",
+    "グラフ粗粒化は、元の構造を保ちながら規模を縮小する適応的グラフ削減技術",
+    "予測品質と計算コストのバランスを取ることが本質的な課題である"
+   ],
+   "implication": "顧客・商品データが増えた中小企業が推薦システムを導入する際、処理速度の低下はサーバ負荷やレスポンス時間に直結する実務課題になります。本論文は、グラフを最適に簡略化することで、この負荷と精度のトレードオフに対処する理論的なアプローチを示しています。ただし要旨からは、実装の容易さ、具体的な性能向上、どのデータセットで有効かは不明です。基礎研究的な位置づけと推測されます。",
+   "arxiv_id": "2607.22287",
+   "title_en": "Efficient Recommendations via Graph Coarsening and Label Propagation",
+   "url": "https://arxiv.org/abs/2607.22287v1",
+   "pdf": "https://arxiv.org/pdf/2607.22287v1",
+   "published": "2026-07-24T13:25:26+00:00",
+   "categories": [
+    "cs.LG"
+   ],
+   "authors": [
+    "Alessandro Sbandi",
+    "Federico Siciliano",
+    "Fabrizio Silvestri"
+   ],
+   "summary_en": "Graph-based recommendations are widely adopted in real-world industrial applications. However, graphs in these systems often reach a massive scale, posing notable scalability and efficiency challenges. This requires techniques that can effectively balance predictive quality with computational cost. One promising approach is graph coarsening, an adaptive graph reduction technique that offers a way to systematically construct smaller, yet structurally representative, versions of the original large…",
+   "by": "aioni-editor/haiku"
+  },
+  "2607.22260": {
+   "title_ja": "AI4PLE：製品ラインエンジニアリングへのAI統合方法論",
+   "one_line": "複雑なシステムを効率的に開発するため、共通資産の再利用を体系的に行う「製品ラインエンジニアリング」の意思決定にAIを組み込む方法論を提案した研究。",
+   "points": [
+    "複雑システム開発において、共通資産の再利用によるコスト削減・品質向上・市場投入時間短縮が重要",
+    "製品ラインエンジニアリング（PLE）は、複数の製品バリエーションを共通資産から効率的に生成・管理・カスタマイズする体系的アプローチ",
+    "PLEには特徴選択など多数の複雑な意思決定が必要であり、AIの統合がその解決策として提案されている"
+   ],
+   "implication": "複数の製品バリエーションを管理する企業（例：カスタマイズ受託開発、SaaS提供業）の場合、共通部分と差分を効率的に管理する仕組みは経営効率に直結する。ただし本要旨からは、AIがこれらの意思決定でどの程度の効果（導入コスト、精度向上幅、人的リソース削減）をもたらすか、中小企業にどう適用可能かは不明。論文本体での検証が必要。",
+   "arxiv_id": "2607.22260",
+   "title_en": "AI4PLE: A Methodology for Integrating AI into Product Line Engineering",
+   "url": "https://arxiv.org/abs/2607.22260v1",
+   "pdf": "https://arxiv.org/pdf/2607.22260v1",
+   "published": "2026-07-24T12:52:17+00:00",
+   "categories": [
+    "cs.AI"
+   ],
+   "authors": [
+    "Bedir Tekinerdogan"
+   ],
+   "summary_en": "Reuse-based development has become increasingly important in the creation of complex systems, offering significant opportunities to reduce costs, improve quality, and accelerate time-to-market. Product Line Engineering (PLE) provides a systematic approach to realizing this potential by enabling the efficient creation, management, and customization of product families by reusing shared assets and capabilities. PLE involves addressing numerous complex decisions, including feature selection, variab…",
+   "by": "aioni-editor/haiku"
+  }
+ },
+ "generated_at": "2026-07-29T23:54:31.134159+00:00"
+}

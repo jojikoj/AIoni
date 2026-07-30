@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{{ site_name }}{% endblock %} · {{ site_name }}</title>
+  {# title_suffix は既定で " · AIの鬼"。トップだけは build.py が空を渡し、
+     ブロック側でブランド名を先頭に置いた完全なタイトルを組む。
+     指名検索「AIの鬼」でブランド名がタイトル末尾に埋まるのを避けるため。 #}
+  <title>{% block title %}{{ site_name }}{% endblock %}{{ title_suffix }}</title>
   {% from "macros.html" import service_cta %}
   <meta name="description" content="{{ page_description or site_description }}">
   <link rel="canonical" href="{{ canonical }}">
@@ -11,7 +14,11 @@
   {% for l, href in alternates.items() %}
   <link rel="alternate" hreflang="{{ l }}" href="{{ href }}">
   {% endfor %}
-  {% block robots %}<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">{% endblock %}
+  {# ページネーション2ページ目以降とソース別アーカイブは noindex, follow。
+     一覧の断片が検索結果に出ると読者は答えに着地できずCTRが落ち、
+     薄いページの量でサイト全体の評価も薄まる。リンクは辿らせるので
+     個別ページの発見性は落ちない（sitemap 側でも申告から外す）。 #}
+  {% block robots %}<meta name="robots" content="{% if noindex %}noindex, follow{% else %}index, follow, max-image-preview:large, max-snippet:-1{% endif %}">{% endblock %}
   <!-- OGP -->
   <meta property="og:type" content="{{ og_type or 'website' }}">
   <meta property="og:site_name" content="{{ site_name }}">

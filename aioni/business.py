@@ -157,6 +157,35 @@ def ad_mailto() -> str:
 # --- 運営会社ページ ---------------------------------------------------
 # 「誰が何のために書いているか」を明示する。
 # 匿名のまとめサイトと同じ扱いを受けないための、実務上の必須要素。
+
+# 同名の別アカウントとの取り違えを、読者・検索エンジン・AIの三者に対して解く。
+# 「AIの鬼」はAIイラスト作家の名義としても先行して使われており、
+# 2026-07-30 の実測では指名検索「AIの鬼」でこのサイトは平均6.2位、
+# 「AIの鬼 閉鎖」という検索まで届いていた（=別アカウントを探している人）。
+# ここで名乗りを固定するのが、構造化データ以前にまず効く手。
+ABOUT_IDENTITY = {
+    "ja": [
+        "このサイト「AIの鬼」（AIoni／ai-oni.com）は、"
+        "株式会社TOE（福岡市・Web制作／AI開発）が運営するAI実践・実測メディアです。",
+        "同じ「AIの鬼」という名前で活動している方が他にもいらっしゃいます"
+        "（AIイラストの制作者など）。当サイトはそれらとは一切関係がありません。"
+        "当サイトが扱うのは、中小企業がAIを実務に入れるための実践記録と実測データです。",
+        "記事を書いているのは株式会社TOEの編集部です。"
+        "自社の業務でAIを動かし、その処理件数・所要時間・失敗件数を"
+        "実際のログから数字で出して記事にしています。"
+        "外部ライターへの記事発注は行っていません。",
+    ],
+    "en": [
+        "This site — AIの鬼 (AIoni, ai-oni.com) — is an AI practice and measurement "
+        "media operated by TOE Inc., a Fukuoka-based web development and AI "
+        "development company.",
+        "Other people use the same Japanese name (AIの鬼) elsewhere, including an AI "
+        "illustration creator. This site is unrelated to them.",
+        "All articles are written by TOE's own editorial team from first-hand logs of "
+        "AI running in our own operations. We do not commission outside writers.",
+    ],
+}
+
 ABOUT_WHY = {
     "ja": [
         "株式会社TOEは福岡を拠点に、Web制作とAI開発を手がけています。"

@@ -22,6 +22,33 @@ SITE_NAME = "AIの鬼"
 SITE_TAGLINE = {
     "ja": "AI実践・実測ラボ",
 }
+
+# 英字表記。JSON-LD の alternateName に出し、同名の別アカウントと
+# 区別できる手がかりを検索エンジン／AIに渡す。
+SITE_NAME_ALT = ["AIoni", "AI-ONI"]
+
+# トップページの完全な <title>。
+# 2026-07-30: 指名検索「AIの鬼」で自サイトが平均6.2位、しかも下層の
+# /naka/（2.6位）がトップページ（7.2位）に勝っていた。原因の一つが
+# 「AIニュース・研究動向 · AIの鬼」というブランド名が末尾のタイトル。
+# 同名の先行アカウント（AIイラスト作家「AIの鬼」）が名前を占有しているため、
+# ブランド名を先頭に置き、業種語と運営会社まで入れて識別性を上げる。
+HOME_TITLE = "AIの鬼 | 中小企業のAI実践・実測ラボ（株式会社TOE）"
+
+# ヒーロー帯でコピーの上に出すブランド行。h1 の中に入れる。
+# 「語るより、動かす」だけでは h1 にブランド名も業種語も無く、
+# 指名検索でトップページが評価されない。
+HERO_BRAND = "AIの鬼"
+HERO_BRAND_SUB = "中小企業のAI実践・実測ラボ"
+
+# 公式アカウント。JSON-LD の sameAs に出す。
+# **実在を確認したものだけ載せる**（存在しないURLを sameAs に入れると
+# エンティティの紐づけがかえって壊れる）。
+# 2026-07-30 確認: note「AIの鬼　ジョー」= note.com/jojinja（HTTP 200）
+SITE_SAME_AS = [
+    "https://gtoe.info/",
+    "https://note.com/jojinja",
+]
 SITE_DESCRIPTION = {
     "ja": "株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を"
           "実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。"

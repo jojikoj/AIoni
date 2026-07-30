@@ -82,6 +82,8 @@ STRINGS = {
     "about.subtitle": {
         "ja": "AIの鬼は、株式会社TOEが自社でAIを動かした記録と、国内外のAI情報をまとめて公開しているメディアです。",
         "en": "AIoni is an AI news aggregation media operated by TOE Inc."},
+    "about.identity": {"ja": "この「AIの鬼」について（同名の他アカウントとの区別）",
+                       "en": "About this AIの鬼 (and who we are not)"},
     "about.why": {"ja": "なぜこのメディアを運営しているのか", "en": "Why we run this media"},
     "about.policy": {"ja": "編集方針", "en": "Editorial policy"},
     "about.profile": {"ja": "会社概要", "en": "Company profile"},

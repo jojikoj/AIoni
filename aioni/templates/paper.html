@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% from "macros.html" import article_card %}
+{% block title %}{{ paper.title_ja }}{% endblock %}
+{% block og_title %}{{ paper.title_ja }} · {{ site_name }}{% endblock %}
+
+{#
+  arXiv論文の個別ページ（2026-07-30 追加）。
+  /papers/ は一覧のページネーションしか無く、英語タイトルで一覧が検索に
+  当たっても読者は答えに着地できなかった（表示23%・CTR1.7%の実測）。
+  注目論文だけ日本語の読み解きを持たせる。
+
+  厳守: 読み解きは要旨から自動生成したもので、査読も実測もしていない。
+  そのことをページ上で明示する（編集方針「自動生成であることを明示する」）。
+#}
+{% block content %}
+<article class="paper-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="{{ rel }}papers/">{{ t('nav.papers') }}</a> ›
+      <span>arXiv:{{ paper.arxiv_id }}</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+        {% for c in paper.categories %}<span class="pill ghost mono">{{ c }}</span>{% endfor %}
+        <span class="src">arXiv</span>
+        {% if paper.published_display %}<time datetime="{{ paper.published }}">{{ paper.published_display }}</time>{% endif %}
+      </div>
+      <h1>{{ paper.title_ja }}</h1>
+      <p class="paper-title-en">{{ paper.title_en }}</p>
+    </header>
+
+    <p class="paper-lead">{{ paper.one_line }}</p>
+
+    <section class="paper-block">
+      <h2>要旨から読み取れる要点</h2>
+      <ul class="ad-list">
+        {% for p in paper.points %}<li>{{ p }}</li>{% endfor %}
+      </ul>
+    </section>
+
+    <section class="paper-block">
+      <h2>中小企業の実務にとって何を意味するか</h2>
+      <p>{{ paper.implication }}</p>
+    </section>
+
+    {% if paper.authors %}
+    <p class="paper-authors">著者: {{ paper.authors[:8]|join(', ') }}{% if paper.authors|length > 8 %} et al.{% endif %}</p>
+    {% endif %}
+
+    <p class="news-body-note">
+      ※ 上記は arXiv に公開された英語要旨だけをもとに、AIの鬼編集部が日本語へ
+      要約・整理したものです。<strong>自動生成であり、論文の査読も再現実験も
+      行っていません。</strong>正確な内容と数値は必ず原論文をご確認ください。
+    </p>
+
+    <p class="news-source-link">
+      原論文（英語）は arXiv でお読みいただけます。
+      <a href="{{ paper.url }}" target="_blank" rel="noopener">arXiv で原論文を読む →</a>
+      {% if paper.pdf %}<a href="{{ paper.pdf }}" target="_blank" rel="noopener">PDF</a>{% endif %}
+    </p>
+
+    {% if related %}
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        研究の内容を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+        {% for a in related %}{{ article_card(a, lang, t, rel) }}{% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </div>
+</article>
+{% endblock %}

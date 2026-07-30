@@ -27,6 +27,7 @@
 """
 from __future__ import annotations
 
+import os
 import pathlib
 import sys
 from datetime import date, timedelta
@@ -35,13 +36,93 @@ import google.auth
 from googleapiclient.discovery import build
 
 SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+GA4_SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPORTS = ROOT / "reports"
+
+# GA4 プロパティID（数字）。空のあいだは GA4 セクションを出力しない。
+# 測定ID(G-SNQPGVMWWW)ではなくプロパティIDを入れること。
+# GA4管理画面 → 管理 → プロパティの詳細 → 「プロパティID」
+GA4_PROPERTY_ID = os.environ.get("GA4_PROPERTY_ID", "")
+
+# GA4 を読むには ADC に analytics.readonly スコープが必要。
+# 一度だけ次を実行する（Search Console のスコープも同時に付け直す）:
+#   gcloud auth application-default login \
+#     --scopes=https://www.googleapis.com/auth/webmasters.readonly,\
+# https://www.googleapis.com/auth/analytics.readonly,\
+# https://www.googleapis.com/auth/cloud-platform
+GA4_SCOPE_HINT = (
+    "gcloud auth application-default login --scopes="
+    "https://www.googleapis.com/auth/webmasters.readonly,"
+    "https://www.googleapis.com/auth/analytics.readonly,"
+    "https://www.googleapis.com/auth/cloud-platform"
+)
 
 
 def service():
     creds, _ = google.auth.default(scopes=SCOPES)
     return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
+
+
+def ga4_section(days: int = 28) -> list[str]:
+    """GA4 の流入元・回遊・問い合わせ到達を読む。
+
+    Search Console は「検索でどう見えたか」までしか分からない。
+    サイトに来たあとどう動いたか（流入元・直帰・/contact/ 到達）は
+    GA4 にしかない。スコープ未付与のあいだは手順を出して先に進む。
+    """
+    if not GA4_PROPERTY_ID:
+        return ["- GA4_PROPERTY_ID が未設定のためスキップ",
+                "  （GA4管理画面 → 管理 → プロパティの詳細 → プロパティID を "
+                "環境変数 GA4_PROPERTY_ID に入れる）"]
+    try:
+        creds, _ = google.auth.default(scopes=GA4_SCOPES)
+        ga = build("analyticsdata", "v1beta", credentials=creds,
+                   cache_discovery=False)
+        body = {
+            "dateRanges": [{"startDate": f"{days}daysAgo", "endDate": "today"}],
+            "dimensions": [{"name": "sessionDefaultChannelGroup"}],
+            "metrics": [{"name": "sessions"}, {"name": "activeUsers"},
+                        {"name": "engagementRate"}],
+            "limit": 20,
+        }
+        res = ga.properties().runReport(
+            property=f"properties/{GA4_PROPERTY_ID}", body=body).execute()
+        lines = [f"### 流入チャネル別（直近{days}日）"]
+        for r in res.get("rows", []):
+            ch = r["dimensionValues"][0]["value"]
+            s, u, e = (v["value"] for v in r["metricValues"])
+            lines.append(f"- {ch} … セッション {s} / ユーザー {u} / "
+                         f"エンゲージメント率 {float(e) * 100:.1f}%")
+        if len(lines) == 1:
+            lines.append("- データがありません")
+
+        # 問い合わせページへの到達。ここが0なら記事がいくら読まれても受注はゼロ。
+        body2 = {
+            "dateRanges": [{"startDate": f"{days}daysAgo", "endDate": "today"}],
+            "dimensions": [{"name": "pagePath"}],
+            "metrics": [{"name": "screenPageViews"}, {"name": "activeUsers"}],
+            "orderBys": [{"metric": {"metricName": "screenPageViews"},
+                          "desc": True}],
+            "limit": 15,
+        }
+        res2 = ga.properties().runReport(
+            property=f"properties/{GA4_PROPERTY_ID}", body=body2).execute()
+        lines.append("")
+        lines.append(f"### ページ別 上位（直近{days}日）")
+        for r in res2.get("rows", []):
+            path = r["dimensionValues"][0]["value"]
+            pv, u = (v["value"] for v in r["metricValues"])
+            mark = " ← 収益導線" if path.startswith("/contact") else ""
+            lines.append(f"- {path} … PV {pv} / ユーザー {u}{mark}")
+        return lines
+    except Exception as e:
+        msg = str(e)
+        if "ACCESS_TOKEN_SCOPE_INSUFFICIENT" in msg or "insufficient" in msg:
+            return ["- GA4 を読む権限がありません（ADC のスコープ不足）。",
+                    "  一度だけ次を実行してください:",
+                    f"  `{GA4_SCOPE_HINT}`"]
+        return [f"- 取得失敗: {msg[:300]}"]
 
 
 def sitemap_status(sc, site: str) -> list[dict]:
@@ -123,11 +204,20 @@ def main() -> int:
     except Exception as e:
         lines.append(f"- 取得失敗: {e}")
 
+    # GA4（サイトに来たあとの動き）。ai-oni.com 以外を指定したときは出さない。
+    if site.endswith("ai-oni.com"):
+        lines.append("")
+        lines.append("## GA4（流入元・回遊・問い合わせ到達）")
+        lines.extend(ga4_section())
+
     report = "\n".join(lines)
     print(report)
 
     REPORTS.mkdir(exist_ok=True)
-    out = REPORTS / f"searchconsole_{date.today().isoformat()}.md"
+    # サイト名をファイル名に含める。含めないと同日に別サイト（uchuchu 等）を
+    # 実行したときに ai-oni のレポートを上書きしてしまう（2026-07-29 に実際に発生）。
+    slug = site.replace("sc-domain:", "").replace("https://", "").strip("/").replace("/", "_")
+    out = REPORTS / f"searchconsole_{slug}_{date.today().isoformat()}.md"
     out.write_text(report + "\n", encoding="utf-8")
     print(f"\n→ 保存: {out}")
     return 0

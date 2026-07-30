@@ -209,11 +209,23 @@ def prepare_news(raw: list[dict], lang: str) -> list[dict]:
     return out
 
 
-def prepare_papers(raw: list[dict], lang: str) -> list[dict]:
+def paper_arxiv_id(url: str) -> str:
+    """https://arxiv.org/abs/2607.22535v1 → 2607.22535（読み解きの突き合わせ用）"""
+    m = re.search(r"/abs/([0-9]+\.[0-9]+)", url or "")
+    return m.group(1) if m else ""
+
+
+def prepare_papers(raw: list[dict], lang: str, readings: dict | None = None) -> list[dict]:
+    readings = readings or {}
     out = []
     for it in raw:
         it = dict(it)
         it["published_display"] = fmt_date(it.get("published"), lang)
+        # 日本語の読み解きがある論文だけ、一覧から個別ページへ導線を出す。
+        aid = paper_arxiv_id(it.get("url", ""))
+        if aid and aid in readings:
+            it["reading_slug"] = aid
+            it["title_ja"] = readings[aid].get("title_ja", "")
         out.append(it)
     return out
 
@@ -317,6 +329,118 @@ def article_plain_text(html: str) -> str:
     return re.sub(r"[ \t]+", " ", text).strip()
 
 
+def _clip(text: str, limit: int) -> str:
+    """全角前提で limit 文字に丸める。文の途中で切れないよう句点で寄せる。"""
+    text = re.sub(r"\s+", " ", (text or "")).strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    # 句点で終われるならそこまで（文として閉じる）。
+    pos = cut.rfind("。")
+    if pos >= limit // 2:
+        return cut[: pos + 1]
+    # 句点が無ければ読点で切り、続きがあることを「…」で示す。
+    # 読点をそのまま残すと文が途中でぶら下がって見えるため落とす。
+    pos = cut.rfind("、")
+    if pos >= limit // 2:
+        return cut[:pos] + "…"
+    return cut.rstrip() + "…"
+
+
+# ニュース個別ページのタイトル末尾に付ける識別句。
+#
+# なぜ付けるか（2026-07-30 実測）:
+#   「kimi k3 使い方」で /news/zenn_ai-.../ が平均1.6位まで来ていたのに
+#   10表示0クリックだった。このページの <title> が配信元(Zenn)の記事タイトルと
+#   一字一句同じで、検索結果に同じ見出しが2つ並び、読者は原典を選んでいた。
+#   同一タイトルをやめ、「ここを開くと何が追加で読めるか」を出す。
+#
+# 嘘は書かない。要約本文があるページと、配信元の紹介文しかないページで
+# 書き分ける（後者に「実務への影響」と書くと中身と合わない）。
+_NEWS_TAIL_BODY = "｜要点と実務への影響"
+_NEWS_TAIL_LINK = "｜出典と、関連する実践記録"
+
+
+def news_meta(item: dict, lang: str) -> tuple[str, str]:
+    """ニュース個別ページの (タイトル末尾, meta description) を返す。
+
+    description は以前 display_title の丸写しだった（build.py が
+    page_description=display_title を渡していた）。検索結果でタイトルと
+    同じ文が2度出るだけで、開く理由を1文字も伝えていなかった。
+    自社で書いた要約の冒頭を出す形に変える。
+    """
+    title = item.get("display_title") or ""
+    source = item.get("source") or ""
+    body = (item.get("body_long") or "").strip()
+
+    if body:
+        # 要約本文の冒頭。ここが「原典を読まなくても分かる要点」になっている。
+        desc = _clip(body.split("\n\n")[0] if "\n\n" in body else body, 110)
+        return _NEWS_TAIL_BODY, desc
+
+    summary = (item.get("display_summary") or "").strip()
+    if summary:
+        return _NEWS_TAIL_LINK, _clip(f"{source}の記事より：{summary}", 110)
+
+    return _NEWS_TAIL_LINK, _clip(
+        f"{source}が配信した「{title}」の出典リンクと、"
+        f"この話題に関連する株式会社TOEの実践・実測記録をまとめています。", 110)
+
+
+# --- ニュースと自社記事の関連付け -------------------------------------
+# ニュース個別ページの「この話題に関連する、TOEの実践・観測記録」は、
+# 以前は related_pool を (idx*3) で機械的に輪切りしただけで、実際には
+# 話題と無関係な記事が並んでいた（見出しの主張と中身が合っていない）。
+# キーワードの重なりで実際に関連する記事を先に出す。AI APIは使わない。
+#
+# 日本語は形態素解析なしで扱うため、2文字の連続（バイグラム）で照合する。
+# 「AIエージェント」と「エージェント」のような部分一致も拾える。
+_TOKEN_ASCII = re.compile(r"[A-Za-z][A-Za-z0-9.+#-]{2,}")
+# どの記事にも出るため、一致しても関連性の証拠にならない語
+_STOPWORDS = {"ai", "the", "and", "for", "with", "から", "する", "した", "して",
+              "ある", "いる", "こと", "ため", "よう", "れる", "られ", "です",
+              "ます", "この", "その", "とい", "いう", "もの", "なる", "って"}
+
+
+def _keyset(*texts: str) -> set[str]:
+    """照合用のキー集合。ASCII語＋日本語バイグラム。"""
+    keys: set[str] = set()
+    for text in texts:
+        if not text:
+            continue
+        low = text.lower()
+        keys.update(m.group(0) for m in _TOKEN_ASCII.finditer(low))
+        # 日本語部分のバイグラム（英数記号と空白は切れ目として扱う）
+        for chunk in re.split(r"[\sA-Za-z0-9_.,;:!?()\[\]{}'\"/\\|<>+*=~`@#$%^&—–―…、。「」『』（）〈〉]+", text):
+            if len(chunk) < 2:
+                continue
+            keys.update(chunk[i:i + 2] for i in range(len(chunk) - 1))
+    return {k for k in keys if k not in _STOPWORDS and len(k) >= 2}
+
+
+def relevance_ranked(news_item: dict, pool: list[dict], limit: int = 3,
+                     min_score: int = 4) -> list[dict]:
+    """ニュース1件に対して、関連度の高い自社記事を limit 本返す。
+
+    min_score に届く記事が limit 本に足りなければ、残りは呼び出し側が
+    埋める（無関係なものを「関連」として並べたくないため、ここでは
+    水増ししない）。
+    """
+    nkeys = _keyset(news_item.get("display_title", ""),
+                    news_item.get("title", ""),
+                    (news_item.get("body_long") or "")[:600])
+    if not nkeys:
+        return []
+    scored = []
+    for a in pool:
+        score = len(nkeys & a["_keys"])
+        if score >= min_score:
+            scored.append((score, a))
+    # 同点は order の小さい（＝上位に置きたい）記事を優先
+    scored.sort(key=lambda x: (-x[0], x[1].get("order", 100)))
+    return [a for _, a in scored[:limit]]
+
+
 def news_slug(item: dict) -> str:
     """ニュース1件の安定したURLスラッグ。
 
@@ -353,7 +477,10 @@ def _featured_score(item: dict) -> int:
             score += 2
     if item.get("lang") == "ja":   # 日本語ソースは訳のぎこちなさがない
         score += 2
-    if item.get("body_ja"):        # 本文要約があるページは読み応えがある
+    # 本文要約があるページは読み応えがある。
+    # 2026-07-30 修正: item.get("body_ja") を見ていたが news.json のフィールドは
+    # body_long で、この加点は一度も入っていなかった（445/600件が対象外扱い）。
+    if item.get("body_long"):
         score += 3
     return score
 
@@ -443,6 +570,11 @@ class Builder:
         self.base_url = os.environ.get("SITE_BASE_URL", config.SITE_BASE_URL).rstrip("/")
         self.news_raw = _load_json("news.json").get("items", [])
         self.papers_raw = _load_json("papers.json").get("items", [])
+        # 注目論文の日本語読み解き（tools/gen_paper_readings.py が生成）。
+        # 無ければ個別ページを作らないだけで、ビルドは通る。
+        # _load_json は未作成時に items=[] を返すので dict だけ受ける。
+        readings = _load_json("paper_readings.json").get("items")
+        self.paper_readings = readings if isinstance(readings, dict) else {}
         # 言語ごとに実際に出力したパスを記録（sitemap生成に使う）
         self.paths_by_lang: dict[str, list[str]] = {l: [] for l in config.LANGS}
 
@@ -464,7 +596,8 @@ class Builder:
         return {l: self._url_for(l, path) for l in config.LANGS}
 
     def _ctx(self, lang: str, *, depth: int, active: str, path: str,
-             page_description: str = "") -> dict:
+             page_description: str = "", title_suffix: str | None = None,
+             noindex: bool = False) -> dict:
         rel = self._rel(depth)  # 言語ルート基準（ナビ用）
         # アセット(css/js/img)はサイトルート(dist/)基準。en配下は1階層深いので補正。
         asset = rel + ("../" if lang != config.DEFAULT_LANG else "")
@@ -475,6 +608,15 @@ class Builder:
             "site_tagline": config.SITE_TAGLINE[lang],
             "site_description": config.SITE_DESCRIPTION[lang],
             "page_description": page_description,
+            # <title> の末尾に付く " · AIの鬼"。トップだけ空にして、
+            # ブロック側でブランド名を先頭に置いた完全形を組む。
+            "title_suffix": (f" · {config.SITE_NAME}"
+                             if title_suffix is None else title_suffix),
+            "home_title": config.HOME_TITLE,
+            "hero_brand": config.HERO_BRAND,
+            "hero_brand_sub": config.HERO_BRAND_SUB,
+            # True なら noindex, follow を出す（ページネーション2以降・ソース別一覧）
+            "noindex": noindex,
             # GA4。空なら base.html 側で計測タグを出力しない
             "ga4_id": config.GA4_MEASUREMENT_ID,
             "rel": rel,
@@ -533,12 +675,13 @@ class Builder:
 
     def build_lang(self, lang: str) -> None:
         news = prepare_news(self.news_raw, lang)
-        papers = prepare_papers(self.papers_raw, lang)
+        papers = prepare_papers(self.papers_raw, lang, self.paper_readings)
         articles = load_articles(lang)
         home_label = _t("nav.home", lang)
 
         # トップ（depth: ja=0, en=1 だが rel は言語ルート基準なので 0）
-        ctx = self._ctx(lang, depth=0, active="home", path="")
+        # title_suffix="" … トップだけ config.HOME_TITLE をそのまま <title> にする
+        ctx = self._ctx(lang, depth=0, active="home", path="", title_suffix="")
         # 注目5本は本数を固定する。読者に「これで主要な動きは押さえた」
         # という完了感を与えるため（可変だと読み終わりの判断ができない）。
         # ヒーローは画像がある記事だけを使う。
@@ -594,9 +737,21 @@ class Builder:
             for pno, chunk in enumerate(chunks, 1):
                 path = base_path if pno == 1 else f"{base_path}{pno}/"
                 depth = 1 if pno == 1 else 2
-                ctx = self._ctx(lang, depth=depth, active=active, path=path)
+                # 2ページ目以降は noindex, follow。
+                # 実測（2026-07-30）で /papers/2〜8/ が表示の23%を吸って CTR 1.7%。
+                # 一覧の断片が検索結果に出ても読者は答えに着地できない。
+                # follow は残すので個別ページの発見性は落ちない。
+                ctx = self._ctx(lang, depth=depth, active=active, path=path,
+                                noindex=pno > 1)
                 ctx[var] = chunk
                 ctx["pagination"] = _pagination_ctx(pno, len(chunks))
+                # 読み解きを用意した論文の入口は /papers/ の1ページ目だけに出す。
+                # ここに出さないと、一覧1ページ目に載らなかった論文の個別ページが
+                # noindex のページネーションからしかリンクされない。
+                if active == "papers" and pno == 1 and self.paper_readings:
+                    ctx["reading_index"] = sorted(
+                        self.paper_readings.values(),
+                        key=lambda r: r.get("published", ""), reverse=True)
                 if active == "news":
                     ctx["source_chips"] = self._source_chips(
                         lang, up=depth - 1, current=None)
@@ -652,22 +807,78 @@ class Builder:
         # 表示し、当サーバーには保存しない（転載しない）。
         related_pool = [a for a in articles if a.get("category")
                         in ("jissen", "kansoku", "kaisetsu", "shippai")]
+        # 照合用キーを1回だけ作る（記事×ニュースの全組み合わせを回すため）
+        for a in related_pool:
+            a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
+        matched_count = 0
         for idx, n in enumerate(news):
             npath = f"news/{n['slug']}/"
+            npage_url = self._url_for(lang, npath)
+            title_tail, ndesc = news_meta(n, lang)
             ctx = self._ctx(lang, depth=2, active="news", path=npath,
-                            page_description=n.get("display_title", ""))
+                            page_description=ndesc)
             ctx["news"] = n
-            if related_pool:
+            ctx["news_title_tail"] = title_tail
+            # まず本当に関連する記事。足りない分だけ従来のローテーションで補う。
+            rel3 = relevance_ranked(n, related_pool) if related_pool else []
+            if rel3:
+                matched_count += 1
+            if related_pool and len(rel3) < 3:
+                chosen = {a["slug"] for a in rel3}
                 start = (idx * 3) % len(related_pool)
-                rel3 = related_pool[start:start + 3]
-                if len(rel3) < 3:
-                    rel3 = rel3 + related_pool[:3 - len(rel3)]
-            else:
-                rel3 = []
+                rotated = related_pool[start:] + related_pool[:start]
+                for a in rotated:
+                    if a["slug"] not in chosen:
+                        rel3.append(a)
+                        chosen.add(a["slug"])
+                    if len(rel3) >= 3:
+                        break
             ctx["related"] = rel3
-            ctx["jsonld"] = ""
+            # 以前はニュース個別ページの JSON-LD が空文字だった（=構造化データ皆無）。
+            # パン粉と、自社で書いた要約であることの明示を入れる。
+            # 他社記事そのものを自作記事として申告はしない（seo.py の方針）。
+            ctx["jsonld"] = seo.build_jsonld(
+                self.base_url, lang, "news_detail", news_item=n,
+                page_url=npage_url, page_description=ndesc,
+                trail=[(home_label, self._url_for(lang, "")),
+                       (_t("nav.news", lang), self._url_for(lang, "news/")),
+                       (n.get("display_title", ""), npage_url)])
             html = self.env.get_template("news_article.html").render(**ctx)
             self._write(lang, f"news/{n['slug']}", html)
+        if news:
+            print(f"  [{lang}] 関連記事の実マッチ {matched_count}/{len(news)}件")
+
+        # 注目論文の個別ページ（papers/<arxiv_id>/ → depth 2）
+        # 全250件には作らない。読み解きを用意した本数だけ。
+        # 全件に薄いページを作ると、集約ニュースで避けた「他社コンテンツを
+        # 膨らませた大量ページ」を論文側で再生産することになる。
+        paper_pages = 0
+        for aid, pr in sorted(self.paper_readings.items()):
+            ppath = f"papers/{aid}/"
+            ppage_url = self._url_for(lang, ppath)
+            pr = dict(pr)
+            pr["published_display"] = fmt_date(pr.get("published"), lang)
+            ctx = self._ctx(lang, depth=2, active="papers", path=ppath,
+                            page_description=_clip(pr.get("one_line", ""), 110))
+            ctx["paper"] = pr
+            # ここも本当に関連する記事だけを出す（無ければ出さない）
+            ctx["related"] = relevance_ranked(
+                {"display_title": pr.get("title_ja", ""),
+                 "title": pr.get("title_en", ""),
+                 "body_long": " ".join(pr.get("points", []))
+                              + pr.get("implication", "")},
+                related_pool, limit=3) if related_pool else []
+            ctx["jsonld"] = seo.build_jsonld(
+                self.base_url, lang, "paper", paper=pr, page_url=ppage_url,
+                trail=[(home_label, self._url_for(lang, "")),
+                       (_t("nav.papers", lang), self._url_for(lang, "papers/")),
+                       (pr.get("title_ja", ""), ppage_url)])
+            self._write(lang, f"papers/{aid}",
+                        self.env.get_template("paper.html").render(**ctx))
+            paper_pages += 1
+        if paper_pages:
+            print(f"  [{lang}] 論文の個別ページ {paper_pages}本")
+        total_pages_built += paper_pages
 
         # ソース別ニュースページ（news/source/<id>/）
         # ページ分割によりチップの絞り込みが現在ページ内に限定されてしまうため、
@@ -683,7 +894,13 @@ class Builder:
             for pno, chunk in enumerate(chunks, 1):
                 path = base_path if pno == 1 else f"{base_path}{pno}/"
                 depth = 3 if pno == 1 else 4
+                # ソース別アーカイブは全ページ noindex, follow。
+                # 実測（2026-07-30）で「the verge ai」という他社媒体名の検索で
+                # /news/source/verge_ai/ が5.7位に出ていた。読者価値がなく、
+                # 他社ブランド名で自社アーカイブが上位に出るのは避ける。
+                # サイト内の絞り込み導線としては引き続き機能する。
                 ctx = self._ctx(lang, depth=depth, active="news", path=path,
+                                noindex=True,
                                 page_description=f"{src_name} — {_t('news.subtitle', lang)}")
                 ctx["news"] = chunk
                 ctx["pagination"] = _pagination_ctx(pno, len(chunks))
@@ -741,6 +958,7 @@ class Builder:
                 path = base_path if pno == 1 else f"{base_path}{pno}/"
                 depth = 2 if pno == 1 else 3
                 ctx = self._ctx(lang, depth=depth, active="topics", path=path,
+                                noindex=pno > 1,
                                 page_description=topics.desc(tp["id"], lang))
                 ctx["news"] = chunk
                 ctx["pagination"] = _pagination_ctx(pno, len(chunks))
@@ -812,6 +1030,8 @@ class Builder:
         # 運営会社。誰が運営しているかを明示するページ。
         ctx = self._ctx(lang, depth=1, active="about", path="about/",
                         page_description=_t("about.subtitle", lang))
+        ctx["about_identity"] = business.ABOUT_IDENTITY.get(
+            lang, business.ABOUT_IDENTITY["ja"])
         ctx["about_why"] = business.ABOUT_WHY.get(lang, business.ABOUT_WHY["ja"])
         ctx["about_policy"] = business.EDITORIAL_POLICY.get(
             lang, business.EDITORIAL_POLICY["ja"])

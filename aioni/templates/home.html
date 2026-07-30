@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "macros.html" import news_tile, paper_card %}
-{% block title %}{{ t('home.title') }}{% endblock %}
+{# トップだけ title_suffix が空。ブランド名を先頭に置いた完全形を組む。 #}
+{% block title %}{{ home_title }}{% endblock %}
 {% block og_title %}{{ site_name }} — {{ site_tagline }}{% endblock %}
 
 {% macro sec_head(eyebrow, ja, more_href, more_label) %}
@@ -14,7 +15,7 @@
 <a class="atile {{ size }}" href="{{ rel }}articles/{{ a.slug }}/">
   {% if a.hero %}
   <span class="atile-media">
-    <img src="{{ asset }}static/img/{{ a.hero }}" alt="" loading="lazy">
+    <img src="{{ asset }}static/img/{{ a.hero }}" alt="{{ a.title }}" loading="lazy">
   </span>
   {% endif %}
   <span class="atile-body">
@@ -39,10 +40,19 @@
   コピーは config.HERO_COPY に1行ずつ入れる。改行位置は原稿どおりに保つ。
   ========================================================================
 #}
+{#
+  h1 にはブランド名と業種語を必ず入れる（2026-07-30）。
+  以前は h1 が「語るより、動かす／鬼の仕事、隠さず報告」だけで、
+  指名検索「AIの鬼」の手がかりが h1 にゼロだった。
+  大きなコピーは視覚上の主役のまま残し、その上にブランド行を重ねる。
+#}
 <section class="hero-band">
   <div class="hero-band-inner">
-    <h1 class="hero-band-copy">
-      {%- for line in hero_copy %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+    <h1 class="hero-band-h1">
+      <span class="hero-band-brand">{{ hero_brand }}<span class="hero-band-brandsub">{{ hero_brand_sub }}</span></span>
+      <span class="hero-band-copy">
+        {%- for line in hero_copy %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+      </span>
     </h1>
     <p class="hero-band-sub">{{ hero_sub }}</p>
   </div>

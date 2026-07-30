@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% from "macros.html" import article_card %}
-{% block title %}{{ news.display_title }}{% endblock %}
-{% block og_title %}{{ news.display_title }} · {{ site_name }}{% endblock %}
-{% block description %}{{ news.display_title }}（出典: {{ news.source }}）に関する要点と、関連するAI実践・観測記事のまとめ。{% endblock %}
+{#
+  タイトルは配信元の見出しの丸写しにしない（2026-07-30）。
+  同一タイトルが検索結果に2つ並ぶと読者は原典を選び、
+  平均1.6位でも0クリックという実測になっていた。
+  末尾の識別句は build.py の news_meta() が中身に応じて決める。
+  description も build.py が自社要約の冒頭から作る（base.html の
+  page_description を使う。ここに block description を書いても
+  base.html 側に対応ブロックが無く出力されなかった）。
+#}
+{% block title %}{{ news.display_title }}{{ news_title_tail }}{% endblock %}
+{% block og_title %}{{ news.display_title }}{{ news_title_tail }} · {{ site_name }}{% endblock %}
 
 {% block content %}
 <article class="news-detail">
@@ -24,13 +32,15 @@
 
     {% if news.image and not news.image_is_stock %}
     <figure class="news-detail-media">
-      <img src="{{ news.image }}" alt="" loading="lazy" referrerpolicy="no-referrer"
+      <img src="{{ news.image }}" alt="{{ news.display_title }}（画像: {{ news.source }}）"
+           loading="lazy" referrerpolicy="no-referrer"
            onerror="this.closest('figure').style.display='none'">
       <figcaption>画像: {{ news.source }}（配信元より）</figcaption>
     </figure>
     {% elif news.stock_image %}
     <figure class="news-detail-media">
-      <img src="{{ rel }}static/img/{{ news.stock_image }}" alt="" loading="lazy">
+      <img src="{{ rel }}static/img/{{ news.stock_image }}"
+           alt="{{ news.display_title }}（内容を表す図ではないイメージ画像）" loading="lazy">
       <figcaption>{{ t('meta.stock_image') }}</figcaption>
     </figure>
     {% endif %}

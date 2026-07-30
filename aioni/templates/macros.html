@@ -1,4 +1,12 @@
-{# 再利用カード類 #}
+{# 再利用カード類
+
+   alt について（2026-07-30 修正）:
+   以前は全 img が alt="" だった。画像検索で35表示0クリック・平均順位47.7
+   という実測になっていたうえ、スクリーンリーダーでも記事が判別できない。
+   ただし嘘は書かない —
+     ・配信元の画像／記事のヒーロー画像 … その記事の見出しをaltに使う
+     ・イメージ写真・図解SVG（被写体が実物ではないもの）… 「イメージ」と明記する
+#}
 
 {% macro news_card(item, lang, t, rel='') %}
 <article class="card news-card">
@@ -6,7 +14,7 @@
   {% set summary = item.get('summary_' ~ lang) or item.summary %}
   {% if item.image %}
   <a class="card-media" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
-    <img src="{{ item.image }}" alt="" loading="lazy" onerror="this.closest('.card-media').classList.add('no-img')">
+    <img src="{{ item.image }}" alt="{{ title }}（画像: {{ item.source }}）" loading="lazy" onerror="this.closest('.card-media').classList.add('no-img')">
   </a>
   {% endif %}
   <div class="card-body">
@@ -23,18 +31,32 @@
 {% endmacro %}
 
 
-{% macro paper_card(item, lang, t) %}
+{#
+  論文カード。rel を渡すと、日本語の読み解きがある論文だけ
+  自サイトの個別ページ（papers/<arxiv_id>/）へ導線を出す。
+  読み解きが無い論文は従来どおり arXiv へ直接送る（無い解説をあるように見せない）。
+#}
+{% macro paper_card(item, lang, t, rel=None) %}
 <article class="card paper-card">
   <div class="card-body">
     <div class="card-meta">
       {% for c in item.categories %}<span class="pill ghost mono">{{ c }}</span>{% endfor %}
       {% if item.published_display %}<time datetime="{{ item.published }}">{{ item.published_display }}</time>{% endif %}
+      {% if rel is not none and item.reading_slug %}<span class="pill accent">日本語の読み解きあり</span>{% endif %}
     </div>
+    {% if rel is not none and item.reading_slug %}
+    <h3 class="card-title"><a href="{{ rel }}papers/{{ item.reading_slug }}/">{{ item.title_ja }}</a></h3>
+    <p class="paper-title-en">{{ item.title }}</p>
+    {% else %}
     <h3 class="card-title"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+    {% endif %}
     {% if item.authors %}<p class="paper-authors">{{ item.authors|join(', ') }}{% if item.authors|length >= 8 %} et al.{% endif %}</p>{% endif %}
     {% if item.summary %}<p class="card-summary">{{ item.summary }}</p>{% endif %}
     <div class="card-actions">
-      <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener">arXiv →</a>
+      {% if rel is not none and item.reading_slug %}
+      <a class="card-link" href="{{ rel }}papers/{{ item.reading_slug }}/">日本語で読む →</a>
+      {% endif %}
+      <a class="card-link{% if rel is not none and item.reading_slug %} ghost{% endif %}" href="{{ item.url }}" target="_blank" rel="noopener">arXiv →</a>
       {% if item.pdf %}<a class="card-link ghost" href="{{ item.pdf }}" target="_blank" rel="noopener">{{ t('papers.pdf') }}</a>{% endif %}
     </div>
   </div>
@@ -45,7 +67,7 @@
 {% macro article_card(a, lang, t, rel) %}
 <article class="card article-card">
   <a class="article-card-inner" href="{{ rel }}articles/{{ a.slug }}/">
-    {% if a.hero %}<div class="card-media"><img src="{{ (rel ~ 'static/img/' ~ a.hero) if a.hero_is_local else a.hero }}" alt="" loading="lazy"></div>{% endif %}
+    {% if a.hero %}<div class="card-media"><img src="{{ (rel ~ 'static/img/' ~ a.hero) if a.hero_is_local else a.hero }}" alt="{{ a.title }}" loading="lazy"></div>{% endif %}
     <div class="card-body">
       {% if a.tag %}<span class="pill accent">{{ a.tag }}</span>{% endif %}
       <h3 class="card-title">{{ a.title }}</h3>
@@ -86,7 +108,7 @@
 <article class="lead-card">
   {% if item.image %}
   <a class="lead-media" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
-    <img src="{{ item.image }}" alt="" loading="eager"
+    <img src="{{ item.image }}" alt="{{ title }}（画像: {{ item.source }}）" loading="eager"
          onerror="this.closest('.lead-media').classList.add('no-img')">
   </a>
   {% endif %}
@@ -114,7 +136,8 @@
   {% if item.image %}
   <a class="row-thumb" href="{{ item.url }}" target="_blank" rel="noopener nofollow">
     <img src="{{ item.image if item.image else (rel ~ '../static/img/' ~ item.stock_image) }}"
-         alt="" loading="lazy" onerror="this.closest('.row-thumb').classList.add('no-img')">
+         alt="{{ title }}（画像: {{ item.source }}）" loading="lazy"
+         onerror="this.closest('.row-thumb').classList.add('no-img')">
   </a>
   {% endif %}
   <div class="row-body">
@@ -139,11 +162,12 @@
 <article class="news-tile">
   <a class="tile-media" href="{{ rel }}news/{{ item.slug }}/">
     {% if item.image %}
-    <img src="{{ item.image }}" alt="" loading="lazy" referrerpolicy="no-referrer"
+    <img src="{{ item.image }}" alt="{{ title }}（画像: {{ item.source }}）" loading="lazy" referrerpolicy="no-referrer"
          onerror="this.closest('.tile-media').classList.add('no-img')">
     {% elif item.stock_image %}
     {# 元記事に画像がない場合のイメージ写真。実際の被写体ではない #}
-    <img src="{{ rel }}../static/img/{{ item.stock_image }}" alt="" loading="lazy">
+    <img src="{{ rel }}../static/img/{{ item.stock_image }}"
+         alt="{{ title }}（内容を表す図ではないイメージ画像）" loading="lazy">
     <span class="stock-mark">{{ t('meta.stock_image') }}</span>
     {% endif %}
   </a>

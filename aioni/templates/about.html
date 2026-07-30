@@ -13,7 +13,15 @@
 <section class="section">
   <div class="wrap ad-wrap">
 
-    {# 運営の動機を最初に置く。
+    {# まず名乗りを固定する。同名の別アカウントと取り違えられている実測が
+       あるため（指名検索「AIの鬼」で平均6.2位・「AIの鬼 閉鎖」の検索が到達）、
+       運営の動機よりも先に「どの AIの鬼 か」を明示する。 #}
+    <div class="ad-block">
+      <h2>{{ t('about.identity') }}</h2>
+      {% for p in about_identity %}<p class="ad-lead">{{ p }}</p>{% endfor %}
+    </div>
+
+    {# 運営の動機。
        誰が何のために書いているかが分かるメディアほど、
        検索エンジンにもAIにも、そして読者にも信頼される。 #}
     <div class="ad-block">

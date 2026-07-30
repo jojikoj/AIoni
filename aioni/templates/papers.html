@@ -10,11 +10,38 @@
     <p class="page-sub">{{ t('papers.subtitle') }}</p>
   </div>
 </section>
+{#
+  読み解きを用意した論文の入口。1ページ目にだけ出す。
+  これが無いと、12本のうち一覧1ページ目に載らなかった論文の個別ページが
+  noindex のページネーションからしかリンクされない状態になる。
+#}
+{% if reading_index %}
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-ja">日本語で読み解いた論文</span>
+    </div>
+    <p class="page-sub">
+      arXivの英語要旨をもとに、中小企業の実務に何を意味するかまで整理したものです。
+      自動生成のため査読はしていません。
+    </p>
+    <ul class="reading-index">
+      {% for r in reading_index %}
+      <li>
+        <a href="{{ rel }}papers/{{ r.arxiv_id }}/">{{ r.title_ja }}</a>
+        <span class="reading-index-en">{{ r.title_en }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
 <section class="section">
   <div class="wrap">
     {% if papers %}
     <div class="grid grid-papers">
-      {% for p in papers %}{{ paper_card(p, lang, t) }}{% endfor %}
+      {% for p in papers %}{{ paper_card(p, lang, t, rel) }}{% endfor %}
     </div>
     {{ pager(pagination, t) }}
     {% else %}

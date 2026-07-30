@@ -1395,7 +1395,36 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
   flex-direction: column;
   gap: 14px;
 }
+/* h1 はブランド行＋大コピーの2段。視覚の主役は大コピーのまま。 */
+.hero-band-h1 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hero-band-brand {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #fff;
+  font-size: clamp(.98rem, 1.7vw, 1.16rem);
+  line-height: 1.3;
+  letter-spacing: .02em;
+  text-shadow: 0 2px 14px rgba(0,0,0,.45);
+}
+.hero-band-brandsub {
+  /* 見出しフォント(Zen Kaku Gothic New)は900しか読み込んでいないため、
+     細く見せたいこの行だけ本文フォントに戻す。900のまま太さを下げると
+     合成太字がかかって字形が崩れる。 */
+  font-family: var(--font);
+  font-size: clamp(.76rem, 1.2vw, .86rem);
+  font-weight: 600;
+  color: rgba(255,255,255,.74);
+  letter-spacing: .04em;
+}
 .hero-band-copy {
+  display: block;
   margin: 0;
   color: #fff;
   font-size: clamp(1.7rem, 3.6vw, 2.7rem);
@@ -1470,3 +1499,42 @@ h1, h2, h3 {
 .news-related { border-top: 1px solid var(--line); padding-top: 26px; margin-top: 8px; }
 .news-related h2 { font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 0 0 6px; }
 .news-related-lead { font-size: 14px; color: var(--text-3); margin: 0 0 18px; }
+
+/* ── 論文の個別ページ（2026-07-30 追加） ─────────────────────────
+   ニュース詳細と同じ幅・同じ余白に揃える。読み解きは日本語が主役で、
+   原題（英語）は出典として小さく添える。 */
+.paper-detail { padding: 30px 0 8px; }
+.paper-detail .crumb { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.paper-detail .crumb a { color: var(--accent); text-decoration: none; }
+.paper-title-en {
+  font-size: .84rem; line-height: 1.6; color: var(--text-3);
+  margin: 8px 0 0; word-break: break-word;
+}
+.paper-lead {
+  font-size: 1.04rem; line-height: 1.85; color: var(--text);
+  background: var(--accent-soft); border-radius: 12px;
+  padding: 16px 18px; margin: 0 0 26px;
+}
+.paper-block { margin: 0 0 26px; }
+.paper-block h2 {
+  font-size: 1.1rem; font-weight: 800; color: var(--text);
+  margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.paper-block p { font-size: 1rem; line-height: 1.9; color: var(--text); margin: 0; }
+.paper-detail .paper-authors { font-size: 12.5px; color: var(--text-3); margin: 0 0 18px; }
+
+/* /papers/ 1ページ目に置く「読み解き済み論文」の入口一覧 */
+.reading-index { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 2px; }
+.reading-index li {
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface);
+}
+.reading-index a {
+  display: block; font-size: 1rem; line-height: 1.5; font-weight: 700;
+  color: var(--text); text-decoration: none;
+}
+.reading-index a:hover { color: var(--accent); }
+.reading-index-en {
+  display: block; font-size: .78rem; line-height: 1.5;
+  color: var(--text-3); margin-top: 4px; word-break: break-word;
+}

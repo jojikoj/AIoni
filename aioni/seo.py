@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from xml.sax.saxutils import escape
@@ -24,16 +25,47 @@ from . import config
 #  JSON-LD
 # =====================================================================
 def _org(base: str) -> dict:
-    return {
+    """このメディアを運営する主体。
+
+    「AIの鬼」という名前は先行する同名アカウント（AIイラスト作家）が
+    占有しており、指名検索でこちらが1位を取れていない（2026-07-30 実測: 平均6.2位）。
+    そこで別名・運営会社・所在地・編集方針の所在を構造化データで明示し、
+    検索エンジンとAIが「どちらの AIの鬼 か」を判別できる手がかりを増やす。
+    """
+    node = {
         "@type": "Organization",
         "@id": f"{base}/#organization",
         "name": config.SITE_NAME,
+        "alternateName": config.SITE_NAME_ALT,
         "url": f"{base}/",
+        "description": config.SITE_DESCRIPTION["ja"],
         "logo": {
             "@type": "ImageObject",
             "url": f"{base}/static/img/ogp.png",
         },
+        # 運営元を隠さないのが編集方針。構造化データ上も親会社を明示する。
+        "parentOrganization": {
+            "@type": "Organization",
+            "name": config.COMPANY_NAME,
+            "url": config.COMPANY_URL,
+        },
+        # 編集方針・運営情報の所在。メディアの信頼性評価で参照される。
+        "publishingPrinciples": f"{base}/about/",
+        "ownershipFundingInfo": f"{base}/about/",
     }
+    if config.SITE_SAME_AS:
+        node["sameAs"] = config.SITE_SAME_AS
+    # 所在地は config.COMPANY_PROFILE の「福岡本社」から拾う（二重管理を避ける）。
+    head_office = next(
+        (v for k, v in config.COMPANY_PROFILE if k == "福岡本社"), "")
+    if head_office:
+        node["address"] = {
+            "@type": "PostalAddress",
+            "addressCountry": "JP",
+            "addressRegion": "福岡県",
+            "streetAddress": head_office,
+        }
+    return node
 
 
 def _website(base: str, lang: str) -> dict:
@@ -42,6 +74,7 @@ def _website(base: str, lang: str) -> dict:
         "@id": f"{base}/#website",
         "url": f"{base}/",
         "name": config.SITE_NAME,
+        "alternateName": config.SITE_NAME_ALT,
         "description": config.SITE_DESCRIPTION[lang],
         "inLanguage": "ja-JP" if lang == "ja" else "en",
         "publisher": {"@id": f"{base}/#organization"},
@@ -106,6 +139,102 @@ def _article(base: str, a: dict, url: str, lang: str) -> dict:
     return node
 
 
+def _news_detail(base: str, n: dict, url: str, description: str,
+                 lang: str) -> dict:
+    """集約ニュースの個別ページ。
+
+    このページの中身は2種類ある。
+      A) 編集部が書いた日本語の要約・解釈（body_long）がある
+      B) 配信元の紹介文の引用と、出典リンクだけ
+
+    A は「他社の記事を読んで書いた自分たちの文章」なので、
+    NewsArticle として申告し、isBasedOn で元記事を指す。何をもとに書いたかが
+    機械可読になり、元記事の複製ではないことも同時に示せる。
+    B は自分たちの文章がないので Article を名乗らない。WebPage のまま、
+    mainEntity で元記事を指すだけにする。
+
+    → seo.py 冒頭の方針「集約したニュースを自作記事のように見せない」を守る。
+    """
+    src_org = {"@type": "Organization", "name": n.get("source") or ""}
+    original = {
+        "@type": "NewsArticle",
+        "headline": n.get("title") or "",   # 原題（訳す前）
+        "url": n.get("url") or "",
+        "publisher": src_org,
+    }
+
+    body = (n.get("body_long") or "").strip()
+    node: dict = {
+        "@type": "NewsArticle" if body else "WebPage",
+        "@id": url,
+        "url": url,
+        "headline" if body else "name": n.get("display_title") or "",
+        "description": description,
+        "inLanguage": "ja-JP" if lang == "ja" else "en",
+        "isPartOf": {"@id": f"{base}/#website"},
+        "isAccessibleForFree": True,
+    }
+    if n.get("published"):
+        node["datePublished"] = n["published"]
+
+    if body:
+        # 書いたのは編集部。発行元はこのメディア。もとにしたのは配信元記事。
+        node["author"] = {"@type": "Organization",
+                          "name": f"{config.SITE_NAME} 編集部",
+                          "url": f"{base}/about/"}
+        node["publisher"] = {"@id": f"{base}/#organization"}
+        node["isBasedOn"] = original
+        node["citation"] = original
+        node["mainEntityOfPage"] = {"@type": "WebPage", "@id": url}
+        # 画像は自前のもの（イメージ図）だけ載せる。
+        # 配信元からホットリンクしている写真は当社の画像ではないため入れない。
+        if n.get("stock_image"):
+            node["image"] = f"{base}/static/img/{n['stock_image']}"
+    else:
+        node["mainEntity"] = original
+        node["publisher"] = {"@id": f"{base}/#organization"}
+
+    return node
+
+
+def _paper_reading(base: str, pr: dict, url: str, lang: str) -> dict:
+    """arXiv論文の個別ページ。
+
+    ここに載っているのは「編集部が英語要旨を読んで書いた日本語の解説」で、
+    論文そのものではない。Article として申告し、isBasedOn で原論文
+    （ScholarlyArticle）を指す。原論文を自作物として名乗らない。
+    """
+    original = {
+        "@type": "ScholarlyArticle",
+        "headline": pr.get("title_en", ""),
+        "url": pr.get("url", ""),
+        "publisher": {"@type": "Organization", "name": "arXiv"},
+    }
+    if pr.get("authors"):
+        original["author"] = [{"@type": "Person", "name": a}
+                              for a in pr["authors"][:8]]
+    node = {
+        "@type": "Article",
+        "@id": url,
+        "url": url,
+        "headline": pr.get("title_ja", ""),
+        "description": pr.get("one_line", ""),
+        "inLanguage": "ja-JP" if lang == "ja" else "en",
+        "author": {"@type": "Organization",
+                   "name": f"{config.SITE_NAME} 編集部",
+                   "url": f"{base}/about/"},
+        "publisher": {"@id": f"{base}/#organization"},
+        "isBasedOn": original,
+        "citation": original,
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "isPartOf": {"@id": f"{base}/#website"},
+        "isAccessibleForFree": True,
+    }
+    if pr.get("published"):
+        node["datePublished"] = pr["published"]
+    return node
+
+
 def _faq_page(faqs: list[dict]) -> dict:
     """FAQPage 構造化データ。
 
@@ -155,7 +284,8 @@ TOPIC_ENTITIES = [
 
 def build_jsonld(base: str, lang: str, page: str, *, trail=None,
                  news=None, papers=None,
-                 articles=None, article=None, page_url="", faqs=None) -> str:
+                 articles=None, article=None, page_url="", faqs=None,
+                 news_item=None, page_description="", paper=None) -> str:
     """ページ種別に応じた JSON-LD を1つの @graph にまとめて返す。"""
     website = _website(base, lang)
     website["about"] = TOPIC_ENTITIES
@@ -189,6 +319,11 @@ def build_jsonld(base: str, lang: str, page: str, *, trail=None,
         })
     elif page == "article" and article:
         graph.append(_article(base, article, page_url, lang))
+    elif page == "news_detail" and news_item:
+        graph.append(_news_detail(base, news_item, page_url,
+                                  page_description, lang))
+    elif page == "paper" and paper:
+        graph.append(_paper_reading(base, paper, page_url, lang))
 
     return json.dumps({"@context": "https://schema.org", "@graph": graph},
                       ensure_ascii=False, separators=(",", ":"))
@@ -433,15 +568,29 @@ def build_sitemap(base: str, paths_by_lang: dict[str, list[str]],
             return "0.5"     # ソース別一覧
         return "0.4"         # 2ページ目以降
 
+    # ページネーション2ページ目以降（news/2/, topics/models/4/ など）
+    _PAGED = re.compile(r"(?:^|/)\d+/$")
+
     def indexable(p: str) -> bool:
-        """集約の中間ページ（a/<slug>/）は sitemap に載せない。
+        """noindex にしたページは sitemap にも載せない。
 
         テンプレート側で noindex にしているページを sitemap で申告すると
-        矛盾したシグナルになる。また 600件の薄いページが sitemap の大半を
-        占めると、クロールバジェットがオリジナル記事に回らなくなる。
+        矛盾したシグナルになる。また薄いページが sitemap の大半を占めると、
+        クロールバジェットがオリジナル記事に回らなくなる。
         → 03_集約要約ルール.md「個別記事ページを作らない」
+
+        除外するもの（build.py 側で noindex にしているものと一致させる）:
+          - a/<slug>/          … 旧仕様の集約中間ページ
+          - */2/, */3/ ...     … ページネーション2ページ目以降
+          - news/source/*/     … ソース別アーカイブ
         """
-        return not (p == "a" or p.startswith("a/"))
+        if p == "a" or p.startswith("a/"):
+            return False
+        if p.startswith("news/source/"):
+            return False
+        if _PAGED.search(p):
+            return False
+        return True
 
     for lang, paths in paths_by_lang.items():
         prefix = "" if lang == config.DEFAULT_LANG else f"{lang}/"
