@@ -446,17 +446,36 @@ def build_llms_txt(base: str, articles_ja: list[dict], articles_en: list[dict]) 
 
 def build_search_index(lang: str, news: list[dict], papers: list[dict],
                        articles: list[dict]) -> str:
-    """全コンテンツを1つのJSONにまとめる。サーバー不要で全文検索できる。"""
+    """全コンテンツを1つのJSONにまとめる。サーバー不要で全文検索できる。
+
+    このJSONは検索ページを開いた人が丸ごとダウンロードする。
+    2026-08-01 実測で 1,020KB（gzip後 330KB）まで膨らんでいた。
+    中身の86%は、自社の解説がまだ無いニュース（配信元へのリンクだけの
+    ページ）だった。それらは薄いページとして noindex にしている
+    ——検索エンジンに出さないと決めたものを、サイト内検索にだけ
+    出し続ける理由はない。載せるのは自社が解説を書いたニュースに絞る。
+
+    行き先も直した。以前はニュースだけ配信元URLへ直接飛ばしていたが、
+    一覧・関連記事は自サイトの個別ページを経由させている
+    （build.py「外部リンクに直接飛ばすと読者が離脱する」）。
+    サイト内検索だけ外へ出すのは筋が通らないので、個別ページに向ける。
+    論文(arXiv)は個別ページが一部にしか無いため、従来どおり外部リンク。
+    """
     idx = []
     for a in articles:
         idx.append({"t": a["title"], "d": a.get("excerpt", ""),
                     "u": f"articles/{a['slug']}/", "k": "article",
                     "s": config.SITE_NAME})
     for n in news:
+        if not (n.get("body_long") or "").strip():
+            continue                       # 自社の解説が無いものは載せない
         title = n.get(f"title_{lang}") or n.get("title") or ""
         desc = n.get(f"summary_{lang}") or n.get("summary") or ""
-        idx.append({"t": title, "d": desc[:160], "u": n.get("url", ""),
-                    "k": "news", "s": n.get("source", ""), "x": 1})
+        slug = n.get("slug")
+        if not slug:                       # 念のため。slugが無ければ出さない
+            continue
+        idx.append({"t": title, "d": desc[:160], "u": f"news/{slug}/",
+                    "k": "news", "s": n.get("source", "")})
     for p in papers:
         idx.append({"t": p.get("title", ""), "d": p.get("summary", "")[:160],
                     "u": p.get("url", ""), "k": "paper",
