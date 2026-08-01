@@ -48,13 +48,37 @@ def fetch_og_image(url: str) -> str | None:
     return None
 
 
+# 1回で取りに行く件数の上限。
+#
+# 2026-08-01 時点で画像の無いニュースは2,300件を超える。上限なしで全件に
+# HTTPリクエストを投げると数十分かかり、途中で打ち切られると最後の
+# write_text に到達せず、取得できた分がまるごと消える。翌日も同じところから
+# やり直すので、何度回しても増えない——翻訳と IndexNow で同じ壊れ方をしていた。
+DEFAULT_LIMIT = 300
+SAVE_EVERY = 50
+
+
 def main() -> int:
+    limit = DEFAULT_LIMIT
+    for a in sys.argv[1:]:
+        if a.startswith("--limit="):
+            limit = int(a.split("=", 1)[1])
     data = json.loads(NEWS.read_text(encoding="utf-8"))
     items = data.get("items", [])
-    targets = [(i, it) for i, it in enumerate(items) if not it.get("image")]
-    print(f"補完対象: {len(targets)} / 全{len(items)}件", flush=True)
+    pending = [(i, it) for i, it in enumerate(items)
+               if not it.get("image") and it.get("url")]
+    # items は新しい順。先頭から処理すれば一覧に出る分から画像が付く。
+    targets = pending[:limit] if limit else pending
+    print(f"画像なし {len(pending)}件 → 今回 {len(targets)}件 / 全{len(items)}件",
+          flush=True)
+    if not targets:
+        return 0
 
-    got = 0
+    def save() -> None:
+        NEWS.write_text(json.dumps(data, ensure_ascii=False, indent=2),
+                        encoding="utf-8")
+
+    got = done = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
         futs = {ex.submit(fetch_og_image, it["url"]): i for i, it in targets}
         for fut in concurrent.futures.as_completed(futs):
@@ -63,10 +87,15 @@ def main() -> int:
             if img:
                 items[i]["image"] = img
                 got += 1
+            done += 1
+            # 途中で止まっても、そこまでの取得は残す。
+            if done % SAVE_EVERY == 0:
+                save()
+                print(f"  …{done}/{len(targets)}件（取得 {got}）", flush=True)
 
-    NEWS.write_text(json.dumps(data, ensure_ascii=False, indent=2),
-                    encoding="utf-8")
-    print(f"OGP画像を取得: {got}件 / 補完対象{len(targets)}件", flush=True)
+    save()
+    print(f"OGP画像を取得: {got}件 / 今回{len(targets)}件"
+          f"（残り {len(pending) - len(targets)}件は次回）", flush=True)
     print(f"最終: image有り {sum(1 for x in items if x.get('image'))} / {len(items)}件", flush=True)
     return 0
 
