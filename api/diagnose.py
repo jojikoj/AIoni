@@ -467,8 +467,13 @@ def _score100(level, judge, official):
 
 class handler(BaseHTTPRequestHandler):
     def _cors_origin(self):
-        origin = self.headers.get("Origin", "")
-        return origin if origin in ALLOWED_ORIGINS else DEFAULT_ORIGIN
+        # 許可外オリジンにも「そのオリジン」を返す。ここで DEFAULT_ORIGIN を
+        # 返すと、ブラウザは ACAO 不一致でレスポンス自体を捨てるため、画面には
+        # サーバーが返した理由（403「このURLからは利用できません」等）ではなく
+        # 素の "Failed to fetch" しか出ず、原因が一切分からなくなる。
+        # 実測を許すかどうかは do_POST の Origin 判定が決めており、許可外は
+        # Gemini を呼ぶ前に 403 で落ちる。よってエコーしても実害はない。
+        return self.headers.get("Origin", "") or DEFAULT_ORIGIN
 
     def _send(self, code, obj):
         payload = json.dumps(obj, ensure_ascii=False).encode("utf-8")

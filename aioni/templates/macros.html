@@ -499,8 +499,14 @@
         .catch(function(err){
           // サーバーが理由を返している場合（レート制限など）はそれを見せる。
           // 「実測に失敗」だけだと、混雑なのか故障なのか利用者に伝わらない。
-          var msg=(err&&err.message&&err.message!=='error')
-            ?err.message:'実測に失敗しました。時間をおいて再度お試しください。';
+          var raw=(err&&err.message)||'';
+          // fetch 自体が失敗すると raw は 'Failed to fetch'（TypeError）。
+          // サーバーには届いていない＝通信が遮断された状態で、そのまま出すと
+          // 英語のまま意味が伝わらないので、原因の当たりまで含めて日本語にする。
+          var msg=/Failed to fetch|NetworkError|Load failed/i.test(raw)
+            ?'実測サーバーに接続できませんでした。広告ブロッカーや拡張機能を切って、'
+             +'https://ai-oni.com/ から再度お試しください。'
+            :(raw&&raw!=='error'?raw:'実測に失敗しました。時間をおいて再度お試しください。');
           box.innerHTML='<p class="ac-error">'+esc(msg)+'</p>';
         })
         .finally(function(){btn.disabled=false;
