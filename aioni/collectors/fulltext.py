@@ -34,10 +34,25 @@ import requests
 from .. import config
 from . import translate
 
+# 本文抽出は trafilatura に依存している。無いと fetch_body が常に空を返し、
+# 全件が body_skip="no_body" として静かに積み上がる——エラーは出ないので、
+# 「配信元が本文を出していないのだろう」と誤解したまま何日も過ぎる。
+#
+# 2026-08-01 実測: data/news.json は body_skip 155件に対して body_src が
+# 0件だった。このMacでは trafilatura 2.1.0 が入っていて本文は取れる
+# （Zenn の記事で 3,840字・6,202字・2,974字）。つまり取れていないのは
+# 実行機側にライブラリが無いためと考えられる。requirements.txt にも
+# 入っていなかったので、手順どおりに用意しても入らない状態だった。
+#
+# 依存が無いこと自体は止める理由にならない（収集と公開は続けたい）が、
+# 黙って空を返すのはやめる。
 try:
     import trafilatura
 except ImportError:
     trafilatura = None
+    print("⚠️ trafilatura が入っていないため、配信元の本文を取得できません。"
+          "全件が『本文なし』として処理されます。"
+          "pip install -r requirements.txt で導入してください。", file=sys.stderr)
 
 UA = "AIoni/1.0 (+https://github.com/; AI news aggregator)"
 FETCH_TIMEOUT = 20
