@@ -9,18 +9,30 @@ AIの鬼 は静的サイトで、**GitHub Pages** で配信している。
                           [GitHub Pages] が ai-oni.com で公開
 ```
 
-> Vercel は使わない。無料枠（Hobby）が商用利用不可のため、営業導線を持つ本サイトでは選べない。
-> 過去に Vercel 構成を検討した経緯があるが、GitHub Pages（無料・商用可）に一本化した。
+> **サイト本体は Vercel に置かない。** 無料枠（Hobby）が商用利用不可のため、
+> 営業導線を持つ本サイトの配信元としては選べない。GitHub Pages（無料・商用可）に一本化している。
+>
+> ただし**トップの AI可視性チェッカーだけは Vercel を使う**。会社名を受け取ってAIに
+> 問い合わせる処理はサーバーが要り、静的ホスティングでは動かないため。
+> エンドポイントは `aioni/config.py` の `DIAGNOSE_ENDPOINT` に一元管理している
+> （Vercel を再デプロイして本番URLが変わったらここを直す）。
 
 ---
 
 ## 通常の更新
 
 ```bash
-./run.sh publish     # 収集 → 生成 → commit → gh-pages へ push
+./tools/deploy.sh    # origin/main を取り込む → リンク検査 → 生成 → gh-pages へ push → IndexNow
 ```
 
 `gh-pages` ブランチに `dist/` を push する方式。push を検知して GitHub Pages が公開する。
+
+> ⚠️ **deploy.sh は毎回 `push -f` で全上書きする。** 実行機が `main` を取り込まないまま
+> 日次を回すと、その間に入れた改修が公開サイトから丸ごと消える（2026-08-01 に発生）。
+> エラーは出ないので気づけない。そのため deploy.sh は冒頭で `origin/main` より遅れて
+> いないかを確認し、遅れていれば取り込む。取り込めなければ公開せず中止する。
+>
+> 公開後は `python3 tools/health_check.py` で、鮮度と「載っているべき目印」を確認できる。
 
 ---
 

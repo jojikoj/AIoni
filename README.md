@@ -1,42 +1,46 @@
-# AIの鬼 🛰
+# AIの鬼 👹
 
-**宇宙開発を、世界とつなぐ。** — 国内外の宇宙開発ニュース・打ち上げ予定・研究動向を集約し、日本語と英語で発信する静的サイト。
+**中小企業のAI実践・実測ラボ。** — 株式会社TOEが自社の業務でAIを動かした記録と、
+AI検索での見え方を実際に測った数字を公開する静的サイト。あわせて国内外のAIニュースと
+arXiv の研究プレプリントを集約する。
 
-🌐 <https://uchuchu.tech>
+🌐 <https://ai-oni.com>
 
-> **運用中のAPI従量課金はゼロ。** データ収集はすべて無料の公開API/RSS、翻訳はローカルの Claude Code、公開は GitHub Pages。
+> **運用中のAPI従量課金はゼロ。** 収集はすべて無料の公開API/RSS、翻訳と要約はローカルの
+> Claude Code（`claude` CLI／`--model haiku`）、公開は GitHub Pages。
 
 ---
 
-## 何ができるか
+## 何を載せているか
 
-| ページ | 内容 | 規模 | データ元 |
+| 区分 | 内容 | 規模 | 出どころ |
 |---|---|---|---|
-| ニュース | 国内外の宇宙開発ニュース（ソース別ページ・ページ分割） | 最大600件 | 19ソース（sorae / SpaceNews / NASA / ESA / Space.com / Ars Technica / Spaceflight News API ほか） |
-| 打ち上げ | 世界のロケット打ち上げ予定＋実績（ライブカウントダウン） | 最大200件 | Launch Library 2 (The Space Devs) |
-| 研究動向 | 宇宙工学・惑星科学・宇宙物理の最新プレプリント | 最大250件 | arXiv API |
-| 特集 | 手書きの解説記事（Markdown） | 随時 | `content/articles/` |
+| 記事 | 編集部が書く実践記録・実測・解説 | 208本 | `content/articles/*.ja.md` |
+| ニュース | 国内外のAIニュースを1日2回集約 | 保持3000件・一覧600件 | 15ソース（OpenAI / Google AI / Hugging Face / MIT Tech Review / TechCrunch / The Verge / ITmedia AI+ / Zenn / Qiita ほか） |
+| 研究動向 | cs.AI / cs.CL / cs.LG / cs.CV の最新プレプリント | 最大250件 | arXiv API |
 
-### 記事を積み上げる仕組み
+記事は7カテゴリに分かれる（`config.ARTICLE_CATEGORIES`）。
 
-- **アーカイブ蓄積**: 収集のたびに上書きせず、既存データへ新着を統合する（URL/IDで重複排除）。
-  日を追うごとに記事数が増え、上限（`NEWS_LIMIT` など）まで積み上がる。
-- **翻訳キャッシュ**: 訳した記事は `data/translations.json` にURLキーで保存し、
-  次回以降は再翻訳しない。これがないと毎回数百件を訳し直すことになる。
-- **ページ分割**: 一覧は1ページ30件（`PAGE_SIZE`）。`news/`, `news/2/`, ... の実ページとして出力。
-- **ソース別ページ**: `news/source/<id>/` を実ページとして生成。
-  ページ分割後もソース絞り込みが正しく機能し、検索インデックス対象も増える。
-- **話題フィルタ**: 総合メディア（ギズモード等）は宇宙関連キーワードに一致した記事だけ採用する。
+| カテゴリ | URL | 中身 |
+|---|---|---|
+| AI実践室 | `/jissen/` | 実際に動かしている仕組みの記録。処理件数・所要時間・失敗件数を実ログで裏取り |
+| AI検索観測所 | `/kansoku/` | ChatGPT・Perplexity・AI Overviews を実際に測った結果 |
+| 失敗の鬼 | `/shippai/` | 自社で起きた失敗。中小企業向けの教訓に着地させる |
+| AI仕事術 | `/shigoto/` | 実務で使える手順 |
+| AI解体新書 | `/kaisetsu/` | 外部の研究・調査を中小企業向けに読み解く |
+| 今週のAI | `/weekly/` | 集めたニュースから中小企業に必要なものを選ぶ（記事0本のあいだは noindex） |
+| 中の鬼 | `/naka/` | 中の人の雑記 |
 
-### 言語まわりの仕様
+## 積み上げの仕組み
 
-- 日本語版は `/`、英語版は `/en/` に生成される。
-- **ブラウザの言語で自動振り分け**。日本語ブラウザは日本語版、それ以外は英語版へ。
-  ヘッダーの `JA / EN` で手動選択すると、その選択が以後優先される。
-- **英語ソースの記事は日本語に翻訳して掲載**する（「自動翻訳」バッジ付き）。
-- 日本語ソースの記事は英語版には載せない。日→英の機械翻訳は品質が公開に耐えないため。
-
----
+- **アーカイブ蓄積**: 収集のたびに上書きせず、既存データへ新着を統合する（URLで重複排除）。
+  上限は `NEWS_LIMIT`（3000件）。**この値は「個別ページが存在し続けるか」を直接決める**——
+  短くすると、Googleにインデックスされた頃にはページが消えて404になる（config.py のコメント参照）。
+- **一覧と保持を分離**: 一覧に出すのは `NEWS_LIST_LIMIT`（600件）。個別ページは保持分すべて作る。
+- **翻訳キャッシュ**: 訳した記事は `data/translations.json` にURLキーで保存し、次回は再翻訳しない。
+- **薄いページは noindex**: 自社の解説（`body_long`）が無いニュース個別ページと、記事0本の
+  カテゴリページは `noindex` にし sitemap からも外す。中身が入れば自動で index に戻る。
+- **ページ分割**: 一覧は1ページ30件（`PAGE_SIZE`）。2ページ目以降は `noindex, follow`。
 
 ## セットアップ
 
@@ -44,7 +48,8 @@
 pip install -r requirements.txt
 ```
 
-翻訳を有効にするには、ローカルに [Claude Code](https://claude.com/claude-code) が入っていれば自動で使われます（`claude` コマンド）。
+翻訳・要約はローカルの [Claude Code](https://claude.com/claude-code)（`claude` コマンド）を使う。
+バッチは必ず `--model haiku`（`AIONI_BATCH_MODEL`）。指定しないと対話用の枠を食い潰す。
 
 ## 使い方
 
@@ -53,165 +58,85 @@ pip install -r requirements.txt
 ./run.sh collect    # データ収集＋翻訳のみ
 ./run.sh build      # サイト生成のみ
 ./run.sh serve      # 生成してプレビュー
-./run.sh publish    # 収集 → 生成 → commit & push（GitHub Pages が自動更新）
+./run.sh publish    # 収集 → 生成 → data/ を main にコミット＆push（※公開ではない）
+
+./tools/deploy.sh   # 公開。main を取り込む → 生成 → gh-pages へ push → IndexNow
+python3 tools/health_check.py --notify   # 公開サイトが生きているかの点検
 ```
 
----
+> `run.sh publish` と `tools/deploy.sh` は別物。前者は収集データを `main` に残すだけで、
+> 公開サイトは変わらない。実際に ai-oni.com を更新するのは後者。
 
 ## 更新の流れ
 
 ```
-[ローカル Mac]                              [GitHub]
- collect  ── 無料の公開API/RSSから収集
+[実行機 Mac mini]                          [GitHub]
+ collect   ── 無料の公開API/RSSから収集
     │
- translate ── claude CLI で英→日翻訳（従量課金なし）
+ fulltext  ── 配信元の本文を取得（robots.txt を尊重）
     │
- build    ── dist/ に日英サイトを生成
+ 解説生成   ── claude CLI (haiku) で約800字の独自解説
     │
- git push ────────────────────────────────▶ Actions がビルド＆Pages公開
-                                              → https://uchuchu.tech
+ deploy.sh ── origin/main を取り込む → build → gh-pages へ push
+                                            → https://ai-oni.com
 ```
 
-収集と翻訳を**ローカルで行う**のがこの構成の要。GitHub Actions 上では `claude` が使えないため、
-Actions は「コミット済みの `data/*.json` からサイトを生成して公開する」だけを担当する。
+**収集・翻訳・生成をローカルで行うのがこの構成の要。** GitHub Actions 上では `claude` が
+使えないため、Actions は使わず、実行機が生成物を `gh-pages` に push する。
 
-### 定期更新（任意）
+### ⚠️ 実行機が古いコードで公開を上書きする事故に注意
 
-Mac の cron に登録すれば自動で更新できる。
+`deploy.sh` は毎回 `push -f` で全上書きする。**実行機が `main` を取り込まないまま日次を
+回すと、その間に入れた改修が公開サイトから丸ごと消える**（2026-08-01 に発生。記事末の
+相談バナー・関連記事欄・画像の軽量化が一度に消えた）。エラーは出ない。
 
-```cron
-# 毎日 7:00 と 19:00 に収集して公開
-0 7,19 * * * cd /Users/kojimajouji/AIの鬼 && ./run.sh publish >> /tmp/uchuchu.log 2>&1
-```
+対策として `deploy.sh` の冒頭で `origin/main` より遅れていないか確認し、遅れていれば
+取り込む。取り込めなければ公開せず中止する。加えて `health_check.py` が
+「公開サイトに載っているべき目印」を検査する。
 
----
-
-## 独自ドメイン（uchuchu.tech）
-
-`uchuchu/config.py` の `SITE_DOMAIN` に設定済み。ビルド時に `dist/CNAME` が自動生成される。
-
-DNS（ムームードメイン）側は以下を設定する。
-
-| サブドメイン | 種別 | 内容 |
-|---|---|---|
-| （空欄） | A | 185.199.108.153 |
-| （空欄） | A | 185.199.109.153 |
-| （空欄） | A | 185.199.110.153 |
-| （空欄） | A | 185.199.111.153 |
-| www | CNAME | jojikoj.github.io |
-
-GitHub 側は **Settings → Pages → Custom domain** に `uchuchu.tech` を入力し、
-DNSチェック通過後に **Enforce HTTPS** を有効化する。
-
----
-
-## 構成
-
-```
-uchuchu/
-  config.py              サイト設定・データソース定義（ソース追加はここ）
-  i18n.py                UI文言の日英辞書
-  build.py               静的サイトジェネレータ
-  collectors/
-    sources.py           各ソースの取得ロジック
-    collect_all.py       収集オーケストレーター（フェイルソフト）
-    translate.py         翻訳（claude CLI → argostranslate → 原文の3段）
-  templates/             Jinja2テンプレート
-content/articles/        特集記事（Markdown）
-static/                  CSS / JS / 画像
-data/                    収集結果JSON（コミット対象）
-dist/                    生成物（gitignore）
-```
-
----
-
-## 記事を追加する
-
-`content/articles/` に `<スラッグ>.ja.md` と `<スラッグ>.en.md` を置くだけ。
-
-```markdown
----
-title: 記事タイトル
-excerpt: 一覧に出る要約文
-tag: 特集
-author: AIの鬼 編集部
-date: 2026-07-15
-order: 1
----
-
-本文をMarkdownで書く。
-```
-
-`order` が小さいほど上に出る。日英どちらか一方だけでもよい（その言語版にのみ表示）。
-
-## ニュースソースを追加する
-
-`uchuchu/config.py` の `NEWS_SOURCES` に追記する。
-
-```python
-{"id": "myfeed", "name": "表示名", "lang": "ja",
- "url": "https://example.com/feed", "type": "rss"},
-```
-
-取得に失敗したソースは自動でスキップされ、他のソースの収集は継続する。
-
----
-
-## 翻訳バックエンド
-
-| 優先 | エンジン | 品質 | 備考 |
-|---|---|---|---|
-| 1 | `claude` CLI | 高（公開レベル） | ローカルのClaude Codeを使用。従量課金なし |
-| 2 | argostranslate | 低〜中 | 完全オフライン。`pip install argostranslate`＋`python3 -m uchuchu.collectors.translate --install` |
-| 3 | なし | — | 原文のまま掲載。サイトは常に動く |
-
-現在のバックエンドは次で確認できる。
+## 点検
 
 ```bash
-python3 -m uchuchu.collectors.translate
+python3 tools/health_check.py           # 鮮度＋目印（cron向け。--notify で macOS 通知）
+python3 tools/check_links.py            # 内部リンク切れ（deploy.sh が自動実行）
+python3 tools/weekly_review.py          # 薄い記事・孤立記事・画像なしの棚卸し
+python3 tools/searchconsole_report.py   # Search Console のクエリとサイトマップ状態
+python3 tools/optimize_images.py --dry  # 掲載写真の再圧縮量を試算
 ```
 
----
+## 独自ドメイン（ai-oni.com）
 
-## SEO / AEO（AI検索）対策
+`aioni/config.py` の `SITE_DOMAIN` に設定済み。ビルド時に `dist/CNAME` が自動生成される。
+GitHub 側は **Settings → Pages → Custom domain** に `ai-oni.com` を設定する。
 
-| 施策 | 内容 |
+## ディレクトリ
+
+```
+aioni/            サイト生成本体（build.py / seo.py / business.py / config.py / topics.py）
+  collectors/     収集・本文取得・翻訳
+  templates/      Jinja2 テンプレート
+content/articles/ 記事の Markdown（<slug>.ja.md）
+data/             収集データ（news.json / papers.json / translations.json）
+static/           CSS・JS・画像
+tools/            デプロイと点検のスクリプト
+dist/             生成物（コミットしない）
+```
+
+## AI検索（AEO）まわり
+
+| 項目 | 実装 |
 |---|---|
-| 構造化データ | 全ページに JSON-LD。`WebSite`（主題エンティティをWikidataに紐付け）/ `Organization` / `BreadcrumbList`。打ち上げは `Event`、自作記事は `Article`、集約コンテンツは `ItemList` |
-| **FAQPage** | `/faq/` に日英各9問のQ&Aを構造化データ付きで掲載。回答エンジンが最も引用しやすい形式 |
-| **サイト内検索** | `/search/` で全コンテンツを横断検索。静的JSONインデックス方式でサーバー不要。`SearchAction` も出力 |
-| llms.txt | `/llms.txt` にサイト構造・出典・翻訳の但し書きを記載（AI検索の新標準） |
-| **llms-full.txt** | `/llms-full.txt` に自作記事とFAQの全文を提供。集約した外部記事は著作権上あえて含めない |
-| robots.txt | GPTBot / ClaudeBot / PerplexityBot / Google-Extended など主要AIクローラ18種を明示的に許可 |
-| RSS | `/feed.xml`（日本語）と `/en/feed.xml`（英語） |
-| sitemap.xml | 実際に生成した全ページ（分割ページ・ソース別ページ含む）に `lastmod`・`priority`・hreflang相互リンク |
-| 多言語 | `hreflang` と `x-default`、ブラウザ言語による自動振り分け |
-| OGP | 1200×630 のSNS共有カードを同梱 |
+| 構造化データ | 全ページに JSON-LD。`Organization` / `WebSite` / `BreadcrumbList`、記事は `Article`、集約ニュースは解説があれば `NewsArticle`（`isBasedOn` で元記事を明示）、無ければ `WebPage` |
+| llms.txt | サイト構造と記事一覧をAI向けに提供。`## Identity` 節で**同名の別サービスとの区別**を明記 |
+| robots.txt | 検索エンジンとAIクローラの双方を明示的に許可 |
+| IndexNow | デプロイのたびに全URLを通知 |
+| 可視性チェッカー | トップに設置。会社名を入れるとAIがその企業をどう認識しているかをその場で測る（Vercel の `/api/diagnose`） |
 
-構造化データの方針として、**外部から集約した記事を自作記事に見せかけない**。
-集約コンテンツは `ItemList` として「リンク集」であることを明示し、`Article` は自作記事にのみ使う。
-`llms-full.txt` に外部記事本文を含めないのも同じ理由。
+## 出典・データ提供元
 
----|---|
-| 構造化データ | 全ページに JSON-LD（WebSite / Organization / BreadcrumbList）。打ち上げは `Event`、自作記事は `Article`、集約コンテンツは `ItemList` として出力 |
-| llms.txt | `/llms.txt` にAI向けのサイト構造・出典・翻訳の但し書きを記載（AI検索の新標準） |
-| robots.txt | 検索エンジンに加え GPTBot / ClaudeBot / PerplexityBot / Google-Extended など主要AIクローラを明示的に許可 |
-| RSS | `/feed.xml`（日本語）と `/en/feed.xml`（英語） |
-| sitemap.xml | `lastmod`・`priority`・hreflang相互リンク付き |
-| 多言語 | `hreflang` と `x-default`、ブラウザ言語による自動振り分け |
-| OGP | 1200×630 のSNS共有カードを同梱（`static/img/ogp.png`、元HTMLも同梱） |
+見出しと要約は配信元へリンクし、著作権は各社に帰属する。データ提供元は
+OpenAI / Google DeepMind / Google AI / Hugging Face / MIT Technology Review /
+TechCrunch / The Verge / VentureBeat / Ars Technica / ITmedia AI+ / AINOW /
+Zenn / Qiita / Publickey / ASCII.jp / arXiv。
 
-構造化データの方針として、**外部から集約した記事を自作記事に見せかけない**。
-集約コンテンツは `ItemList` として「リンク集」であることを明示し、`Article` は自作記事にのみ使う。
-
----
-
-## データ元へのクレジット
-
-- [Spaceflight News API](https://spaceflightnewsapi.net/)
-- [The Space Devs / Launch Library 2](https://thespacedevs.com/)
-- [arXiv](https://arxiv.org/)
-- [NASA](https://www.nasa.gov/) / [ESA](https://www.esa.int/) / [sorae](https://sorae.info/) / [アストロアーツ](https://www.astroarts.co.jp/)
-
-各記事の著作権は元の発信者に帰属します。本サイトは見出し・要約・リンクによる集約と、
-出典を明示した上での翻訳掲載を行っています。
+運営: 株式会社TOE（福岡市中央区） <https://gtoe.info/>
