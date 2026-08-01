@@ -385,6 +385,12 @@ def _clip(text: str, limit: int) -> str:
 _NEWS_TAIL_BODY = "｜要点と実務への影響"
 _NEWS_TAIL_LINK = "｜出典と、関連する実践記録"
 
+# 解説の2段落目が、生成プロンプトの見出しをそのまま書き出しにしていることがある。
+# description に出すときだけ、この定型の前置きを外す（本文はそのまま残す）。
+_LEAD_BOILERPLATE = re.compile(
+    r"^(?:【?AIの鬼の視点】?(?:から見れば|から見ると|から言えば|では|とし(?:て)?は|は)?、?\s*"
+    r"|ここが主役(?:だ|です)。?\s*)+")
+
 
 def news_meta(item: dict, lang: str) -> tuple[str, str]:
     """ニュース個別ページの (タイトル末尾, meta description) を返す。
@@ -424,8 +430,14 @@ def news_meta(item: dict, lang: str) -> tuple[str, str]:
         paras = [x.strip() for x in body.split("\n\n") if x.strip()]
         if len(paras) < 2:
             paras = [x.strip() for x in body.split("\n") if x.strip()]
-        desc = _clip(paras[1] if len(paras) >= 2 else (paras[0] if paras else body), 110)
-        return _NEWS_TAIL_BODY, desc
+        lead = paras[1] if len(paras) >= 2 else (paras[0] if paras else body)
+        # 生成プロンプトの見出し（「2. AIの鬼の視点」）を、そのまま本文の書き
+        # 出しに持ち込んでいるものが8件あった。検索結果に
+        # 「AIの鬼の視点では、ここが重要です。…」と出ると、読者に伝わるのは
+        # 媒体の自称だけで、肝心の中身が110字の枠から押し出される。
+        # 定型の前置きだけを外す（後続は普通の文になっている）。
+        lead = _LEAD_BOILERPLATE.sub("", lead).lstrip("　 ")
+        return _NEWS_TAIL_BODY, _clip(lead, 110)
 
     summary = (item.get("display_summary") or "").strip()
     if summary:
