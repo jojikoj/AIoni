@@ -306,6 +306,9 @@ def load_articles(lang: str) -> list[dict]:
             # hero がファイル名だけならサイト内の画像として解決する
             "hero_is_local": bool(hero) and not hero.startswith("http"),
             "date": meta.get("date", ""),
+            # 公開後に加筆したら front matter に updated: を足す。
+            # 無ければ公開日と同じ＝一度も直していない、という意味になる。
+            "updated": meta.get("updated", "") or meta.get("date", ""),
             "date_display": fmt_date(meta.get("date"), lang) if meta.get("date") else "",
             "order": int(meta.get("order", "100") or "100"),
             "chars": text_len,
@@ -1278,8 +1281,14 @@ class Builder:
                 and p not in self.noindex_paths.get(l, set())]
             for l, paths in self.paths_by_lang.items()
         }
+        # 記事だけは実際の更新日を渡す。一覧やニュースは毎日中身が
+        # 入れ替わるのでビルド日でよいが、記事は直した日を出さないと
+        # 「毎日全記事を更新している」という嘘の申告になる。
+        art_lastmod = {f"articles/{a['slug']}/": (a.get("updated") or a["date"])
+                       for a in articles_ja if a.get("date")}
         (config.DIST_DIR / "sitemap.xml").write_text(
-            seo.build_sitemap(self.base_url, sitemap_paths, self.now),
+            seo.build_sitemap(self.base_url, sitemap_paths, self.now,
+                              art_lastmod),
             encoding="utf-8")
 
         # IndexNow の鍵ファイル。検索エンジンがこれを取得して

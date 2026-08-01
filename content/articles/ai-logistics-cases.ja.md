@@ -4,6 +4,7 @@ excerpt: ヤマト運輸・佐川急便などの公表データをもとに、�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-01
 order: 110
 hero: article-ai-logistics-cases.jpg
 image_prompt: A delivery truck driver checking a route on a handheld device inside the cab, parked at a loading dock at early morning, natural light, candid documentary style, realistic, professional photograph, avoid AI art

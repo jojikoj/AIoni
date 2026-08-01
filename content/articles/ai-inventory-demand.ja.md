@@ -4,6 +4,7 @@ excerpt: コンビニや石油元売りが公表している発注時間・誤�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-01
 order: 114
 hero: article-ai-inventory-demand.jpg
 image_prompt: A store employee checking stock levels on a tablet between shelves in a small warehouse, natural light from a window, everyday work scene, realistic, professional photograph, candid, avoid AI art

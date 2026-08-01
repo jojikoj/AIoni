@@ -131,7 +131,8 @@ def _article(base: str, a: dict, url: str, lang: str) -> dict:
         node["author"] = {"@type": "Organization", "name": a["author"]}
     if a.get("date"):
         node["datePublished"] = a["date"]
-        node["dateModified"] = a["date"]
+        # 加筆したら front matter の updated: が入る。無ければ公開日と同じ。
+        node["dateModified"] = a.get("updated") or a["date"]
     if a.get("hero"):
         # schema.org の image は絶対URLでないと読まれない。
         # front matter には "article-xxx.jpg" とファイル名だけ書くので、
@@ -591,12 +592,26 @@ def build_robots(base: str) -> str:
 #  sitemap.xml — lastmod + hreflang相互リンク
 # =====================================================================
 def build_sitemap(base: str, paths_by_lang: dict[str, list[str]],
-                  build_dt: datetime) -> str:
+                  build_dt: datetime,
+                  lastmod_by_path: dict[str, str] | None = None) -> str:
     """言語ごとの生成済みパス一覧から sitemap を作る。
 
     ページ分割やソース別ページも含め、実際に出力したURLだけを載せる。
+
+    lastmod について（2026-08-01 修正）:
+      以前はビルド日時を全URLに一律で入れていた。ビルドは毎日走るので、
+      1文字も直していない記事まで毎日「今日更新した」と申告することになる。
+      lastmod が当てにならないと分かった時点で検索エンジンはこの値を
+      無視するようになるため、本当に直したときに気づいてもらえなくなる。
+      さらに、構造化データの dateModified は記事の日付を出していたので、
+      同じページについて sitemap と JSON-LD が食い違ってもいた。
+
+      記事は lastmod_by_path で実際の更新日を渡す。渡されなかったパス
+      （一覧・ニュース・トピックなど、中身が毎日入れ替わるページ）は
+      ビルド日でよい——そこは実際に毎日変わっているため。
     """
     lastmod = build_dt.astimezone(timezone.utc).strftime("%Y-%m-%d")
+    lastmod_by_path = lastmod_by_path or {}
     out = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
@@ -645,7 +660,7 @@ def build_sitemap(base: str, paths_by_lang: dict[str, list[str]],
                 continue
             out.append("  <url>")
             out.append(f"    <loc>{base}/{prefix}{p}</loc>")
-            out.append(f"    <lastmod>{lastmod}</lastmod>")
+            out.append(f"    <lastmod>{lastmod_by_path.get(p, lastmod)}</lastmod>")
             out.append(f"    <priority>{prio(p)}</priority>")
             # 相手言語にも同じパスが存在するときだけ hreflang を張る
             for alt, alt_paths in paths_by_lang.items():
