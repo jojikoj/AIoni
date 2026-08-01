@@ -637,9 +637,11 @@ class Builder:
         # canonical を他ページに向けたパス。sitemap には載せない
         # （正本でないURLを申告すると矛盾したシグナルになる）
         self.noncanonical: dict[str, set[str]] = {l: set() for l in config.LANGS}
-        # 自社の要約(body_long)がまだ無いニュース個別ページ。noindex にし、
-        # sitemap からも外す（下の _write_news 参照）。
-        self.thin_news: dict[str, set[str]] = {l: set() for l in config.LANGS}
+        # noindex にしたページ。sitemap からも外す。
+        # 入るのは2種類——自社の要約(body_long)がまだ無いニュース個別ページと、
+        # 記事が1本も無いカテゴリページ。どちらも「中身が無いものは
+        # 検索結果に出さない、中身が入れば自動で戻る」という同じ扱い。
+        self.noindex_paths: dict[str, set[str]] = {l: set() for l in config.LANGS}
 
     # 相対パス prefix（dist直下=ルート、ページ深さに応じて ../ を積む）
     @staticmethod
@@ -870,8 +872,16 @@ class Builder:
         for cat in config.ARTICLE_CATEGORIES:
             items = [a for a in articles if a.get("category") == cat["id"]]
             path = f"{cat['id']}/"
+            # まだ1本も記事が無いカテゴリは検索結果に出さない。
+            # 2026-08-01 実測で /weekly/ が「このカテゴリの記事はこれから
+            # 公開します。」だけのページとして index 対象になっていた。
+            # 中身の無いページを索引させると、サイト全体の評価を下げる。
+            # 記事が入れば自動で index に戻る（薄いニュース個別ページと同じ扱い）。
+            empty = not items
+            if empty:
+                self.noindex_paths[lang].add(path)   # sitemap からも外す
             ctx = self._ctx(lang, depth=1, active=cat["id"], path=path,
-                            page_description=cat["desc"])
+                            page_description=cat["desc"], noindex=empty)
             ctx["articles"] = items
             ctx["category"] = cat
             ctx["pagination"] = None
@@ -976,7 +986,7 @@ class Builder:
             # gen_news_summaries.py が body_long を書けば自動で index に戻る。
             thin = not body
             if thin:
-                self.thin_news[lang].add(npath)
+                self.noindex_paths[lang].add(npath)
             ctx = self._ctx(lang, depth=2, active="news", path=npath,
                             page_description=ndesc, canonical_path=canon,
                             noindex=thin)
@@ -1240,12 +1250,13 @@ class Builder:
             seo.build_robots(self.base_url), encoding="utf-8")
 
         # sitemap.xml（実際に生成したページのみ / lastmod + hreflang）
-        # canonical を他へ向けたページと、noindex にした薄いニュースは除く
+        # canonical を他へ向けたページと、noindex にしたページ（中身の無い
+        # ニュース個別ページ・記事0本のカテゴリ）は除く
         articles_ja = load_articles(config.DEFAULT_LANG)
         sitemap_paths = {
             l: [p for p in paths
                 if p not in self.noncanonical.get(l, set())
-                and p not in self.thin_news.get(l, set())]
+                and p not in self.noindex_paths.get(l, set())]
             for l, paths in self.paths_by_lang.items()
         }
         (config.DIST_DIR / "sitemap.xml").write_text(
