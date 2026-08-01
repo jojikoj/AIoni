@@ -280,9 +280,11 @@
     .ac-page{margin:0 auto 28px}
     .ac-eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;
         text-transform:uppercase;color:var(--accent-ink);background:var(--surface);
-        border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0 0 12px}
+        border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0}
+    /* ラベルと見出しは1行に並べる。狭い画面では折り返して2段に戻す。 */
+    .ac-headrow{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin:0 0 8px}
     .ac-head{font-size:clamp(20px,3.4vw,27px);line-height:1.35;font-weight:800;
-        color:var(--text);margin:0 0 8px}
+        color:var(--text);margin:0}
     .ac-sub{font-size:14px;line-height:1.7;color:var(--text-2);margin:0 0 18px;max-width:640px}
     .ac-form{display:flex;flex-wrap:wrap;gap:10px}
     .ac-form input{flex:1 1 220px;min-width:0;padding:13px 15px;font-size:15px;
@@ -293,7 +295,6 @@
         box-shadow:var(--sh-2);transition:background .15s,transform .15s}
     .ac-form button:hover:not(:disabled){background:var(--accent-ink);transform:translateY(-1px)}
     .ac-form button:disabled{opacity:.55;cursor:progress}
-    .ac-note{font-size:12px;color:var(--text-3);margin:12px 2px 0;line-height:1.6}
     .ac-result{margin-top:18px}
     .ac-loading{font-size:14px;color:var(--text-2);padding:10px 2px}
     .ac-error{font-size:14px;color:var(--accent-ink);padding:10px 2px}
@@ -345,8 +346,10 @@
     @media(max-width:560px){.ac-form button{flex:1 1 100%}}
   </style>
 
-  <span class="ac-eyebrow">その場で実測</span>
-  <h2 id="ac-head" class="ac-head">{{ heading }}</h2>
+  <div class="ac-headrow">
+    <span class="ac-eyebrow">その場で実測</span>
+    <h2 id="ac-head" class="ac-head">{{ heading }}</h2>
+  </div>
   <p class="ac-sub">会社名を入れると、AIが御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</p>
 
   <form class="ac-form" id="ac-form" autocomplete="off">
@@ -360,7 +363,9 @@
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   {% endif %}
 
-  <p class="ac-note">結果は毎回AIがその場で生成した実測です。特定の表示や引用を保証するものではありません。詳しい競合比較レポートは無料で承ります。</p>
+  {# 注記（「結果は毎回AIがその場で生成した実測です…」）は指示により削除（2026-08-02）。
+     実測前に断り書きを置くと押す手が止まるため。同趣旨の断りは結果カード内の
+     ac-tips-note / ac-offer-note に残してある。 #}
 
   <div class="ac-result" id="ac-result" hidden></div>
 
