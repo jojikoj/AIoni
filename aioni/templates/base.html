@@ -43,11 +43,25 @@
   {# 見出し用: Zen Kaku Gothic New の最太（900）。
      日本語フォントは全字入れると数MBになるが、Google Fonts は
      unicode-range で細かく分割配信するため、実際に使った字の分しか落ちてこない。
-     display=swap で、読み込み中も本文が見えなくならないようにする。 #}
+
+     ただしこの「細かく分割」が曲者で、2026-08-01 に実回線相当
+     （4G・CPU4倍）で測ったところ、読み込みの遅いリソース上位14件が
+     すべてこのフォントの分割ファイルで、記事ページの FCP は 17.8秒だった。
+     この <link> は既定でレンダリングを止めるため、本文の表示自体が
+     フォント待ちになっていた（display=swap は「フォントが来るまで
+     代替フォントで描く」指定で、CSS 取得のブロックは防げない）。
+
+     media="print" で読み込ませ、onload で all に戻すと、CSS の取得が
+     レンダリングを止めなくなる。見た目は同じまま、本文が先に出る。
+     JS が無効な環境のために <noscript> で従来の形も残す。 #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet"
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
         href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
   <link rel="icon" href="{{ asset }}static/img/favicon.svg?v={{ asset_ver }}" type="image/svg+xml">
   <link rel="stylesheet" href="{{ asset }}static/css/style.css?v={{ asset_ver }}">
   {# GA4。config.GA4_MEASUREMENT_ID が空なら1バイトも出力しない。
