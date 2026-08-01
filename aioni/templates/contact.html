@@ -91,8 +91,41 @@
 </section>
 
 <script>
+  /* 記事末バナー(?service=aeo|dounyu)から来た人は、用件が既に決まっている。
+     選び直させると離脱するので、種別を先に選んでおき、見出しもその話に
+     揃える。値は build.py の cta_kind が出すものと一対一で対応させること。 */
+  (function () {
+    var map = {
+      aeo:    { kind: "AI検索対策（AEO）のご相談",
+                head: "AI検索での見え方を調べます",
+                sub:  "自社サイトのURLと、調べたい検索語をお書きください。"
+                    + "実際に測ってからご連絡します。" },
+      dounyu: { kind: "AI導入のご相談",
+                head: "どの業務からAIを入れるかのご相談",
+                sub:  "現在の業務と規模をお書きください。"
+                    + "売り込みはしません。" }
+    };
+    var svc = new URLSearchParams(location.search).get("service");
+    var m = map[svc];
+    if (!m) return;
+    var sel = document.getElementById("f-kind");
+    if (sel) {
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === m.kind) { sel.selectedIndex = i; break; }
+      }
+    }
+    var h1 = document.querySelector(".page-head h1");
+    var sub = document.querySelector(".page-head .page-sub");
+    if (h1) h1.textContent = m.head;
+    if (sub) sub.textContent = m.sub;
+  })();
+
   window.AIONI_FORM = {
     endpoint: {{ (form_endpoint or '')|tojson }},
+    /* どのバナー経由で来たかを受付側に残す。記事ごとの費用対効果を
+       後から見るために、utm_content(記事slug)も一緒に送る。 */
+    service: new URLSearchParams(location.search).get("service") || "",
+    utm_content: new URLSearchParams(location.search).get("utm_content") || "",
     {# 共通GAS（コンテンツ部/共通/gas/受付.gs）の SITES に登録したキーと
        完全に一致させること。ここがズレると受付側で弾かれ、
        送信は成功したように見えて誰にも届かない。 #}

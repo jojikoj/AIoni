@@ -37,6 +37,12 @@
       "――――――――――",
       cfg.labels.sent_from,
     ];
+    // 記事末バナー経由なら、どのバナー・どの記事から来たかを本文末に残す。
+    // 受け取る側が「どの記事が相談を生んだか」を見られるようにするため。
+    if (cfg.service) {
+      lines.push("流入：記事末バナー（" + cfg.service + "）"
+                 + (cfg.utm_content ? " / " + cfg.utm_content : ""));
+    }
     return lines.join("\n");
   }
 

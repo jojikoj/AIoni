@@ -209,6 +209,28 @@ def prepare_news(raw: list[dict], lang: str) -> list[dict]:
     return out
 
 
+# 記事末バナーで「AI検索対策」を出す合図。
+# これらに触れている記事の読者は、AIに自社が出てくるかを気にしている。
+_AEO_HINTS = (
+    "aeo", "ai検索", "ai overview", "aioverview", "chatgpt 検索",
+    "perplexity", "生成エンジン最適化", "引用され", "可視性", "被引用",
+)
+
+
+def cta_kind(*texts: str, category: str = "") -> str:
+    """記事末に出す相談バナーの種別を決める。
+
+    2商材（AI検索対策 / AI社内導入）のどちらを出すかを記事の内容で選ぶ。
+    AI検索観測所の記事と、AI検索・AEOを扱った記事は前者。それ以外は
+    本命の「AI社内導入」を出す。判定に迷うものは導入側に倒す——
+    読者の大半は「自社にAIをどう入れるか」を調べに来ているため。
+    """
+    if category == "kansoku":
+        return "aeo"
+    hay = " ".join(t or "" for t in texts).lower()
+    return "aeo" if any(h in hay for h in _AEO_HINTS) else "dounyu"
+
+
 def paper_arxiv_id(url: str) -> str:
     """https://arxiv.org/abs/2607.22535v1 → 2607.22535（読み解きの突き合わせ用）"""
     m = re.search(r"/abs/([0-9]+\.[0-9]+)", url or "")
@@ -834,6 +856,12 @@ class Builder:
             ctx = self._ctx(lang, depth=2, active="articles", path=path,
                             page_description=a.get("excerpt", ""))
             ctx["article"] = a
+            # 記事末の相談バナー。内容に応じて2商材から出し分ける。
+            ctx["cta"] = business.cta_banner(
+                cta_kind(a.get("title"), a.get("excerpt"),
+                         category=a.get("category", "")), lang)
+            ctx["cta_kind"] = cta_kind(a.get("title"), a.get("excerpt"),
+                                       category=a.get("category", ""))
             ctx["jsonld"] = seo.build_jsonld(
                 self.base_url, lang, "article", article=a, page_url=page_url,
                 trail=[(home_label, self._url_for(lang, "")),
@@ -910,6 +938,9 @@ class Builder:
                             noindex=thin)
             ctx["news"] = n
             ctx["news_title_tail"] = title_tail
+            _nk = cta_kind(n.get("display_title"), n.get("display_summary"))
+            ctx["cta"] = business.cta_banner(_nk, lang)
+            ctx["cta_kind"] = _nk
             # まず本当に関連する記事。足りない分だけ従来のローテーションで補う。
             rel3 = relevance_ranked(n, related_pool) if related_pool else []
             if rel3:

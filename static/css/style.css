@@ -1538,3 +1538,34 @@ h1, h2, h3 {
   display: block; font-size: .78rem; line-height: 1.5;
   color: var(--text-3); margin-top: 4px; word-break: break-word;
 }
+
+/* --- 記事末の相談バナー -------------------------------------------------
+   記事とニュースの本文直後に置く問い合わせ導線。
+   2026-08-01 まで記事213本・ニュース619本のどれにも導線が無く、
+   読み終えた人が次に取れる行動が「一覧へ戻る」しか無かった。
+   本文の続きに見えると広告色が出るので、面を変えて明確に区切る。 */
+.cta-banner {
+  margin: 3rem 0 1.5rem;
+  border: 1px solid var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff 0%, var(--accent-soft) 260%);
+}
+.cta-inner { padding: 1.6rem 1.5rem; }
+.cta-eyebrow {
+  display: inline-block; font-size: .8rem; font-weight: 700;
+  letter-spacing: .04em; color: var(--accent-ink);
+  background: var(--accent-soft); border-radius: 999px; padding: 4px 12px;
+}
+.cta-title {
+  margin: .8rem 0 .5rem; font-size: 1.32rem; line-height: 1.45;
+  letter-spacing: -.01em; color: var(--text);
+}
+.cta-body { margin: 0 0 1.2rem; color: var(--text-2); line-height: 1.85; }
+.cta-action { display: inline-block; }
+
+@media (max-width: 640px) {
+  .cta-inner { padding: 1.3rem 1.1rem; }
+  .cta-title { font-size: 1.15rem; }
+  .cta-action { display: block; text-align: center; }
+}

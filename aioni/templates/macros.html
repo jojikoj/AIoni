@@ -225,3 +225,24 @@
   </div>
 </section>
 {% endmacro %}
+
+
+{# 記事末の相談バナー。
+   2026-08-01 まで、記事にもニュースにも問い合わせ導線が一つも無く、
+   読み終えた人が次に取れる行動が「一覧へ戻る」しかなかった。
+   出す種別（AI検索対策／AI導入）は build.py の cta_kind が記事内容から選ぶ。
+   リンクに service と utm を付け、どの記事のどちらのバナーから来たのかを
+   後から集計できるようにしておく。 #}
+{% macro service_banner(cta, kind, rel, slug) %}
+{% if cta %}
+<aside class="cta-banner cta-{{ kind }}">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">{{ cta.eyebrow }}</span>
+    <h2 class="cta-title">{{ cta.title }}</h2>
+    <p class="cta-body">{{ cta.body }}</p>
+    <a class="btn btn-primary cta-action"
+       href="{{ rel }}contact/?service={{ kind }}&utm_source=aioni&utm_medium=article_cta&utm_campaign={{ kind }}&utm_content={{ slug }}">{{ cta.action }}</a>
+  </div>
+</aside>
+{% endif %}
+{% endmacro %}

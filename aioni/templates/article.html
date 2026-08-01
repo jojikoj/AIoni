@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "macros.html" import service_banner %}
 {% block title %}{{ article.title }}{% endblock %}
 {% block og_title %}{{ article.title }} · {{ site_name }}{% endblock %}
 
@@ -27,6 +28,11 @@
   </header>
   <div class="wrap article-body prose">
     {{ article.html|safe }}
+  </div>
+  {# 本文を読み終えた直後に置く。一覧へ戻るボタンより前でないと、
+     読み終えた人がそのまま離脱してしまう。 #}
+  <div class="wrap">
+    {{ service_banner(cta, cta_kind, rel, article.slug) }}
   </div>
   <div class="wrap article-foot">
     <a class="btn btn-ghost" href="{{ rel }}articles/">← {{ t('articles.back') }}</a>
