@@ -4,6 +4,7 @@ excerpt: FAQ PageやArticleといった構造化データ（schema.org）を入�
 tag: AI検索観測所
 author: AIの鬼 編集部
 date: 2026-07-23
+updated: 2026-08-01
 order: 10
 image_prompt: A laptop screen showing lines of JSON structured data markup, a printed webpage beside it with FAQ sections circled in pen, a desk at night with a single lamp, realistic documentary photo
 ---
@@ -54,6 +55,29 @@ image_prompt: A laptop screen showing lines of JSON structured data markup, a pr
 - **意味を明示することは、拾い読み構造の整理と方向が同じ** — FAQを構造化データにする過程で、本文のFAQ自体も整理されます
 
 つまり構造化データは「AI検索への切り札」ではなく、**やっておいて損はない土台整備**という位置づけが、測った範囲では妥当です。
+
+### 追記（2026-08-01）：従来検索でも、すぐには表示に出ない
+
+上で「従来検索には確実に効く」と書きましたが、自社サイトを測り直したところ、**そう単純ではありませんでした**。
+
+当サイトの構造化データは完備しています。`BreadcrumbList` は3階層（ホーム → 実践記録 → 記事名）、`Article` は headline・image・datePublished・dateModified・author・publisher・mainEntityOfPage のすべてが入っています。
+
+にもかかわらず、Search Console の「検索での見え方」（searchAppearance）は**データが1件も返りません**。つまり**リッチリザルトとして表示された回数がゼロ**です。
+
+| 項目 | 実測（2026-08-01） |
+|---|---|
+| BreadcrumbList | 3階層。正しく出力されている |
+| Article の必須・推奨プロパティ | **すべて記載あり** |
+| リッチリザルトでの表示回数 | **0**（searchAppearance が空） |
+| サイト全体の表示回数（28日） | 741回 |
+
+考えられる理由は、**表示回数そのものが少なすぎて統計が溜まっていない**ことです。当サイトの公開は2026年7月19日で、測定時点で2週間しか経っていません。
+
+ここから言えるのは、構造化データを入れても「**入れた翌週から検索結果が変わる**」わけではない、ということです。マークアップが正しいことと、それが検索結果の見た目に反映されることのあいだには、**時間と表示回数という別の条件**があります。
+
+「効かない」ではなく「**まだ何とも言えない**」が、現時点の正確な言い方です。同じサイトで数か月後に測り直して、この節を更新します。
+
+---
 
 ---
 
