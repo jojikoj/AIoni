@@ -7,7 +7,7 @@
 ここで見るのは次の4点。
 
 1. 薄いページ（文字数が足りず、検索でもAIでも拾われにくい）
-2. 内部リンクの孤立（どこからもリンクされていない記事は評価が伸びない）
+2. 本文からの言及（本文中のリンクは文脈のある推薦として回遊に効く）
 3. トピックの偏り（同じタグばかりで、取れる検索語が広がらない）
 4. 更新の停滞（何日書いていないか）
 
@@ -86,19 +86,36 @@ def main() -> int:
         L += [f"なし（全記事が{MIN_CHARS}字以上）"]
     L += [""]
 
-    # --- 2. 内部リンクの孤立 ---
+    # --- 2. 本文からの言及 ---
+    #
+    # 数えているのは「記事の本文中に置かれたリンク」だけ。ページ下部の
+    # 「あわせて読む」は build.py が全記事に自動で付けるので、ここには入らない。
+    #
+    # 2026-08-01 実測: 被リンクの有無と検索表示率にはほとんど差が無かった
+    # （リンクあり38% / なし32%）。ゼロだから検索に出ない、という関係では
+    # ないので「孤立＝評価が伸びない」とは書かない。本文中のリンクは
+    # 文脈のある推薦として読者の回遊に効く、という位置づけで見る。
     orphan = [s for s in arts if inbound[s] < MIN_INBOUND]
-    L += ["## 2. 他記事から張られていない記事", ""]
+    L += ["## 2. 本文から言及されていない記事", ""]
     if orphan:
-        L += ["孤立した記事は検索評価が伸びない。関連記事から言及を足す。", ""]
-        L += [f"- `{s}`（被リンク {inbound[s]}）" for s in orphan]
+        L += [f"本文中に他記事へのリンクが {MIN_INBOUND}本未満のもの。"
+              "ページ下部の「あわせて読む」は全記事に自動で付くので、"
+              "ここに出ていても関連記事の欄は空ではない。", ""]
+        L += [f"- `{s}`（本文からの被リンク {inbound[s]}）" for s in orphan]
     else:
         L += ["なし"]
     L += [""]
 
     # --- 3. 画像 ---
+    #
+    # front matter に hero を書いていない記事。画面が空欄になるわけではなく、
+    # build.py がカテゴリ別のイラスト(SVG)を当てる。写真に差し替えたい
+    # ときの候補一覧として見る（2026-08-01 実測で表示自体は崩れていない）。
     noimg = [s for s, a in arts.items() if not a["fm"].get("hero")]
-    L += ["## 3. カバー画像のない記事", ""]
+    L += ["## 3. 写真ではなくイラストが当たっている記事", ""]
+    if noimg:
+        L += ["front matter に `hero:` が無い記事。表示は崩れず、"
+              "カテゴリ別のイラストが自動で入る。写真にしたい場合の候補。", ""]
     L += ([f"- `{s}`" for s in noimg] if noimg else ["なし"]) + [""]
 
     # --- 4. タグの分布 ---
@@ -121,22 +138,42 @@ def main() -> int:
     L += [""]
 
     # --- 6. ニュース側の消化状況 ---
+    #
+    # 数えるのは body_long。サイト（build.py / news_article.html）が実際に
+    # 表示するのはこのフィールドで、body_ja は表示されない。
+    #
+    # 2026-08-01 まで body_ja を数えていた。実測すると body_ja は 0件、
+    # body_long は 445件で、レポートはずっと「0%」と報告していたことになる。
+    # 日次スクリプト(daily.sh)は 7-30 に同じ誤りを直しているが、
+    # こちらが取り残されていた。数字が動いていないのに気づけないのが、
+    # いちばん厄介な壊れ方なので、何を数えているかをここに残しておく。
+    #
+    # 素材の無いもの（body_skip）は、配信元が本文を出しておらず
+    # 解説を書きようがない。処理待ちと区別して数える。
     news = ROOT / "data" / "news.json"
     if news.exists():
         d = json.loads(news.read_text(encoding="utf-8"))
         items = d.get("items", [])
-        body = sum(1 for i in items if i.get("body_ja"))
-        L += ["## 6. ニュースの本文生成", "",
-              f"{len(items)}件中 {body}件が本文つき"
+        body = sum(1 for i in items if (i.get("body_long") or "").strip())
+        skip = sum(1 for i in items
+                   if not (i.get("body_long") or "").strip() and i.get("body_skip"))
+        pending = len(items) - body - skip
+        L += ["## 6. ニュースの解説生成", "",
+              f"{len(items)}件中 **{body}件**に自社の解説あり"
               f"（{body * 100 // max(len(items), 1)}%）",
-              "", "本文のないページは薄いページとして評価されるため、"
-              "未処理を残さないこと。", ""]
+              "",
+              f"- 解説あり（検索対象）: {body}件",
+              f"- 素材が取れず書けない: {skip}件（配信元が本文を出していない）",
+              f"- 未処理（これから書ける）: {pending}件",
+              "", "解説の無いページは noindex にして sitemap からも外している"
+              "ので、検索結果を薄めることはない。ただし未処理が積み上がると"
+              "自社の解説がある記事の割合が下がる。", ""]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{today}.md"
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print(f"✅ {out}")
-    print(f"   薄い{len(thin)} / 孤立{len(orphan)} / 画像なし{len(noimg)}")
+    print(f"   薄い{len(thin)} / 本文からの言及なし{len(orphan)} / イラスト{len(noimg)}")
     return 0
 
 
