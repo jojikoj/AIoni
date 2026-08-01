@@ -243,6 +243,7 @@ def generate(key: str, prompt: str, out: pathlib.Path) -> bool:
                 return False
             img = requests.get(url, timeout=90).content
             out.write_bytes(img)
+            _shrink(out)
             return True
         if status in ("Error", "Failed", "Content Moderated",
                       "Request Moderated"):
@@ -250,6 +251,39 @@ def generate(key: str, prompt: str, out: pathlib.Path) -> bool:
             return False
     print("  タイムアウト", file=sys.stderr)
     return False
+
+
+def _shrink(path: pathlib.Path) -> None:
+    """生成直後の写真を配信用に再圧縮する。
+
+    Flux が返す JPEG は品質が高すぎて Web には過剰で、実測で1枚 190KB 前後
+    あった。記事ページの LCP はほぼこのヒーロー写真1枚で決まるため、
+    生成した時点で落としておく（後から一括でやると、その間に公開された
+    記事だけ重いまま残る）。品質85なら目視で劣化が分からない。
+
+    寸法と縦横比は変えない。写真を平体・長体にしないため。
+    一括でやり直したいときは tools/optimize_images.py。
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        return  # Pillow が無い環境では元のまま置く（生成自体は成功させる）
+    try:
+        with Image.open(path) as im:
+            size = im.size
+            im = im.convert("RGB") if im.mode != "RGB" else im.copy()
+        tmp = path.with_suffix(path.suffix + ".opt")
+        im.save(tmp, "JPEG", quality=85, optimize=True, progressive=True)
+        with Image.open(tmp) as check:
+            if check.size != size:      # 念のため。歪んだ写真は公開しない
+                tmp.unlink()
+                return
+        if tmp.stat().st_size < path.stat().st_size:
+            tmp.replace(path)
+        else:
+            tmp.unlink()
+    except Exception as e:
+        print(f"  ⚠️ 再圧縮をスキップ: {e}", file=sys.stderr)
 
 
 def article_jobs() -> list[tuple[str, str]]:
