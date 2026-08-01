@@ -475,8 +475,26 @@ def build_llms_txt(base: str, articles_ja: list[dict], articles_en: list[dict]) 
         "## Original articles",
         "",
     ]
-    for a in articles_ja:
-        lines.append(f"- [{a['title']}]({base}/articles/{a['slug']}/): {a.get('excerpt', '')}")
+    # llms-full.txt と同じ考え方で、このサイトにしか無いものを先に出す。
+    # 208本を order 順に並べるとカテゴリが混ざり、量の多い解説（129本）に
+    # 一次記録（60本）が埋もれる。節を分けて、何が読めるかを明示する。
+    _PRIMARY = ("jissen", "kansoku", "shippai", "shigoto")
+    _first = [a for a in articles_ja if a.get("category") in _PRIMARY]
+    _rest = [a for a in articles_ja if a.get("category") not in _PRIMARY]
+    for _label, _group, _note in (
+        ("### 自社の実践・実測（first-hand records and measurements）", _first,
+         "TOEが自社の業務でAIを動かした一次記録と、AI検索での見え方を測った結果。"
+         "このサイトにしか無い内容。"),
+        ("### 外部の研究・調査の解説（explanations of third-party research）", _rest,
+         "外部で公開された研究・調査・事例を中小企業向けに読み解いたもの。一次記録ではない。"),
+    ):
+        if not _group:
+            continue
+        lines += [_label, "", _note, ""]
+        for a in _group:
+            lines.append(
+                f"- [{a['title']}]({base}/articles/{a['slug']}/): {a.get('excerpt', '')}")
+        lines.append("")
 
     lines += [
         "",
