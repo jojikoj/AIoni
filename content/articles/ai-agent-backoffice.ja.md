@@ -16,7 +16,7 @@ image_prompt: A tidy back office desk seen from a slight angle, a stack of paper
 
 ## 27本の内訳は、きれいに偏った
 
-社内の定型業務をcronに載せて回しています。稼働中のサーバーで設定を確認した実数です。
+社内の定型業務を、毎日決まった時刻に自動で動かしています。稼働中のサーバーで設定を確認した実数です。
 
 | 担当 | ジョブ数 |
 |---|---|
