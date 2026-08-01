@@ -47,9 +47,17 @@ MAX_FIELD = 80         # 各入力欄の最大文字数
 
 # 本番サイト(GitHub Pages)は別オリジンなので、そこからの呼び出しだけ許可する。
 # ai-oni.com のフロントからこの Vercel Function を叩く前提。
+# ローカルプレビュー（./run.sh serve = http://localhost:8765）も許可する。
+# ここを塞いでいたため、公開前に手元で確認すると必ず 403 になり、
+# 「本番は正常なのに手元では動かない」という切り分けの難しい状態になっていた。
+# Origin ヘッダは元々 curl で偽装できる（＝ここは bot への一次フィルタに
+# すぎず、課金の本命の歯止めは AI Studio 側の月額上限）なので、
+# localhost を足しても防御の強さは実質変わらない。
 ALLOWED_ORIGINS = {
     "https://ai-oni.com",
     "https://www.ai-oni.com",
+    "http://localhost:8765",
+    "http://127.0.0.1:8765",
 }
 DEFAULT_ORIGIN = "https://ai-oni.com"
 

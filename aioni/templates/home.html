@@ -41,15 +41,17 @@
   ========================================================================
 #}
 {#
-  h1 にはブランド名と業種語を必ず入れる（2026-07-30）。
+  h1 には業種語を必ず入れる（2026-07-30）。
   以前は h1 が「語るより、動かす／鬼の仕事、隠さず報告」だけで、
   指名検索「AIの鬼」の手がかりが h1 にゼロだった。
-  大きなコピーは視覚上の主役のまま残し、その上にブランド行を重ねる。
+  大きなコピーは視覚上の主役のまま残し、その上に小さくブランド行を重ねる。
+  2026-08-02: ブランド名の文字表示は削除し、業種語（HERO_BRAND_SUB）だけ残した。
+  hero_brand が空でも壊れないようにしてある。
 #}
 <section class="hero-band">
   <div class="hero-band-inner">
     <h1 class="hero-band-h1">
-      <span class="hero-band-brand">{{ hero_brand }}<span class="hero-band-brandsub">{{ hero_brand_sub }}</span></span>
+      <span class="hero-band-brand">{% if hero_brand %}{{ hero_brand }}{% endif %}<span class="hero-band-brandsub">{{ hero_brand_sub }}</span></span>
       <span class="hero-band-copy">
         {%- for line in hero_copy %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
       </span>

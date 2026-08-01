@@ -36,9 +36,11 @@ SITE_NAME_ALT = ["AIoni", "AI-ONI"]
 HOME_TITLE = "AIの鬼 | 中小企業のAI実践・実測ラボ（株式会社TOE）"
 
 # ヒーロー帯でコピーの上に出すブランド行。h1 の中に入れる。
-# 「語るより、動かす」だけでは h1 にブランド名も業種語も無く、
-# 指名検索でトップページが評価されない。
-HERO_BRAND = "AIの鬼"
+# 2026-08-02: ブランド名「AIの鬼」の表示は指示により削除（背景画像に鬼が
+# 描かれており、文字で重ねると同じことを二度言う）。業種語の
+# HERO_BRAND_SUB は h1 に残すので、指名検索の手がかりは h1 内に残る。
+# 空文字にするとテンプレート側でブランド行の文字を出さない。
+HERO_BRAND = ""
 HERO_BRAND_SUB = "中小企業のAI実践・実測ラボ"
 
 # 公式アカウント。JSON-LD の sameAs に出す。
@@ -84,8 +86,7 @@ HERO_COPY = [
     "語るより、動かす",
     "鬼の仕事、隠さず報告",
 ]
-HERO_SUB = ("株式会社TOEが自社の業務でAIを動かした記録と、"
-            "ChatGPT・Perplexity・AI Overviews を実際に測った数字。"
+HERO_SUB = ("Claude・ChatGPT・Grok・Perplexity・AI Overviews 等を実際に測った数字。"
             "成果も失敗も、そのまま出す。")
 # 独自ドメイン。dist/CNAME に書き出され、GitHub Pages がこのドメインで配信する。
 # 空文字にすると CNAME を出力しない（github.io のURLで公開）。
