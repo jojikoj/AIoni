@@ -139,10 +139,25 @@ def _material(it: dict) -> dict:
     return m
 
 
+def paragraphs(text: str) -> list[str]:
+    """解説を段落に割る。build.py の news_meta と同じ規則にすること。
+
+    空行区切りが基本だが、改行1つで段落を切っている生成結果が混ざる。
+    空行で割って1つしか出ないときだけ、改行1つで割り直す
+    （最初から改行1つで割ると、1文の途中の改行まで段落扱いしてしまう）。
+    """
+    ps = [x.strip() for x in (text or "").split("\n\n") if x.strip()]
+    if len(ps) < 2:
+        ps = [x.strip() for x in (text or "").split("\n") if x.strip()]
+    return ps
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="生成する最大件数（0=全件）")
     ap.add_argument("--force", action="store_true", help="既存 body_long も作り直す")
+    ap.add_argument("--repair-single", action="store_true",
+                    help="解説が1段落しかないものだけ作り直す（既存の複数段落は触らない）")
     args = ap.parse_args()
 
     if not CLAUDE_BIN:
@@ -151,17 +166,32 @@ def main() -> int:
 
     data = load()
     items = data.get("items", [])
-    targets = [
-        it for it in items
-        if it.get("title")
-        and not it.get("body_skip")
-        and (args.force or not (it.get("body_long") or "").strip())
-    ]
+    if args.repair_single:
+        # 検索結果の説明文は「解説の2段落目＝AIの鬼の視点」から作る
+        # （build.py の news_meta）。2段落目が無いページは1段落目＝事実の
+        # 言い直しに落ち、配信元の要約と区別がつかなくなる。
+        #
+        # 2026-08-02 実測: 445件のうち131件(29.4%)が1段落しかなく、前日に
+        # 入れた「2段落目を出す」修正が3割に効いていなかった。生成プロンプトは
+        # 「2〜4段落」を指定しているが、指示だけでは守られない。
+        # 週次レビュー(tools/weekly_review.py)が件数を毎週数えているので、
+        # 10%を超えたらここを回す。
+        targets = [it for it in items
+                   if (it.get("body_long") or "").strip()
+                   and len(paragraphs(it["body_long"])) < 2]
+    else:
+        targets = [
+            it for it in items
+            if it.get("title")
+            and not it.get("body_skip")
+            and (args.force or not (it.get("body_long") or "").strip())
+        ]
     if args.limit:
         targets = targets[:args.limit]
     print(f"生成対象 {len(targets)} 件 / 全 {len(items)} 件（model={MODEL}, batch={BATCH}）")
 
     done = 0
+    still_single = 0
     consecutive_fail = 0
     for i in range(0, len(targets), BATCH):
         chunk = targets[i:i + BATCH]
@@ -182,6 +212,8 @@ def main() -> int:
             if length < 400:  # 明らかに生成失敗（極端に短い）はスキップ
                 print(f"    ! {news_slug(it)} 短すぎ({length}字) — 未更新", file=sys.stderr)
                 continue
+            if args.repair_single and len(paragraphs(body)) < 2:
+                still_single += 1
             it["body_long"] = body
             it["body_long_by"] = "aioni-editor"
             done += 1
@@ -189,6 +221,11 @@ def main() -> int:
         print(f"    {min(i + BATCH, len(targets))}/{len(targets)} 生成済み（保存済）")
 
     print(f"完了: body_long を {done} 件生成・保存しました。")
+    if args.repair_single:
+        # 作り直しても1段落のままだった件数を出す。ここが多いまま残るなら、
+        # 生成の癖であってプロンプトの指示不足ではない（実測: 3回回して
+        # 445件中12件が最後まで1段落だった）。無限に回さない判断材料。
+        print(f"  うち1段落のままだったもの: {still_single} 件")
     return 0
 
 
