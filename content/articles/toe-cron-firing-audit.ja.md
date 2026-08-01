@@ -106,6 +106,8 @@ image_prompt: A single office computer left running overnight on an empty desk, 
 - [自動化が3日間止まっていたのに、誰も気づかなかった](/articles/toe-automation-stops-silently/) — 今回の「定性版」。何が起きたかを言葉で書いたもの。
 - [自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた](/articles/toe-agent-dashboard/) — その画面が、今回「緑なのに動いていない」を見逃していた話につながります。
 - [止まったメディア更新を、毎時cronで自動再始動させている話](/articles/zero-cost-media/) — 抜けたジョブを拾い直す側の仕組み。
+- [AI自動化は「エラーを出さずに止まる」— 12件の実測と、発注時に決めておくこと](/articles/ai-automation-silent-failure/) — 91%発火漏れを含む12件を4つの型に分けたもの。
+- [AIエージェントのワークフローを組む — 毎日無人で回している8工程の設計と、実際に壊れた4か所](/articles/ai-agent-workflow-build/) — 発火漏れを前提にした工程の組み方。
 
 ---
 

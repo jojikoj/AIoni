@@ -75,6 +75,8 @@ image_prompt: A middle-aged Japanese small business owner standing in front of a
 
 - [メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった](/articles/toe-tool-not-used/)
 - [AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳](/articles/toe-mass-production-errors/)
+- [総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事](/articles/ai-agent-backoffice/) — この27本を、発注する側から読める形にまとめたもの。
+- [中小製造業はAIをどこから入れるか — 判断を「表」にできるかで決まる](/articles/manufacturing-ai-where-to-start/) — 同じ線引きを製造業に当てはめたもの。
 
 ## まとめ
 

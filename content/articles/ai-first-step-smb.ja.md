@@ -85,3 +85,5 @@ image_prompt: "A small business owner and an employee looking at a laptop togeth
 - 探すべきは「**紙とパソコンで完結し・毎日くり返し・手順が決まっている**」業務
 
 費用の考え方は[AI導入費用の相場と内訳](../ai-cost-structure/)に、在庫・需要予測の事例は[在庫管理・需要予測にAIを使う](../ai-inventory-demand/)に整理しています。
+
+**製造業の場合は、入口の作り方が少し変わります。** 上の調査でも製造・生産部門は34.9%と、総務・管理（68.3%）の半分程度でした。現場の中核業務に入れるには「判断のルールを表にできるか」が分かれ目になります。見積の一次対応を実装した実測とあわせて[中小製造業はAIをどこから入れるか](../manufacturing-ai-where-to-start/)に整理しました。

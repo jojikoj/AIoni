@@ -65,6 +65,7 @@ Pythonのsubprocessにtimeoutを掛けたとき、それが直接殺すのは**�
 
 - [毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった](/articles/toe-cron-firing-audit/) — この謎を宿題として残した全数調査。
 - [止まったメディア更新を、見張り役が自動で叩き起こしていた話](/articles/toe-media-watchdog/) — 原因を直す前に入れた対症療法の側。
+- [AI自動化は「エラーを出さずに止まる」— 12件の実測と、発注時に決めておくこと](/articles/ai-automation-silent-failure/) — 「記録の上だけ死ぬ」を含む12件の分類。
 
 ---
 
