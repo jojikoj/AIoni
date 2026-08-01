@@ -190,13 +190,18 @@ def main() -> int:
         short = [i for i in withbody
                  if len(re.sub(r"\s", "", i["body_long"])) < 720]
         ratio = len(single) * 100 // max(len(withbody), 1)
+        # 警告は閾値を超えたときだけ出す。1件でも赤くすると毎週赤いままに
+        # なり、本当に増えたときに気づけない（実測: 3回作り直しても12件は
+        # 1段落のまま残る＝2%前後は常に出る）。
+        over = ratio >= 10
         L += ["### 解説の段落数（説明文の質に直結）", "",
               f"- 1段落しかない: **{len(single)}件**（{ratio}%）"
-              f"{'  ⚠️ 検索結果に「事実の言い直し」が出ている' if single else ''}",
+              f"{'  ⚠️ 10%を超えている。検索結果に「事実の言い直し」が出ている' if over else '  ✅ 基準内'}",
               f"- 目標下限720字を下回る: {len(short)}件", "",
               "1段落しかないものは、検索結果の説明文が配信元の要約と"
-              "区別のつかない文になる。10%を超えたら解説を作り直すこと"
-              "（対象の選び方は 2026-08-01 の作業記録 18節）。", ""]
+              "区別のつかない文になる。**10%を超えたら** "
+              "`python3 tools/gen_news_summaries.py --repair-single` を回すこと。",
+              "", "2%前後は作り直しても収束しない（生成側の癖）。ゼロを目指さない。", ""]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{today}.md"
