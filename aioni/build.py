@@ -399,8 +399,23 @@ def news_meta(item: dict, lang: str) -> tuple[str, str]:
     body = (item.get("body_long") or "").strip()
 
     if body:
-        # 要約本文の冒頭。ここが「原典を読まなくても分かる要点」になっている。
-        desc = _clip(body.split("\n\n")[0] if "\n\n" in body else body, 110)
+        # 検索結果に出すのは、1段落目ではなく2段落目。
+        #
+        # 生成プロンプト(tools/gen_news_summaries.py)は3段落構成を指定していて、
+        #   1段落目 … 何が起きたのか（事実の言い直し）
+        #   2段落目 … AIの鬼の視点 ← ここが主役
+        #   3段落目 … 中小企業の実務にどう効くか
+        # となっている。1段落目を description に出すと、通信社原稿と同じ文が
+        # 並ぶだけで「このサイトを開く理由」が伝わらない。
+        #
+        # 2026-08-01 実測: 検索表示の71%(396回)をニュース個別ページが占めるのに
+        # CTR は 2.02%。自社記事(4.35%)の半分以下だった。順位2.7位・4.8位でも
+        # クリック0のページがあり、そのページの description は
+        # 「中国のMoonshot AIが、フラッグシップモデルを発表した。総パラメータ数…」
+        # という元記事の要約と区別のつかない文だった。
+        # 本文には独自の視点が書かれているのに、検索結果には出ていなかった。
+        paras = [x.strip() for x in body.split("\n\n") if x.strip()]
+        desc = _clip(paras[1] if len(paras) >= 2 else (paras[0] if paras else body), 110)
         return _NEWS_TAIL_BODY, desc
 
     summary = (item.get("display_summary") or "").strip()
