@@ -169,6 +169,35 @@ def main() -> int:
               "ので、検索結果を薄めることはない。ただし未処理が積み上がると"
               "自社の解説がある記事の割合が下がる。", ""]
 
+        # --- 6-2. 解説の段落数（検索結果の説明文がここで決まる） ---
+        #
+        # build.py の news_meta は、解説の「2段落目＝AIの鬼の視点」を
+        # description に出す。2段落目が無いページは1段落目（事実の言い直し）に
+        # 落ち、配信元の要約と区別がつかなくなる。
+        #
+        # 2026-08-02 実測: 解説445件のうち131件(29.4%)が1段落しかなく、
+        # 前日入れた「2段落目を出す」修正が3割に効いていなかった。生成
+        # プロンプトは「2〜4段落」を指定しているが、機械では見ていなかった。
+        # 同じことが再発したときに気づけるよう、ここで毎週数える。
+        def _paras(txt: str) -> list[str]:
+            ps = [x.strip() for x in (txt or "").split("\n\n") if x.strip()]
+            if len(ps) < 2:
+                ps = [x.strip() for x in (txt or "").split("\n") if x.strip()]
+            return ps
+
+        withbody = [i for i in items if (i.get("body_long") or "").strip()]
+        single = [i for i in withbody if len(_paras(i["body_long"])) < 2]
+        short = [i for i in withbody
+                 if len(re.sub(r"\s", "", i["body_long"])) < 720]
+        ratio = len(single) * 100 // max(len(withbody), 1)
+        L += ["### 解説の段落数（説明文の質に直結）", "",
+              f"- 1段落しかない: **{len(single)}件**（{ratio}%）"
+              f"{'  ⚠️ 検索結果に「事実の言い直し」が出ている' if single else ''}",
+              f"- 目標下限720字を下回る: {len(short)}件", "",
+              "1段落しかないものは、検索結果の説明文が配信元の要約と"
+              "区別のつかない文になる。10%を超えたら解説を作り直すこと"
+              "（対象の選び方は 2026-08-01 の作業記録 18節）。", ""]
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{today}.md"
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
