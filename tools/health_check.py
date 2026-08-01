@@ -60,6 +60,37 @@ def latest_news_time() -> datetime | None:
     return max(times) if times else None
 
 
+# 公開サイトに載っているべき目印。
+#
+# 2026-08-01、実行機が main を取り込まないまま日次を回し、その日の改修が
+# 公開サイトから丸ごと消えた。ページは正常に開き、日付も新しいので、
+# 鮮度の点検だけでは気づけない。「入っているはずの物が入っているか」を
+# 別に見る必要がある。
+#
+# ここに並べるのは「消えたら困る、かつ HTML から一目で分かる」ものだけ。
+# 増やしすぎると、体裁を変えただけで鳴るようになる。
+EXPECTED = [
+    ("/articles/ai-cost-structure/", "cta-banner", "記事末の相談バナー"),
+    ("/articles/ai-cost-structure/", "article-related", "関連記事欄"),
+    ("/articles/ai-cost-structure/", 'media="print"', "フォントの非同期読み込み"),
+]
+
+
+def check_expected() -> list[str]:
+    """公開サイトから消えている目印を返す。全部あれば空。"""
+    missing = []
+    cache: dict[str, str] = {}
+    for path, needle, label in EXPECTED:
+        try:
+            if path not in cache:
+                cache[path] = fetch(path)
+            if needle not in cache[path]:
+                missing.append(label)
+        except Exception as e:
+            missing.append(f"{label}（確認できず: {e}）")
+    return missing
+
+
 def notify(title: str, message: str) -> None:
     """macOS の通知センターに出す。失敗しても点検自体は続ける。"""
     try:
@@ -103,7 +134,18 @@ def main() -> int:
             notify("AIの鬼 更新が止まっています", msg)
         return 1
 
-    print(f"[{stamp}] ✅ 正常（最新のニュースは {local} / {hours:.1f} 時間前）")
+    missing = check_expected()
+    if missing:
+        msg = "公開サイトから消えている要素: " + " / ".join(missing)
+        print(f"[{stamp}] ⚠️ {msg}")
+        print("    古いコードを持つ機械が公開を上書きした可能性があります。")
+        print("    その機械で git pull してから、もう一度公開してください。")
+        if do_notify:
+            notify("AIの鬼 公開内容が巻き戻っています", msg)
+        return 1
+
+    print(f"[{stamp}] ✅ 正常（最新のニュースは {local} / {hours:.1f} 時間前 "
+          f"/ 目印 {len(EXPECTED)} 件すべて確認）")
     return 0
 
 
