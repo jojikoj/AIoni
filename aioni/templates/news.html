@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% from "macros.html" import pager, news_tile %}
-{% block title %}{{ t('news.title') }}{% endblock %}
-{% block og_title %}{{ t('news.title') }} · {{ site_name }}{% endblock %}
+{# page_title はページ送り2枚目以降に build.py が「（2/20ページ）」付きで渡す。 #}
+{% set head_title = page_title or t('news.title') %}
+{% block title %}{{ head_title }}{% endblock %}
+{% block og_title %}{{ head_title }} · {{ site_name }}{% endblock %}
 
 {% block content %}
 <section class="page-head">

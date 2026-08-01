@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% from "macros.html" import pager, paper_card %}
-{% block title %}{{ t('papers.title') }}{% endblock %}
-{% block og_title %}{{ t('papers.title') }} · {{ site_name }}{% endblock %}
+{# page_title はページ送り2枚目以降に build.py が「（2/9ページ）」付きで渡す。
+   同じ <title> のページが検索結果に並ぶのを避けるため。 #}
+{% set head_title = page_title or t('papers.title') %}
+{% block title %}{{ head_title }}{% endblock %}
+{% block og_title %}{{ head_title }} · {{ site_name }}{% endblock %}
 
 {% block content %}
 <section class="page-head">

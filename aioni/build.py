@@ -691,7 +691,13 @@ class Builder:
 
         # トップ（depth: ja=0, en=1 だが rel は言語ルート基準なので 0）
         # title_suffix="" … トップだけ config.HOME_TITLE をそのまま <title> にする
-        ctx = self._ctx(lang, depth=0, active="home", path="", title_suffix="")
+        # meta description は site_description（JSON-LD やOGPで使う正式な紹介文）
+        # をそのまま流用していたが、197字あり検索結果では途中で切れて
+        # 「…最新の研究・調査は中小」で終わっていた。検索結果に収まる長さで、
+        # 何が読めるサイトかを先に言い切る文を別に持たせる。
+        ctx = self._ctx(lang, depth=0, active="home", path="", title_suffix="",
+                        page_description=config.HOME_META_DESCRIPTION.get(
+                            lang, config.SITE_DESCRIPTION[lang]))
         # 注目5本は本数を固定する。読者に「これで主要な動きは押さえた」
         # という完了感を与えるため（可変だと読み終わりの判断ができない）。
         # ヒーローは画像がある記事だけを使う。
@@ -739,8 +745,11 @@ class Builder:
         # 一覧ページは自前の description を持たせる。
         # 2026-07-30 実測: /news/ /papers/ /articles/ とトップの4ページが
         # site_description をそのまま出力していて、検索結果で同一文が4回並んでいた。
+        # 一覧に載せる件数。ニュースだけは保持件数（アーカイブ）と
+        # 一覧の長さを分けている。config.NEWS_LIST_LIMIT のコメント参照。
         paged = [
-            ("news/", "news.html", "news", "news", news,
+            ("news/", "news.html", "news", "news",
+             news[:config.NEWS_LIST_LIMIT],
              "国内外のAI開発元の発表と専門メディアを1日2回横断して集約。"
              "英語ソースは日本語に翻訳し、要点と中小企業の実務への影響を添えています。"),
             ("papers/", "papers.html", "papers", "papers", papers,
@@ -760,8 +769,21 @@ class Builder:
                 # 実測（2026-07-30）で /papers/2〜8/ が表示の23%を吸って CTR 1.7%。
                 # 一覧の断片が検索結果に出ても読者は答えに着地できない。
                 # follow は残すので個別ページの発見性は落ちない。
+                #
+                # noindex でも title と description は個別化する。
+                # noindex が効くまでのあいだ検索結果には出続けるうえ、
+                # 2026-08-01 実測で /papers/ 〜 /papers/8/ の9ページが
+                # すべて同じ「研究動向 (arXiv) · AIの鬼」＋同じ説明文で並び、
+                # 151表示2クリック（CTR 1.3%）だった。何ページ目の何が
+                # 載っているのか分からないものはクリックされない。
+                page_desc = list_desc
+                if pno > 1:
+                    page_desc = f"{list_desc}（{pno}ページ目）"
                 ctx = self._ctx(lang, depth=depth, active=active, path=path,
-                                noindex=pno > 1, page_description=list_desc)
+                                noindex=pno > 1, page_description=page_desc)
+                ctx["page_title"] = (
+                    None if pno == 1 else
+                    f"{_t(f'{active}.title', lang)}（{pno}/{len(chunks)}ページ）")
                 ctx[var] = chunk
                 ctx["pagination"] = _pagination_ctx(pno, len(chunks))
                 # 読み解きを用意した論文の入口は /papers/ の1ページ目だけに出す。
@@ -1198,14 +1220,35 @@ class Builder:
         print(f"=== done → {config.DIST_DIR} ===")
 
 
+# 404 は「行き止まり」にしない。
+# 検索結果には、公開後しばらくしてから載る。その間にニュースが
+# アーカイブ上限で押し出されていると、検索から来た読者がここに着く
+# （2026-08-01 実測で96URLがこの状態だった）。上限は引き上げたが、
+# 配信元が記事を消した場合など、着地し続けること自体は避けられない。
+# Home ボタン1つで放り出さず、探しものに近い入口を並べる。
 _FOUR04_TPL = """{% extends "base.html" %}
-{% block title %}404{% endblock %}
+{% block title %}ページが見つかりません{% endblock %}
 {% block content %}
-<section class="section" style="text-align:center;padding:12vh 0">
-  <div class="wrap">
-    <h1 style="font-size:clamp(3rem,12vw,7rem);margin:0">404</h1>
-    <p class="page-sub">お探しのページは見つかりませんでした。</p>
-    <a class="btn btn-primary" href="{{ home_url or './' }}">Home</a>
+<section class="section" style="padding:8vh 0">
+  <div class="wrap" style="max-width:640px">
+    <h1 style="font-size:clamp(2rem,7vw,3rem);margin:0 0 .5em">
+      お探しのページは見つかりませんでした</h1>
+    <p class="page-sub">
+      URLが変わったか、掲載期間を終えた可能性があります。
+      下から近いものを探せます。</p>
+    {# 404.html は /news/<消えたslug>/ など任意の深さのURLで表示される。
+       相対パスだと存在しない階層を指すのでサイト絶対パスで書く。 #}
+    <ul style="line-height:2.2;margin:1.5em 0">
+      <li><a href="/news/">AIニュース一覧</a>
+        — 国内外の発表と専門メディアを毎日集約</li>
+      <li><a href="/articles/">記事一覧</a>
+        — TOEが自社でAIを動かした実測記録</li>
+      <li><a href="/papers/">研究動向</a>
+        — arXiv の最新プレプリントと日本語の読み解き</li>
+      <li><a href="/search/">サイト内検索</a>
+        — キーワードで探す</li>
+    </ul>
+    <a class="btn btn-primary" href="/">トップへ戻る</a>
   </div>
 </section>
 {% endblock %}"""

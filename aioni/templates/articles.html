@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "macros.html" import pager, article_card %}
-{% set head_title = category.name if category else t('articles.title') %}
+{% set head_title = page_title or (category.name if category else t('articles.title')) %}
 {% set head_sub = category.desc if category else t('articles.subtitle') %}
 {% block title %}{{ head_title }}{% endblock %}
 {% block og_title %}{{ head_title }} · {{ site_name }}{% endblock %}
