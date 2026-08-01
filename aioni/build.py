@@ -1134,9 +1134,11 @@ class Builder:
             for pno, chunk in enumerate(chunks, 1):
                 path = base_path if pno == 1 else f"{base_path}{pno}/"
                 depth = 2 if pno == 1 else 3
+                # 画面に出す一行は desc、検索結果に出す説明は meta。
+                # 同じ文を兼ねさせると meta description が13〜21字にしかならない。
                 ctx = self._ctx(lang, depth=depth, active="topics", path=path,
                                 noindex=pno > 1,
-                                page_description=topics.desc(tp["id"], lang))
+                                page_description=topics.meta(tp["id"], lang))
                 ctx["news"] = chunk
                 ctx["pagination"] = _pagination_ctx(pno, len(chunks))
                 ctx["topic_name"] = topics.name(tp["id"], lang)
