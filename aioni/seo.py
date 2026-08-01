@@ -39,9 +39,13 @@ def _org(base: str) -> dict:
         "alternateName": config.SITE_NAME_ALT,
         "url": f"{base}/",
         "description": config.SITE_DESCRIPTION["ja"],
+        # 2026-08-01 まで static/img/ogp.png を指していたが、そのファイルは
+        # 存在せず404だった。構造化データで実在しない画像を申告すると、
+        # 検証で弾かれるうえ、AIや検索エンジンに誤った情報を渡すことになる。
+        # 実在する識別画像（サイトのシンボル）に差し替えた。
         "logo": {
             "@type": "ImageObject",
-            "url": f"{base}/static/img/ogp.png",
+            "url": f"{base}/static/img/oni-identity.jpg",
         },
         # 運営元を隠さないのが編集方針。構造化データ上も親会社を明示する。
         "parentOrganization": {

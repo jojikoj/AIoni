@@ -642,6 +642,14 @@ class Builder:
         # 記事が1本も無いカテゴリページ。どちらも「中身が無いものは
         # 検索結果に出さない、中身が入れば自動で戻る」という同じ扱い。
         self.noindex_paths: dict[str, set[str]] = {l: set() for l in config.LANGS}
+        # 記事ページ以外（トップ・一覧・ニュース）がSNSに貼られたときの画像。
+        # 2026-08-01 まで static/img/ogp.png を指していたが、そのファイルは
+        # 存在せず404だった（配信元にもリポジトリにも無い）。つまり X や
+        # Slack に貼っても画像が出ていなかった。
+        # サイトを象徴する識別画像を使う。記事ごとの写真は記事側で上書きする。
+        _sym = config.STATIC_DIR / "img" / "oni-identity.jpg"
+        self.og_fallback_image = (
+            f"{self.base_url}/static/img/oni-identity.jpg" if _sym.exists() else "")
 
     # 相対パス prefix（dist直下=ルート、ページ深さに応じて ../ を積む）
     @staticmethod
@@ -701,6 +709,10 @@ class Builder:
             "article_categories": config.ARTICLE_CATEGORIES,
             "og_type": "article" if path.startswith("articles/") and path != "articles/" else "website",
             "alternates": self._alternates(path),
+            # SNSに貼られたときの画像。記事ページは呼び出し側が share_image を
+            # 上書きする。それ以外はここで決めた共通の1枚を使う。
+            "og_fallback_image": self.og_fallback_image,
+            "share_image": None,
             # フィルタに出すソース。英語サイトには英語ソースのみ
             # （日本語ソースの記事は英語サイトに載せないため）。
             "news_sources": [
@@ -905,6 +917,11 @@ class Builder:
             ctx = self._ctx(lang, depth=2, active="articles", path=path,
                             page_description=a.get("excerpt", ""))
             ctx["article"] = a
+            # SNSに貼られたときは、その記事の写真を出す。
+            if a.get("hero"):
+                ctx["share_image"] = (
+                    f"{self.base_url}/static/img/{a['hero']}"
+                    if a.get("hero_is_local") else a["hero"])
             # 読み終えた人が次に読むもの。無関係なもので埋めない。
             ctx["related"] = related_articles(a, articles)
             if ctx["related"]:

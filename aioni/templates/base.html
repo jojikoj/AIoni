@@ -26,14 +26,30 @@
   <meta property="og:description" content="{{ page_description or site_description }}">
   <meta property="og:url" content="{{ canonical }}">
   <meta property="og:locale" content="{{ 'ja_JP' if lang == 'ja' else 'en_US' }}">
+  {# 別言語版があるときだけ alternate を出す。日本語のみの現状で en_US を
+     名乗ると、存在しないページがあると申告することになる。 #}
+  {% if alternates|length > 1 %}
   <meta property="og:locale:alternate" content="{{ 'en_US' if lang == 'ja' else 'ja_JP' }}">
-  <meta property="og:image" content="{{ site_base_url }}/static/img/ogp.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  {% endif %}
+  {# SNSに貼られたときの画像。
+     2026-08-01 まで全ページが static/img/ogp.png を指していたが、その
+     ファイルは存在せず404だった（配信元・ローカルとも無し）。つまり
+     X や Slack に貼っても画像が出ていなかった。
+     記事ページでは記事の写真を使う。全ページ同じ絵より、記事ごとに違う
+     写真が出る方がクリックされるうえ、実在するファイルなので確実に映る。
+     記事以外は最新記事の写真を共通で使う（og_fallback_image）。 #}
+  {% set og_img = share_image or og_fallback_image %}
+  {% if og_img %}
+  <meta property="og:image" content="{{ og_img }}">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ og_img }}">
+  {% else %}
+  <meta name="twitter:card" content="summary">
+  {% endif %}
   <meta name="twitter:title" content="{{ self.og_title() }}">
   <meta name="twitter:description" content="{{ page_description or site_description }}">
-  <meta name="twitter:image" content="{{ site_base_url }}/static/img/ogp.png">
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="{{ site_name }}"
         href="{{ site_base_url }}/{{ '' if lang == 'ja' else 'en/' }}feed.xml">
