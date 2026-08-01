@@ -16,11 +16,21 @@
     悪かった企業には「個別に無料でお伝えします」と伝える理由になる。
     どちらの側にも連絡できる状態を作るのが、この記事の目的。
 
+結論の出し分け（2026-08-01 追加）:
+    最初は「AIに届いていない会社が大半のはず」という前提で書いていた。
+    実際に45社を測ったら**42社が既に認識されていた**。前提が外れた。
+    そこで、認識率が高いときは結論を切り替える——「認識されているか」ではなく
+    「AIが語れる内容がどこまであるか」に論点を移す。
+    データが前提と違ったときに文章だけ元のままにすると、記事が嘘になる。
+
 使い方:
     python3 tools/gen_ranking_article.py data/visibility/fukuoka_kinzoku.json \
         --slug kansoku-fukuoka-kinzoku \
         --industry "福岡県の金属加工業" \
         --date 2026-08-02
+
+    複数の母集団をまとめて1本にすることもできる:
+    python3 tools/gen_ranking_article.py a.json b.json --slug ... --industry ...
 """
 
 from __future__ import annotations
@@ -57,7 +67,7 @@ def pct(n: int, d: int) -> str:
     return f"{(n / d * 100):.0f}%" if d else "—"
 
 
-def build(data: dict, industry: str, date: str, slug: str) -> str:
+def build(data: dict, industry: str, date: str, slug: str, source_note: str = "") -> str:
     rows = data.get("results", [])
     if not rows:
         raise SystemExit("✗ 実測結果が空です")
@@ -86,17 +96,31 @@ def build(data: dict, industry: str, date: str, slug: str) -> str:
                    if r["sources"] and all(s.get("aggregator") for s in r["sources"]))
     no_src = sum(1 for r in rows if not r["sources"])
 
+    # 結論の書き方をデータで決める。文章を先に決めて数字を後から入れると、
+    # 実測が想定と違ったときに記事が嘘になる。
+    high_recognition = bool(total) and (n3 / total) >= 0.7
+    # 最も保有率が低かった事実＝いま差がついている論点
+    low = min(fact_rows, key=lambda r: r[1]) if fact_rows else None
+
     L = []
     a = L.append
 
     a("---")
-    a(f"title: {industry}{total}社をAIに聞いてみた。自社サイトが根拠になったのは何社か")
-    a(f"excerpt: {industry}{total}社について、検索連携型の生成AIに「この会社は何をしている会社か」"
-      f"を尋ね、AIが根拠にしたサイトを実際に調べました。公式サイトが根拠として使われたのは{n3}社"
-      f"（{pct(n3, total)}）。同じ質問を1社あたり{votes}回投げ、判定が一致したものだけを載せています。")
+    if high_recognition:
+        a(f"title: {industry}{total}社をAIに聞いたら、{n3}社は説明できた。差がついたのは別のところだった")
+        a(f"excerpt: {industry}{total}社について、検索連携型の生成AIに「この会社は何をしている会社か」"
+          f"を尋ねました。公式サイトを根拠に説明できたのは{n3}社（{pct(n3, total)}）。"
+          f"「中小企業はAIに認識されていない」という想定は外れました。"
+          + (f"差がついたのは{low[0]}で、{low[1]}社（{low[2]}）にとどまりました。" if low else ""))
+    else:
+        a(f"title: {industry}{total}社をAIに聞いてみた。自社サイトが根拠になったのは何社か")
+        a(f"excerpt: {industry}{total}社について、検索連携型の生成AIに「この会社は何をしている会社か」"
+          f"を尋ね、AIが根拠にしたサイトを実際に調べました。公式サイトが根拠として使われたのは{n3}社"
+          f"（{pct(n3, total)}）。同じ質問を1社あたり{votes}回投げ、判定が一致したものだけを載せています。")
     a("tag: AI検索観測所")
     a("author: AIの鬼 編集部")
     a(f"date: {date}")
+    a(f"hero: article-{slug}.jpg")
     a("image_prompt: A factory office desk with a laptop showing a search result page, "
       "printed company list with checkmarks beside it, metal parts on the corner of the desk, "
       "daylight from a window, realistic documentary photograph, professional photograph")
@@ -109,11 +133,25 @@ def build(data: dict, industry: str, date: str, slug: str) -> str:
       "この記事に載せるのは実際に測った結果だけで、対策の効果を示す数字（順位が上がった・引用が増えた等）は"
       "測っていないので書きません。")
     a("")
-    a("**結果が悪かった会社の社名は出しません。**"
-      "AIに認識されていないことは、その会社の努力不足ではなく、"
-      "ほとんどの中小企業がまだ手を付けていない領域だからです。"
-      "社名を出すのは、良い状態だった会社だけにしています。")
+    if high_recognition:
+        a("**この記事は、当社の想定が外れた記録です。**"
+          "「中小企業はAIに認識されていないはずだ」という前提で測り始めましたが、結果は逆でした。"
+          "自社に都合の悪い結果でしたが、そのまま出します。")
+        a("")
+    a("**結果が芳しくなかった会社の社名は出しません。**"
+      "AIにうまく伝わっていないことは、その会社の努力不足ではなく、"
+      "多くの中小企業がまだ手を付けていない領域だからです。"
+      "実名で挙げるのは、AIが十分に説明できていた会社だけにしています。")
     a("")
+    if source_note:
+        a("### 調べた対象")
+        a("")
+        a(source_note)
+        a("")
+        a("**恣意的に選んでいません。**名簿に載っている会社は全社測っています。"
+          "検索で上位に出る会社だけを選ぶと、すでに発信できている会社に偏り、"
+          "測りたいものが測れなくなるためです。")
+        a("")
     a("---")
     a("")
 
@@ -127,11 +165,26 @@ def build(data: dict, industry: str, date: str, slug: str) -> str:
     a(f"| AIが会社を特定できなかった | {n1}社（{pct(n1, total)}） |")
     a(f"| 同名他社と区別できなかった | {n0}社（{pct(n0, total)}） |")
     a("")
-    a(f"**{total}社のうち{not_reached}社（{pct(not_reached, total)}）は、"
-      f"AIに自社の言葉が届いていませんでした。**"
-      "見込み客がAIに「この分野の会社を教えて」と尋ねたとき、"
-      "説明の材料になるのは自社サイトではなく、求人サイトや企業データベースに書かれた情報です。")
-    a("")
+
+    if high_recognition:
+        a(f"**{total}社のうち{n3}社（{pct(n3, total)}）で、AIは公式サイトを根拠に会社を説明できました。**")
+        a("")
+        a("これは調査前の想定と逆でした。"
+          "「中小企業はAIに認識されていない」と考えて測り始めましたが、"
+          "**認識されているかどうかでは、もう差がつきません。**")
+        a("")
+        if low:
+            a(f"差が出たのは別の項目です。AIが確認できた事実のうち、"
+              f"**{low[0]}**は{low[1]}社（{low[2]}）にとどまりました。"
+              "社名を尋ねれば説明は返ってくる。しかし、その説明にどれだけの中身があるかは、"
+              "会社によって開きがあります。")
+            a("")
+    else:
+        a(f"**{total}社のうち{not_reached}社（{pct(not_reached, total)}）は、"
+          f"AIに自社の言葉が届いていませんでした。**"
+          "見込み客がAIに「この分野の会社を教えて」と尋ねたとき、"
+          "説明の材料になるのは自社サイトではなく、求人サイトや企業データベースに書かれた情報です。")
+        a("")
     a("---")
     a("")
 
@@ -161,76 +214,135 @@ def build(data: dict, industry: str, date: str, slug: str) -> str:
     a("---")
     a("")
 
-    a("## AIが公式サイトを根拠に説明できていた会社")
+    # 実名で出すのは「AIが7項目すべてを確認できた会社」だけに絞る。
+    # 認識率が高い母集団では該当が数十社になり、全部並べても読まれないうえ、
+    # 順位を付けると優劣を公表したことになって角が立つ。
+    # ここは「褒める記事」であって「格付け」ではない。
+    full = [r for r in dist[3] if all((r.get("judge") or {}).get(k) for k, _ in FACTS)]
+    full.sort(key=lambda r: r["name"])
+
+    a("## AIが最も詳しく説明できた会社")
     a("")
     if not top:
         a(f"今回の{total}社では、**1社もありませんでした**。"
           "AIは説明できても、根拠にしていたのは第三者が書いた情報でした。")
-    else:
-        a(f"{total}社のうち{n3}社です。"
-          "AIに「何をしている会社か」を尋ねたとき、**自社サイトの記述が答えの材料として使われていた**会社です。")
+    elif full:
+        a(f"公式サイトが根拠になっていた{n3}社のうち、"
+          f"**AIが{len(FACTS)}項目すべてを確認できたのは{len(full)}社**でした。"
+          "事業内容から取引先、第三者による言及まで、AIが説明の材料を一通り持っている会社です。")
         a("")
-        a("| # | 会社名 | 所在 | AIが確認できた事実 |")
-        a("|---|---|---|---|")
-        for i, r in enumerate(top, start=1):
-            j = r.get("judge") or {}
-            got = [label for k, label in FACTS if j.get(k)]
-            got_s = "・".join(got) if got else "事業内容のみ"
-            a(f"| {i} | {r['name']} | {r.get('pref') or '—'} | {got_s} |")
+        # 所在地は名簿に載っていないことがある。半数以上が空欄なら列ごと出さない
+        # （「—」が並ぶ列は情報がないうえ、調べずに書いたように見える）。
+        has_pref = sum(1 for r in full if r.get("pref")) > len(full) / 2
+        if has_pref:
+            a("| 会社名 | 所在 |")
+            a("|---|---|")
+            for r in full:
+                a(f"| {r['name']} | {r.get('pref') or '—'} |")
+        else:
+            a("| 会社名 |")
+            a("|---|")
+            for r in full:
+                a(f"| {r['name']} |")
         a("")
-        a("※ 順位は当社の判定によるもので、企業の優劣を示すものではありません。"
+        a("※ 順不同です。当社の判定によるもので、企業の優劣を示すものではありません。"
           "掲載を希望されない場合はご連絡ください。速やかに削除します。")
+    else:
+        a(f"公式サイトが根拠になっていたのは{n3}社ですが、"
+          f"**{len(FACTS)}項目すべてを確認できた会社は1社もありませんでした。**")
     a("")
     a("---")
     a("")
 
     a("## 何が差を分けたか")
     a("")
-    a("AIが会社について確認できた事実を、項目ごとに数えました。"
-      "右2列は、**公式サイトが根拠になっていた会社だけ**の数字です。")
-    a("")
-    a("| AIが確認できた事実 | 全体 | 全体比 | 上位群 | 上位群比 |")
-    a("|---|---|---|---|---|")
-    for label, yes, p, yes3, p3 in fact_rows:
-        a(f"| {label} | {yes}社 | {p} | {yes3}社 | {p3} |")
-    a("")
+    if high_recognition:
+        # 認識率が高い母集団では「全体 vs 上位群」を比べても差が出ない
+        # （ほぼ全社が上位群のため）。比較ではなく、保有率そのものを低い順に見る。
+        a("AIが会社について確認できた事実を、項目ごとに数えました。**保有率の低い順**に並べています。"
+          "ここで下にある項目ほど、いまAIが語れていない部分です。")
+        a("")
+        a("| AIが確認できた事実 | 社数 | 割合 |")
+        a("|---|---|---|")
+        for label, yes, p, _, _ in sorted(fact_rows, key=lambda r: -r[1]):
+            a(f"| {label} | {yes}社 | {p} |")
+        a("")
+        ranked = sorted(fact_rows, key=lambda r: r[1])
+        if ranked:
+            worst = ranked[0]
+            a(f"**上6項目はほぼ全社が満たしています。**"
+              f"会社概要に書いてあれば確認できる情報だからです。"
+              f"はっきり落ちるのは最後の1つ、**{worst[0]}**だけで、{worst[1]}社（{worst[2]}）でした。")
+            a("")
+            a("ここが自社サイトの記述だけでは動かない項目です。"
+              "所在地や設立年は自分で書けば済みますが、"
+              "**第三者に書かれるかどうかは自分では書けません。**"
+              "この実測でいちばんはっきり差が出たのは、そこでした。")
+            a("")
+    else:
+        a("AIが会社について確認できた事実を、項目ごとに数えました。"
+          "右2列は、**公式サイトが根拠になっていた会社だけ**の数字です。")
+        a("")
+        a("| AIが確認できた事実 | 全体 | 全体比 | 上位群 | 上位群比 |")
+        a("|---|---|---|---|---|")
+        for label, yes, p, yes3, p3 in fact_rows:
+            a(f"| {label} | {yes}社 | {p} | {yes3}社 | {p3} |")
+        a("")
 
-    # 差が大きい項目を機械的に拾って本文にする（書き手の印象で語らない）
-    gaps = []
-    if n3:
-        for (k, label), (_, yes, _, yes3, _) in zip(FACTS, fact_rows):
-            whole = yes / total * 100
-            upper = yes3 / n3 * 100
-            gaps.append((upper - whole, label, whole, upper))
-        gaps.sort(reverse=True)
-        top_gap = [g for g in gaps[:3] if g[0] > 0]
-        if top_gap:
-            a("差が大きかったのは次の項目です。")
-            a("")
-            for d, label, whole, upper in top_gap:
-                a(f"- **{label}** … 全体{whole:.0f}% に対して、上位群は{upper:.0f}%")
-            a("")
-            a("いずれも「自社サイトに書いてあれば確認できる」種類の情報です。"
-              "AIが特別な判断をしているのではなく、**書いてあるかどうか**で差が付いています。")
-            a("")
+        # 差が大きい項目を機械的に拾って本文にする（書き手の印象で語らない）
+        gaps = []
+        if n3:
+            for (k, label), (_, yes, _, yes3, _) in zip(FACTS, fact_rows):
+                whole = yes / total * 100
+                upper = yes3 / n3 * 100
+                gaps.append((upper - whole, label, whole, upper))
+            gaps.sort(reverse=True)
+            top_gap = [g for g in gaps[:3] if g[0] > 0]
+            if top_gap:
+                a("差が大きかったのは次の項目です。")
+                a("")
+                for d, label, whole, upper in top_gap:
+                    a(f"- **{label}** … 全体{whole:.0f}% に対して、上位群は{upper:.0f}%")
+                a("")
+                a("いずれも「自社サイトに書いてあれば確認できる」種類の情報です。"
+                  "AIが特別な判断をしているのではなく、**書いてあるかどうか**で差が付いています。")
+                a("")
 
-    a(f"また、AIが根拠にしたサイトが**第三者の情報だけ**だった会社が{agg_only}社、"
-      f"根拠になるサイトを何も提示できなかった会社が{no_src}社ありました。")
-    a("")
+    # 0件のことをわざわざ書くと、書くために書いた文に見える。あるときだけ出す。
+    if agg_only or no_src:
+        parts = []
+        if agg_only:
+            parts.append(f"AIが根拠にしたサイトが**第三者の情報だけ**だった会社が{agg_only}社")
+        if no_src:
+            parts.append(f"根拠になるサイトを何も提示できなかった会社が{no_src}社")
+        a("また、" + "、".join(parts) + "ありました。")
+        a("")
     a("---")
     a("")
 
     a("## 明日から打てる手")
     a("")
-    a("この実測から言えるのは、**特別な技術ではなく記述の有無で差が付いている**ということだけです。"
-      "以下は一般的な対策で、効果を当社が測定したものではありません。")
-    a("")
-    a("| やること | なぜ |")
-    a("|---|---|")
-    a("| 会社概要に所在地・設立・従業員数・主要設備を**文章で**書く | 画像やPDFの中の文字はAIに読まれにくい |")
-    a("| 対応できる加工・仕様を、数字と条件を添えて書く | 「精密加工」だけでは他社と区別されない |")
-    a("| 納入実績・取引分野を（出せる範囲で）書く | 上位群との差が最も大きかった項目のひとつ |")
-    a("| 社名に地域と事業を結びつけて書く | 同名他社と混同されるのを防ぐ |")
+    if high_recognition:
+        a("**「AIに載る」ための対策は、この母集団ではもう終わっています。**"
+          "次に効くのは、AIが語れる中身を増やすことです。"
+          "以下は一般的な対策で、効果を当社が測定したものではありません。")
+        a("")
+        a("| やること | なぜ |")
+        a("|---|---|")
+        a("| 納入実績・取引分野を（出せる範囲で）具体的に書く | AIが確認できた会社とできなかった会社で、最も差が開いた項目のひとつ |")
+        a("| 技術解説・加工事例を自社サイトで出し続ける | 業界メディアや取引先が引用する材料になる。**最も保有率が低かったのが第三者からの言及** |")
+        a("| 展示会出展・受賞・新設備導入をリリースにする | 第三者に書かれた情報は、AIが説明を組み立てるときの裏付けになる |")
+        a("| 社名に地域と事業を結びつけて書く | 同名他社と混同されるのを防ぐ（この実測でも数社が該当） |")
+    else:
+        a("この実測から言えるのは、**特別な技術ではなく記述の有無で差が付いている**ということだけです。"
+          "以下は一般的な対策で、効果を当社が測定したものではありません。")
+        a("")
+        a("| やること | なぜ |")
+        a("|---|---|")
+        a("| 会社概要に所在地・設立・従業員数・主要設備を**文章で**書く | 画像やPDFの中の文字はAIに読まれにくい |")
+        a("| 対応できる加工・仕様を、数字と条件を添えて書く | 「精密加工」だけでは他社と区別されない |")
+        a("| 納入実績・取引分野を（出せる範囲で）書く | 上位群との差が最も大きかった項目のひとつ |")
+        a("| 社名に地域と事業を結びつけて書く | 同名他社と混同されるのを防ぐ |")
     a("")
     a("---")
     a("")
@@ -238,8 +350,15 @@ def build(data: dict, industry: str, date: str, slug: str) -> str:
     a("## まとめ")
     a("")
     a(f"- {industry}{total}社を実測し、公式サイトが根拠になっていたのは**{n3}社（{pct(n3, total)}）**")
-    a(f"- 残る{not_reached}社は、AIが自社の言葉ではなく第三者の情報で説明するか、そもそも説明できない状態")
-    a("- 差が付いていたのは技術ではなく、**サイトに事実が文章で書いてあるかどうか**")
+    if high_recognition:
+        a("- **「中小企業はAIに認識されていない」という想定は、この母集団では外れた**")
+        if low:
+            a(f"- 差が出たのは認識の有無ではなく中身。最も低かったのは**{low[0]}**で{low[1]}社（{low[2]}）")
+        if n0:
+            a(f"- ただし{n0}社は、同名他社と区別されていなかった")
+    else:
+        a(f"- 残る{not_reached}社は、AIが自社の言葉ではなく第三者の情報で説明するか、そもそも説明できない状態")
+        a("- 差が付いていたのは技術ではなく、**サイトに事実が文章で書いてあるかどうか**")
     a("- この実測は複数回の合議で、実態より甘い側に倒してある")
     a("")
     a("---")
@@ -260,19 +379,33 @@ def build(data: dict, industry: str, date: str, slug: str) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="実測JSONからランキング記事を組み立てる")
-    ap.add_argument("json", help="batch_visibility.py の出力JSON")
+    ap.add_argument("json", nargs="+", help="batch_visibility.py の出力JSON（複数可）")
     ap.add_argument("--slug", required=True, help="記事slug（例: kansoku-fukuoka-kinzoku）")
     ap.add_argument("--industry", required=True, help="見出しに使う業界名（例: 福岡県の金属加工業）")
     ap.add_argument("--date", default=datetime.now(JST).strftime("%Y-%m-%d"))
     ap.add_argument("--out", help="出力先md（既定: content/articles/<slug>.ja.md）")
+    ap.add_argument("--source-note", default="",
+                    help="母集団の出どころ。記事に明記する（再現できる記事にするため必須級）")
     args = ap.parse_args()
 
-    src = Path(args.json)
-    if not src.is_absolute() and not src.exists():
-        src = ROOT / src
-    data = json.loads(src.read_text(encoding="utf-8"))
+    # 複数の母集団を1本の記事にまとめられる。社数が増えるほど分布が安定するので、
+    # 同じ業界を別々の名簿から集めたときは合わせて出したほうが記事として強い。
+    data = None
+    for j in args.json:
+        src = Path(j)
+        if not src.is_absolute() and not src.exists():
+            src = ROOT / src
+        part = json.loads(src.read_text(encoding="utf-8"))
+        if data is None:
+            data = part
+            data["batches"] = [part.get("batch", src.stem)]
+        else:
+            data["results"] = data["results"] + part["results"]
+            data["batches"].append(part.get("batch", src.stem))
+    if not data:
+        raise SystemExit("✗ 入力がありません")
 
-    md = build(data, args.industry, args.date, args.slug)
+    md = build(data, args.industry, args.date, args.slug, args.source_note)
     out = Path(args.out) if args.out else ROOT / "content" / "articles" / f"{args.slug}.ja.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(md, encoding="utf-8")
