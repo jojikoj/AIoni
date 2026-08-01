@@ -151,6 +151,12 @@
       <a href="{{ rel }}papers/" class="{{ 'on' if active == 'papers' }}">{{ t('nav.papers') }}</a>
 
       <span class="side-navsep"></span>
+      {# AI検索チェックは日本語ページのみ（国内向けの営業導線）。
+         問い合わせより前に置く。いきなり相談する人はほとんどいないが、
+         自社名を入れて測る人はいる。 #}
+      {% if lang == 'ja' %}
+      <a href="{{ rel }}check/" class="{{ 'on' if active == 'check' }}">{{ t('nav.check') }}</a>
+      {% endif %}
       <a href="{{ rel }}contact/" class="cta {{ 'on' if active == 'contact' }}">{{ t('nav.contact') }}</a>
     </nav>
 
@@ -175,7 +181,12 @@
       {% block content %}{% endblock %}
     </main>
 
+    {# 全ページ共通のサービス導線。ただし /check/ と /contact/ では出さない。
+       この2ページは、それ自体が1つの用件に向けた導線なので、
+       別の相談メニューを下に並べると行き先が増えて決まらなくなる。 #}
+    {% if active not in ('check', 'contact') %}
     {{ service_cta(rel) }}
+    {% endif %}
 
     <footer class="site-footer">
       <div class="footer-grid">
@@ -202,6 +213,7 @@
           <a href="{{ rel }}about/">{{ t('about.title') }}</a>
           <a href="{{ rel }}faq/">{{ t('nav.faq') }}</a>
           <a href="{{ rel }}advertise/">{{ t('nav.advertise') }}</a>
+          {% if lang == 'ja' %}<a href="{{ rel }}check/">{{ t('nav.check') }}</a>{% endif %}
           <a href="{{ rel }}contact/">{{ t('nav.contact') }}</a>
         </div>
         <div class="footer-col">

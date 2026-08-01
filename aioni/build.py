@@ -1192,6 +1192,21 @@ class Builder:
         # 集約ニュースは一覧に留め、クリックは元記事へ直接送る。
         # このサイトの主役は集約ではなく自社の実践記録である。
 
+        # AI検索対策の入口ページ(/check/)。記事末のAEOバナーはすべてここへ送る。
+        # 日本語のみ。AEO対策の営業は国内向けで、英語ページを作っても
+        # 中身が日本語のまま出るか、誰も踏まないページが増えるだけになる。
+        if lang == config.DEFAULT_LANG:
+            ctx = self._ctx(lang, depth=1, active="check", path="check/",
+                            page_description=_t("check.subtitle", lang))
+            # alternates は既定で全言語を出すが、このページは ja しか存在しない。
+            # 存在しない en を hreflang で申告すると 404 を指すことになる。
+            ctx["alternates"] = {lang: self._url_for(lang, "check/")}
+            ctx["jsonld"] = seo.build_jsonld(
+                self.base_url, lang, "check",
+                trail=[(home_label, self._url_for(lang, "")),
+                       (_t("check.title", lang), self._url_for(lang, "check/"))])
+            self._write(lang, "check", self.env.get_template("check.html").render(**ctx))
+
         # 問い合わせ・広告ページ（収益導線。受け皿がなければ成果はゼロになる）
         ctx = self._ctx(lang, depth=1, active="contact", path="contact/",
                         page_description=_t("contact.subtitle", lang))

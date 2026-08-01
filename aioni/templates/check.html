@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% from "macros.html" import visibility_checker %}
+{% block title %}{{ t('check.title') }}{% endblock %}
+{% block og_title %}{{ t('check.title') }} · {{ site_name }}{% endblock %}
+
+{#
+  AI検索対策(AEO)の入口ページ。
+  記事末のAEOバナーはすべてここへ送る（/contact/ へ直接送らない）。
+
+  なぜ「相談ください」ではなく「その場で測れます」を入口にするか:
+    相談フォームは、既に困っていると自覚している人しか踏まない。
+    自社名を入れて「AIが自社を説明できていない画面」を自分の目で見た人は、
+    その場で困りごとを自覚する。フォームに来る時点で用件が固まっているので、
+    こちらから説得する必要がなくなる。
+
+  実測ウィジェットの実体は macros.html の visibility_checker。
+  トップと共用しているので、文言を直すときはマクロ側を直すこと。
+#}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>{{ t('check.title') }}</h1>
+    <p class="page-sub">{{ t('check.subtitle') }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ visibility_checker(rel, diagnose_endpoint, turnstile_site_key, 'page',
+                          'まず、御社の名前で測ってみてください') }}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap chk-wrap">
+    <style>
+      .chk-wrap{max-width:860px}
+      .chk-wrap h2{font-size:clamp(19px,3vw,24px);font-weight:800;line-height:1.45;
+          margin:40px 0 14px;padding-left:11px;border-left:5px solid var(--accent)}
+      .chk-wrap h2:first-child{margin-top:0}
+      .chk-wrap p{font-size:15px;line-height:1.9;color:var(--text-2);margin:0 0 16px}
+      .chk-table{width:100%;border-collapse:collapse;margin:0 0 22px;font-size:14.5px}
+      .chk-table th,.chk-table td{border:1px solid var(--line);padding:11px 14px;
+          text-align:left;vertical-align:top;line-height:1.75}
+      .chk-table th{background:var(--surface-2,#f5f5f5);font-weight:700;white-space:nowrap}
+      .chk-table td b{color:var(--text)}
+      .chk-cols{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin:0 0 22px}
+      @media(max-width:640px){.chk-cols{grid-template-columns:1fr}}
+      .chk-col{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--surface)}
+      .chk-col h3{font-size:14.5px;font-weight:800;margin:0 0 10px}
+      .chk-col.can h3{color:var(--teal)}
+      .chk-col.cant h3{color:var(--text-3)}
+      .chk-col ul{margin:0;padding-left:1.15em;display:grid;gap:7px}
+      .chk-col li{font-size:13.5px;line-height:1.75;color:var(--text-2)}
+      .chk-faq{border-top:1px solid var(--line);padding:16px 0 0;margin:0 0 16px}
+      .chk-faq h3{font-size:15px;font-weight:800;margin:0 0 8px}
+      .chk-faq p{margin:0;font-size:14.5px}
+      .chk-cta{border:2px solid var(--accent);border-radius:14px;padding:24px 26px;
+          background:var(--surface);margin:36px 0 0}
+      .chk-cta h2{border:none;padding:0;margin:0 0 10px;color:var(--accent-ink)}
+      .chk-cta ul{margin:0 0 18px;padding-left:1.2em;display:grid;gap:8px}
+      .chk-cta li{font-size:14.5px;line-height:1.8;color:var(--text-2)}
+      .chk-cta a.btn-lg{display:inline-block;padding:14px 28px;font-size:15px;font-weight:800;
+          color:#fff;background:var(--accent);border-radius:11px;text-decoration:none;box-shadow:var(--sh-2)}
+      .chk-cta a.btn-lg:hover{background:var(--accent-ink)}
+      .chk-note{font-size:12.5px;color:var(--text-3);line-height:1.8;margin:14px 0 0}
+    </style>
+
+    <h2>この実測で分かること・分からないこと</h2>
+    <p>AI検索対策の話には、確かめようのない数字が多く出回っています。
+    このページで測っているものと、測っていないものをはっきり分けておきます。</p>
+
+    <div class="chk-cols">
+      <div class="chk-col can">
+        <h3>分かること</h3>
+        <ul>
+          <li>AIが御社を特定して、事業内容を説明できるか</li>
+          <li>その説明の根拠に、御社の公式サイトが使われているか</li>
+          <li>公式サイトが使われていない場合、代わりに何が使われているか</li>
+          <li>所在地・設立・製品名・取引先など、どの事実がAIに届いているか</li>
+        </ul>
+      </div>
+      <div class="chk-col cant">
+        <h3>分からないこと</h3>
+        <ul>
+          <li>AI検索で御社が「何番目に」出るか（順位は測っていません）</li>
+          <li>対策すると引用が何％増えるか（当社は測定していません）</li>
+          <li>ChatGPT・Perplexityでの見え方（ここで測るのは1種類のAIです）</li>
+          <li>今後も同じ結果が出るか（生成AIの回答は実行ごとに揺れます）</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>4段階の判定は何を意味するか</h2>
+    <p>点数ではなく4段階で出しています。以前は0〜100点で出していましたが、
+    同じ会社を3回測ると86点・76点・92点と振れ、判定まで反転しました。
+    <b>2回試して違う結果が出るツールは信用できません。</b>
+    そのため、実行ごとにブレない事実だけで判定する方式に作り直しています。</p>
+
+    <table class="chk-table">
+      <tr><th>判定</th><th>意味</th></tr>
+      <tr><td><b>公式サイトが根拠になっている</b></td>
+          <td>AIが会社を説明でき、その根拠に自社サイトが使われている状態。目指すのはここです。</td></tr>
+      <tr><td><b>第三者の情報だけで語られている</b></td>
+          <td>AIは説明できるが、根拠は求人サイトや企業データベース。<b>他社が書いた情報で説明されている</b>状態です。</td></tr>
+      <tr><td><b>AIに認識されていない</b></td>
+          <td>AIが会社を特定できず、説明できない状態。AIに尋ねた見込み客には何も届きません。</td></tr>
+      <tr><td><b>同名他社と区別されていない</b></td>
+          <td>同じ社名の会社が複数あり、別会社の情報が御社の説明として返る可能性がある状態です。</td></tr>
+    </table>
+
+    <h2>業界ごとに、まとめて測っています</h2>
+    <p>1社だけ測っても「それが良いのか悪いのか」は分かりません。
+    そこで同じ業界の企業をまとめて実測し、分布を公開しています。
+    実測の結果は<a href="{{ rel }}kansoku/">AI検索観測所</a>に掲載しています。</p>
+    <p class="chk-note">※ 掲載では、結果が良かった企業のみ実名でご紹介し、
+    それ以外は集計値のみを載せています。<b>結果が芳しくなかった企業名は公開しません。</b></p>
+
+    <h2>よくあるご質問</h2>
+
+    <div class="chk-faq">
+      <h3>費用はかかりますか？</h3>
+      <p>このページでの実測も、個別レポートの作成も無料です。当社はAI検索対策の支援を仕事にしているため、
+      その入口としてお出ししています。売り込みが不要な場合はその旨お伝えください。</p>
+    </div>
+
+    <div class="chk-faq">
+      <h3>入力した会社名は保存されますか？</h3>
+      <p>実測のためAIに送信しますが、結果の保存やリスト化はしていません。
+      ご連絡先をいただくのは、レポートをご希望いただいた場合のみです。</p>
+    </div>
+
+    <div class="chk-faq">
+      <h3>結果が悪かった場合、何をすればいいですか？</h3>
+      <p>まず自社サイトに「何を・誰に・どこで作っているか」を文章で書くことです。
+      画像やPDFの中の文字はAIに読まれにくく、書いてあるつもりでも届いていないことが大半です。
+      御社に何が足りないかは、実際の結果を見ないと分からないため、個別レポートでお伝えしています。</p>
+    </div>
+
+    <div class="chk-faq">
+      <h3>対策すると、AIに出るようになりますか？</h3>
+      <p>保証はできません。生成AIがどの情報を根拠に選ぶかは各社が公開していない部分があり、
+      <b>「この対策で引用が◯％増える」という数字を当社は測定していません</b>。
+      確実に言えるのは、書いていない事実はAIに届かない、ということだけです。</p>
+    </div>
+
+    <div class="chk-cta">
+      <h2>無料でお出しできるもの</h2>
+      <ul>
+        <li><b>個別レポート</b> … AIが御社について実際に何と答えたか、何を根拠にしたかの全文と、
+        サイトのどこを直すかの指摘</li>
+        <li><b>同業3社との比較</b> … 御社が指定する同業3社に同じ実測を行い、
+        同じ質問でAIがどちらを説明できるかを比較</li>
+        <li><b>業界まるごとの実測</b> … 御社の業界50社規模で測った分布（実測済みの業界に限ります）</li>
+      </ul>
+      <a class="btn-lg" href="{{ rel }}contact/?service=aeo&utm_source=aioni&utm_medium=check_page">無料でレポートを依頼する →</a>
+      <p class="chk-note">通常2営業日以内にご返信します。実測には数日いただく場合があります。<br>
+      実測・作成：株式会社TOE（福岡市中央区）</p>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

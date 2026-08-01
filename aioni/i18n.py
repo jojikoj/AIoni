@@ -67,6 +67,15 @@ STRINGS = {
     "nav.contact": {"ja": "お問い合わせ", "en": "Contact"},
     "nav.advertise": {"ja": "広告掲載", "en": "Advertise"},
 
+    # AI検索対策の入口ページ(/check/)。日本語のみ生成する（国内向けの営業導線）。
+    "check.title": {"ja": "AI検索で、御社はどう説明されているか",
+                    "en": "How AI describes your company"},
+    "check.subtitle": {
+        "ja": "会社名を入れると、生成AIが御社をどう認識しているかをその場で実測します。"
+              "根拠にしたサイトまで表示するので、自社の発信が届いているかを自分の目で確認できます。",
+        "en": "Measure how generative AI describes your company, and which sources it relies on."},
+    "nav.check": {"ja": "AI検索チェック", "en": "AI visibility check"},
+
     "contact.title": {"ja": "お問い合わせ", "en": "Contact"},
     "contact.subtitle": {
         "ja": "下記フォームよりお送りください。通常2営業日以内にご返信します。",
