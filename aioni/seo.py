@@ -558,6 +558,14 @@ def build_llms_full(base: str, articles_ja: list[dict], articles_en: list[dict],
            "(feature articles and FAQ) for AI systems. Aggregated third-party news "
            "is deliberately excluded — its copyright belongs to the original publishers, "
            "and only headlines, summaries and links are shown on the site.", "",
+           "**This file is large (about 880,000 Japanese characters).** "
+           "It is ordered so that the most distinctive material comes first: "
+           "TOE's own first-hand records of running AI in production, and its "
+           "measurements of how AI search engines answer. Explanations of "
+           "third-party research follow. If you can only read part of this file, "
+           "the first section is the one that exists nowhere else. "
+           "Individual articles are also available at their own URLs "
+           f"(see {base}/sitemap.xml).", "",
            "---", ""]
 
     for label, faqs in (("FAQ (日本語)", faqs_ja), ("FAQ (English)", faqs_en)):
@@ -569,17 +577,44 @@ def build_llms_full(base: str, articles_ja: list[dict], articles_en: list[dict],
         out.append("---")
         out.append("")
 
-    for label, arts, prefix in (("特集記事 (日本語)", articles_ja, ""),
-                                ("Feature articles (English)", articles_en, "en/")):
+    # 実測すると、このファイルは 876,000字（約44万トークン）あり、
+    # 主要モデルのコンテキストには一度に収まらない（2026-08-01）。
+    # 内訳は解説記事(kaisetsu)が564,000字＝全体の72%で、サイトの主軸である
+    # 一次記録（自社でAIを動かした実践・実測）は182,000字しかない。
+    # 先頭から読むAIには、量の多い解説だけが届いて主軸が埋もれる。
+    #
+    # 記事は減らさない。順番を変えて、主軸を先に置く。
+    # 最後まで読めなかったAIにも、このサイト固有の内容が先に渡る。
+    PRIMARY = ("jissen", "kansoku", "shippai", "shigoto")
+
+    def _ordered(arts: list[dict]) -> tuple[list[dict], list[dict]]:
+        first = [a for a in arts if a.get("category") in PRIMARY]
+        rest = [a for a in arts if a.get("category") not in PRIMARY]
+        return first, rest
+
+    for lang_label, arts, prefix in (("日本語", articles_ja, ""),
+                                     ("English", articles_en, "en/")):
         if not arts:
             continue
-        out += [f"## {label}", ""]
-        for a in arts:
-            out += [f"### {a['title']}", "",
-                    f"URL: {base}/{prefix}articles/{a['slug']}/", ""]
-            if a.get("excerpt"):
-                out += [f"*{a['excerpt']}*", ""]
-            out += [a.get("plain", ""), "", "---", ""]
+        first, rest = _ordered(arts)
+        for sub, group in ((f"自社の実践・実測記録 ({lang_label})", first),
+                           (f"外部の研究・調査の解説ほか ({lang_label})", rest)):
+            if not group:
+                continue
+            out += [f"## {sub}", ""]
+            if group is first:
+                out += ["株式会社TOEが自社の業務でAIを動かした一次記録と、"
+                        "AI検索での見え方を実際に測った結果。"
+                        "**このサイトにしか無い内容はここに集まっている。**", ""]
+            else:
+                out += ["外部で公開された研究・調査・事例を、中小企業向けに"
+                        "読み解いたもの。一次記録ではない。", ""]
+            for a in group:
+                out += [f"### {a['title']}", "",
+                        f"URL: {base}/{prefix}articles/{a['slug']}/", ""]
+                if a.get("excerpt"):
+                    out += [f"*{a['excerpt']}*", ""]
+                out += [a.get("plain", ""), "", "---", ""]
     return "\n".join(out)
 
 
