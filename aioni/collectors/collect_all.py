@@ -121,15 +121,40 @@ def _maybe_translate_news(items: list[dict]) -> None:
             it["translated_ja"] = True
             reused += 1
 
-    targets = [it for it in english if not it.get("translated_ja")]
-    print(f"  [translate] 英語記事{len(english)}件: 既訳流用 {reused}件 / 新規翻訳 {len(targets)}件"
+    pending = [it for it in english if not it.get("translated_ja")]
+
+    # 1回で全部訳そうとしない。
+    #
+    # 2026-08-01 実測: 英語記事2272件に対して訳があるのは181件（7%）だけで、
+    # 2091件が未翻訳のまま積み上がっていた。アーカイブ上限を600→3000に
+    # 広げたぶん未訳も増えたが、問題は件数ではなく進み方にある。
+    #
+    # 上限を設けずに2000件を一度に回すと、翻訳だけで1〜2時間かかる。
+    # 途中で打ち切られると _save_translation_cache まで到達せず、
+    # その回の成果はまるごと失われる。次の日も同じところからやり直すので、
+    # 何日回しても増えない——実際に7%で止まっていた。
+    #
+    # items は新しい順に並んでいるので、先頭から順に訳せば一覧に出る分
+    # （NEWS_LIST_LIMIT 件）から埋まる。読者が見る場所が先に日本語になる。
+    targets = pending[:config.TRANSLATE_PER_RUN]
+    print(f"  [translate] 英語記事{len(english)}件: 既訳流用 {reused}件 / "
+          f"未訳 {len(pending)}件 → 今回 {len(targets)}件"
           f" (backend={translate.backend_name()})")
     if not targets:
         return
 
-    filled = translate.translate_english_items(targets)
-    print(f"  [translate] {filled}/{len(targets)} 件を新規翻訳")
-    _save_translation_cache(cache, english)
+    # 途中で止まっても、そこまでの訳は残す。
+    # 保存は「翻訳結果をURLキーで足す」だけなので、何度呼んでも問題ない。
+    step = 20
+    filled = 0
+    for i in range(0, len(targets), step):
+        chunk = targets[i:i + step]
+        filled += translate.translate_english_items(chunk)
+        _save_translation_cache(cache, chunk)
+        if len(targets) > step:
+            print(f"    …{min(i + step, len(targets))}/{len(targets)}件")
+    print(f"  [translate] {filled}/{len(targets)} 件を新規翻訳"
+          f"（残り未訳 {len(pending) - filled}件は次回）")
 
 
 def _load_translation_cache() -> dict:
