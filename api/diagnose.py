@@ -549,6 +549,11 @@ class handler(BaseHTTPRequestHandler):
             "third_party": third,
             "summary": text,
             "sources": sources[:6],
+            # AIが確認できた事実の内訳（business/products/location/founded/
+            # size/clients/media…）。画面では使っていないが、一括実測
+            # (tools/batch_visibility.py --via-api) が「何が差を分けたか」を
+            # 集計するのに要る。返さないと、レポートと記事で判定の粒度が変わる。
+            "judge": judge or {},
         }
         # 古いキャッシュを捨てて肥大化を防ぐ
         if len(_cache) > 500:

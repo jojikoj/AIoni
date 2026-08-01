@@ -47,6 +47,8 @@ import json
 import os
 import sys
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -136,6 +138,29 @@ def save(out_path: Path, payload: dict) -> None:
     tmp.replace(out_path)
 
 
+def measure_via_api(company: dict, endpoint: str, origin: str) -> dict:
+    """本番の /api/diagnose を叩いて実測する（APIキーが手元に無いとき用）。
+
+    キーは Vercel 側にしか無い、という状況がありうる。そのときは本番の
+    チェッカーに測ってもらう。判定ロジックは本番そのものなので、
+    サイトの結果と食い違わない点でもむしろ安全。
+
+    ただし本番には課金暴走を防ぐレート制限（IPあたり1時間8回）が入っている。
+    踏んだら 429 が返る。呼び出し側で待って続ける。
+
+    ⚠ Origin ヘッダを付けているのは、本番が ai-oni.com 以外からの POST を
+      弾くため。これは自社の実測ツールから自社のAPIを叩いているのであって、
+      他人のサイトを詐称しているのではない。
+    """
+    body = json.dumps({"company": company["name"],
+                       "product": company.get("product", "")}).encode("utf-8")
+    req = urllib.request.Request(
+        endpoint, data=body, method="POST",
+        headers={"Content-Type": "application/json", "Origin": origin})
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
 def measure_one(dg, company: dict, votes: int) -> dict:
     """1社を実測して、本番チェッカーと同じ判定を付けて返す。"""
     body, sources, judge = dg._measure(company["name"], company.get("product", ""), votes=votes)
@@ -175,6 +200,43 @@ def measure_one(dg, company: dict, votes: int) -> dict:
     }
 
 
+def normalize_api_result(company: dict, payload: dict, dg=None) -> dict:
+    """本番APIの応答を、ローカル実測と同じ形に揃える。
+
+    出力の形が経路によって変わると、記事生成もレポート生成も両方直す羽目になる。
+    どちらで測っても同じJSONになるようにここで吸収する。
+    """
+    srcs = []
+    seen = set()
+    for s in payload.get("sources", []):
+        label = (s.get("title") or "").strip()
+        if not label or label in seen:
+            continue
+        seen.add(label)
+        agg = bool(dg._is_aggregator(label.lower())) if dg else False
+        srcs.append({"title": label, "uri": s.get("uri", ""), "aggregator": agg})
+
+    return {
+        "name": company["name"],
+        "url": company.get("url", ""),
+        "product": company.get("product", ""),
+        "industry": company.get("industry", ""),
+        "pref": company.get("pref", ""),
+        "contact": company.get("contact", ""),
+        "level": payload.get("level", 1),
+        "score": payload.get("score", 0),
+        "found": bool(payload.get("recognized")),
+        "official": bool(payload.get("official")),
+        "third_party": bool(payload.get("third_party")),
+        "judge": payload.get("judge") or {},
+        "summary": payload.get("summary", ""),
+        "sources": srcs,
+        "votes": None,          # 本番側の合議回数に従う（呼び出し側では決められない）
+        "via": "api",
+        "measured_at": datetime.now(JST).isoformat(timespec="seconds"),
+    }
+
+
 LEVEL_LABEL = {
     0: "同名他社と区別されていない",
     1: "AIに認識されていない",
@@ -192,6 +254,16 @@ def main() -> int:
     ap.add_argument("--sleep", type=float, default=1.0, help="1社ごとの待ち秒（既定 1.0）")
     ap.add_argument("--force", action="store_true", help="測定済みも測り直す")
     ap.add_argument("--dry-run", action="store_true", help="APIを叩かず、件数と費用の試算だけ出す")
+    ap.add_argument("--via-api", action="store_true",
+                    help="GEMINI_API_KEY を使わず、本番の /api/diagnose に測ってもらう")
+    ap.add_argument("--endpoint", default="https://a-ioni-rho.vercel.app/api/diagnose",
+                    help="--via-api のときの実測API")
+    ap.add_argument("--origin", default="https://ai-oni.com",
+                    help="--via-api のときに送る Origin（本番の許可リストと一致させる）")
+    ap.add_argument("--retry-wait", type=float, default=90.0,
+                    help="--via-api で429（レート超過）に当たったときの待ち秒")
+    ap.add_argument("--retries", type=int, default=6,
+                    help="--via-api で1社あたり429を何回まで待って粘るか")
     args = ap.parse_args()
 
     csv_path = Path(args.csv)
@@ -233,16 +305,23 @@ def main() -> int:
         print("  すべて測定済みです（測り直すなら --force）")
         return 0
 
-    key = _load_env_key()
-    if not key:
-        print("✗ GEMINI_API_KEY がありません。")
-        print("  本番(Vercel)と同じ課金済みプロジェクトのキーを、次のどちらかに置いてください:")
-        print("    export GEMINI_API_KEY=...")
-        print(f"    {ROOT}/.env に  GEMINI_API_KEY=...  の1行")
-        return 1
-    os.environ["GEMINI_API_KEY"] = key
-
     dg = _load_diagnose()
+
+    if args.via_api:
+        # 本番に測ってもらう。手元にキーが無くても回せるが、
+        # 本番のレート制限（IPあたり1時間8回）を踏むので時間はかかる。
+        print(f"  経路: 本番API {args.endpoint}")
+        print(f"  ※ レート制限に当たったら {args.retry_wait:.0f}秒 待って再試行します")
+    else:
+        key = _load_env_key()
+        if not key:
+            print("✗ GEMINI_API_KEY がありません。")
+            print("  本番(Vercel)と同じ課金済みプロジェクトのキーを、次のどちらかに置いてください:")
+            print("    export GEMINI_API_KEY=...")
+            print(f"    {ROOT}/.env に  GEMINI_API_KEY=...  の1行")
+            print("  キーを置けないときは --via-api（本番のチェッカーに測ってもらう）が使えます。")
+            return 1
+        os.environ["GEMINI_API_KEY"] = key
 
     results = list(payload.get("results", []))
     if args.force:
@@ -253,7 +332,25 @@ def main() -> int:
     for i, c in enumerate(todo, start=1):
         label = f"[{i}/{len(todo)}] {c['name']}"
         try:
-            r = measure_one(dg, c, args.votes)
+            if args.via_api:
+                # 429（レート超過）は失敗ではなく「待てば通る」状態。
+                # ここで諦めると、測り直しのぶん本番に余計な負荷と課金がかかる。
+                r = None
+                for attempt in range(args.retries + 1):
+                    try:
+                        r = normalize_api_result(
+                            c, measure_via_api(c, args.endpoint, args.origin), dg)
+                        break
+                    except urllib.error.HTTPError as he:
+                        if he.code != 429 or attempt == args.retries:
+                            raise
+                        print(f"    … レート制限。{args.retry_wait:.0f}秒待ちます"
+                              f"（{attempt + 1}/{args.retries}）")
+                        time.sleep(args.retry_wait)
+                if r is None:
+                    raise RuntimeError("レート制限が解けませんでした")
+            else:
+                r = measure_one(dg, c, args.votes)
         except Exception as e:  # noqa: BLE001 — 種別を問わず1社の失敗で全体を止めない
             fails += 1
             print(f"  ✗ {label} — {e}")
@@ -271,7 +368,9 @@ def main() -> int:
             "batch": batch,
             "source_csv": str(csv_path.relative_to(ROOT)) if str(csv_path).startswith(str(ROOT)) else str(csv_path),
             "model": dg.MODEL,
-            "votes": args.votes,
+            # --via-api のときの合議回数は本番側(api/diagnose.py の VOTES)が決める。
+            "votes": dg.VOTES if args.via_api else args.votes,
+            "route": "api" if args.via_api else "local",
             "measured_at": datetime.now(JST).isoformat(timespec="seconds"),
             "results": results,
         }
