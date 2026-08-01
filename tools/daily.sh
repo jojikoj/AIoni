@@ -39,6 +39,36 @@ step() {   # step <名前> <コマンド...>
   if "${@:2}"; then echo "   ✅ $1"; else echo "   ⚠️ $1 で失敗（続行）"; fi
 }
 
+# 0. コードの取り込み
+#
+#    ⚠️ 2026-08-01 に判明した事故: このスクリプトは git を一切触っていなかった。
+#    実行機（Mac mini）は自分のチェックアウトのまま毎日ビルドするので、
+#    別マシンで直してpushしたコードが永久に本番へ出ない。実際、7/30のSEO/AEO改修
+#    （/papers/2以降のnoindex・一覧descriptionの個別化・構造化データ）が
+#    2日間まったく反映されず、GSC上で /papers/N が8位前後の表示を
+#    CTR 0% で吸い続けていた。「ビルドも公開も成功しているのに中身が古い」型の
+#    故障で、watchdog も朝の運用チェックも検知できない。
+#
+#    先に pull し、最後にデータを push する（補助金の鬼 scripts/lib-git.sh と同じ方針）。
+#    衝突しても日次自体は止めない。ローカルの状態で続行してログに残す。
+sync_code() {
+  git remote get-url origin >/dev/null 2>&1 || return 0
+  git fetch origin main --quiet 2>/dev/null || { echo "   ⚠️ fetch失敗（ローカルのまま続行）"; return 1; }
+  local behind
+  behind=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
+  [ "$behind" = "0" ] && { echo "   最新（取り込むものなし）"; return 0; }
+  echo "   origin/main に未取込 ${behind} 件 → 取り込む"
+  if git -c user.name=daily -c user.email=noreply@anthropic.com \
+       pull --rebase --autostash --quiet origin main 2>/dev/null; then
+    echo "   取り込み完了: $(git log --oneline -1)"
+  else
+    git rebase --abort 2>/dev/null || true
+    echo "   ⚠️ 取り込みが衝突。ローカルの状態で続行（要手動解消）"
+    return 1
+  fi
+}
+step "コード同期" sync_code
+
 # 1. 収集（RSS/API。無料ソースのみ）
 step "収集" python3 -m aioni.collectors.collect_all
 
@@ -82,5 +112,19 @@ PY
 
 # --- 旬ネタ提案: いま検索/世間で伸びているAI話題を _旬ネタ/提案.md に更新 ---
 python3 "$(dirname "$0")/trend_intake.py" || echo "旬ネタ提案skip"
+
+# 6. 収集データを origin/main へ戻す
+#    実行機のローカルにしか無いと、別マシンで作業したとき土台が食い違う。
+#    dist/ は .gitignore 済みなので、ここで載るのは data/ と content/ の更新だけ。
+sync_data() {
+  git remote get-url origin >/dev/null 2>&1 || return 0
+  [ -z "$(git status --porcelain)" ] && { echo "   変更なし"; return 0; }
+  git add -A
+  git -c user.name=daily -c user.email=noreply@anthropic.com \
+      commit -q -m "日次収集: ニュース・論文データを更新（$(date +%F)）" || return 1
+  git push -q origin HEAD:main 2>/dev/null || { echo "   ⚠️ push失敗（次回に持ち越し）"; return 1; }
+  echo "   push完了: $(git log --oneline -1)"
+}
+step "データ同期" sync_data
 
 echo "════════ $(date '+%F %T') 終了 ════════"
