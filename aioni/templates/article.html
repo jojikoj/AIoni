@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import service_banner %}
+{% from "macros.html" import service_banner, article_card %}
 {% block title %}{{ article.title }}{% endblock %}
 {% block og_title %}{{ article.title }} · {{ site_name }}{% endblock %}
 
@@ -29,6 +29,18 @@
   <div class="wrap article-body prose">
     {{ article.html|safe }}
   </div>
+  {# 読み終えた人が次に読むもの。関連が見つからない記事には出さない
+     （無関係なものを「関連記事」として並べない）。
+     相談バナーより先に置く。まだ読みたい人を問い合わせで遮らないため。 #}
+  {% if related %}
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+      {% for a in related %}{{ article_card(a, lang, t, rel) }}{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
   {# 本文を読み終えた直後に置く。一覧へ戻るボタンより前でないと、
      読み終えた人がそのまま離脱してしまう。 #}
   <div class="wrap">

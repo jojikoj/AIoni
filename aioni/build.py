@@ -463,6 +463,41 @@ def relevance_ranked(news_item: dict, pool: list[dict], limit: int = 3,
     return [a for _, a in scored[:limit]]
 
 
+def related_articles(article: dict, pool: list[dict], limit: int = 3,
+                     min_score: int = 10) -> list[dict]:
+    """記事1本に対して、関連度の高い他の記事を limit 本返す。
+
+    2026-08-01 実測: 記事207本のうち204本が本文に他記事へのリンクを
+    1本も持たず、記事詳細に関連記事の欄も無かった。ニュース側には
+    関連記事があるのに記事側には無く、読み終えた人が次に読むものへ
+    移動できない状態だった（週次レポートの「孤立132本」もこれが原因）。
+
+    関連度の測り方はニュース側(relevance_ranked)と同じ。ただし
+    足りないぶんを無関係な記事で埋めることはしない。関連していない
+    ものを「関連記事」として並べると、読者の信頼と回遊の両方を失う。
+    同じカテゴリの記事はわずかに優先する（読者の関心が続きやすい）。
+
+    min_score=10 は実測で決めた。4 と 10 はどちらも 207本すべてに
+    3本ずつ付き、12 まで上げると 11本が3本に届かなくなる。上位3本を
+    採る設計なので閾値を上げても選ばれる記事は変わらないが、
+    弱い関連しか無い記事で無理に3本並べるのを防げる分だけ 10 が良い。
+    """
+    keys = _keyset(article.get("title", ""), article.get("excerpt", ""))
+    if not keys:
+        return []
+    scored = []
+    for a in pool:
+        if a["slug"] == article["slug"]:
+            continue
+        score = len(keys & a["_keys"])
+        if a.get("category") and a.get("category") == article.get("category"):
+            score += 1
+        if score >= min_score:
+            scored.append((score, a))
+    scored.sort(key=lambda x: (-x[0], x[1].get("order", 100)))
+    return [a for _, a in scored[:limit]]
+
+
 def news_slug(item: dict) -> str:
     """ニュース1件の安定したURLスラッグ。
 
@@ -850,12 +885,20 @@ class Builder:
             total_pages_built += 1
 
         # 記事詳細（articles/<slug>/ → depth 2）
+        # 関連記事の照合キーを先に1回だけ作る（記事×記事の全組み合わせを回すため）
+        for a in articles:
+            a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
+        rel_hits = 0
         for a in articles:
             path = f"articles/{a['slug']}/"
             page_url = self._url_for(lang, path)
             ctx = self._ctx(lang, depth=2, active="articles", path=path,
                             page_description=a.get("excerpt", ""))
             ctx["article"] = a
+            # 読み終えた人が次に読むもの。無関係なもので埋めない。
+            ctx["related"] = related_articles(a, articles)
+            if ctx["related"]:
+                rel_hits += 1
             # 記事末の相談バナー。内容に応じて2商材から出し分ける。
             ctx["cta"] = business.cta_banner(
                 cta_kind(a.get("title"), a.get("excerpt"),
@@ -869,6 +912,7 @@ class Builder:
                        (a["title"], page_url)])
             html = self.env.get_template("article.html").render(**ctx)
             self._write(lang, f"articles/{a['slug']}", html)
+        print(f"  [{lang}] 関連記事が付いた記事 {rel_hits}/{len(articles)}件")
 
         # ニュース個別ページ（news/<slug>/ → depth 2）
         # 外部へ直接飛ばさず自サイトを経由させ、関連する自社記事へ回遊させる。
