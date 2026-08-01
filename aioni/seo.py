@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 from xml.sax.saxutils import escape
 
@@ -337,9 +337,34 @@ def build_jsonld(base: str, lang: str, page: str, *, trail=None,
 # =====================================================================
 #  RSS フィード
 # =====================================================================
+def _rfc822(value: str, fallback: datetime) -> str:
+    """RSS の pubDate 用に RFC 822 形式へ直す。
+
+    記事は "2026-08-01"、ニュースは ISO 8601 の日時文字列で持っている。
+    読めなければビルド時刻に落とす（日付が無いより、おおよそでもある方が
+    RSSリーダーは正しく並べられる）。
+    """
+    v = (value or "").strip()
+    if v:
+        try:
+            dt = datetime.fromisoformat(v.replace("Z", "+00:00"))
+            if dt.tzinfo is None:                 # 日付だけの記事は日本時間の朝として扱う
+                dt = dt.replace(hour=9, tzinfo=timezone(timedelta(hours=9)))
+            return format_datetime(dt)
+        except ValueError:
+            pass
+    return format_datetime(fallback)
+
+
 def build_feed(base: str, lang: str, articles: list[dict], news: list[dict],
                build_dt: datetime) -> str:
-    """自作記事＋集約ニュース見出しのRSS。ニュースは元記事へリンクする。"""
+    """自作記事＋集約ニュース見出しのRSS。ニュースは元記事へリンクする。
+
+    pubDate について（2026-08-01 追加）:
+      234件すべてに pubDate が無かった。RSS リーダーは pubDate で
+      新着を判定し並べるため、無いと「どれが新しいか」が伝わらない。
+      記事は front matter の日付、ニュースは配信日時を入れる。
+    """
     prefix = "" if lang == config.DEFAULT_LANG else f"{lang}/"
     self_url = f"{base}/{prefix}feed.xml"
     title = f"{config.SITE_NAME} — {config.SITE_TAGLINE[lang]}"
@@ -357,8 +382,13 @@ def build_feed(base: str, lang: str, articles: list[dict], news: list[dict],
         f'<atom:link href="{self_url}" rel="self" type="application/rss+xml"/>',
     ]
 
-    # 自作記事
-    for a in articles:
+    # 自作記事。RSS は新しい順に並べる（サイト内の表示順は order で決めて
+    # いるが、フィードの読者が期待するのは「新着が上」であるため）。
+    # 並べ替えも pubDate も公開日で揃える。RSS の pubDate は「公開日時」で、
+    # 更新日を入れる標準の要素は RSS 2.0 に無い。片方を updated にすると
+    # 「日付は7-19なのに位置は8-01のグループ」というちぐはぐな並びになる。
+    # 更新日は sitemap の lastmod と JSON-LD の dateModified で伝えている。
+    for a in sorted(articles, key=lambda x: x.get("date") or "", reverse=True):
         url = f"{base}/{prefix}articles/{a['slug']}/"
         parts += [
             "<item>",
@@ -366,6 +396,7 @@ def build_feed(base: str, lang: str, articles: list[dict], news: list[dict],
             f"<link>{url}</link>",
             f"<guid isPermaLink=\"true\">{url}</guid>",
             f"<description>{escape(a.get('excerpt', ''))}</description>",
+            f"<pubDate>{_rfc822(a.get('date', ''), build_dt)}</pubDate>",
         ]
         if a.get("author"):
             parts.append(f"<dc:creator>{escape(a['author'])}</dc:creator>")
@@ -383,6 +414,7 @@ def build_feed(base: str, lang: str, articles: list[dict], news: list[dict],
             f"<link>{escape(n['url'])}</link>",
             f"<guid isPermaLink=\"true\">{escape(n['url'])}</guid>",
             f"<description>{escape(d)}</description>",
+            f"<pubDate>{_rfc822(n.get('published', ''), build_dt)}</pubDate>",
         ]
         if n.get("source"):
             parts.append(f"<source url=\"{escape(n['url'])}\">{escape(n['source'])}</source>")
