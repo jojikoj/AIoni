@@ -85,7 +85,11 @@ step "本文取得" python3 -m aioni.collectors.fulltext --limit=40
 #    一度も表示していなかった。新着ニュースの個別ページは本文が空のまま
 #    「出典リンクと関連記事だけ」の薄いページになっていた。
 #    body_long を作るのはこのスクリプトなので、日次に入れる。
-step "解説生成" python3 tools/gen_news_summaries.py --limit=20
+#    2026-08-01: 20→35 に増量。実測で body_long が 445/600件（未生成155件）あり、
+#    未生成のページは noindex になる（build.py の thin_news）＝検索に出ない。
+#    20件/日では新着に追われて在庫が減らないため、消化を優先する。
+#    haiku なので追加コストは無く、所要は数分（jobs.yaml の timeout 3600 内）。
+step "解説生成" python3 tools/gen_news_summaries.py --limit=35
 
 # 4. 内部リンク検査 → ビルド → 公開 → IndexNow
 step "公開" ./tools/deploy.sh

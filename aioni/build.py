@@ -580,6 +580,9 @@ class Builder:
         # canonical を他ページに向けたパス。sitemap には載せない
         # （正本でないURLを申告すると矛盾したシグナルになる）
         self.noncanonical: dict[str, set[str]] = {l: set() for l in config.LANGS}
+        # 自社の要約(body_long)がまだ無いニュース個別ページ。noindex にし、
+        # sitemap からも外す（下の _write_news 参照）。
+        self.thin_news: dict[str, set[str]] = {l: set() for l in config.LANGS}
 
     # 相対パス prefix（dist直下=ルート、ページ深さに応じて ../ を積む）
     @staticmethod
@@ -867,8 +870,22 @@ class Builder:
             if canon:
                 dup_merged += 1
                 self.noncanonical[lang].add(npath)
+            # 自社の要約がまだ無い記事は、出典リンクと関連記事だけの薄いページ。
+            #
+            # 2026-08-01 実測: 全600件中155件がこの状態で、description は
+            # 配信元の書き出しの切り貼りになる（「最近、マージボタンを押すとき、
+            # 僕はその diff を読んでいない…」）。検索結果を見ても何の記事か
+            # 分からず、/news/zenn_ai-f3b45ced8e/ は平均5.1位で28日クリック0だった。
+            # 薄いページが sitemap の1/4を占めると、クロールも自社記事に回らない。
+            #
+            # noindex, follow にして原典と関連記事への導線は残す。
+            # gen_news_summaries.py が body_long を書けば自動で index に戻る。
+            thin = not body
+            if thin:
+                self.thin_news[lang].add(npath)
             ctx = self._ctx(lang, depth=2, active="news", path=npath,
-                            page_description=ndesc, canonical_path=canon)
+                            page_description=ndesc, canonical_path=canon,
+                            noindex=thin)
             ctx["news"] = n
             ctx["news_title_tail"] = title_tail
             # まず本当に関連する記事。足りない分だけ従来のローテーションで補う。
@@ -1126,10 +1143,12 @@ class Builder:
             seo.build_robots(self.base_url), encoding="utf-8")
 
         # sitemap.xml（実際に生成したページのみ / lastmod + hreflang）
-        # canonical を他へ向けたページは除く
+        # canonical を他へ向けたページと、noindex にした薄いニュースは除く
         articles_ja = load_articles(config.DEFAULT_LANG)
         sitemap_paths = {
-            l: [p for p in paths if p not in self.noncanonical.get(l, set())]
+            l: [p for p in paths
+                if p not in self.noncanonical.get(l, set())
+                and p not in self.thin_news.get(l, set())]
             for l, paths in self.paths_by_lang.items()
         }
         (config.DIST_DIR / "sitemap.xml").write_text(
