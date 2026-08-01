@@ -1,31 +1,34 @@
 ---
 title: Frequently Asked Questions
-excerpt: Short, direct answers to common questions about space development.
+excerpt: What AIoni is, who runs it, and how its articles are produced — including its relationship to other services using a similar name.
 ---
 
-Q: Where does space begin?
-A: Space is generally considered to begin above the Kármán line at 100 km altitude. This is a conventional boundary set by the Fédération Aéronautique Internationale (FAI); 100 km is a distance a car travelling at 100 km/h would cover in one hour. Some organisations, such as the US Air Force, use 80 km instead — there is no sharp physical boundary.
+Q: What is AIの鬼 (AIoni)?
+A: It is a Japanese-language web media publishing first-hand records and measurements of AI used in real business operations at small and mid-sized companies (ai-oni.com). It is operated by TOE Inc., a web development and AI development company based in Fukuoka, Japan. TOE runs AI in its own operations and publishes the resulting figures — items processed, time taken, failures — from actual logs. The site also aggregates AI news from Japan and abroad, and research preprints from arXiv.
 
-Q: Why can a rocket stay in space?
-A: The key to staying in space is sideways speed, not altitude. An object in orbit is continuously falling toward Earth, but it moves sideways fast enough that the ground curves away beneath it and it never reaches the surface. In low Earth orbit this speed is about 7.9 km per second (roughly 28,000 km/h), and most of a rocket's engine power goes into that horizontal acceleration.
+Q: Is this related to other services with a similar name?
+A: No. The same Japanese name (AIの鬼) is used elsewhere, including as the handle of an AI illustration creator, and a different company operates a service called "AI鬼管理". This site (ai-oni.com) is unrelated to any of them.
 
-Q: How much have launch costs fallen?
-A: With reusable rockets in routine service, the cost of delivering one kilogram to orbit has dropped by an order of magnitude in recent decades. That price collapse is what made previously unviable businesses — thousand-satellite constellations, smallsat ventures, space tourism — commercially possible.
+Q: Who writes the articles?
+A: TOE's own editorial team. We do not commission outside writers. The company is represented by Joji Kojima and based at 1-9-3 Watanabe-dori, Chuo-ku, Fukuoka 810-0004, Japan. Details are on the company page.
 
-Q: What is low Earth orbit (LEO)?
-A: LEO refers to Earth orbits below roughly 2,000 km altitude. It hosts communication satellite constellations, Earth observation satellites, and the International Space Station, making it by far the most economically active region of space today.
+Q: Do you use AI to produce the articles?
+A: Yes. We use AI for translating and summarising news and for reading research preprints; machine-translated text is labelled as such. Everything is reviewed by the editorial team before publication. Our own practice records are written from actual execution logs and scripts as primary sources.
 
-Q: What is cislunar space?
-A: Cislunar space is the region between Earth and the Moon, including the lunar surface. Resource prospecting and building infrastructure for sustained human activity are accelerating there, making it the next frontier after low Earth orbit.
+Q: What kinds of articles do you publish?
+A: Five main strands: first-hand records of systems we actually run; measurements of how ChatGPT, Perplexity and AI Overviews answer; failures we hit ourselves and what smaller companies can learn from them; explanations of external research for a non-specialist business audience; and practical AI workflow pieces. We also aggregate news and research listings.
 
-Q: What are Japan's strengths in space development?
-A: Japan is internationally recognised for pinpoint landing technology — placing a spacecraft precisely on a target site — and for deep-space mission operations, exemplified by its asteroid sample-return missions. It is modernising its flagship launch vehicles while private startups pursue lunar landers and on-orbit servicing.
+Q: Can I trust the numbers?
+A: Figures in our own practice records come from actual execution logs. Articles covering external research cite the source URL and the date we checked it. We separate fact from inference, do not overstate, and publish what did not work as well as what did. We welcome corrections and record them when made.
 
-Q: What are the Artemis Accords?
-A: The Artemis Accords are a US-led multilateral framework setting out principles for exploring and using the Moon and Mars. They cover transparency, emergency assistance, registration of space objects, and the public release of scientific data. The number of signatory nations continues to grow.
+Q: Are the aggregated news items your own writing?
+A: No. Aggregated items are attributed to their original publishers and linked back to them, and are never presented as our own writing. Where our editors add original commentary, the source it is based on is also declared in structured data (isBasedOn).
 
-Q: Where does AIの鬼's information come from?
-A: We aggregate official announcements from NASA, ESA, JAXA, and the National Astronomical Observatory of Japan, along with specialist media such as SpaceNews, sorae, and Space Media, via their RSS feeds and public APIs. Launch data comes from Launch Library 2 and research listings from arXiv. Copyright for each article remains with its original publisher; we provide headlines, summaries, and links.
+Q: Is the site free to read?
+A: Yes, and no account is required.
 
-Q: How are Japanese translations of English articles produced?
-A: They are generated automatically during collection, and translated items carry a "machine translated" badge. Because they are machine generated, wording may be inaccurate — always consult the linked original for authoritative content.
+Q: Are you a neutral third party?
+A: No. TOE Inc. sells AI training, AI adoption support, and web development, so this is written by an interested party. We state that openly. That said, we do not change an article's conclusion because it would help us win work, and placement is never reordered by payment.
+
+Q: How do I get in touch?
+A: Through the contact page. We accept enquiries about AI adoption and about how your company appears in AI search, as well as press releases, story suggestions, and correction requests.
