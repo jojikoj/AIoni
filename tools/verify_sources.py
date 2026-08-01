@@ -35,14 +35,33 @@ ATOM = "{http://www.w3.org/2005/Atom}"
 ID_RE = re.compile(r"arXiv:(\d{4}\.\d{4,5})")
 
 
-def fetch_meta(arxiv_id: str) -> dict | None:
-    """arXiv公式APIで論文の実在とタイトルを確認する。"""
+def fetch_meta(arxiv_id: str, retries: int = 3) -> dict | None:
+    """arXiv公式APIで論文の実在とタイトルを確認する。
+
+    429（レート制限）は待って再試行する。2026-08-01 に全記事を検証したとき、
+    確認できたのは45件だけで、残りはすべて 429 で落ちていた。
+    このツールの結論は「実在しないもの 0件」だが、それは**確認できた分の
+    うち0件**という意味でしかない。検証できていないものを検証済みと
+    取り違えると、出典の裏取りという目的そのものが果たせない。
+    """
     q = urllib.parse.urlencode({"id_list": arxiv_id, "max_results": 1})
-    try:
-        with urllib.request.urlopen(f"{API}?{q}", timeout=30) as r:
-            root = ET.fromstring(r.read())
-    except Exception as e:
-        return {"error": f"{type(e).__name__}: {e}"}
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(f"{API}?{q}", timeout=30) as r:
+                root = ET.fromstring(r.read())
+            break
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < retries - 1:
+                wait = 5 * (attempt + 1)     # 5秒 → 10秒
+                print(f"    レート制限。{wait}秒待って再試行 ({arxiv_id})",
+                      file=sys.stderr)
+                time.sleep(wait)
+                continue
+            return {"error": f"HTTPError: {e.code}"}
+        except Exception as e:
+            return {"error": f"{type(e).__name__}: {e}"}
+    else:
+        return {"error": "レート制限が解けませんでした"}
     entry = root.find(f"{ATOM}entry")
     if entry is None:
         return None
@@ -69,6 +88,8 @@ def main() -> int:
 
     ng = 0
     checked = 0
+    ok = 0
+    unknown = 0
     for f in files:
         text = f.read_text(encoding="utf-8")
         ids = sorted(set(ID_RE.findall(text)))
@@ -78,13 +99,16 @@ def main() -> int:
         for aid in ids:
             checked += 1
             meta = fetch_meta(aid)
-            time.sleep(0.4)          # arXiv APIへの礼儀。連打しない
+            # arXiv API の案内は「3秒に1回」。0.4秒だと429が返り、
+            # 2026-08-01 の実行では45件しか確認できなかった。
+            time.sleep(3.0)
             if meta is None:
                 print(f"❌ {slug}: arXiv:{aid} は実在しない", file=sys.stderr)
                 ng += 1
                 continue
             if "error" in meta:
                 print(f"⚠️ {slug}: arXiv:{aid} 確認できず（{meta['error']}）")
+                unknown += 1
                 continue
             # 記事本文に原題が引用されていれば、単語の重なりで一致を見る。
             # 邦題だけの記事もあるため、原題が無いこと自体は不備にしない。
@@ -94,8 +118,15 @@ def main() -> int:
                       f"    公式: {meta['title'][:90]}")
             else:
                 print(f"✅ {slug}: arXiv:{aid} {meta['title'][:70]}")
+            ok += 1
 
-    print(f"\n=== 出典 {checked}件を確認 / 実在しないもの {ng}件 ===")
+    # 「確認できなかった分」を必ず出す。ここを黙って落とすと、
+    # 未検証を検証済みと取り違える（2026-08-01 に実際そうなりかけた）。
+    print(f"\n=== 出典 {checked}件 / 実在を確認 {ok}件 / "
+          f"実在しない {ng}件 / 確認できず {unknown}件 ===")
+    if unknown:
+        print(f"⚠️ {unknown}件は未検証のまま。ネットワークかレート制限の"
+              "影響なので、時間をおいて再実行してください。")
     return 1 if ng else 0
 
 
