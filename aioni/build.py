@@ -414,7 +414,16 @@ def news_meta(item: dict, lang: str) -> tuple[str, str]:
         # 「中国のMoonshot AIが、フラッグシップモデルを発表した。総パラメータ数…」
         # という元記事の要約と区別のつかない文だった。
         # 本文には独自の視点が書かれているのに、検索結果には出ていなかった。
+        # 2026-08-02 追記: 上の修正は3割に効いていなかった。
+        # 解説445件の段落数を数えたところ、131件(29.4%)が「1段落」と判定され、
+        # paras[1] が存在せず1段落目に落ちていた。内訳を切り分けると
+        #   20件 … 段落の区切りが \n\n ではなく \n 単独だっただけ（中身は3段落）
+        #  111件 … 本当に改行が1つも無い（生成が2〜4段落の指示に従っていない）
+        # 前者はここで拾える。\n\n で割って1つしか出ないときだけ \n で割り直す
+        # （最初から \n で割ると、1文の途中の改行まで段落扱いしてしまう）。
         paras = [x.strip() for x in body.split("\n\n") if x.strip()]
+        if len(paras) < 2:
+            paras = [x.strip() for x in body.split("\n") if x.strip()]
         desc = _clip(paras[1] if len(paras) >= 2 else (paras[0] if paras else body), 110)
         return _NEWS_TAIL_BODY, desc
 
