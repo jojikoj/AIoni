@@ -240,7 +240,10 @@ async function main() {
     if (!fs.existsSync(PROFILE)) throw new Error('ログインプロファイルが無い。setup_profile.sh を実行');
     const base = `${process.env.HOME}/Library/Caches/ms-playwright`;
     const cd = fs.readdirSync(base).filter((x) => x.startsWith('chromium-')).sort().reverse()[0];
-    const adir = `${base}/${cd}/chrome-mac-arm64`;
+    // 実行機はMac mini(Intel)なので x64 も候補に入れる。arm64固定だと毎朝失敗する。
+    const adir = ['chrome-mac-arm64', 'chrome-mac-x64', 'chrome-mac']
+      .map((m) => `${base}/${cd}/${m}`).find((p) => fs.existsSync(p));
+    if (!adir) throw new Error('Chromiumが見つからない（npx playwright install chromium を実行）');
     const app = fs.readdirSync(adir).find((a) => a.endsWith('.app'));
     const CHROME = `${adir}/${app}/Contents/MacOS/${app.replace(/\.app$/, '')}`;
     ctx = await chromium.launchPersistentContext(PROFILE, { executablePath: CHROME, headless: true, userAgent: UA, viewport: { width: 1280, height: 900 } });

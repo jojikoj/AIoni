@@ -35,7 +35,8 @@ function findChrome() {
   const dirs = fs.readdirSync(base).filter((d) => d.startsWith('chromium-'))
     .sort().reverse(); // 新しいバージョンを優先
   for (const d of dirs) {
-    for (const macdir of ['chrome-mac-arm64', 'chrome-mac']) {
+    // 実行機はMac mini(Intel)なので x64 も候補に入れる。ここが漏れていて毎朝失敗していた。
+    for (const macdir of ['chrome-mac-arm64', 'chrome-mac-x64', 'chrome-mac']) {
       const appdir = path.join(base, d, macdir);
       if (!fs.existsSync(appdir)) continue;
       for (const app of fs.readdirSync(appdir).filter((a) => a.endsWith('.app'))) {
