@@ -1447,7 +1447,12 @@ a.tag-hash:hover { color: var(--accent-ink); text-decoration: underline; }
   line-height: 1.75;
   max-width: 46ch;
 }
+/* サブコピーはPCとスマホで別文を出す（配信されるHTMLには両方入っている）。
+   狭い幅ではAI名を5つ並べた長文が3行になり、背景の鬼と重なって読めない。 */
+.hero-band-sub-sp { display: none; }
 @media (max-width: 720px) {
+  .hero-band-sub-pc { display: none; }
+  .hero-band-sub-sp { display: inline; }
   .hero-band {
     height: 300px;
     /* 文字と鬼が重なるため、鬼は右端に逃がし、左の暗い面を広く取る */

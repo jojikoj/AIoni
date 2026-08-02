@@ -286,6 +286,10 @@
     .ac-head{font-size:clamp(20px,3.4vw,27px);line-height:1.35;font-weight:800;
         color:var(--text);margin:0}
     .ac-sub{font-size:14px;line-height:1.7;color:var(--text-2);margin:0 0 18px;max-width:640px}
+    /* 説明文はPC/スマホで別文。HTMLには両方入っていて、表示だけ切り替える。
+       ヒーロー帯と同じ720pxで折り返す（同じ画面で文体が混ざらないように）。 */
+    .ac-sub-sp{display:none}
+    @media(max-width:720px){.ac-sub-pc{display:none}.ac-sub-sp{display:inline}}
     .ac-form{display:flex;flex-wrap:wrap;gap:10px}
     .ac-form input{flex:1 1 220px;min-width:0;padding:13px 15px;font-size:15px;
         background:var(--surface);border:1px solid var(--line-strong);border-radius:11px;color:var(--text)}
@@ -350,7 +354,9 @@
     <span class="ac-eyebrow">その場で実測</span>
     <h2 id="ac-head" class="ac-head">{{ heading }}</h2>
   </div>
-  <p class="ac-sub">会社名を入れると、AIが御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</p>
+  {# 説明文はPC/スマホで別文（CSSで切り替え）。スマホでは入力欄が縦積みになり
+     ボタンまでが遠いので、前置きを削って行数を減らす。 #}
+  <p class="ac-sub"><span class="ac-sub-pc">会社名を入れると、AIが御社をどう認識しているかをその場で測ります。「AIに正しく伝わっているか」は、これからの集客を左右します。</span><span class="ac-sub-sp">AIが御社をどう認識しているかを調べます。「AIに正しく伝わっているか」は、これからの集客を左右します。</span></p>
 
   <form class="ac-form" id="ac-form" autocomplete="off">
     <input type="text" id="ac-company" name="company" placeholder="会社名（例：株式会社◯◯製作所）" maxlength="80" required>

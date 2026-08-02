@@ -841,6 +841,7 @@ class Builder:
         ctx.update(news=news, papers=papers, articles=articles,
                    featured=featured, latest=latest[:8], topic_nav=topic_nav,
                    hero_copy=config.HERO_COPY, hero_sub=config.HERO_SUB,
+                   hero_sub_sp=config.HERO_SUB_SP,
                    practice=practice, observation=observation, explainer=explainer,
                    naka=naka,
                    proof_stats=config.PROOF_STATS,
