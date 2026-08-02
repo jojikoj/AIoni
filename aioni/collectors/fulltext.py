@@ -207,7 +207,16 @@ def enrich(items: list[dict], limit: int | None = None,
             # サイトには出力せず、data/ に置くだけ。
             it["body_src"] = body[:8000]
             summary = summarize(it.get("title", ""), body)
-            if summary and len(summary) >= 300:
+            # 閾値は summarize の設計（120〜200字）に合わせる。
+            #
+            # 2026-08-02 実測: ここが >= 300 だった。summarize の docstring は
+            # 「本文から120〜200字の日本語要約を生成する」で、プロンプトもその長さを
+            # 指示している。つまり生成が成功しても構造上必ず条件を外し、
+            # 100%が skipped に落ちていた。実測で claude は正常に応答し
+            # 167字の要約を返していたが、そのまま捨てられていた。
+            # 「claude が動いていないのだろう」と何日も誤解する原因になっていた。
+            # 短すぎる出力（エラー文や1行返答）だけを弾きたいので 100字にする。
+            if summary and len(summary) >= 100:
                 it["body_ja"] = summary
                 it["body_chars"] = len(summary)
                 done += 1
