@@ -385,6 +385,41 @@ def _clip(text: str, limit: int) -> str:
 _NEWS_TAIL_BODY = "｜要点と実務への影響"
 _NEWS_TAIL_LINK = "｜出典と、関連する実践記録"
 
+# <title> に出せる長さの上限（全角）。
+#
+# なぜ要るか（2026-08-05 実測）: ニュース個別ページの <title> は
+# 配信元のタイトルをそのまま使っていて、実測25件中5件が61〜114字だった。
+# Google の検索結果は日本語で30字前後までしか出さないので、後ろに付けた
+# 識別句（_NEWS_TAIL_*）もサイト名も一切表示されず、「原典と同じ見出しが
+# 並ぶ」という _NEWS_TAIL_* で直したはずの状態に逆戻りしていた。
+#
+# 32字に丸めておけば、識別句の先頭までは表示に載る可能性が出る。
+# h1（本文の見出し）は元の全文のままにする。長くても読者は困らないし、
+# 原典の題を省略せず示す方が誠実なため、丸めるのは <title> だけにする。
+_HEAD_TITLE_LIMIT = 32
+
+# タイトルを切ってよい位置。配信元が付けた飾り（「【速報】」「｜◯◯新聞」
+# 「 - Qiita」など）の境目で切ると、意味の切れ目で終わりやすい。
+_TITLE_BREAKS = "｜│|【】〔〕［］—–-：:、，,。 　"
+
+
+def head_title(title: str, limit: int = _HEAD_TITLE_LIMIT) -> str:
+    """<title> 用にニュースの題を丸める。h1 や OGP には使わない。
+
+    句点で閉じられないタイトル（ニュースの見出しはほぼこれ）を _clip に
+    渡すと限界まで詰めて「…」を足すだけになるため、区切り記号を優先して
+    意味の切れ目で終わらせる。
+    """
+    title = re.sub(r"\s+", " ", (title or "")).strip()
+    if len(title) <= limit:
+        return title
+    cut = title[:limit]
+    # 予算内で最も後ろの区切りを探す。短くなりすぎる位置は使わない。
+    pos = max((cut.rfind(ch) for ch in _TITLE_BREAKS), default=-1)
+    if pos >= limit // 2:
+        return cut[:pos].rstrip(_TITLE_BREAKS)
+    return cut.rstrip() + "…"
+
 # 解説の2段落目が、生成プロンプトの見出しをそのまま書き出しにしていることがある。
 # description に出すときだけ、この定型の前置きを外す（本文はそのまま残す）。
 _LEAD_BOILERPLATE = re.compile(
@@ -1049,6 +1084,8 @@ class Builder:
                             noindex=thin)
             ctx["news"] = n
             ctx["news_title_tail"] = title_tail
+            # <title> だけは丸める。h1 と OGP は display_title の全文のまま。
+            ctx["news_head_title"] = head_title(n.get("display_title") or "")
             _nk = cta_kind(n.get("display_title"), n.get("display_summary"))
             ctx["cta"] = business.cta_banner(_nk, lang)
             ctx["cta_kind"] = _nk
