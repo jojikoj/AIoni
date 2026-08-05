@@ -129,6 +129,12 @@ def _article(base: str, a: dict, url: str, lang: str) -> dict:
     }
     if a.get("author"):
         node["author"] = {"@type": "Organization", "name": a["author"]}
+    # 記事の種別（front matter の tag）を機械にも渡す。
+    # 「中の鬼」はエッセイ、「AI解体新書」は解説というように書き方が違うので、
+    # これが無いと外から見たとき全部を同じ型（表・まとめ見出しが要る解説記事）
+    # として扱うことになる。2026-08-05 の点検で実際にそう誤判定していた。
+    if a.get("tag"):
+        node["articleSection"] = a["tag"]
     if a.get("date"):
         node["datePublished"] = a["date"]
         # 加筆したら front matter の updated: が入る。無ければ公開日と同じ。
