@@ -3,6 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# 外部リンクを踏んだとき、遷移先に渡すのはドメインまでにする（パスとクエリを渡さない）。
+     GitHub Pages は HTTPヘッダを設定できないので、ヘッダ相当を meta で指定する。
+     nosniff と X-Frame-Options は meta では効かず、GitHub Pages では打つ手がない。 #}
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   {# title_suffix は既定で " · AIの鬼"。トップだけは build.py が空を渡し、
      ブロック側でブランド名を先頭に置いた完全なタイトルを組む。
      指名検索「AIの鬼」でブランド名がタイトル末尾に埋まるのを避けるため。 #}
