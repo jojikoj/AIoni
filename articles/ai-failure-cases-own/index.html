@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと · AIの鬼</title>
+  <meta name="description" content="AIの失敗事例は他社の話として語られがちですが、この記事は全部自分の話です。株式会社TOEがAI開発とAI活用支援を事業としながら、自社で実際に起こした12件（553件中414件の処理失敗、21本中20本に誤り、実行0通、3日間の停止に気づかず、自社のAI認知スコア10点）を7か所に分類し、先に決めておけば防げたことを整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-failure-cases-own/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-failure-cases-own/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと · AIの鬼">
+  <meta property="og:description" content="AIの失敗事例は他社の話として語られがちですが、この記事は全部自分の話です。株式会社TOEがAI開発とAI活用支援を事業としながら、自社で実際に起こした12件（553件中414件の処理失敗、21本中20本に誤り、実行0通、3日間の停止に気づかず、自社のAI認知スコア10点）を7か所に分類し、先に決めておけば防げたことを整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-failure-cases-own/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-failure-cases-own.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-failure-cases-own.jpg">
+  <meta name="twitter:title" content="AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと · AIの鬼">
+  <meta name="twitter:description" content="AIの失敗事例は他社の話として語られがちですが、この記事は全部自分の話です。株式会社TOEがAI開発とAI活用支援を事業としながら、自社で実際に起こした12件（553件中414件の処理失敗、21本中20本に誤り、実行0通、3日間の停止に気づかず、自社のAI認知スコア10点）を7か所に分類し、先に決めておけば防げたことを整理しました。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと","item":"https://ai-oni.com/articles/ai-failure-cases-own/"}]},{"@type":"Article","headline":"AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと","description":"AIの失敗事例は他社の話として語られがちですが、この記事は全部自分の話です。株式会社TOEがAI開発とAI活用支援を事業としながら、自社で実際に起こした12件（553件中414件の処理失敗、21本中20本に誤り、実行0通、3日間の停止に気づかず、自社のAI認知スコア10点）を7か所に分類し、先に決めておけば防げたことを整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-failure-cases-own/"},"url":"https://ai-oni.com/articles/ai-failure-cases-own/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"失敗の鬼","datePublished":"2026-08-01","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-ai-failure-cases-own.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-failure-cases-own/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-failure-cases-own.jpg"
+         alt="AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>AI導入で当社が実際にやらかした12件 — 失敗が起きた7か所と、先に決めておけば防げたこと</h1>
+<p class="article-lead">AIの失敗事例は他社の話として語られがちですが、この記事は全部自分の話です。株式会社TOEがAI開発とAI活用支援を事業としながら、自社で実際に起こした12件（553件中414件の処理失敗、21本中20本に誤り、実行0通、3日間の停止に気づかず、自社のAI認知スコア10点）を7か所に分類し、先に決めておけば防げたことを整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月1日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：AIの失敗事例は他社の話として語られがちですが、この記事は<strong>全部自分の話</strong>です。株式会社TOEはAI開発とAI活用支援を事業としながら、自社で<strong>12件</strong>の失敗を記録しています。処理を<strong>553件中414件（75%）失敗</strong>させ、AIに書かせた記事は<strong>21本中20本に誤り</strong>があり、作った決裁の仕組みは<strong>実行0通</strong>、自動化は<strong>3日間止まっても誰も気づかず</strong>、自社のAI認知スコアを測ったら<strong>100点中10点</strong>でした。失敗が起きた場所は<strong>7か所</strong>に分けられ、そのどれも技術の問題ではなく、<strong>先に決めていなかったこと</strong>が原因でした。</p>
+<p>株式会社TOEはAI開発・AI活用支援を事業としており、この記事は<strong>提供する側が書いています</strong>。中立の第三者ではありません。他社の失敗は扱わず、<strong>自社で起こしたことだけ</strong>を、都合の悪い数字を含めて載せます。</p>
+<h2 id="12">12件の一覧</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>何をやらかしたか</th>
+<th>実測</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>一括処理でモデルを指定し忘れた</td>
+<td>553件中<strong>414件（75%）</strong>が失敗。無関係な処理3本まで巻き添えで停止</td>
+</tr>
+<tr>
+<td>2</td>
+<td>AIに記事を書かせて検品したら</td>
+<td>完成21本のうち<strong>誤りゼロは1本だけ</strong>。修正は<strong>70箇所</strong>超</td>
+</tr>
+<tr>
+<td>3</td>
+<td>AI翻訳（日→英）を公開しようとした</td>
+<td>品質が公開に耐えないと判断し、<strong>載せるのをやめた</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>決裁をメール1通まで簡単にした</td>
+<td>実行<strong>0通</strong>。承認待ちは29件→<strong>37件に増加</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>日次の自動更新が止まった</td>
+<td><strong>3日間</strong>誰も気づかず。監査ログに記録が残っていなかった</td>
+</tr>
+<tr>
+<td>6</td>
+<td>自社のAI検索での見え方を測った</td>
+<td><strong>100点中10点</strong>「AIに認識されていません」</td>
+</tr>
+<tr>
+<td>7</td>
+<td>何でも自動化しようとした</td>
+<td>27本の内訳は<strong>経理13本に対しマーケ1本</strong>。定型化できない仕事は載らない</td>
+</tr>
+<tr>
+<td>8</td>
+<td>毎朝動いているはずのジョブを数えた</td>
+<td>5.3日で11回動くはずが<strong>1回だけ</strong>（<strong>91%が発火せず</strong>）</td>
+</tr>
+<tr>
+<td>9</td>
+<td>タイムアウトを設定した</td>
+<td>エラー名は「timeout 900s」、実際のプロセスは<strong>139分間生存</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td>静かに止まる箇所を数え直した</td>
+<td><strong>12か所</strong>。全部エラーを出していなかった</td>
+</tr>
+<tr>
+<td>11</td>
+<td>検索順位を上げようとしていた</td>
+<td>1ページ目に<strong>155ページ</strong>出ていたが、<strong>140ページはクリック0</strong></td>
+</tr>
+<tr>
+<td>12</td>
+<td>サイトを1日点検した</td>
+<td>検索結果に出ているページの<strong>3割が404</strong>だった</td>
+</tr>
+</tbody>
+</table>
+<p><strong>12件すべて自社で起こしたものです。</strong> 他社の事例ではありません。</p>
+<h2 id="7">失敗が起きた7か所</h2>
+<p>12件を、失敗が生まれた場所で分けるとこうなります。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>場所</th>
+<th>該当</th>
+<th>何を間違えたか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>対象の選定</strong></td>
+<td>#7</td>
+<td>定型化できない仕事を自動化の対象にした</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>設定</strong></td>
+<td>#1</td>
+<td>使うモデルを書き忘れ、上位モデルが枠を食い潰した</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>品質の確認</strong></td>
+<td>#2 #3</td>
+<td>AIの出力を検品する工程を、後から足した</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>稼働の監視</strong></td>
+<td>#5 #8 #9 #10</td>
+<td>「動いているはず」を数えなかった</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>定着</strong></td>
+<td>#4</td>
+<td>使う場面が既存の習慣の中に無かった</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>成果の測り方</strong></td>
+<td>#11 #12</td>
+<td>順位を見ていて、クリックと404を見ていなかった</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>自社への適用</strong></td>
+<td>#6</td>
+<td>他社に売っている道具を、自社に当てていなかった</td>
+</tr>
+</tbody>
+</table>
+<p><strong>7番目が一番こたえました。</strong> AI検索での見え方を測るサービスを持っている会社が、自社を測ったら10点だったからです。原因は記事の不足ではなく、同じ名前の別サービスに説明を持っていかれていたことでした。</p>
+<h2 id="_1">場所ごとに、何を先に決めておけばよかったか</h2>
+<h3 id="1">1. 対象の選定</h3>
+<p>社内27本を自動化しましたが、内訳は<strong>経理13本に対しマーケ1本</strong>でした。サボったのではなく、定型化できない仕事は自動化の対象にならないからです。</p>
+<p><strong>先に決めておくこと</strong>：その仕事は「入力の形が決まっている」「出力の形が決まっている」「毎回必ず発生する」の3つを満たすか。1つでも欠けるなら、全部は任せられません（<a href="../toe-not-everything-automatable/">経理は13本、マーケは1本</a>）。</p>
+<h3 id="2">2. 設定</h3>
+<p>一括処理でどのモデルを使うかを書き忘れ、上位モデルが使われて利用枠を食い潰しました。<strong>553件中414件が失敗</strong>し、社長本人の作業と、動いていた分析処理3本まで巻き添えで止まりました。</p>
+<p><strong>先に決めておくこと</strong>：使うモデルを明示的に固定する。技術的に高度な失敗ではなく、1行の書き忘れです（<a href="../batch-414-failure/">AI処理414件を失敗させた話</a>）。</p>
+<h3 id="3">3. 品質の確認</h3>
+<p>AIに記事を108本書かせる計画を走らせ、完成した21本を全件検証しました。<strong>誤りが1つも無かったのは1本だけ</strong>で、修正は70箇所を超えました。指示には「検索で裏を取れ」「確認できない事例は書くな」と明記してあったにもかかわらずです。</p>
+<p>翻訳でも同じ判断をしました。当社は英→日の機械翻訳で1,000件超を公開していますが、<strong>日→英だけは「品質が公開に耐えない」として載せるのをやめました</strong>。ページ数を稼げるにもかかわらずです。</p>
+<p><strong>先に決めておくこと</strong>：AIの出力を誰がどう検品するか。「指示に書いたから守られる」は成り立ちません（<a href="../toe-mass-production-errors/">21本中20本に誤りがあった</a>／<a href="../toe-ai-output-check/">日→英だけは載せないと決めた理由</a>）。</p>
+<h3 id="4">4. 稼働の監視</h3>
+<p>ここが件数として最も多く、4件あります。</p>
+<ul>
+<li>日次更新が<strong>3日間止まっていた</strong>のに誰も気づかず、監査ログにも記録が残っていなかった</li>
+<li>毎朝動くはずのジョブを5.3日ぶん数えたら、11回のうち<strong>動いたのは1回</strong>（91%が発火せず）</li>
+<li>タイムアウトのエラー名は「timeout 900s」なのに、実際のプロセスは<strong>139分間生きていた</strong></li>
+<li>静かに止まる箇所を数え直したら<strong>12か所</strong>あり、全部エラーを出していなかった</li>
+</ul>
+<p><strong>先に決めておくこと</strong>：止まったとき、どうやって気づくか。当社は「自動で動く処理を1本増やすたびに、これが止まったらどう気づくかを一緒に決める」という運用に変えました（<a href="../toe-automation-stops-silently/">3日間止まっていたのに誰も気づかなかった</a>／<a href="../toe-cron-firing-audit/">91%が発火すらしていなかった</a>／<a href="../ai-automation-silent-failure/">エラーを出さずに止まる12件</a>）。</p>
+<h3 id="5">5. 定着</h3>
+<p>決裁を「メール1通返すだけ」まで簡単にしましたが、<strong>実行されたコマンドは0通</strong>、承認待ちはむしろ29件から37件に増えました。仕組みは正常に動いていました。</p>
+<p><strong>先に決めておくこと</strong>：それを使う場面が、既存の1日の流れの中にあるか。無いなら、新しい習慣を作らせることになります（<a href="../toe-tool-not-used/">実行0通だった</a>／<a href="../ai-tool-not-adopted/">導入したツールが使われない</a>）。</p>
+<h3 id="6">6. 成果の測り方</h3>
+<p>検索の順位を上げる作業をしていましたが、数え直すと<strong>1ページ目に155ページ出て562回表示され、そのうち140ページはクリックが0</strong>でした。順位ではなく、検索結果に出ているタイトルと説明文の問題でした。</p>
+<p>別の日には、サイトを点検したところ<strong>検索結果に出ているページの3割が404</strong>でした。</p>
+<p><strong>先に決めておくこと</strong>：何を見て「うまくいっている」と判断するか。順位・アクセス数・件数のどれを見るかで、見落とすものが変わります（<a href="../toe-ctr-zero-clicks/">140ページはクリック0だった</a>／<a href="../toe-site-audit-1day/">検索結果の3割が404だった</a>）。</p>
+<h3 id="7_1">7. 自社への適用</h3>
+<p>AI検索での見え方を測るサービスを他社に提供している当社が、同じ道具で自社を測ったところ、<strong>AI認知スコアは100点中10点</strong>、判定は「AIに認識されていません」でした。AIが説明の根拠にしていたのは、同じ名前を使う別のサービスやAIイラスト作家の投稿ばかりでした。</p>
+<p><strong>先に決めておくこと</strong>：自社の商品を、自社に当ててみたか。当てていないなら、その理由は何か（<a href="../toe-own-visibility-10/">自社を測ったら10点だった</a>）。</p>
+<h2 id="12_1">12件に共通していたこと</h2>
+<p>並べてみると、共通点が3つありました。</p>
+<table>
+<thead>
+<tr>
+<th>共通点</th>
+<th>中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>エラーが出ていない</strong></td>
+<td>12件中、明確なエラーで気づけたのは<strong>1件（#1）だけ</strong>。残りは正常に見えていた</td>
+</tr>
+<tr>
+<td><strong>数えるまで分からなかった</strong></td>
+<td>「動いている気がする」「うまくいっている気がする」で止まっていた。回数を数えると0や91%が出てきた</td>
+</tr>
+<tr>
+<td><strong>技術ではなく、決めていなかった</strong></td>
+<td>どの失敗も、先に1つ決めておけば防げた。難しい技術の問題は1件も無い</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「感触」で運用している間は、失敗が見えません。</strong> 数えて初めて数字が出ます。</p>
+<h2 id="ai">AI開発会社に依存する構造について</h2>
+<p>上の12件は自社の話ですが、外注する側のリスクも1つ挙げておきます。これは自社実測ではなく外部調査の数字です。</p>
+<p>米国企業の経営幹部500人への調査では、<strong>74%が主要なAIベンダーへの依存で「日常業務に支障が出る」以上</strong>と回答し、<strong>89%が「4週間以内に別ベンダーへ移行できる」と考えている</strong>一方、実際に移行を試みた企業でスムーズにいったのは<strong>42%だけ</strong>でした。</p>
+<p>見通しと実態に差があります。要点は「止まったときの人手の代替手順を残しておく」ことです（<a href="../fail-vendor-lockin/">AIベンダーに依存して身動きが取れなくなる構造</a>）。</p>
+<h2 id="_2">この記事で言えないこと</h2>
+<ul>
+<li><strong>他社の失敗事例は扱っていません。</strong> 当社は提供する側で、その立場にありません</li>
+<li><strong>12件を防ぐ完全な方法も書けません。</strong> 当社も直しながら運用しています</li>
+<li><strong>全部解決したとは書けません。</strong> 承認待ちは今も増えたままで、AI認知スコアの改善効果もまだ測れていません</li>
+<li>ここに載せたのは、当社の実行ログとサイトの実測から数えた事実だけです</li>
+</ul>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>AIの失敗事例は他社の話として語られがちだが、この記事は<strong>全部自分の話</strong>。当社の12件</li>
+<li>553件中<strong>414件（75%）失敗</strong>／21本中<strong>20本に誤り</strong>／実行<strong>0通</strong>／<strong>3日間</strong>停止に気づかず／自社のAI認知スコア<strong>10点</strong>／1ページ目155ページ中<strong>140ページがクリック0</strong></li>
+<li>失敗が起きた場所は7か所 — <strong>対象の選定／設定／品質の確認／稼働の監視／定着／成果の測り方／自社への適用</strong></li>
+<li>最も件数が多いのは<strong>稼働の監視（4件）</strong>。「動いているはず」を数えていなかった</li>
+<li>一番こたえたのは<strong>自社への適用</strong>。他社に売っている道具を自社に当てていなかった</li>
+<li>共通点は3つ — <strong>エラーが出ていない（12件中11件）／数えるまで分からない／技術ではなく決めていなかった</strong></li>
+<li><strong>難しい技術の問題は1件も無い。</strong> どれも先に1つ決めておけば防げた</li>
+<li>外注する場合は、<strong>89%が「4週間で移行できる」と考えるが、実際にスムーズだったのは42%</strong>（外部調査）</li>
+</ul>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI開発・AI活用支援を事業としており、提供する側が書いています。中立の第三者ではありません。他社の失敗は扱わず、自社で起こしたことだけを載せています。ここに挙げた失敗の一部は現在も解決していません。</p>
+<p><strong>実測値の出所</strong>
+- #1〜#12: 株式会社TOEの実行ログ、cron設定、Google Search Console（2026年7月〜8月1日）。各件の詳細は本文中の記事に個別の記録があります
+- ベンダー依存の74%・89%・42%: 米国企業の経営幹部500人を対象とした外部調査。<strong>自社実測ではありません</strong></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-dev-vendor-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-dev-vendor-selection.jpg" alt="AI開発会社の選び方 — 「おすすめ一覧」で選べない理由と、面談で聞く7つの質問" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI開発会社の選び方 — 「おすすめ一覧」で選べない理由と、面談で聞く7つの質問</h3>
+<p class="card-summary">AI開発会社を検索すると比較記事が並びますが、順位で選べるものではありません。自社で運用を持つのか委ねるのかで適した相手が変わるためです。株式会社TOEが自社でAIメディアを2本無人運用している実測と、実際に起きた事故から、面談で確かめるべき7つの質問を整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-tool-not-adopted/">
+<div class="card-media"><img src="../../static/img/article-ai-tool-not-adopted.jpg" alt="導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方</h3>
+<p class="card-summary">ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-automation-silent-failure/">
+<div class="card-media"><img src="../../static/img/article-ai-automation-silent-failure.jpg" alt="AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと</h3>
+<p class="card-summary">自動化はエラーを出して止まるとは限りません。処理は最後まで走り、ログにも完了と出て、数字が増えないことだけが唯一の兆候になります。株式会社TOEが自社で見つけた12件（発火率91%抜け、実行0通、翻訳が7%で停滞など）を型に整理し、発注時に契約で決めておくことをまとめました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-failure-cases-own">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

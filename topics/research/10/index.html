@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>研究動向 · AIの鬼</title>
+  <meta name="description" content="論文と新しい手法、学術的な進展を集めています。すぐ実務に使えるとは限りませんが、数か月後に製品へ入ってくるものの多くはここから来ます。arXiv のプレプリントは別途まとめています。">
+  <link rel="canonical" href="https://ai-oni.com/topics/research/10/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/topics/research/10/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="研究動向 · AIの鬼">
+  <meta property="og:description" content="論文と新しい手法、学術的な進展を集めています。すぐ実務に使えるとは限りませんが、数か月後に製品へ入ってくるものの多くはここから来ます。arXiv のプレプリントは別途まとめています。">
+  <meta property="og:url" content="https://ai-oni.com/topics/research/10/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="研究動向 · AIの鬼">
+  <meta name="twitter:description" content="論文と新しい手法、学術的な進展を集めています。すぐ実務に使えるとは限りませんが、数か月後に製品へ入ってくるものの多くはここから来ます。arXiv のプレプリントは別途まとめています。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"研究動向","item":"https://ai-oni.com/topics/research/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"Diffusers welcomes Stable Diffusion 3.5 Large","url":"https://huggingface.co/blog/sd3-5"},{"@type":"ListItem","position":2,"name":"Model Distillation in the API","url":"https://openai.com/index/api-model-distillation"},{"@type":"ListItem","position":3,"name":"CyberAv3ngers: Iran-linked cyber research activity","url":"https://openai.com/index/disrupting-malicious-uses-of-ai-cyberav3ngers"},{"@type":"ListItem","position":4,"name":"SweetSpecter: China-linked cyber activity","url":"https://openai.com/index/disrupting-malicious-uses-of-ai-sweetspecter"},{"@type":"ListItem","position":5,"name":"Exploring the Daily Papers Page on Hugging Face","url":"https://huggingface.co/blog/daily-papers"},{"@type":"ListItem","position":6,"name":"Personalizing education with ChatGPT","url":"https://openai.com/index/asu"},{"@type":"ListItem","position":7,"name":"Memory-efficient Diffusion Transformers with Quanto and Diffusers","url":"https://huggingface.co/blog/quanto-diffusers"},{"@type":"ListItem","position":8,"name":"Our Transformers Code Agent beats the GAIA benchmark 🏅","url":"https://huggingface.co/blog/beating-gaia"},{"@type":"ListItem","position":9,"name":"Empowering defenders through our Cybersecurity Grant Program","url":"https://openai.com/index/empowering-defenders-through-our-cybersecurity-grant-program"},{"@type":"ListItem","position":10,"name":"Consistency Models","url":"https://openai.com/index/consistency-models"},{"@type":"ListItem","position":11,"name":"Diffusers welcomes Stable Diffusion 3","url":"https://huggingface.co/blog/sd3"},{"@type":"ListItem","position":12,"name":"Expanding on how Voice Engine works and our safety research","url":"https://openai.com/index/expanding-on-how-voice-engine-works-and-our-safety-research"},{"@type":"ListItem","position":13,"name":"Training and Finetuning Embedding Models with Sentence Transformers","url":"https://huggingface.co/blog/train-sentence-transformers"},{"@type":"ListItem","position":14,"name":"License to Call: Introducing Transformers Agents 2.0","url":"https://huggingface.co/blog/agents"},{"@type":"ListItem","position":15,"name":"Understanding the source of what we see and hear online","url":"https://openai.com/index/understanding-the-source-of-what-we-see-and-hear-online"},{"@type":"ListItem","position":16,"name":"Operation \"Spamouflage\": China-linked influence activity","url":"https://openai.com/index/disrupting-malicious-uses-of-ai-spamouflage"},{"@type":"ListItem","position":17,"name":"Jack of All Trades, Master of Some, a Multi-Purpose Transformer Agent","url":"https://huggingface.co/blog/jat"},{"@type":"ListItem","position":18,"name":"Hugging Face partners with Wiz Research to Improve AI Security","url":"https://huggingface.co/blog/hugging-face-wiz-security-blog"},{"@type":"ListItem","position":19,"name":"Total noob’s intro to Hugging Face Transformers","url":"https://huggingface.co/blog/noob_intro_transformers"},{"@type":"ListItem","position":20,"name":"Video generation models as world simulators","url":"https://openai.com/index/video-generation-models-as-world-simulators"},{"@type":"ListItem","position":21,"name":"SegMoE: Segmind Mixture of Diffusion Experts","url":"https://huggingface.co/blog/segmoe"},{"@type":"ListItem","position":22,"name":"Patch Time Series Transformer in Hugging Face","url":"https://huggingface.co/blog/patchtst"},{"@type":"ListItem","position":23,"name":"The Hallucinations Leaderboard, an Open Effort to Measure Hallucinations in Large Language Models","url":"https://huggingface.co/blog/leaderboard-hallucinations"},{"@type":"ListItem","position":24,"name":"Fine-Tune W2V2-Bert for low-resource ASR with 🤗 Transformers","url":"https://huggingface.co/blog/fine-tune-w2v2-bert"},{"@type":"ListItem","position":25,"name":"Democratic inputs to AI grant program: lessons learned and implementation plans","url":"https://openai.com/index/democratic-inputs-to-ai-grant-program-update"},{"@type":"ListItem","position":26,"name":"A guide to setting up your own Hugging Face leaderboard: an end-to-end example with Vectara's hallucination leaderboard","url":"https://huggingface.co/blog/leaderboard-vectara"},{"@type":"ListItem","position":27,"name":"Superalignment Fast Grants","url":"https://openai.com/index/superalignment-fast-grants"},{"@type":"ListItem","position":28,"name":"Weak-to-strong generalization","url":"https://openai.com/index/weak-to-strong-generalization"},{"@type":"ListItem","position":29,"name":"DALL·E 3 is now available in ChatGPT Plus and Enterprise","url":"https://openai.com/index/dall-e-3-is-now-available-in-chatgpt-plus-and-enterprise"},{"@type":"ListItem","position":30,"name":"🧨 Accelerating Stable Diffusion XL Inference with JAX on Cloud TPU v5e","url":"https://huggingface.co/blog/sdxl_jax"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/topics/research/10/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../../jissen/" class="">AI実践室</a>
+      <a href="../../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../../shippai/" class="">失敗の鬼</a>
+      <a href="../../../shigoto/" class="">AI仕事術</a>
+      <a href="../../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../../weekly/" class="">今週のAI</a>
+      <a href="../../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../../news/" class="">ニュース</a>
+      <a href="../../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../../check/" class="">AI検索チェック</a>
+      <a href="../../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>研究動向</h1>
+    <p class="page-sub">論文・新手法・学術的な進展</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <a class="chip " href="../../models/">#新モデル</a>
+      <a class="chip " href="../../tools/">#業務ツール</a>
+      <a class="chip " href="../../dev/">#開発・実装</a>
+      <a class="chip " href="../../business/">#企業動向</a>
+      <a class="chip " href="../../policy/">#規制・法制度</a>
+      <a class="chip on" href="../../research/">#研究動向</a>
+      <a class="chip " href="../../infra/">#半導体・インフラ</a>
+      <a class="chip " href="../../japan/">#国内動向</a>
+    </div>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-76017462e5/">
+    <img src="../../../../static/img/news-models-02.svg"
+         alt="Diffusers welcomes Stable Diffusion 3.5 Large（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-76017462e5/">Diffusers welcomes Stable Diffusion 3.5 Large</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-22T00:00:00+00:00">2024.10.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-65aa1d0a9a/">
+    <img src="../../../../static/img/news-dev-10.svg"
+         alt="Model Distillation in the API（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-65aa1d0a9a/">Model Distillation in the API</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2024-10-01T10:02:00+00:00">2024.10.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-8290eb142e/">
+    <img src="../../../../static/img/news-policy-04.svg"
+         alt="CyberAv3ngers: Iran-linked cyber research activity（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-8290eb142e/">CyberAv3ngers: Iran-linked cyber research activity</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2024-10-01T00:00:00+00:00">2024.10.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-66a3ed8ca7/">
+    <img src="../../../../static/img/news-policy-12.svg"
+         alt="SweetSpecter: China-linked cyber activity（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-66a3ed8ca7/">SweetSpecter: China-linked cyber activity</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2024-10-01T00:00:00+00:00">2024.10.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-0d10663191/">
+    <img src="../../../../static/img/news-research-01.svg"
+         alt="Exploring the Daily Papers Page on Hugging Face（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-0d10663191/">Exploring the Daily Papers Page on Hugging Face</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-09-23T00:00:00+00:00">2024.09.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-da9d96d4dd/">
+    <img src="../../../../static/img/news-models-04.svg"
+         alt="Personalizing education with ChatGPT（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-da9d96d4dd/">Personalizing education with ChatGPT</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-08-26T04:00:00+00:00">2024.08.26</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-3325cdf523/">
+    <img src="../../../../static/img/news-research-05.svg"
+         alt="Memory-efficient Diffusion Transformers with Quanto and Diffusers（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-3325cdf523/">Memory-efficient Diffusion Transformers with Quanto and Diffusers</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-07-30T00:00:00+00:00">2024.07.30</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-f3e020bd9e/">
+    <img src="../../../../static/img/news-models-13.svg"
+         alt="Our Transformers Code Agent beats the GAIA benchmark 🏅（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-f3e020bd9e/">Our Transformers Code Agent beats the GAIA benchmark 🏅</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-07-01T00:00:00+00:00">2024.07.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-d318dbcf77/">
+    <img src="../../../../static/img/news-tools-15.svg"
+         alt="Empowering defenders through our Cybersecurity Grant Program（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-d318dbcf77/">Empowering defenders through our Cybersecurity Grant Program</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2024-06-20T10:00:00+00:00">2024.06.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-14b76faff2/">
+    <img src="../../../../static/img/news-research-15.svg"
+         alt="Consistency Models（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-14b76faff2/">Consistency Models</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-06-20T00:00:00+00:00">2024.06.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-b3c7ceee1b/">
+    <img src="../../../../static/img/news-models-14.svg"
+         alt="Diffusers welcomes Stable Diffusion 3（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-b3c7ceee1b/">Diffusers welcomes Stable Diffusion 3</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-06-12T00:00:00+00:00">2024.06.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-f390fff570/">
+    <img src="../../../../static/img/news-policy-05.svg"
+         alt="Expanding on how Voice Engine works and our safety research（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-f390fff570/">Expanding on how Voice Engine works and our safety research</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2024-06-07T17:45:00+00:00">2024.06.07</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-8511a0c163/">
+    <img src="../../../../static/img/news-dev-01.svg"
+         alt="Training and Finetuning Embedding Models with Sentence Transformers（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-8511a0c163/">Training and Finetuning Embedding Models with Sentence Transformers</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2024-05-28T00:00:00+00:00">2024.05.28</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-2b782010fa/">
+    <img src="../../../../static/img/news-research-00.svg"
+         alt="License to Call: Introducing Transformers Agents 2.0（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-2b782010fa/">License to Call: Introducing Transformers Agents 2.0</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-05-13T00:00:00+00:00">2024.05.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-b892768070/">
+    <img src="../../../../static/img/news-research-00.svg"
+         alt="Understanding the source of what we see and hear online（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-b892768070/">Understanding the source of what we see and hear online</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-05-07T00:00:00+00:00">2024.05.07</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-d3a78a763a/">
+    <img src="../../../../static/img/news-policy-06.svg"
+         alt="Operation &#34;Spamouflage&#34;: China-linked influence activity（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-d3a78a763a/">Operation &#34;Spamouflage&#34;: China-linked influence activity</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2024-05-01T00:00:00+00:00">2024.05.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-60723d099d/">
+    <img src="../../../../static/img/news-research-09.svg"
+         alt="Jack of All Trades, Master of Some, a Multi-Purpose Transformer Agent（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-60723d099d/">Jack of All Trades, Master of Some, a Multi-Purpose Transformer Agent</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-04-22T00:00:00+00:00">2024.04.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-73d1d2087b/">
+    <img src="../../../../static/img/news-research-08.svg"
+         alt="Hugging Face partners with Wiz Research to Improve AI Security（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-73d1d2087b/">Hugging Face partners with Wiz Research to Improve AI Security</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-04-04T00:00:00+00:00">2024.04.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-9fa12789b5/">
+    <img src="../../../../static/img/news-research-09.svg"
+         alt="Total noob’s intro to Hugging Face Transformers（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-9fa12789b5/">Total noob’s intro to Hugging Face Transformers</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-03-22T00:00:00+00:00">2024.03.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-829beaf451/">
+    <img src="../../../../static/img/news-research-04.svg"
+         alt="Video generation models as world simulators（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-829beaf451/">Video generation models as world simulators</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-02-15T08:00:00+00:00">2024.02.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-a5705ac93c/">
+    <img src="../../../../static/img/news-research-09.svg"
+         alt="SegMoE: Segmind Mixture of Diffusion Experts（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-a5705ac93c/">SegMoE: Segmind Mixture of Diffusion Experts</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-02-03T00:00:00+00:00">2024.02.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-2f31c9ad07/">
+    <img src="../../../../static/img/news-research-13.svg"
+         alt="Patch Time Series Transformer in Hugging Face（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-2f31c9ad07/">Patch Time Series Transformer in Hugging Face</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-02-01T00:00:00+00:00">2024.02.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-b099864f75/">
+    <img src="../../../../static/img/news-research-15.svg"
+         alt="The Hallucinations Leaderboard, an Open Effort to Measure Hallucinations in Large Language Models（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-b099864f75/">The Hallucinations Leaderboard, an Open Effort to Measure Hallucinations in Large Language Models</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-01-29T00:00:00+00:00">2024.01.29</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-8faa3dc6d8/">
+    <img src="../../../../static/img/news-research-06.svg"
+         alt="Fine-Tune W2V2-Bert for low-resource ASR with 🤗 Transformers（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-8faa3dc6d8/">Fine-Tune W2V2-Bert for low-resource ASR with 🤗 Transformers</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-01-19T00:00:00+00:00">2024.01.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-01a7eea09f/">
+    <img src="../../../../static/img/news-research-00.svg"
+         alt="Democratic inputs to AI grant program: lessons learned and implementation plans（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-01a7eea09f/">Democratic inputs to AI grant program: lessons learned and implementation plans</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-01-16T08:00:00+00:00">2024.01.16</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-8f0077f761/">
+    <img src="../../../../static/img/news-research-07.svg"
+         alt="A guide to setting up your own Hugging Face leaderboard: an end-to-end example with Vectara&#39;s hallucination leaderboard（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-8f0077f761/">A guide to setting up your own Hugging Face leaderboard: an end-to-end example with Vectara&#39;s hallucination leaderboard</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-01-12T00:00:00+00:00">2024.01.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-a149b69d32/">
+    <img src="../../../../static/img/news-research-13.svg"
+         alt="Superalignment Fast Grants（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-a149b69d32/">Superalignment Fast Grants</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2023-12-14T08:00:00+00:00">2023.12.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-b7b2c1ad57/">
+    <img src="../../../../static/img/news-dev-13.svg"
+         alt="Weak-to-strong generalization（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-b7b2c1ad57/">Weak-to-strong generalization</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2023-12-14T00:00:00+00:00">2023.12.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-ad3af7127c/">
+    <img src="../../../../static/img/news-models-02.svg"
+         alt="DALL·E 3 is now available in ChatGPT Plus and Enterprise（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-ad3af7127c/">DALL·E 3 is now available in ChatGPT Plus and Enterprise</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2023-10-19T07:00:00+00:00">2023.10.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-218806cb0b/">
+    <img src="../../../../static/img/news-models-11.svg"
+         alt="🧨 Accelerating Stable Diffusion XL Inference with JAX on Cloud TPU v5e（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-218806cb0b/">🧨 Accelerating Stable Diffusion XL Inference with JAX on Cloud TPU v5e</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2023-10-03T00:00:00+00:00">2023.10.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../9/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../8/">8</a><a class="pager-num" href="../9/">9</a><span class="pager-num on" aria-current="page">10</span>
+<a class="pager-num" href="../11/">11</a><a class="pager-num" href="../12/">12</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../14/">14</a>  </span>
+<a class="pager-btn" href="../11/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../../jissen/">AI実践室</a>
+          <a href="../../../kansoku/">AI検索観測所</a>
+          <a href="../../../shippai/">失敗の鬼</a>
+          <a href="../../../shigoto/">AI仕事術</a>
+          <a href="../../../kaisetsu/">AI解体新書</a>
+          <a href="../../../weekly/">今週のAI</a>
+          <a href="../../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../../news/">ニュース</a>
+          <a href="../../../papers/">研究動向</a>
+          <a href="../../../topics/models/">トピック</a>
+          <a href="../../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../../about/">運営会社</a>
+          <a href="../../../faq/">よくある質問</a>
+          <a href="../../../advertise/">広告掲載</a>
+<a href="../../../check/">AI検索チェック</a>          <a href="../../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

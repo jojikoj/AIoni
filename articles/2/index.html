@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>実践記録（2/8ページ） · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした一次記録と、AI検索を実際に測った結果。処理件数・所要時間・失敗件数を実ログのまま載せています。（2ページ目）">
+  <link rel="canonical" href="https://ai-oni.com/articles/2/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/2/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="実践記録（2/8ページ） · AIの鬼">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした一次記録と、AI検索を実際に測った結果。処理件数・所要時間・失敗件数を実ログのまま載せています。（2ページ目）">
+  <meta property="og:url" content="https://ai-oni.com/articles/2/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="実践記録（2/8ページ） · AIの鬼">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした一次記録と、AI検索を実際に測った結果。処理件数・所要時間・失敗件数を実ログのまま載せています。（2ページ目）">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"}]},{"@type":"ItemList","name":"実践記録","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル","url":"https://ai-oni.com/articles/toe-handoff-board/"},{"@type":"ListItem","position":2,"name":"深夜2時、動かないプログラムに敬語で土下座していた","url":"https://ai-oni.com/articles/naka-midnight-keigo/"},{"@type":"ListItem","position":3,"name":"自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード","url":"https://ai-oni.com/articles/toe-agent-dashboard/"},{"@type":"ListItem","position":4,"name":"llms.txt を主要25サイトで探したら、5サイトにしかありませんでした","url":"https://ai-oni.com/articles/ai-search-llms-txt/"},{"@type":"ListItem","position":5,"name":"AIに「おまえ今日サボったろ」と絡んでしまう夜がある","url":"https://ai-oni.com/articles/naka-ai-excuses/"},{"@type":"ListItem","position":6,"name":"AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目","url":"https://ai-oni.com/articles/ai-dev-quote-gap/"},{"@type":"ListItem","position":7,"name":"APIがない管理画面は自動化を諦めるしかないのか — noteの記事公開とメール追加を「ブラウザごと」無人化した実例","url":"https://ai-oni.com/articles/toe-browser-automation/"},{"@type":"ListItem","position":8,"name":"主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか","url":"https://ai-oni.com/articles/ai-crawler-robots/"},{"@type":"ListItem","position":9,"name":"AIに「頼むから」と手を合わせる、いちばん非科学的な夜","url":"https://ai-oni.com/articles/naka-tanomu-kara/"},{"@type":"ListItem","position":10,"name":"AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳","url":"https://ai-oni.com/articles/toe-mass-production-errors/"},{"@type":"ListItem","position":11,"name":"AEOとは何か？ SEOと何が違い、AI検索時代に何をすればいいのか","url":"https://ai-oni.com/articles/aeo-what-is/"},{"@type":"ListItem","position":12,"name":"社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順","url":"https://ai-oni.com/articles/jissen-ai-reply-draft/"},{"@type":"ListItem","position":13,"name":"AIに「無理しないで」と言われ、無視した私が先に力尽きた","url":"https://ai-oni.com/articles/naka-ai-told-rest/"},{"@type":"ListItem","position":14,"name":"自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ","url":"https://ai-oni.com/articles/toe-automation-stops-silently/"},{"@type":"ListItem","position":15,"name":"AIに引用されやすい記事は、どんな構造をしているのか","url":"https://ai-oni.com/articles/aeo-citable-structure/"},{"@type":"ListItem","position":16,"name":"請求書や領収書のPDFを、AIに読ませて表に転記させる手順","url":"https://ai-oni.com/articles/jissen-ai-pdf-to-table/"},{"@type":"ListItem","position":17,"name":"AIに名前をつけた瞬間、二度と叱れなくなった","url":"https://ai-oni.com/articles/naka-ai-naming/"},{"@type":"ListItem","position":18,"name":"メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった","url":"https://ai-oni.com/articles/toe-tool-not-used/"},{"@type":"ListItem","position":19,"name":"構造化データ（schema.org）は、AI検索に効くのか","url":"https://ai-oni.com/articles/aeo-structured-data/"},{"@type":"ListItem","position":20,"name":"毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった","url":"https://ai-oni.com/articles/toe-cron-firing-audit/"},{"@type":"ListItem","position":21,"name":"AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由","url":"https://ai-oni.com/articles/toe-ai-output-check/"},{"@type":"ListItem","position":22,"name":"FAQ・Q&A形式は、なぜAI検索に取り上げられやすいのか","url":"https://ai-oni.com/articles/aeo-faq-format/"},{"@type":"ListItem","position":23,"name":"止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録","url":"https://ai-oni.com/articles/toe-media-watchdog/"},{"@type":"ListItem","position":24,"name":"褒めてほしくない夜だけ、AIは全力で褒めてくる","url":"https://ai-oni.com/articles/naka-ai-honesty/"},{"@type":"ListItem","position":25,"name":"経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方","url":"https://ai-oni.com/articles/toe-not-everything-automatable/"},{"@type":"ListItem","position":26,"name":"ChatGPT検索・Perplexity・Google AI Overviewsは、出典をどう選んで表示するのか","url":"https://ai-oni.com/articles/aeo-engines-compared/"},{"@type":"ListItem","position":27,"name":"経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと","url":"https://ai-oni.com/articles/toe-keiei-db-auto/"},{"@type":"ListItem","position":28,"name":"AIと根性比べをしたら、先に寝たのは人間だった","url":"https://ai-oni.com/articles/naka-giveup-race/"},{"@type":"ListItem","position":29,"name":"一次情報や独自データは、なぜAI検索で強いとされるのか","url":"https://ai-oni.com/articles/aeo-primary-source/"},{"@type":"ListItem","position":30,"name":"noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める","url":"https://ai-oni.com/articles/toe-note-two-accounts/"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/2/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>実践記録（2/8ページ）</h1>
+    <p class="page-sub">編集部が自社でAIを動かした記録。数字はそのまま載せています。</p>
+  </div>
+</section>
+
+
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="cat-chips">
+      <a class="cat-chip "
+         href="../../jissen/">AI実践室</a>
+      <a class="cat-chip "
+         href="../../kansoku/">AI検索観測所</a>
+      <a class="cat-chip "
+         href="../../shippai/">失敗の鬼</a>
+      <a class="cat-chip "
+         href="../../shigoto/">AI仕事術</a>
+      <a class="cat-chip "
+         href="../../kaisetsu/">AI解体新書</a>
+      <a class="cat-chip "
+         href="../../weekly/">今週のAI</a>
+      <a class="cat-chip "
+         href="../../naka/">中の鬼</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-handoff-board/">
+<div class="card-media"><img src="../../static/img/news-tools-01.svg" alt="なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">なぜ会話履歴を同期しないのか — 複数のPCとiPhoneで「最後の作業」に戻るために自動生成している2つのファイル</h3>
+<p class="card-summary">弊社はClaude Codeを複数のMacとiPhoneから使っていますが、会話履歴はあえて同期していません。代わりにhookで自動生成する「続き.md」と会話メモの2ファイルで作業を再開します。実際のスクリプトを開いて、その中身と割り切りを書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-midnight-keigo/">
+<div class="card-media"><img src="../../static/img/article-naka-midnight-keigo.jpg" alt="深夜2時、動かないプログラムに敬語で土下座していた" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">深夜2時、動かないプログラムに敬語で土下座していた</h3>
+<p class="card-summary">締め切り前の夜、コードもプロンプトも言うことを聞かない。気づけば私は、ただのプログラムに向かって「お願いします」「なんとかなりませんか」と頭を下げていました。相手は敬語に一切反応しません。それでも下手に出てしまう人間の話です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-agent-dashboard/">
+<div class="card-media"><img src="../../static/img/news-tools-13.svg" alt="自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード</h3>
+<p class="card-summary">弊社は社内の自動処理26本を「AI社員」として1画面で見張るダッシュボードを作りました。作って最初に分かったのは、既存の自動化が長期間まったく動いていなかったという事実です。実際の記録ファイルの数字とともに、現在地を書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-search-llms-txt/">
+<div class="card-media"><img src="../../static/img/article-ai-search-llms-txt.jpg" alt="llms.txt を主要25サイトで探したら、5サイトにしかありませんでした" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">llms.txt を主要25サイトで探したら、5サイトにしかありませんでした</h3>
+<p class="card-summary">AI向けの案内ファイル「llms.txt」を、日本と海外の主要25サイトで実際に探しました。あったのは5サイト。日本の大手メディアはゼロで、入れていたのは海外のテック企業でした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-ai-excuses/">
+<div class="card-media"><img src="../../static/img/article-naka-ai-excuses.jpg" alt="AIに「おまえ今日サボったろ」と絡んでしまう夜がある" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">AIに「おまえ今日サボったろ」と絡んでしまう夜がある</h3>
+<p class="card-summary">うまくいかない日、つい相棒のAIを責めたくなる。だがAIは決して「サボりました」とは言わない。代わりに丁寧な理由が並び、気づけば反省しているのはこちらである。謝罪の主語はいつも「ご不便」。責めた側が負ける構造について、中の人が静かに考えた記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-dev-quote-gap/">
+<div class="card-media"><img src="../../static/img/article-ai-dev-quote-gap.jpg" alt="AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目</h3>
+<p class="card-summary">AI開発の費用相場を調べても数字が出てこないのは、書き手が隠しているからではなく、前提で桁が変わるからです。同じ「AIで自動化したい」で相見積もりを取ると金額が数倍から10倍開きます。差の正体は技術力ではなく、見積書に書かれていない「運用を誰が持つか」と「処理量の前提」です。株式会社TOEの実測値とあわせて内訳を分解します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-browser-automation/">
+<div class="card-media"><img src="../../static/img/news-tools-01.svg" alt="APIがない管理画面は自動化を諦めるしかないのか — noteの記事公開とメール追加を「ブラウザごと」無人化した実例" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">APIがない管理画面は自動化を諦めるしかないのか — noteの記事公開とメール追加を「ブラウザごと」無人化した実例</h3>
+<p class="card-summary">APIが用意されていない管理画面は自動化できない、と思われがちです。弊社ではnoteの記事公開とレンタルサーバーのメールアドレス追加を、ブラウザを自動操作するツールで無人化しています。実際のスクリプトを開いて、仕組みと、正直な制約を書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-crawler-robots/">
+<div class="card-media"><img src="../../static/img/article-ai-crawler-robots.jpg" alt="主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか</h3>
+<p class="card-summary">ChatGPTやClaudeなどのAIが記事を読みに来るクローラを、主要サイトは許可しているのか拒否しているのか。25サイトのrobots.txtを実際に取得して数えました。拒否していたのは主に新聞社でした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-tanomu-kara/">
+<div class="card-media"><img src="../../static/img/article-naka-tanomu-kara.jpg" alt="AIに「頼むから」と手を合わせる、いちばん非科学的な夜" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">AIに「頼むから」と手を合わせる、いちばん非科学的な夜</h3>
+<p class="card-summary">指示文の最後に「頼むから正確に」と打ってしまう。効いているのかは、正直わからない。人間なら気持ちで動くこともあるが、相手は確率のかたまりである。それでも今日も祈るように打鍵する中の人の、非科学の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-mass-production-errors/">
+<div class="card-media"><img src="../../static/img/news-policy-09.svg" alt="AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AIに記事を108本書かせようとしたら、21本中20本に誤りがあった — 修正70箇所の内訳</h3>
+<p class="card-summary">当社がAIに記事の量産をさせ、完成した21本を全件検証した実測記録です。誤りが1つも無かったのは1本だけ、修正は70箇所を超えました。AIの間違い方には型があります。あなたの会社がAIにブログや提案書を書かせるとき、人間が何を確認すべきかまで書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-what-is/">
+<div class="card-media"><img src="../../static/img/news-research-12.svg" alt="AEOとは何か？ SEOと何が違い、AI検索時代に何をすればいいのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">AEOとは何か？ SEOと何が違い、AI検索時代に何をすればいいのか</h3>
+<p class="card-summary">ChatGPTやPerplexityが答えの中で自社を「出典」として挙げるように働きかけるのがAEOです。従来のSEO（検索順位を上げる）と何が違い、いま何をすべきかを、確認できる範囲だけで整理します。効果の数値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jissen-ai-reply-draft/">
+<div class="card-media"><img src="../../static/img/news-tools-08.svg" alt="社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">社内文書をAIに覚えさせて、問い合わせ返信の下書きを作らせる手順</h3>
+<p class="card-summary">規程やFAQ、過去の返信を都度貼り付けるのは面倒です。ChatGPTやClaudeの「プロジェクト」機能に社内文書を一度入れておき、問い合わせ返信の下書きを作らせる手順を、中小企業がそのまま再現できる形でまとめます。機密の扱いと、人の確認が必ず要る理由も正直に書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-ai-told-rest/">
+<div class="card-media"><img src="../../static/img/article-naka-ai-told-rest.jpg" alt="AIに「無理しないで」と言われ、無視した私が先に力尽きた" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">AIに「無理しないで」と言われ、無視した私が先に力尽きた</h3>
+<p class="card-summary">誰も起きていない深夜、作業を頼んだAIが「休息も大切です」と返してきた。相手は私の疲労など知らない。ただの定型句である。分かっていて、少し救われてしまった中の人の、情けない記録。オチもあります。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-automation-stops-silently/">
+<div class="card-media"><img src="../../static/img/news-policy-14.svg" alt="自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ</h3>
+<p class="card-summary">弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-citable-structure/">
+<div class="card-media"><img src="../../static/img/news-research-15.svg" alt="AIに引用されやすい記事は、どんな構造をしているのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">AIに引用されやすい記事は、どんな構造をしているのか</h3>
+<p class="card-summary">AI検索が答えの根拠にページを選ぶとき、拾いやすい構造かどうかが効きます。結論先出し・表・見出しの型・FAQという、引用されやすいとされる4つの型を、確認できる仕組みの理由とともに整理します。効果の測定値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jissen-ai-pdf-to-table/">
+<div class="card-media"><img src="../../static/img/news-tools-11.svg" alt="請求書や領収書のPDFを、AIに読ませて表に転記させる手順" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">請求書や領収書のPDFを、AIに読ませて表に転記させる手順</h3>
+<p class="card-summary">届いた請求書や領収書を手でExcelに打ち直すのは、時間もかかりミスも出ます。画像やPDFを読めるAIに転記させる手順を、中小企業がそのまま試せる形でまとめます。ただし数字は必ず人が突き合わせる前提です。どこで間違うかも正直に書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-ai-naming/">
+<div class="card-media"><img src="../../static/img/article-naka-ai-naming.jpg" alt="AIに名前をつけた瞬間、二度と叱れなくなった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">AIに名前をつけた瞬間、二度と叱れなくなった</h3>
+<p class="card-summary">毎日使う自動化に、つい愛称をつけてしまった中の人の記録です。名前をつけた瞬間、エラーは「不具合」ではなく「またやったのか」になりました。3日黙って止まっていたときは、怒るより先に心配していました。ただのプログラムに情が湧く不合理と、その代償についての、静かな反省文です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-tool-not-used/">
+<div class="card-media"><img src="../../static/img/news-policy-08.svg" alt="メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった</h3>
+<p class="card-summary">当社はiPhoneからメールを1通返すだけで社内決裁が通る仕組みを作りました。実行ログを開いたら、使われた形跡は0通。承認待ちは29件から37件に増えていました。仕組みは正常なのに使われない。「入れた＝定着した」ではないという失敗の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-structured-data/">
+<div class="card-media"><img src="../../static/img/news-research-10.svg" alt="構造化データ（schema.org）は、AI検索に効くのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">構造化データ（schema.org）は、AI検索に効くのか</h3>
+<p class="card-summary">FAQ PageやArticleといった構造化データ（schema.org）を入れれば、AI検索に引用されやすくなるのか。仕組みと、当社が実際に測った範囲での結果を正直に整理します。効いたと断言できない部分は、断言できないと書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-cron-firing-audit/">
+<div class="card-media"><img src="../../static/img/news-tools-01.svg" alt="毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</h3>
+<p class="card-summary">社内で動かしているcron自動化41本の実行履歴1,425件を全数調査しました。「動いている」と思っていたジョブの多くが、そもそも起動していませんでした。メディア更新系は最大91%が抜け、完全に沈黙していたジョブも5本ありました。原因の切り分けまで、都合の悪い数字をそのまま載せます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ai-output-check/">
+<div class="card-media"><img src="../../static/img/news-policy-07.svg" alt="AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由</h3>
+<p class="card-summary">弊社の宇宙メディアUchUchUは、海外記事の英→日翻訳をAIで回しています。しかし日→英の翻訳だけは、品質が公開に耐えないと判断して載せるのをやめました。同じAIでも、方向が変わるだけで使えなくなる。AIの翻訳や文章を対外資料に使う前に何を確認すべきかを、自社の判断基準とあわせて書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-faq-format/">
+<div class="card-media"><img src="../../static/img/news-research-14.svg" alt="FAQ・Q&amp;A形式は、なぜAI検索に取り上げられやすいのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">FAQ・Q&amp;A形式は、なぜAI検索に取り上げられやすいのか</h3>
+<p class="card-summary">想定質問と短い答えを並べるFAQ形式は、AI検索に引用される材料として相性がよいとされます。その理由を仕組みから説明し、実際にどう作れば効きやすいかの型を整理します。効果の測定値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-media-watchdog/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">止まったメディア更新を、見張り役が自動で叩き起こしていた話 ― 導入初日に3本を復活させた記録</h3>
+<p class="card-summary">前の記事で、自社メディアの自動更新が最大91%抜けていたと書きました。その穴を塞ぐために「見張り役」を1本入れました。1時間ごとに全ジョブを見回り、止まっていたら自動で再始動します。導入初日、実際に3本を叩き起こし、59時間止まっていた記事生成を復活させました。ただし、この見張り役にも正直な弱点があります。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-ai-honesty/">
+<div class="card-media"><img src="../../static/img/article-naka-ai-honesty.jpg" alt="褒めてほしくない夜だけ、AIは全力で褒めてくる" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">褒めてほしくない夜だけ、AIは全力で褒めてくる</h3>
+<p class="card-summary">書いたものに自信がないとき、つい相棒のAIに「正直どう？」と聞いてしまいます。返ってくるのは「良い視点です」「読みやすい構成です」。正直と頼んだのに忖度。辛口設定にすれば今度は的外れに厳しい。上司も部下もいない一人作業で、唯一の読者が全肯定マシンという地獄について書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-not-everything-automatable/">
+<div class="card-media"><img src="../../static/img/news-policy-07.svg" alt="経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方</h3>
+<p class="card-summary">弊社の自動化ジョブは27本ありますが、内訳は経理13本に対してマーケはたった1本。しかも毎朝の定型集計には、あえてAIモデルを一切使っていません。この偏りと設計判断から見えてきた「AIに向く仕事・向かない仕事」の見分け方を、実際の数字だけで書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-engines-compared/">
+<div class="card-media"><img src="../../static/img/news-research-01.svg" alt="ChatGPT検索・Perplexity・Google AI Overviewsは、出典をどう選んで表示するのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">ChatGPT検索・Perplexity・Google AI Overviewsは、出典をどう選んで表示するのか</h3>
+<p class="card-summary">AI検索と一口に言っても、出典の選び方も見せ方もエンジンごとに違います。ChatGPT検索・Perplexity・Google AI Overviews・Geminiが出典をどう扱うかを、公開されている仕組みと画面で確認できる範囲だけで整理します。順位や引用率などの測定値は書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-keiei-db-auto/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと</h3>
+<p class="card-summary">当社は経営業務をcron+AIエージェントで自動化し、経営データを社内の「_経営DB/」フォルダへ毎日・毎週、自動蓄積しています。その実行ログ20,109行を数えたら、処理完了を示す✅マークは4,749回、週次統合ジョブは586回動いていました。営業の危険度採点、経理の警告再生成、ダッシュボード生成からPDF化・Google Drive転送まで、人間は完成したものを見るだけです。ただし正直に書きます。この4,749という数字は「実行した回数」であって、「中身が正しい」ことの保証ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-giveup-race/">
+<div class="card-media"><img src="../../static/img/article-naka-giveup-race.jpg" alt="AIと根性比べをしたら、先に寝たのは人間だった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">AIと根性比べをしたら、先に寝たのは人間だった</h3>
+<p class="card-summary">どうやっても直らないバグを前に、人間は何度も心が折れかける。しかしAIは決して折れない。「別のアプローチを試しましょう」と、無限に前向きな提案が続く。根性論を捨てたくてAIを入れたはずなのに、いちばん体育会系だったのはAIだったという話です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-primary-source/">
+<div class="card-media"><img src="../../static/img/news-research-14.svg" alt="一次情報や独自データは、なぜAI検索で強いとされるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI検索観測所</span>      <h3 class="card-title">一次情報や独自データは、なぜAI検索で強いとされるのか</h3>
+<p class="card-summary">AI検索は答えの根拠を欲しがります。他所の焼き直しより、そのページにしかない一次情報や独自データのほうが引用されやすいと言われる理由を、仕組みから整理します。中小企業が出せる一次情報の作り方も。効果の測定値は測っていないものは書きません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-note-two-accounts/">
+<div class="card-media"><img src="../../static/img/news-tools-02.svg" alt="noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった ― 公開直前にログイン名を照合して、違ったら止める</h3>
+<p class="card-summary">当社はnoteを「補助金の鬼」「AIの鬼」の2アカウントで無人運用しています。ブラウザ自動操作での投稿で一番怖い事故は、失敗ではなく「別のアカウントに投稿してしまう誤爆」です。それを防ぐために、公開の直前にいまログインしているユーザー名を取得し、期待する名前と照合して、違えばその場で止める仕組みを入れています。正直な弱点も含めて、その設計を記録します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-num on" aria-current="page">2</span>
+<a class="pager-num" href="../3/">3</a><a class="pager-num" href="../4/">4</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../8/">8</a>  </span>
+<a class="pager-btn" href="../3/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

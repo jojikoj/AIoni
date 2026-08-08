@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録 · AIの鬼</title>
+  <meta name="description" content="AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-effect-measurement/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-effect-measurement/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録 · AIの鬼">
+  <meta property="og:description" content="AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-effect-measurement/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-effect-measurement.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-effect-measurement.jpg">
+  <meta name="twitter:title" content="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録 · AIの鬼">
+  <meta name="twitter:description" content="AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録","item":"https://ai-oni.com/articles/ai-effect-measurement/"}]},{"@type":"Article","headline":"AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録","description":"AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-effect-measurement/"},"url":"https://ai-oni.com/articles/ai-effect-measurement/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI仕事術","datePublished":"2026-08-02","dateModified":"2026-08-02","image":"https://ai-oni.com/static/img/article-ai-effect-measurement.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-effect-measurement/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-effect-measurement.jpg"
+         alt="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録</h1>
+<p class="article-lead">AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月2日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：AI導入の効果が語れないのは、たいてい<strong>測っていない</strong>からです。ただし厄介なのは、<strong>測り方を間違えると数字は出るのに実態と合わない</strong>ことです。当社の週次レポートは長いあいだ「<strong>0%</strong>」と報告し続けていましたが、原因は品質ではなく、<strong>サイトが表示しない項目を数えていた</strong>ことでした。感触ではなく回数を数えると、当社では<strong>91%が発火していない</strong>、<strong>要約0件</strong>、<strong>1ページ目155ページのうち140ページがクリック0</strong>といった数字が出てきました。最初に測るべきは効果ではなく、<strong>実行回数</strong>です。</p>
+<p>株式会社TOEはAI開発・AI活用支援を事業としており、この記事は<strong>提供する側が書いています</strong>。中立の第三者ではありません。他社の導入効果は扱わず、自社で数えた結果だけを、都合の悪いものを含めて載せます。</p>
+<h2 id="_1">測らなかったとき、何が起きていたか</h2>
+<p>当社が「動いているはず」と思っていたものを、実際に数え直した結果です。</p>
+<table>
+<thead>
+<tr>
+<th>何を数えたか</th>
+<th>思っていたこと</th>
+<th>実測</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>毎朝動くジョブの発火回数</td>
+<td>毎日動いている</td>
+<td>5.3日で11回動くはずが<strong>1回だけ</strong>（<strong>91%が抜け</strong>）</td>
+</tr>
+<tr>
+<td>日次の解説生成の件数</td>
+<td>収集も翻訳も動いている</td>
+<td>収集600件・翻訳621件は動いていたが、<strong>要約は0件</strong></td>
+</tr>
+<tr>
+<td>決裁の仕組みの利用回数</td>
+<td>簡単にしたから使われている</td>
+<td>実行<strong>0通</strong>。承認待ちは29件→<strong>37件に増加</strong></td>
+</tr>
+<tr>
+<td>検索順位ではなくクリック</td>
+<td>順位が上がれば増える</td>
+<td>1ページ目に155ページ出て、<strong>140ページがクリック0</strong></td>
+</tr>
+<tr>
+<td>検索結果に出ているページの生死</td>
+<td>全部生きている</td>
+<td><strong>3割が404</strong>だった</td>
+</tr>
+</tbody>
+</table>
+<p><strong>5つとも、数えるまで分かりませんでした。</strong> どれも「動いている気がする」で止まっていた期間があります。</p>
+<h2 id="_2">数字は出ていたのに、実態と合っていなかった例</h2>
+<p>さらに厄介なのがこちらです。<strong>数字は毎週出ていました。</strong> ただし数えている対象が違いました。</p>
+<p>当社の週次レポートは、記事の中身の充実度を「0%」と報告し続けていました。品質が悪かったのではありません。<strong>レポートが数えていたのは、サイトが表示に一度も使っていない項目</strong>でした。</p>
+<ul>
+<li>AIが毎日書き込んでいた場所 … A</li>
+<li>サイトが読んで表示していた場所 … B</li>
+<li>レポートが数えていた場所 … <strong>A</strong></li>
+</ul>
+<p>Aは増えていましたが、Bは空でした。レポートは「Aが0件」と正しく報告していたのに、誰も「Bを見ていない」ことに気づけませんでした。</p>
+<p><strong>この型は、報告が出ているぶん一番気づけません。</strong> 当社は同じ型の壊れ方を12件見つけています（<a href="../ai-automation-silent-failure/">AI自動化は「エラーを出さずに止まる」</a>）。</p>
+<p>そして正直に書くと、<strong>この記事を書いた日にも同じ間違いをしました。</strong> 自社の記事219本を機械で点検して「61本が要件を欠く」と出したのですが、判定の条件が誤っていて、正しくは27本でした。実物を3本開くまで気づきませんでした。</p>
+<h2 id="5">最初に測る5項目</h2>
+<p>効果（時間削減・売上）を測る前に、この5つを測ってください。<strong>順番があります。</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測ること</th>
+<th>測り方</th>
+<th>出てくる数字の例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>実行回数</strong></td>
+<td>ログの行数を数える。「1日1回動くはず」なら過去7日で7回あるか</td>
+<td>当社は11回中1回だった</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>失敗件数</strong></td>
+<td>成功数だけでなく失敗数もレポートに出す</td>
+<td>553件中<strong>414件失敗</strong>していた</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>出力件数の推移</strong></td>
+<td>先週と今週で数を比べる。増えていなければ止まっている</td>
+<td>要約が<strong>0件</strong>のまま</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>人が触った回数</strong></td>
+<td>使われているかは感触では分からない</td>
+<td>実行<strong>0通</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>その数字が何を数えているか</strong></td>
+<td>集計の対象が、実際に使われている場所と一致しているか</td>
+<td>「0%」の正体はここ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1番から始めてください。</strong> 効果を測ろうとすると「何時間削減できたか」から入りがちですが、そもそも動いていなければ削減はゼロです。当社は91%が発火していませんでした。</p>
+<p><strong>5番は最後ですが、一番効きます。</strong> 上の4つを測っても、数えている対象がずれていれば全部無意味になります。</p>
+<p>これは自社の集計だけの話ではありません。<strong>公表されている調査でも、同じ「普及」を測って数字が4倍以上ずれます。</strong></p>
+<table>
+<thead>
+<tr>
+<th>米国のAI普及率</th>
+<th>数字</th>
+<th>何を分母にしているか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企業数ベース</td>
+<td><strong>18%</strong></td>
+<td>約120万社が母集団</td>
+</tr>
+<tr>
+<td>就業者ベース</td>
+<td>40.7%</td>
+<td>労働力人口の回答者</td>
+</tr>
+<tr>
+<td>雇用ウェイト</td>
+<td><strong>78%</strong></td>
+<td>AI導入企業に勤める労働者の割合</td>
+</tr>
+</tbody>
+</table>
+<p><strong>78%は「78%の企業が導入済み」ではありません。</strong> 「AIを導入した企業に勤めている人が、労働力の78%を占める」という意味です。ここを取り違えると事実誤認になります（<a href="../mx-fed-monitoring-ai-adoption-surveys/">AI導入率は18%か41%か78%か</a>）。</p>
+<p><strong>数字を見たら、まず分母を見てください。</strong> 自社の集計でも、他社の調査でも、やることは同じです。</p>
+<h2 id="_3">効果を金額で測る前に</h2>
+<p>「導入したらいくら得したか」は、多くの場合すぐには出せません。当社の実測でも、出せるものと出せないものがはっきり分かれました。</p>
+<table>
+<thead>
+<tr>
+<th>測れたもの</th>
+<th>実測</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>処理時間</td>
+<td>見積メール10件で7分37秒（1件45.7秒）</td>
+</tr>
+<tr>
+<td>自動化率</td>
+<td>10件中<strong>7件を自動処理</strong>、3件は人へ</td>
+</tr>
+<tr>
+<td>失敗件数</td>
+<td>0件</td>
+</tr>
+<tr>
+<td>AI処理の単価</td>
+<td>約800字の生成が<strong>1件2〜3円</strong>（6回測定・軽量モデル）</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>測れなかったもの</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>業務時間の削減量</td>
+<td>検証データが架空で、実際の業務で回していない</td>
+</tr>
+<tr>
+<td>金額の効果</td>
+<td>自社プロダクトなので受託金額が無い</td>
+</tr>
+<tr>
+<td>定着による効果</td>
+<td>定着していない（承認待ちは増えたまま）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「何時間削減できた」は書きません。測っていないからです。</strong> 出せるのは処理時間・自動化率・失敗件数・単価だけです。</p>
+<p><strong>そして、効果はすぐには出ません。</strong> 米国企業21,559社の実支出を分析した研究では、AI支出が従業員数に与える影響の係数が、導入月0.003 → 6か月後0.071 → 12か月後0.188 → 24か月後0.452と、時間とともに大きくなっています。<strong>半年で効果判定して打ち切る運用は、この曲線と噛み合いません</strong>（<a href="../co-ramp-ai-spending-workforce-adjustment/">AIに金を使った企業は人を減らしたのか</a>）。</p>
+<p>この分析は提供事業者自身による査読前のワーキングペーパーで、有意な結果が出たのは情報通信セクターのみです。<strong>製造業・建設・医療などは推定値がほぼゼロか不正確</strong>で、全業種には一般化できません。読み取れるのは「効果判定を早すぎる時点でしない」という一点だけです。</p>
+<p>ここで大事なのは、<strong>削減時間を測りたいなら、導入前に測っておく必要がある</strong>ことです。後から取り直せません。研修や導入を検討している段階なら、<strong>着手前に現状の作業時間を記録してください</strong>（<a href="../ai-training-selection/">AI研修を法人で選ぶ前に</a>）。</p>
+<h2 id="_4">時間が浮いても、業務時間は減らない</h2>
+<p>測り方の話でもう一つ重要なのが、<strong>「タスクの時間」と「業務時間」は別の指標</strong>だということです。公的な調査でも、この差がはっきり数字に出ています。</p>
+<table>
+<thead>
+<tr>
+<th>調査項目</th>
+<th>数字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>生成AIを使ったタスクの所要時間短縮</td>
+<td>平均<strong>16.7%</strong>（週26.4分）</td>
+</tr>
+<tr>
+<td><strong>実際に業務時間が減少した人</strong></td>
+<td>生成AI利用者の約<strong>25.4%</strong></td>
+</tr>
+<tr>
+<td>浮いた時間が仕事に再投下される割合</td>
+<td><strong>61.2%</strong></td>
+</tr>
+<tr>
+<td>そのうち日常業務に向かう割合</td>
+<td>75.4%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>タスクは16.7%短くなっているのに、業務時間が減った人は25.4%しかいません。</strong> 浮いた時間の61.2%は別の仕事に吸われ、その4分の3は日常業務に戻っています。</p>
+<p>つまり「タスクが速くなった」を根拠に「業務時間が減った」と報告すると、実態と合いません。<strong>浮いた時間の行き先を決めていなければ、削減は数字に出ません。</strong></p>
+<p>なおこの調査は正規雇用者3,000人への自己申告・ネットモニター調査で、中小企業固有の数値としては使えません。傾向の確認として読んでください（調査の読み解きは<a href="../jp-persol-genai-work-2026/">タスクは16.7%短縮でも業務時間が減った人は25.4%、その差はどこに消えているのか</a>）。</p>
+<p>当社でも同じことが起きています。処理そのものは速くなりましたが、<strong>承認待ちは29件から37件に増えました</strong>（次節）。</p>
+<h2 id="_5">効果がマイナスだった例も数えておく</h2>
+<p>数えると、効果が出ていないことも分かります。当社の例です。</p>
+<p>決裁の待ち行列を減らすため、メール1通返すだけで決裁できる仕組みを作りました。結果は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>実測</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仕組みの動作</td>
+<td>正常</td>
+</tr>
+<tr>
+<td>実行されたコマンド</td>
+<td><strong>0通</strong></td>
+</tr>
+<tr>
+<td>承認待ちの件数</td>
+<td>29件 → <strong>37件に増加</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>仕組みは壊れていませんでした。</strong> 使う場面が既存の習慣の中に無かっただけです（<a href="../toe-tool-not-used/">実行0通だった記録</a>／<a href="../ai-tool-not-adopted/">導入したAIツールが使われない</a>）。</p>
+<p>数えていなければ、これは「なんとなく便利になった」で終わっていました。<strong>マイナスの数字が出るのは、測定が機能している証拠です。</strong></p>
+<h2 id="_6">この記事で言えないこと</h2>
+<ul>
+<li><strong>他社の導入効果は扱っていません。</strong> 当社は提供する側で、その立場にありません</li>
+<li><strong>業界平均や目安の数字も出していません。</strong> 業務と規模で変わるため、単一の数字は誤解を招きます</li>
+<li><strong>当社も削減時間を測れていません。</strong> 導入前の記録を取っていない領域があるためです</li>
+<li>ここに書いたのは、自社の実行ログとサイトの実測から数えた事実だけです</li>
+</ul>
+<h2 id="_7">まとめ</h2>
+<ul>
+<li>効果が語れないのは<strong>測っていない</strong>から。ただし<strong>測り方を間違えると、数字は出るのに実態と合わない</strong></li>
+<li>当社の週次レポートは「0%」を出し続けていたが、<strong>サイトが表示しない項目を数えていた</strong>。報告が出ているぶん一番気づけない型</li>
+<li>数え直して出てきた数字 — <strong>91%が発火せず／要約0件／実行0通／140ページがクリック0／検索結果の3割が404</strong></li>
+<li>最初に測るのは効果ではなく<strong>実行回数</strong>。動いていなければ削減はゼロ</li>
+<li>5項目は <strong>実行回数／失敗件数／出力件数の推移／人が触った回数／その数字が何を数えているか</strong></li>
+<li><strong>5番目が一番効く。</strong> 対象がずれていれば、他の4つを測っても無意味になる</li>
+<li>他社の調査も同じ。米国のAI普及率は<strong>企業数ベース18%／就業者ベース40.7%／雇用ウェイト78%</strong>と、分母で4倍以上ずれる。<strong>数字を見たらまず分母を見る</strong></li>
+<li><strong>効果判定を早くしすぎない。</strong> 21,559社の分析では、係数が導入月0.003→6か月0.071→12か月0.188→24か月0.452と時間とともに伸びた（ただし有意なのは情報通信のみ）</li>
+<li><strong>削減時間は後から取り直せない。</strong> 測りたいなら着手前に現状を記録する</li>
+<li><strong>「タスクの時間」と「業務時間」は別の指標。</strong> タスクは平均16.7%短縮されても、業務時間が減った人は<strong>25.4%</strong>にとどまる（浮いた時間の61.2%が別の仕事に吸われる）</li>
+<li><strong>マイナスの数字が出るのは測定が機能している証拠。</strong> 当社は承認待ちが29件→37件に増えたことを数えられた</li>
+</ul>
+<p>サイトの数字を数え直した記録は<a href="../toe-ctr-zero-clicks/">1ページ目に155ページ出ているのに、140ページはクリック0だった</a>に、静かに壊れる12件は<a href="../ai-automation-silent-failure/">AI自動化は「エラーを出さずに止まる」</a>に、費用側の実測は<a href="../ai-cost-structure/">AI導入費用の相場と内訳</a>にあります。</p>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI開発・AI活用支援を事業としており、提供する側が書いています。中立の第三者ではありません。他社の導入効果は扱わず、自社で数えた結果だけを載せています。当社も削減時間は測れていません。</p>
+<p><strong>実測値の出所</strong>
+- 91%発火漏れ・要約0件・実行0通・承認待ち29→37件・553件中414件失敗: 株式会社TOEの実行ログおよびcron設定（2026年7月）
+- 140ページがクリック0・検索結果の3割が404: Google Search Console および自社サイトの点検（2026年7月20日〜29日、8月1日）
+- 見積メール10件・7分37秒・1件2〜3円: 実行ログ。<strong>見積の検証データは架空</strong>で、実測なのは処理時間・自動化率・失敗件数のみ
+- 米国普及率18%/40.7%/78%: FEDS Notes（BTOS 2025年12月・RPS 2025年11月・SBU 2025年11月）。<strong>査読論文ではなく著者個人の見解</strong>である旨の免責付き。米国の調査で、数値の直接適用はできません
+- 導入月0.003→24か月0.452: Rampとリベリオ・ラボの分析（米国企業21,559社、2021年1月〜2026年2月）。<strong>提供事業者自身による査読前のワーキングペーパー</strong>で、有意な雇用増は情報通信セクターのみです
+- タスク16.7%短縮・業務時間減25.4%・再投下61.2%: パーソル総合研究所の調査（正規雇用者n=3,000、2025年10月24〜28日）。<strong>自己申告のネットモニター調査</strong>で、中小企業固有の数値としては使えません</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ctr-zero-clicks/">
+<div class="card-media"><img src="../../static/img/article-toe-ctr-zero-clicks.jpg" alt="検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因</h3>
+<p class="card-summary">順位が付いていてもクリックされないことがあります。株式会社TOEが自社メディアのSearch Consoleを10日ぶん数えたところ、10位以内に155ページ出て562回表示され、そのうち140ページは1件もクリックされていませんでした。原因を3つに切り分け、逆に最も効率の良かったページの共通点も出します。AI検索対策（AEO）とWeb制作を事業とする当社の、自己点検の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-fix-worked-70percent/">
+<div class="card-media"><img src="../../static/img/article-toe-fix-worked-70percent.jpg" alt="直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い</h3>
+<p class="card-summary">修正を入れたあと、それが効いたかを数えていますか。株式会社TOEは検索結果の説明文を直した翌日に445件を数え直し、131件（29.4%）に効いていないことを見つけました。さらにその夜、確認するために書いたコードのほうが5回間違えました。「数字が出ている」と「正しく数えている」は別です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-tool-not-adopted/">
+<div class="card-media"><img src="../../static/img/article-ai-tool-not-adopted.jpg" alt="導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方</h3>
+<p class="card-summary">ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-effect-measurement">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

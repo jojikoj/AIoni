@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目 · AIの鬼</title>
+  <meta name="description" content="AI開発の費用相場を調べても数字が出てこないのは、書き手が隠しているからではなく、前提で桁が変わるからです。同じ「AIで自動化したい」で相見積もりを取ると金額が数倍から10倍開きます。差の正体は技術力ではなく、見積書に書かれていない「運用を誰が持つか」と「処理量の前提」です。株式会社TOEの実測値とあわせて内訳を分解します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-dev-quote-gap/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-dev-quote-gap/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目 · AIの鬼">
+  <meta property="og:description" content="AI開発の費用相場を調べても数字が出てこないのは、書き手が隠しているからではなく、前提で桁が変わるからです。同じ「AIで自動化したい」で相見積もりを取ると金額が数倍から10倍開きます。差の正体は技術力ではなく、見積書に書かれていない「運用を誰が持つか」と「処理量の前提」です。株式会社TOEの実測値とあわせて内訳を分解します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-dev-quote-gap/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-dev-quote-gap.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-dev-quote-gap.jpg">
+  <meta name="twitter:title" content="AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目 · AIの鬼">
+  <meta name="twitter:description" content="AI開発の費用相場を調べても数字が出てこないのは、書き手が隠しているからではなく、前提で桁が変わるからです。同じ「AIで自動化したい」で相見積もりを取ると金額が数倍から10倍開きます。差の正体は技術力ではなく、見積書に書かれていない「運用を誰が持つか」と「処理量の前提」です。株式会社TOEの実測値とあわせて内訳を分解します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目","item":"https://ai-oni.com/articles/ai-dev-quote-gap/"}]},{"@type":"Article","headline":"AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目","description":"AI開発の費用相場を調べても数字が出てこないのは、書き手が隠しているからではなく、前提で桁が変わるからです。同じ「AIで自動化したい」で相見積もりを取ると金額が数倍から10倍開きます。差の正体は技術力ではなく、見積書に書かれていない「運用を誰が持つか」と「処理量の前提」です。株式会社TOEの実測値とあわせて内訳を分解します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-dev-quote-gap/"},"url":"https://ai-oni.com/articles/ai-dev-quote-gap/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI仕事術","datePublished":"2026-08-01","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-ai-dev-quote-gap.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-dev-quote-gap/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-dev-quote-gap.jpg"
+         alt="AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>AI開発の費用相場が出せない理由 — 見積もりが何倍も違う原因の内訳と、発注前に確認する6項目</h1>
+<p class="article-lead">AI開発の費用相場を調べても数字が出てこないのは、書き手が隠しているからではなく、前提で桁が変わるからです。同じ「AIで自動化したい」で相見積もりを取ると金額が数倍から10倍開きます。差の正体は技術力ではなく、見積書に書かれていない「運用を誰が持つか」と「処理量の前提」です。株式会社TOEの実測値とあわせて内訳を分解します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月1日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：AI開発の相見積もりで金額が何倍も開くとき、差の大半は技術力ではありません。<strong>①運用（動かし続ける作業）が誰の負担になっているか、②処理量とモデルをどう前提置きしたか、③どこまでを「完成」と呼ぶか</strong>——この3つの前提が各社バラバラなまま金額だけ並んでいるからです。前提を揃えれば、多くの場合、金額差は数倍から数割まで縮みます。</p>
+<p>「AI開発 費用 相場」で検索しても具体的な数字が出てこないのは、書き手が隠しているからではありません。<strong>同じ機能でも前提で桁が変わるため、単一の相場が存在しない</strong>からです。</p>
+<p>実際、「AIで社内の作業を自動化したい」と伝えて複数社から見積もりを取ると、80万円と600万円のように何倍も開くことがあります。安い方が手抜きで高い方が丁寧、とは限りません。この記事では、差がどこで生まれるのかを分解し、発注前に確認すべき項目を整理します。株式会社TOEが自社でAIメディアを2本作り、毎日無人で動かしている実測値も添えます。</p>
+<p>株式会社TOEはAI開発を事業としており、この記事は<strong>発注される側が書いています</strong>。中立の第三者ではありません。他社の見積もりは評価せず、自社で作って動かしている実測と、実際に起きた事故だけを材料にします。</p>
+<p><strong>この記事は「作ってもらう」費用の話です。</strong> AIツールを買って使う場合の費用（ライセンス・初期導入・運用の3層）は<a href="../ai-cost-structure/">AI導入費用の相場と内訳</a>に分けています。そちらには、<strong>約800字の文章をAIに書かせる実費を6回測った結果（1本2〜3円）</strong>も載せました。</p>
+<h2 id="3">金額差はどこで生まれるのか（3つの前提）</h2>
+<table>
+<thead>
+<tr>
+<th>差が出る箇所</th>
+<th>安い見積もりの前提</th>
+<th>高い見積もりの前提</th>
+<th>発注後に起きること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>①運用の担い手</strong></td>
+<td>納品後は発注側が動かす</td>
+<td>ベンダーが監視・復旧・改修を持つ</td>
+<td>前提を確認しないと、止まったときに誰も直せない</td>
+</tr>
+<tr>
+<td><strong>②処理量とモデル</strong></td>
+<td>少量・軽いモデルで試算</td>
+<td>想定の上限量・高性能モデルで試算</td>
+<td>実利用が試算を超えると従量課金が跳ねる</td>
+</tr>
+<tr>
+<td><strong>③完成の定義</strong></td>
+<td>動くものを納品</td>
+<td>業務に載るまで伴走（データ整備・研修含む）</td>
+<td>「動くが使われない」状態で終わる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>この3つは見積書の金額欄には現れません。</strong> だから同じ土俵に見えてしまいます。</p>
+<h2 id="1">①運用を誰が持つか — いちばん金額に効く前提</h2>
+<p>AIを使った仕組みは、作って終わりではなく<strong>動かし続けて初めて価値が出ます</strong>。そして動かし続ける作業には、想像より手がかかります。</p>
+<p>当社が自社メディア「AIの鬼」を無人運用している1日の実績（2026年7月29日のログ）は次の通りです。</p>
+<ul>
+<li>情報源から<strong>2,136件</strong>を収集し、重複を除いて保持対象に統合</li>
+<li>英語記事<strong>47件</strong>を日本語に翻訳</li>
+<li>記事の本文取得と要約生成を実行 → このとき<strong>8件連続で失敗し、処理を自動中断</strong></li>
+</ul>
+<p>最後の1行が運用の実態です。<strong>外部サービスの利用上限、配信元の仕様変更、ネットワークの一時障害</strong>——毎日どこかで何かが失敗します。無人で回すには「失敗しても翌日取り返せる設計」と「失敗に気づく仕組み」が要り、その分の開発が見積もりに入っているかどうかで金額は変わります。</p>
+<p>安い見積もりが悪いのではなく、<strong>運用を発注側が持つ前提なら安いのが当然</strong>です。問題は、その前提が共有されないまま契約され、止まった日に社内で誰も直せないことです。</p>
+<h2 id="2-5">②処理量とモデル — 同じ機能でも単価が5倍変わる</h2>
+<p>AIをシステムから呼び出す場合、使った分だけ課金される従量課金が発生します。単価はモデルによって大きく違い、しかも<strong>読ませるより書かせるほうが高い</strong>という共通の構造があります。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>入力 100万トークン</th>
+<th>出力 100万トークン</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Haiku 4.5</td>
+<td>1ドル</td>
+<td>5ドル</td>
+</tr>
+<tr>
+<td>Claude Sonnet 5</td>
+<td>3ドル（2026年8月31日までは導入価格2ドル）</td>
+<td>15ドル（同10ドル）</td>
+</tr>
+<tr>
+<td>Claude Opus 5</td>
+<td>5ドル</td>
+<td>25ドル</td>
+</tr>
+</tbody>
+</table>
+<p>出典：<a href="https://platform.claude.com/docs/en/about-claude/models/overview">Anthropic 公式モデル一覧</a>（2026年7月30日確認。単価は改定され、導入価格には期限があります。契約前に必ず公式ページで最新価格を確認してください）</p>
+<p><strong>同じ処理でも、どのモデルを指定するかで費用は5倍前後変わります。</strong> そして指定を忘れると、既定の高性能モデルが使われます。当社はこれで一括処理を大量に失敗させたことがあり、その記録は<a href="../batch-414-failure/">AI処理414件を失敗させた話</a>に残しています。</p>
+<p>見積書に「AI利用料」とだけ書かれている場合は、<strong>どのモデルで、月あたり何件の処理を前提にしているか</strong>を必ず聞いてください。前提件数が違えば、同じ機能の見積もりでも金額は当然ずれます。</p>
+<p>なお、<strong>用途によっては従量課金をゼロにできます。</strong> 当社のメディア2本は、収集を無料のRSS、AI処理を手元の端末で動かす方式に寄せることで、API課金なしで毎日更新を回しています（<a href="../zero-cost-media/">API課金ゼロでAIメディアを2本動かす</a>）。処理量が読めないうちは、こうした構成から始めて実測してから拡張する方が、見積もりの精度も上がります。</p>
+<h2 id="3_1">③どこまでが「完成」か — 動くものと使われるもの</h2>
+<p>納品物が動くことと、業務で使われることは別です。実務に載せるには、AIに読ませる社内文書の整備、権限の設計、使う人への説明が要ります。これらを「発注側の仕事」とするか「ベンダーの仕事」とするかで、見積もりは大きく動きます。</p>
+<p>ツール導入の場合の費用構造（ライセンス／初期導入／運用の3層）は<a href="../ai-cost-structure/">AI導入費用の相場と内訳</a>に分けて整理しています。作るのではなく買う選択肢と比較するときは、そちらも併せて見てください。</p>
+<h2 id="_1">自社で作って実測した数字</h2>
+<p>「外注するといくらか」を判断する材料として、当社が自社で作った2つのシステムの実測値を公開します。受託した案件ではなく自社プロダクトなので、金額ではなく<strong>規模と稼働の実数</strong>です。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>AIの鬼（ai-oni.com）</th>
+<th>UchUchU（uchuchu.tech）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初コミット</td>
+<td>2026年7月19日</td>
+<td>2026年7月18日</td>
+</tr>
+<tr>
+<td>コミット数</td>
+<td>55</td>
+<td>49</td>
+</tr>
+<tr>
+<td>Pythonコード</td>
+<td>約6,200行</td>
+<td>約4,800行</td>
+</tr>
+<tr>
+<td>公開している記事</td>
+<td>206本</td>
+<td>—</td>
+</tr>
+<tr>
+<td>稼働</td>
+<td>毎日無人で収集・翻訳・生成・公開</td>
+<td>同左</td>
+</tr>
+<tr>
+<td>ホスティング費用</td>
+<td>0円（静的サイトの無料ホスティング）</td>
+<td>0円</td>
+</tr>
+<tr>
+<td>AI従量課金</td>
+<td>0円（手元の端末で処理）</td>
+<td>0円</td>
+</tr>
+</tbody>
+</table>
+<p>ここから言えることは2つです。</p>
+<ol>
+<li><strong>コード量そのものは、この種の自動化では思ったより小さい。</strong> 数千行規模で、収集・翻訳・生成・公開までの全工程が回ります。見積もりが大きくなるとき、金額の中身は行数ではなく、要件定義・データ整備・運用設計であることがほとんどです。</li>
+<li><strong>月額の外部費用はゼロにできる領域がある。</strong> 静的サイトの配信や、処理を手元で回す構成を選べば、ランニングは実際に0円で成立します。「AIは維持費がかかる」は構成次第で、前提ではありません。</li>
+</ol>
+<p>ただし<strong>これは「安く作れる」という主張ではありません。</strong> 上の2本は毎日どこかで失敗し、そのたびに直しています。無人運用に耐える状態まで持っていく手間は、コード量には表れません。</p>
+<h2 id="6">発注前に確認する6項目</h2>
+<p>見積書を比較する前に、次の6点を各社に同じ言葉で聞いてください。<strong>答えが揃った時点で、金額は比較可能になります。</strong></p>
+<ol>
+<li><strong>納品後、動かし続けるのは誰か</strong> — 監視・障害復旧・配信元の仕様変更への追従は、どちらの負担か</li>
+<li><strong>月あたり何件の処理を前提に見積もったか</strong> — その件数を超えたらどうなるか</li>
+<li><strong>どのAIモデルを使う前提か</strong> — 変更する場合、費用と品質はどう変わるか</li>
+<li><strong>AIの従量課金は誰のアカウントに請求されるか</strong> — 上限設定はあるか</li>
+<li><strong>「完成」の定義は何か</strong> — 動作確認までか、業務で使われる状態までか</li>
+<li><strong>作ったものの所有権とソースコードは誰のものか</strong> — 他社に引き継げるか</li>
+</ol>
+<p>6番は金額に直結しませんが、<strong>2年後の選択肢の幅が変わります。</strong> ソースコードが手元にないと、改修も乗り換えも最初の1社に依存します。</p>
+<h2 id="ai">AI開発会社を選ぶときに見る点</h2>
+<p>会社選びの判断材料としては、次のような点が実務的です。</p>
+<ul>
+<li><strong>自社で作って運用しているものがあるか</strong> — 作った経験と、動かし続けた経験は別物です</li>
+<li><strong>失敗の話を具体的にできるか</strong> — 何が壊れて、どう直したかを数字で言える相手は、運用の勘所を持っています</li>
+<li><strong>前提を聞き返してくるか</strong> — 処理量や運用体制を確認せずに金額だけ出す見積もりは、前提が省略されています</li>
+<li><strong>止まったときの連絡先と復旧手順が契約に書かれているか</strong></li>
+</ul>
+<p>「おすすめの会社」という形で一律に順位を付けられるものではなく、<strong>運用を自社で持つのか委ねるのかで、適した相手が変わります。</strong> 自社で持つなら、引き継ぎやすい構成で作る会社。委ねるなら、稼働の責任範囲を契約に明記できる会社です。</p>
+<h2 id="_2">よくある質問</h2>
+<p><strong>Q. AI開発の費用相場はいくらですか。</strong>
+A. 一律の相場は出せません。同じ「自動化したい」でも、運用をどちらが持つか、処理量をいくつと置くか、どこまでを完成とするかで金額の桁が変わるためです。相場を探すより、この記事の6項目で前提を揃えてから複数社の金額を比べる方が実務的です。前提を揃えると、多くの場合、金額差は数倍から数割まで縮みます。</p>
+<p><strong>Q. 見積書の内訳はどう読めばよいですか。</strong>
+A. 金額欄ではなく、<strong>書かれていない前提</strong>を読んでください。読むべきは3か所です。①運用（監視・障害復旧・仕様変更への追従）が誰の負担か、②月あたり何件の処理を前提にしているか、③「完成」が動作確認までか業務で使われる状態までか。この3つは金額欄に現れないため、同じ土俵に見えてしまいます。</p>
+<p><strong>Q. AIの利用料そのものはいくらぐらいですか。</strong>
+A. 用途によりますが、多くの場合は費用の主役になりません。当社が自社の処理を6回測った実測では、約800字の文章を生成する費用は<strong>1本あたり2〜3円</strong>でした（軽量モデル指定）。詳細は<a href="../ai-cost-structure/">AI導入費用の相場と内訳</a>に載せています。ただし単価ではなく単価×件数で見る必要があり、大量処理では主要な費用になります。</p>
+<p><strong>Q. いちばん安い見積もりを選んでも大丈夫ですか。</strong>
+A. 前提が揃っているなら問題ありません。危ないのは、安い理由が「運用が発注側の負担になっている」ことなのに、その前提が共有されていない場合です。納品後に止まったとき、社内に直せる人がいるかを先に確認してください。</p>
+<p><strong>Q. 月々のランニング費用はどのくらいかかりますか。</strong>
+A. 構成によります。当社が運用しているメディア2本は、静的サイトの無料ホスティングと手元での処理により、ホスティング費・AI従量課金ともに0円で毎日更新を回しています。一方、社内システムからAIを大量に呼び出す構成では従量課金が主要な費用になります。見積もり時に「月あたりの処理件数の前提」を必ず確認してください。</p>
+<p><strong>Q. モデルはどれを選べばよいですか。</strong>
+A. 用途によります。定型的な大量処理は軽量モデルで足り、単価は高性能モデルの5分の1程度です。判断が必要な処理や、出力の品質が成果に直結する処理は上位モデルが向きます。重要なのは「指定しないまま動かさない」ことで、既定の高性能モデルが使われて費用が跳ねる事故は実際に起きます。</p>
+<p><strong>Q. 作ってもらったものを他社に引き継げますか。</strong>
+A. 契約次第です。ソースコードの所有権と、稼働に必要なアカウント・鍵の所在を契約書で確認してください。ここが曖昧だと、改修も乗り換えも最初の1社に依存します。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>AI開発の見積もり差は、技術力より<strong>前提の違い</strong>から生まれる。揃えるべき前提は「運用の担い手」「処理量とモデル」「完成の定義」の3つ</li>
+<li>運用は作る作業と別物。<strong>無人で回すには失敗前提の設計が要り</strong>、その有無が金額に出る</li>
+<li>AIの従量課金は<strong>モデルで5倍前後変わり</strong>、指定漏れは事故になる。構成次第で0円にもできる</li>
+<li>自社実測では、収集から公開までの自動化は<strong>数千行規模のコードで成立</strong>した。金額の中身は行数ではなく要件定義・データ整備・運用設計</li>
+<li>発注前に<strong>6項目</strong>を各社へ同じ言葉で聞く。答えが揃った時点で金額は比較可能になる</li>
+</ul>
+<hr />
+<p><strong>参考・出典</strong>
+- Anthropic 公式モデル一覧（API単価）: https://platform.claude.com/docs/en/about-claude/models/overview （2026年7月30日確認）
+- 実測値の出所: 株式会社TOEが運用する ai-oni.com / uchuchu.tech のリポジトリと日次実行ログ（2026年8月1日時点）</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-cost-structure/">
+<div class="card-media"><img src="../../static/img/article-ai-cost-structure.jpg" alt="AI導入費用の相場と内訳 — ライセンス・初期導入・運用の3層で見る" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI導入費用の相場と内訳 — ライセンス・初期導入・運用の3層で見る</h3>
+<p class="card-summary">AI導入の見積もりが想定より膨らむ原因は、月額ライセンス代だけを比べていることです。費用を「ライセンス／初期導入／運用」の3層に分け、公式サイトで確認できた実額と、株式会社TOEが実測したAI処理そのものの単価（約800字の解説1件で2〜3円）とあわせて整理しました。見積書を受け取ったときの確認項目もつけています。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-model-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-model-selection.jpg" alt="生成AIのモデルはどう選ぶか — 比較表を作る前に決める4つと、指定を1行忘れて75%失敗した実測" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">生成AIのモデルはどう選ぶか — 比較表を作る前に決める4つと、指定を1行忘れて75%失敗した実測</h3>
+<p class="card-summary">モデル選びをベンチマークの順位から始めると外します。同じ設問に54モデルを当てた検証では正答率が25.66%〜82.18%まで開き、下限は当てずっぽうと区別がつきません。株式会社TOEはモデルの指定を1行書き忘れて553件中414件を失敗させました。順位より先に決めるべき4項目を、自社の実測とあわせて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-dev-vendor-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-dev-vendor-selection.jpg" alt="AI開発会社の選び方 — 「おすすめ一覧」で選べない理由と、面談で聞く7つの質問" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI開発会社の選び方 — 「おすすめ一覧」で選べない理由と、面談で聞く7つの質問</h3>
+<p class="card-summary">AI開発会社を検索すると比較記事が並びますが、順位で選べるものではありません。自社で運用を持つのか委ねるのかで適した相手が変わるためです。株式会社TOEが自社でAIメディアを2本無人運用している実測と、実際に起きた事故から、面談で確かめるべき7つの質問を整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-dev-quote-gap">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

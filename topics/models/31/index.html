@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>新モデル · AIの鬼</title>
+  <meta name="description" content="ChatGPT・Claude・Gemini・Llama など、新しいAIモデルの発表とアップデートを集めています。性能の比較、扱えるデータの種類、公開されている重みの有無など、導入を検討するときに要る情報を毎日更新します。">
+  <link rel="canonical" href="https://ai-oni.com/topics/models/31/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/topics/models/31/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="新モデル · AIの鬼">
+  <meta property="og:description" content="ChatGPT・Claude・Gemini・Llama など、新しいAIモデルの発表とアップデートを集めています。性能の比較、扱えるデータの種類、公開されている重みの有無など、導入を検討するときに要る情報を毎日更新します。">
+  <meta property="og:url" content="https://ai-oni.com/topics/models/31/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="新モデル · AIの鬼">
+  <meta name="twitter:description" content="ChatGPT・Claude・Gemini・Llama など、新しいAIモデルの発表とアップデートを集めています。性能の比較、扱えるデータの種類、公開されている重みの有無など、導入を検討するときに要る情報を毎日更新します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"新モデル","item":"https://ai-oni.com/topics/models/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"OpenAI and the CSU system bring AI to 500,000 students & faculty","url":"https://openai.com/index/openai-and-the-csu-system"},{"@type":"ListItem","position":2,"name":"Catching halibut with ChatGPT","url":"https://openai.com/index/fishing-for-first-timers"},{"@type":"ListItem","position":3,"name":"Building a custom math tutor powered by ChatGPT","url":"https://openai.com/index/my-dog-the-math-tutor"},{"@type":"ListItem","position":4,"name":"Creating nail art with ChatGPT","url":"https://openai.com/index/ten-tiny-canvases"},{"@type":"ListItem","position":5,"name":"DABStep: Data Agent Benchmark for Multi-step Reasoning","url":"https://huggingface.co/blog/dabstep"},{"@type":"ListItem","position":6,"name":"Mini-R1: Reproduce Deepseek R1 „aha moment“ a RL tutorial","url":"https://huggingface.co/blog/open-r1/mini-r1-contdown-game"},{"@type":"ListItem","position":7,"name":"Strengthening America’s AI leadership with the U.S. National Laboratories","url":"https://openai.com/index/strengthening-americas-ai-leadership-with-the-us-national-laboratories"},{"@type":"ListItem","position":8,"name":"How to deploy and fine-tune DeepSeek models on AWS","url":"https://huggingface.co/blog/deepseek-r1-aws"},{"@type":"ListItem","position":9,"name":"Open-R1: a fully open reproduction of DeepSeek-R1","url":"https://huggingface.co/blog/open-r1"},{"@type":"ListItem","position":10,"name":"Partnering with Axios expands OpenAI’s work with the news industry","url":"https://openai.com/index/partnering-with-axios-expands-openai-work-with-the-news-industry"},{"@type":"ListItem","position":11,"name":"Benchmarking Language Model Performance on 5th Gen Xeon at GCP","url":"https://huggingface.co/blog/intel-gcp-c4"},{"@type":"ListItem","position":12,"name":"Sora is here","url":"https://openai.com/index/sora-is-here"},{"@type":"ListItem","position":13,"name":"Minne Atairu & Sora","url":"https://openai.com/index/sora-minne-atairu"},{"@type":"ListItem","position":14,"name":"Animator Lyndon Barrois creates new worlds with Sora","url":"https://openai.com/index/sora-lyndon-barrois"},{"@type":"ListItem","position":15,"name":"Vallée Duhamel & Sora","url":"https://openai.com/index/sora-vallee-duhamel"},{"@type":"ListItem","position":16,"name":"Sora System Card","url":"https://openai.com/index/sora-system-card"},{"@type":"ListItem","position":17,"name":"Introducing ChatGPT Pro","url":"https://openai.com/index/introducing-chatgpt-pro"},{"@type":"ListItem","position":18,"name":"OpenAI and Future partner on specialist content","url":"https://openai.com/index/openai-and-future-partner-on-specialist-content"},{"@type":"ListItem","position":19,"name":"Rethinking LLM Evaluation with 3C3H: AraGen Benchmark and Leaderboard","url":"https://huggingface.co/blog/leaderboard-3c3h-aragen"},{"@type":"ListItem","position":20,"name":"Building smarter maps with GPT-4o vision fine-tuning","url":"https://openai.com/index/grab"},{"@type":"ListItem","position":21,"name":"Judge Arena: Benchmarking LLMs as Evaluators","url":"https://huggingface.co/blog/arena-atla"},{"@type":"ListItem","position":22,"name":"Data-driven beauty and creativity with ChatGPT","url":"https://openai.com/index/estee-lauder"},{"@type":"ListItem","position":23,"name":"Introducing ChatGPT search","url":"https://openai.com/index/introducing-chatgpt-search"},{"@type":"ListItem","position":24,"name":"Promega’s top-down adoption of ChatGPT accelerates manufacturing, sales, and marketing","url":"https://openai.com/index/promega"},{"@type":"ListItem","position":25,"name":"Introducing SimpleQA","url":"https://openai.com/index/introducing-simpleqa"},{"@type":"ListItem","position":26,"name":"Diffusers welcomes Stable Diffusion 3.5 Large","url":"https://huggingface.co/blog/sd3-5"},{"@type":"ListItem","position":27,"name":"“Llama 3.2 in Keras”","url":"https://huggingface.co/blog/keras-llama-32"},{"@type":"ListItem","position":28,"name":"Evaluating fairness in ChatGPT","url":"https://openai.com/index/evaluating-fairness-in-chatgpt"},{"@type":"ListItem","position":29,"name":"MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering","url":"https://openai.com/index/mle-bench"},{"@type":"ListItem","position":30,"name":"Introducing canvas, a new way to write and code with ChatGPT.","url":"https://openai.com/index/introducing-canvas"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/topics/models/31/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../../jissen/" class="">AI実践室</a>
+      <a href="../../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../../shippai/" class="">失敗の鬼</a>
+      <a href="../../../shigoto/" class="">AI仕事術</a>
+      <a href="../../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../../weekly/" class="">今週のAI</a>
+      <a href="../../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../../news/" class="">ニュース</a>
+      <a href="../../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../../check/" class="">AI検索チェック</a>
+      <a href="../../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>新モデル</h1>
+    <p class="page-sub">新しいAIモデルの発表・性能・アップデート</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <a class="chip on" href="../../models/">#新モデル</a>
+      <a class="chip " href="../../tools/">#業務ツール</a>
+      <a class="chip " href="../../dev/">#開発・実装</a>
+      <a class="chip " href="../../business/">#企業動向</a>
+      <a class="chip " href="../../policy/">#規制・法制度</a>
+      <a class="chip " href="../../research/">#研究動向</a>
+      <a class="chip " href="../../infra/">#半導体・インフラ</a>
+      <a class="chip " href="../../japan/">#国内動向</a>
+    </div>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-261796568e/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="OpenAIとCSU、50万人の学生・教員にChatGPTを提供（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-261796568e/">OpenAIとCSU、50万人の学生・教員にChatGPTを提供</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-02-04T11:30:00+00:00">2025.02.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-d8f4408a6f/">
+    <img src="../../../../static/img/news-models-10.svg"
+         alt="ChatGPTでオヒョウ釣り（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-d8f4408a6f/">ChatGPTでオヒョウ釣り</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-02-04T00:00:00+00:00">2025.02.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-f9592b007e/">
+    <img src="../../../../static/img/news-models-00.svg"
+         alt="ChatGPTで個別数学家庭教師を構築（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-f9592b007e/">ChatGPTで個別数学家庭教師を構築</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-02-04T00:00:00+00:00">2025.02.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-5c4c8bfd65/">
+    <img src="../../../../static/img/news-models-13.svg"
+         alt="ChatGPTでネイルアートを創作（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-5c4c8bfd65/">ChatGPTでネイルアートを創作</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-02-04T00:00:00+00:00">2025.02.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-c8a8f2e8ad/">
+    <img src="../../../../static/img/news-models-08.svg"
+         alt="DABStep、多段階推論向けデータエージェントベンチマーク（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-c8a8f2e8ad/">DABStep、多段階推論向けデータエージェントベンチマーク</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-02-04T00:00:00+00:00">2025.02.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-ccbd6564d7/">
+    <img src="../../../../static/img/news-models-04.svg"
+         alt="Mini-R1 Deepseek R1の「aha moment」を再現する強化学習チュートリアル（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-ccbd6564d7/">Mini-R1 Deepseek R1の「aha moment」を再現する強化学習チュートリアル</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-01-31T10:29:40+00:00">2025.01.31</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-b3798d3ee5/">
+    <img src="../../../../static/img/news-models-14.svg"
+         alt="OpenAI、米国立研究所と連携 AIリーダーシップ強化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-b3798d3ee5/">OpenAI、米国立研究所と連携 AIリーダーシップ強化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-01-30T10:00:00+00:00">2025.01.30</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-8f98b99635/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="AWSでDeepSeekモデルをデプロイしファインチューニング（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-8f98b99635/">AWSでDeepSeekモデルをデプロイしファインチューニング</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-01-30T00:00:00+00:00">2025.01.30</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-9094f8b217/">
+    <img src="../../../../static/img/news-models-02.svg"
+         alt="Open-R1がDeepSeek-R1を完全オープンソース化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-9094f8b217/">Open-R1がDeepSeek-R1を完全オープンソース化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-01-28T00:00:00+00:00">2025.01.28</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-ba02d4c89f/">
+    <img src="../../../../static/img/news-models-08.svg"
+         alt="OpenAI、Axiosと提携（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-ba02d4c89f/">OpenAI、Axiosと提携</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-01-15T03:00:00+00:00">2025.01.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-0c6ce4fcbc/">
+    <img src="../../../../static/img/news-models-12.svg"
+         alt="第5世代XeonでLLM性能ベンチマーク、GCP（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-0c6ce4fcbc/">第5世代XeonでLLM性能ベンチマーク、GCP</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-17T00:00:00+00:00">2024.12.17</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-026cbc5035/">
+    <img src="../../../../static/img/news-models-00.svg"
+         alt="Sora利用開始（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-026cbc5035/">Sora利用開始</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-09T10:00:00+00:00">2024.12.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-104dd14a42/">
+    <img src="../../../../static/img/news-models-10.svg"
+         alt="MinneAtairuとSora（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-104dd14a42/">MinneAtairuとSora</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-09T00:00:00+00:00">2024.12.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-5d33a0fa50/">
+    <img src="../../../../static/img/news-models-10.svg"
+         alt="LyndonBarroisがSoraで新世界創造（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-5d33a0fa50/">LyndonBarroisがSoraで新世界創造</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-09T00:00:00+00:00">2024.12.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-4d8be5b9e1/">
+    <img src="../../../../static/img/news-models-09.svg"
+         alt="VallèeDuhamelとSora（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-4d8be5b9e1/">VallèeDuhamelとSora</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-09T00:00:00+00:00">2024.12.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-599d8f36d3/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="OpenAI、Soraシステムカード公表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-599d8f36d3/">OpenAI、Soraシステムカード公表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-09T00:00:00+00:00">2024.12.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-6f2f11e9bd/">
+    <img src="../../../../static/img/news-models-09.svg"
+         alt="ChatGPT Pro登場（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-6f2f11e9bd/">ChatGPT Pro登場</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-05T10:30:00+00:00">2024.12.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-64c03056d5/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="OpenAIとFuture、専門メディアで提携（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-64c03056d5/">OpenAIとFuture、専門メディアで提携</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-04T23:30:00+00:00">2024.12.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-2de32288fd/">
+    <img src="../../../../static/img/news-models-08.svg"
+         alt="3C3HでLLM評価を再検討、AraGenベンチマークとリーダーボード（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-2de32288fd/">3C3HでLLM評価を再検討、AraGenベンチマークとリーダーボード</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-12-04T00:00:00+00:00">2024.12.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-17312c41fe/">
+    <img src="../../../../static/img/news-models-01.svg"
+         alt="GPT-4oビジョン・ファインチューニングで地図を高度化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-17312c41fe/">GPT-4oビジョン・ファインチューニングで地図を高度化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-11-20T17:00:00+00:00">2024.11.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-f07ca0a5ea/">
+    <img src="../../../../static/img/news-models-05.svg"
+         alt="Judge Arena: Benchmarking LLMs as Evaluators（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-f07ca0a5ea/">Judge Arena: Benchmarking LLMs as Evaluators</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-11-19T00:00:00+00:00">2024.11.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-5015204e78/">
+    <img src="../../../../static/img/news-models-14.svg"
+         alt="Data-driven beauty and creativity with ChatGPT（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-5015204e78/">Data-driven beauty and creativity with ChatGPT</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-11-13T00:00:00+00:00">2024.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-97c38258aa/">
+    <img src="../../../../static/img/news-models-08.svg"
+         alt="Introducing ChatGPT search（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-97c38258aa/">Introducing ChatGPT search</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-31T10:00:00+00:00">2024.10.31</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-ac069c8d3a/">
+    <img src="../../../../static/img/news-models-13.svg"
+         alt="Promega’s top-down adoption of ChatGPT accelerates manufacturing, sales, and marketing（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-ac069c8d3a/">Promega’s top-down adoption of ChatGPT accelerates manufacturing, sales, and marketing</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-31T08:00:00+00:00">2024.10.31</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-080a790521/">
+    <img src="../../../../static/img/news-models-05.svg"
+         alt="Introducing SimpleQA（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-080a790521/">Introducing SimpleQA</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-30T10:00:00+00:00">2024.10.30</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-76017462e5/">
+    <img src="../../../../static/img/news-models-02.svg"
+         alt="Diffusers welcomes Stable Diffusion 3.5 Large（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-76017462e5/">Diffusers welcomes Stable Diffusion 3.5 Large</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-22T00:00:00+00:00">2024.10.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-2bff2a27bf/">
+    <img src="../../../../static/img/news-models-07.svg"
+         alt="“Llama 3.2 in Keras”（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-2bff2a27bf/">“Llama 3.2 in Keras”</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-21T00:00:00+00:00">2024.10.21</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-3d70566d39/">
+    <img src="../../../../static/img/news-models-13.svg"
+         alt="Evaluating fairness in ChatGPT（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-3d70566d39/">Evaluating fairness in ChatGPT</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-15T10:00:00+00:00">2024.10.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-55ef171ae2/">
+    <img src="../../../../static/img/news-models-10.svg"
+         alt="MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-55ef171ae2/">MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-10T10:00:00+00:00">2024.10.10</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-4437308427/">
+    <img src="../../../../static/img/news-models-04.svg"
+         alt="Introducing canvas, a new way to write and code with ChatGPT.（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-4437308427/">Introducing canvas, a new way to write and code with ChatGPT.</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2024-10-03T10:00:00+00:00">2024.10.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../30/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../29/">29</a><a class="pager-num" href="../30/">30</a><span class="pager-num on" aria-current="page">31</span>
+<a class="pager-num" href="../32/">32</a><a class="pager-num" href="../33/">33</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../36/">36</a>  </span>
+<a class="pager-btn" href="../32/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../../jissen/">AI実践室</a>
+          <a href="../../../kansoku/">AI検索観測所</a>
+          <a href="../../../shippai/">失敗の鬼</a>
+          <a href="../../../shigoto/">AI仕事術</a>
+          <a href="../../../kaisetsu/">AI解体新書</a>
+          <a href="../../../weekly/">今週のAI</a>
+          <a href="../../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../../news/">ニュース</a>
+          <a href="../../../papers/">研究動向</a>
+          <a href="../../../topics/models/">トピック</a>
+          <a href="../../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../../about/">運営会社</a>
+          <a href="../../../faq/">よくある質問</a>
+          <a href="../../../advertise/">広告掲載</a>
+<a href="../../../check/">AI検索チェック</a>          <a href="../../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

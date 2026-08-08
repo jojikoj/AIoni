@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事 · AIの鬼</title>
+  <meta name="description" content="総務や経理にAIエージェントを入れると何が変わるのか。株式会社TOEが社内業務27本を自動化した内訳（経理13本に対しマーケ1本）と、見積メール10件を処理させた実測（7件自動・3件は人へ）から、任せられる仕事の線引きを整理しました。一番効いた判断は「AIを使わないこと」でした。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-agent-backoffice/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-agent-backoffice/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事 · AIの鬼">
+  <meta property="og:description" content="総務や経理にAIエージェントを入れると何が変わるのか。株式会社TOEが社内業務27本を自動化した内訳（経理13本に対しマーケ1本）と、見積メール10件を処理させた実測（7件自動・3件は人へ）から、任せられる仕事の線引きを整理しました。一番効いた判断は「AIを使わないこと」でした。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-agent-backoffice/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-agent-backoffice.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-agent-backoffice.jpg">
+  <meta name="twitter:title" content="総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事 · AIの鬼">
+  <meta name="twitter:description" content="総務や経理にAIエージェントを入れると何が変わるのか。株式会社TOEが社内業務27本を自動化した内訳（経理13本に対しマーケ1本）と、見積メール10件を処理させた実測（7件自動・3件は人へ）から、任せられる仕事の線引きを整理しました。一番効いた判断は「AIを使わないこと」でした。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事","item":"https://ai-oni.com/articles/ai-agent-backoffice/"}]},{"@type":"Article","headline":"総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事","description":"総務や経理にAIエージェントを入れると何が変わるのか。株式会社TOEが社内業務27本を自動化した内訳（経理13本に対しマーケ1本）と、見積メール10件を処理させた実測（7件自動・3件は人へ）から、任せられる仕事の線引きを整理しました。一番効いた判断は「AIを使わないこと」でした。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-agent-backoffice/"},"url":"https://ai-oni.com/articles/ai-agent-backoffice/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI仕事術","datePublished":"2026-08-01","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-ai-agent-backoffice.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-agent-backoffice/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-agent-backoffice.jpg"
+         alt="総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事</h1>
+<p class="article-lead">総務や経理にAIエージェントを入れると何が変わるのか。株式会社TOEが社内業務27本を自動化した内訳（経理13本に対しマーケ1本）と、見積メール10件を処理させた実測（7件自動・3件は人へ）から、任せられる仕事の線引きを整理しました。一番効いた判断は「AIを使わないこと」でした。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月1日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：総務・バックオフィスでAIエージェントが効くのは「<strong>入力と出力の形が決まっていて、毎回必ず発生する仕事</strong>」です。当社は社内27本を自動化しましたが、内訳は<strong>経理13本に対しマーケ1本</strong>と極端に偏りました。サボったのではなく、定型化しきれない仕事は自動化できないからです。そして最も効いた判断は逆説的で、<strong>判断の中核にAIを使わないこと</strong>でした。毎朝の集計も、見積の可否判定も、AIを呼んでいません。</p>
+<p>株式会社TOEはAI開発とAI活用支援を事業としており、この記事は<strong>提供する側が書いています</strong>。中立の第三者ではありません。他社製品の評価はせず、自社で動かして数えた実測だけを材料にします。</p>
+<h2 id="27">27本の内訳は、きれいに偏った</h2>
+<p>社内の定型業務を、毎日決まった時刻に自動で動かしています。稼働中のサーバーで設定を確認した実数です。</p>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th>ジョブ数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>経理</strong></td>
+<td><strong>13</strong></td>
+</tr>
+<tr>
+<td>秘書</td>
+<td>6</td>
+</tr>
+<tr>
+<td>営業</td>
+<td>3</td>
+</tr>
+<tr>
+<td>社長</td>
+<td>2</td>
+</tr>
+<tr>
+<td><strong>マーケ</strong></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>補助金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>基盤</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>経理が突出しています。銀行残高の同期、資金繰り予測、月次の損益集計、支払管理、請求書発行のドラフト作成など。</p>
+<p>理由ははっきりしています。<strong>経理は「入力が決まっていて、出力の形式も決まっていて、毎月同じ日に必ず発生する」</strong>からです。銀行残高は毎朝同じ形で取れ、請求書のフォーマットは毎月同じです。</p>
+<p>逆にマーケが1本なのは、「今月は何を打ち出すか」「この反応をどう読むか」のように<strong>毎回入力も出力も違う</strong>からです。13対1という差が、そのまま「定型化できるか」の差になっています。</p>
+<p>詳しい分析は<a href="../toe-not-everything-automatable/">経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方</a>に書きました。</p>
+<h2 id="_1">どのくらいの会社が、もう入れているのか</h2>
+<p>「うちは出遅れているのでは」と感じる前に、実際の普及度を見てください。</p>
+<table>
+<thead>
+<tr>
+<th>調査項目</th>
+<th>数字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>生成AIを活用している企業</td>
+<td><strong>43.4%</strong>（全社11.3%＋一部部署32.1%）</td>
+</tr>
+<tr>
+<td>AIエージェントを<strong>利用中</strong></td>
+<td><strong>3.3%</strong></td>
+</tr>
+<tr>
+<td>同 検討中</td>
+<td>13.5%</td>
+</tr>
+<tr>
+<td>同 情報収集中</td>
+<td><strong>49.3%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>AIエージェントを実際に使っている会社は3.3%です。</strong> 多数派は情報収集の段階（49.3%）にいます。</p>
+<p><strong>ただし数字の読み方に注意が要ります。</strong> 3.3%・13.5%・49.3%の分母は、調査対象496社の全部ではなく、<strong>生成AIを活用している215社</strong>です。全企業ベースの利用率として引用してはいけません。調査対象の企業規模も明示されておらず、業種は5業種に限られます。</p>
+<p>読み取れるのは「まだ早い段階にある」という位置関係だけです（調査の読み解きは<a href="../jp-yano-genai-ai-agent-2026/">生成AI活用43.4%に対しAIエージェント利用中3.3%、この差をどう読むのか</a>）。そして<strong>先にやるべきは製品選定ではなく、生成AIを部署単位で定着させて業務手順を書き出すこと</strong>です。手順が書き出せていない仕事は、次章の3つの問いで全部「いいえ」になります。</p>
+<h2 id="_2">向く仕事・向かない仕事の見分け方</h2>
+<p>3つの問いで判定できます。</p>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>向いている</th>
+<th>向いていない</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>入力の形は決まっているか</strong></td>
+<td>銀行明細、請求書、決まった様式の申請書</td>
+<td>相談メール、企画の相談、クレーム</td>
+</tr>
+<tr>
+<td><strong>出力の形は決まっているか</strong></td>
+<td>集計表、定型の返信、台帳への転記</td>
+<td>提案書、企画案、謝罪文</td>
+</tr>
+<tr>
+<td><strong>毎回必ず発生するか</strong></td>
+<td>月次・週次・日次で必ず来る</td>
+<td>不定期、年に数回</td>
+</tr>
+</tbody>
+</table>
+<p>3つとも「はい」なら自動化の投資対効果が出ます。1つでも「いいえ」があるなら、<strong>部分的に任せる</strong>設計にします。</p>
+<h2 id="ai">一番効いたのは「AIを使わない」判断</h2>
+<p>ここが実測から得た最も意外な点です。</p>
+<p><strong>例1: 毎朝の経営ブリーフィング</strong></p>
+<p>平日8時に経営状況を1枚にまとめるジョブがあります。社内では「AI秘書」と呼んでいますが、<strong>大規模言語モデルを1回も呼んでいません</strong>。やっているのは、経営データのテキストファイル4本を読み、条件で絞り、並べ替えて書き出すことだけ。スクリプトは110行です。</p>
+<p>「健全度が危険で、かつランクがS・Aの顧客だけを抜き出す」は、条件式で書けます。ここにAIを挟むと悪いことしか起きません。</p>
+<ul>
+<li>日によって抽出の基準が揺れる</li>
+<li>出力の形式が変わる</li>
+<li>失敗したとき原因が追えない</li>
+</ul>
+<p><strong>毎朝同じ形式で出てくることに価値がある処理</strong>なら、AIは不要です。</p>
+<p><strong>例2: 見積メールの一次対応</strong></p>
+<p>板金加工会社向けに、見積依頼メールを処理するAIエージェントを作り、10件を実際に流しました。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>処理した問い合わせ</td>
+<td>10件</td>
+</tr>
+<tr>
+<td><strong>自動で返信を作れた</strong></td>
+<td><strong>7件</strong>（うち3件は「対応できません」というお断り）</td>
+</tr>
+<tr>
+<td><strong>人間に回した</strong></td>
+<td><strong>3件</strong></td>
+</tr>
+<tr>
+<td>処理の失敗</td>
+<td>0件</td>
+</tr>
+<tr>
+<td>所要時間</td>
+<td>7分37秒（1件あたり45.7秒）</td>
+</tr>
+<tr>
+<td>AIを呼んだ回数</td>
+<td>17回（読み取り10回・返信の作文7回）</td>
+</tr>
+<tr>
+<td><strong>受注可否の判断にかかった時間</strong></td>
+<td><strong>1件あたり0.001秒</strong></td>
+</tr>
+</tbody>
+</table>
+<p>最後の行が要点です。<strong>受注できるかどうかの判断に、AIを一切使っていません。</strong> 板厚・材質・数量を条件表と突き合わせるだけなので、AIより条件式の方が速く、確実で、理由も説明できます。</p>
+<p>AIがやったのは<strong>メールを読むこと</strong>と<strong>返信の下書きを書くこと</strong>だけ。詳細は<a href="../jissen-mitsumori-agent/">見積依頼のメール10件をAIエージェントに処理させたら、7件は自動で返せて3件は人間に回った</a>にあります。</p>
+<h2 id="_3">総務に入れるなら、この順番</h2>
+<table>
+<thead>
+<tr>
+<th>順</th>
+<th>対象</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>決まった様式の転記・集計</strong></td>
+<td>入力も出力も決まっていて、毎月必ず発生する。最初に効果が出る</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>定型メールの一次対応</strong></td>
+<td>読み取りと下書きはAI、可否の判断は条件式、という分担にする</td>
+</tr>
+<tr>
+<td>3</td>
+<td>例外処理を含む業務</td>
+<td><strong>人に回す条件を先に決めてから。</strong> 見積の例では3割が人に回った</td>
+</tr>
+<tr>
+<td>—</td>
+<td>判断が毎回変わる仕事</td>
+<td>自動化の対象にしない。マーケが1本しかない理由</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">自動化しても、仕事が減るとは限らない</h2>
+<p>正直に書いておきます。<strong>当社では27本を自動化しても、承認待ちは減りませんでした。</strong></p>
+<p>決裁をメール1通で済ませられる仕組みも作りましたが、実行されたコマンドは<strong>0通</strong>、承認待ちは29件から37件に<strong>増えました</strong>。仕組みは正常に動いています。変わらなかったのは使う側の習慣です（<a href="../toe-tool-not-used/">メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった</a>）。</p>
+<p><strong>処理を速くすることと、仕事が終わることは別</strong>です。ここを混同すると、「入れたのに何も変わらない」という結果になります。</p>
+<h2 id="_5">この記事で言えないこと</h2>
+<ul>
+<li><strong>他社製品の比較はしていません。</strong> 当社は提供する側で、評価する立場にありません</li>
+<li><strong>費用対効果の金額は出していません。</strong> 自社プロダクトなので受託金額がなく、出せるのは規模と稼働の実数だけです</li>
+<li>ここに書いたのは、当社が動かして数えたことだけです</li>
+</ul>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>効くのは「<strong>入力と出力の形が決まっていて、毎回必ず発生する仕事</strong>」。当社27本の内訳は<strong>経理13本・マーケ1本</strong></li>
+<li>判定は3つの問い — <strong>入力の形／出力の形／毎回発生するか</strong>。1つでも「いいえ」なら部分的に任せる</li>
+<li>最も効いた判断は「<strong>AIを使わない</strong>」こと。毎朝の集計は110行のスクリプトで、大規模言語モデルを1回も呼んでいない</li>
+<li>見積メールは10件中<strong>7件を自動化、3件は人へ</strong>。ただし<strong>受注可否の判断はAIではなく条件式</strong>（1件0.001秒）</li>
+<li>AIに向くのは<strong>読み取りと下書き</strong>。判断と最終確認は人か条件式に残す</li>
+<li>入れる順番は <strong>決まった様式の転記 → 定型メールの一次対応 → 例外処理</strong>。判断が毎回変わる仕事は対象にしない</li>
+<li><strong>処理が速くなっても仕事が終わるとは限らない。</strong> 当社は決裁の仕組みを作ったが実行0通、承認待ちは29→37件に増えた</li>
+<li>普及度は<strong>AIエージェント利用中3.3%・情報収集中49.3%</strong>（分母は生成AI活用企業215社。全企業ベースではない）。<strong>製品選定より先に、業務手順を書き出す</strong></li>
+</ul>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI開発・AI活用支援を事業としており、提供する側が書いています。中立の第三者ではありません。他社製品の評価はせず、自社で動かして数えた実測だけを材料にしています。</p>
+<p><strong>実測値の出所</strong>
+- 生成AI活用43.4%・AIエージェント利用中3.3%・情報収集中49.3%: 矢野経済研究所の調査（n=496社、実査2025年6月末〜9月初）。<strong>3.3%等の分母は生成AI活用企業215社</strong>で、全企業ベースの利用率ではありません。対象業種は5業種に限られます
+- 27本の内訳: 稼働中サーバーの cron 設定（2026年8月1日時点）
+- 見積エージェント10件: 実行ログ（処理時間・AI呼び出し回数を含む）
+- 決裁の仕組みの実行0通: 株式会社TOEの実行ログ（2026年7月）</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-not-everything-automatable/">
+<div class="card-media"><img src="../../static/img/news-policy-07.svg" alt="経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方</h3>
+<p class="card-summary">弊社の自動化ジョブは27本ありますが、内訳は経理13本に対してマーケはたった1本。しかも毎朝の定型集計には、あえてAIモデルを一切使っていません。この偏りと設計判断から見えてきた「AIに向く仕事・向かない仕事」の見分け方を、実際の数字だけで書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/jissen-mitsumori-agent/">
+<div class="card-media"><img src="../../static/img/article-jissen-mitsumori-agent.jpg" alt="見積依頼のメール10件をAIエージェントに処理させたら、7件は自動で返せて3件は人間に回った" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">見積依頼のメール10件をAIエージェントに処理させたら、7件は自動で返せて3件は人間に回った</h3>
+<p class="card-summary">板金加工の見積依頼メールを一次対応するAIエージェントを実際に作り、10件を処理させた記録です。自動返信7件・人間へ3件・失敗0件、所要7分37秒。処理時間の99.9%はAIの読み書きで、受注可否の判断は0.001秒でした。AIに判断させなかった理由と、それでも起きた誤判定も載せます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-tool-not-adopted/">
+<div class="card-media"><img src="../../static/img/article-ai-tool-not-adopted.jpg" alt="導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方</h3>
+<p class="card-summary">ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-agent-backoffice">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

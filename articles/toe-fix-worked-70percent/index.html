@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い · AIの鬼</title>
+  <meta name="description" content="修正を入れたあと、それが効いたかを数えていますか。株式会社TOEは検索結果の説明文を直した翌日に445件を数え直し、131件（29.4%）に効いていないことを見つけました。さらにその夜、確認するために書いたコードのほうが5回間違えました。「数字が出ている」と「正しく数えている」は別です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/toe-fix-worked-70percent/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/toe-fix-worked-70percent/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い · AIの鬼">
+  <meta property="og:description" content="修正を入れたあと、それが効いたかを数えていますか。株式会社TOEは検索結果の説明文を直した翌日に445件を数え直し、131件（29.4%）に効いていないことを見つけました。さらにその夜、確認するために書いたコードのほうが5回間違えました。「数字が出ている」と「正しく数えている」は別です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/toe-fix-worked-70percent/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-toe-fix-worked-70percent.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-toe-fix-worked-70percent.jpg">
+  <meta name="twitter:title" content="直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い · AIの鬼">
+  <meta name="twitter:description" content="修正を入れたあと、それが効いたかを数えていますか。株式会社TOEは検索結果の説明文を直した翌日に445件を数え直し、131件（29.4%）に効いていないことを見つけました。さらにその夜、確認するために書いたコードのほうが5回間違えました。「数字が出ている」と「正しく数えている」は別です。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い","item":"https://ai-oni.com/articles/toe-fix-worked-70percent/"}]},{"@type":"Article","headline":"直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い","description":"修正を入れたあと、それが効いたかを数えていますか。株式会社TOEは検索結果の説明文を直した翌日に445件を数え直し、131件（29.4%）に効いていないことを見つけました。さらにその夜、確認するために書いたコードのほうが5回間違えました。「数字が出ている」と「正しく数えている」は別です。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/toe-fix-worked-70percent/"},"url":"https://ai-oni.com/articles/toe-fix-worked-70percent/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"中の鬼","datePublished":"2026-08-02","dateModified":"2026-08-02","image":"https://ai-oni.com/static/img/article-toe-fix-worked-70percent.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/toe-fix-worked-70percent/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-toe-fix-worked-70percent.jpg"
+         alt="直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">中の鬼</span>      <h1>直したはずの修正が、3割に効いていなかった — 445件を数え直した話と、その夜に5回やった数え間違い</h1>
+<p class="article-lead">修正を入れたあと、それが効いたかを数えていますか。株式会社TOEは検索結果の説明文を直した翌日に445件を数え直し、131件（29.4%）に効いていないことを見つけました。さらにその夜、確認するために書いたコードのほうが5回間違えました。「数字が出ている」と「正しく数えている」は別です。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月2日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：修正を入れたら、効いたかどうかを<strong>実物で数えてください</strong>。当社は検索結果の説明文を直した翌日に対象445件を数え直し、<strong>131件（29.4%）に効いていない</strong>ことを見つけました。原因は修正そのものではなく、修正が前提にしていた条件が<strong>3割で成り立っていなかった</strong>ことです。さらに恥ずかしい話として、それを確認するために書いたコードのほうが、<strong>その夜だけで5回間違えました</strong>。「数字が出ている」と「正しく数えている」は別です。</p>
+<p>株式会社TOEはAI開発・AI活用支援を事業としており、この記事は<strong>提供する側が書いています</strong>。他社の話ではなく、自社で昨日から今日にかけて起きたことです。</p>
+<h2 id="_1">何を直したのか</h2>
+<p>当社のニュース解説ページは、検索結果に出る説明文が<strong>配信元の記事の要約と区別がつかない</strong>状態でした。順位2.7位で35回表示されてクリック0、というページもありました（<a href="../toe-ctr-zero-clicks/">1ページ目に155ページ出ているのに140ページはクリック0だった</a>）。</p>
+<p>解説の本文は3段落構成で作っています。</p>
+<table>
+<thead>
+<tr>
+<th>段落</th>
+<th>中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1段落目</td>
+<td>何が起きたのか（事実の言い直し）</td>
+</tr>
+<tr>
+<td><strong>2段落目</strong></td>
+<td><strong>AIの鬼の視点 — ここが主役</strong></td>
+</tr>
+<tr>
+<td>3段落目</td>
+<td>中小企業の実務にどう効くか</td>
+</tr>
+</tbody>
+</table>
+<p>説明文に出していたのは<strong>1段落目</strong>でした。主役の2段落目は検索結果に一度も出ていません。そこで「2段落目を出す」ように直しました。</p>
+<p><strong>ここまでは正しい修正です。</strong> 問題はこの後です。</p>
+<h2 id="3">翌日、数え直したら3割に効いていなかった</h2>
+<p>修正の効果を確かめるため、対象445件の<strong>段落数を数えました</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>段落数</th>
+<th>件数</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1段落</strong></td>
+<td><strong>131件（29.4%）</strong></td>
+<td><strong>2段落目が存在しない → 修正が効かず1段落目が出る</strong></td>
+</tr>
+<tr>
+<td>2段落</td>
+<td>4件</td>
+<td></td>
+</tr>
+<tr>
+<td>3段落</td>
+<td>284件</td>
+<td>正常</td>
+</tr>
+<tr>
+<td>4段落以上</td>
+<td>26件</td>
+<td>正常</td>
+</tr>
+</tbody>
+</table>
+<p><strong>131件には、2段落目そのものがありませんでした。</strong> 修正は「2段落目がある」ことを前提にしていましたが、その前提が3割で成り立っていなかったのです。</p>
+<p>内訳を切り分けると、原因は2つでした。</p>
+<table>
+<thead>
+<tr>
+<th>原因</th>
+<th>件数</th>
+<th>対処</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>段落の区切りが空行ではなく<strong>改行1つ</strong>だった（中身は3段落ある）</td>
+<td>20件</td>
+<td>表示側で拾えるよう修正</td>
+</tr>
+<tr>
+<td><strong>改行が1つも無い。</strong> 生成が「2〜4段落で書く」という指示に従っていない</td>
+<td>111件</td>
+<td>解説を作り直し</td>
+</tr>
+</tbody>
+</table>
+<p><strong>後者が本題です。</strong> 指示には段落数を明記していました。それでも29.4%が従っていませんでした。当社は以前にも、指示に「検索で裏を取れ」と書いてあったのに21本中20本に誤りが出た経験があります（<a href="../toe-mass-production-errors/">AIに記事を108本書かせようとしたら</a>）。<strong>「指示に書いたから守られる」は成り立ちません。</strong></p>
+<h2 id="_2">作り直した結果</h2>
+<p>その場で111件を作り直しました。<strong>3回に分けて、合計183件ぶんの生成をかけています。</strong></p>
+<table>
+<thead>
+<tr>
+<th>回</th>
+<th>対象</th>
+<th>複数段落になった</th>
+<th>1段落のまま</th>
+<th>生成に失敗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1回目</td>
+<td>111件</td>
+<td>59件</td>
+<td>20件</td>
+<td><strong>32件（29%）</strong></td>
+</tr>
+<tr>
+<td>2回目</td>
+<td>52件</td>
+<td>32件</td>
+<td>8件</td>
+<td><strong>12件（23%）</strong></td>
+</tr>
+<tr>
+<td>3回目</td>
+<td>20件</td>
+<td>8件</td>
+<td>12件</td>
+<td><strong>0件</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>説明文に2段落目（独自の視点）を出せる解説は、314件(70.6%) → 433件(97.3%) になりました。</strong></p>
+<p>ここで2つ、想定していなかったことが出ました。</p>
+<p><strong>1つ目は、生成そのものが2〜3割失敗していたことです。</strong> 単発で試すと再現せず、間欠的でした。1〜2回目は、当社が並行して別のAI呼び出しをしていた時間帯と重なっています。3回目はそれを止めた状態で回して<strong>失敗0件</strong>でした。<strong>大量に生成させるときは、同じ枠で他のことをさせない</strong> — これが実務的な結論です。</p>
+<p><strong>2つ目は、3回作り直しても1段落のままの記事が12件残ったことです。</strong> 素材の長さ（中央値134字 対 全体145字）も解説の長さ（618字 対 642字）も全体とほとんど変わりません。「素材が薄いから短くなった」では説明がつきませんでした。生成側の癖と判断して、ここで打ち止めています。<strong>無限に回しても収束しないものがある</strong>、というのも実測です。</p>
+<h2 id="5">その夜、数えるコードのほうが5回間違えた</h2>
+<p>ここからが正直に書いておきたいところです。<strong>上の確認をしている同じ夜に、数えるコードのほうが5回間違えました。</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>出た数字</th>
+<th>正しくは</th>
+<th>何を間違えたか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>記事61本が要件を欠く</td>
+<td><strong>27本</strong></td>
+<td>太字の「**結論」だけを探していて、「結論から書きます。」で始まる記事を全部見落とした</td>
+</tr>
+<tr>
+<td>2</td>
+<td>参照されていない調査が8本</td>
+<td><strong>5本</strong></td>
+<td><code>/articles/…</code> 形式だけを探し、<code>../…</code> の相対リンクを数え落とした</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>222本すべてが未参照</strong></td>
+<td>実際は94本に参照あり</td>
+<td>ファイル名の扱いを取り違え、照合が全部外れた</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AEO記事に導線が無い</td>
+<td>仕様どおり付いている</td>
+<td>探していたパラメータを、その導線は持たない設計だった</td>
+</tr>
+<tr>
+<td>5</td>
+<td>論文12ページが検索用の索引に無い</td>
+<td><strong>全部載っていた</strong></td>
+<td>照合するときにファイル名のドットを削っていて、別物として突き合わせていた</td>
+</tr>
+</tbody>
+</table>
+<p><strong>5件とも、出てきた数字が極端でした。</strong> 61本・8本・222本すべて・導線ゼロ・12ページ全滅。そして5件とも、<strong>数える側の間違い</strong>でした。</p>
+<p>1と3と5は、実物を数件開いて初めて気づきました。2と4は、実装のコードを読んで気づきました。<strong>画面に出た数字を見ているだけでは、どれも見つかりません。</strong></p>
+<p>そして5件目は、上の4件を記事にした<strong>後</strong>に出ました。「気をつけよう」と書いた直後にもう1回やっています。</p>
+<h2 id="_3">ここから持ち帰れること</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>教訓</th>
+<th>具体的に</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>修正したら、効いた件数を数える</strong></td>
+<td>「直した」で終わらせない。当社は3割に効いていなかった</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>修正が前提にしている条件を確かめる</strong></td>
+<td>「2段落目を出す」は「2段落目がある」が前提。そこが3割で崩れていた</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>極端な数字が出たら、まず数え方を疑う</strong></td>
+<td>0件・全部・想定の2倍。実物を数件開けば、たいてい数え方の誤りだと分かる</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>指示に書いたことは守られない前提で組む</strong></td>
+<td>段落数を指定しても29.4%が従わなかった。<strong>後から機械で数えて弾く</strong>工程が要る</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3番が今回いちばん効きました。</strong> 5件とも「この数字はおかしい」と思って実物を開いたり実装を読んだりしたから見つかっています。逆に、もっともらしい数字が出ていたら、そのまま信じていたはずです。</p>
+<p>同じ型の壊れ方（数字は出るのに実態と合わない）を12件まとめたものが<a href="../ai-automation-silent-failure/">AI自動化は「エラーを出さずに止まる」</a>に、測り方そのものの整理が<a href="../ai-effect-measurement/">AI導入の効果はどう測るか</a>にあります。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li><strong>直した結果クリックが増えた、とはまだ書けません。</strong> 検索データは2〜3日遅れて集計されるため、効果が見えるのは数日後です</li>
+<li><strong>作り直しで文章の質が上がったかは、まだ測れていません。</strong> 確認できたのは段落の数だけです。クリックが増えたかどうかは数日後にしか分かりません</li>
+<li><strong>数え間違いをゼロにする方法も書けません。</strong> 当社は一晩で5回やりました</li>
+<li>ここに書いたのは、昨日から今日にかけて自社で起きたことだけです</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>説明文を「2段落目（独自の視点）を出す」ように直したが、<strong>翌日に数え直したら445件中131件（29.4%）に効いていなかった</strong></li>
+<li>原因は修正そのものではなく、<strong>修正が前提にしていた「2段落目がある」が3割で成り立っていなかった</strong>こと</li>
+<li>内訳は、<strong>改行の書式が違うだけ20件</strong>と、<strong>生成が段落数の指示に従っていない111件</strong></li>
+<li>111件を3回に分けて作り直し、<strong>314件(70.6%) → 433件(97.3%)</strong> になった</li>
+<li><strong>生成そのものが2〜3割失敗していた。</strong> 並行して別のAI呼び出しを止めた3回目は失敗0件。<strong>大量生成中は同じ枠で他のことをさせない</strong></li>
+<li><strong>3回作り直しても1段落のままが12件残った。</strong> 素材の長さも解説の長さも全体と変わらず、素材のせいでは説明がつかない。<strong>回しても収束しないものがある</strong></li>
+<li><strong>「指示に書いたから守られる」は成り立たない。</strong> 段落数を明記しても29.4%が従わなかった</li>
+<li>同じ夜に、<strong>数えるコードのほうが5回間違えた</strong>（61本→27本／8本→5本／222本全部→94本に参照あり／導線ゼロ→仕様どおり有り／論文12ページ全滅→全部載っていた）</li>
+<li><strong>5件とも出てきた数字が極端で、5件とも数える側の誤りだった。</strong> しかも5件目は、この記事に4件と書いた後に出た</li>
+<li>持ち帰れるのは4つ — <strong>効いた件数を数える／修正の前提を確かめる／極端な数字が出たら数え方を疑う／指示は守られない前提で機械の検査を入れる</strong></li>
+<li><strong>実物を数件開くのが一番早い。</strong> 画面に出た数字を見ているだけでは、どれも見つからない</li>
+</ul>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI開発・AI活用支援を事業としており、提供する側が書いています。他社の事例ではなく、2026年8月1日から2日にかけて自社で起きたことをそのまま載せています。修正の効果（クリックが増えたか）はまだ測れていません。</p>
+<p><strong>実測値の出所</strong>
+- 解説445件の段落数、131件・20件・111件の内訳: 株式会社TOEが運用する ai-oni.com のデータを集計（2026年8月2日）
+- 数え間違い5件: 同日の作業記録</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-effect-measurement/">
+<div class="card-media"><img src="../../static/img/article-ai-effect-measurement.jpg" alt="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録</h3>
+<p class="card-summary">AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-keiei-db-auto/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと</h3>
+<p class="card-summary">当社は経営業務をcron+AIエージェントで自動化し、経営データを社内の「_経営DB/」フォルダへ毎日・毎週、自動蓄積しています。その実行ログ20,109行を数えたら、処理完了を示す✅マークは4,749回、週次統合ジョブは586回動いていました。営業の危険度採点、経理の警告再生成、ダッシュボード生成からPDF化・Google Drive転送まで、人間は完成したものを見るだけです。ただし正直に書きます。この4,749という数字は「実行した回数」であって、「中身が正しい」ことの保証ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-hallucination-check/">
+<div class="card-media"><img src="../../static/img/article-ai-hallucination-check.jpg" alt="AIが書いた文章の嘘の見つけ方 — 24本中23本が実在しない出典だった実測と、検証ツールが「0件」と報告し続けた理由" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AIが書いた文章の嘘の見つけ方 — 24本中23本が実在しない出典だった実測と、検証ツールが「0件」と報告し続けた理由</h3>
+<p class="card-summary">AIの誤りは誤字ではないので、読んだだけでは見抜けません。株式会社TOEは出典を確かめずに記事を作り、24本中23本が実在しない論文でした。さらに、それを防ぐために作った検証ツールが「実在しないもの0件」と報告し続け、実は確認できていたのは45件だけでした。検証を仕組みにするときの落とし穴を3つ挙げます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=toe-fix-worked-70percent">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方 · AIの鬼</title>
+  <meta name="description" content="ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-tool-not-adopted/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-tool-not-adopted/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方 · AIの鬼">
+  <meta property="og:description" content="ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-tool-not-adopted/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-tool-not-adopted.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-tool-not-adopted.jpg">
+  <meta name="twitter:title" content="導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方 · AIの鬼">
+  <meta name="twitter:description" content="ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方","item":"https://ai-oni.com/articles/ai-tool-not-adopted/"}]},{"@type":"Article","headline":"導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方","description":"ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-tool-not-adopted/"},"url":"https://ai-oni.com/articles/ai-tool-not-adopted/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"失敗の鬼","datePublished":"2026-08-01","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-ai-tool-not-adopted.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-tool-not-adopted/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-tool-not-adopted.jpg"
+         alt="導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>導入したAIツールが使われない — 実行0通・承認待ちが増えた自社の記録と、原因の切り分け方</h1>
+<p class="article-lead">ツールを入れたのに現場が使わない。原因を「使い方が分からないから」と決めつけると外します。株式会社TOEは決裁をメール1通まで簡単にしましたが実行は0通、承認待ちはむしろ29件から37件に増えました。仕組みは正常でした。何が起きていたのかと、自社で確認する手順を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月1日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：導入したAIツールが使われないとき、原因を「使い方が分からないから」と決めつけると外します。当社は決裁を<strong>メール1通</strong>まで簡単にした仕組みを作りましたが、<strong>実行されたコマンドは0通</strong>、承認待ちはむしろ<strong>29件から37件に増えました</strong>。仕組みは正常に動いていました。壊れていたのではなく、<strong>使う場面が既存の習慣の中に無かった</strong>のです。原因は大きく4つに切り分けられ、そのうち研修や説明会で解決するのは1つだけです。</p>
+<p>株式会社TOEはAI導入支援を事業としており、この記事は<strong>提供する側が書いています</strong>。中立の第三者ではありません。他社製品の評価はせず、自社で起きたことと公的調査だけを材料にします。</p>
+<h2 id="0">自社で起きたこと — 仕組みは正常、実行は0通</h2>
+<p>社長の決裁待ちが溜まる問題がありました。毎朝のブリーフィングが「承認待ちが29件あります」と知らせますが、知らせるだけでは減りません。</p>
+<p>そこで、決裁のハードルを極限まで下げました。社長のメールアドレス宛に本人が送ったメールを10分おきに監視し、本文をコマンドとして処理します。書式は「承認 [番号] ひとことメモ」だけ。iPhoneから1通返すだけで決裁が通り、アプリを開く必要すらありません。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仕組みの動作</td>
+<td><strong>正常</strong>（監視も処理も動いていた）</td>
+</tr>
+<tr>
+<td>実行されたコマンド</td>
+<td><strong>0通</strong></td>
+</tr>
+<tr>
+<td>承認待ちの件数</td>
+<td>29件 → <strong>37件に増加</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>機能不足ではありませんでした。</strong> 詳細は<a href="../toe-tool-not-used/">メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった</a>に書いています。</p>
+<h2 id="4">原因は4つに切り分けられる</h2>
+<p>「使われない」には性質の違う原因が混ざっています。切り分けないと、効かない対策を打つことになります。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>原因</th>
+<th>見分け方</th>
+<th>効く対策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>使う場面が既存の習慣の中に無い</strong></td>
+<td>使い方は理解されている。それでも触られない</td>
+<td><strong>既にやっている行動に紐づける</strong>。新しい習慣を作らせない</td>
+</tr>
+<tr>
+<td>2</td>
+<td>使い方が分からない</td>
+<td>質問が来る。誤った使い方をしている</td>
+<td>研修・マニュアル（<strong>ここだけが研修で解決する</strong>）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>使ってよいか分からない</td>
+<td>「これ入力していいんですか」と聞かれる</td>
+<td><strong>社内ルールを決める</strong>。規定があるのは3.7%しかない</td>
+</tr>
+<tr>
+<td>4</td>
+<td>使うと損をする</td>
+<td>使った人の作業が増えている</td>
+<td><strong>業務フローごと見直す</strong>。ツールだけでは直らない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>置き場所を変えるという手もあります。</strong> Shopifyは社内エージェントを個人の手元ではなく全社のチャットに常駐させ、直近30日で59,918セッション・7,000人超の関与という数字を公開しました。「個人の手元に置いたエージェントには天井がある」という設計判断です。ただしこれは同社自身の発表で、公開されているのは活動量の指標だけです。品質や生産性への効果は示されていません（<a href="../co-shopify-river-agent-adoption-measured/">AIエージェントは個人の手元と全社チャットのどちらに置くべきか</a>）。</p>
+<p><strong>既にみんなが見ている場所に置く</strong>、という考え方は当社の1番目の原因への対処と同じ方向です。</p>
+<p>当社のケースは<strong>1番</strong>でした。使い方は極限まで簡単で、社長は仕組みを理解していました。それでも触られなかったのは、<strong>「メールで決裁する」という行動が、その人の1日の流れの中に無かった</strong>からです。</p>
+<h2 id="_1">「入れた」と「定着した」の距離</h2>
+<p>公的な調査でも、この距離は数字に出ています。</p>
+<table>
+<thead>
+<tr>
+<th>調査項目</th>
+<th>数字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DX推進指標で<strong>現在値がレベル4以上</strong>に達した企業</td>
+<td>1,164社中<strong>38社（3%）</strong></td>
+</tr>
+<tr>
+<td>成熟度の現在値の平均</td>
+<td>1.98</td>
+</tr>
+<tr>
+<td>目標値の平均</td>
+<td>3.51（<strong>差は1.53</strong>）</td>
+</tr>
+<tr>
+<td>生成AIを<strong>「個人任せ」</strong>にしている企業</td>
+<td><strong>64.9%</strong></td>
+</tr>
+<tr>
+<td>AI利用の<strong>社内規定を策定済み</strong>の職場</td>
+<td><strong>3.7%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>DXの自己診断では、目標と現在に1.53の開きがあります（<a href="../jp-ipa-dx-suishin-shihyo-2025/">DXが「全社に定着した」企業は1,164社中38社</a>）。そして生成AIは64.9%が個人任せで、ルールがあるのは3.7%です。</p>
+<p><strong>多くの会社で、ツールは「入っている」が「組織の手順になっていない」状態</strong>です。</p>
+<h2 id="_2">自社で確認する手順</h2>
+<p>順番があります。上から確認してください。</p>
+<table>
+<thead>
+<tr>
+<th>順</th>
+<th>確認すること</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>ログを見る。実際に何回使われたか</strong></td>
+<td>「使われている気がする」は当てにならない。当社は0通だった</td>
+</tr>
+<tr>
+<td>2</td>
+<td>使っている人に<strong>いつ使ったか</strong>を聞く</td>
+<td>「朝一番に」「客先から戻って」と答えられるなら習慣化している</td>
+</tr>
+<tr>
+<td>3</td>
+<td>使っていない人に<strong>理由を1つだけ</strong>聞く</td>
+<td>「分からない」なら原因2、「聞いてない」なら原因3、「面倒」なら原因1か4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>使った人の<strong>作業が増えていないか</strong>確認する</td>
+<td>増えているなら原因4。ツールを直しても定着しない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1番から始めるのが要点です。</strong> 感触ではなく回数を数えると、当社のように「0」という数字が出てきます。</p>
+<h2 id="_3">効いた対策・効かなかった対策</h2>
+<p>当社の実測から言えることです。</p>
+<ul>
+<li><strong>効かなかった</strong>: ハードルを下げること。メール1通まで簡単にしても0通だった</li>
+<li><strong>効かなかった</strong>: 毎朝の通知。29件と知らせても、知らせるだけでは減らない</li>
+<li><strong>効きそうなのは</strong>: 既にやっている行動に紐づけること。新しい習慣を作らせるのではなく、既存の流れの中に置く</li>
+</ul>
+<p>研修を検討している場合は、<a href="../ai-training-selection/">AI研修を法人で選ぶ前に</a>に確認項目を整理しました。<strong>原因2以外には研修が効かない</strong>点だけ、先に確かめる価値があります。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li><strong>確実に定着させる方法は書けません。</strong> 当社もまだ解決していません（承認待ちは増えたままです）</li>
+<li><strong>他社製品の比較もしていません。</strong> 提供する側なので評価する立場にありません</li>
+<li>ここに書いたのは、当社で実際に起きたことと、公的調査の数字だけです</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>当社は決裁を<strong>メール1通</strong>まで簡単にしたが、<strong>実行0通</strong>・承認待ちは<strong>29件→37件に増加</strong>。仕組みは正常だった</li>
+<li>原因は4つに切り分けられる — <strong>使う場面が習慣の中に無い／使い方が分からない／使ってよいか分からない／使うと損をする</strong></li>
+<li><strong>研修で解決するのは2番目だけ。</strong> 他の3つに研修を打っても効かない</li>
+<li>当社は1番目だった。使い方は理解されていたが、<strong>その行動が1日の流れの中に無かった</strong></li>
+<li>DX推進指標で現在値レベル4以上は<strong>1,164社中38社（3%）</strong>。生成AIは<strong>64.9%が個人任せ</strong>、社内規定があるのは<strong>3.7%</strong></li>
+<li>確認は<strong>ログから始める</strong>。「使われている気がする」ではなく回数を数えると、0という数字が出てくる</li>
+<li><strong>ハードルを下げても、通知を出しても効かなかった。</strong> 効きそうなのは既存の行動に紐づけること</li>
+</ul>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI導入支援を事業としており、提供する側が書いています。中立の第三者ではありません。他社製品の評価はせず、自社で起きたことと公的調査だけを材料にしています。定着の問題は当社でも未解決です。</p>
+<p><strong>数字の出所</strong>
+- 実行0通・承認待ち29→37件: 株式会社TOEの実行ログ（2026年7月）
+- DX推進指標 1,164社・現在値1.98・目標3.51: IPA デジタル・トランスフォーメーション推進指標 自己診断結果分析レポート（自己申告・任意提出企業が対象）
+- 個人任せ64.9%: 商工中金が中小企業3,892社から回答を得た調査（2026年1月）
+- 社内規定3.7%: JILPTが全国2.2万人の労働者に実施した調査（2024年5月27日〜6月27日）</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-training-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-training-selection.jpg" alt="AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目</h3>
+<p class="card-summary">AI研修の比較サイトは料金と時間数を並べますが、研修後に定着するかはそこでは決まりません。株式会社TOEが自社で「使われなかった仕組み」を作った実測（実行0通・承認待ちは29件から37件に増加）と公的調査から、研修を選ぶ前に社内で決めておくことを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-tool-not-used/">
+<div class="card-media"><img src="../../static/img/news-policy-08.svg" alt="メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">メール1通で決裁できる仕組みを作ったのに、実行されたコマンドは0通だった</h3>
+<p class="card-summary">当社はiPhoneからメールを1通返すだけで社内決裁が通る仕組みを作りました。実行ログを開いたら、使われた形跡は0通。承認待ちは29件から37件に増えていました。仕組みは正常なのに使われない。「入れた＝定着した」ではないという失敗の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ctr-zero-clicks/">
+<div class="card-media"><img src="../../static/img/article-toe-ctr-zero-clicks.jpg" alt="検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因</h3>
+<p class="card-summary">順位が付いていてもクリックされないことがあります。株式会社TOEが自社メディアのSearch Consoleを10日ぶん数えたところ、10位以内に155ページ出て562回表示され、そのうち140ページは1件もクリックされていませんでした。原因を3つに切り分け、逆に最も効率の良かったページの共通点も出します。AI検索対策（AEO）とWeb制作を事業とする当社の、自己点検の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-tool-not-adopted">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

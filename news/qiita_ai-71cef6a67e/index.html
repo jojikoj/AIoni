@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AI時代のハードウェアの選び方｜要点と実務への影響 · AIの鬼</title>
+  <meta name="description" content="気になるのは「クラウドAPIに送ったデータが学習に使われるのでは」という懸念です。これについてOpenAI、Anthropic、Googleは公式に「業務利用データをモデル学習に使わない」と示しています。">
+  <link rel="canonical" href="https://ai-oni.com/news/qiita_ai-71cef6a67e/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/qiita_ai-71cef6a67e/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める｜要点と実務への影響 · AIの鬼">
+  <meta property="og:description" content="気になるのは「クラウドAPIに送ったデータが学習に使われるのでは」という懸念です。これについてOpenAI、Anthropic、Googleは公式に「業務利用データをモデル学習に使わない」と示しています。">
+  <meta property="og:url" content="https://ai-oni.com/news/qiita_ai-71cef6a67e/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める｜要点と実務への影響 · AIの鬼">
+  <meta name="twitter:description" content="気になるのは「クラウドAPIに送ったデータが学習に使われるのでは」という懸念です。これについてOpenAI、Anthropic、Googleは公式に「業務利用データをモデル学習に使わない」と示しています。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める","item":"https://ai-oni.com/news/qiita_ai-71cef6a67e/"}]},{"@type":"NewsArticle","@id":"https://ai-oni.com/news/qiita_ai-71cef6a67e/","url":"https://ai-oni.com/news/qiita_ai-71cef6a67e/","headline":"AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める","description":"気になるのは「クラウドAPIに送ったデータが学習に使われるのでは」という懸念です。これについてOpenAI、Anthropic、Googleは公式に「業務利用データをモデル学習に使わない」と示しています。","inLanguage":"ja-JP","isPartOf":{"@id":"https://ai-oni.com/#website"},"isAccessibleForFree":true,"datePublished":"2026-08-01T07:56:17+00:00","author":{"@type":"Organization","name":"AIの鬼 編集部","url":"https://ai-oni.com/about/"},"publisher":{"@id":"https://ai-oni.com/#organization"},"isBasedOn":{"@type":"NewsArticle","headline":"AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める","url":"https://qiita.com/hiiragisan/items/5ba3b2443b3af9be7399","publisher":{"@type":"Organization","name":"Qiita AI"}},"citation":{"@type":"NewsArticle","headline":"AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める","url":"https://qiita.com/hiiragisan/items/5ba3b2443b3af9be7399","publisher":{"@type":"Organization","name":"Qiita AI"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/news/qiita_ai-71cef6a67e/"}}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/qiita_ai-71cef6a67e/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Qiita AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+<span class="tag-hash">#新モデル</span>        <span class="src">Qiita AI</span>
+<time datetime="2026-08-01T07:56:17+00:00">2026年8月1日</time>      </div>
+      <h1>AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-user-contents.imgix.net%2Fhttps%253A%252F%252Fcdn.qiita.com%252Fassets%252Fpublic%252Farticle-ogp-background-afbab5eb44e0b055cce1258705637a91.png%3Fixlib%3Drb-4.1.1%26w%3D1200%26blend64%3DaHR0cHM6Ly9xaWl0YS11c2VyLXByb2ZpbGUtaW1hZ2VzLmltZ2l4Lm5ldC9odHRwcyUzQSUyRiUyRnMzLWFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb20lMkZxaWl0YS1pbWFnZS1zdG9yZSUyRjAlMkY0NDMyMDU1JTJGNzQ5MDE1MDdjN2FmMmJmZjBhODYyM2ViYjUwOTQwNTJmMmQyYTljNCUyRnhfbGFyZ2UucG5nJTNGMTc3ODgyNTI3ND9peGxpYj1yYi00LjEuMSZhcj0xJTNBMSZmaXQ9Y3JvcCZtYXNrPWVsbGlwc2UmYmc9RkZGRkZGJmZtPXBuZzMyJnM9OTEyNTExNTI2NzdkNGJkZmIyMzIxNDA3NzUzODVmY2U%26blend-x%3D120%26blend-y%3D467%26blend-w%3D82%26blend-h%3D82%26blend-mode%3Dnormal%26s%3D1361c0c01735407388cc916fe87748b2?ixlib=rb-4.1.1&amp;amp;w=1200&amp;amp;fm=jpg&amp;amp;mark64=aHR0cHM6Ly9xaWl0YS11c2VyLWNvbnRlbnRzLmltZ2l4Lm5ldC9-dGV4dD9peGxpYj1yYi00LjEuMSZ3PTk2MCZoPTMyNCZ0eHQ9QUklRTYlOTklODIlRTQlQkIlQTMlRTMlODElQUUlRTMlODMlOEYlRTMlODMlQkMlRTMlODMlODklRTMlODIlQTYlRTMlODIlQTclRTMlODIlQTIlRTMlODElQUUlRTklODElQjglRTMlODElQjMlRTYlOTYlQjklRTIlODAlOTQlRTIlODAlOTQlRTMlODMlQUQlRTMlODMlQkMlRTMlODIlQUIlRTMlODMlQUJMTE0lRTMlODIlOTIlRTclQTQlQkUlRTUlODYlODUlRTMlODElQTclRTYlOEMlODElRTMlODElQTQlRTUlODklOEQlRTMlODElQUIlRTMlODAlODElRTMlODMlQTElRTMlODMlQTIlRTMlODMlQUElRTMlODElQTglRTMlODIlQjMlRTMlODIlQjklRTMlODMlODglRTMlODElQTclRTYlQjElQkElRTMlODIlODElRTMlODIlOEImdHh0LWFsaWduPWxlZnQlMkN0b3AmdHh0LWNvbG9yPSUyMzFFMjEyMSZ0eHQtZm9udD1IaXJhZ2lubyUyMFNhbnMlMjBXNiZ0eHQtc2l6ZT01NiZ0eHQtcGFkPTAmcz0xODgzOGRmYjA2ZGYxODRmMDA0MTNmMjI1MTAwZDQzNg&amp;amp;mark-x=120&amp;amp;mark-y=112&amp;amp;blend64=aHR0cHM6Ly9xaWl0YS11c2VyLWNvbnRlbnRzLmltZ2l4Lm5ldC9-dGV4dD9peGxpYj1yYi00LjEuMSZ3PTgzOCZoPTU4JnR4dD0lNDBoaWlyYWdpc2FuJnR4dC1jb2xvcj0lMjMxRTIxMjEmdHh0LWZvbnQ9SGlyYWdpbm8lMjBTYW5zJTIwVzYmdHh0LXNpemU9MzYmdHh0LXBhZD0wJnM9MWU2NzliMThmNDAwOWFkODRhMDRiMGQwMTA4Y2Q1MWY&amp;amp;blend-x=242&amp;amp;blend-y=480&amp;amp;blend-w=838&amp;amp;blend-h=46&amp;amp;blend-fit=crop&amp;amp;blend-crop=left%2Cbottom&amp;amp;blend-mode=normal&amp;amp;s=b6685c7aa1f05d6cc8d3b8ee49fd30ac" alt="AI時代のハードウェアの選び方——ローカルLLMを社内で持つ前に、メモリとコストで決める（画像: Qiita AI）"
+           loading="lazy" referrerpolicy="no-referrer"
+           onerror="this.closest('figure').style.display='none'">
+      <figcaption>画像: Qiita AI（配信元より）</figcaption>
+    </figure>
+
+    <div class="news-body">
+<p>社内でローカルLLMを動かしたいと思ったとき、多くの企業はGPUの製品名やスペック表から選び始めます。しかし、これは順序が逆です。本当に先に決めるべきなのは「何を動かしたいのか」と「予算はいくらか」の二つです。必要なメモリはモデルサイズで決まり、処理速度はメモリ帯域幅で決まります。つまり、製品名を見比べるのではなく、まずは運用したいモデル（7B、14B、70Bなど）を決め、その後で稼働場所と予算を問い合わせるのが合理的です。AI向け需要でメモリ価格が上昇し、個人・法人向けの供給が後回しになりつつある以上、判断を先送りするほど条件は悪くなります。</p><p>気になるのは「クラウドAPIに送ったデータが学習に使われるのでは」という懸念です。これについてOpenAI、Anthropic、Googleは公式に「業務利用データをモデル学習に使わない」と示しています。つまり、情報漏えいが主な理由なら、データ利用条件を確認したうえでAPIの利用を検討するのが筋です。ローカルを選ぶ本当の理由は、閉域網やオフラインでしか扱えない現場、業界規制で外部送信そのものが禁止されていること、大量処理のコスト、この三点に絞られます。</p><p>実際のハードウェア選びでは、四つの落とし穴が見えてきます。一つは複数の安いGPUを並べても大きいモデルは動かないこと（NVLinkがないためVRAMが合算されない）。二つはオフィスの電源工事が先に必要になることです。RTX 6000はTDP 600Wで、一般的な100V系統では一機で大半を占有します。三つは同時利用者数でメモリ余裕が変わることです。四つは話題になったモデルが自社で動かせるとは限らないこと。Kimi K3のような大規模MoEモデルは、実際に動かそうとするとクラウド月額数百万円か、GPUを十数台以上買うことになります。</p><p>買う・借りる・APIを使う、どれが安いかは月次稼働時間と利用パターンで決まります。APIは1Mトークンあたりの単価制で、初期投資がありません。クラウド借用は時間単価で支払い、自社購入は電気代と耐用年数で償却します。まずはAPIから始めて、閉域網や規制の要件が本当に出てきてから買う判断をするのが、リスクも少なく、意思決定も立てやすくなります。</p>    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://qiita.com/hiiragisan/items/5ba3b2443b3af9be7399" target="_blank" rel="noopener nofollow">
+        Qiita AIで元記事を読む →
+      </a>
+    </p>
+
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        ニュースの背景を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ai-output-check/">
+<div class="card-media"><img src="../../static/img/news-policy-07.svg" alt="AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI翻訳で1,000件超を公開している自社メディアが、日→英だけは「載せない」と決めた理由</h3>
+<p class="card-summary">弊社の宇宙メディアUchUchUは、海外記事の英→日翻訳をAIで回しています。しかし日→英の翻訳だけは、品質が公開に耐えないと判断して載せるのをやめました。同じAIでも、方向が変わるだけで使えなくなる。AIの翻訳や文章を対外資料に使う前に何を確認すべきかを、自社の判断基準とあわせて書きました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-fulldata-accuracy-fewer-labels/">
+<div class="card-media"><img src="../../static/img/article-ai-fulldata-accuracy-fewer-labels.jpg" alt="AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIの正解ラベルは100件で足りるのか？7,241件分の精度に到達した選び方と、9回中5回失敗した落とし穴</h3>
+<p class="card-summary">7,241件のデータプールからAI自身の不確実性で100件だけ選ぶと、全データ学習とほぼ同じ精度に届いた。一方で1回きりの微調整は9シード中5シードが物理的にありえない出力を学習し、検証スコアはそれを検知できなかった。ラベル作成コストに悩む中小企業が読むべき、選び方と止め方の設計を解説する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-keiei-db-auto/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと</h3>
+<p class="card-summary">当社は経営業務をcron+AIエージェントで自動化し、経営データを社内の「_経営DB/」フォルダへ毎日・毎週、自動蓄積しています。その実行ログ20,109行を数えたら、処理完了を示す✅マークは4,749回、週次統合ジョブは586回動いていました。営業の危険度採点、経理の警告再生成、ダッシュボード生成からPDF化・Google Drive転送まで、人間は完成したものを見るだけです。ただし正直に書きます。この4,749という数字は「実行した回数」であって、「中身が正しい」ことの保証ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=qiita_ai-71cef6a67e">無料で相談する</a>
+  </div>
+</aside>
+
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

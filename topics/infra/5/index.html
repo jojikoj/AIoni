@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>半導体・インフラ · AIの鬼</title>
+  <meta name="description" content="GPU・データセンター・計算資源・電力など、AIを動かす土台の話題を集めています。調達のしやすさと価格は、AIを自社で持つか外部サービスを使うかの判断に直接効きます。">
+  <link rel="canonical" href="https://ai-oni.com/topics/infra/5/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/topics/infra/5/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="半導体・インフラ · AIの鬼">
+  <meta property="og:description" content="GPU・データセンター・計算資源・電力など、AIを動かす土台の話題を集めています。調達のしやすさと価格は、AIを自社で持つか外部サービスを使うかの判断に直接効きます。">
+  <meta property="og:url" content="https://ai-oni.com/topics/infra/5/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="半導体・インフラ · AIの鬼">
+  <meta name="twitter:description" content="GPU・データセンター・計算資源・電力など、AIを動かす土台の話題を集めています。調達のしやすさと価格は、AIを自社で持つか外部サービスを使うかの判断に直接効きます。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"半導体・インフラ","item":"https://ai-oni.com/topics/infra/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"Stargate Community","url":"https://openai.com/index/stargate-community"},{"@type":"ListItem","position":2,"name":"A business that scales with the value of intelligence","url":"https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence"},{"@type":"ListItem","position":3,"name":"Investing in Merge Labs","url":"https://openai.com/index/investing-in-merge-labs"},{"@type":"ListItem","position":4,"name":"OpenAI partners with Cerebras","url":"https://openai.com/index/cerebras-partnership"},{"@type":"ListItem","position":5,"name":"OpenAI and SoftBank Group partner with SB Energy","url":"https://openai.com/index/stargate-sb-energy-partnership"},{"@type":"ListItem","position":6,"name":"NVIDIA Cosmos Reason 2 Brings Advanced Reasoning To Physical AI","url":"https://huggingface.co/blog/nvidia/nvidia-cosmos-reason-2-brings-advanced-reasoning"},{"@type":"ListItem","position":7,"name":"NVIDIA brings agents to life with DGX Spark and Reachy Mini","url":"https://huggingface.co/blog/nvidia-reachy-mini"},{"@type":"ListItem","position":8,"name":"Evaluating chain-of-thought monitorability","url":"https://openai.com/index/evaluating-chain-of-thought-monitorability"},{"@type":"ListItem","position":9,"name":"Deepening our collaboration with the U.S. Department of Energy","url":"https://openai.com/index/us-department-of-energy-collaboration"},{"@type":"ListItem","position":10,"name":"The Open Evaluation Standard: Benchmarking NVIDIA Nemotron 3 Nano with NeMo Evaluator","url":"https://huggingface.co/blog/nvidia/nemotron-3-nano-evaluation-recipe"},{"@type":"ListItem","position":11,"name":"How confessions can keep language models honest","url":"https://openai.com/index/how-confessions-can-keep-language-models-honest"},{"@type":"ListItem","position":12,"name":"Google DeepMind supports U.S. Department of Energy on Genesis: a national mission to accelerate innovation and scientific discovery","url":"https://deepmind.google/blog/google-deepmind-supports-us-department-of-energy-on-genesis/"},{"@type":"ListItem","position":13,"name":"Early experiments in accelerating science with GPT-5","url":"https://openai.com/index/accelerating-science-gpt-5"},{"@type":"ListItem","position":14,"name":"Join the AMD Open Robotics Hackathon","url":"https://huggingface.co/blog/amd/openroboticshackathon"},{"@type":"ListItem","position":15,"name":"AWS and OpenAI announce multi-year strategic partnership","url":"https://openai.com/index/aws-and-openai-partnership"},{"@type":"ListItem","position":16,"name":"On the Shifting Global Compute Landscape","url":"https://huggingface.co/blog/huggingface/shifting-compute-landscape"},{"@type":"ListItem","position":17,"name":"Building a Healthcare Robot from Simulation to Deployment with NVIDIA Isaac","url":"https://huggingface.co/blog/lerobotxnvidia-healthcare"},{"@type":"ListItem","position":18,"name":"How to Build a Healthcare Robot from Simulation to Deployment with NVIDIA Isaac for Healthcare","url":"https://huggingface.co/blog/nvidia/nvidia-isaac-for-healthcare"},{"@type":"ListItem","position":19,"name":"Seizing the AI opportunity","url":"https://openai.com/global-affairs/seizing-the-ai-opportunity"},{"@type":"ListItem","position":20,"name":"Gemini achieves gold-medal level at the International Collegiate Programming Contest World Finals","url":"https://deepmind.google/blog/gemini-achieves-gold-medal-level-at-the-international-collegiate-programming-contest-world-finals/"},{"@type":"ListItem","position":21,"name":"Argentina’s AI opportunity","url":"https://openai.com/global-affairs/argentinas-ai-opportunity"},{"@type":"ListItem","position":22,"name":"OpenAI and Broadcom announce strategic collaboration to deploy 10 gigawatts of OpenAI-designed AI accelerators","url":"https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration"},{"@type":"ListItem","position":23,"name":"HYGH speeds development and campaigns with ChatGPT Business","url":"https://openai.com/index/hygh"},{"@type":"ListItem","position":24,"name":"AMD and OpenAI announce strategic partnership to deploy 6 gigawatts of AMD GPUs","url":"https://openai.com/index/openai-amd-strategic-partnership"},{"@type":"ListItem","position":25,"name":"Samsung and SK join OpenAI’s Stargate initiative to advance global AI infrastructure","url":"https://openai.com/index/samsung-and-sk-join-stargate"},{"@type":"ListItem","position":26,"name":"OpenAI, Oracle, and SoftBank expand Stargate with five new AI datacenter sites","url":"https://openai.com/index/five-new-stargate-sites"},{"@type":"ListItem","position":27,"name":"Smol2Operator: Post-Training GUI Agents for Computer Use","url":"https://huggingface.co/blog/smol2operator"},{"@type":"ListItem","position":28,"name":"OpenAI and NVIDIA announce strategic partnership to deploy 10 gigawatts of NVIDIA systems","url":"https://openai.com/index/openai-nvidia-systems-partnership"},{"@type":"ListItem","position":29,"name":"Make your ZeroGPU Spaces go brrr with ahead-of-time compilation","url":"https://huggingface.co/blog/zerogpu-aoti"},{"@type":"ListItem","position":30,"name":"NVIDIA Releases 6 Million Multi-Lingual Reasoning Dataset","url":"https://huggingface.co/blog/nvidia/multilingual-reasoning-v1"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/topics/infra/5/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../../jissen/" class="">AI実践室</a>
+      <a href="../../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../../shippai/" class="">失敗の鬼</a>
+      <a href="../../../shigoto/" class="">AI仕事術</a>
+      <a href="../../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../../weekly/" class="">今週のAI</a>
+      <a href="../../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../../news/" class="">ニュース</a>
+      <a href="../../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../../check/" class="">AI検索チェック</a>
+      <a href="../../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>半導体・インフラ</h1>
+    <p class="page-sub">GPU・データセンター・計算資源・電力</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <a class="chip " href="../../models/">#新モデル</a>
+      <a class="chip " href="../../tools/">#業務ツール</a>
+      <a class="chip " href="../../dev/">#開発・実装</a>
+      <a class="chip " href="../../business/">#企業動向</a>
+      <a class="chip " href="../../policy/">#規制・法制度</a>
+      <a class="chip " href="../../research/">#研究動向</a>
+      <a class="chip on" href="../../infra/">#半導体・インフラ</a>
+      <a class="chip " href="../../japan/">#国内動向</a>
+    </div>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-90314fb861/">
+    <img src="../../../../static/img/news-infra-08.svg"
+         alt="Stargate Community、地域主導のAIインフラ構想を提案（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-90314fb861/">Stargate Community、地域主導のAIインフラ構想を提案</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-01-20T19:00:00+00:00">2026.01.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-68ceabf8f6/">
+    <img src="../../../../static/img/news-models-08.svg"
+         alt="知能の価値に比例して成長するOpenAIのビジネスモデル（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-68ceabf8f6/">知能の価値に比例して成長するOpenAIのビジネスモデル</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-01-18T10:00:00+00:00">2026.01.18</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-c379418780/">
+    <img src="../../../../static/img/news-infra-07.svg"
+         alt="OpenAI、Merge Labsに投資（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-c379418780/">OpenAI、Merge Labsに投資</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-01-15T07:00:00+00:00">2026.01.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-8566227622/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="OpenAI、Cerebasと提携（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-8566227622/">OpenAI、Cerebasと提携</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-01-14T14:00:00+00:00">2026.01.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-1d2d99cb07/">
+    <img src="../../../../static/img/news-infra-11.svg"
+         alt="OpenAIとSoftBank、SB Energyとパートナーシップ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-1d2d99cb07/">OpenAIとSoftBank、SB Energyとパートナーシップ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-01-09T11:00:00+00:00">2026.01.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-46cb5e7929/">
+    <img src="../../../../static/img/news-infra-09.svg"
+         alt="NVIDIA Cosmos Reason 2——フィジカルAIに高度な推論能力をもたらす（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-46cb5e7929/">NVIDIA Cosmos Reason 2——フィジカルAIに高度な推論能力をもたらす</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-01-05T22:56:51+00:00">2026.01.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-a1e1d46195/">
+    <img src="../../../../static/img/news-infra-01.svg"
+         alt="NVIDIAがDGX SparkとReachy Miniでエージェントを実現（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-a1e1d46195/">NVIDIAがDGX SparkとReachy Miniでエージェントを実現</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-01-05T00:00:00+00:00">2026.01.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-a534d4ec9c/">
+    <img src="../../../../static/img/news-dev-12.svg"
+         alt="思考連鎖の監視可能性評価フレームワークをOpenAIが発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-a534d4ec9c/">思考連鎖の監視可能性評価フレームワークをOpenAIが発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2025-12-18T12:00:00+00:00">2025.12.18</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-721cf9e2fe/">
+    <img src="../../../../static/img/news-dev-02.svg"
+         alt="OpenAI、米国エネルギー省との協力を拡大（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-721cf9e2fe/">OpenAI、米国エネルギー省との協力を拡大</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2025-12-18T11:00:00+00:00">2025.12.18</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-c3700f1b4c/">
+    <img src="../../../../static/img/news-models-11.svg"
+         alt="オープン評価基準：NVIDIA Nemotron 3 NanoをNeMo Evaluatorでベンチマーク測定（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-c3700f1b4c/">オープン評価基準：NVIDIA Nemotron 3 NanoをNeMo Evaluatorでベンチマーク測定</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-12-17T13:22:18+00:00">2025.12.17</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-eef0a375a4/">
+    <img src="../../../../static/img/news-research-05.svg"
+         alt="言語モデルの誠実性を守る『告白』メソッド（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-eef0a375a4/">言語モデルの誠実性を守る『告白』メソッド</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2025-12-03T10:00:00+00:00">2025.12.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/deepmind-9928971442/">
+    <img src="https://lh3.googleusercontent.com/Aij3S61tCOKUv_-lxFEBAvGZBWAlGh2E0gGRyol8p0L53KFkhgEEDcuw2rg9JzpdH40kwy_e_PkjaHdvbInPj55lDIKx6cd9xzzmRAy9eUapVkKJrw=w528-h297-n-nu-rw-lo" alt="Google DeepMind、DOEのGenesis計画を支援（画像: Google DeepMind）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/deepmind-9928971442/">Google DeepMind、DOEのGenesis計画を支援</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-11-24T14:12:03+00:00">2025.11.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google DeepMind</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-fab147c72d/">
+    <img src="../../../../static/img/news-models-07.svg"
+         alt="GPT-5で科学加速の初期実験（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-fab147c72d/">GPT-5で科学加速の初期実験</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-11-20T00:00:00+00:00">2025.11.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-ac7984d3e9/">
+    <img src="../../../../static/img/news-infra-03.svg"
+         alt="AMD Open Robotics Hackathonへ参加を（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-ac7984d3e9/">AMD Open Robotics Hackathonへ参加を</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-11-13T21:37:26+00:00">2025.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-a9f97454d6/">
+    <img src="../../../../static/img/news-business-04.svg"
+         alt="AWSとOpenAI、380億ドル規模の戦略的提携を発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-a9f97454d6/">AWSとOpenAI、380億ドル規模の戦略的提携を発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2025-11-03T06:00:00+00:00">2025.11.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-f768b875b2/">
+    <img src="../../../../static/img/news-infra-05.svg"
+         alt="グローバル・コンピュート環境の転換（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-f768b875b2/">グローバル・コンピュート環境の転換</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-10-29T13:56:45+00:00">2025.10.29</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-1ae78998ae/">
+    <img src="../../../../static/img/news-infra-08.svg"
+         alt="NVIDIA Isaacによるヘルスケアロボット構築—シミュレーションから運用まで（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-1ae78998ae/">NVIDIA Isaacによるヘルスケアロボット構築—シミュレーションから運用まで</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-10-29T00:00:00+00:00">2025.10.29</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-ff11da33a2/">
+    <img src="../../../../static/img/news-infra-03.svg"
+         alt="NVIDIA Isaac for Healthcareを使用してヘルスケアロボットを構築する方法（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-ff11da33a2/">NVIDIA Isaac for Healthcareを使用してヘルスケアロボットを構築する方法</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-10-28T20:42:35+00:00">2025.10.28</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-e3c64905aa/">
+    <img src="../../../../static/img/news-business-05.svg"
+         alt="AI時代の機会をつかむ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-e3c64905aa/">AI時代の機会をつかむ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2025-10-27T12:00:00+00:00">2025.10.27</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/deepmind-f5b4675db6/">
+    <img src="https://lh3.googleusercontent.com/qvRvHwfAo6VBmQsyNOWvRJ5N-H_sYxezQa7ap6SPxLhWT7jUi7EvI7TK6dZmsO8WtS7xkC6uqMOUHSPNF8y9KFuRg_FUievitpcgJX_wOQnle8jg=w528-h297-n-nu-rw-lo" alt="GeminiがACM国際大学生プログラミングコンテスト世界大会で金メダルレベルを達成（画像: Google DeepMind）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/deepmind-f5b4675db6/">GeminiがACM国際大学生プログラミングコンテスト世界大会で金メダルレベルを達成</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-10-24T00:22:10+00:00">2025.10.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google DeepMind</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-0b71e1c57c/">
+    <img src="../../../../static/img/news-infra-05.svg"
+         alt="アルゼンチンの初Stargateプロジェクト、OpenAIとSur Energyが探索（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-0b71e1c57c/">アルゼンチンの初Stargateプロジェクト、OpenAIとSur Energyが探索</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-10-14T06:00:00+00:00">2025.10.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-96f43ed003/">
+    <img src="../../../../static/img/news-models-00.svg"
+         alt="OpenAIとBroadcomが10ギガワットのAI加速器展開で提携（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-96f43ed003/">OpenAIとBroadcomが10ギガワットのAI加速器展開で提携</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-10-13T06:00:00+00:00">2025.10.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-04dfaa97a0/">
+    <img src="../../../../static/img/news-models-07.svg"
+         alt="HYGHがChatGPT Businessで開発・施策配信を加速（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-04dfaa97a0/">HYGHがChatGPT Businessで開発・施策配信を加速</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-10-10T00:00:00+00:00">2025.10.10</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-a90f41cc88/">
+    <img src="../../../../static/img/news-infra-12.svg"
+         alt="AMDとOpenAIが戦略的パートナーシップを発表、6ギガワットのAMD GPU配備へ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-a90f41cc88/">AMDとOpenAIが戦略的パートナーシップを発表、6ギガワットのAMD GPU配備へ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-10-06T06:00:00+00:00">2025.10.06</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-f2bc43a6d7/">
+    <img src="../../../../static/img/news-infra-06.svg"
+         alt="SamsungとSKがOpenAIのStargate構想に参画、グローバルAI基盤を推進（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-f2bc43a6d7/">SamsungとSKがOpenAIのStargate構想に参画、グローバルAI基盤を推進</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-10-01T03:00:00+00:00">2025.10.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-201fb5865e/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="OpenAI・Oracle・SoftBank、Stargateを5つの新AIデータセンターで拡張（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-201fb5865e/">OpenAI・Oracle・SoftBank、Stargateを5つの新AIデータセンターで拡張</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-09-23T14:00:00+00:00">2025.09.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-ba88b960f1/">
+    <img src="../../../../static/img/news-infra-00.svg"
+         alt="Smol2Operator、コンピュータ操作向けGUIエージェントのポスト学習手法（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-ba88b960f1/">Smol2Operator、コンピュータ操作向けGUIエージェントのポスト学習手法</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-09-23T00:00:00+00:00">2025.09.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/openai-a1c373a2a1/">
+    <img src="../../../../static/img/news-infra-02.svg"
+         alt="OpenAIとNVIDIA、10ギガワットAIデータセンター展開で提携（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/openai-a1c373a2a1/">OpenAIとNVIDIA、10ギガワットAIデータセンター展開で提携</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-09-22T08:45:00+00:00">2025.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-4d68cec479/">
+    <img src="../../../../static/img/news-infra-04.svg"
+         alt="ZeroGPU Spacesを事前コンパイルで高速化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-4d68cec479/">ZeroGPU Spacesを事前コンパイルで高速化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2025-09-02T00:00:00+00:00">2025.09.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/huggingface-2d0a64ac84/">
+    <img src="../../../../static/img/news-models-12.svg"
+         alt="NVIDIAが600万件の多言語推論データセットを公開（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/huggingface-2d0a64ac84/">NVIDIAが600万件の多言語推論データセットを公開</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2025-08-20T22:13:18+00:00">2025.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../4/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../3/">3</a><a class="pager-num" href="../4/">4</a><span class="pager-num on" aria-current="page">5</span>
+<a class="pager-num" href="../6/">6</a><a class="pager-num" href="../7/">7</a>  </span>
+<a class="pager-btn" href="../6/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../../jissen/">AI実践室</a>
+          <a href="../../../kansoku/">AI検索観測所</a>
+          <a href="../../../shippai/">失敗の鬼</a>
+          <a href="../../../shigoto/">AI仕事術</a>
+          <a href="../../../kaisetsu/">AI解体新書</a>
+          <a href="../../../weekly/">今週のAI</a>
+          <a href="../../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../../news/">ニュース</a>
+          <a href="../../../papers/">研究動向</a>
+          <a href="../../../topics/models/">トピック</a>
+          <a href="../../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../../about/">運営会社</a>
+          <a href="../../../faq/">よくある質問</a>
+          <a href="../../../advertise/">広告掲載</a>
+<a href="../../../check/">AI検索チェック</a>          <a href="../../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

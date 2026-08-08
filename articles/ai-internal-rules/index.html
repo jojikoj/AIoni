@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き · AIの鬼</title>
+  <meta name="description" content="生成AIの社内規定を策定済みの職場は3.7%、個人任せの企業は64.9%です。ひな形を探しても、自社の業務に当てはめる段で止まります。株式会社TOEが自社メディアを毎日無人で回しながら実際に運用している7つのルールと、それぞれを決めるきっかけになった失敗を公開します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-internal-rules/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-internal-rules/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き · AIの鬼">
+  <meta property="og:description" content="生成AIの社内規定を策定済みの職場は3.7%、個人任せの企業は64.9%です。ひな形を探しても、自社の業務に当てはめる段で止まります。株式会社TOEが自社メディアを毎日無人で回しながら実際に運用している7つのルールと、それぞれを決めるきっかけになった失敗を公開します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-internal-rules/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-internal-rules.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-internal-rules.jpg">
+  <meta name="twitter:title" content="生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き · AIの鬼">
+  <meta name="twitter:description" content="生成AIの社内規定を策定済みの職場は3.7%、個人任せの企業は64.9%です。ひな形を探しても、自社の業務に当てはめる段で止まります。株式会社TOEが自社メディアを毎日無人で回しながら実際に運用している7つのルールと、それぞれを決めるきっかけになった失敗を公開します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き","item":"https://ai-oni.com/articles/ai-internal-rules/"}]},{"@type":"Article","headline":"生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き","description":"生成AIの社内規定を策定済みの職場は3.7%、個人任せの企業は64.9%です。ひな形を探しても、自社の業務に当てはめる段で止まります。株式会社TOEが自社メディアを毎日無人で回しながら実際に運用している7つのルールと、それぞれを決めるきっかけになった失敗を公開します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-internal-rules/"},"url":"https://ai-oni.com/articles/ai-internal-rules/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI仕事術","datePublished":"2026-08-02","dateModified":"2026-08-02","image":"https://ai-oni.com/static/img/article-ai-internal-rules.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-internal-rules/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-internal-rules.jpg"
+         alt="生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き</h1>
+<p class="article-lead">生成AIの社内規定を策定済みの職場は3.7%、個人任せの企業は64.9%です。ひな形を探しても、自社の業務に当てはめる段で止まります。株式会社TOEが自社メディアを毎日無人で回しながら実際に運用している7つのルールと、それぞれを決めるきっかけになった失敗を公開します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月2日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：生成AIの社内規定を策定済みの職場は<strong>3.7%</strong>、生成AIを「個人任せ」にしている企業は<strong>64.9%</strong>です。ひな形を探すと一般的な文言は見つかりますが、<strong>自社の業務に当てはめる段で止まります</strong>。当社は自社メディアを毎日無人で回しながら<strong>7つのルール</strong>を運用していますが、そのすべては<strong>先に決めたものではなく、失敗してから決めたもの</strong>です。ルールに書くべきなのは禁止事項の列挙ではなく、<strong>「この場合はどうするか」を一度決めておくこと</strong>でした。</p>
+<p>株式会社TOEはAI開発・AI活用支援を事業としており、この記事は<strong>提供する側が書いています</strong>。中立の第三者ではありません。法務的な助言ではなく、自社で実際に運用している線引きと、そのきっかけになった失敗を載せます。</p>
+<h2 id="_1">まず数字 — ルールがある会社は少数派</h2>
+<table>
+<thead>
+<tr>
+<th>調査項目</th>
+<th>数字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIの適切な利用に関する<strong>社内規定を策定済み</strong>の職場</td>
+<td><strong>3.7%</strong></td>
+</tr>
+<tr>
+<td>仕事で生成AIを使っている労働者</td>
+<td>6.4%</td>
+</tr>
+<tr>
+<td>生成AIを<strong>「個人任せ」</strong>にしている企業</td>
+<td><strong>64.9%</strong></td>
+</tr>
+<tr>
+<td>経営へのプラス効果を実感（<strong>会社として導入</strong>）</td>
+<td>36.6%</td>
+</tr>
+<tr>
+<td>経営へのプラス効果を実感（<strong>個人任せ</strong>）</td>
+<td>26.0%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>規定があるのは3.7%です。</strong> そして会社として導入した企業と個人任せの企業では、効果の実感に<strong>10.6ポイントの差</strong>があります。</p>
+<p>別の大規模調査（有効回答6,327社）でも、同じ構図が出ています。</p>
+<table>
+<thead>
+<tr>
+<th>調査項目</th>
+<th>中小企業</th>
+<th>大企業</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>組織的な生成AI活用</td>
+<td><strong>32.3%</strong></td>
+<td>59.1%（差<strong>26.8ポイント</strong>）</td>
+</tr>
+<tr>
+<td>「<strong>方針は決めていない</strong>」</td>
+<td><strong>38.7%</strong>（最大勢力）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>「個人で活用」</td>
+<td>27.7%</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>中小企業でいちばん多いのは「方針は決めていない」38.7%です。</strong> 使っていないのではなく、<strong>使っているのに方針が無い</strong>状態が広がっています。この調査は任意回答のインターネットアンケートで、活用側に振れる自己選択バイアスがあります（<a href="../jp-tsr-seisei-ai-2026/">中小企業の生成AI「組織的活用」は32.3%まで来たのか</a>）。</p>
+<p>なお活用方針そのものを示している企業は49.7%という調査もありますが、こちらは対象が「デジタル化着手済み」に限定されている可能性が高く、日本企業全体の値としては読めません（<a href="../jp-soumu-hakusho-r07-enterprise-genai/">生成AIの活用方針を決めた企業が49.7%</a>）。</p>
+<p>ルールが無い状態は「自由に使える」ではなく、<strong>「使ってよいか分からないから使わない」</strong>という状態を生みます。当社が導入したツールが使われなかった原因を切り分けたときも、4つの原因のうち1つは「使ってよいか分からない」でした（<a href="../ai-tool-not-adopted/">導入したAIツールが使われない</a>）。</p>
+<h2 id="7">当社が実際に運用している7つのルール</h2>
+<p><strong>どれも先に決めたものではありません。</strong> 失敗してから決めました。きっかけになった出来事を併記します。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>ルール</th>
+<th>決めたきっかけ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>AIが作った部分は、AIが作ったと明示する</strong></td>
+<td>隠して出すと、誤りが見つかったとき文章ではなく会社の誠実さの問題になる</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>量を増やせるという理由で、公開ラインを下げない</strong></td>
+<td>日→英の機械翻訳を「品質が公開に耐えない」と判断し、ページを稼げるのにやめた</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>外に出す前に、その分野が分かる人が読む</strong></td>
+<td>AIの出力は「それらしさ」だけは常に満点。実物を読んで初めて使えないと分かった</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>一括処理は、使うモデルを必ず指定する</strong></td>
+<td>指定を書き忘れて<strong>553件中414件が失敗</strong>。無関係な処理3本まで巻き添えで停止</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>公開先が正しいかを、実行直前に機械で照合する。違ったら止める</strong></td>
+<td>note を2アカウント無人運用していて、一番怖いのが誤爆だった</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>判断はAIに渡さない。条件式で書けるものは条件式で書く</strong></td>
+<td>見積の受注可否をルールに置いた。理由を説明できるのが決め手</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>顧客名・取引情報は出さない。検証は架空データで行う</strong></td>
+<td>公開している見積エージェントの検証データはすべて架空</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13">1〜3は「外に出すもの」のルール</h3>
+<p>当社は英語→日本語の機械翻訳で<strong>1,000件超</strong>を公開していますが、<strong>日本語→英語だけは載せていません</strong>。同じAI・同じ仕組みなのに、実物を読んだら品質が公開に耐えなかったからです。ページ数を稼げる状況で、あえて載せない判断をしました（<a href="../toe-ai-output-check/">日→英だけは「載せない」と決めた理由</a>）。</p>
+<p>AIに任せてよい条件は、この経験からはっきりしています。</p>
+<ul>
+<li><strong>品質を人が一度確かめてある</strong></li>
+<li><strong>AI製と明示できる</strong></li>
+<li><strong>間違っても致命傷にならない</strong></li>
+</ul>
+<p><strong>この3つが揃わないものは、まだ人の仕事です。</strong> 確かめ方そのものは<a href="../ai-hallucination-check/">AIが書いた文章の嘘の見つけ方</a>に、出典を機械で検証する仕組み自体が誤報していた話も含めて書きました。</p>
+<h3 id="4">4は「費用と枠」のルール</h3>
+<p>一括処理でどのモデルを使うかを書き忘れ、上位モデルが使われて利用枠を食い潰しました。<strong>553件中414件（75%）が失敗</strong>し、動いていた分析処理3本と、社長本人の作業まで止まりました。</p>
+<p>技術的に高度な失敗ではありません。<strong>1行の書き忘れです</strong>（<a href="../batch-414-failure/">AI処理414件を失敗させた話</a>）。だからルールにしました。</p>
+<h3 id="5">5は「誤爆」のルール</h3>
+<p>当社は note を2アカウントで無人投稿しています。一番怖いのは、片方の記事がもう片方のアカウントに載ることです。</p>
+<p>そこで公開ボタンを押す前に、機械でアカウント名を照合します。</p>
+<table>
+<thead>
+<tr>
+<th>実行直前の判定</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>期待する名前と一致</td>
+<td>公開に進む</td>
+</tr>
+<tr>
+<td>期待する名前と<strong>不一致</strong></td>
+<td><strong>その場で停止。公開しない</strong></td>
+</tr>
+<tr>
+<td>名前を取得できない（ログイン切れ）</td>
+<td><strong>その場で停止。公開しない</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>迷ったら止める、を正常な動作として設計しています。</strong> 止まった場合は人が確認します（<a href="../toe-note-two-accounts/">noteを2アカウント無人投稿していて、一番怖いのは「誤爆」だった</a>）。</p>
+<h3 id="67">6〜7は「判断とデータ」のルール</h3>
+<p>見積依頼メールを処理するエージェントでは、AIがやるのは<strong>メールを読むことと下書きを書くことだけ</strong>で、受注できるかどうかの判断は条件表との照合にしています。速いからではなく、<strong>なぜその結論になったかを説明できるから</strong>です。</p>
+<p>検証に使ったデータもすべて架空です。設備マスタ・過去案件・問い合わせメールは検証用に作ったもので、実在の取引ではありません。</p>
+<h2 id="_2">ルールに書く項目</h2>
+<p>上の7つを、自社に当てはめられる形に整理するとこうなります。<strong>禁止事項の列挙ではなく、「この場合どうするか」を決める形にしてください。</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>決めること</th>
+<th>決めないとどうなるか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>何を入力してよいか／いけないか</strong></td>
+<td>「これ入れていいんですか」と聞かれ続け、結局使われない</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>AIが作ったものを外に出すとき、誰が確認するか</strong></td>
+<td>確認する人がいないまま公開される。誤りは会社の信用の問題になる</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>AI製であることを表示するか</strong></td>
+<td>隠して出すと、誤りが見つかったとき文章ではなく誠実さが疑われる</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>使うモデル・サービスを指定するか</strong></td>
+<td>指定漏れで費用が跳ねる。当社は75%失敗した</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>判断をAIに任せる範囲</strong></td>
+<td>説明できない判断が業務に入る。理由を聞かれて答えられなくなる</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>止まったとき・迷ったときの既定動作</strong></td>
+<td>「進む」が既定だと、間違ったまま公開される。<strong>「止める」を既定にする</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>違反したときにどうするか</strong></td>
+<td>罰則ではなく、直す手順を書く。責めるルールは報告されなくなる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>6番が実務上いちばん効きます。</strong> 迷ったときに進むか止まるかを決めておくと、想定外の入力が来たときの被害が変わります。</p>
+<h2 id="_3">ルールを作る前に確かめること</h2>
+<p>規定より先に必要な場合があります。</p>
+<ul>
+<li><strong>誰が担当か決まっているか</strong> — 全員が「自分の仕事ではない」と思う状態では、ルールを作っても運用されません</li>
+<li><strong>今すでに誰が何に使っているか把握しているか</strong> — 個人任せが64.9%なので、多くの会社で「知らないうちに使われている」状態です。禁止から入ると、報告されなくなるだけです</li>
+<li><strong>ログを見られるか</strong> — 使われているかどうかは、感触ではなく回数で確認できます。当社は「使われているはず」の仕組みが<strong>実行0通</strong>でした</li>
+</ul>
+<p>研修を検討している場合の順番は<a href="../ai-training-selection/">AI研修を法人で選ぶ前に</a>に整理しています。<strong>原因の切り分けをせずに研修だけ入れても効きません。</strong></p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li><strong>法務的な助言ではありません。</strong> 規程の文言や法的効力については、専門家に確認してください</li>
+<li><strong>ひな形は配っていません。</strong> 当社の7つは自社の業務から出たもので、そのまま他社に当てはまりません</li>
+<li><strong>完成したルールでもありません。</strong> すべて失敗してから足したもので、今後も増えます</li>
+<li>ここに書いたのは、当社が実際に運用している線引きと、公的調査の数字だけです</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>生成AIの<strong>社内規定があるのは3.7%</strong>、<strong>個人任せは64.9%</strong>。会社として導入した企業とは効果の実感に<strong>10.6ポイントの差</strong></li>
+<li>6,327社調査では、中小企業でいちばん多い回答が「<strong>方針は決めていない」38.7%</strong>。使っていないのではなく、<strong>使っているのに方針が無い</strong></li>
+<li>ルールが無い状態は「自由に使える」ではなく「<strong>使ってよいか分からないから使わない</strong>」を生む</li>
+<li>当社の7つは<strong>すべて失敗してから決めた</strong> — AI製の明示／公開ラインを下げない／分野が分かる人が読む／モデルを指定する／公開先を機械で照合／判断はAIに渡さない／顧客情報は使わない</li>
+<li><strong>日→英の機械翻訳は、ページを稼げる状況であえて載せないと決めた。</strong> 同じAIでも英→日は1,000件超を公開している</li>
+<li><strong>モデルの指定漏れで553件中414件が失敗</strong>し、無関係な処理3本まで止まった。1行の書き忘れだった</li>
+<li>書く項目は7つ — 入力の可否／確認する人／AI製の表示／モデルの指定／判断を任せる範囲／<strong>迷ったときの既定動作</strong>／違反時の直し方</li>
+<li><strong>「止める」を既定にするのが実務上いちばん効く。</strong> 迷ったら進むと、間違ったまま外に出る</li>
+<li>禁止から入ると報告されなくなる。<strong>まず今すでに誰が何に使っているかを把握する</strong></li>
+</ul>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI開発・AI活用支援を事業としており、提供する側が書いています。中立の第三者ではありません。法務的な助言ではなく、自社で運用している線引きと公的調査だけを材料にしています。7つのルールはいずれも失敗の後に足したもので、完成していません。</p>
+<p><strong>数字の出所</strong>
+- 社内規定3.7%・生成AIを使う労働者6.4%: JILPTが全国2.2万人の労働者に実施した調査（2024年5月27日〜6月27日）
+- 個人任せ64.9%・効果実感36.6%対26.0%: 商工中金が中小企業3,892社から回答を得た調査（2026年1月）
+- 組織的活用32.3%対59.1%・方針未決38.7%: 東京商工リサーチの調査（有効回答6,327社、2026年3月31日〜4月7日）。<strong>任意回答のインターネットアンケート</strong>で無作為抽出ではありません
+- 活用方針49.7%: 総務省 令和7年版情報通信白書（2024年度時点）。対象が「デジタル化着手済み企業」に限定されている可能性が高く、日本企業全体の値ではありません
+- 553件中414件の失敗、日→英翻訳の非公開判断、note照合ガード、見積エージェントの架空データ: 株式会社TOEの実行ログおよび運用記録（2026年7月〜8月）</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-agent-workflow-build/">
+<div class="card-media"><img src="../../static/img/article-ai-agent-workflow-build.jpg" alt="AIエージェントのワークフローを組む — 毎日無人で回している8工程の設計と、実際に壊れた4か所" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AIエージェントのワークフローを組む — 毎日無人で回している8工程の設計と、実際に壊れた4か所</h3>
+<p class="card-summary">AIエージェントを1つ作るのと、複数の工程を繋いで毎日無人で回すのは別の作業です。株式会社TOEがAIメディアを無人運用している8工程の実物（各段を独立させる・1回の件数に上限を置く・使うモデルを固定する）と、実際に壊れた4か所を公開します。壊れた4か所はすべてエラーを出しませんでした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-dev-vendor-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-dev-vendor-selection.jpg" alt="AI開発会社の選び方 — 「おすすめ一覧」で選べない理由と、面談で聞く7つの質問" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI開発会社の選び方 — 「おすすめ一覧」で選べない理由と、面談で聞く7つの質問</h3>
+<p class="card-summary">AI開発会社を検索すると比較記事が並びますが、順位で選べるものではありません。自社で運用を持つのか委ねるのかで適した相手が変わるためです。株式会社TOEが自社でAIメディアを2本無人運用している実測と、実際に起きた事故から、面談で確かめるべき7つの質問を整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ctr-zero-clicks/">
+<div class="card-media"><img src="../../static/img/article-toe-ctr-zero-clicks.jpg" alt="検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因</h3>
+<p class="card-summary">順位が付いていてもクリックされないことがあります。株式会社TOEが自社メディアのSearch Consoleを10日ぶん数えたところ、10位以内に155ページ出て562回表示され、そのうち140ページは1件もクリックされていませんでした。原因を3つに切り分け、逆に最も効率の良かったページの共通点も出します。AI検索対策（AEO）とWeb制作を事業とする当社の、自己点検の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-internal-rules">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../kansoku/">AI検索観測所</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

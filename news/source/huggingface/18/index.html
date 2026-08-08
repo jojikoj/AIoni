@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIニュース · AIの鬼</title>
+  <meta name="description" content="Hugging Face — 国内外の開発元発表とメディアを横断して集約。">
+  <link rel="canonical" href="https://ai-oni.com/news/source/huggingface/18/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/source/huggingface/18/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIニュース · AIの鬼">
+  <meta property="og:description" content="Hugging Face — 国内外の開発元発表とメディアを横断して集約。">
+  <meta property="og:url" content="https://ai-oni.com/news/source/huggingface/18/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="AIニュース · AIの鬼">
+  <meta name="twitter:description" content="Hugging Face — 国内外の開発元発表とメディアを横断して集約。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"Hugging Face","item":"https://ai-oni.com/news/source/huggingface/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"Hugging Face and Google partner for open AI collaboration","url":"https://huggingface.co/blog/gcp-partnership"},{"@type":"ListItem","position":2,"name":"Open-source LLMs as LangChain Agents","url":"https://huggingface.co/blog/open-source-llms-as-agents"},{"@type":"ListItem","position":3,"name":"Fine-Tune W2V2-Bert for low-resource ASR with 🤗 Transformers","url":"https://huggingface.co/blog/fine-tune-w2v2-bert"},{"@type":"ListItem","position":4,"name":"PatchTSMixer in HuggingFace","url":"https://huggingface.co/blog/patchtsmixer"},{"@type":"ListItem","position":5,"name":"Preference Tuning LLMs with Direct Preference Optimization Methods","url":"https://huggingface.co/blog/pref-tuning"},{"@type":"ListItem","position":6,"name":"Accelerating SD Turbo and SDXL Turbo Inference with ONNX Runtime and Olive","url":"https://huggingface.co/blog/sdxl_ort_inference"},{"@type":"ListItem","position":7,"name":"Run ComfyUI workflows for free with Gradio on Hugging Face Spaces","url":"https://huggingface.co/blog/run-comfyui-workflows-on-spaces"},{"@type":"ListItem","position":8,"name":"A guide to setting up your own Hugging Face leaderboard: an end-to-end example with Vectara's hallucination leaderboard","url":"https://huggingface.co/blog/leaderboard-vectara"},{"@type":"ListItem","position":9,"name":"Make LLM Fine-tuning 2x faster with Unsloth and 🤗 TRL","url":"https://huggingface.co/blog/unsloth-trl"},{"@type":"ListItem","position":10,"name":"Welcome aMUSEd: Efficient Text-to-Image Generation","url":"https://huggingface.co/blog/amused"},{"@type":"ListItem","position":11,"name":"LoRA training scripts of the world, unite!","url":"https://huggingface.co/blog/sdxl_lora_advanced_script"},{"@type":"ListItem","position":12,"name":"Speculative Decoding for 2x Faster Whisper Inference","url":"https://huggingface.co/blog/whisper-speculative-decoding"},{"@type":"ListItem","position":13,"name":"2023, year of open LLMs","url":"https://huggingface.co/blog/2023-in-llms"},{"@type":"ListItem","position":14,"name":"Welcome Mixtral - a SOTA Mixture of Experts on Hugging Face","url":"https://huggingface.co/blog/mixtral"},{"@type":"ListItem","position":15,"name":"Mixture of Experts Explained","url":"https://huggingface.co/blog/moe"},{"@type":"ListItem","position":16,"name":"SetFitABSA: Few-Shot Aspect Based Sentiment Analysis using SetFit","url":"https://huggingface.co/blog/setfit-absa"},{"@type":"ListItem","position":17,"name":"AMD + 🤗: Large Language Models Out-of-the-Box Acceleration with AMD GPU","url":"https://huggingface.co/blog/huggingface-and-optimum-amd"},{"@type":"ListItem","position":18,"name":"Optimum-NVIDIA Unlocking blazingly fast LLM inference in just 1 line of code","url":"https://huggingface.co/blog/optimum-nvidia"},{"@type":"ListItem","position":19,"name":"Goodbye cold boot - how we made LoRA Inference 300% faster","url":"https://huggingface.co/blog/lora-adapters-dynamic-loading"},{"@type":"ListItem","position":20,"name":"Open LLM Leaderboard: DROP deep dive","url":"https://huggingface.co/blog/open-llm-leaderboard-drop"},{"@type":"ListItem","position":21,"name":"SDXL in 4 steps with Latent Consistency LoRAs","url":"https://huggingface.co/blog/lcm_lora"},{"@type":"ListItem","position":22,"name":"Make your llama generation time fly with AWS Inferentia2","url":"https://huggingface.co/blog/inferentia-llama2"},{"@type":"ListItem","position":23,"name":"Introducing Prodigy-HF: a direct integration with Hugging Face","url":"https://huggingface.co/blog/prodigy-hf"},{"@type":"ListItem","position":24,"name":"Comparing the Performance of LLMs: A Deep Dive into Roberta, Llama 2, and Mistral for Disaster Tweets Analysis with Lora","url":"https://huggingface.co/blog/Lora-for-sequence-classification-with-Roberta-Llama-Mistral"},{"@type":"ListItem","position":25,"name":"Introducing Storage Regions on the HF Hub","url":"https://huggingface.co/blog/regions"},{"@type":"ListItem","position":26,"name":"Personal Copilot: Train Your Own Coding Assistant","url":"https://huggingface.co/blog/personal-copilot"},{"@type":"ListItem","position":27,"name":"Interactively explore your Huggingface dataset with one line of code","url":"https://huggingface.co/blog/scalable-data-inspection"},{"@type":"ListItem","position":28,"name":"Deploy Embedding Models with Hugging Face Inference Endpoints","url":"https://huggingface.co/blog/inference-endpoints-embeddings"},{"@type":"ListItem","position":29,"name":"The N Implementation Details of RLHF with PPO","url":"https://huggingface.co/blog/the_n_implementation_details_of_rlhf_with_ppo"},{"@type":"ListItem","position":30,"name":"Exploring simple optimizations for SDXL","url":"https://huggingface.co/blog/simple_sdxl_optimizations"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/source/huggingface/18/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../../../jissen/" class="">AI実践室</a>
+      <a href="../../../../kansoku/" class="">AI検索観測所</a>
+      <a href="../../../../shippai/" class="">失敗の鬼</a>
+      <a href="../../../../shigoto/" class="">AI仕事術</a>
+      <a href="../../../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../../../weekly/" class="">今週のAI</a>
+      <a href="../../../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../../../news/" class="on">ニュース</a>
+      <a href="../../../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../../../check/" class="">AI検索チェック</a>
+      <a href="../../../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>Hugging Face</h1>
+    <p class="page-sub">国内外の開発元発表とメディアを横断して集約。</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <details class="filter-fold" open>
+      <summary>配信元で絞り込む</summary>
+      <div class="filter-bar">
+        <a class="chip " href="../../../">すべて</a>
+        <a class="chip " href="../../../source/itmedia_ai/">ITmedia AI+</a>
+        <a class="chip " href="../../../source/ainow/">AINOW</a>
+        <a class="chip " href="../../../source/zenn_ai/">Zenn AI</a>
+        <a class="chip " href="../../../source/qiita_ai/">Qiita AI</a>
+        <a class="chip " href="../../../source/publickey/">Publickey</a>
+        <a class="chip " href="../../../source/ascii/">ASCII.jp</a>
+        <a class="chip " href="../../../source/openai/">OpenAI</a>
+        <a class="chip " href="../../../source/deepmind/">Google DeepMind</a>
+        <a class="chip " href="../../../source/googleai/">Google AI</a>
+        <a class="chip on" href="../../../source/huggingface/">Hugging Face</a>
+        <a class="chip " href="../../../source/mit_tr/">MIT Technology Review</a>
+        <a class="chip " href="../../../source/techcrunch_ai/">TechCrunch AI</a>
+        <a class="chip " href="../../../source/verge_ai/">The Verge AI</a>
+        <a class="chip " href="../../../source/venturebeat_ai/">VentureBeat AI</a>
+        <a class="chip " href="../../../source/arstechnica_ai/">Ars Technica AI</a>
+      </div>
+    </details>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-2beb9a867f/">
+    <img src="../../../../../static/img/news-default-06.svg"
+         alt="Hugging Face and Google partner for open AI collaboration（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-2beb9a867f/">Hugging Face and Google partner for open AI collaboration</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-25T00:00:00+00:00">2024.01.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-d650e35859/">
+    <img src="../../../../../static/img/news-default-08.svg"
+         alt="Open-source LLMs as LangChain Agents（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-d650e35859/">Open-source LLMs as LangChain Agents</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-24T00:00:00+00:00">2024.01.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-8faa3dc6d8/">
+    <img src="../../../../../static/img/news-research-06.svg"
+         alt="Fine-Tune W2V2-Bert for low-resource ASR with 🤗 Transformers（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-8faa3dc6d8/">Fine-Tune W2V2-Bert for low-resource ASR with 🤗 Transformers</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-01-19T00:00:00+00:00">2024.01.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-0834309d18/">
+    <img src="../../../../../static/img/news-default-13.svg"
+         alt="PatchTSMixer in HuggingFace（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-0834309d18/">PatchTSMixer in HuggingFace</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-19T00:00:00+00:00">2024.01.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-ea13acb503/">
+    <img src="../../../../../static/img/news-default-05.svg"
+         alt="Preference Tuning LLMs with Direct Preference Optimization Methods（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-ea13acb503/">Preference Tuning LLMs with Direct Preference Optimization Methods</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-18T00:00:00+00:00">2024.01.18</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-d2e3ead68c/">
+    <img src="../../../../../static/img/news-default-06.svg"
+         alt="Accelerating SD Turbo and SDXL Turbo Inference with ONNX Runtime and Olive（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-d2e3ead68c/">Accelerating SD Turbo and SDXL Turbo Inference with ONNX Runtime and Olive</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-15T00:00:00+00:00">2024.01.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-cc7fa40ce4/">
+    <img src="../../../../../static/img/news-tools-12.svg"
+         alt="Run ComfyUI workflows for free with Gradio on Hugging Face Spaces（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-cc7fa40ce4/">Run ComfyUI workflows for free with Gradio on Hugging Face Spaces</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2024-01-14T00:00:00+00:00">2024.01.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-8f0077f761/">
+    <img src="../../../../../static/img/news-research-07.svg"
+         alt="A guide to setting up your own Hugging Face leaderboard: an end-to-end example with Vectara&#39;s hallucination leaderboard（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-8f0077f761/">A guide to setting up your own Hugging Face leaderboard: an end-to-end example with Vectara&#39;s hallucination leaderboard</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2024-01-12T00:00:00+00:00">2024.01.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-eec7c5c34b/">
+    <img src="../../../../../static/img/news-dev-03.svg"
+         alt="Make LLM Fine-tuning 2x faster with Unsloth and 🤗 TRL（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-eec7c5c34b/">Make LLM Fine-tuning 2x faster with Unsloth and 🤗 TRL</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2024-01-10T00:00:00+00:00">2024.01.10</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-a2f7db2f01/">
+    <img src="../../../../../static/img/news-default-15.svg"
+         alt="Welcome aMUSEd: Efficient Text-to-Image Generation（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-a2f7db2f01/">Welcome aMUSEd: Efficient Text-to-Image Generation</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-04T00:00:00+00:00">2024.01.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-adee98b3e7/">
+    <img src="../../../../../static/img/news-default-03.svg"
+         alt="LoRA training scripts of the world, unite!（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-adee98b3e7/">LoRA training scripts of the world, unite!</a></h3>
+    <div class="tile-meta">
+<time datetime="2024-01-02T00:00:00+00:00">2024.01.02</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-09e01470b0/">
+    <img src="../../../../../static/img/news-default-00.svg"
+         alt="Speculative Decoding for 2x Faster Whisper Inference（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-09e01470b0/">Speculative Decoding for 2x Faster Whisper Inference</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-20T00:00:00+00:00">2023.12.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-6ca76edab7/">
+    <img src="../../../../../static/img/news-default-10.svg"
+         alt="2023, year of open LLMs（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-6ca76edab7/">2023, year of open LLMs</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-18T00:00:00+00:00">2023.12.18</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-8de79d4ed2/">
+    <img src="../../../../../static/img/news-default-14.svg"
+         alt="Welcome Mixtral - a SOTA Mixture of Experts on Hugging Face（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-8de79d4ed2/">Welcome Mixtral - a SOTA Mixture of Experts on Hugging Face</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-11T00:00:00+00:00">2023.12.11</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-3f4d6b489f/">
+    <img src="../../../../../static/img/news-default-08.svg"
+         alt="Mixture of Experts Explained（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-3f4d6b489f/">Mixture of Experts Explained</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-11T00:00:00+00:00">2023.12.11</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-1e4ee04e3a/">
+    <img src="../../../../../static/img/news-default-14.svg"
+         alt="SetFitABSA: Few-Shot Aspect Based Sentiment Analysis using SetFit（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-1e4ee04e3a/">SetFitABSA: Few-Shot Aspect Based Sentiment Analysis using SetFit</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-06T00:00:00+00:00">2023.12.06</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-79a5ed17e0/">
+    <img src="../../../../../static/img/news-infra-07.svg"
+         alt="AMD + 🤗: Large Language Models Out-of-the-Box Acceleration with AMD GPU（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-79a5ed17e0/">AMD + 🤗: Large Language Models Out-of-the-Box Acceleration with AMD GPU</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2023-12-05T00:00:00+00:00">2023.12.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-3c4bd4f687/">
+    <img src="../../../../../static/img/news-infra-06.svg"
+         alt="Optimum-NVIDIA Unlocking blazingly fast LLM inference in just 1 line of code（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-3c4bd4f687/">Optimum-NVIDIA Unlocking blazingly fast LLM inference in just 1 line of code</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2023-12-05T00:00:00+00:00">2023.12.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-a35ab1e6da/">
+    <img src="../../../../../static/img/news-default-06.svg"
+         alt="Goodbye cold boot - how we made LoRA Inference 300% faster（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-a35ab1e6da/">Goodbye cold boot - how we made LoRA Inference 300% faster</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-05T00:00:00+00:00">2023.12.05</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-609daec995/">
+    <img src="../../../../../static/img/news-default-09.svg"
+         alt="Open LLM Leaderboard: DROP deep dive（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-609daec995/">Open LLM Leaderboard: DROP deep dive</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-12-01T00:00:00+00:00">2023.12.01</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-ed1cc348c0/">
+    <img src="../../../../../static/img/news-default-08.svg"
+         alt="SDXL in 4 steps with Latent Consistency LoRAs（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-ed1cc348c0/">SDXL in 4 steps with Latent Consistency LoRAs</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-11-09T00:00:00+00:00">2023.11.09</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-0a8ad323c5/">
+    <img src="../../../../../static/img/news-models-03.svg"
+         alt="Make your llama generation time fly with AWS Inferentia2（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-0a8ad323c5/">Make your llama generation time fly with AWS Inferentia2</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2023-11-07T00:00:00+00:00">2023.11.07</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-5812dbeaf8/">
+    <img src="../../../../../static/img/news-tools-10.svg"
+         alt="Introducing Prodigy-HF: a direct integration with Hugging Face（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-5812dbeaf8/">Introducing Prodigy-HF: a direct integration with Hugging Face</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2023-11-07T00:00:00+00:00">2023.11.07</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-6ff40903f5/">
+    <img src="../../../../../static/img/news-models-03.svg"
+         alt="Comparing the Performance of LLMs: A Deep Dive into Roberta, Llama 2, and Mistral for Disaster Tweets Analysis with Lora（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-6ff40903f5/">Comparing the Performance of LLMs: A Deep Dive into Roberta, Llama 2, and Mistral for Disaster Tweets Analysis with Lora</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2023-11-07T00:00:00+00:00">2023.11.07</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-aa0002b04d/">
+    <img src="../../../../../static/img/news-dev-00.svg"
+         alt="Introducing Storage Regions on the HF Hub（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-aa0002b04d/">Introducing Storage Regions on the HF Hub</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2023-11-03T00:00:00+00:00">2023.11.03</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-0864e19e29/">
+    <img src="../../../../../static/img/news-tools-14.svg"
+         alt="Personal Copilot: Train Your Own Coding Assistant（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-0864e19e29/">Personal Copilot: Train Your Own Coding Assistant</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2023-10-27T00:00:00+00:00">2023.10.27</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-2778360f98/">
+    <img src="../../../../../static/img/news-default-15.svg"
+         alt="Interactively explore your Huggingface dataset with one line of code（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-2778360f98/">Interactively explore your Huggingface dataset with one line of code</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-10-25T00:00:00+00:00">2023.10.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-5e0c4dcfa8/">
+    <img src="../../../../../static/img/news-dev-15.svg"
+         alt="Deploy Embedding Models with Hugging Face Inference Endpoints（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-5e0c4dcfa8/">Deploy Embedding Models with Hugging Face Inference Endpoints</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2023-10-24T00:00:00+00:00">2023.10.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-1f0702cc3a/">
+    <img src="../../../../../static/img/news-default-12.svg"
+         alt="The N Implementation Details of RLHF with PPO（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-1f0702cc3a/">The N Implementation Details of RLHF with PPO</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-10-24T00:00:00+00:00">2023.10.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/huggingface-77aa4314e4/">
+    <img src="../../../../../static/img/news-default-04.svg"
+         alt="Exploring simple optimizations for SDXL（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/huggingface-77aa4314e4/">Exploring simple optimizations for SDXL</a></h3>
+    <div class="tile-meta">
+<time datetime="2023-10-24T00:00:00+00:00">2023.10.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../17/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../16/">16</a><a class="pager-num" href="../17/">17</a><span class="pager-num on" aria-current="page">18</span>
+<a class="pager-num" href="../19/">19</a><a class="pager-num" href="../20/">20</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../28/">28</a>  </span>
+<a class="pager-btn" href="../19/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../../../jissen/">AI実践室</a>
+          <a href="../../../../kansoku/">AI検索観測所</a>
+          <a href="../../../../shippai/">失敗の鬼</a>
+          <a href="../../../../shigoto/">AI仕事術</a>
+          <a href="../../../../kaisetsu/">AI解体新書</a>
+          <a href="../../../../weekly/">今週のAI</a>
+          <a href="../../../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../../../news/">ニュース</a>
+          <a href="../../../../papers/">研究動向</a>
+          <a href="../../../../topics/models/">トピック</a>
+          <a href="../../../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../../../about/">運営会社</a>
+          <a href="../../../../faq/">よくある質問</a>
+          <a href="../../../../advertise/">広告掲載</a>
+<a href="../../../../check/">AI検索チェック</a>          <a href="../../../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-08 10:38 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>
