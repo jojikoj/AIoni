@@ -1,6 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
+  "//git": "gh-pages は公開サイトの配信用（GitHub Pages）で、Vercelでビルドするものが何も入っていない。ここを止めておかないと、毎日の deploy.sh が gh-pages に push するたびに Vercel が Python の入口を探して失敗し、ビルドエラー通知だけが飛び続ける（2026-08-09 に判明）。",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "gh-pages": false
+    }
+  },
   "buildCommand": "mkdir -p dist && echo 'ai-oni.com API host. Site: https://ai-oni.com/' > dist/index.html",
   "outputDirectory": "dist",
   "functions": {
