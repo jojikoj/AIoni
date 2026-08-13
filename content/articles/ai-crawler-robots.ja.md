@@ -9,6 +9,8 @@ hero: article-ai-crawler-robots.jpg
 image_prompt: A laptop screen showing a plain text robots file with lines of user-agent rules, a printed table beside it with rows marked allow and block, a desk at night lit by a single lamp, realistic documentary photo
 ---
 
+**結論から**：主要25サイト（取得成功23）を実測したところ、AIクローラを1つ以上拒否していたのは**6サイト**でした。うち**3つが新聞社**（朝日・読売・NYT）で、いずれも6種すべてを拒否しています。17サイトは明示的な拒否を置いていません。OpenAI・Anthropic・GitHubは自社を拒否していませんでした。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。この記事も、意見ではなく**実際に測った数字だけ**を置きます。

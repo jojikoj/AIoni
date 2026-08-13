@@ -9,6 +9,8 @@ hero: article-aeo-vendor-checklist.jpg
 image_prompt: Two Japanese businessmen in their 40s sitting across a light wooden table in a bright meeting room, one leaning forward asking a question with an open hand gesture, the other listening, late morning, bright daylight flooding in from large windows on the left, well-lit and exposed for the shadows, shot on a Canon EOS R6 with a 35mm f/1.8 lens at f/2.8, visible skin texture and stubble, creased shirts, two coffee cups on the table, white walls, natural color balance, slightly tilted handheld framing with one man cropped at the frame edge, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：「AI検索で上位表示を保証」は成立しません。AI検索に**順位という概念がない**からです。独立実験では構造化データによる引用増は確認されておらず、効果が確認されているのは**記述の具体化**のほうでした。当社の社内設計書にあった「FAQPage実装で引用率2〜3倍」も、出典が業者ブログだったため撤回しています。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、**この記事に書かれた基準で審査される側**です。自社に不利な項目も入れています。**当社が過去に誤った資料を作った件も書きます。**

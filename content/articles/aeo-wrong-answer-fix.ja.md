@@ -9,6 +9,8 @@ hero: article-aeo-wrong-answer-fix.jpg
 image_prompt: A Japanese man in his 50s standing in a small office holding a desk phone handset to his ear while looking at a desktop monitor, his other hand resting on the desk, midday, bright daylight from a large window behind the monitor plus overhead lighting, well-lit with lifted shadows and no crushed blacks, shot on a Nikon Z6 with a 35mm f/1.8 lens at f/2.8, visible skin texture and fine wrinkles, worn desk surface with a coiled phone cord and a used mug, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：AIに間違った説明をされても、**その回答を直接消すことはできません**。変えられるのは、AIが根拠にしている情報だけです。最初にやるのは記録（日時・質問文・回答全文・参照元URLを3回分）、次に参照元を開いて出所を特定します。出所は5種類あり、それぞれ対処が変わります。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、この種の作業を請け負いうる**利害関係者**です。**先に書いておくと、「AIの回答を消す方法」はありません。** この記事に書けるのは、根拠を変える手順だけです。

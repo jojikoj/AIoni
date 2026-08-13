@@ -9,6 +9,8 @@ hero: article-aeo-llms-txt-writing.jpg
 image_prompt: Over-the-shoulder view of a Japanese man in his 30s typing on a laptop at a light wooden desk in a bright home office, only his hands and shoulder in frame, late morning, bright daylight from a large window on the left, well-lit and exposed for the shadows, slightly blown-out highlights near the window, shot on a Canon EOS R6 with a 35mm f/1.8 lens at f/2.8, visible hand skin texture, a used mug and a charging cable on the desk, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked screen and surfaces, no text, no logos, no signage
 ---
 
+**結論から**：llms.txt は主要25サイトのうち**5サイト（20%）**にしかなく、OpenAI・Anthropic というAI企業自身も置いていませんでした。効果は当社も測れていません。それでも当サイトが置いているのは、**同名の別サービスと区別する文章の置き場所**として使えるからです。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、この種の実装を請け負いうる**利害関係者**です。**先に結論を書くと、llms.txt の効果を当社は測れていません。** それでも置いている理由と、実際の中身を公開します。「入れるべきです」とは書きません。

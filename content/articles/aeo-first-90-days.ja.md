@@ -9,6 +9,8 @@ hero: article-aeo-first-90-days.jpg
 image_prompt: Three Japanese colleagues in their 30s and 50s standing around a light wooden table in a bright meeting room, one gesturing mid-sentence while the others listen, late morning, bright daylight flooding in from tall windows on the right, well-lit and exposed for the shadows, shot on a Sony A7 III with a 35mm f/2 lens, visible skin texture, slightly wrinkled shirts, mugs and a water bottle left on the table, white walls and light grey floor, natural color balance, slightly tilted framing with one person cropped at the frame edge, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：AI検索対策は**測る→名乗りを固定→記述を具体化→外部に書かれる**の順で進めます。順番を間違えると効きません。特に社名が同名他社と混ざっている状態で記事を増やしても、ほとんど変わりません。最初の30日の成果物は、対策案ではなく**測定記録**です。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。この工程表は当社がお客様に提案している順序そのものですが、**「この通りにやれば引用されます」とは書きません。** それを証明した人は、当社を含めて誰もいないからです。

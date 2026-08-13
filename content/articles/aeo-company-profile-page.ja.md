@@ -9,6 +9,8 @@ hero: article-aeo-company-profile-page.jpg
 image_prompt: A Japanese man in his 40s with short black hair, clean-shaven, working at a desk in a small Japanese company back office, one hand resting on the keyboard while looking at a desktop monitor, late morning, bright daylight from large windows on the left plus overhead fluorescent lighting, well-lit and exposed for the shadows, shot on a Nikon Z6 with a 35mm f/1.8 lens at f/2.8, visible skin texture, worn office chair, steel filing shelves and paper trays in the background, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：福岡県の金属加工業45社を実測したところ、AIが確認できた事実は**上5項目が93〜100%**で、ここでは差がつきませんでした。差がついたのは**取引先・納入実績（76%）**と**報道・業界メディアでの言及（31%）**の2つです。会社概要ページの仕事は、上5項目を落とさないことと、納入実績を自力で埋めることです。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、会社概要ページの改修を請け負いうる**利害関係者**です。この記事の土台は、**当社が2026年8月1日に福岡県の金属加工業45社を実測した結果**です。効果（引用が増えた等）は測っていないので書きません。

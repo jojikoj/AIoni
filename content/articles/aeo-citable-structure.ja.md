@@ -8,6 +8,8 @@ order: 9
 image_prompt: A printed article draft on a desk with the first paragraph highlighted in yellow, a table and a bulleted list marked with pen, a laptop showing a plain document beside it, small office daylight, realistic documentary photo
 ---
 
+**結論から**：AI検索に引用されやすい構造は4つに絞れます。**結論先出し・表・問いの形の見出し・FAQ**です。AIが「拾い読みで答えに届く形か」で根拠を選ぶためです。ただし型は保証ではなく確率を上げる打ち手で、その手前に「読みに来られること」と「中身があること」が要ります。
+
 ## 先に立場を明かします
 
 株式会社TOEはAI検索対策のサービスを売りうる**利害関係者**です。この記事は、仕組みから説明できる話と一般に言われている型だけを置きます。**「この構造で引用が◯％増えた」という、当社が測っていない数字は書きません。**

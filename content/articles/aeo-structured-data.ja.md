@@ -9,6 +9,8 @@ order: 10
 image_prompt: A laptop screen showing lines of JSON structured data markup, a printed webpage beside it with FAQ sections circled in pen, a desk at night with a single lamp, realistic documentary photo
 ---
 
+**結論から**：構造化データ（schema.org）は、当社が測った範囲では**AI検索での引用にはっきりした効果を確認できませんでした**。ただし従来検索のリッチ表示には確立した効果があり、害もないので土台整備として入れる価値はあります。「AI検索への切り札」と煽るのは誠実ではありません。
+
 ## 先に立場を明かします
 
 株式会社TOEはAI検索対策のサービスを売りうる**利害関係者**です。この記事は、仕組みの説明と、当社が実際に測った範囲の結果だけを置きます。**測っていない効果は「効く」とも「効かない」とも断言しません。**

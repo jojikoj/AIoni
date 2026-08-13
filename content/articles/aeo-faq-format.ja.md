@@ -8,6 +8,8 @@ order: 11
 image_prompt: A notebook page with a list of questions and short answers written by hand, a laptop showing an FAQ section on a webpage beside it, a coffee cup on a small office desk in morning light, realistic documentary photo
 ---
 
+**結論から**：FAQ形式がAI検索と相性がよいのは、**質問と短い答えが対になっていて、AIが探す形と一致するから**です。効きやすい型は「質問は具体的に、答えは2〜3文で言い切る」。ただし当社が自社サイトで測った範囲では、構造化データを完備しても**リッチリザルトの表示回数は0回**でした。
+
 ## 先に立場を明かします
 
 株式会社TOEはAI検索対策のサービスを売りうる**利害関係者**です。この記事は、仕組みから説明できる話と作り方の型だけを置きます。**「FAQを入れたら引用が◯％増えた」という、当社が測っていない数字は書きません。**

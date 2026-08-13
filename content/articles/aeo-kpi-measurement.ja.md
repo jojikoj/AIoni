@@ -9,6 +9,8 @@ hero: article-aeo-kpi-measurement.jpg
 image_prompt: A Japanese woman in her 40s standing at a desk holding a pen and looking down at a laptop screen with a slight frown of concentration, late morning, bright daylight from tall windows on the right plus overhead lighting, well-lit and exposed for the shadows, shot on a Sony A7 III with a 50mm f/1.8 lens at f/2.8, visible skin texture and fine wrinkles, a calculator and a used mug beside the laptop, cables taped along the desk edge, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：AI検索の「引用回数」と「順位」は**指標になりません**。同じ質問での再現率は100回に1回未満という調査があり、当社の実測でも引用ドメインは1件も重複しませんでした。使えるのは、①特定できるか ②説明に誤りがあるか ③参照元に入るか（0か1か） ④Search Console ⑤問い合わせ の5つです。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。**効果測定の話は、売る側にとって最も都合が悪い領域です。** それでも書くのは、ここを曖昧にしたまま契約すると、成果の判定ができなくなるからです。

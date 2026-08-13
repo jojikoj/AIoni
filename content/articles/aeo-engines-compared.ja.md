@@ -8,6 +8,8 @@ order: 12
 image_prompt: Three laptop screens on a desk each showing a different AI chat answer with citation links, a person taking notes on paper comparing them, a small office in daytime, realistic documentary photo
 ---
 
+**結論から**：ChatGPT検索・Perplexity・Google AI Overviews・Geminiは、どれも「答えを作り、根拠のページを出典として見せる」点が共通でした。違うのは**出典の細かさ**（Perplexityが最も細かい）と**出す場所**だけです。エンジン別の裏技を追うより、どこにも効く土台（クロール可・結論明快・一次情報）を固めるほうが現実的です。
+
 ## 先に立場を明かします
 
 株式会社TOEはAI検索対策のサービスを売りうる**利害関係者**です。この記事は、各サービスの画面で確認できる挙動と、公開されている仕組みだけを置きます。**「どのエンジンで何位」「引用率◯％」といった、当社が測っていない数字は書きません。**

@@ -9,6 +9,8 @@ hero: article-aeo-self-check-30min.jpg
 image_prompt: A Japanese woman in her 30s sitting at her desk in a small office, leaning back slightly with one hand on the mouse while looking at a laptop screen, late morning, bright daylight pouring in from large windows on the left plus overhead lighting, well-lit and exposed for the shadows, shot on a Canon EOS R6 with a 35mm f/1.8 lens at f/2.8, visible skin texture and flyaway hairs, a used mug and tangled cables on the desk, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：AI検索対策の最初の作業は、サイトを直すことではなく**現状を測ること**です。無料・30分でできます。測るのは4つ、①社名で聞く ②発注クエリで聞く ③参照元を開く ④記録する。**同じ質問は3回投げます**（回答は実行ごとに揺れるため）。当社が同じ手順で自社を測ったときは**100点中10点**でした。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。この記事に書くのは、**当社がお客様の会社を測るときに実際に踏んでいる手順そのもの**です。同じことを自社でやれば費用はかかりません。

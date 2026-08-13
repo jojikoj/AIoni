@@ -9,6 +9,8 @@ hero: article-aeo-name-collision.jpg
 image_prompt: Two identical plain white unmarked cardboard boxes of the same size sitting side by side on a bright wooden table, one slightly in front of the other, late morning, bright daylight from a large window on the left, well-lit with lifted shadows and no crushed blacks, slightly blown-out highlights near the window, shot on a Canon EOS R6 with a 50mm f/1.8 lens at f/4, faint scuffs and a small dent on one box carton, dust visible on the table surface, plain light grey wall behind, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：社名や商品名が他と重なると、**AIは情報量の多い方を採ります**。この状態で記事を増やしても、ほぼ変わりません。先に名乗りを固定します。当社自身がこの状態で、自社のAI認知スコアは**100点中10点**、AIが根拠にした6サイトに自社は1つも入っていませんでした。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。この記事は、**当社自身が同じ問題に引っかかった記録**をもとに書いています。他社の事例ではありません。

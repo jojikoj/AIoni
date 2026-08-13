@@ -9,6 +9,8 @@ hero: article-aeo-product-page-writing.jpg
 image_prompt: Close-up of machined stainless steel and aluminum parts of several sizes laid out on a light grey mat on a workbench, a worn digital caliper resting beside them, a Japanese worker's hand at the edge of the frame reaching for one part, midday, bright daylight from a high factory window on the left, well-lit and exposed for the shadows, shot on a Canon EOS R6 with a 50mm f/2.8 macro lens at f/5.6, visible micro-scratches and faint oil marks on the metal, fine metal dust on the mat, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：発注クエリでAIが引用したのは、**材質・板厚・数量・工程が数字で書かれた箇所**でした。抽象的なキャッチコピーの箇所は引用されていません。実測（Perplexity・3クエリ）では引用ドメイン12件のうち**8件が個社サイト**で、条件が細かい質問ほど個社の比率が上がりました。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、ページの改修を請け負いうる**利害関係者**です。この記事の土台は、**2026年7月18日にPerplexityで実測した3クエリ・引用12ドメイン**と、**引用されたサイトを実際に開いて回答本文と突き合わせた確認**です。効果（書き換えたら引用が増えた）は測っていないので書きません。

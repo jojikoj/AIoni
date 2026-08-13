@@ -9,6 +9,8 @@ hero: article-ai-search-measurement.jpg
 image_prompt: A person at a desk comparing search results on two laptop screens side by side, a handwritten tally sheet with rows of marks on paper beside the keyboard, a small office at night, desk lamp as the main light source
 ---
 
+**結論から**：Perplexityで3クエリを実測したところ、引用ドメイン12件のうち**8件が企業の自社サイト**でした。個社サイトは引用されています。引用されていたのは、**材質・板厚・数量・工程が具体的に書かれた箇所**でした。一方で構造化データの追加は、独立調査でも引用の増加につながっていません。
+
 ## はじめに、こちらの立場を明かします
 
 この記事を書いている株式会社TOEは、福岡のWeb制作・AI開発の会社です。つまり「AI検索で出るようにしましょう」というサービスを売りうる立場にあります。**利害関係者です。**

@@ -9,6 +9,8 @@ hero: article-aeo-robots-decision.jpg
 image_prompt: A Japanese engineer in his 30s crouching beside an open server rack in a bright equipment room, one hand resting on a bundle of network cables, midday, bright overhead lighting plus daylight from a window on the right, well-lit with lifted shadows and no crushed blacks, shot on a Nikon Z6 with a 28mm f/2 lens at f/4, visible skin texture, worn polo shirt, neatly bundled cables with faded colored ties, scuffed floor, natural color balance, off-center framing with the rack cropped at the frame edge, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：主要25サイト（取得成功23）でAIクローラを拒否していたのは**6サイト**、うち**3つが新聞社**でした。拒否は現時点で少数派です。中小企業の大半は**許可のままでよい**。見つけてほしい立場と、読ませない選択は両立しません。出したくない領域だけを部分的に拒否できます。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、サイト改修を請け負いうる**利害関係者**です。この記事の土台は、**2026年7月22日に主要25サイトの robots.txt を取得して機械判定した実測**です。「許可すれば引用されます」とは書きません。測っていないからです。

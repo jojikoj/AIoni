@@ -8,6 +8,8 @@ order: 8
 image_prompt: A person comparing a traditional search results page and an AI chat answer on two laptop screens side by side, a notebook with a hand-drawn comparison table on the desk, small office in daylight, realistic documentary photo
 ---
 
+**結論から**：AEOは、**AIの回答の根拠に自社を選ばせる最適化**です。SEO（一覧で上位に出す）との違いは出口だけで、土台（良い中身・読みに来られる状態）は共通です。やることは4点、クロール許可の確認・結論先出し・表とFAQ・一次情報。効果は数字で固定しにくいのが現状です。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。この記事は、意見と、公開情報で確認できる事実だけを置きます。**「引用率◯％上がる」といった、当社が測っていない数字は書きません。**

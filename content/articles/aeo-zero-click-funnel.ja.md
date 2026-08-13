@@ -9,6 +9,8 @@ hero: article-aeo-zero-click-funnel.jpg
 image_prompt: A Japanese woman in her 30s at the reception counter of a small factory office, picking up a ringing desk phone while turning toward the entrance, late morning, bright daylight flooding through a large glass entrance door on the left, well-lit and exposed for the shadows, slightly blown-out highlights near the door, shot on a Sony A7 III with a 28mm f/2 lens at f/4, visible skin texture, a worn counter surface with a pen holder and a small potted plant, scuffed light grey floor, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：AI検索経由の訪問者は、**すでにAIから説明を受けた状態**で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測で最も効率が良かったのは**コーナー一覧ページ**で、表示7.2%でクリックの32%、CTR 14.55%でした。個別記事ではありません。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、サイト改修を請け負いうる**利害関係者**です。この記事の土台は、**当サイト自身のSearch Console実測**と、外部調査です。「この構成にすれば問い合わせが増えます」とは書きません。前後比較をしていないからです。

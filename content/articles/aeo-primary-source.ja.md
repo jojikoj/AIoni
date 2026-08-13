@@ -8,6 +8,8 @@ order: 13
 image_prompt: A person at a desk holding a printed report full of original charts and numbers, a laptop showing a plain webpage beside it, notes and a calculator on the desk, small office in daylight, realistic documentary photo
 ---
 
+**結論から**：一次情報が引用されやすいのは、**AIが根拠を欲しがり、そこにしかない事実は代替が効かないから**です。焼き直しは他のどれを引いても同じなので、自社を引く必然性がありません。中小企業でも、実測・事例・手順・現場の数字・失敗の記録なら出せます。
+
 ## 先に立場を明かします
 
 株式会社TOEはAI検索対策のサービスを売りうる**利害関係者**です。この記事は、仕組みから説明できる理由と、実際にできる作り方だけを置きます。**「一次情報を出したら引用が◯％増えた」という、当社が測っていない数字は書きません。**

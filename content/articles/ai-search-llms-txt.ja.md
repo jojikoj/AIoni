@@ -9,6 +9,8 @@ hero: article-ai-search-llms-txt.jpg
 image_prompt: A hand holding a smartphone showing a plain text file on screen, next to a laptop displaying a list of website names with checkmarks and crosses on a spreadsheet, a small home office desk in daylight, realistic documentary photo
 ---
 
+**結論から**：llms.txt があったのは主要25サイト中**5サイト（採用率20%）**（ITmedia・SoftBank・GitHub・Stripe・Cloudflare）でした。日本の大手メディア4社（日経・朝日・読売・NHK）はいずれも無し。**OpenAI・Anthropic というAI企業自身のサイトにもありません**でした。
+
 ## 先に立場を明かします
 
 この記事を書いている株式会社TOEは、福岡のWeb制作・AI開発の会社です。「AI検索で見つかるようにサイトを直しましょう」というサービスを売りうる立場、つまり**利害関係者**です。

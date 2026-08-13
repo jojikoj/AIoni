@@ -9,6 +9,8 @@ hero: article-aeo-third-party-mentions.jpg
 image_prompt: Two Japanese men in their 40s and 60s in business casual talking beside a machine at an industrial trade show booth, one listening with arms loosely crossed, late morning, bright even exhibition hall lighting plus daylight from a high skylight, well-lit and exposed for the shadows, shot on a Sony A7 III with a 35mm f/2 lens, visible skin texture, creased jackets, visitors walking out of focus in the background, natural color balance, handheld slightly tilted framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 ---
 
+**結論から**：45社の実測でAIが確認できた事実のうち、唯一大きく落ちたのが「**報道・業界メディアでの言及」31%**でした。ここは**自社サイトの記述では動きません**。会社概要をいくら厚くしても埋まらない項目です。現実的な手は6つ（リリース・取材を断らない・名簿・取引先の事例・自社発信・講演）あります。
+
 ## 先に立場を明かします
 
 株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる**利害関係者**です。この記事に書く施策の効果を、**当社は測定していません。** 測ったのは「AIが何を確認できたか」という現状だけです。

@@ -8,6 +8,8 @@ hero: article-kansoku-fukuoka-kinzoku-45.jpg
 image_prompt: A factory office desk with a laptop showing a search result page, printed company list with checkmarks beside it, metal parts on the corner of the desk, daylight from a window, realistic documentary photograph, professional photograph
 ---
 
+**結論から**：福岡県の金属加工業45社を実測し、公式サイトが根拠になっていたのは**42社（93%）**でした。「中小企業はAIに認識されていない」という想定は、この母集団では外れています。差が出たのは認識の有無ではなく中身で、最も低かったのは「**報道・業界メディアで取り上げられている**」の14社（31%）でした。
+
 ## 先に立場を明かします
 
 株式会社TOEは**AI検索対策のサービスを売りうる利害関係者**です。この記事に載せるのは実際に測った結果だけで、対策の効果を示す数字（順位が上がった・引用が増えた等）は測っていないので書きません。同じ製造業の発注クエリをPerplexityで測った実測は[ChatGPTやPerplexityで自社が出るか、実際に測ってみました](../ai-search-measurement/)に、当社が自社を測った記録は[AI検索対策を売る会社が自社を測ったら10点だった](../toe-own-visibility-10/)にあります。
