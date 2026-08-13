@@ -286,6 +286,11 @@ def _shrink(path: pathlib.Path) -> None:
         print(f"  ⚠️ 再圧縮をスキップ: {e}", file=sys.stderr)
 
 
+def _val(line: str) -> str:
+    """front matter の 1 行から値だけを取り出す（引用符も外す）。"""
+    return line.split(":", 1)[1].strip().strip('"').strip("'")
+
+
 def article_jobs() -> list[tuple[str, str]]:
     """オリジナル記事の front matter から hero / image_prompt を集める。
 
@@ -303,12 +308,15 @@ def article_jobs() -> list[tuple[str, str]]:
         fm = text.split("---", 2)[1]
         hero = prompt = tag = ""
         for line in fm.splitlines():
+            # 値が引用符付きで書かれることがある（自動生成の記事）。
+            # 剥がさないと "article-x.jpg" というファイル名で保存され、
+            # サイト側が参照する article-x.jpg と食い違って画像が出ない。
             if line.startswith("hero:"):
-                hero = line.split(":", 1)[1].strip()
+                hero = _val(line)
             elif line.startswith("image_prompt:"):
-                prompt = line.split(":", 1)[1].strip()
+                prompt = _val(line)
             elif line.startswith("tag:"):
-                tag = line.split(":", 1)[1].strip()
+                tag = _val(line)
         # 中の鬼は hero 未指定でも slug から自動導出（build.py と対の運用）。
         if not hero and tag == "中の鬼":
             name = md.name

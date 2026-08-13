@@ -484,7 +484,7 @@ def build_llms_txt(base: str, articles_ja: list[dict], articles_en: list[dict]) 
     # llms-full.txt と同じ考え方で、このサイトにしか無いものを先に出す。
     # 208本を order 順に並べるとカテゴリが混ざり、量の多い解説（129本）に
     # 一次記録（60本）が埋もれる。節を分けて、何が読めるかを明示する。
-    _PRIMARY = ("jissen", "kansoku", "shippai", "shigoto")
+    _PRIMARY = ("jissen", "aeo", "shippai", "shigoto")
     _first = [a for a in articles_ja if a.get("category") in _PRIMARY]
     _rest = [a for a in articles_ja if a.get("category") not in _PRIMARY]
     for _label, _group, _note in (
@@ -609,7 +609,7 @@ def build_llms_full(base: str, articles_ja: list[dict], articles_en: list[dict],
     #
     # 記事は減らさない。順番を変えて、主軸を先に置く。
     # 最後まで読めなかったAIにも、このサイト固有の内容が先に渡る。
-    PRIMARY = ("jissen", "kansoku", "shippai", "shigoto")
+    PRIMARY = ("jissen", "aeo", "shippai", "shigoto")
 
     def _ordered(arts: list[dict]) -> tuple[list[dict], list[dict]]:
         first = [a for a in arts if a.get("category") in PRIMARY]

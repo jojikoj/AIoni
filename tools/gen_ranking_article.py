@@ -117,7 +117,7 @@ def build(data: dict, industry: str, date: str, slug: str, source_note: str = ""
         a(f"excerpt: {industry}{total}社について、検索連携型の生成AIに「この会社は何をしている会社か」"
           f"を尋ね、AIが根拠にしたサイトを実際に調べました。公式サイトが根拠として使われたのは{n3}社"
           f"（{pct(n3, total)}）。同じ質問を1社あたり{votes}回投げ、判定が一致したものだけを載せています。")
-    a("tag: AI検索観測所")
+    a("tag: AEO対策室")
     a("author: AIの鬼 編集部")
     a(f"date: {date}")
     a(f"hero: article-{slug}.jpg")

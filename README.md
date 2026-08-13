@@ -24,7 +24,7 @@ arXiv の研究プレプリントを集約する。
 | カテゴリ | URL | 中身 |
 |---|---|---|
 | AI実践室 | `/jissen/` | 実際に動かしている仕組みの記録。処理件数・所要時間・失敗件数を実ログで裏取り |
-| AI検索観測所 | `/kansoku/` | ChatGPT・Perplexity・AI Overviews を実際に測った結果 |
+| AEO対策室 | `/aeo/` | AI検索（ChatGPT・Perplexity・AI Overviews）に自社を見つけさせ、正しく説明させるための実務と実測 |
 | 失敗の鬼 | `/shippai/` | 自社で起きた失敗。中小企業向けの教訓に着地させる |
 | AI仕事術 | `/shigoto/` | 実務で使える手順 |
 | AI解体新書 | `/kaisetsu/` | 外部の研究・調査を中小企業向けに読み解く |

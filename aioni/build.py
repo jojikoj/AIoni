@@ -5,7 +5,7 @@ data/*.json（収集結果）+ content/articles/*.md（手書き記事）を読�
 
 出力構成:
     dist/index.html            日本語トップ
-    dist/news/ papers/ articles/ jissen/ shippai/ weekly/ kansoku/ shigoto/
+    dist/news/ papers/ articles/ jissen/ shippai/ weekly/ aeo/ shigoto/
     dist/articles/<slug>/
     dist/static/  sitemap.xml robots.txt 404.html .nojekyll
 
@@ -160,11 +160,23 @@ def _fallback_image(topics: list[str], seed: str = "") -> str:
 
 
 # 記事カテゴリ → ニュース用トピック（イメージ写真の使い回しに使う）
+# コーナー一覧の <title>。コーナー名（造語）だけでは検索窓に打たれないので、
+# 読者が実際に打つ語を後ろに足す。h1・パンくず・ナビはコーナー名のまま。
+_CATEGORY_SEARCH_TITLE = {
+    "jissen": "AI活用の実践記録 — AI実践室",
+    "aeo": "AI検索対策（AEO）の実務 — AEO対策室",
+    "shippai": "AI導入の失敗事例 — 失敗の鬼",
+    "shigoto": "中小企業のAI活用ガイド — AI仕事術",
+    "kaisetsu": "AI研究・調査の解説 — AI解体新書",
+    "weekly": "今週のAIニュース — 今週のAI",
+    "naka": "AIと働く日々の記録 — 中の鬼",
+}
+
 _ARTICLE_CAT_TO_TOPIC = {
     "jissen": "tools",
     "shippai": "policy",
     "weekly": "models",
-    "kansoku": "research",
+    "aeo": "research",
     "shigoto": "tools",
     "kaisetsu": "research",
 }
@@ -221,11 +233,11 @@ def cta_kind(*texts: str, category: str = "") -> str:
     """記事末に出す相談バナーの種別を決める。
 
     2商材（AI検索対策 / AI社内導入）のどちらを出すかを記事の内容で選ぶ。
-    AI検索観測所の記事と、AI検索・AEOを扱った記事は前者。それ以外は
+    AEO対策室の記事と、AI検索・AEOを扱った記事は前者。それ以外は
     本命の「AI社内導入」を出す。判定に迷うものは導入側に倒す——
     読者の大半は「自社にAIをどう入れるか」を調べに来ているため。
     """
-    if category == "kansoku":
+    if category == "aeo":
         return "aeo"
     hay = " ".join(t or "" for t in texts).lower()
     return "aeo" if any(h in hay for h in _AEO_HINTS) else "dounyu"
@@ -296,6 +308,13 @@ def load_articles(lang: str) -> list[dict]:
         articles.append({
             "slug": slug,
             "title": meta.get("title", slug),
+            # <title> と meta description は検索結果で切られる長さが決まって
+            # いる。front matter に手で書いてあればそれを使い、無ければ丸める。
+            # h1・記事リードは title / excerpt のまま（読者向けの全文）。
+            "seo_title": (meta.get("seo_title", "")
+                          or article_head_title(meta.get("title", slug))),
+            "meta_desc": (meta.get("meta_desc", "")
+                          or clip_description(meta.get("excerpt", ""))),
             "excerpt": meta.get("excerpt", ""),
             "tag": tag,
             "category": cat["id"] if cat else "",
@@ -419,6 +438,101 @@ def head_title(title: str, limit: int = _HEAD_TITLE_LIMIT) -> str:
     if pos >= limit // 2:
         return cut[:pos].rstrip(_TITLE_BREAKS)
     return cut.rstrip() + "…"
+
+
+# 自社記事のタイトルは「問い？＋実測値の列挙」という型で書いている。
+# 読み物としては正しいが、そのまま <title> に出すと実測226本中206本
+# （88%）が32字を超え、検索結果では問いの途中で切れてサイト名も出ない。
+# h1 は全文のまま残し、<title> だけを「問いの一文」で終わらせる。
+#
+# front matter に seo_title: があればそれを最優先で使う（手で決めた題）。
+_TITLE_SENTENCE_END = "？?！!。"
+# 「主題 — 副題」の副題を落とすための区切り。表記ゆれ（ダッシュ4種）と、
+# 実測値を添える括弧「〜できるのか（正答率58.54%）」を全部拾う。
+_TITLE_SUBTITLE_SEP = ["—", "―", "─", "－", "──", "——", " - ", " – ", "：",
+                       "（", "("]
+# 読点で切ったとき、末尾がこれだと文が途中に見える（「〜理由と」「〜構成と」）。
+# 「か」は問いの終わりなので落とさない（「どう選ぶか」は残したい形）。
+_TRAILING_PARTICLES = "とやがはもをにでへ、，・「（【"
+
+
+def _trim_marks(s: str) -> str:
+    """切り口の末尾から、記号と開き括弧だけを落とす。"""
+    return s.rstrip().rstrip("、，・「（【 　-–—―:：")
+
+
+def _trim_tail(s: str) -> str:
+    """切り口の末尾から、文を途中に見せる字を落とす。
+
+    数字の途中（「404」→「40」、「1,125回」→「1」）で終わるのが最悪なので、
+    末尾が数字・カンマ・小数点のときは数字の並びごと落とす。
+    """
+    s = _trim_marks(s)
+    while s and s[-1] in _TRAILING_PARTICLES:
+        s = _trim_marks(s[:-1])
+    if s and (s[-1].isdigit() or s[-1] in ",.，"):
+        s = _trim_marks(re.sub(r"[\d,.，]+$", "", s))
+        while s and s[-1] in _TRAILING_PARTICLES:
+            s = _trim_marks(s[:-1])
+    return s
+
+
+def article_head_title(title: str, limit: int = 30) -> str:
+    """自社記事の <title> 用に題を丸める。h1・OGP には使わない。
+
+    ニュース用の head_title と分けているのは、切ってよい位置が違うため。
+    自社記事の題は「主題 — 副題」か「〜のか？＋実測値」の型で書いてあり、
+    副題や数値の列挙を落とせば主題だけが残る。文の途中で切る「…」は、
+    どこにも切れ目が無いときの最後の手段。
+    """
+    title = re.sub(r"\s+", " ", (title or "")).strip()
+    if len(title) <= limit:
+        return title
+    cands = []
+    # 1) 副題を落とす（「主題 — 副題」）
+    for sep in _TITLE_SUBTITLE_SEP:
+        pos = title.find(sep)
+        if pos > 0:
+            # 副題の前は文として完結しているので、記号だけ落として助詞は残す
+            cands.append(_trim_marks(title[:pos]))
+    # 2) 問い・言い切りで終わる位置（複数あれば予算内で最も後ろ）
+    for ch in _TITLE_SENTENCE_END:
+        pos = title.rfind(ch, 0, limit + 1)
+        if pos > 0:
+            cands.append(title[:pos + 1])
+    ok = [c for c in cands if 6 <= len(c) <= limit]
+    if ok:
+        return max(ok, key=len)
+    # 3) 文の切れ目が無い。読点で切る（ここまで来ると主題が削れるので最後）
+    pos = title.rfind("、", 0, limit + 1)
+    if pos > 0:
+        cut = _trim_tail(title[:pos])
+        if len(cut) >= 6:
+            return cut
+    # 4) どこにも切れ目が無い。字数で切って末尾を整える。
+    cut = _trim_tail(head_title(title, limit).rstrip("…"))
+    return (cut + "…") if cut else title[:limit]
+
+
+def clip_description(text: str, limit: int = 120) -> str:
+    """meta description 用に要約を丸める。
+
+    excerpt はページ本文のリードとしても出すので長さを持たせてある。
+    そのまま description に流すと実測226本中174本が120字を超え、検索結果
+    でもAIの引用でも末尾（多くの場合そこに但し書きがある）が落ちる。
+    文の切れ目で止め、文が1つも収まらないときだけ「…」で丸める。
+    """
+    text = re.sub(r"\s+", " ", (text or "")).strip()
+    if len(text) <= limit:
+        return text
+    out = ""
+    for sentence in re.findall(r"[^。！？]*[。！？]|[^。！？]+$", text):
+        if len(out) + len(sentence) > limit:
+            break
+        out += sentence
+    if len(out) >= limit // 2:
+        return out.strip()
+    return head_title(text, limit).rstrip("…") + "…"
 
 # 解説の2段落目が、生成プロンプトの見出しをそのまま書き出しにしていることがある。
 # description に出すときだけ、この定型の前置きを外す（本文はそのまま残す）。
@@ -864,10 +978,10 @@ class Builder:
         # 集約ニュースより先に置かないと、差別化要素が読者に伝わらない。
         # トップは「集約ニュース」ではなく「自社の実践記録」を主役に置く。
         # practice = 実践室＋失敗の鬼（何をやってどうなったかの記録）
-        # observation = AI検索観測所（独自調査。AEO導線でもある）
+        # observation = AEO対策室（AI検索対策の実務と実測。AEO導線でもある）
         practice = [a for a in articles
                     if a.get("category") in ("jissen", "shippai", "shigoto")]
-        observation = [a for a in articles if a.get("category") == "kansoku"]
+        observation = [a for a in articles if a.get("category") == "aeo"]
         # AI解体新書（外部の研究・調査・事例を中小企業向けに読み解く解説）。
         # 一次記録ではないが本数の主力。実践・実測の下の第2階層として置く。
         explainer = [a for a in articles if a.get("category") == "kaisetsu"]
@@ -953,9 +1067,15 @@ class Builder:
                             self.env.get_template(tpl).render(**ctx))
                 total_pages_built += 1
 
-        # カテゴリ別ページ（AI実践室・失敗の鬼・今週のAI・AI検索観測所・AI仕事術）
+        # カテゴリ別ページ（AI実践室・失敗の鬼・今週のAI・AEO対策室・AI仕事術）
         # このサイトの主役は集約ニュースではなく自社記事なので、
         # カテゴリごとに独立したURLを持たせて入口を増やす。
+        #
+        # <title> はコーナー名だけにしない（2026-08-13 実測）。
+        # 「中の鬼」「失敗の鬼」はこのサイトの造語で、検索窓に打つ人がいない。
+        # 20ある一覧・コーナーページで表示があったのは17、うちクリックが
+        # 付いたのは指名検索から来る2ページだけだった。名前の後ろに
+        # 「読者が実際に検索する言葉」を足す。h1（コーナー名）は変えない。
         for cat in config.ARTICLE_CATEGORIES:
             items = [a for a in articles if a.get("category") == cat["id"]]
             path = f"{cat['id']}/"
@@ -971,6 +1091,8 @@ class Builder:
                             page_description=cat["desc"], noindex=empty)
             ctx["articles"] = items
             ctx["category"] = cat
+            if lang == "ja" and cat["id"] in _CATEGORY_SEARCH_TITLE:
+                ctx["page_title"] = _CATEGORY_SEARCH_TITLE[cat["id"]]
             ctx["pagination"] = None
             ctx["jsonld"] = seo.build_jsonld(
                 self.base_url, lang, "articles",
@@ -990,7 +1112,8 @@ class Builder:
             path = f"articles/{a['slug']}/"
             page_url = self._url_for(lang, path)
             ctx = self._ctx(lang, depth=2, active="articles", path=path,
-                            page_description=a.get("excerpt", ""))
+                            page_description=a.get("meta_desc")
+                            or a.get("excerpt", ""))
             ctx["article"] = a
             # SNSに貼られたときは、その記事の写真を出す。
             if a.get("hero"):
@@ -1021,7 +1144,7 @@ class Builder:
         # 元記事の全文は配信元リンクへ、画像は配信元URLの参照(ホットリンク)で
         # 表示し、当サーバーには保存しない（転載しない）。
         related_pool = [a for a in articles if a.get("category")
-                        in ("jissen", "kansoku", "kaisetsu", "shippai")]
+                        in ("jissen", "aeo", "kaisetsu", "shippai")]
         # 照合用キーを1回だけ作る（記事×ニュースの全組み合わせを回すため）
         for a in related_pool:
             a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
@@ -1404,8 +1527,28 @@ class Builder:
         ctx = self._ctx(config.DEFAULT_LANG, depth=0, active="", path="404")
         four04 = self.env.from_string(_FOUR04_TPL).render(**ctx)
         (config.DIST_DIR / "404.html").write_text(four04, encoding="utf-8")
+        # 旧URLの転送
+        #
+        # コーナー名を変えると一覧URLも変わる。GitHub Pages は 301 を返せない
+        # ため、旧パスに meta refresh + canonical の1枚を置いて新URLへ送る。
+        # 置かないと、外部リンク・ブックマーク・検索結果からの流入が
+        # そのまま404に落ちる（旧 /kansoku/ は検索でクリックが付いていた）。
+        # sitemap には入れない（self._write を通さないので自動的に外れる）。
+        for old, new in config.REDIRECTS.items():
+            target = f"{self.base_url}/{new}"
+            out = config.DIST_DIR / old.strip("/") / "index.html"
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(
+                "<!doctype html><html lang=\"ja\"><head><meta charset=\"utf-8\">"
+                f"<title>移転しました</title><link rel=\"canonical\" href=\"{target}\">"
+                "<meta name=\"robots\" content=\"noindex, follow\">"
+                f"<meta http-equiv=\"refresh\" content=\"0; url={target}\"></head>"
+                f"<body><p>このページは <a href=\"{target}\">{target}</a> "
+                "に移転しました。</p></body></html>",
+                encoding="utf-8")
+
         extras = ("static/, .nojekyll, robots.txt, sitemap.xml, llms.txt, "
-                  "llms-full.txt, 404.html, indexnow-key")
+                  f"llms-full.txt, 404.html, indexnow-key, 転送{len(config.REDIRECTS)}件")
         if config.SITE_DOMAIN:
             extras += f", CNAME({config.SITE_DOMAIN})"
         print(f"  extras: {extras}")

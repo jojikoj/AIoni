@@ -1,7 +1,7 @@
 ---
 title: ChatGPT検索・Perplexity・Google AI Overviewsは、出典をどう選んで表示するのか
 excerpt: AI検索と一口に言っても、出典の選び方も見せ方もエンジンごとに違います。ChatGPT検索・Perplexity・Google AI Overviews・Geminiが出典をどう扱うかを、公開されている仕組みと画面で確認できる範囲だけで整理します。順位や引用率などの測定値は書きません。
-tag: AI検索観測所
+tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-07-23
 order: 12

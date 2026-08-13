@@ -1,7 +1,7 @@
 ---
 title: 主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか
 excerpt: ChatGPTやClaudeなどのAIが記事を読みに来るクローラを、主要サイトは許可しているのか拒否しているのか。25サイトのrobots.txtを実際に取得して数えました。拒否していたのは主に新聞社でした。
-tag: AI検索観測所
+tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-07-22
 order: 7

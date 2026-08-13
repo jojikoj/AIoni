@@ -91,6 +91,20 @@ step "本文取得" python3 -m aioni.collectors.fulltext --limit=40
 #    haiku なので追加コストは無く、所要は数分（jobs.yaml の timeout 3600 内）。
 step "解説生成" python3 tools/gen_news_summaries.py --limit=35
 
+# 3b. AEO対策室を毎日1本ずつ増やす（2026-08-13 追加）
+#
+#     content/queue/ に人が書いた記事があればそれを優先で出し、無ければ
+#     content/_aeo_themes.json のテーマから claude で下書きを作る。
+#     ⚠️ **検査（字数・表・まとめ・内部リンクの実在・裏の取れない数字）に
+#     落ちたものは公開しない。** 1日空くのは構わないが、裏の取れない数字を
+#     載せると「実測しか書かない」というこのサイトの前提が壊れる。
+#     落ちた下書きは content/_aeo_rejected/ に残り、理由はこのログに出る。
+#
+#     ここだけ haiku を使わない。1日1本なのでバッチではなく、
+#     記事の質がそのまま媒体の信用になるため（AIONI_ARTICLE_MODEL で変更可）。
+export AIONI_ARTICLE_MODEL="${AIONI_ARTICLE_MODEL:-sonnet}"
+step "AEO対策室" python3 tools/publish_daily.py
+
 # 4. 内部リンク検査 → ビルド → 公開 → IndexNow
 step "公開" ./tools/deploy.sh
 
@@ -114,8 +128,12 @@ p.write_text((p.read_text(encoding="utf-8") if p.exists() else
 print("   " + line.replace("\t", "  "))
 PY
 
-# --- 旬ネタ提案: いま検索/世間で伸びているAI話題を _旬ネタ/提案.md に更新 ---
-python3 "$(dirname "$0")/trend_intake.py" || echo "旬ネタ提案skip"
+# --- 旬ネタ提案 ---
+# 主軸は trend_news.py（この1週間に実際に起きたことから選ぶ → _旬ネタ/今週.md）。
+# trend_intake.py はGoogleサジェスト起点で、返るのは「ai エージェント とは」のような
+# 定常的な検索意図。旬ではないうえ既存226記事とカニバるので、補助として残す。
+python3 "$(dirname "$0")/trend_news.py" || echo "今週ネタskip"
+python3 "$(dirname "$0")/trend_intake.py" || echo "検索語ネタskip"
 
 # 6. 収集データを origin/main へ戻す
 #    実行機のローカルにしか無いと、別マシンで作業したとき土台が食い違う。

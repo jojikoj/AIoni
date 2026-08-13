@@ -1,7 +1,7 @@
 ---
 title: 構造化データ（schema.org）は、AI検索に効くのか
 excerpt: FAQ PageやArticleといった構造化データ（schema.org）を入れれば、AI検索に引用されやすくなるのか。仕組みと、当社が実際に測った範囲での結果を正直に整理します。効いたと断言できない部分は、断言できないと書きます。
-tag: AI検索観測所
+tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-07-23
 updated: 2026-08-01
