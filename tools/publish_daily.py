@@ -39,6 +39,7 @@ import pathlib
 import re
 import subprocess
 import sys
+import time
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from trend_news import pick as pick_trends      # noqa: E402
@@ -70,6 +71,11 @@ PADDING = ("いかがでしたでしょうか", "いかがでしょうか", "詳
 
 MIN_TABLES = 1
 MIN_LINKS = 2
+
+# 1本通るまで何件試すか。落ちたら次のネタに移り、出ない日を作らない。
+# ただし1件あたり生成2回（初回＋書き直し）で数分かかるので、上限を置く。
+MAX_TRIES = 8
+TIME_BUDGET = 1500          # 秒。日次全体の持ち時間3600秒のうち、記事づくりの取り分
 
 # --- 当社の実測（この一覧に無い自社数値を書かせない）---------------------
 FACTS = """
@@ -482,17 +488,34 @@ def main() -> int:
                 log(f"本日分は公開済み（{p.name}）。何もしない")
                 return 0
 
-    # 旬ネタの候補。3日で見つからなければ7日まで広げる
-    picks = pick_trends(days=a.days, limit=10)
-    if not picks:
-        picks = pick_trends(days=7, limit=10)
-    if not picks:
-        log("⚠️ 直近7日に書けるニュースが無い。今日は公開しない")
+    # 旬ネタの候補。落ちたら次のネタへ、を尽きるまで続ける（小嶋さん指示）。
+    # まず直近3日、足りなければ7日→14日と遡って候補を継ぎ足す。
+    # 1本も出ない日を作らないためだが、時間と回数には上限を置く
+    # （日次全体の持ち時間は3600秒。ここで使い切ると公開処理まで届かない）。
+    candidates = []
+    seen_urls = set()
+    for days, limit in ((a.days, 12), (7, 15), (14, 20)):
+        for c in pick_trends(days=days, limit=limit):
+            if c["url"] in seen_urls:
+                continue
+            seen_urls.add(c["url"])
+            candidates.append(c)
+    if not candidates:
+        log("⚠️ 直近14日に書けるニュースが無い。今日は公開しない")
         return 1
+    log(f"候補{len(candidates)}件（上限{MAX_TRIES}件・{TIME_BUDGET // 60}分まで試す）")
 
+    started = time.monotonic()
+    tried = 0
     slugs = existing_slugs()
     all_items = load_all()
-    for cand in picks[:5]:                      # 上位5件まで順に試す
+    for cand in candidates:
+        if tried >= MAX_TRIES:
+            log(f"⚠️ {MAX_TRIES}件試して通らなかった。ここで打ち切る")
+            break
+        if time.monotonic() - started > TIME_BUDGET:
+            log(f"⚠️ 記事づくりに{TIME_BUDGET // 60}分使った。ここで打ち切る")
+            break
         item = load_source(cand["url"], all_items)
         if not item:
             continue
@@ -501,7 +524,7 @@ def main() -> int:
         mine = related_articles(item)
         material = material_text(item, others, mine)
         if len(re.sub(r"\s", "", material)) < 400:
-            continue                            # 見出しだけのものは書けない
+            continue                # 見出しだけのものは書けない（試行に数えない）
         tag, cat = corner_for(item)
         min_chars = min_chars_for(material)
         links = link_pool(tag, slugs)
@@ -512,6 +535,7 @@ def main() -> int:
             f"別報道{len(others)}件・自社関連{len(mine)}本・"
             f"素材{len(material)}字・下限{min_chars}字）")
 
+        tried += 1
         prompt = build_prompt(item, tag, links, today, min_chars,
                               cand["url"], cand["source"], material, len(others))
         text = strip_fence(gen_with_claude(prompt))
@@ -564,7 +588,7 @@ def main() -> int:
             log(f"⚠️ カバー画像の生成に失敗: {e}")
         return 0
 
-    log("⚠️ 候補5件とも検査に落ちた。今日は公開しない（下書きは _aeo_rejected/）")
+    log(f"⚠️ {tried}件試したが通らなかった。今日は公開しない（下書きは _aeo_rejected/）")
     return 1
 
 
