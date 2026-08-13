@@ -1,5 +1,6 @@
 ---
 title: TypeScriptが初めて1位・新規開発者の80%が初週にCopilot——AIは開発言語の選択をどう変えたのか？
+seo_title: AIは開発言語の選択をどう変えたのか
 excerpt: GitHubがOctoverse 2025のデータをもとに、AIの普及が開発者の言語・ツール選択をどう動かしたかを公表した。TypeScriptが前年比66%増で初の1位、新規開発者の80%が登録初週にCopilotを使う。ただし発信元はCopilotの提供者であり、母数の条件も数字ごとに違う。発注側の見積と検収に効く形で読み直す。
 tag: AI解体新書
 author: AIの鬼 編集部

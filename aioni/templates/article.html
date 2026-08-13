@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% from "macros.html" import service_banner, article_card %}
-{% block title %}{{ article.title }}{% endblock %}
+{# <title> は検索結果で切られる長さ（全角32字＋サイト名）に丸めたものを使う。
+   h1・OGP は article.title の全文のまま（読者には省略せず見せる）。 #}
+{% block title %}{{ article.seo_title or article.title }}{% endblock %}
 {% block og_title %}{{ article.title }} · {{ site_name }}{% endblock %}
 
 {% block content %}
