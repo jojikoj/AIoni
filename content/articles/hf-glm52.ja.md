@@ -5,6 +5,7 @@ excerpt: 誰でも重みを入手できるオープンウェイトの大規模�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 1201
 hero: article-hf-glm52.jpg
 image_prompt: A small Japanese office at dusk with two desks facing each other, a laptop showing plain text logs beside a printed spec binder and a mug, cable tray and a small network switch on a shelf, natural window light and fluorescent ceiling light mixed

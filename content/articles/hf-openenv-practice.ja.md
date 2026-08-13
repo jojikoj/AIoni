@@ -5,6 +5,7 @@ excerpt: OpenEnvのCalendar Gym環境で、AIエージェントのタスク成�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 1001
 hero: article-hf-openenv-practice.jpg
 image_prompt: A small Japanese company back office at midday, an administrative staff member seen from the side adjusting a paper wall calendar while a laptop shows a scheduling screen, sticky notes and a landline phone on the desk, soft natural window light, documentary photography, shallow depth of field, no text, no logos, no signage, natural colors, realistic, professional photograph, candid, avoid AI art

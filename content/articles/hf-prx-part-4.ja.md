@@ -5,6 +5,7 @@ excerpt: Photoroomが自社の画像生成モデルPRXの学習データ構築�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 805
 hero: article-hf-prx-part-4.jpg
 image_prompt: A quiet server room corner in a small Japanese company, an engineer seen from behind checking a laptop placed on a metal rack shelf, coiled network cables and a printed checklist on a clipboard beside it, cool fluorescent light mixed with warm desk lamp, documentary style photograph, shallow depth of field, no text or logos visible

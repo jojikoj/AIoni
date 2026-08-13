@@ -5,6 +5,7 @@ meta_desc: 売上高上位企業517社への調査です。生成AI導入済み5
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1703
 hero: article-jp-nri-it-jittai-2025.jpg
 image_prompt: "A Japanese corporate IT department room seen from behind, server rack cabinet on one side, two desks with monitors showing blurred spreadsheets, printed binders stacked on a shelf, cool fluorescent lighting, no visible text or logos, documentary photograph, realistic, professional photograph, candid, avoid AI art"

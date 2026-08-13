@@ -5,6 +5,7 @@ excerpt: 当メディア ai-oni.com の検索パフォーマンスを、Google S
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-23
+updated: 2026-08-13
 order: 14
 hero:
 image_prompt: Newly installed clean water pipes and a shiny faucet on a wall, faucet turned on but no water flowing yet, a Japanese engineer in work clothes checking the fitting with a wrench, bright morning light in an unfinished room, realistic, professional photograph, muted colors, shallow depth of field

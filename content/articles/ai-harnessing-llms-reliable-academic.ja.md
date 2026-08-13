@@ -5,6 +5,7 @@ excerpt: 素のGPT-5チャットボットと、小型のGPT-4o-miniに検索・�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 505
 hero: article-ai-harnessing-llms-reliable-academic.jpg
 image_prompt: A modest office desk in a small Japanese company, two laptops open side by side showing plain document windows, printed checklists and a stack of paper folders beside them, a coffee mug and a ballpoint pen, warm daylight from a window, seen from a slightly high angle over the shoulder so no face is the subject, realistic, professional photograph, candid, avoid AI art, no text, no logos

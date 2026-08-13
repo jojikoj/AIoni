@@ -5,6 +5,7 @@ excerpt: Shopifyが自社の買い物シミュレーション基盤SimGymの運�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 2005
 hero: article-co-shopify-simgym-llm-inference-economics.jpg
 image_prompt: A small Japanese e-commerce office in the late afternoon, two desks with laptops showing an online storefront, cardboard shipping boxes stacked beside a wall, printed order slips on the desk, natural window light, shot from behind and to the side so faces are not the focus, no text or logos visible, documentary photograph, realistic, professional photograph, candid, avoid AI art

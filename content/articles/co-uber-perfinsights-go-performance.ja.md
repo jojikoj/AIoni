@@ -5,6 +5,7 @@ excerpt: Uberが自社のGoコード解析ツールPerfInsightsの実測を公�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1406
 hero: article-co-uber-perfinsights-go-performance.jpg
 image_prompt: A quiet software engineering office in the early evening, two developers reviewing code side by side on large monitors, printed checklists and coffee cups on the desk, warm indoor lighting, shot from behind at a slight angle so faces are not the focus, realistic, professional photograph, candid, avoid AI art, no text, no logos

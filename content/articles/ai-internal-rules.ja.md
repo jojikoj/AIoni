@@ -4,7 +4,7 @@ excerpt: 生成AIの社内規定を策定済みの職場は3.7%、個人任せ�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-13
 order: 2
 hero: article-ai-internal-rules.jpg
 image_prompt: A single sheet of blank white paper lying square on a plain wooden desk beside a capped ballpoint pen, seen straight from above, soft even daylight, nothing else on the desk, no people, absolutely no text no letters no numbers no writing no lines no marks anywhere in the frame, completely blank paper, documentary photography, realistic, professional photograph, candid, avoid AI art

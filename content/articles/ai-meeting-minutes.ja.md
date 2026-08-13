@@ -5,7 +5,7 @@ meta_desc: 議事録作成をAIに任せた企業の公表事例と、精度の�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-07-19
-updated: 2026-08-01
+updated: 2026-08-13
 order: 102
 hero: article-ai-meeting-minutes.jpg
 image_prompt: "A small group of Japanese office workers in a meeting room, one person taking notes on a laptop while a smartphone records audio on the table, natural daylight, documentary photograph, realistic, professional, avoid AI art"

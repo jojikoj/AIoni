@@ -5,6 +5,7 @@ excerpt: 当社はnoteを「補助金の鬼」「AIの鬼」の2アカウント�
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-23
+updated: 2026-08-13
 order: 13
 hero:
 image_prompt: Two identical white doors side by side in a quiet office corridor, each with a different small nameplate, a Japanese man in business casual pausing to read the nameplate carefully before entering, soft daylight, realistic, professional photograph, muted colors, shallow depth of field

@@ -5,6 +5,7 @@ excerpt: 財務省が2026年1月29日の全国財務局長会議で公表した�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1802
 hero: article-jp-mof-zaimukyoku-regional-ai-2026.jpg
 image_prompt: "A small Japanese company back office in the afternoon, a desk with stacked invoices, a calculator, an open laptop and a wall calendar, one worker seen from behind at a distance so the face is not prominent, natural window light, documentary photograph, realistic, professional, candid, no text, no logos, avoid AI art"

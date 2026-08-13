@@ -5,6 +5,7 @@ meta_desc: AIコーディング環境がセッションをまたいで読むメ�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 600
 hero: article-ai-bad-memory.jpg
 image_prompt: A small office desk with two laptops open side by side showing plain text editor windows, printed source code pages stacked next to a coffee mug, late afternoon daylight from a side window, documentary photograph, no faces in focus, no visible text or logos

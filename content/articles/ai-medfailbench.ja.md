@@ -5,6 +5,7 @@ excerpt: 臨床医1名が作った医療AI安全性ベンチマーク「MedFailB
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 142
 hero: article-ai-medfailbench.jpg
 image_prompt: A quiet office desk in a small Japanese company, printed checklists and a spreadsheet on a laptop screen viewed from behind, morning light through blinds, papers stacked, no faces in focus, no text or logos visible, documentary photography style, natural colors

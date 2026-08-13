@@ -5,6 +5,7 @@ excerpt: AI規制の行方は、中小企業の投資判断にも効きます。
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 114
 hero: article-ai-regulation-public-preference.jpg
 image_prompt: A plain government office meeting room with an empty long table, folded name placards and water glasses set out, overcast daylight through tall windows

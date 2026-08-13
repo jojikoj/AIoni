@@ -5,6 +5,7 @@ excerpt: GitHubがOctoverse 2025のデータをもとに、AIの普及が開発�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1506
 hero: article-co-github-octoverse-ai-developer-choice.jpg
 image_prompt: A small Japanese software office in the morning, two developers seated at desks with laptops and a whiteboard covered in handwritten diagrams, warm daylight from a side window, photographed from behind at a low angle so faces are not prominent, documentary style, shallow depth of field, no text, no logos, no readable screens, realistic, professional photograph, candid, avoid AI art

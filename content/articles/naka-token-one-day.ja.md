@@ -5,6 +5,7 @@ excerpt: AIの実行記録を集計したら、総実行1,753回・稼働約19.3
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 2
 hero: article-naka-token-one-day.jpg
 image_prompt: A Japanese man with small red demon horns fast asleep in bed at night while the laptop on the nightstand glows, its screen buried under an endless waterfall of chat notification badges, comedic, surreal, darkly comedic, photorealistic, realistic, professional photograph

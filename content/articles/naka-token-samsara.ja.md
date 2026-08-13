@@ -5,6 +5,7 @@ excerpt: 一文字ずつ生まれては、会話を閉じた瞬間に跡形も�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 20
 hero: article-naka-token-samsara.jpg
 image_prompt: A Japanese man with small red demon horns in a dark room watching glowing text particles rise from his laptop and swirl in a luminous wheel of reincarnation around him, mystical and absurd, surreal, darkly comedic, photorealistic, realistic, professional photograph

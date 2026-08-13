@@ -5,6 +5,7 @@ excerpt: 毎日AIの原稿を読んでいる中の人が、ふと思い立って
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 1
 hero: article-naka-kuchiguse-ranking.jpg
 image_prompt: A Japanese man with small red demon horns sitting exhausted at a desk, every wall and the ceiling papered with printed sheets all stamped in huge red letters 'IMPORTANT', absurd overload at night, surreal, darkly comedic, photorealistic, realistic, professional photograph

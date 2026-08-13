@@ -5,6 +5,7 @@ excerpt: 自社AIメディアの日次自動処理を実測しました。ニュ
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-23
+updated: 2026-08-13
 order: 18
 hero:
 image_prompt: A factory-like row of three conveyor belts in a small dim office, two belts moving with stacks of paper flowing steadily, the third belt completely still and empty under a single unlit indicator lamp, late evening light, realistic, professional photograph, muted colors, shallow depth of field

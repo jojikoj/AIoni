@@ -5,6 +5,7 @@ excerpt: Hume AIが40以上の音声モデルを15以上の評価軸・60以上�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 706
 hero: article-hf-introducing-real-world-voiceeq.jpg
 image_prompt: A small Japanese office reception desk with a desk phone and a headset resting beside a laptop, late afternoon daylight from a window, papers and a coffee cup nearby, no people's faces in focus, no text or logos visible, documentary photograph style, shallow depth of field, natural color

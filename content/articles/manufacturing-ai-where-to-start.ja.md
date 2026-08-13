@@ -4,7 +4,7 @@ excerpt: 製造業のAI活用は約8割という調査がありますが、中�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 2
 hero: article-manufacturing-ai-where-to-start.jpg
 image_prompt: Close view of neatly stacked steel sheets on a workshop floor, edges aligned, a few bent metal brackets resting on a plain wooden workbench in the foreground, no machinery visible, no nameplates, cool evening light, no people, absolutely no text no letters no numbers no logos no labels no plates no markings anywhere in the frame, bare metal surfaces only, documentary photography, realistic, professional photograph, candid, avoid AI art

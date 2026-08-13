@@ -5,6 +5,7 @@ meta_desc: 専門的な科学計算のコード生成をAIエージェントに�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 139
 hero: article-ai-lqcdmaster.jpg
 image_prompt: A cluttered small office desk in a Japanese manufacturing company, two monitors showing spreadsheets and terminal windows, printed checklists and binders stacked beside a keyboard, afternoon light from a window, seen over the shoulder at a distance so no face is visible, no text or logos legible, documentary photography look

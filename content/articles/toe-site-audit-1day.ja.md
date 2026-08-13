@@ -5,6 +5,7 @@ excerpt: 公開して2週間のメディアを、外から測れるものだけ�
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-08-01
+updated: 2026-08-13
 order: 3
 hero: article-toe-site-audit-1day.jpg
 image_prompt: A workshop bench seen from above at an angle, a set of simple measuring tools laid out in a row — a steel ruler, a caliper, a spirit level — on bare wood, soft daylight from the left, no people, absolutely no text no letters no numbers no markings no scale graduations anywhere in the frame, plain unmarked surfaces only, documentary photography, realistic, professional photograph, candid, avoid AI art

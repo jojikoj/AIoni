@@ -5,6 +5,7 @@ excerpt: スマホ画面を自分で操作するAIエージェント「HyMobileA
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 607
 hero: article-ai-hymobileagent.jpg
 image_prompt: A small office desk in a Japanese company, an Android smartphone mounted on a stand next to a laptop showing a plain business application screen, hands out of focus in the background, daylight from a window, documents and a coffee mug, realistic, professional photograph, candid, avoid AI art

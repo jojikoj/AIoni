@@ -4,7 +4,7 @@ excerpt: ツールを入れたのに現場が使わない。原因を「使い�
 tag: 失敗の鬼
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 3
 hero: article-ai-tool-not-adopted.jpg
 image_prompt: A single office chair pushed slightly back from an empty desk with a closed laptop on it, seen from across a quiet room, late afternoon light from a window, dust visible in the light, no people, absolutely no text no letters no numbers no logos no screens showing content anywhere in the frame, closed laptop lid only, documentary photography, realistic, professional photograph, candid, avoid AI art

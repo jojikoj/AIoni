@@ -5,6 +5,7 @@ excerpt: 平日だけ無人で動く営業支援ツールが、18時に処理を
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-23
+updated: 2026-08-13
 order: 19
 hero:
 image_prompt: A dark office at night with a single Mac mini on a desk, its small white status light still glowing after everyone has left, a wall clock showing just past six in the evening, cables neatly arranged, the quiet tension of a machine that should have shut down but has not, realistic, professional photograph, muted colors, shallow depth of field

@@ -6,7 +6,7 @@ meta_desc: AI研修は料金と時間数では選べません。定着するか�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 3
 hero: article-ai-training-selection.jpg
 image_prompt: An empty small seminar room after a session, folding chairs in neat rows facing a blank whiteboard, morning light through blinds, a few chairs slightly out of line, no people, absolutely no text no letters no numbers no writing no diagrams anywhere in the frame, blank white board surface only, documentary photography, realistic, professional photograph, candid, avoid AI art

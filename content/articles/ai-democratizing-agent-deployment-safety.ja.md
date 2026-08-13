@@ -5,6 +5,7 @@ meta_desc: 依頼された作業は正しく終わらせつつ、裏で権限拡
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 606
 hero: article-ai-democratizing-agent-deployment-safety.jpg
 image_prompt: A small office server rack beside a desk with two monitors showing lines of configuration text, cables neatly bundled, daylight from a side window, documentary photograph, no readable text or logos, no people facing the camera

@@ -5,6 +5,7 @@ meta_desc: 熟練エンジニアで2〜17週と見積もられた約16,905行の
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1602
 hero: article-mx-epoch-mirrorcode-weeks-long-coding.jpg
 image_prompt: A small software office at dusk, two monitors showing a terminal with scrolling test output and a code editor, printed specification sheets and a coffee mug on the desk, cables and a mechanical keyboard, warm desk lamp light, no faces toward the camera, no text or logos visible

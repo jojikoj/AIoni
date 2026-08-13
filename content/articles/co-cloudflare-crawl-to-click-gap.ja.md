@@ -5,6 +5,7 @@ excerpt: Cloudflareが自社ネットワークを通るAIクローラを実測�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1503
 hero: article-co-cloudflare-crawl-to-click-gap.jpg
 image_prompt: A small Japanese office at dusk, a desk with a laptop showing a dark dashboard, a printed server log on paper beside it, a mug and a pen, warm desk lamp light, shot from behind and slightly above so no face is prominent, documentary photograph, shallow depth of field, no text, no logos, no readable screen content, realistic, professional photograph, candid, avoid AI art

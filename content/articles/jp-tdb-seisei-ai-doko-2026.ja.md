@@ -5,6 +5,7 @@ meta_desc: 帝国データバンクが1万312社から回答を得た生成AI調
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1404
 hero: article-jp-tdb-seisei-ai-doko-2026.jpg
 image_prompt: "A small Japanese office interior with two desks, a laptop open beside stacked paper documents and a landline phone, late afternoon daylight through blinds, no visible text or logos, documentary photograph, realistic, professional photograph, candid, avoid AI art"

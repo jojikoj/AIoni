@@ -5,6 +5,7 @@ excerpt: Hugging Faceが自社プロダクトTrackioのCIをGitHub Actionsから
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 1204
 hero: article-hf-migrating-github-ci-hugging.jpg
 image_prompt: A small Japanese software company office in the late afternoon, two engineers seen from behind looking at a desktop monitor showing lines of build output, a second monitor beside it, coffee mugs and a mechanical keyboard on the desk, cable trays under the desk, soft window light from the left, documentary photography, shallow depth of field, no text, no logos, no signage, natural colors, realistic, professional photograph, candid, avoid AI art

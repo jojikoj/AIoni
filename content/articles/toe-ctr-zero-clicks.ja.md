@@ -5,7 +5,7 @@ excerpt: 順位が付いていてもクリックされないことがありま�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 2
 hero: article-toe-ctr-zero-clicks.jpg
 image_prompt: A row of identical closed grey lockers photographed straight on in a plain corridor, all doors shut, one door very slightly ajar, flat even daylight, no people, absolutely no text no letters no numbers no labels no signage anywhere in the frame, documentary photography, realistic, professional photograph, candid, avoid AI art

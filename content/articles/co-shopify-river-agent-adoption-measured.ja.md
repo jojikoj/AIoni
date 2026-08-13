@@ -5,6 +5,7 @@ excerpt: Shopifyが社内エージェント「River」の直近30日間の実稼
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1906
 hero: article-co-shopify-river-agent-adoption-measured.jpg
 image_prompt: A quiet open-plan office in the evening, several desks with laptops showing a team chat window, a whiteboard with handwritten diagrams in the background, warm overhead lighting, shot from behind and to the side so no faces are the subject, no text or logos visible, natural documentary photograph, shallow depth of field, realistic, professional photograph, candid, avoid AI art

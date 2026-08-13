@@ -6,7 +6,7 @@ meta_desc: AI導入の見積もりが膨らむ原因は、月額ライセンス�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-07-19
-updated: 2026-08-01
+updated: 2026-08-13
 order: 119
 hero: article-ai-cost-structure.jpg
 image_prompt: A small office manager reviewing a spreadsheet of costs on a laptop screen with a calculator and printed invoices on the desk, natural window light, modest Japanese small business office, mid-shot, realistic, professional photograph, candid, avoid AI art

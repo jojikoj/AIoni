@@ -5,6 +5,7 @@ excerpt: 弊社の自動化ジョブは27本ありますが、内訳は経理13�
 tag: 失敗の鬼
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 12
 image_prompt: A middle-aged Japanese small business owner standing in front of a whiteboard in a modest office, sorting sticky notes into two columns with a marker in hand, fluorescent lighting, papers and a laptop on the desk nearby, documentary style, realistic, professional photograph, candid, avoid AI art
 ---

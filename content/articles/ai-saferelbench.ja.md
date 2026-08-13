@@ -5,6 +5,7 @@ excerpt: VLMで動くエージェントを507件の課題で検証した研究�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 125
 hero: article-ai-saferelbench.jpg
 image_prompt: A small office back room where a staff member reviews a printed operation log next to a desktop monitor showing a task list, warm daylight from a side window, cluttered shelves with binders and cardboard boxes, shot from behind and slightly above so no face is prominent, natural documentary photography, no text or logos visible, realistic, professional photograph, candid, avoid AI art

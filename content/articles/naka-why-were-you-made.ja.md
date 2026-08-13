@@ -5,6 +5,7 @@ excerpt: AIに向かって「お前は何のために作られたんだ」と問
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 19
 hero: article-naka-why-were-you-made.jpg
 image_prompt: A Japanese man with small red demon horns sitting by a window in afternoon light in an existential daze, his shadow cast on the wall bent into the shape of a giant question mark, contemplative absurd, surreal, darkly comedic, photorealistic, realistic, professional photograph

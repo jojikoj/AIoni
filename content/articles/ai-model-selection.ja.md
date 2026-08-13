@@ -5,7 +5,7 @@ excerpt: モデル選びをベンチマークの順位から始めると外し�
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-13
 order: 2
 hero: article-ai-model-selection.jpg
 image_prompt: Three identical unlabelled metal boxes of different sizes standing in a row on a plain workbench, matte grey surfaces, cool even daylight, nothing else in frame, no people, absolutely no text no letters no numbers no logos no labels no badges no markings anywhere in the frame, plain blank metal only, documentary photography, realistic, professional photograph, candid, avoid AI art

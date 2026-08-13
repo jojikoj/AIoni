@@ -5,6 +5,7 @@ excerpt: 人間のテスト理論である項目反応理論をAI評価に持ち
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 122
 hero: article-ai-can-we-trust-item.jpg
 image_prompt: A quiet small-business back office in the late afternoon, a desk with printed spreadsheets of scores marked with a red pen, a laptop showing a plain table of numbers, a mug and a stack of binders, natural window light, shot from behind and to the side so no face is prominent, documentary photograph, realistic, professional photograph, candid, avoid AI art, no text or logos visible

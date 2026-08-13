@@ -5,6 +5,7 @@ excerpt: MLCommonsが公開した脱獄ベンチマークv0.5では、公開・�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1903
 hero: article-mx-ailuminate-jailbreak-v05.jpg
 image_prompt: A small Japanese office meeting room in the late afternoon, two people seated at a plain desk reviewing printed spreadsheets and a laptop showing a chat interface, seen from behind and at a slight angle so faces are not the focus, warm natural window light, cluttered desk with coffee cups and sticky notes, documentary photograph, no text, no logos, no signage

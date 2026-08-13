@@ -4,7 +4,7 @@ excerpt: 総務や経理にAIエージェントを入れると何が変わるの
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 3
 hero: article-ai-agent-backoffice.jpg
 image_prompt: A tidy back office desk seen from a slight angle, a stack of paper forms squared up neatly, a stamp pad and a small tray of clips, a desktop monitor turned away from the camera showing only its dark back panel, morning light from a side window, no people, absolutely no text no letters no numbers no logos no writing anywhere in the frame, blank paper only, documentary photography, realistic, professional photograph, candid, avoid AI art

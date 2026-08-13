@@ -5,6 +5,7 @@ excerpt: 英国AI安全保障研究所が、企業ネットワークを模した
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1905
 hero: article-mx-aisi-multi-step-cyber-attack-agents.jpg
 image_prompt: A small Japanese office server room at night, a network switch with blinking indicator lights and neatly bundled LAN cables, a laptop open on a metal rack showing a blurred terminal, warm desk lamp light, shallow depth of field, no readable text, no logos, documentary photograph

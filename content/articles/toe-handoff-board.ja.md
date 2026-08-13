@@ -5,6 +5,7 @@ excerpt: 弊社はClaude Codeを複数のMacとiPhoneから使っていますが
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 5
 image_prompt: A Japanese man in his forties sitting down at a desk with two laptops in a small office, one screen showing a plain text checklist, morning light, documentary style, realistic, professional photograph, candid, avoid AI art
 ---

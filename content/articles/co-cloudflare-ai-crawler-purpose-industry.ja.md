@@ -5,6 +5,7 @@ meta_desc: AIボットのクロールの約80%は学習目的でした。クロ�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1607
 hero: article-co-cloudflare-ai-crawler-purpose-industry.jpg
 image_prompt: A small Japanese office in the afternoon, a desk with a laptop showing a plain dashboard, printed access logs stacked beside a mug and a ballpoint pen, a whiteboard blurred in the background, natural window light, shot from behind and slightly above so no face is prominent, documentary photograph, shallow depth of field, no text, no logos, no readable screen content, realistic, professional photograph, candid, avoid AI art

@@ -5,6 +5,7 @@ excerpt: 通常時は96.62〜98.73%の精度で判定するディープフェイ
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 401
 hero: article-ai-armor.jpg
 image_prompt: A small Japanese office at dusk, an accounting staff member seen from behind holding a desk phone receiver while looking at an invoice on the desk, a laptop screen dimly glowing beside stacked paper documents, warm fluorescent overhead light, documentary photograph, shallow depth of field, no text, no logos, no futuristic CG

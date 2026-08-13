@@ -5,6 +5,7 @@ excerpt: JPCERT/CCが2026年7月16日に公開した四半期レポート（2026
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1705
 hero: article-jp-jpcert-quarterly-fy2026-q1.jpg
 image_prompt: A small Japanese company server room and adjacent back office in the early morning, a rack of networking equipment with blinking indicator lights, a technician's hands typing on a laptop placed on a metal shelf, printed checklists clipped to a clipboard nearby, cool fluorescent light mixed with daylight from a small window, shot from the side at waist height so no face is the focus, documentary photography, realistic, professional photograph, candid, avoid AI art, no text, no logos

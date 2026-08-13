@@ -5,6 +5,7 @@ meta_desc: 総務省の令和7年版情報通信白書から、企業の生成AI
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1803
 hero: article-jp-soumu-hakusho-r07-enterprise-genai.jpg
 image_prompt: "A modest Japanese small-business office, a desk with a laptop beside stacked paper files and a printed meeting agenda, morning light from a side window, seen from behind at a distance so no face is prominent, no visible text or logos, documentary photograph, realistic, professional photograph, candid, avoid AI art"

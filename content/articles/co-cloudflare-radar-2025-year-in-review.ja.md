@@ -5,6 +5,7 @@ meta_desc: Cloudflareが2025年の自社ネットワーク実測をまとめま�
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 1606
 hero: article-co-cloudflare-radar-2025-year-in-review.jpg
 image_prompt: A small Japanese office in the early morning, a desk with a laptop showing a plain access log, a printed sheet of server statistics beside it, a mug of coffee and a ballpoint pen, natural window light, shot from behind and slightly above so no face is prominent, documentary photograph, shallow depth of field, no text, no logos, no readable screen content, realistic, professional photograph, candid, avoid AI art

@@ -6,6 +6,7 @@ meta_desc: 珍しい特徴を指示しても無難な絵しか出ないのは、
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 504
 hero: article-ai-rare-concept-generation-counterfactual.jpg
 image_prompt: A small design studio desk with a desktop monitor displaying a grid of draft product images, a graphics tablet and stylus beside the keyboard, printed reference sheets stacked at the edge, daylight from a side window, no people in focus

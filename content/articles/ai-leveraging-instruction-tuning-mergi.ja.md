@@ -5,6 +5,7 @@ meta_desc: 自動採点の仕組みが作れない業務でも、指示と正解
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 140
 hero: article-ai-leveraging-instruction-tuning-mergi.jpg
 image_prompt: A small office server room in a Japanese small business, a single rack-mounted GPU workstation with cables, a desk beside it with a laptop showing plain text logs, fluorescent ceiling light, daytime, documentary photography, no text or logos visible, people seen only from behind or partially out of frame

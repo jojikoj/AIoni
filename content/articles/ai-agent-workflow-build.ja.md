@@ -5,7 +5,7 @@ meta_desc: AIエージェントを1つ作るのと、毎日無人で回すのは
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 2
 hero: article-ai-agent-workflow-build.jpg
 image_prompt: Close view of a roller conveyor line inside a factory at night, the rollers filling most of the frame receding into darkness, machinery switched off, deserted, nobody present, no human figures at all, dim blue-grey light, absolutely no text no letters no numbers no labels no signage anywhere in the frame, documentary photography, realistic, professional photograph, candid, avoid AI art

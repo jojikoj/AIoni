@@ -5,7 +5,7 @@ meta_desc: AI開発を事業とする株式会社TOEが、自社で実際に起�
 tag: 失敗の鬼
 author: AIの鬼 編集部
 date: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-13
 order: 1
 hero: article-ai-failure-cases-own.jpg
 image_prompt: A plain workshop floor with a dropped spanner lying beside a shallow oil stain, wiped but still visible, flat overhead daylight, nothing else in frame, no people, absolutely no text no letters no numbers no labels no markings anywhere in the frame, documentary photography, realistic, professional photograph, candid, avoid AI art

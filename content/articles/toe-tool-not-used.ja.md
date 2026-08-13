@@ -5,6 +5,7 @@ excerpt: 当社はiPhoneからメールを1通返すだけで社内決裁が通�
 tag: 失敗の鬼
 author: AIの鬼 編集部
 date: 2026-07-20
+updated: 2026-08-13
 order: 10
 image_prompt: A Japanese business owner in his 40s sitting at a small office desk, glancing at his iPhone lying face-up next to a laptop, slightly tired expression, papers stacked beside him, natural window light in a modest company office, documentary style, realistic, professional photograph, candid, avoid AI art
 ---

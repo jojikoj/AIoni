@@ -5,7 +5,7 @@ excerpt: AI導入の効果が語れないのは、測っていないからです
 tag: AI仕事術
 author: AIの鬼 編集部
 date: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-13
 order: 2
 hero: article-ai-effect-measurement.jpg
 image_prompt: Small grey pebbles arranged in a single neat row on a bare concrete surface, evenly spaced, seen straight from above, one pebble set slightly apart from the row, flat even daylight, nothing else in frame, no tools, no devices, no displays, no people, absolutely no text no letters no numbers no digits no markings anywhere in the frame, plain stones and plain concrete only, documentary photography, realistic, professional photograph, candid, avoid AI art
