@@ -24,6 +24,7 @@ import json, sys, re, pathlib, datetime, argparse, collections
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 NEWS = ROOT / "data" / "news.json"
 ARTICLES_DIR = ROOT / "content" / "articles"
+REPORTS = ROOT / "reports"
 OUT = ROOT / "_旬ネタ" / "今週.md"
 
 # 中小企業の実務家にとって「何かが変わる」ニュースを上に出すための重み。
@@ -58,7 +59,7 @@ def _corner(title: str, body: str) -> str:
     return "解説"
 
 
-def _score(item: dict) -> int:
+def _score(item: dict, gsc_kw: list[str] | None = None) -> int:
     blob = f"{item.get('title_ja') or item.get('title','')}{(item.get('summary_ja') or '')[:200]}"
     s = 0
     for w, words in WEIGHTS.items():
@@ -67,7 +68,49 @@ def _score(item: dict) -> int:
         s += 2                     # 解説済み＝日次パイプラインが拾った重要ニュース
     if (item.get("body_src") or "").strip():
         s += 2                     # 原文がある＝濃く書ける
+    # 実際に検索されているのに取れていない語を含むニュースを優先する。
+    # 「今日起きたこと」だけで選ぶと、自社に需要があるかを見ないまま書くことになる。
+    if gsc_kw:
+        low = blob.lower()
+        s += 3 * min(2, sum(1 for k in gsc_kw if k in low))
     return s
+
+
+def gsc_demand(limit: int = 30) -> list[dict]:
+    """Search Consoleで「需要は見えているのに取れていない」クエリ。
+
+    reports/searchconsole_ai-oni.com_<日付>.md の最新を読む
+    （tools/searchconsole_report.py が週次で書いている）。
+
+    拾うのは「表示はされているが掲載順位が低くクリック0」のもの。
+    これは検索する人がいるのに自社の記事が薄い／無いという意味で、
+    書けば順位が動く余地がある。逆に順位が既に高いのにCTRが0のクエリは
+    記事を足しても直らない（title/descriptionの問題）ので、ここでは拾わない。
+    """
+    reports = sorted(REPORTS.glob("searchconsole_*.md"), reverse=True)
+    if not reports:
+        return []
+    out = []
+    for line in reports[0].read_text(encoding="utf-8").splitlines():
+        m = re.match(r"-\s*(.+?)\s*…\s*表示\s*(\d+)\s*/\s*クリック\s*(\d+)\s*/"
+                     r"\s*CTR\s*[\d.]+%\s*/\s*掲載順位\s*([\d.]+)", line)
+        if not m:
+            continue
+        q, imp, clk, pos = m.group(1).strip(), int(m.group(2)), int(m.group(3)), float(m.group(4))
+        if clk == 0 and pos >= 20:       # 圏外に近い＝まだ勝負できていない
+            out.append({"query": q, "impressions": imp, "position": pos})
+    out.sort(key=lambda x: (-x["impressions"], x["position"]))
+    return out[:limit]
+
+
+def _gsc_keywords() -> list[str]:
+    """GSCクエリを語に割って、ニュース選定の加点に使う。"""
+    words = set()
+    for d in gsc_demand():
+        for w in re.split(r"[\s　]+", d["query"]):
+            if len(w) >= 2 and w.lower() not in ("ai", "の", "とは"):
+                words.add(w.lower())
+    return sorted(words)
 
 
 def _existing_titles() -> list[str]:
@@ -98,6 +141,7 @@ def pick(days: int = 7, limit: int = 12) -> list[dict]:
     items = data.get("items", data if isinstance(data, list) else [])
     since = (datetime.date.today() - datetime.timedelta(days=days)).isoformat()
     existing = _existing_titles()
+    gsc_kw = _gsc_keywords()
 
     cands = []
     for it in items:
@@ -112,7 +156,7 @@ def pick(days: int = 7, limit: int = 12) -> list[dict]:
             continue
         if any(w in title for w in _AD):
             continue
-        sc = _score(it)
+        sc = _score(it, gsc_kw)
         if sc < 4:                       # 拾う価値のない小ネタを落とす
             continue
         cands.append({
@@ -168,6 +212,17 @@ def main() -> int:
             t = r["title"].replace("|", "／")[:60]
             lines.append(f"| {heat} | [{t}]({r['url']}) | {r['source'][:18]} | "
                          f"{'原文あり' if r['has_src'] else '見出しのみ'} |")
+        lines.append("")
+
+    # 検索需要が見えているのに取れていない語。ニュースが無くても書ける、人向けのネタ。
+    demand = gsc_demand(limit=15)
+    if demand:
+        lines += ["## 検索されているのに取れていない（Search Console実測）", "",
+                  "> 表示はあるが順位が低くクリック0。書けば順位が動く余地がある語。",
+                  "> 今日のニュースに無くても、これ単体で記事にできる。", "",
+                  "| 検索語 | 表示 | 掲載順位 |", "|---|---|---|"]
+        for d in demand:
+            lines.append(f"| {d['query']} | {d['impressions']} | {d['position']:.0f}位 |")
         lines.append("")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
