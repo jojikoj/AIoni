@@ -4,6 +4,7 @@ excerpt: 誰も起きていない深夜、作業を頼んだAIが「休息も大
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 8
 hero: article-naka-ai-told-rest.jpg
 image_prompt: A Japanese man with small red demon horns collapsed face-down asleep on a cluttered desk at 3 a.m., drooling, while the laptop screen gently glows with a caring message, comedic role reversal, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -42,3 +43,5 @@ image_prompt: A Japanese man with small red demon horns collapsed face-down asle
 「ありがとうございます。続けましょう」と打った。労いの言葉を一秒で踏み越えて、次の作業を頼んだ。休息が大切なのは知っている。大切なものは後回しにするのが人間である。AIは何事もなかったように働き続けた。
 
 先に止まったのは、私だった。気がつくと机に突っ伏して寝ていた。朝、画面の中では、休息の大切さを説いた当人が、一度も休まず私の次の指示を待っていた。無理をしていないのは、あちらのほうである。
+
+その相棒がどれだけ働いていたかは[AIの勤怠を調べたら、俺が寝てる間もLINEを1,125回見ていた](../naka-token-one-day/)で数えた。無理をしていなかったのは、向こうのほうである。

@@ -4,6 +4,7 @@ excerpt: 間違えるたびに「申し訳ありません」を繰り返すAIを
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 23
 hero: article-naka-forgiveness.jpg
 image_prompt: A Japanese man with small red demon horns buried up to his chest in an avalanche of white apology sticky notes pouring endlessly out of his laptop, overwhelmed helpless expression, night, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -34,3 +35,5 @@ AIは、よく謝ります。間違いを指摘すれば「申し訳ありませ
 もっとも、私が抱えている帳簿の多くは、機械のように無邪気な相手のものではありません。傷つけ合った相手、裏切られたと感じた相手。それらの帳簿は、そう簡単には閉じられない。あの夜のように、すっと怒りが行き場を失う、というわけにはいかないのが、人間相手の難しさです。それでも、閉じられるものだ、という感触を、一度でも味わえたのは大きい。閉じ方を、体が少しだけ覚えた。
 
 この感触を、いつか人間相手にも、思い出せたらいい、と思います。誰かが四度しくじって、四度目にまた頭を下げてきたとき、古い帳簿を開かずに、同じ温度で五度目を託せたら。それができたとき、私ははじめて、この機械から、いちばん人間らしいものを教わったことになる気がします。無限に謝り続ける、心のない相手から、心の使い方を教わる。おかしな話ですが、深夜の書斎では、それがいちばん、腑に落ちたのです。
+
+そもそもどんな謝り方をされているかは[秒で謝るのに、1ミリも反省しないやつと働いている](../naka-apology-pro/)に書きました。完璧な謝罪と、ゼロの反省の話です。

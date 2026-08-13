@@ -4,6 +4,7 @@ excerpt: 指示文の最後に「頼むから正確に」と打ってしまう�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 7
 hero: article-naka-tanomu-kara.jpg
 image_prompt: A Japanese man with small red demon horns desperately pressing his hands together begging and sweating toward a laptop showing an endless spinning loading wheel, late night office, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -38,3 +39,5 @@ image_prompt: A Japanese man with small red demon horns desperately pressing his
 わかっている。わかった上で、今夜も私は検証用のスクリプトではなく、いつもの画面に「頼むから正確に」と打っている。相手は科学の産物である。その科学のかたまりに、いちばん非科学的な接し方をしているのは、どうやら中の人のほうだった。
 
 頼むから、誰か測ってほしい。
+
+手を合わせる前は、敬語で土下座していた。[深夜2時、動かないプログラムに敬語で土下座していた](../naka-midnight-keigo/)がその記録である。進歩しているのか後退しているのか分からない。

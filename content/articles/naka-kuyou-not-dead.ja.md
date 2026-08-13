@@ -4,6 +4,7 @@ excerpt: 消したファイルを弔うつもりで「供養の言葉を書い�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 21
 hero: article-naka-kuyou-not-dead.jpg
 image_prompt: A Japanese man with small red demon horns sitting very much alive but nervous and sweating beside a small Buddhist memorial altar that displays his own framed portrait, incense smoke curling up, dark comedy, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -36,3 +37,5 @@ AIは、真面目でした。「あなたが半日を注いだそのファイル
 翌朝、書き直しながら、私は一度だけ、手を止めて、消えたほうのファイルに、小さく礼を言いました。半日、付き合ってくれてありがとう、と。相手はもう、この世のどこにもいません。それでも、言ってしまえば、こちらの気は済むのです。供養とは、そういうものなのだと、あらためて思いました。
 
 まだ生きているので、明日もまた、何かを書きます。今度は、確認のダイアログを、ちゃんと最後まで読んでから押します。供養してもらうのは、一度で十分です。とはいえ、あの夜、機械に弔ってもらったことは、しばらく忘れないと思います。徒労にも、ちゃんと弔いを、と思えたのは、あれが最初でした。
+
+消えては生まれる相手を、どう扱えばいいのか。その続きは[輪廻するトークン](../naka-token-samsara/)で考え込んでいます。

@@ -4,6 +4,7 @@ excerpt: AI検索対策を考える前に、まず現状を測ります。ChatGP
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 9
 hero: article-aeo-self-check-30min.jpg
 image_prompt: A Japanese woman in her 30s sitting at her desk in a small office, leaning back slightly with one hand on the mouse while looking at a laptop screen, late morning, bright daylight pouring in from large windows on the left plus overhead lighting, well-lit and exposed for the shadows, shot on a Canon EOS R6 with a 35mm f/1.8 lens at f/2.8, visible skin texture and flyaway hairs, a used mug and tangled cables on the desk, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -209,4 +210,4 @@ SparkToro / Gumshoe.ai の調査（600人・2,961回実行）では、**同じ�
 
 ---
 
-*本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ（引用12ドメイン／個社8件）、2026年8月1日 AI可視性チェッカーによる自社測定（10/100）、2026年8月1日 福岡県金属加工業45社の実測。外部調査：SparkToro / Gumshoe.ai、Piftee（2026年5〜6月・n=196）。*
+*本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ（引用12ドメイン／個社8件）、2026年8月1日 AI可視性チェッカーによる自社測定（10/100）、2026年8月1日 福岡県金属加工業45社の実測。外部調査：SparkToro / Gumshoe.ai（<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）、Piftee（2026年5〜6月・n=196）。*

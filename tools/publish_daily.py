@@ -128,22 +128,97 @@ def existing_slugs() -> set[str]:
 
 
 # --- 素材 ---------------------------------------------------------------
-def load_source(url: str) -> dict:
+#
+# ここが記事の濃さを決める。**書く前に調べる量を増やす**（小嶋さん指示）。
+# 1本のニュースだけを渡すと、書けることが尽きた分は一般論で埋まる。
+# 集めるのは3種類:
+#   ① 本命の記事（原文 body_src ＋ 自社解説 body_long）
+#   ② 同じ出来事を扱った他社の報道（配信元が違うものを最大3件）
+#   ③ 関連する自社の過去記事（何を既に書いたか。内部リンクの根拠にもなる）
+# ②が入ると「A社はこう書き、B社はここに触れていない」という差が書ける。
+# ③が入ると、同じ話を二度書かずに済む。
+def load_all() -> list[dict]:
+    return json.loads(NEWS.read_text(encoding="utf-8")).get("items", [])
+
+
+def load_source(url: str, items: list[dict] | None = None) -> dict:
     """選んだニュースの原文・自社解説を data/news.json から拾う。"""
-    data = json.loads(NEWS.read_text(encoding="utf-8"))
-    for it in data.get("items", []):
+    for it in (items if items is not None else load_all()):
         if it.get("url") == url:
             return it
     return {}
 
 
-def material_text(item: dict) -> str:
-    parts = [
-        item.get("title_ja") or item.get("title") or "",
-        item.get("summary_ja") or item.get("summary") or "",
-        (item.get("body_long") or ""),
-        (item.get("body_src") or "")[:12000],   # 原文は長すぎると入り切らない
-    ]
+_STOP = {"について", "という", "された", "された。", "こと", "ため", "する", "など",
+         "から", "まで", "より", "その", "この", "AI", "ai"}
+
+
+def _keywords(text: str) -> list[str]:
+    """見出しから、他の記事と突き合わせる語を拾う（簡易）。"""
+    words = re.split(r"[\s　、。・「」『』（）()\[\]:：\-—/／|｜,，.]+", text or "")
+    return [w for w in words if len(w) >= 3 and w not in _STOP][:8]
+
+
+def related_news(item: dict, items: list[dict], limit: int = 3) -> list[dict]:
+    """同じ出来事を扱った他社の報道を探す。配信元が違うものだけ。"""
+    keys = _keywords(item.get("title_ja") or item.get("title") or "")
+    if not keys:
+        return []
+    me_src = item.get("source") or ""
+    pub = (item.get("published") or "")[:10]
+    scored = []
+    for it in items:
+        if it.get("url") == item.get("url"):
+            continue
+        if (it.get("source") or "") == me_src:
+            continue
+        # 同じ出来事は日付が近い。±5日から外れたものは別の話とみなす
+        p = (it.get("published") or "")[:10]
+        if not p or abs((datetime.date.fromisoformat(p)
+                         - datetime.date.fromisoformat(pub)).days) > 5:
+            continue
+        blob = ((it.get("title_ja") or it.get("title") or "")
+                + (it.get("summary_ja") or it.get("summary") or "")[:300])
+        hit = sum(1 for k in keys if k in blob)
+        if hit >= 2:
+            scored.append((hit, it))
+    scored.sort(key=lambda x: -x[0])
+    return [it for _, it in scored[:limit]]
+
+
+def related_articles(item: dict, limit: int = 3) -> list[tuple[str, str, str]]:
+    """関連する自社の過去記事（slug, title, excerpt）。"""
+    keys = _keywords(item.get("title_ja") or item.get("title") or "")
+    if not keys:
+        return []
+    scored = []
+    for p in ARTICLES.glob("*.ja.md"):
+        t = p.read_text(encoding="utf-8")
+        fm = t.split("---", 2)[1] if t.startswith("---") else ""
+        title = (re.search(r"^title: (.+)$", fm, re.M) or [None, ""])[1] if fm else ""
+        exc = (re.search(r"^excerpt: (.+)$", fm, re.M) or [None, ""])[1] if fm else ""
+        hit = sum(1 for k in keys if k in title + exc)
+        if hit >= 1:
+            scored.append((hit, p.name[: -len(".ja.md")], title.strip(), exc.strip()))
+    scored.sort(key=lambda x: -x[0])
+    return [(s, t, e) for _, s, t, e in scored[:limit]]
+
+
+def material_text(item: dict, others: list[dict] | None = None,
+                  mine: list[tuple[str, str, str]] | None = None) -> str:
+    parts = ["## 本命の記事",
+             item.get("title_ja") or item.get("title") or "",
+             item.get("summary_ja") or item.get("summary") or "",
+             (item.get("body_long") or ""),
+             (item.get("body_src") or "")[:12000]]   # 原文は長すぎると入り切らない
+    for o in (others or []):
+        parts += [f"\n## 同じ出来事の別報道（{o.get('source', '')}）",
+                  o.get("title_ja") or o.get("title") or "",
+                  (o.get("body_long") or o.get("summary_ja")
+                   or o.get("summary") or "")[:1500],
+                  (o.get("body_src") or "")[:2500]]
+    for slug, title, exc in (mine or []):
+        parts += [f"\n## 当サイトの既存記事（../{slug}/）", title, exc]
     return "\n\n".join(p.strip() for p in parts if p and p.strip())
 
 
@@ -174,7 +249,8 @@ def corner_for(item: dict) -> tuple[str, str]:
 
 # --- 生成 ---------------------------------------------------------------
 def build_prompt(item: dict, tag: str, links: list[tuple[str, str]],
-                 today: str, min_chars: int, url: str, source: str) -> str:
+                 today: str, min_chars: int, url: str, source: str,
+                 material: str, n_others: int) -> str:
     link_lines = "\n".join(f"- ../{s}/ … {t}" for s, t in links)
     corner_note = {
         "AEO対策室": "このコーナーは「AI検索（ChatGPT・Perplexity・AI Overviews）に"
@@ -192,8 +268,11 @@ def build_prompt(item: dict, tag: str, links: list[tuple[str, str]],
 公開日: {(item.get('published') or '')[:10]}
 出典URL: {url}
 
-## 素材（この中に書いてあることだけを事実として扱う）
-{material_text(item)}
+## 調べた素材（この中に書いてあることだけを事実として扱う）
+本命の記事に加えて、**同じ出来事を扱った他社の報道を{n_others}件**と、
+**当サイトの関連記事**を集めてあります。全部読んでから書いてください。
+
+{material}
 
 # 絶対に守ること
 - **素材と、下の「当社の実測」に書かれていない事実・数字を、一切書かないこと。**
@@ -205,6 +284,16 @@ def build_prompt(item: dict, tag: str, links: list[tuple[str, str]],
 - **字数を満たすために内容を薄めない。** その段落を消して読者が失う情報が無いなら、消す。
   「いかがでしたでしょうか」「本記事では」「詳しくは後述します」等の埋め草は禁止。
 - **文体は敬体（です・ます）。** 常体（〜だ・〜である）で書かない。既存記事と揃える。
+
+# 濃い記事にするために（AEOを名乗る以上ここが本体）
+- **素材を全部使い切る。** 本命の記事だけでなく、別報道が触れている点・触れていない点、
+  当サイトの既存記事に書いてある実測まで突き合わせる。
+- **報道の要約で終わらせない。** 同じ内容は他所にもある。ここでしか読めないのは
+  「中小企業にとって何が変わるのか」と「当社の実測と突き合わせると何が言えるのか」。
+- **具体で書く。** 固有名詞・数値・条件・日付を落とさない。「大幅に」「多くの」に
+  置き換えない（それはAI検索に引用されない書き方です）。
+- **別報道の間で食い違いがあれば、食い違っていると書く。** どちらかに寄せない。
+- 素材を読んでも分からないことは「分からない」と書く。埋めない。
 
 # コーナー
 {tag} … {corner_note}
@@ -402,21 +491,29 @@ def main() -> int:
         return 1
 
     slugs = existing_slugs()
+    all_items = load_all()
     for cand in picks[:5]:                      # 上位5件まで順に試す
-        item = load_source(cand["url"])
+        item = load_source(cand["url"], all_items)
         if not item:
             continue
-        material = material_text(item)
+        # 書く前に調べる。同じ出来事の別報道と、自社の関連記事まで集めてから渡す
+        others = related_news(item, all_items)
+        mine = related_articles(item)
+        material = material_text(item, others, mine)
         if len(re.sub(r"\s", "", material)) < 400:
             continue                            # 見出しだけのものは書けない
         tag, cat = corner_for(item)
         min_chars = min_chars_for(material)
         links = link_pool(tag, slugs)
+        # 関連記事は張り先の先頭に置く（内容が近いので自然に張れる）
+        links = [(s, t) for s, t, _ in mine if s in slugs] + \
+                [x for x in links if x[0] not in {s for s, _, _ in mine}]
         log(f"題材: [{tag}] {cand['title'][:46]}（旬度{cand['score']}・"
+            f"別報道{len(others)}件・自社関連{len(mine)}本・"
             f"素材{len(material)}字・下限{min_chars}字）")
 
         prompt = build_prompt(item, tag, links, today, min_chars,
-                              cand["url"], cand["source"])
+                              cand["url"], cand["source"], material, len(others))
         text = strip_fence(gen_with_claude(prompt))
         if not text:
             continue

@@ -4,6 +4,7 @@ excerpt: AI検索経由の訪問者は、すでにAIから説明を受けた状�
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 20
 hero: article-aeo-zero-click-funnel.jpg
 image_prompt: A Japanese woman in her 30s at the reception counter of a small factory office, picking up a ringing desk phone while turning toward the entrance, late morning, bright daylight flooding through a large glass entrance door on the left, well-lit and exposed for the shadows, slightly blown-out highlights near the door, shot on a Sony A7 III with a 28mm f/2 lens at f/4, visible skin texture, a worn counter surface with a pen holder and a small potted plant, scuffed light grey floor, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -45,7 +46,7 @@ AI検索は、質問に対して文章で答え、根拠にしたページを出
 - **裏付け**（本当にできるのか、実績はあるのか）
 - **連絡先と、連絡していい雰囲気**
 
-Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の**69%が営業担当に裏取りを依頼**しています。**裏取りは、購買プロセスの標準動作になりつつあります。**
+Gartnerの調査（n=645、2025年8〜9月実施・2026年5月20日公表）では、BtoB購買担当者の**69%が営業担当に裏取りを依頼**しています。**裏取りは、購買プロセスの標準動作になりつつあります。**
 
 ---
 
@@ -214,7 +215,7 @@ BtoBの中小企業では、**AIで候補を見つけた人が、フォームで
 - AI検索経由の訪問者は、**すでにAIから説明を受けた状態**で来る。会社紹介から読ませない
 - 当サイトの実測で最も効率が良かったのは**コーナー一覧ページ**（表示7.2%でクリックの32%、CTR 14.55%）。個別記事ではない
 - 受け皿に置くのは**①条件（対応外を含む）②裏付けの数字 ③連絡のハードルを下げる一文 ④どこで知ったかの選択肢**
-- BtoB購買担当者の**69%が営業担当に裏取りを依頼**している（Gartner・2026年5月）。裏取りは標準動作
+- BtoB購買担当者の**69%が営業担当に裏取りを依頼**している（Gartner、2025年8〜9月実施・2026年5月20日公表）。裏取りは標準動作
 - ゼロクリックで終わるのは**一般的な質問**。**具体的な発注クエリは来訪になる**
 - **AI経由で実際に発注に至ったのは21.1%**（Piftee・2026年5〜6月）。入口が一つ増えるかもしれない、までが言えること
 
@@ -222,4 +223,4 @@ BtoBの中小企業では、**AIで候補を見つけた人が、フォームで
 
 ---
 
-*本記事で引用した当社の実測：Search Console（2026年7月20〜29日、ai-oni.com）、2026年7月18日Perplexity 3クエリ。外部調査：Gartner（2026年5月・n=645）、Piftee（2026年5〜6月・n=196）。*
+*本記事で引用した当社の実測：Search Console（2026年7月20〜29日、ai-oni.com）、2026年7月18日Perplexity 3クエリ。外部調査：Gartner（n=645、2025年8〜9月調査／2026年5月20日公表、<https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights>）、Piftee（2026年5〜6月・n=196）。*

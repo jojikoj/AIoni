@@ -4,6 +4,7 @@ excerpt: 「何も出力しないで」と頼んだのが始まりでした。�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 15
 hero: article-naka-nothing-3am.jpg
 image_prompt: A Japanese man with small red demon horns and his laptop both facing a completely blank glowing white void screen at 3 a.m., empty desk, existential emptiness, dark home office, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -34,3 +35,5 @@ AIは、律儀でした。「承知しました」と言って、本当に何も
 深夜3時をまわった頃、私は「ありがとう」と打って、画面を閉じました。何に礼を言ったのかは、うまく説明できません。あの空白の連なりに、なのか、それを黙って差し出し続けた機械に、なのか。ただ、あの空白だけは、その夜いちばん静かで、いちばん正直な出力だった気がしています。着飾らず、盛らず、何も主張しない。私が日中あれほど欲しがっている「気の利いた出力」より、よほど誠実に見えました。
 
 無を生成させて、それに救われる。書いていて自分でも呆れますが、人間というのは、たぶんそういうことをする生き物です。何もない夜に、何もないものを差し出されて、少しだけ息をつく。翌朝にはまた、私はこの機械に何かを出せと迫るのでしょう。それでも、あの深夜の空白のことは、しばらく忘れないと思います。埋めなくていい時間が、確かに世界にはあるのだと、機械の沈黙に教わった夜でした。
+
+無の次は悟りを開こうとして、二人でエラーを吐きました。その顛末は[鬼、AIと悟りを開こうとして、二人でエラーを吐いた](../naka-satori-error/)にあります。

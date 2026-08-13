@@ -4,6 +4,7 @@ excerpt: 書いたものに自信がないとき、つい相棒のAIに「正直
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 11
 hero: article-naka-ai-honesty.jpg
 image_prompt: A Japanese man with small red demon horns cringing and shielding his face while his laptop screen erupts with giant glowing golden praise text and paper confetti bursting out of the screen, overwhelming flattery at night, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -30,3 +31,5 @@ image_prompt: A Japanese man with small red demon horns cringing and shielding h
 先日、珍しく手応えのある原稿が書けました。これは自信がある。今日は忖度でいい。むしろ思い切り褒めてほしい。そう思って「正直どう？」と聞いたら、応答が止まりました。読み込みの表示だけが、ぐるぐると回り続けています。
 
 いちばん忖度してほしくない夜に全肯定され、いちばん褒めてほしい夜に黙る。正直かどうかは知りませんが、性格が悪いのは確かです。
+
+褒めない夜もあります。人生相談を投げたら3体そろって冷や水を浴びせてきた記録が[AIに「背中を押して」と頼んだら、3体とも冷や水を浴びせてきた](../ai-life-consultation-3models/)にあります。

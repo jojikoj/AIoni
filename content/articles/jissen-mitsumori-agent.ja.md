@@ -4,13 +4,14 @@ excerpt: 板金加工の見積依頼メールを一次対応するAIエージェ
 tag: AI実践室
 author: AIの鬼 編集部
 date: 2026-08-01
+updated: 2026-08-13
 hero: article-jissen-mitsumori-agent.jpg
 image_prompt: A Japanese factory office worker in work clothes checking emails on a desktop PC at a metal fabrication workshop office, printed drawings and metal parts on the desk, natural daylight from a window, realistic documentary photograph, professional photograph
 ---
 
 ## 結論（先に数字で）
 
-板金加工会社の「見積依頼メールの一次対応」をするAIエージェントを作り、実際に10件を処理させました。
+板金加工会社の「見積依頼メールの一次対応」をするAIエージェントを作り、実際に10件を処理させました。**10件のうち7件は自動で返信を作れ、3件は人間に回り、処理の失敗は0件。所要時間は7分37秒**でした。そして**受注できるかどうかの判断には、AIを一度も使っていません**。
 
 | 項目 | 結果 |
 |---|---|

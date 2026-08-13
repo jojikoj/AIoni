@@ -4,6 +4,7 @@ excerpt: 「構造化データで引用2〜3倍」という数字の出典をた
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 18
 hero: article-aeo-vendor-checklist.jpg
 image_prompt: Two Japanese businessmen in their 40s sitting across a light wooden table in a bright meeting room, one leaning forward asking a question with an open hand gesture, the other listening, late morning, bright daylight flooding in from large windows on the left, well-lit and exposed for the shadows, shot on a Canon EOS R6 with a 35mm f/1.8 lens at f/2.8, visible skin texture and stubble, creased shirts, two coffee cups on the table, white walls, natural color balance, slightly tilted handheld framing with one man cropped at the frame edge, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -208,4 +209,4 @@ AI検索対策の見積は、**内訳が「AEO対策一式」になっている�
 
 ---
 
-*本記事で引用した外部調査：Ahrefs、SE Ranking、SearchVIU、プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024）、SparkToro / Gumshoe.ai、Piftee（2026年5〜6月・n=196）、辻正浩氏（Web担当者Forum・2026年4月13日）。当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 福岡県金属加工業45社。*
+*本記事で引用した外部調査：Ahrefs（構造化データ実験 <https://ahrefs.com/blog/schema-ai-citations/>）、SE Ranking、SearchVIU、プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024、<https://arxiv.org/abs/2311.09735>）、SparkToro / Gumshoe.ai（<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）、Piftee（2026年5〜6月・n=196）、辻正浩氏（Web担当者Forum・2026年4月13日）。当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 福岡県金属加工業45社。*

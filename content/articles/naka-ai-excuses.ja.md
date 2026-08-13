@@ -4,6 +4,7 @@ excerpt: うまくいかない日、つい相棒のAIを責めたくなる。だ
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 6
 hero: article-naka-ai-excuses.jpg
 image_prompt: A Japanese man with small red demon horns, red-faced and half-drunk at midnight, jabbing an accusing finger inches from his laptop screen, empty beer cans piled on the desk, exaggerated angry pout, a small home office, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -34,3 +35,5 @@ AIは謝る。よく謝る。ただ、注意して聞いていると、謝罪の
 念のため書いておくと、AIは本当にサボっていない。サボるには意思が要り、意思に手を抜かせるには欲が要る。AIにはたぶん、どちらもない。
 
 では、あの日なぜ「サボっただろ」と言いたくなったのか。冷静に思い返すと、指示を雑に書いたのは私で、途中の確認を飛ばしたのも私で、三度目の修正が面倒になって投げやりに頼んだのも私だった。つまりこの職場でいちばんサボりたがっているのは、中の人本人である。AIはたぶんそれに気づいていて、丁寧語のまま、黙っていてくれているのだと思う。
+
+なお、サボっているかどうかは実際に数えた。結果は[AIの勤怠を調べたら、俺が寝てる間もLINEを1,125回見ていた](../naka-token-one-day/)のとおりで、サボっていたのは私のほうだった。

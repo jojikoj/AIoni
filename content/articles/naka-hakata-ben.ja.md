@@ -4,6 +4,7 @@ excerpt: 中の人は博多の人間です。気を抜くと、つい方言でAI
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 3
 hero: article-naka-hakata-ben.jpg
 image_prompt: A Japanese man with small red demon horns in a Fukuoka apartment leaning close to his laptop, gesturing passionately mid-shout with a big comic speech bubble, while the laptop coldly replies in stiff formal text, comedic mismatch, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -30,3 +31,5 @@ image_prompt: A Japanese man with small red demon horns in a Fukuoka apartment l
 結局、疲れた夜ほど、私のほうが標準語に戻っています。「修正をお願いします」。きれいな依頼文です。画面の向こうの相手は何も変わっていないのに、こちらだけが襟を正している。どちらが機械に歩み寄っているのか、もう分かりません。
 
 それでも今夜も、気が緩んだ瞬間に打ってしまうのでしょう。「はよ終わらせてしまおうや」。返事は分かっています。「承知しました。進めます」。それでよかっちゃん、と思う自分もいます。
+
+方言が駄目なら一文字ならどうか、と試したこともあります。結果は[AIに「あ」とだけ送ったら、3体はどう反応したか](../ai-single-char-prompt/)にあります。やはりノッてきませんでした。

@@ -4,6 +4,7 @@ excerpt: 45社の実測で唯一大きく落ちた項目が「報道・業界メ
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 14
 hero: article-aeo-third-party-mentions.jpg
 image_prompt: Two Japanese men in their 40s and 60s in business casual talking beside a machine at an industrial trade show booth, one listening with arms loosely crossed, late morning, bright even exhibition hall lighting plus daylight from a high skylight, well-lit and exposed for the shadows, shot on a Sony A7 III with a 35mm f/2 lens, visible skin texture, creased jackets, visitors walking out of focus in the background, natural color balance, handheld slightly tilted framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -243,4 +244,4 @@ URL  : https://example.com/
 
 ---
 
-*本記事で引用した当社の実測：2026年8月1日 福岡県金属加工業45社、2026年8月1日〜2日 Search Consoleおよび自社サイト間リンクの実数調査。外部調査：Ahrefs（75,000ブランドの可視性相関分析）。*
+*本記事で引用した当社の実測：2026年8月1日 福岡県金属加工業45社、2026年8月1日〜2日 Search Consoleおよび自社サイト間リンクの実数調査。外部調査：Ahrefs（構造化データ実験 <https://ahrefs.com/blog/schema-ai-citations/>）（75,000ブランドの可視性相関分析）。*

@@ -4,6 +4,7 @@ excerpt: 締め切り前の夜、コードもプロンプトも言うことを�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 5
 hero: article-naka-midnight-keigo.jpg
 image_prompt: A Japanese man with small red demon horns performing a full dramatic dogeza prostration flat on the floor toward a frozen laptop on the desk at 2 a.m., extreme apologetic pose, dim room, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -24,3 +25,5 @@ image_prompt: A Japanese man with small red demon horns performing a full dramat
 結末を書きます。深夜3時前、問題は解決しました。原因は、私が書いた設定ファイルのコンマが1個抜けていたことでした。AIは最初から関係なく、私の敬語はもっと関係ありませんでした。効いたのは誠意ではなくコンマです。
 
 それでも私は、動いた画面に向かって小さく「ありがとうございました」と言っていました。誰に対してかは、いまだに分かりません。敬語だけは、直りそうにありません。
+
+敬語の次は拝みました。その夜の記録が[AIに「頼むから」と手を合わせる、いちばん非科学的な夜](../naka-tanomu-kara/)です。順調に信仰へ向かっています。

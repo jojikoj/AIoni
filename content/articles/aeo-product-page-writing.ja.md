@@ -4,6 +4,7 @@ excerpt: 「アルミの切削加工を小ロットで頼める工場を福岡�
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 13
 hero: article-aeo-product-page-writing.jpg
 image_prompt: Close-up of machined stainless steel and aluminum parts of several sizes laid out on a light grey mat on a workbench, a worn digital caliper resting beside them, a Japanese worker's hand at the edge of the frame reaching for one part, midday, bright daylight from a high factory window on the left, well-lit and exposed for the shadows, shot on a Canon EOS R6 with a 50mm f/2.8 macro lens at f/5.6, visible micro-scratches and faint oil marks on the metal, fine metal dust on the mat, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -219,4 +220,4 @@ image_prompt: Close-up of machined stainless steel and aluminum parts of several
 
 ---
 
-*本記事の実測データ：2026年7月18日、Playwright経由でPerplexityに3クエリを投げ、引用元ドメインを機械抽出した結果（n=3、引用12ドメイン）。引用箇所の特定は当該12サイトを目視で確認したものです。外部調査：プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024）、SparkToro / Gumshoe.ai、Peec AI、Semrush、Piftee（2026年5〜6月・n=196）。*
+*本記事の実測データ：2026年7月18日、Playwright経由でPerplexityに3クエリを投げ、引用元ドメインを機械抽出した結果（n=3、引用12ドメイン）。引用箇所の特定は当該12サイトを目視で確認したものです。外部調査：プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024、<https://arxiv.org/abs/2311.09735>）、SparkToro / Gumshoe.ai（<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）、Peec AI、Semrush、Piftee（2026年5〜6月・n=196）。*

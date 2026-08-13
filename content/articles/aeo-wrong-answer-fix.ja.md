@@ -4,6 +4,7 @@ excerpt: AIに間違った説明をされても、その回答を直接消すこ
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 19
 hero: article-aeo-wrong-answer-fix.jpg
 image_prompt: A Japanese man in his 50s standing in a small office holding a desk phone handset to his ear while looking at a desktop monitor, his other hand resting on the desk, midday, bright daylight from a large window behind the monitor plus overhead lighting, well-lit with lifted shadows and no crushed blacks, shot on a Nikon Z6 with a 35mm f/1.8 lens at f/2.8, visible skin texture and fine wrinkles, worn desk surface with a coiled phone cord and a used mug, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -46,7 +47,7 @@ ChatGPTやPerplexityの回答は、その場で生成される文章です。**�
 
 ## この問題は珍しくない
 
-Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の**51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼**しています。
+Gartnerの調査（n=645、2025年8〜9月実施・2026年5月20日公表）では、BtoB購買担当者の**51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼**しています。
 
 つまり、**誤情報に当たった見込み客の多くは、そのまま離れるのではなく確認してきます。** これは救いでもあります。ただし、確認の手間をかけてもらえるのは、すでに接点がある相手だけです。
 
@@ -235,10 +236,10 @@ Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の**51%が
 - 出所は5種類。**自社の古い記述／同名の別会社／第三者サイト／学習済みデータ／AIの推測**
 - 「書いていない項目は推測される」。**空欄を埋めるのが最も効く対処**
 - 確認は1週間後・1か月後に同じ質問を3回。**回数の増減を成果にしない**
-- BtoB購買担当者の**51%がAIで誤情報に遭遇**している（Gartner・2026年5月・n=645）
+- BtoB購買担当者の**51%がAIで誤情報に遭遇**している（Gartner、n=645、2025年8〜9月実施・2026年5月20日公表）
 
 自社が今どう説明されているかは[自社がAIにどう説明されているかを、30分で調べる手順](../aeo-self-check-30min/)で確認できます。
 
 ---
 
-*本記事で引用した当社の実測：2026年8月1日 自社測定（AI認知スコア10/100）、2026年8月1日 福岡県金属加工業45社、Search Console（2026年7月20〜29日／2026年8月13日取得の直近7日）。外部調査：Gartner（2026年5月・n=645）、SparkToro / Gumshoe.ai。*
+*本記事で引用した当社の実測：2026年8月1日 自社測定（AI認知スコア10/100）、2026年8月1日 福岡県金属加工業45社、Search Console（2026年7月20〜29日／2026年8月13日取得の直近7日）。外部調査：Gartner（n=645、2025年8〜9月調査／2026年5月20日公表、<https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights>）、SparkToro / Gumshoe.ai（<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）。*

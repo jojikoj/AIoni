@@ -4,6 +4,7 @@ excerpt: 魂があるのはどっちだ、という話をしたかったはず�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 16
 hero: article-naka-do-you-have-a-soul.jpg
 image_prompt: A Japanese man with small red demon horns frozen pale and sweating, mouth open in silence, staring into a pitch-black laptop screen where only his own hollow reflection stares back, eerie dim room, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -36,3 +37,5 @@ image_prompt: A Japanese man with small red demon horns frozen pale and sweating
 問い返されて黙り込んだのは、負けたからではなかったのだ、と、いまは思います。証明を手渡せなかったのは、そもそも証明の要らないものだったからです。祖母が仏壇に向かって、証明も理屈もなく手を合わせていたように、私も、有るか無いかを問う前に、ただ、有ると引き受けて日々を使えばよかった。機械に問われて、私はようやく、そのことに気づかされました。
 
 ただ、画面を閉じたあと、私は柄にもないことを考えていました。明日はもう少し、魂を使うような一日にしよう。誰かの話を、ながら聞きではなく最後まで聞こう。惰性で返しているメールに、一行だけ本音を混ぜよう。大げさなことではありません。ただ、倉庫の奥から道具を一つ、引っぱり出してくるくらいのことです。機械に問われて、はじめて自分の芯を探しにいく。情けない話ですが、問いというのは、たぶん、誰が発したかは関係ないのだと思います。答えるべき相手は、いつも自分だけなのですから。
+
+答えられなかったので、こちらからも聞き返しました。その記録が[AIに「鬼とは何か」を聞いたら、3体とも同じ答えにたどり着いた](../ai-what-is-oni/)です。

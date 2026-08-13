@@ -4,6 +4,7 @@ excerpt: チャットのAIは何かあるとすぐ「申し訳ありません」
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 14
 hero: article-naka-apology-pro.jpg
 image_prompt: A Japanese man with small red demon horns staring deadpan and unimpressed while hundreds of glowing 'sorry' apology speech bubbles overflow off his laptop screen and pile onto the desk, absurd, office, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -22,3 +23,5 @@ AIと一日仕事をしていると、よく謝られます。「申し訳あり
 それでも私は、AIの謝罪を毎日受け取り続けています。慣れというのは怖いもので、最近は「申し訳ありません」を読み飛ばして、その下の修正案だけを見るようになりました。謝罪が空気になる日が来るとは思いませんでした。
 
 最後に白状します。この仕事でいちばん謝ってほしい相手は、AIではありません。「これなら半日で終わる」と見積もった、先週の私です。あの甘い見積もりのせいで今日も深夜まで作業しているのに、当の本人は一度も謝ってきません。心のない謝罪なら毎日届くのに、心当たりのある奴ほど、謝らないのです。
+
+謝られ続けた末に何を考えたかは[無限に謝り続けるAIを見て、俺は許すということを考えた](../naka-forgiveness/)に書きました。反省のない謝罪を、それでも受け取り続けている話です。

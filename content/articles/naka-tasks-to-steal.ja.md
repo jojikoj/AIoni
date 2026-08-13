@@ -4,6 +4,7 @@ excerpt: 世間はAIに仕事を奪われる不安を語る。中の人の本音
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 13
 hero: article-naka-tasks-to-steal.jpg
 image_prompt: A Japanese man with small red demon horns shoving a giant toppling stack of paperwork toward his laptop with both hands, pleading exhausted face, small office, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -44,3 +45,5 @@ AIは指示さえ出せば動く。ところがその指示を出すには、私
 その結果、人間の手元に最後まで残るのは、企画でも判断でもなく、「やる気を出す」という作業らしい。あらゆる雑用の中で最も原始的で、最も自動化できない雑用が、最後の砦として私に残った。
 
 砦というより、押し付け合いに負けた気がしなくもない。
+
+では実際にどの仕事なら奪ってもらえるのか。27本の自動化ジョブを数えて出した線引きが[経理は13本、マーケは1本 — 27本の自動化ジョブが教えてくれた「AIに任せてよい仕事」の見分け方](../toe-not-everything-automatable/)にある。奪ってほしい仕事ほど、奪ってもらえない。

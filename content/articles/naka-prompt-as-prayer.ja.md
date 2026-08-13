@@ -4,6 +4,7 @@ excerpt: うまくいってくれ、と念じながら送信ボタンを押し�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 17
 hero: article-naka-prompt-as-prayer.jpg
 image_prompt: A Japanese man with small red demon horns with hands clasped in devout prayer before a laptop set up like a glowing home shrine, small candles and offerings arranged around it, faint incense, night, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -34,3 +35,5 @@ image_prompt: A Japanese man with small red demon horns with hands clasped in de
 そう考えると、この習慣も、そう悪いものではない気がしてきます。効かない祈りを、効かないと知りつつ続ける。それは、無駄なようでいて、たぶん、機械の前で人間でいるための、ささやかな作法なのです。全部を計算と精度に明け渡してしまわないための、最後の一拍。祖母が仏壇の前で守っていたものを、私は形を変えて、机の前で守っているのかもしれません。
 
 これはもう、業務ではなく信仰なのかもしれません。角も牙も生えた私が、深夜の書斎で、機械に向かって手を合わせている。字面だけ見れば、なかなかどうかしています。ただ、ひとつだけ救いがあるとすれば、この神様は毎回ちゃんと何かを返してくるということです。沈黙したまま何も寄こさない神より、たとえ外していても、必ず答えを返してくれる神のほうが、深夜には少しだけありがたい。だから今夜も、私は一拍おいて、頼む、と念じてから、送信ボタンを押すのです。
+
+祈りの前段階として、まず頭を下げていた時期もあります。[AIに「頼むから」と手を合わせる、いちばん非科学的な夜](../naka-tanomu-kara/)がそれです。

@@ -4,6 +4,7 @@ excerpt: AI検索で自社が引用元として出るのかを、Playwrightで�
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-07-19
+updated: 2026-08-13
 order: 5
 hero: article-ai-search-measurement.jpg
 image_prompt: A person at a desk comparing search results on two laptop screens side by side, a handwritten tally sheet with rows of marks on paper beside the keyboard, a small office at night, desk lamp as the main light source
@@ -189,7 +190,7 @@ SparkToroのRand Fishkin氏は「同一プロンプトで引用ブランドが99
 
 なお、これはAI検索対策として特別な作業ではありません。**発注者が知りたい情報を書く、というだけの話です。** そしてそれは、AI検索が存在しなかった時代からWebサイトがやるべきだったことでもあります。辻氏の「SEOでやるべきことをしっかりやることだ」という指摘は、この意味で正しいと考えています。
 
-**4. 「AI検索対策で受注が増える」という話は、現時点では信じないでください。** Pifteeの調査（2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験がある人は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、**実際にAI経由で発注に至ったのは21.1%**でした。Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の**51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼**しています。
+**4. 「AI検索対策で受注が増える」という話は、現時点では信じないでください。** Pifteeの調査（2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験がある人は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、**実際にAI経由で発注に至ったのは21.1%**でした。Gartnerの調査（n=645、2025年8〜9月実施・2026年5月20日公表）では、BtoB購買担当者の**51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼**しています。
 
 **AIは候補を見つける入口としては使われ始めていますが、発注の意思決定はまだ人間がしています。** 言えるのはせいぜい「引き合いの入口が一つ増えるかもしれない」までです。
 
@@ -227,4 +228,4 @@ SparkToroのRand Fishkin氏は「同一プロンプトで引用ブランドが99
 
 ---
 
-*本記事の実測データは、2026年7月18日にPlaywright経由でPerplexityから取得した引用ドメインの機械抽出結果です（n=3）。引用した外部調査の出典：Ahrefs（構造化データ実験 / ブランド可視性相関）、SE Ranking、SearchVIU、プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024）、SparkToro / Gumshoe.ai、Peec AI、Semrush、Goodie、Piftee（2026年5〜6月調査）、Gartner（2026年5月調査）、Google Search Central、辻正浩氏（Web担当者Forum・2026年4月13日）*
+*本記事の実測データは、2026年7月18日にPlaywright経由でPerplexityから取得した引用ドメインの機械抽出結果です（n=3）。引用した外部調査の出典：Ahrefs（構造化データ実験 <https://ahrefs.com/blog/schema-ai-citations/> ／ブランド可視性相関）、SE Ranking、SearchVIU、プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024、<https://arxiv.org/abs/2311.09735>）、SparkToro / Gumshoe.ai（<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）、Peec AI、Semrush、Goodie、Piftee（2026年5〜6月調査）、Gartner（n=645、2025年8〜9月実施・2026年5月20日公表）、Google Search Central、辻正浩氏（Web担当者Forum・2026年4月13日）*

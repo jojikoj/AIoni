@@ -4,6 +4,7 @@ excerpt: 同じ質問を繰り返しても同じブランドが再現される�
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 17
 hero: article-aeo-kpi-measurement.jpg
 image_prompt: A Japanese woman in her 40s standing at a desk holding a pen and looking down at a laptop screen with a slight frown of concentration, late morning, bright daylight from tall windows on the right plus overhead lighting, well-lit and exposed for the shadows, shot on a Sony A7 III with a 50mm f/1.8 lens at f/2.8, visible skin texture and fine wrinkles, a calculator and a used mug beside the laptop, cables taped along the desk edge, white walls, natural color balance, off-center framing, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -102,7 +103,7 @@ Google検索側の数字は、日次で安定して取れます。**AI検索の�
 
 最終的にはここですが、**要因の切り分けは困難です。**
 
-外部調査（Piftee・2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、**実際にAI経由で発注に至ったのは21.1%**でした。Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の**51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼**しています。
+外部調査（Piftee・2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、**実際にAI経由で発注に至ったのは21.1%**でした。Gartnerの調査（n=645、2025年8〜9月実施・2026年5月20日公表）では、BtoB購買担当者の**51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼**しています。
 
 **AIは候補を見つける入口としては使われ始めていますが、発注の意思決定はまだ人間がしています。** 問い合わせフォームに「当社をどこで知りましたか」の選択肢を置くのが、いちばん確実です。
 
@@ -211,4 +212,4 @@ Google検索側の数字は、日次で安定して取れます。**AI検索の�
 
 ---
 
-*本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 福岡県金属加工業45社、Search Console（2026年7月20〜29日）。外部調査：SparkToro / Gumshoe.ai（600人・2,961回実行）、Piftee（2026年5〜6月・n=196）、Gartner（2026年5月・n=645）、辻正浩氏（Web担当者Forum・2026年4月13日）。*
+*本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 福岡県金属加工業45社、Search Console（2026年7月20〜29日）。外部調査：SparkToro / Gumshoe.ai（600人・2,961回実行、<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）、Piftee（2026年5〜6月・n=196）、Gartner（n=645、2025年8〜9月調査／2026年5月20日公表、<https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights>）、辻正浩氏（Web担当者Forum・2026年4月13日）。*

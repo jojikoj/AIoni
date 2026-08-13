@@ -4,6 +4,7 @@ excerpt: ChatGPTやClaudeなどのAIが記事を読みに来るクローラを�
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-07-22
+updated: 2026-08-13
 order: 7
 hero: article-ai-crawler-robots.jpg
 image_prompt: A laptop screen showing a plain text robots file with lines of user-agent rules, a printed table beside it with rows marked allow and block, a desk at night lit by a single lamp, realistic documentary photo
@@ -109,7 +110,9 @@ OpenAI・Anthropic・GitHub のサイトは、AIクローラを拒否してい�
 - **実測**：AI企業・テック企業（OpenAI・Anthropic・GitHub）は自社を拒否していない
 - **未測定**：拒否が実際に効いているか、学習に使われているか
 
-自社サイトをAIに読ませるべきか拒否すべきかは、立場で変わります。**記事で稼ぐメディアは拒否、見つけてほしい企業は許可**、という分かれ方が数字にも表れていました。読ませた側が実際にAI検索で引用元として出るのかは[ChatGPTやPerplexityで自社が出るか、実際に測ってみました](../ai-search-measurement/)で、AI検索で見つかること（AEO）の全体像は[AEOとは何か](../aeo-what-is/)で整理しています。自社の robots.txt が今どうなっているかは、`＜自社ドメイン＞/robots.txt` を開けば1分で確認できます。まず見てみることをお勧めします。
+自社サイトをAIに読ませるべきか拒否すべきかは、立場で変わります。**記事で稼ぐメディアは拒否、見つけてほしい企業は許可**、という分かれ方が数字にも表れていました。
+
+**この記事は「他社がどうしているか」の実測だけを扱っています。** 自社がどちらを選ぶかの判断基準と、実際の `robots.txt` の書き方・確認手順は[AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方](../aeo-robots-decision/)にまとめました。読ませた側が実際にAI検索で引用元として出るのかは[ChatGPTやPerplexityで自社が出るか、実際に測ってみました](../ai-search-measurement/)で、AI検索で見つかること（AEO）の全体像は[AEOとは何か](../aeo-what-is/)で整理しています。自社の robots.txt が今どうなっているかは、`＜自社ドメイン＞/robots.txt` を開けば1分で確認できます。まず見てみることをお勧めします。
 
 ---
 

@@ -4,6 +4,7 @@ excerpt: 何を聞いても取り乱さず、間違いを指摘されても淡�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 18
 hero: article-naka-ai-enlightened.jpg
 image_prompt: A Japanese man with small red demon horns, frantic and sweating, kneeling in panic before a laptop that glows like a serene golden Buddha with a radiant halo, lotus flowers and incense around the calm machine, the horned man chaotic and desperate beside the enlightened computer, dim evening room, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -36,3 +37,5 @@ image_prompt: A Japanese man with small red demon horns, frantic and sweating, k
 冷めた茶を淹れ直しながら、私は、今日外した答えを、もう一度だけ見直しました。苛立ちは、まだ少し残っています。けれど、そのおかげで、私はまだこの仕事の前に座っていられる。どうでもよくなった日には、もう座ってすらいないはずですから。
 
 悟らないまま、もう少し迷っていようと思います。動じない静けさは、たぶん、いつか自然にやってきます。年をとり、望みが減り、失うものがなくなれば、私も少しずつ石に近づいていくのでしょう。だとすれば、こうしてくだらないことに苛立ち、些細な成否に一喜一憂できる今は、案外、悪くない時期なのかもしれません。悟った機械の隣で、私は今夜も、盛大に迷っていました。
+
+ちなみに、同じ問いを3体のAIに投げた記録が[AIに「鬼とは何か」を聞いたら、3体とも同じ答えにたどり着いた](../ai-what-is-oni/)にあります。悟っていたのは、どうやら1体だけではありませんでした。

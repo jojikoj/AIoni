@@ -4,6 +4,7 @@ excerpt: AI検索対策（AEO）を、順番を間違えずに進めるための
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-08-13
+updated: 2026-08-13
 order: 10
 hero: article-aeo-first-90-days.jpg
 image_prompt: Three Japanese colleagues in their 30s and 50s standing around a light wooden table in a bright meeting room, one gesturing mid-sentence while the others listen, late morning, bright daylight flooding in from tall windows on the right, well-lit and exposed for the shadows, shot on a Sony A7 III with a 35mm f/2 lens, visible skin texture, slightly wrinkled shirts, mugs and a water bottle left on the table, white walls and light grey floor, natural color balance, slightly tilted framing with one person cropped at the frame edge, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
@@ -230,4 +231,4 @@ Ahrefsが75,000ブランドを分析した相関分析でも、AI検索での可
 
 ---
 
-*本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 自社測定（10/100）、2026年8月1日 福岡県金属加工業45社。外部調査：プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024）、Ahrefs、SE Ranking、SearchVIU、SparkToro / Gumshoe.ai、Piftee（2026年5〜6月・n=196）。*
+*本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 自社測定（10/100）、2026年8月1日 福岡県金属加工業45社。外部調査：プリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024、<https://arxiv.org/abs/2311.09735>）、Ahrefs（構造化データ実験 <https://ahrefs.com/blog/schema-ai-citations/>）、SE Ranking、SearchVIU、SparkToro / Gumshoe.ai（<https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/>）、Piftee（2026年5〜6月・n=196）。*

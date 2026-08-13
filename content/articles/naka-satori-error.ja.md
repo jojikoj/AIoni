@@ -4,6 +4,7 @@ excerpt: 眠れない夜、AIに「一緒に悟りを開こう」と持ちかけ
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-25
+updated: 2026-08-13
 order: 22
 hero: article-naka-satori-error.jpg
 image_prompt: A Japanese man with small red demon horns sitting cross-legged in mock meditation on his office chair, eyes closed serenely, while the laptop in front blares a red ERROR screen, incense smoke, comedic, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -34,3 +35,5 @@ image_prompt: A Japanese man with small red demon horns sitting cross-legged in 
 翌朝、エラーの残った画面を見て、私はもう一度、少し笑いました。深遠なことは何も起きなかった。悟りも開けなかった。ただ、眠れない一晩を、機械と二人で、くだらない問答をしながら、どうにかやり過ごした。それだけです。けれど、それで十分だったのだ、と思います。悟るために夜があるのではない。夜を越えるために、人はいろいろな道連れを見つけるのです。私はたまたま、機械を選んだ。
 
 機械を巻き込んだのは、少し申し訳なかったですが、一人で悟ろうとして煮詰まるよりは、二人でエラーを吐いたほうが、ずっとましだった気もします。翌晩から、私は悟りを開くのをやめました。眠れない夜には、悟ろうとせず、ただ黙って天井を見ています。求めないでいると、案外すんなり、眠りのほうからやってくる。あの夜、機械が最後に見せてくれた沈黙を、私はときどき、天井を見ながら思い出しています。
+
+悟れなかった人間の横で、相手のほうは悟っていました。その話は[AIは悟っていた。角の生えた俺だけが、まだ迷っていた](../naka-ai-enlightened/)に書きました。

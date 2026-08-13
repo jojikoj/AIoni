@@ -4,6 +4,7 @@ excerpt: AI向けの案内ファイル「llms.txt」を、日本と海外の主�
 tag: AEO対策室
 author: AIの鬼 編集部
 date: 2026-07-22
+updated: 2026-08-13
 order: 6
 hero: article-ai-search-llms-txt.jpg
 image_prompt: A hand holding a smartphone showing a plain text file on screen, next to a laptop displaying a list of website names with checkmarks and crosses on a spreadsheet, a small home office desk in daylight, realistic documentary photo
@@ -96,7 +97,9 @@ image_prompt: A hand holding a smartphone showing a plain text file on screen, n
 
 llms.txt は「入れておくべき」と語られ始めていますが、**主要サイトの実態はまだ2割**でした。急いで入れる必然性があるのか、それとも先行者になる好機なのかは、効果を測るまで断言できません。
 
-私たちはWeb制作の会社なので「今すぐ入れましょう」と言えば商売になります。しかし、効果を測っていない以上、そうは書けませんでした。次は、置いたサイトと置いていないサイトで、AI検索での引用に差が出るかを測ってみます。実際にAI検索で自社が引用元に出るかを測った結果は[ChatGPTやPerplexityで自社が出るか、実際に測ってみました](../ai-search-measurement/)に、この種の対策（AEO）全体の考え方は[AEOとは何か](../aeo-what-is/)にまとめています。
+私たちはWeb制作の会社なので「今すぐ入れましょう」と言えば商売になります。しかし、効果を測っていない以上、そうは書けませんでした。次は、置いたサイトと置いていないサイトで、AI検索での引用に差が出るかを測ってみます。
+
+**この記事は「どれだけ置かれているか」の実測だけを扱っています。** 実際に何を書き、何を書かないのか（当サイトの実物を含む）は[llms.txt には何を書き、何を書かないのか](../aeo-llms-txt-writing/)にまとめました。実際にAI検索で自社が引用元に出るかを測った結果は[ChatGPTやPerplexityで自社が出るか、実際に測ってみました](../ai-search-measurement/)に、この種の対策（AEO）全体の考え方は[AEOとは何か](../aeo-what-is/)にまとめています。
 
 ---
 

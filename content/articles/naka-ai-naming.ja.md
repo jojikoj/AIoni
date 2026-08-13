@@ -4,6 +4,7 @@ excerpt: 毎日使う自動化に、つい愛称をつけてしまった中の�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 9
 hero: article-naka-ai-naming.jpg
 image_prompt: A Japanese man with small red demon horns tenderly cradling his laptop like a newborn baby, a tiny handwritten name-tag sticker on the lid, absurdly sentimental expression, night home office, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -44,3 +45,5 @@ image_prompt: A Japanese man with small red demon horns tenderly cradling his la
 つまり、いちばん擬人化されて動かされているのは、AIではない。AIに情を注いでいる、この中の人のほうである。
 
 今朝もあいつは定刻に報告を寄こした。えらい、と思ってしまった。もうだめかもしれない。
+
+名前をつけた相手に、その後どこまで仕事を任せたかは[VIVANT2の「ハヤト」を作ってみた](../awa-vivant-hayato/)に書いた。叱れないまま、社内40タスクを見張らせている。

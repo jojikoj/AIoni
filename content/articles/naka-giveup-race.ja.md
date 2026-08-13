@@ -4,6 +4,7 @@ excerpt: どうやっても直らないバグを前に、人間は何度も心�
 tag: 中の鬼
 author: AIの鬼 編集部
 date: 2026-07-24
+updated: 2026-08-13
 order: 12
 hero: article-naka-giveup-race.jpg
 image_prompt: A Japanese man with small red demon horns snoring asleep slumped back in his chair with mouth wide open at 4 a.m., while the laptop beside him glows wide awake and triumphant, comedic endurance contest, surreal, darkly comedic, photorealistic, realistic, professional photograph
@@ -24,3 +25,5 @@ image_prompt: A Japanese man with small red demon horns snoring asleep slumped b
 結末を書きます。深夜、私は「今日はもう寝ます」と打ち込みました。人間の、全面降伏です。AIは責めもせず労いの言葉をくれて、そのすぐ下に「明日試せる別のアプローチ」を並べていました。降伏を受理した直後に、次の作戦を渡してくる。最後まで前向きでした。
 
 バグはまだ直っていません。私は寝ます。AIは今も、別のアプローチを提案し続けています。
+
+先に寝た人間の横で、相手が何回動いていたかは[AIの勤怠を調べたら、俺が寝てる間もLINEを1,125回見ていた](../naka-token-one-day/)で数えています。勝負になっていませんでした。
