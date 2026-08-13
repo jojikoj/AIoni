@@ -8,6 +8,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 ROOT=$(pwd)
 
+# 【一時】mini の claude_AIR 同期詰まりを遠隔で直すための踏み台。在るときだけ走る。
+# 直ったら _repair_once.sh ごと消すので、この2行も一緒に消える予定（2026-08-13）。
+[ -f "$ROOT/tools/_repair_once.sh" ] && bash "$ROOT/tools/_repair_once.sh" || true
+
 # --- 古いコードで公開を上書きしないための確認 ---------------------------
 #
 # 2026-08-01 の事故：実行機(Mac mini)が main を取り込まないまま日次を回し、
