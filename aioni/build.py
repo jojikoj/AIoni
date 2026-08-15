@@ -1189,22 +1189,31 @@ class Builder:
             if canon:
                 dup_merged += 1
                 self.noncanonical[lang].add(npath)
-            # 自社の要約がまだ無い記事は、出典リンクと関連記事だけの薄いページ。
+            # ニュース個別ページは全件 noindex, follow にする。
             #
-            # 2026-08-01 実測: 全600件中155件がこの状態で、description は
-            # 配信元の書き出しの切り貼りになる（「最近、マージボタンを押すとき、
-            # 僕はその diff を読んでいない…」）。検索結果を見ても何の記事か
-            # 分からず、/news/zenn_ai-f3b45ced8e/ は平均5.1位で28日クリック0だった。
-            # 薄いページが sitemap の1/4を占めると、クロールも自社記事に回らない。
+            # 2026-08-01 は「自社要約が無いものだけ」薄いページとして外していた。
+            # 2026-08-15 の実測で、要約があっても外すべきだと分かったため全件にした。
             #
-            # noindex, follow にして原典と関連記事への導線は残す。
-            # gen_news_summaries.py が body_long を書けば自動で index に戻る。
-            thin = not body
-            if thin:
-                self.noindex_paths[lang].add(npath)
+            #   ・28日で表示1,987のうち1,321（66%）が /news/ 個別ページ。
+            #     クリックは38だが、拾っているのは配信元の記事タイトルそのもの
+            #     （「1日500コミット」「leafwiki」）で、原典を探している人が
+            #     たまたま当社を経由しているだけ。原典リンクを押して離脱する。
+            #   ・致命的なのは自社記事の共食い。「kimi k3 使い方」は
+            #     /news/zenn_ai-d8ccad58e5/（他社Zenn記事の要約）が平均1.9位で
+            #     24表示・クリック0。当社には
+            #     /articles/kimi-k3-how-to-use/ という本物の解説があるのに、
+            #     Google は要約ページの方を選び、読者は原典リンクしか無い
+            #     ページに着いて帰っていた。同じことが「1日500コミット」
+            #     （56表示・6.3位・クリック0）でも起きている。
+            #   ・要約の有無で線を引く設計だと、要約を増やすほど共食いが増える。
+            #
+            # 一覧（/news/ とカテゴリ）は残す。鮮度と回遊の入口として機能し、
+            # follow なので個別ページ内の関連記事リンクも評価は通る。
+            # 検索で戦うのは自社が書いた /articles/ だけにする。
+            self.noindex_paths[lang].add(npath)
             ctx = self._ctx(lang, depth=2, active="news", path=npath,
                             page_description=ndesc, canonical_path=canon,
-                            noindex=thin)
+                            noindex=True)
             ctx["news"] = n
             ctx["news_title_tail"] = title_tail
             # <title> だけは丸める。h1 と OGP は display_title の全文のまま。
