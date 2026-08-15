@@ -254,6 +254,48 @@ def corner_for(item: dict) -> tuple[str, str]:
 
 
 # --- 生成 ---------------------------------------------------------------
+def demand_block() -> str:
+    """実測で拾えている検索語をプロンプトに載せる。
+
+    ⚠️ 2026-08-15 追加。ここが無かったせいで、記事のテーマが「その日の
+    ニュース」だけで決まり、検索需要と一度も突き合わされていなかった。
+    実測では238本中160本が公開2週間を過ぎても表示ほぼ0のまま積み上がり、
+    「AEOとは何か」のように、そもそも誰も検索していない言葉の記事が
+    量産されていた（AEO関連5本はいずれも公開23日で表示ゼロ）。
+
+    題材そのものは今日のニュースのままでよい（旬でないものは書かない方針）。
+    変えるのは**言葉の選び方**。読者が実際に打ち込んでいる語で書けば、
+    同じ題材でも拾われ方が変わる。
+    """
+    p = ROOT / "data" / "gsc_queries.json"
+    if not p.exists():
+        return ""
+    try:
+        d = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ""
+    seen = d.get("seen", [])[:30]
+    com = d.get("commercial", [])[:15]
+    if not seen:
+        return ""
+    lines = ["# 読者が実際に打ち込んでいる言葉（Search Console 実測・"
+             f"{d.get('updated', '')}時点）", ""]
+    lines.append("当サイトがこの28日に**実際に検索結果へ出た語**です。"
+                 "題材に関係するものがあれば、タイトル・見出し・本文で"
+                 "**その語そのまま**を使ってください（言い換えない）。")
+    lines.append("関係が無ければ無理に使わないこと。話を曲げてまで語を入れない。")
+    lines.append("")
+    for a in seen:
+        lines.append(f"- {a['q']}（{a['imp']}表示 / 最高{a['pos']}位）")
+    if com:
+        lines.append("")
+        lines.append("**とくに仕事につながる語**（この語で答えになる記事が"
+                     "書けるなら、それを優先する）:")
+        for a in com:
+            lines.append(f"- {a['q']}")
+    return "\n".join(lines) + "\n"
+
+
 def build_prompt(item: dict, tag: str, links: list[tuple[str, str]],
                  today: str, min_chars: int, url: str, source: str,
                  material: str, n_others: int) -> str:
@@ -336,6 +378,7 @@ def build_prompt(item: dict, tag: str, links: list[tuple[str, str]],
 # 当社の実測（自社の数字はここにあるものだけ）
 {FACTS}
 
+{demand_block()}
 # 張れる内部リンク
 {link_lines}
 
