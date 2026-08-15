@@ -106,13 +106,17 @@ PY
 #
 #    ここは提案までで、修正はしない。施策は1日1系統、人が決めて打つ
 #    （毎日あちこち変えると順位が動いた理由を追えなくなるため）。
-#    認証が切れていても日次全体は止めない。
-media_step "実測レビュー" python3 tools/daily_review.py || true
+#
+#    ⚠️ `|| true` は付けない。media_step は失敗しても日次を続けたうえで
+#    「⚠️ 実測レビュー で失敗（続行）」とログに残す。握りつぶすと、
+#    Search Console の認証が切れた日から測定が止まったまま
+#    「毎日レビューしている」と思い込む状態になる（今回の根本原因と同じ型）。
+media_step "実測レビュー" python3 tools/daily_review.py
 
 # 7. 週次の自己点検（月曜だけ）。薄いページ・内部リンク・停滞を見る。
 #    2026-08-02 を最後に動いていなかったので日次から呼ぶ形にした。
 if [ "$(date +%u)" = "1" ]; then
-  media_step "週次点検" python3 tools/weekly_review.py || true
+  media_step "週次点検" python3 tools/weekly_review.py
 fi
 
 # 8. 「中の鬼」の下書き（週1本まで。公開はしない）
@@ -122,7 +126,7 @@ fi
 #    自動化の外に置かれ、7月から止まっていた。素材はこのサイト自身の
 #    実測（GSC推移・日次の生産量・gitの記録）で足りるので、下書きだけ作る。
 #    語り口が媒体の顔になる棚なので、公開は人が直してから。
-media_step "中の鬼の下書き" python3 tools/gen_naka_draft.py || true
+media_step "中の鬼の下書き" python3 tools/gen_naka_draft.py
 
 # --- 旬ネタ提案 ---
 # 主軸は trend_news.py（この1週間に実際に起きたことから選ぶ → _旬ネタ/今週.md）。
