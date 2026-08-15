@@ -1,0 +1,39 @@
+===== claude_AIR 復旧 Sat Aug 15 19:41:48 JST 2026 =====
+host: kojimajoujinoMac-mini / 小嶋譲司のMac mini
+--- 復旧前 ---
+## HEAD (no branch)
+MM "TOEcompany/\343\203\241\343\203\207\343\202\243\343\202\242\344\272\213\346\245\255\351\203\250/\345\205\261\351\200\232/\351\201\213\347\224\250/.bing-submit-state.json"
+A  "TOEcompany/\343\203\241\343\203\207\343\202\243\343\202\242\344\272\213\346\245\255\351\203\250/\345\205\261\351\200\232/\351\201\213\347\224\250/\343\203\254\343\203\235\343\203\274\343\203\210/2026-08-13_AEO-SEO\347\202\271\346\244\234.md"
+HEAD=ecf85bbb 2026-08-14 21:19:44 +0900 auto: sync toe-workspace 2026-08-14 21:19
+--- 1. 残留ロックと中断rebaseの掃除 ---
+index.lock を除去
+error: The following untracked working tree files would be overwritten by reset:
+	_同期状態/_____Mac_mini.json
+Please move or remove them before you reset.
+Aborting
+fatal: could not move back to 3d1b632e8b515e5b66902738fa95d2d8cd9f4141
+--- 2. 未コミットを退避コミット（捨てない）---
+退避した: 95a70a6e mini: 復旧前の退避コミット 20260815-194148
+--- 3. detached なら退避ブランチに固定してから main へ ---
+退避ブランチ rescue-mini-20260815-194148 を作成（元の作業はここに残る）
+and have 6 and 339 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+branch 'main' set up to track 'origin/main'.
+--- 4. 同期を通す ---
+and run me again.  I am stopping in case you still have something
+valuable there.
+
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+--- 5. 同期の常駐を入れる ---
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.autopull.plist
+  今すぐ1回試す: bash /Users/kojimajouji/claude_AIR/scripts/auto-pull.sh && echo OK
+install_autopush.sh がまだ届いていない
+install_sync_watchdog.sh がまだ届いていない
+9342	0	info.toe.autopull
+--- 復旧後 ---
+## main...origin/main [ahead 6, behind 339]
+HEAD=3d1b632e 2026-08-15 04:02:30 +0900 auto: sync toe-workspace 2026-08-15 04:02
+--- 共通フレーム（今夜の日次が要る）---
+ls: /Users/kojimajouji/claude_AIR/TOEcompany/メディア事業部/共通/運用/media-daily.sh: No such file or directory
