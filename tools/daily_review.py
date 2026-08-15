@@ -58,6 +58,11 @@ HISTORY = ROOT / "data" / "gsc_history.tsv"
 # 測った結果を作る側に戻すための受け渡し口。ここが無かったので、
 # 毎日書く記事のテーマが検索需要とまったく無関係に決まっていた。
 QUERIES = ROOT / "data" / "gsc_queries.json"
+# セクション別の推移。2026-08-15 にニュース個別1,187ページを noindex に
+# したので、その賭けが当たったかを判定するための土台。
+# 判定基準: /articles/ の表示が増えれば成功（ニュースが退いて自社記事が
+# 繰り上がった）。変わらないか減れば、あの施策は表示を捨てただけになる。
+SECTIONS = ROOT / "data" / "gsc_sections.tsv"
 ARTICLES = ROOT / "content" / "articles"
 
 # Search Console のデータは2〜3日遅れて確定する。直近2日は見ない。
@@ -257,6 +262,54 @@ def find_silent(pages: list) -> list[tuple[str, int, str]]:
     return out
 
 
+def append_sections(pages: list) -> str:
+    """セクション別の表示・クリックを日々積む。
+
+    2026-08-15 に打った施策（ニュース個別1,187ページを noindex）の
+    答え合わせに使う。あの日の判断は「共食いを解消して自社記事を前に出す」
+    というものだったが、後から数え直すと共食いは171クエリ中4件、
+    実害のあるものは1件だけで、**根拠は薄かった**。
+    一方で確実に失うのは表示の66%（ニュース個別だけが出ていた129クエリ・
+    476表示・11クリック）。失うクリックの中身は「google 人事異動」
+    「minimax h3 colab」など他社プロダクトの指名検索で、受注価値は無い。
+
+    つまりこれは「価値の無い実績を捨てて、自社記事の繰り上がりに賭けた」判断。
+    賭けなので、当たったかを測れるようにしておく。
+
+      成功 … /articles/ の表示が増える（ニュースが退いた枠に入った）
+      失敗 … /articles/ が横ばい以下（表示を捨てただけ）
+
+    判定は4週間後（2026-09-12 前後）。noindex が効くまで数週間かかるため。
+    """
+    agg: dict[str, list[float]] = collections.defaultdict(lambda: [0.0, 0.0])
+    for r in pages:
+        seg = short(r["keys"][0]).strip("/").split("/")[0] or "(top)"
+        if seg not in ("news", "articles", "papers"):
+            seg = "other"
+        agg[seg][0] += r["impressions"]
+        agg[seg][1] += r["clicks"]
+    today = str(datetime.date.today())
+    line = "\t".join([today] + [
+        f"{agg[s][0]:.0f}\t{agg[s][1]:.0f}"
+        for s in ("articles", "news", "papers", "other")])
+    header = ("date\tarticles_imp\tarticles_clk\tnews_imp\tnews_clk"
+              "\tpapers_imp\tpapers_clk\tother_imp\tother_clk")
+    rows = {}
+    if SECTIONS.exists():
+        for l in SECTIONS.read_text(encoding="utf-8").splitlines()[1:]:
+            if l.strip():
+                rows[l.split("\t")[0]] = l
+    rows[today] = line
+    SECTIONS.write_text("\n".join([header] + [rows[k] for k in sorted(rows)])
+                        + "\n", encoding="utf-8")
+
+    # 施策前の基準値と比べる。2026-08-15 の noindex 適用時点の28日実績。
+    base_art, base_news = 351.0, 1321.0
+    art, news = agg["articles"][0], agg["news"][0]
+    return (f"自社記事 {art:.0f}（施策前 {base_art:.0f}） / "
+            f"ニュース {news:.0f}（施策前 {base_news:.0f}）")
+
+
 def corner_performance(pages: list) -> list[dict]:
     """コーナー（棚）ごとに、投じた本数と得た反応を並べる。
 
@@ -369,6 +422,7 @@ def main() -> int:
     silent = find_silent(pages)
     commercial = find_commercial(pq)   # ここは対処済みも含めて需要として見る
     corners = corner_performance(pages)
+    sections = append_sections(pages)
     save_queries(pq, commercial)       # 測った結果を翌日の記事づくりへ渡す
     tot_i = sum(r["impressions"] for r in daily)
     tot_c = sum(r["clicks"] for r in daily)
@@ -383,6 +437,16 @@ def main() -> int:
     L.append(f"- {days}日合計: 表示 {tot_i:.0f} / クリック {tot_c:.0f}")
     L.append(f"- 週比較: {week_compare(hist)}")
     L.append(f"- 表示のあったURL: {len(pages)}")
+    L.append("")
+    L.append("### 2026-08-15 の賭けの答え合わせ")
+    L.append("")
+    L.append(f"- {sections}")
+    L.append("")
+    L.append("ニュース個別1,187ページを noindex にした日。共食いの解消を狙ったが、")
+    L.append("後で数え直すと共食いは171クエリ中4件、実害は1件だけで根拠は薄かった。")
+    L.append("捨てた表示は確実（66%）、得るもの（自社記事の繰り上がり）は仮説。")
+    L.append("**自社記事の表示が施策前を上回れば成功、横ばい以下なら表示を捨てただけ。**")
+    L.append("判定は2026-09-12前後（noindexが効くまで数週間かかるため）。")
     L.append("")
 
     L.append("## 0. どの棚に書くべきか（1本あたりの反応）")
