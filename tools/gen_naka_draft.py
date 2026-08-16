@@ -16,10 +16,14 @@
     Search Console の推移、日次の成否、記事本数、失敗したcronの記録。
     それを素材にすれば、捏造ゼロで中の鬼が書ける。
 
-公開しない:
-    出すのは下書きだけ（content/_naka_draft/）。中の鬼は語り口が
-    そのまま媒体の顔になる棚なので、最後は人が直してから公開する。
-    ここが自動で本番に出ると、一番効いている棚の質が真っ先に落ちる。
+公開の扱い（2026-08-16 変更）:
+    当初は下書きだけ（content/_naka_draft/）を出し、人が直してから公開する
+    設計にしていた。**今後も人は記事を書かない**方針が確定したため、
+    下書きのまま置くと永久に公開されない。検査を通ったものは自動で公開する。
+
+    そのぶん検査は publish_daily.py と同じものをかける
+    （水増し表現ゼロ・素材に無い数字ゼロ）。落ちたものは公開せず
+    content/_naka_draft/ に残る。1本落ちても構わない。
 
 素材（すべて当社の実ファイル。外から数字を持ち込まない）:
     - data/gsc_history.tsv     … 表示・クリック・順位の推移
@@ -41,6 +45,8 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+ARTICLES = ROOT / "content" / "articles"
+# 検査に落ちたものだけがここに残る（公開されなかった記録として）。
 DRAFTS = ROOT / "content" / "_naka_draft"
 HISTORY = ROOT / "data" / "gsc_history.tsv"
 STATS = ROOT / "data" / "daily_stats.tsv"
@@ -94,6 +100,10 @@ def build_prompt() -> str:
 - 一人称。かしこまらない。ただし読者を茶化さない。
 - **数字は下の素材にあるものだけ使う。** 無い数字は書かない。
   「約」「およそ」で誤魔化さない。素材に無ければその話をしない。
+- **自分で計算した数字を書かない。** 「5倍」「3割減」「1本あたり◯件」など、
+  素材の数字どうしを割ったり掛けたりして作った値は書けません
+  （検査で弾かれ、記事ごと捨てられます）。素材に書いてある表記のまま引く。
+  比較したいときは「40と8」のように、両方の実数を並べて読者に見せること。
 - うまくいった話より、外した話・意外だった話を優先する。
 - 教訓で締めない。読者に「あなたも〜しましょう」と言わない。
 - 1,500〜2,500字。薄い長文にしない。書くことが尽きたら短く終える。
@@ -150,15 +160,23 @@ date: {datetime.date.today()}
 
 def main() -> int:
     if "--print" not in sys.argv:
-        DRAFTS.mkdir(parents=True, exist_ok=True)
-        # 直近の下書きが手つかずで残っているなら、増やさない。
-        existing = sorted(DRAFTS.glob("*.md"))
-        if existing:
-            newest = datetime.date.fromtimestamp(existing[-1].stat().st_mtime)
-            age = (datetime.date.today() - newest).days
+        # 週1本まで。直近に出した中の鬼があれば今日は作らない。
+        # 素材（このサイト自身の実測）は1週間でようやく動くので、
+        # 毎日書かせても同じ話の言い換えになる。
+        # ⚠️ ファイルの mtime では判定しない。git で取り直すと全ファイルの
+        # mtime が同じ日に揃うので、既存21本があるだけで「今日は作らない」に
+        # なってしまう。front matter の date（実際の公開日）で見る。
+        latest = None
+        for p in ARTICLES.glob("naka-*.ja.md"):
+            m = re.search(r"^date:\s*['\"]?(\d{4}-\d{2}-\d{2})",
+                          p.read_text(encoding="utf-8"), re.M)
+            if m:
+                d = datetime.date.fromisoformat(m.group(1))
+                latest = d if latest is None or d > latest else latest
+        if latest:
+            age = (datetime.date.today() - latest).days
             if age < EVERY_N_DAYS:
-                print(f"   中の鬼の下書きは{age}日前に作ったものが未使用のため今日は作らない"
-                      f"（{existing[-1].name}）")
+                print(f"   中の鬼は{age}日前（{latest}）に出したばかりなので今日は作らない")
                 return 0
 
     model = os.environ.get("AIONI_ARTICLE_MODEL", "sonnet")
@@ -192,11 +210,49 @@ def main() -> int:
 
     m = re.search(r"^title:\s*(.+)$", text, re.M)
     title = m.group(1).strip() if m else "（無題）"
-    out = DRAFTS / f"naka-draft-{datetime.date.today()}.md"
-    out.write_text(text, encoding="utf-8")
-    print(f"   中の鬼の下書き: {title}")
-    print(f"   {out}")
-    print("   → 読んで直したら content/articles/naka-<slug>.ja.md に移すと公開されます")
+
+    # 検査。中の鬼は読み物なので表もまとめも求めないが、
+    # 「水増し表現」と「素材に無い数字」だけは他の棚と同じ基準で弾く。
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from publish_daily import PADDING, unverified_numbers, FACTS, auto_facts
+    body = text.split("---", 2)[2] if text.count("---") >= 2 else text
+    material = "\n".join([FACTS, auto_facts(), tail(HISTORY, 30),
+                          tail(STATS, 20), recent_commits(7), latest_review()])
+    pad = [p for p in PADDING if p in body]
+    bad = unverified_numbers(body, material)
+    chars = len(re.sub(r"\s", "", body))
+    reason = ""
+    if pad:
+        reason = f"水増し表現 {pad}"
+    elif bad:
+        reason = f"裏の取れない数字 {bad[:6]}"
+    elif chars < 1000:
+        # 中の鬼は読み物なので、短いこと自体は欠点ではない
+        # （[[feedback_no_padding_over_length]]：薄い長文より短い記事）。
+        # 1,000字を切ったら、さすがに1本の記事として成立していないとみなす。
+        reason = f"本文が短い（{chars}字）"
+
+    DRAFTS.mkdir(parents=True, exist_ok=True)
+    if reason:
+        out = DRAFTS / f"naka-rejected-{datetime.date.today()}.md"
+        out.write_text(text, encoding="utf-8")
+        print(f"   検査に落ちたので公開しない: {reason}")
+        print(f"   {out}")
+        return 0
+
+    slug = re.sub(r"[^a-z0-9]+", "-",
+                  (re.search(r"^slug:\s*(.+)$", text, re.M).group(1).strip()
+                   if re.search(r"^slug:", text, re.M)
+                   else f"naka-{datetime.date.today()}")).strip("-")
+    if not slug.startswith("naka"):
+        slug = f"naka-{slug}"
+    dest = ARTICLES / f"{slug}.ja.md"
+    if dest.exists():
+        slug = f"{slug}-2"
+        dest = ARTICLES / f"{slug}.ja.md"
+    dest.write_text(text, encoding="utf-8")
+    print(f"   中の鬼を公開: {title}（{chars}字）")
+    print(f"   {dest.relative_to(ROOT)}")
     return 0
 
 

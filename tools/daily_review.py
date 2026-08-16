@@ -171,12 +171,25 @@ def find_near_miss(pq: list) -> tuple[list, list]:
 # 仕事につながる検索語かどうか。ここに当たる語は、表示が少なくても
 # 順位が低くても、優先して記事を用意する価値がある。
 # 読み物として当たっても受注にはつながらないので、通常の機会とは分けて出す。
+#
+# ⚠️ 商用語だけで拾うと外れる（2026-08-16 実測）。「料金」で
+# 「sakana fugu 料金」、「人事」で「google 人事異動」を拾ってしまい、
+# どちらも他社プロダクトの調べもので当社の実測では一行も書けない。
+# **AIの語と商用の語が両方入っているものだけ**を候補にする。
+AI_WORDS = ("ai", "ａｉ", "生成ai", "エージェント", "chatgpt", "llm", "自動化", "dx")
 COMMERCIAL = (
-    "研修", "見積", "費用", "料金", "価格", "相場", "導入", "選び方", "選定",
+    "研修", "見積", "費用", "価格", "相場", "導入", "選び方", "選定",
     "比較", "おすすめ", "外注", "委託", "開発会社", "ベンダー", "業者",
     "コンサル", "支援", "代行", "補助金", "助成金", "事例", "失敗",
-    "中小企業", "製造業", "工場", "総務", "経理", "人事",
+    "中小企業", "製造業", "工場", "総務", "経理", "始め方", "使い方",
 )
+
+
+def is_commercial(q: str) -> bool:
+    """AIの語 × 商用の語。両方そろって初めて「仕事につながる語」とみなす。"""
+    low = q.lower()
+    return (any(w in low for w in AI_WORDS)
+            and any(w in q for w in COMMERCIAL))
 
 
 def find_commercial(pq: list) -> list[dict]:
@@ -190,7 +203,7 @@ def find_commercial(pq: list) -> list[dict]:
     agg: dict[str, dict] = {}
     for r in pq:
         q = r["keys"][1]
-        if not any(w in q for w in COMMERCIAL):
+        if not is_commercial(q):
             continue
         a = agg.setdefault(q, {"query": q, "imp": 0, "clicks": 0,
                                "pos": [], "pages": set()})
@@ -231,8 +244,15 @@ def save_queries(pq: list, commercial: list) -> None:
                   "clicks": round(a["clicks"]), "pos": round(a["pos"], 1)}
                  for a in ranked[:60]],
         # そのうち仕事につながる語。記事のテーマとして最優先。
+        # has_article は「その語で自社記事が既に表示されているか」。
+        # 立っているなら新規を書くと共食いになるので、既存の加筆に回す
+        # （[[feedback_aeo_content_strategy]]：量産でなく既存強化）。
         "commercial": [{"q": a["query"], "imp": round(a["imp"]),
-                        "pos": round(a["best"], 1)} for a in commercial[:30]],
+                        "pos": round(a["best"], 1),
+                        "pages": a["pages"],
+                        "has_article": any("/articles/" in p
+                                           for p in a["pages"])}
+                       for a in commercial[:30]],
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
 

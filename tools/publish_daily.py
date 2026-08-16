@@ -254,6 +254,22 @@ def corner_for(item: dict) -> tuple[str, str]:
 
 
 # --- 生成 ---------------------------------------------------------------
+def auto_facts() -> str:
+    """毎日集め直している自社実測（collect_facts.py の出力）。
+
+    固定の FACTS は人が確かめた過去の実測と外部調査で、増えない。
+    こちらはサイト自身の運用から機械で集めたもので、毎日新しくなる。
+    人が記事を書かない運用にした以上、素材が増える経路はここしかない。
+    """
+    p = ROOT / "data" / "facts_auto.md"
+    if not p.exists():
+        return ""
+    try:
+        return p.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
+
 def demand_block() -> str:
     """実測で拾えている検索語をプロンプトに載せる。
 
@@ -378,6 +394,8 @@ def build_prompt(item: dict, tag: str, links: list[tuple[str, str]],
 # 当社の実測（自社の数字はここにあるものだけ）
 {FACTS}
 
+{auto_facts()}
+
 {demand_block()}
 # 張れる内部リンク
 {link_lines}
@@ -428,7 +446,11 @@ def unverified_numbers(body: str, material: str) -> list[str]:
     """当社実測にも素材にも無い「数字＋単位」を拾う。捏造の最終防波堤。"""
     found = re.findall(r"[0-9][0-9,]*(?:\.[0-9]+)?(?:%|％|社|件|ページ|ドメイン|人|倍|円|"
                        r"万円|億円|ドル|ポイント|クエリ|サイト|本|回|時間|分|営業日)", body)
-    hay = (FACTS + "\n" + material).replace(",", "").replace("％", "%")
+    # 照合先は「固定のFACTS」＋「自動収集した自社実測」＋「今回の素材」。
+    # auto_facts() を入れ忘れると、正しく集計した自社の数字まで
+    # 捏造扱いで落ちる（2026-08-16 に追加）。
+    hay = (FACTS + "\n" + auto_facts() + "\n" + material
+           ).replace(",", "").replace("％", "%")
     bad = []
     for f in found:
         norm = f.replace(" ", "").replace(",", "").replace("％", "%")
@@ -439,6 +461,16 @@ def unverified_numbers(body: str, material: str) -> list[str]:
         num = re.match(r"[0-9\.]+", norm).group(0)
         unit = norm[len(num):]
         if f"{num}{unit}" in hay or f"{num} {unit}" in hay:
+            continue
+        # 単位の言い換えを許す（2026-08-16）。素材の「引用元ドメイン12件」を
+        # 本文で「12サイト」と書いただけで捏造扱いになり、記事が1本も
+        # 出せなかった。数え方の単位が同じ族の中で、同じ数値が素材に
+        # あるなら通す。%・円・倍・時間などは族が違うので通さない
+        # （「30%」と「30件」を取り違えると意味が変わるため）。
+        COUNT_UNITS = ("件", "社", "サイト", "ドメイン", "本", "ページ",
+                       "人", "回", "クエリ")
+        if unit in COUNT_UNITS and any(
+                f"{num}{u}" in hay for u in COUNT_UNITS):
             continue
         bad.append(f)
     return sorted(set(bad))
@@ -468,7 +500,11 @@ def inspect(text: str, slugs: set[str], material: str, min_chars: int,
     chars = len(re.sub(r"\s", "", body))
     if chars < min_chars:
         return False, f"本文が短い（{chars}字 < {min_chars}字）"
-    if body.count("\n|---") < MIN_TABLES:
+    # 表の区切り行。`|---|---|` も `| --- | --- |` も同じ表なので両方拾う。
+    # ⚠️ 2026-08-16 まで `body.count("\n|---")` で数えていたため、
+    # 区切りをスペース付きで書くモデルの原稿が「表が無い」で全部落ちていた。
+    # 表そのものは書けているのに1本も公開できない、という止まり方をする。
+    if len(re.findall(r"^\|[\s:|-]+\|\s*$", body, re.M)) < MIN_TABLES:
         return False, "表が無い"
     if "## まとめ" not in body:
         return False, "まとめが無い"
