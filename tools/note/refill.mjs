@@ -111,6 +111,49 @@ ${linkList}
   return out.trim();
 }
 
+// 品質ゲートを回す。合格なら null、不合格なら指摘文（インデント済みの行）を返す。
+function gateCheck(mdPath) {
+  try {
+    execFileSync('python3', [path.join(DIR, 'check_note_article.py'), mdPath], { stdio: 'pipe' });
+    return null;
+  } catch (e) {
+    const lines = (e.stdout || '').toString().split('\n').filter((l) => l.includes('    '));
+    return lines.join('\n') || '（理由不明）';
+  }
+}
+
+// 指摘を渡して書き直させる。書き直しであって書き下ろしではないので、
+// 素材は渡さない（新しい事実を足させないため）。
+function reviseArticle(md, verdict) {
+  // 「範囲外」とだけ伝えると削り足りずに再び落ちる（実測: 2641字→2539字で
+  // 39字足らず不合格）。何字削ればいいかを数字で渡す。
+  const over = verdict.match(/字数 (\d+)（(\d+)〜(\d+)/);
+  let hint = '';
+  if (over) {
+    const [n, min, max] = [+over[1], +over[2], +over[3]];
+    if (n > max) hint = `\n\n## 字数について\n現在 ${n} 字。上限 ${max} 字なので、**最低 ${n - max + 100} 字を削って** ${max - 100} 字前後に収めてください。ぎりぎりを狙うと超過します。`;
+    else if (n < min) hint = `\n\n## 字数について\n現在 ${n} 字。下限 ${min} 字なので、**${min - n + 100} 字ほど書き足して** ${min + 100} 字前後にしてください。素材にある事実の掘り下げで増やし、水増しの言い換えはしないこと。`;
+  }
+  const prompt = `以下は note 用の記事原稿です。品質チェックで指摘が出ました。
+
+## 指摘
+${verdict}${hint}
+
+## 直し方
+- 指摘された点だけを直す。それ以外の構成・見出し・事実・数字は変えない。
+- 字数が多い場合は、言い回しを削って縮める。段落や見出しごと消すのではなく、
+  冗長な説明・重複した言い換えから削る。
+- 新しい事実や数字を足さない。
+- 出力は直した記事の全文だけ。前置き・説明・変更点の要約は一切書かない。
+
+## 原稿
+${md}`;
+  return execFileSync('claude', ['-p', '--model', MODEL], {
+    input: prompt, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024,
+    env: { ...process.env, PATH: `${process.env.HOME}/.local/bin:/opt/homebrew/bin:/usr/local/bin:${process.env.PATH || ''}` },
+  }).trim();
+}
+
 function nextNum() {
   const nums = fs.readdirSync(OUT_DIR).map((f) => (f.match(/^(\d+)_/) || [])[1]).filter(Boolean).map(Number);
   return String(Math.max(0, ...nums) + 1).padStart(2, '0');
@@ -263,11 +306,22 @@ async function main() {
     const mdPath = path.join(OUT_DIR, `${num}_${src.slug}.md`);
     fs.writeFileSync(mdPath, md);
 
-    // 品質ゲート
-    try {
-      execFileSync('python3', [path.join(DIR, 'check_note_article.py'), mdPath], { stdio: 'pipe' });
-    } catch (e) {
-      log(`  品質ゲート不合格。捨てて次へ:\n${(e.stdout || '').toString().split('\n').filter((l) => l.includes('    ')).join('\n')}`);
+    // 品質ゲート。落ちたら捨てずに、指摘そのものを渡して1回だけ直させる。
+    // 捨てるだけの作りだと、字数超過のように直せば済む指摘でも素材を1本
+    // 使い捨ててしまう。実際 8/13〜8/14 は全候補が字数超過（実測2850〜3039字）
+    // で連続不合格になり、note の投稿が丸ごと止まっていた。
+    let verdict = gateCheck(mdPath);
+    if (verdict) {
+      log(`  品質ゲート不合格。直させる:\n${verdict}`);
+      try {
+        fs.writeFileSync(mdPath, reviseArticle(md, verdict));
+        verdict = gateCheck(mdPath);
+      } catch (e) {
+        log(`  修正失敗: ${e.message}`);
+      }
+    }
+    if (verdict) {
+      log(`  修正後も不合格。捨てて次へ:\n${verdict}`);
       fs.unlinkSync(mdPath);
       continue;
     }
