@@ -70,8 +70,34 @@ media_step "解説生成" python3 tools/gen_news_summaries.py --limit=35
 #
 #     ここだけ haiku を使わない。1日1本なのでバッチではなく、
 #     記事の質がそのまま媒体の信用になるため（AIONI_ARTICLE_MODEL で変更可）。
-export AIONI_ARTICLE_MODEL="${AIONI_ARTICLE_MODEL:-sonnet}"
+#
+#     2026-08-16: sonnet → opus。人が記事を書かない運用に切り替えたため、
+#     ここで出るものがそのまま媒体の質になる。1日数本なのでバッチではなく、
+#     大量呼び出しを haiku に固定する方針（ニュース要約・論文要約）とは別枠。
+#     ⚠️ ただしモデルを上げても沈黙は直らない。実測では公開14〜29日の220本が
+#     どのコーナーも1本あたり1.5〜2.1表示で、差は誤差の範囲だった。
+#     効いていないのは文章の出来ではなく、誰も検索しない題材を選んでいること。
+#     モデルより先に、何を書くか（demand_block / publish_commercial.py）を直す。
+export AIONI_ARTICLE_MODEL="${AIONI_ARTICLE_MODEL:-opus}"
+#     ⚠️ 記事を書く前に、当社の実測を集め直す（2026-08-16 追加）。
+#     商用クエリで記事を書かせたら4件中3件が「素材が無い」と自ら見送った。
+#     固定の FACTS が AI検索の可視性測定に偏っていて、「ai研修 法人 選定」
+#     「生成ai 開発会社」に答える数字が1行も無かったため。
+#     人が記事を書かない運用にした以上、素材が増える経路はここだけになる。
+media_step "自社実測の収集" python3 tools/collect_facts.py
+
 media_step "旬ネタ記事" python3 tools/publish_daily.py
+
+# 3c. 仕事につながる検索語で1本（火・金だけ）
+#
+#     旬ネタ（3b）は「今日の出来事」が題材で、検索需要とは無関係に決まる。
+#     こちらは逆で、実測で拾えている商用クエリが題材。
+#     「aiエージェント 総務」19表示・61位、「ai研修 法人 選定」9表示・92位
+#     のように、需要は実在するのに当社が読まれる位置にいない語を埋めていく。
+#     素材（当社の実測）で答えられない語は、書かずに見送る。
+if [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; then
+  media_step "商用クエリ記事" python3 tools/publish_commercial.py
+fi
 
 # 4. 内部リンク検査 → ビルド → 公開 → IndexNow
 media_step "公開" ./tools/deploy.sh
