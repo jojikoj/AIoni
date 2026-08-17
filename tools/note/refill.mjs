@@ -197,6 +197,47 @@ function md2note(mdPath) {
   return JSON.parse(out);
 }
 
+// 見出し画像を設定する。note の DOM は React 生成IDや aria-label が変わるので、
+// 「これ1本」に賭けず候補を順に試す。どれも当たらなければ投げる（呼び手が本文だけ残す）。
+async function clickFirst(page, candidates, timeout = 6000) {
+  for (const make of candidates) {
+    try {
+      const loc = make(page).first();
+      await loc.waitFor({ state: 'visible', timeout });
+      await loc.click();
+      return true;
+    } catch { /* 次の候補へ */ }
+  }
+  throw new Error(`該当するボタンが無い（候補${candidates.length}件すべて不発）`);
+}
+
+async function setHeaderImage(page, imgPath) {
+  await clickFirst(page, [
+    (p) => p.locator('button[aria-label="画像を追加"]'),
+    (p) => p.locator('button[aria-label*="画像"]'),
+    (p) => p.getByRole('button', { name: /画像を追加|見出し画像|画像/ }),
+    (p) => p.locator('[data-testid*="eyecatch"] button, [class*="eyecatch"] button'),
+  ]);
+  await page.waitForTimeout(800);
+  const [chooser] = await Promise.all([
+    page.waitForEvent('filechooser', { timeout: 15000 }),
+    clickFirst(page, [
+      (p) => p.getByRole('button', { name: '画像をアップロード' }),
+      (p) => p.getByRole('button', { name: /アップロード|ファイルを選択/ }),
+      (p) => p.locator('input[type="file"]'),
+    ]),
+  ]);
+  await chooser.setFiles(imgPath);
+  await page.waitForTimeout(2500);
+  // トリミングの確定。以前は React の自動生成ID(button#:rf:)を直指ししていたが、
+  // これは描画順が変わるだけで別物を指す。文言で探すほうがまだ長持ちする。
+  await clickFirst(page, [
+    (p) => p.getByRole('button', { name: /^(保存|適用|完了|決定)$/ }),
+    (p) => p.locator('button#\\:rf\\:'),
+  ]);
+  await page.waitForTimeout(2500);
+}
+
 async function ingestDraft(ctx, title, html, imgPath, tags) {
   const page = ctx.pages()[0] || (await ctx.newPage());
   page.on('dialog', (d) => d.accept().catch(() => {}));
@@ -220,24 +261,27 @@ async function ingestDraft(ctx, title, html, imgPath, tags) {
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: '下書き保存' }).click();
   await page.waitForTimeout(3500);
-  // 見出し画像
-  await page.locator('button[aria-label="画像を追加"]').click();
-  await page.waitForTimeout(800);
-  const [chooser] = await Promise.all([
-    page.waitForEvent('filechooser'),
-    page.getByRole('button', { name: '画像をアップロード' }).click(),
-  ]);
-  await chooser.setFiles(imgPath);
-  await page.waitForTimeout(2500);
-  await page.locator('button#\\:rf\\:').click(); // トリミング保存
-  await page.waitForTimeout(2500);
-  await page.getByRole('button', { name: '下書き保存' }).click();
-  await page.waitForTimeout(3500);
+
+  // 見出し画像。**失敗しても記事は捨てない**。
+  // note の UI 変更で aria-label が変わると click が30秒待って落ち、
+  // 本文が保存済みなのに記事ごと破棄していた（2026-08-17 は候補4本中2本がこれ）。
+  // 画像は後から人が付けられるが、書き上げた本文は捨てたら戻らない。
+  let imageOk = false;
+  try {
+    if (!imgPath) throw new Error('画像ファイルなし');
+    await setHeaderImage(page, imgPath);
+    imageOk = true;
+    await page.getByRole('button', { name: '下書き保存' }).click();
+    await page.waitForTimeout(3500);
+  } catch (e) {
+    log(`  見出し画像を設定できず（本文はそのまま残す）: ${String(e.message).split('\n')[0]}`);
+  }
+
   // 本文が保存されたか確認
   const g = await ctx.request.get(`https://note.com/api/v3/notes/${key}`);
   const d = (await g.json()).data;
   if (!d || (d.body || '').length < 500) throw new Error('本文保存の確認に失敗');
-  return { key, num: null };
+  return { key, num: null, imageOk };
 }
 
 // ---------- 記録 ----------
@@ -328,18 +372,18 @@ async function main() {
     log('  品質ゲート合格');
     if (dry) { log(`  --dry-run のため入稿しない（${mdPath}）`); made++; continue; }
 
-    // 画像
-    const imgPath = path.join(IMG_DIR, `${num}.jpg`);
+    // 画像。生成に失敗しても記事は捨てない（Flux が落ちている日に原稿ごと消えていた）。
+    let imgPath = path.join(IMG_DIR, `${num}.jpg`);
     try { await genImage(src.image_prompt, imgPath); log('  画像OK'); }
-    catch (e) { log(`  画像失敗: ${e.message}。次へ`); fs.unlinkSync(mdPath); continue; }
+    catch (e) { log(`  画像生成に失敗（画像なしで入稿する）: ${e.message}`); imgPath = null; }
 
     // 入稿
     const { title, html } = md2note(mdPath);
     const tags = guessTags(title);
     try {
-      const { key } = await ingestDraft(ctx, title, html, imgPath, tags);
+      const { key, imageOk } = await ingestDraft(ctx, title, html, imgPath, tags);
       recordIngest(num, key, title, src.slug, tags);
-      log(`  入稿OK: ${num} ${key}（下書き）`);
+      log(`  入稿OK: ${num} ${key}（下書き${imageOk ? '' : '・見出し画像は未設定'}）`);
       made++;
     } catch (e) {
       log(`  入稿失敗: ${e.message}。次へ`);
