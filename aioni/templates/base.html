@@ -220,6 +220,20 @@
           {% if lang == 'ja' %}<a href="{{ rel }}check/">{{ t('nav.check') }}</a>{% endif %}
           <a href="{{ rel }}contact/">{{ t('nav.contact') }}</a>
         </div>
+        {#
+          自社メディアの相互リンク。補助金の鬼はどこからもリンクされておらず、
+          新規ドメインのためGoogleがサイトマップを取りに来ていない（8/09提出が
+          8/17時点で保留のまま、記事128本の大半が「Googleが知らない」状態）。
+          クロールされている当サイトから経路を作る。
+        #}
+        {% if lang == 'ja' %}
+        <div class="footer-col">
+          <h3 class="footer-head">{{ t('footer.network') }}</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        {% endif %}
         <div class="footer-col">
           <h3 class="footer-head">{{ t('footer.sources') }}</h3>
           <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>

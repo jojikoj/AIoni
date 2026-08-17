@@ -201,6 +201,7 @@ STRINGS = {
                     "en": "We run AI ourselves and measure it ourselves — TOE's practice & measurement lab, on free public data with no AI API cost."},
     "footer.company": {"ja": "運営・その他", "en": "Company"},
     "footer.sources": {"ja": "データ提供", "en": "Data sources"},
+    "footer.network": {"ja": "運営メディア", "en": "Our media"},
     "footer.built": {"ja": "静的サイト・自動更新", "en": "Static site · auto-updated"},
     "footer.lang": {"ja": "言語", "en": "Language"},
 }
