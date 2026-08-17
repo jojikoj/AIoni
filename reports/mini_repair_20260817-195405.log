@@ -1,0 +1,36 @@
+===== claude_AIR 復旧 Mon Aug 17 19:54:05 JST 2026 =====
+host: kojimajoujinoMac-mini / 小嶋譲司のMac mini
+--- 復旧前 ---
+## main...origin/main [ahead 163, behind 3]
+ M "_\345\220\214\346\234\237\347\212\266\346\205\213/_____Mac_mini.json"
+HEAD=415b644d 2026-08-17 19:53:58 +0900 auto: sync toe-workspace 2026-08-17 19:53
+--- 1. 残留ロックと中断rebaseの掃除 ---
+index.lock を除去
+中断rebase なし
+--- 2. 未コミットを退避コミット（捨てない）---
+退避した: 3c87127b mini: 復旧前の退避コミット 20260817-195405
+--- 3. detached なら退避ブランチに固定してから main へ ---
+branch 'main' set up to track 'origin/main'.
+--- 4. 同期を通す ---
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Could not apply dc7518ea... # auto: sync toe-workspace 2026-08-17 16:33
+hint: counterpart. If you want to integrate the remote changes, use 'git pull'
+hint: before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+--- 5. 同期の常駐を入れる ---
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.autopull.plist
+  今すぐ1回試す: bash /Users/kojimajouji/.claude/scripts/auto-pull.sh && echo OK
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.autopush.plist
+  今すぐ1回試す: bash /Users/kojimajouji/.claude/scripts/auto-push.sh && echo OK
+  毎時＋ログイン時に、詰まりの回収と同期の実行を行います。
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.syncwatchdog.plist
+-	0	info.toe.autopush
+8829	0	info.toe.syncwatchdog
+8795	0	info.toe.autopull
+--- 復旧後 ---
+## HEAD (no branch)
+UD "TOEcompany/\346\241\210\344\273\266/\343\202\242\343\203\274\343\203\204/\346\210\220\346\236\234\347\211\251/\343\202\242\343\203\274\343\203\204\346\247\230_AI\343\202\250\343\203\274\343\202\270\343\202\247\343\203\263\343\203\210\345\260\216\345\205\245\343\203\227\343\203\251\343\203\263.pdf"
+HEAD=e5946506 2026-08-17 16:38:01 +0900 HANDOFF: 案件ビューと同期断線2件の記録
+--- 共通フレーム（今夜の日次が要る）---
+-rw-r--r--@ 1 kojimajouji  staff  10804 Aug 16 18:14 /Users/kojimajouji/claude_AIR/TOEcompany/メディア事業部/共通/運用/media-daily.sh
