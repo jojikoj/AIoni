@@ -133,6 +133,38 @@ def existing_slugs() -> set[str]:
     return {p.name[: -len(".ja.md")] for p in ARTICLES.glob("*.ja.md")}
 
 
+def existing_titles() -> list[tuple[str, str]]:
+    """既存記事の (slug, タイトル)。題材が重なっていないか見るために使う。"""
+    out = []
+    for p in ARTICLES.glob("*.ja.md"):
+        m = re.search(r"^title: (.+)$", p.read_text(encoding="utf-8"), re.M)
+        if m:
+            out.append((p.name[: -len(".ja.md")], m.group(1).strip()))
+    return out
+
+
+def _title_words(t: str) -> set[str]:
+    return set(re.findall(r"[ぁ-んァ-ヶ一-龥A-Za-z0-9]{2,}", t))
+
+
+def duplicate_of(title: str, titles: list[tuple[str, str]]) -> str | None:
+    """同じ題材の記事が既にあるなら、その slug を返す。
+
+    2026-08-20 まで slug の重複しか見ていなかったため、AI事業者ガイドライン
+    第1.2版の「義務化は不正確」という同じ論点で3本が公開されていた
+    （8/18に2本、8/20に1本）。4本ともGoogleにインデックスされておらず、
+    同じ検索意図を奪い合っていただけだった。slugが違っても中身が同じなら止める。
+    """
+    words = _title_words(title)
+    if not words:
+        return None
+    for slug, other in titles:
+        overlap = len(words & _title_words(other)) / len(words)
+        if overlap >= 0.6:
+            return slug
+    return None
+
+
 # --- 素材 ---------------------------------------------------------------
 #
 # ここが記事の濃さを決める。**書く前に調べる量を増やす**（小嶋さん指示）。
@@ -495,6 +527,11 @@ def inspect(text: str, slugs: set[str], material: str, min_chars: int,
         return False, f"slugの形式が不正 ({slug})"
     if slug in slugs:
         return False, f"slugが既存記事と重複 ({slug})"
+    t = re.search(r"^title: (.+)$", fm, re.M)
+    if t:
+        dup = duplicate_of(t.group(1).strip(), existing_titles())
+        if dup:
+            return False, f"同じ題材の記事が既にある ({dup})"
     if f"article-{slug}.jpg" not in fm:
         return False, "hero が slug と一致しない"
     chars = len(re.sub(r"\s", "", body))

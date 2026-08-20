@@ -258,6 +258,15 @@ CATEGORY_BY_TAG = {c["tag"]: c for c in ARTICLE_CATEGORIES}
 REDIRECTS = {
     # 2026-08-13 「AI検索観測所」を畳み、AI検索まわりは AEO対策室 に集約。
     "kansoku/": "aeo/",
+    # 2026-08-20 AI事業者ガイドライン第1.2版の「義務化は不正確」を、同じ論点で
+    # 3本書いていた（8/18に2本、8/20に1本）。4本ともGoogleにインデックスされて
+    # おらず、同じ検索意図を奪い合っていた。被リンクが3本ある1本に集約し、
+    # 8/20版だけが持っていた当社の実測は本命へ移した。
+    # 論点の違う「承認フローを置くだけでは足りない」（8/19）はそのまま残す。
+    "articles/ai-guideline-agent-approval-not-obligation/":
+        "articles/ai-guidelines-1-2-human-approval-agent/",
+    "articles/ai-guideline-1-2-obligation-myth/":
+        "articles/ai-guidelines-1-2-human-approval-agent/",
 }
 
 
