@@ -99,6 +99,21 @@ if [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; then
   media_step "商用クエリ記事" python3 tools/publish_commercial.py
 fi
 
+# 3d. 役目を終えた原文(body_src)を落とす
+#
+#     ⚠️ 2026-08-21 追加。data/news.json は毎日まるごと git にコミットされる。
+#     1回15MB前後で、57コミットの時点で .git が1.2GBに膨らんでいた。
+#     このまま放置すると年間で数GB増え続ける。
+#
+#     減らすのは中身だけで、件数(NEWS_LIMIT=3000)は絶対に触らない。
+#     上限を下げると /news/<slug>/ ごと消えて検索表示が落ちる（config.py の注記参照）。
+#     実測では body_src が news.json の64.5%を占めていた。サイトには表示されず、
+#     解説(body_long)と旬ネタ記事の素材として使い終わったら不要になる項目。
+#
+#     素材を使う工程（3・3b・3c）が全部終わったこの位置に置く。
+#     解説がまだ無い記事の原文は残す（消すと二度と生成できない）。
+media_step "原文の整理" python3 tools/trim_news.py
+
 # 4. 内部リンク検査 → ビルド → 公開 → IndexNow
 media_step "公開" ./tools/deploy.sh
 
