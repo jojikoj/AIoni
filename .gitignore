@@ -45,3 +45,10 @@ reports/visibility/
 # 公開もしないので共有しない。落ちた理由は日次ログに残る。
 content/_aeo_rejected/
 content/_aeo_preview/
+
+# サイト内検索の索引。aioni/build.py が毎回 static/ へ書き出す生成物。
+# 実行機(mini)と作業機(MBAir)の両方が別々に生成するため、追跡していると
+# 毎回 pull で衝突する。2026-08-21、この衝突が index に残ったせいで
+# 日次の commit が丸ごと通らず、その日の記事とデータが実行機に
+# 取り残された（ジョブ自体は「成功」で終わるので気づけない）。
+static/search-*.json
