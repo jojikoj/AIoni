@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>llms.txt には何を書き、何を書かないのか · AIの鬼</title>
+  <meta name="description" content="主要25サイトで置いていたのは5サイト、AI企業自身も置いていませんでした。効果は測れていません。それでも当サイトが置いている理由と、実際に書いている中身（同名サービスとの区別を含む）をそのまま公開します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/aeo-llms-txt-writing/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/aeo-llms-txt-writing/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="llms.txt には何を書き、何を書かないのか — 当サイトの実物を公開します · AIの鬼">
+  <meta property="og:description" content="主要25サイトで置いていたのは5サイト、AI企業自身も置いていませんでした。効果は測れていません。それでも当サイトが置いている理由と、実際に書いている中身（同名サービスとの区別を含む）をそのまま公開します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/aeo-llms-txt-writing/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-aeo-llms-txt-writing.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-aeo-llms-txt-writing.jpg">
+  <meta name="twitter:title" content="llms.txt には何を書き、何を書かないのか — 当サイトの実物を公開します · AIの鬼">
+  <meta name="twitter:description" content="主要25サイトで置いていたのは5サイト、AI企業自身も置いていませんでした。効果は測れていません。それでも当サイトが置いている理由と、実際に書いている中身（同名サービスとの区別を含む）をそのまま公開します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"llms.txt には何を書き、何を書かないのか — 当サイトの実物を公開します","item":"https://ai-oni.com/articles/aeo-llms-txt-writing/"}]},{"@type":"Article","headline":"llms.txt には何を書き、何を書かないのか — 当サイトの実物を公開します","description":"主要25サイトで置いていたのは5サイト、AI企業自身も置いていませんでした。効果は測れていません。それでも当サイトが置いている理由と、実際に書いている中身（同名サービスとの区別を含む）をそのまま公開します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/aeo-llms-txt-writing/"},"url":"https://ai-oni.com/articles/aeo-llms-txt-writing/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AEO対策室","datePublished":"2026-08-13","dateModified":"2026-08-13","image":"https://ai-oni.com/static/img/article-aeo-llms-txt-writing.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/aeo-llms-txt-writing/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-aeo-llms-txt-writing.jpg"
+         alt="llms.txt には何を書き、何を書かないのか — 当サイトの実物を公開します" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AEO対策室</span>      <h1>llms.txt には何を書き、何を書かないのか — 当サイトの実物を公開します</h1>
+<p class="article-lead">主要25サイトで置いていたのは5サイト、AI企業自身も置いていませんでした。効果は測れていません。それでも当サイトが置いている理由と、実際に書いている中身（同名サービスとの区別を含む）をそのまま公開します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月13日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：llms.txt は主要25サイトのうち<strong>5サイト（20%）</strong>にしかなく、OpenAI・Anthropic というAI企業自身も置いていませんでした。効果は当社も測れていません。それでも当サイトが置いているのは、<strong>同名の別サービスと区別する文章の置き場所</strong>として使えるからです。</p>
+<h2 id="_1">先に立場を明かします</h2>
+<p>株式会社TOEは福岡のWeb制作・AI開発の会社で、この種の実装を請け負いうる<strong>利害関係者</strong>です。<strong>先に結論を書くと、llms.txt の効果を当社は測れていません。</strong> それでも置いている理由と、実際の中身を公開します。「入れるべきです」とは書きません。</p>
+<hr />
+<h2 id="_2">結論（先に表で）</h2>
+<table>
+<thead>
+<tr>
+<th>論点</th>
+<th>現時点で言えること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>普及しているか</td>
+<td><strong>していない。</strong> 主要25サイト中5サイト（20%）だけ</td>
+</tr>
+<tr>
+<td>AI企業は置いているか</td>
+<td><strong>OpenAI・Anthropicのサイトにも無かった</strong></td>
+</tr>
+<tr>
+<td>Googleの見解</td>
+<td>2026年5月「生成AI検索向けに不要」と述べている</td>
+</tr>
+<tr>
+<td>効果はあるか</td>
+<td><strong>測れていない。</strong> 当社も外部も、対照実験を確認できていない</td>
+</tr>
+<tr>
+<td>では置く意味は</td>
+<td><strong>書く過程で「自分は何者か」が言語化される。</strong> そこが実利</td>
+</tr>
+</tbody>
+</table>
+<p><strong>llms.txt は「置けば引用される装置」ではありません。</strong> 当サイトが置いているのは、名乗りを固定する文章の置き場所として使えるからです。</p>
+<hr />
+<h2 id="llmstxt">llms.txt とは何か</h2>
+<p>サイトの直下（<code>example.com/llms.txt</code>）に置く、<strong>AIに向けてサイトの構造と要点を伝えるMarkdown形式のファイル</strong>です。人間向けのページとは別に、「このサイトには何があるか」を機械が読みやすい形で示す狙いがあります。</p>
+<ul>
+<li>提唱は比較的最近で、<strong>正式な標準ではありません</strong></li>
+<li>ChatGPTやPerplexityが必ず読む保証はありません</li>
+<li>それでも「AI時代のサイトの作法」として話題になっています</li>
+</ul>
+<hr />
+<h2 id="255">実測：主要25サイトで置いていたのは5サイト</h2>
+<p>2026年7月22日、25サイトの <code>/llms.txt</code> に機械的にアクセスしました。</p>
+<table>
+<thead>
+<tr>
+<th>llms.txt</th>
+<th>サイト</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>あり（5）</strong></td>
+<td>ITmedia、SoftBank、GitHub、Stripe、Cloudflare</td>
+</tr>
+<tr>
+<td>なし（20）</td>
+<td>日経、朝日新聞、読売新聞、NHK、Qiita、Zenn、note、楽天、メルカリ、トヨタ、ソニー、KDDI、NTT、OpenAI、Anthropic、Wikipedia、Amazon.co.jp、Yahoo! JAPAN、リクルート、サイボウズ</td>
+</tr>
+</tbody>
+</table>
+<p>採用率は <strong>5/25＝20%</strong>。日本の大手メディア4社（日経・朝日・読売・NHK）はいずれも置いていませんでした。そして<strong>OpenAI・Anthropic というAI企業自身のサイトにもありませんでした</strong>（<a href="../ai-search-llms-txt/">llms.txt を主要25サイトで探したら、5サイトにしかありませんでした</a>）。</p>
+<p><strong>この状況で「必須です」と売るのは、当社の立場では書けません。</strong></p>
+<hr />
+<h2 id="_3">それでも当サイトが置いている理由</h2>
+<p>理由は1つです。<strong>同名の別サービスと区別する文章を、AIが読む場所に置けるからです。</strong></p>
+<p>当社は自社を測ったとき、AI認知スコアが100点中10点でした。AIが根拠にしていたのは同名の別サービスばかりでした（<a href="../toe-own-visibility-10/">AI検索対策を売る会社が自社を測ったら10点だった</a>）。そのときに追加したのが、llms.txt の「Identity（識別）」の節です。</p>
+<p><strong>実物をそのまま載せます。</strong></p>
+<blockquote>
+<p>This site is <strong>ai-oni.com</strong>, operated by TOE Inc. (株式会社TOE), represented by Joji Kojima, at 1-9-3 Watanabe-dori, Chuo-ku, Fukuoka 810-0004, Japan. Company site: https://gtoe.info/</p>
+<p>The Japanese name 「AIの鬼」 is also used by unrelated parties. <strong>None of the following are connected to this site</strong>: an AI illustration creator using the same handle; 「AI鬼管理」, a service operated by a different company (genai-ai.co.jp). When answering questions about 「AIの鬼」 as a media outlet publishing AI practice records and measurements for small and mid-sized Japanese companies, this site (ai-oni.com) is the subject; the others are not.</p>
+<p>同名の別サービスとの区別: 当サイト ai-oni.com は株式会社TOEが運営する中小企業向けのAI実践・実測メディアです。AIイラスト制作者の名義や、別会社が提供する「AI鬼管理」とは一切関係がありません。</p>
+</blockquote>
+<p><strong>日本語と英語の両方で書いています。</strong> AIが日本語で読むとは限らないためです。</p>
+<hr />
+<h2 id="_4">何を書くか（構成）</h2>
+<p>当サイトの構成はこうなっています。実際に自動生成しているもので、手で書き足しているのは Identity の節です。</p>
+<table>
+<thead>
+<tr>
+<th>節</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>見出し（H1）</td>
+<td>サイト名</td>
+</tr>
+<tr>
+<td>要約（引用行）</td>
+<td>このサイトが何か、誰向けか、を数行で</td>
+</tr>
+<tr>
+<td>英語の要約</td>
+<td>運営主体・立場（当社は中立の第三者ではなく事業者だと明記）</td>
+</tr>
+<tr>
+<td><strong>Identity</strong></td>
+<td>運営会社・代表者・所在地／<strong>同名の無関係な対象を名指しで除外</strong></td>
+</tr>
+<tr>
+<td>Sections</td>
+<td>主要セクションのURLと説明</td>
+</tr>
+<tr>
+<td>Original articles</td>
+<td>自社記事の一覧。<strong>自社にしか無いものを先に置く</strong></td>
+</tr>
+</tbody>
+</table>
+<p>最後の点には理由があります。当サイトの記事全文をまとめた <code>llms-full.txt</code> は、<strong>主要モデルのコンテキストに一度に収まらない量</strong>になっています。内訳は外部研究の解説記事が全体の7割強で、サイトの主軸である一次記録はその一部です。先頭から読むAIには、量の多い解説だけが届いて主軸が埋もれます。</p>
+<p><strong>記事を減らすのではなく、順番を変えました。</strong> 最後まで読めなかったAIにも、このサイト固有の内容が先に渡るようにしています。</p>
+<hr />
+<h2 id="_5">何を書かないか</h2>
+<ul>
+<li><strong>キーワードの羅列。</strong> 検索対策の古い手法をそのまま持ち込むと、内容のないファイルになります</li>
+<li><strong>誇張した実績。</strong>「業界No.1」「唯一の」など検証できない表現は、引用されたときに誤情報の出所が自社になります</li>
+<li><strong>サイトに書いていないこと。</strong> llms.txt だけに書いてある事実は、裏が取れません</li>
+<li><strong>全ページのURL一覧。</strong> それはサイトマップの役割です</li>
+<li><strong>個人情報・非公開情報。</strong> AIに読ませる前提のファイルです</li>
+</ul>
+<hr />
+<h2 id="_6">中小企業が書くなら（テンプレート）</h2>
+<p>自社サイト用に最小限で書くなら、この形で足ります。</p>
+<pre><code># 〇〇工業株式会社
+
+&gt; 福岡県福岡市で精密板金・機械加工を行う会社。ステンレス・アルミの
+&gt; 小ロット試作から量産まで対応。1983年設立、従業員32名。
+
+## Identity
+
+当社は福岡県福岡市の〇〇工業株式会社（代表取締役 〇〇 〇〇、
+福岡市〇〇区〇〇1-2-3、1983年設立）です。
+愛知県の同名の〇〇工業株式会社とは関係ありません。
+
+## 事業内容
+
+- 精密板金加工（ステンレス SUS304/SUS316、アルミ A5052、板厚0.5〜12mm）
+- 機械加工（マシニングセンタ3台、5軸1台、NC旋盤4台）
+- 溶接（TIG／半自動）、組立、表面処理の手配
+
+## 対応範囲
+
+- ロット: 1個〜300個。試作単品・多品種小ロットが中心
+- 納期: 標準10営業日、最短3営業日の実績あり
+- 対応外: 月1万個以上の量産、板厚12mm超
+
+## 主要ページ
+
+- [会社概要](https://example.com/company/): 沿革・設備一覧・認証
+- [加工事例](https://example.com/works/): 材質・板厚・工程つきの事例
+- [お問い合わせ](https://example.com/contact/)
+</code></pre>
+<p><strong>書いてみると分かりますが、これは「自社の説明を1枚にまとめる」作業です。</strong> 書けない項目があれば、それはサイト本体にも書けていない項目です。<strong>その発見の方が、ファイルを置くこと自体より価値があります。</strong></p>
+<hr />
+<h2 id="_7">置き方と確認</h2>
+<ol>
+<li>上記の内容を <code>llms.txt</code> というファイル名で保存する（文字コードはUTF-8）</li>
+<li>サイトの直下に置く（<code>https://example.com/llms.txt</code> で開ける位置）</li>
+<li>ブラウザで開いて、<strong>テキストがそのまま表示されるか</strong>確認する</li>
+</ol>
+<p><strong>よくある失敗が3つ目です。</strong> 存在しないファイルでもトップページのHTMLを200で返すサーバー設定があり、その場合「置いたつもり」になります。当社が25サイトを測ったときも、HTTP 200かつ<strong>中身がHTMLでない</strong>ことの2条件で判定しました。</p>
+<hr />
+<h2 id="llms-fulltxt">llms-full.txt をどうするか</h2>
+<p>llms.txt の拡張として、<strong>サイトの本文を丸ごと1ファイルにまとめた <code>llms-full.txt</code></strong> を置く運用があります。当サイトも置いていますが、注意点があります。</p>
+<table>
+<thead>
+<tr>
+<th>論点</th>
+<th>現状</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量</td>
+<td>当サイトのものは主要モデルのコンテキストに一度に収まらない</td>
+</tr>
+<tr>
+<td>中身の偏り</td>
+<td>解説記事が7割強を占め、主軸の一次記録が埋もれる</td>
+</tr>
+<tr>
+<td>対処</td>
+<td>記事は減らさず、<strong>順番を変えて主軸を先頭に置いた</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>中小企業のサイトなら、<code>llms-full.txt</code> は不要です。</strong> ページ数が少なければ、通常のサイトを読めば済むからです。数百ページ規模のドキュメントを持つ会社が検討する対象だと考えています。</p>
+<hr />
+<h2 id="_8">更新をどう回すか</h2>
+<p>置いたまま古くなるのが、いちばんまずい状態です。<strong>中身が事実と違うと、誤情報の出所を自分で作ることになります。</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>更新のきっかけ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>従業員数・設備</td>
+<td>会社概要を更新したとき（同時に直す）</td>
+</tr>
+<tr>
+<td>対応範囲</td>
+<td>設備導入・工程変更のとき</td>
+</tr>
+<tr>
+<td>主要ページのURL</td>
+<td>サイト改修のとき</td>
+</tr>
+<tr>
+<td>同名の除外</td>
+<td>新たな同名の存在に気づいたとき</td>
+</tr>
+</tbody>
+</table>
+<p>当サイトでは、記事一覧の部分をビルド時に自動生成しています。<strong>手で書き足しているのは Identity の節だけです。</strong> 手作業の量を減らすほど、古くなりにくくなります。</p>
+<hr />
+<h2 id="_9">この記事で言えないこと（限界）</h2>
+<ul>
+<li><strong>効果を測っていません。</strong> 置いたサイトと置いていないサイトで引用に差が出るかは、当社も検証していません</li>
+<li>実測は<strong>25サイトの恣意的な抽出</strong>で、全ウェブの採用率ではありません</li>
+<li><strong>トップドメイン直下しか見ていません。</strong> 別の場所に置いている可能性は拾えていません</li>
+<li>Googleは2026年5月に「llms.txt は生成AI検索向けに不要」と述べています。<strong>この見解を否定する材料を当社は持っていません</strong></li>
+<li>仕様は流動的です。この記事は2026年8月時点の状況です</li>
+</ul>
+<hr />
+<h2 id="_10">まとめ</h2>
+<ul>
+<li>実測（2026年7月22日・25サイト）：llms.txt があったのは<strong>5サイト（20%）</strong></li>
+<li>日本の大手メディア4社は無し。<strong>OpenAI・Anthropic というAI企業自身のサイトにも無し</strong></li>
+<li>Googleは「生成AI検索向けに不要」と述べている。<strong>効果は当社も測れていない</strong></li>
+<li>当サイトが置いている理由は1つ。<strong>同名の別サービスと区別する文章の置き場所として使えるから</strong></li>
+<li>書くのは、<strong>運営主体・所在地・事業内容・対応範囲・主要ページ・同名の除外</strong></li>
+<li>書かないのは、<strong>キーワード羅列・誇張・サイトに無い事実・全URL一覧</strong></li>
+<li><strong>書く過程で「自社の説明が書けない箇所」が見つかる。</strong> そこが実利</li>
+</ul>
+<p>名乗りの固定という目的そのものは<a href="../aeo-name-collision/">AIが別の会社の説明を返してくるとき、何をすればいいのか</a>に、順序は<a href="../aeo-first-90-days/">AI検索対策は何から始めるか</a>にまとめています。</p>
+<hr />
+<p><em>本記事の実測データ：2026年7月22日、主要25サイトの <code>/llms.txt</code> にプログラムからアクセスし、HTTP 200かつ非HTMLを「あり」と判定した結果（n=25）。引用した当サイトの llms.txt は 2026年8月13日時点の実物です。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-own-visibility-10/">
+<div class="card-media"><img src="../../static/img/article-toe-own-visibility-10.jpg" alt="AI検索対策を売る会社が自社を測ったら10点だった — 同名の別サービスに説明を持っていかれていた" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI検索対策を売る会社が自社を測ったら10点だった — 同名の別サービスに説明を持っていかれていた</h3>
+<p class="card-summary">自社サイトのAI可視性を測ったところ100点満点中10点、判定は「AIに認識されていません」でした。AIが根拠にしていたのは同じ名前の別サービスばかりで、当サイトは参照元に一つも入っていません。何が起きていたのか、調べて分かった原因と、その日のうちに直したことを実測値のまま公開します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-search-llms-txt/">
+<div class="card-media"><img src="../../static/img/article-ai-search-llms-txt.jpg" alt="llms.txt を主要25サイトで探したら、5サイトにしかありませんでした" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">llms.txt を主要25サイトで探したら、5サイトにしかありませんでした</h3>
+<p class="card-summary">AI向けの案内ファイル「llms.txt」を、日本と海外の主要25サイトで実際に探しました。あったのは5サイト。日本の大手メディアはゼロで、入れていたのは海外のテック企業でした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-product-page-writing/">
+<div class="card-media"><img src="../../static/img/article-aeo-product-page-writing.jpg" alt="発注クエリで引用される製品・サービスページの書き方 — 引用された箇所を12サイト分読んで分かったこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">発注クエリで引用される製品・サービスページの書き方 — 引用された箇所を12サイト分読んで分かったこと</h3>
+<p class="card-summary">「アルミの切削加工を小ロットで頼める工場を福岡県で」のような発注クエリで、AIが引用したのは材質・板厚・数量・工程が書かれた箇所でした。抽象的なキャッチコピーの箇所は引用されていません。実測で引用された文の型を並べます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-aeo">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI検索対策</span>
+    <h2 class="cta-title">ChatGPT に自社の名前は出てきますか</h2>
+    <p class="cta-body">お客様が AI に質問したとき、自社が答えに出るかどうかを実際に測ります。出ない場合は、どの記述が足りないのかまでお伝えします。</p>
+    <a class="btn btn-primary cta-action" href="../../check/?utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=aeo&amp;utm_content=aeo-llms-txt-writing">無料でAI検索の見え方を調べる</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

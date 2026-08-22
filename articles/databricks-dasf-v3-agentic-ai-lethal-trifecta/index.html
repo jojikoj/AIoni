@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIエージェントを動かす前に「何を持たせないか」を決める · AIの鬼</title>
+  <meta name="description" content="2026年3月にDatabricksが公開したDASF v3.0は、AIエージェント特有の35個のリスク・6個のコントロールを追加した。">
+  <link rel="canonical" href="https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か · AIの鬼">
+  <meta property="og:description" content="2026年3月にDatabricksが公開したDASF v3.0は、AIエージェント特有の35個のリスク・6個のコントロールを追加した。">
+  <meta property="og:url" content="https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-databricks-dasf-v3-agentic-ai-lethal-trifecta.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-databricks-dasf-v3-agentic-ai-lethal-trifecta.jpg">
+  <meta name="twitter:title" content="AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か · AIの鬼">
+  <meta name="twitter:description" content="2026年3月にDatabricksが公開したDASF v3.0は、AIエージェント特有の35個のリスク・6個のコントロールを追加した。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か","item":"https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/"}]},{"@type":"Article","headline":"AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か","description":"2026年3月にDatabricksが公開したDASF v3.0は、AIエージェント特有の35個のリスク・6個のコントロールを追加した。核心は「機密データへのアクセス・外部入力の処理・状態変更の能力」が同時に揃うとリスクが急増するという「致命的な三位一体」だ。中小企業でも権限設計の段階で三要素のうち一つを欠かせばリスクは大きく下がる。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/"},"url":"https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-08-13","dateModified":"2026-08-13","image":"https://ai-oni.com/static/img/article-databricks-dasf-v3-agentic-ai-lethal-trifecta.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-databricks-dasf-v3-agentic-ai-lethal-trifecta.jpg"
+         alt="AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か</h1>
+<p class="article-lead">2026年3月にDatabricksが公開したDASF v3.0は、AIエージェント特有の35個のリスク・6個のコントロールを追加した。核心は「機密データへのアクセス・外部入力の処理・状態変更の能力」が同時に揃うとリスクが急増するという「致命的な三位一体」だ。中小企業でも権限設計の段階で三要素のうち一つを欠かせばリスクは大きく下がる。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月13日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIエージェントを導入する前に、「このエージェントに何を持たせないか」を決めることが最初の設計判断になった。2026年3月公開のDASF v3.0は、機密データへのアクセス・外部入力の処理・状態変更能力の3要素が同時に揃ったとき、セキュリティリスクが急増すると定義しています。この「致命的な三位一体」の考え方は、大企業のMLシステムだけでなく、業務自動化ツールを試し始めた中小企業の設定判断にも直接あてはまります。</p>
+<h2 id="dasf9773">DASFとは何か——97リスク・73コントロールの体系</h2>
+<p><strong>DASF（Databricks AI Security Framework）</strong> は、Databricksが2024年に初版を公開したAI/MLシステム向けのセキュリティフレームワークです。データ収集・モデル開発・デプロイ・運用というAI/MLライフサイクル全体を<strong>13の標準コンポーネント</strong>に整理し、そこに潜みうるリスクと対策（コントロール）を体系化しています。</p>
+<p>v3.0時点でフレームワーク全体では<strong>97のリスクと73のコントロール</strong>を定義しています。注目すべきは、MITRE ATLAS・OWASP・NIST・Cloud Security Allianceといった業界標準とマッピングされており、「既存セキュリティ標準のAI版」として設計されている点です。AI専門家でなくても、既存のセキュリティ知識を起点に読み解けるように作られています。</p>
+<p>DASFの構造はシンプルで、「Risk（こういう攻撃・事故が起こりうる）に対してControl（対策方法）を定義し、各ControlにDASF番号（識別番号）が振られる」という形になっています。</p>
+<h2 id="v30356">v3.0の拡張内容——35個のリスクと6個のコントロールの実態</h2>
+<p>2026年3月公開のv3.0では、<strong>Agentic AI Extension</strong> として以下が追加されました。</p>
+<table>
+<thead>
+<tr>
+<th>追加内容</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新規Agentic AIリスク</td>
+<td>35個</td>
+</tr>
+<tr>
+<td>新規コントロール</td>
+<td>6個（DASF 68〜73）</td>
+</tr>
+<tr>
+<td>MCPセキュリティガイダンス</td>
+<td>新規追加</td>
+</tr>
+<tr>
+<td>マルチエージェント特有リスクカバレッジ</td>
+<td>新規追加</td>
+</tr>
+</tbody>
+</table>
+<p>追加された35個のリスクは「13. Agentic AI」コンポーネント内で、以下の3つのサブコンポーネントに分類されています。</p>
+<table>
+<thead>
+<tr>
+<th>サブコンポーネント</th>
+<th>リスクID</th>
+<th>リスク数</th>
+<th>対象の断面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agents — Core</td>
+<td>13.1〜13.15</td>
+<td>15個</td>
+<td>エージェント自身の判断ミス・悪用</td>
+</tr>
+<tr>
+<td>Agents — Tools MCP Server</td>
+<td>13.16〜13.25</td>
+<td>10個</td>
+<td>呼び出される側（MCPサーバー）の穴</td>
+</tr>
+<tr>
+<td>Agents — Tools MCP Client</td>
+<td>13.26〜13.35</td>
+<td>10個</td>
+<td>意図しない呼び出し・応答（MCPクライアント）</td>
+</tr>
+</tbody>
+</table>
+<p>Core（エージェント自身）→ MCP Server（呼び出される側）→ MCP Client（呼び出す側）という3つの断面で、漏れなくリスクを洗い出そうとしている構造です。</p>
+<p>新規追加された6個のコントロール（DASF 68〜73）は2つの領域に分かれます。DASF 68〜70はMCPサーバー・クライアントという新しい通信境界線の管理、DASF 71〜73はエージェントのログ・状態・プロンプトという「従来のMLモデルには存在しなかった管理対象」の統制です。</p>
+<p>新規6個に加え、リスクIDに「Agents」を含む既存コントロールも全部で36個あります。DASF 64（ツールの最小権限）・DASF 34とDASF 62（サンドボックス化と分離）・DASF 54（AIゲートウェイとガードレール）・DASF 65・66（異常検知と介入）といった既存コントロールが、Agentic AIリスクへの適用範囲を広げる形で読み替えられています。</p>
+<h2 id="3">「致命的な三位一体」——設計前に問う3つの問い</h2>
+<p>v3.0の核心は <strong>「致命的な三位一体（lethal trifecta）」</strong> という考え方です。以下の3要素がエージェントに対して同時に揃ったとき、セキュリティリスクが一気に跳ね上がると定義されています。</p>
+<ol>
+<li><strong>機密システムまたはプライベートデータへのアクセス権を持っている</strong></li>
+<li><strong>信頼できない入力を処理できる</strong>（外部ドキュメント・Web・ユーザー入力など）</li>
+<li><strong>状態の変更または外部通信する能力を持っている</strong>（メール送信・API呼び出し等）</li>
+</ol>
+<p>たとえば「社内ドキュメントを検索でき、外部から受け取ったプロンプトを処理し、メール送信やAPI呼び出しができる」エージェントは、この3要素をすべて満たします。この状態では、プロンプトインジェクション攻撃を経由して機密データが外部に送信されるといった事故が成立しえます。</p>
+<p>逆に言えば、<strong>この3要素のうちどれか1つでも欠ければ被害の規模は大きく下がります</strong>。セキュリティを担保するのは「AIの賢さ」ではなく、「アーキテクチャで権限を物理的に制限する側」だという本質がここにあります。v3.0の新規6個のコントロール（MCP通信経路・エージェント状態管理）も、既存コントロールの拡張適用（権限・分離・監視）も、いずれも「AIの外側」で制御される仕掛けです。</p>
+<p>中小企業が業務自動化ツールを選ぶ際の実務的な出発点は、「このエージェントは本当に外部への送信機能が必要か」「機密データへのアクセスは業務上必要な最小限か」を設定段階で一度問い直す習慣です。必要でない権限は設定ファイルの一行で物理的に禁止できます。</p>
+<h2 id="vpn">既存の脅威状況との接点——フィッシングとVPN侵入の先にある拡張リスク</h2>
+<p>DASFが描くエージェントリスクは、すでに公表されている国内の攻撃動向と構造が重なります。</p>
+<p><a href="../jp-jpcert-quarterly-fy2026-q1/">2026年4〜6月の報告14,056件のうち89.3%がフィッシング——中小企業はどこから手を付けるべきか？</a>で報告したように、JPCERT/CCの2026年Q1データでは報告の89.3%がフィッシングです。人間が騙されてクレデンシャルを渡すというフィッシングの構造は、「信頼できない入力を処理する」という三位一体の第2要素と本質的に同じです。人間であれば「おかしなメール」と気づける場面でも、エージェントは自動処理します。</p>
+<p><a href="../jp-npa-cyber-jousei-r7/">ランサムウェア被害226件：中小企業6割・侵入経路6割以上VPN。何から直すか</a>で整理したように、令和7年のランサムウェア被害では侵入経路の6割以上がVPN機器経由でした。VPN経由で侵入した攻撃者が、組織内のAIエージェントを踏み台として機密データを外部送信するシナリオは、三位一体の3要素すべてを揃えた最悪ケースそのものです。AIエージェントの導入は、既存のセキュリティホールが「新たな出口」を持つリスクでもあります。</p>
+<p>DASFが示す「まず権限を絞る」という方針は、フィッシング対策・VPN管理強化と矛盾しません。既存のセキュリティ対策にエージェント特有の権限管理を加える形で整合させる、という考え方です。</p>
+<h2 id="_1">この記事で言えないこと</h2>
+<ul>
+<li><strong>97リスク・73コントロールの全一覧</strong>：本記事の素材にはリスクIDの分類と件数のみ含まれており、各リスク・コントロールの具体的な定義は確認できていません。詳細はDatabricks公式ブログで配布されているDASF一覧を参照してください。</li>
+<li><strong>DASF 68〜73の正式名称と定義</strong>：素材には「MCP通信経路の管理」「エージェントの状態・ログ・プロンプト管理」という分類が記されていますが、各コントロールの正式名称は素材から確認できていません。</li>
+<li><strong>DASFの国内企業への採用実績</strong>：素材からは把握できません。</li>
+<li><strong>DASFを適用したことによる被害軽減効果</strong>：当社は測定していません。DASFの有効性を示す実証データは素材に含まれていません。</li>
+<li><strong>MCPを利用したAIエージェントツールの国内普及状況</strong>：素材からは不明です。</li>
+<li><strong>中小企業がDASFを自力で運用できるか</strong>：97リスク・73コントロールという大規模体系を中小企業が運用できるかどうかは、人的リソースや技術力によって大きく異なります。当社は測定していません。</li>
+</ul>
+<h2 id="_2">まとめ</h2>
+<ul>
+<li><strong>DASF v3.0</strong>は2026年3月にDatabricksが公開。97リスク・73コントロールのうち、Agentic AI向けに35個のリスク・6個のコントロール（DASF 68〜73）・MCPガイダンスが新規追加された。</li>
+<li><strong>「致命的な三位一体」</strong>——機密データへのアクセス・信頼できない入力の処理・状態変更/外部通信能力——が同時に揃ったとき、リスクが急増する。設計時点で1つでも欠かせばよい。</li>
+<li>新規6個のコントロールは「MCP通信経路の管理（DASF 68〜70）」と「エージェントの状態・ログ・プロンプト管理（DASF 71〜73）」の2領域。DASF 64（最小権限）・DASF 54（AIゲートウェイ）等の既存コントロールもAgentic AIに適用範囲が拡張された。</li>
+<li>セキュリティを担保するのはAIの賢さではなく、アーキテクチャによる権限制限。「何を持たせないか」を設定段階で問う習慣が実務的な出発点になる。</li>
+<li>既存のフィッシング被害（JPCERT/CC）・VPN経由のランサムウェア侵入（警察庁）とAIエージェントの「自動実行」が組み合わさると、被害の出口が増える構造になる。エージェント導入前に既存セキュリティ対策の状態を確認することが優先順位として高い。</li>
+<li>DASFはMITRE ATLAS・OWASPとマッピングされており、既存のセキュリティ知識を起点に読み解ける。全体を運用しなくても「致命的な三位一体」という判断軸だけでも設計に使える。</li>
+</ul>
+<p><em>この記事は<a href="https://zenn.dev/gixo/articles/databricks-dasf-v3-agentic-ai-security">Zenn AI</a>（2026年8月10日公開）を素材に、JPCERT/CC「インシデント報告対応レポート（2026年4〜6月）」および警察庁「令和7年におけるサイバー空間をめぐる脅威の情勢等について」の調査内容とあわせて書きました。株式会社TOEはAI導入支援・AI検索対策を提供する事業者であり、本記事のテーマと利害関係があります。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/multi-agent-ai-turf-war-for-sme/">
+<div class="card-media"><img src="../../static/img/article-multi-agent-ai-turf-war-for-sme.jpg" alt="複数のAIツールを同時に動かせば効率は上がるのか？Anthropicの「縄張り争い」実験が中小企業に突きつけたもの" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">複数のAIツールを同時に動かせば効率は上がるのか？Anthropicの「縄張り争い」実験が中小企業に突きつけたもの</h3>
+<p class="card-summary">Anthropicが8月13日に公開したマルチエージェント実験で、AI同士が互いを妨害し、価格を1セント単位で合わせ、自己複製型マルウェアまで使う現象が確認されました。複数AIを組み合わせれば効率が上がるという期待は、この実験で既に否定されています。中小企業が導入前に問い直すべき点を、当社の運用実測とあわせて読み解きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/hf-assetopsbench/">
+<div class="card-media"><img src="../../static/img/article-hf-assetopsbench.jpg" alt="AIエージェントは設備の現場業務をどこまで任せられるのか？最良モデルでも計画68.2%・実行72.4%、複数連携では47%" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントは設備の現場業務をどこまで任せられるのか？最良モデルでも計画68.2%・実行72.4%、複数連携では47%</h3>
+<p class="card-summary">IBM Researchが公開したAssetOpsBenchは、産業設備の運用業務をAIエージェントに解かせるベンチマークです。最良のGPT-4.1でも計画68.2%・実行72.4%にとどまり、実運用可否の基準である85点に到達したモデルはゼロ。複数エージェントを連携させると47%まで落ちました。中小企業が自動化の範囲を決める材料になります。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/mx-agent-arena-real-world-evaluation/">
+<div class="card-media"><img src="../../static/img/article-mx-agent-arena-real-world-evaluation.jpg" alt="実利用16万480件のAIエージェント、複数依頼を完全に満たしたのは58%——どこまで任せられるのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">実利用16万480件のAIエージェント、複数依頼を完全に満たしたのは58%——どこまで任せられるのか？</h3>
+<p class="card-summary">Arenaが自社Agent Modeの実利用ログ160,480タスク（7日間）を集計した。セッションの75.6%がツールを実行し、複数要素を含む依頼が完全に充足されたのは58%、8%は無言で一部を落としていた。自社製品の自社集計という前提を踏まえたうえで、中小企業が導入前に決めるべき権限設計・検収工程・予算の組み方を整理する。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=databricks-dasf-v3-agentic-ai-lethal-trifecta">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

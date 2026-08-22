@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AI経由で来た訪問者をどう受けるか · AIの鬼</title>
+  <meta name="description" content="AI検索経由の訪問者は、すでにAIから説明を受けた状態で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測では、記事でもニュースでもなくコーナー一覧ページのCTRが14.55%で最も高く、クリックの32%を占めていました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/aeo-zero-click-funnel/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/aeo-zero-click-funnel/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する · AIの鬼">
+  <meta property="og:description" content="AI検索経由の訪問者は、すでにAIから説明を受けた状態で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測では、記事でもニュースでもなくコーナー一覧ページのCTRが14.55%で最も高く、クリックの32%を占めていました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/aeo-zero-click-funnel/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-aeo-zero-click-funnel.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-aeo-zero-click-funnel.jpg">
+  <meta name="twitter:title" content="AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する · AIの鬼">
+  <meta name="twitter:description" content="AI検索経由の訪問者は、すでにAIから説明を受けた状態で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測では、記事でもニュースでもなくコーナー一覧ページのCTRが14.55%で最も高く、クリックの32%を占めていました。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する","item":"https://ai-oni.com/articles/aeo-zero-click-funnel/"}]},{"@type":"Article","headline":"AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する","description":"AI検索経由の訪問者は、すでにAIから説明を受けた状態で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測では、記事でもニュースでもなくコーナー一覧ページのCTRが14.55%で最も高く、クリックの32%を占めていました。受け皿の作り方を整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/aeo-zero-click-funnel/"},"url":"https://ai-oni.com/articles/aeo-zero-click-funnel/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AEO対策室","datePublished":"2026-08-13","dateModified":"2026-08-13","image":"https://ai-oni.com/static/img/article-aeo-zero-click-funnel.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/aeo-zero-click-funnel/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-aeo-zero-click-funnel.jpg"
+         alt="AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AEO対策室</span>      <h1>AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する</h1>
+<p class="article-lead">AI検索経由の訪問者は、すでにAIから説明を受けた状態で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測では、記事でもニュースでもなくコーナー一覧ページのCTRが14.55%で最も高く、クリックの32%を占めていました。受け皿の作り方を整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月13日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：AI検索経由の訪問者は、<strong>すでにAIから説明を受けた状態</strong>で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測で最も効率が良かったのは<strong>コーナー一覧ページ</strong>で、表示7.2%でクリックの32%、CTR 14.55%でした。個別記事ではありません。</p>
+<h2 id="_1">先に立場を明かします</h2>
+<p>株式会社TOEは福岡のWeb制作・AI開発の会社で、サイト改修を請け負いうる<strong>利害関係者</strong>です。この記事の土台は、<strong>当サイト自身のSearch Console実測</strong>と、外部調査です。「この構成にすれば問い合わせが増えます」とは書きません。前後比較をしていないからです。</p>
+<hr />
+<h2 id="_2">結論（先に表で）</h2>
+<table>
+<thead>
+<tr>
+<th>AI経由の訪問者の状態</th>
+<th>受け皿に必要なもの</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>すでに事業内容の説明は受けている</td>
+<td><strong>会社紹介から始めない。</strong> 条件と実績を先に置く</td>
+</tr>
+<tr>
+<td>複数社を並べて比較している最中</td>
+<td><strong>他社と違う条件を明示する。</strong> 対応外も書く</td>
+</tr>
+<tr>
+<td>情報が正しいか裏取りしたい</td>
+<td><strong>一次情報（数字・写真・日付）を置く</strong></td>
+</tr>
+<tr>
+<td>連絡するかどうか迷っている</td>
+<td><strong>問い合わせのハードルを下げる</strong>（質問だけでも可、と書く）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AI検索経由で来る人は、御社を知らない人ではなく「AIから聞いたばかりの人」です。</strong> 説明済みの人に説明を繰り返すと、離脱します。</p>
+<hr />
+<h2 id="_3">前提：クリックの前に、説明は終わっている</h2>
+<p>AI検索は、質問に対して文章で答え、根拠にしたページを出典として示します。<strong>つまり訪問者は、御社の概要をAIから聞いた後にリンクを踏んでいます。</strong></p>
+<p>このとき起きていることは2つです。</p>
+<ol>
+<li><strong>概要説明の役割は、すでにAIが果たしている</strong></li>
+<li><strong>クリックする理由は、AIの回答に足りなかったものを探すこと</strong></li>
+</ol>
+<p>足りなかったものとは、たいてい次のどれかです。</p>
+<ul>
+<li><strong>具体的な条件</strong>（うちの案件を受けられるのか）</li>
+<li><strong>裏付け</strong>（本当にできるのか、実績はあるのか）</li>
+<li><strong>連絡先と、連絡していい雰囲気</strong></li>
+</ul>
+<p>Gartnerの調査（n=645、2025年8〜9月実施・2026年5月20日公表）では、BtoB購買担当者の<strong>69%が営業担当に裏取りを依頼</strong>しています。<strong>裏取りは、購買プロセスの標準動作になりつつあります。</strong></p>
+<hr />
+<h2 id="_4">実測：当サイトで最も効率が良かったページ</h2>
+<p>当サイトのSearch Console実測（2026年7月20〜29日）を出します。</p>
+<table>
+<thead>
+<tr>
+<th>ページ種別</th>
+<th>表示に占める割合</th>
+<th>クリックに占める割合</th>
+<th>CTR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ニュース個別（142ページ）</td>
+<td>51.8%</td>
+<td>—</td>
+<td>2.03%</td>
+</tr>
+<tr>
+<td>自社記事（73ページ）</td>
+<td>21.1%</td>
+<td>—</td>
+<td>4.35%</td>
+</tr>
+<tr>
+<td><strong>コーナー一覧ページ</strong></td>
+<td><strong>7.2%</strong></td>
+<td><strong>32%</strong></td>
+<td><strong>14.55%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>最も効率が良かったのは、記事でもニュースでもなくコーナー一覧ページでした。</strong> 表示の7.2%しか占めていないのに、クリックの32%を持っていきました。</p>
+<p>理由は、<strong>「名前で何が読めるか分かる」ためだと考えています。</strong> 一覧ページのタイトルは「何がここにあるか」を示すので、探している人の目的と一致しやすい。個別記事は、それが自分の探しているものかどうか、タイトルだけでは判断しにくい。</p>
+<p><strong>これは企業サイトに置き換えると、「加工事例一覧」「対応材質一覧」「設備一覧」のような、まとまりのあるページの価値が高いということです。</strong></p>
+<hr />
+<h2 id="_5">受け皿ページに置くもの</h2>
+<h3 id="1">1. 条件（最初の画面に）</h3>
+<p>訪問者が最初に確認するのは「うちの案件を受けられるのか」です。</p>
+<table>
+<thead>
+<tr>
+<th>置く項目</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対応材質</td>
+<td>SUS304／SUS316／A5052／SPCC</td>
+</tr>
+<tr>
+<td>寸法範囲</td>
+<td>板厚0.5〜12mm、最大1,500×800mm</td>
+</tr>
+<tr>
+<td>ロット</td>
+<td>1個〜300個。試作単品も可</td>
+</tr>
+<tr>
+<td>納期</td>
+<td>標準10営業日、最短3営業日の実績</td>
+</tr>
+<tr>
+<td><strong>対応外</strong></td>
+<td>月1万個以上の量産は受けていません</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「対応外」を書くのが効きます。</strong> 見込みのない問い合わせが減り、条件が合う人には範囲が確定するからです。</p>
+<h3 id="2">2. 裏付け（数字・写真・日付）</h3>
+<ul>
+<li>加工事例に<strong>材質・板厚・工程・ロット・納期</strong>を添える</li>
+<li>設備一覧に<strong>台数と型式</strong>を書く</li>
+<li>認証は<strong>取得年</strong>を書く</li>
+<li>実績は<strong>件数や取引年数</strong>で書く（社名が出せない場合）</li>
+</ul>
+<p><strong>当社の実測で、AIが引用していたのも具体的な記述の箇所でした</strong>（<a href="../aeo-product-page-writing/">発注クエリで引用される製品・サービスページの書き方</a>）。訪問者が探しているものと、AIが引用するものは、実は同じです。</p>
+<h3 id="3">3. 連絡のハードルを下げる一文</h3>
+<ul>
+<li>「見積前の技術的な質問だけでも構いません」</li>
+<li>「図面がなくても、手書きスケッチや写真で相談できます」</li>
+<li>「対応可否の判断だけなら、当日中に回答します」</li>
+</ul>
+<p><strong>問い合わせフォームの前に、この一文があるかどうかで結果が変わります。</strong> ここは当社の実測ではなく、お客様のサイトを見てきた経験からの見解です。</p>
+<h3 id="4">4. 「どこで知りましたか」の項目</h3>
+<p><strong>AI経由の流入は、参照元が判別できないことが多くあります。</strong> 確実なのは、問い合わせフォームで直接聞くことです。</p>
+<table>
+<thead>
+<tr>
+<th>選択肢の例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>検索（Google・Yahoo!）</td>
+</tr>
+<tr>
+<td>ChatGPT・Perplexityなどの生成AI</td>
+</tr>
+<tr>
+<td>紹介</td>
+</tr>
+<tr>
+<td>展示会・イベント</td>
+</tr>
+<tr>
+<td>その他</td>
+</tr>
+</tbody>
+</table>
+<p><strong>この1項目が、AI検索対策の効果を判定できる唯一の実務的な手段になることがあります。</strong></p>
+<hr />
+<h2 id="_6">ゼロクリックをどう考えるか</h2>
+<p>AIが答えを完結させ、サイトに来ないまま終わる——いわゆるゼロクリックの懸念があります。<strong>当社の見解を書きます。</strong></p>
+<p><strong>中小企業のBtoBでは、ゼロクリックで終わる質問と、終わらない質問がはっきり分かれます。</strong></p>
+<table>
+<thead>
+<tr>
+<th>質問の型</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「精密板金とは何か」</td>
+<td>AIが答えて終わる。サイトに来ない</td>
+</tr>
+<tr>
+<td>「板厚0.5mmのSUS304を10個、試作で頼める会社は」</td>
+<td><strong>候補として社名が出て、確認のために来る</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>前者を狙って記事を書いても、来訪は増えません。</strong> 後者に答えられる記述が自社サイトにあるかどうかが分かれ目です。</p>
+<p>そして、AI経由の来訪が受注に直結するとは限りません。外部調査（Piftee・2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、<strong>実際にAI経由で発注に至ったのは21.1%</strong>でした。</p>
+<p><strong>AIは候補を見つける入口としては使われ始めていますが、発注の意思決定はまだ人間がしています。</strong> 言えるのは「引き合いの入口が一つ増えるかもしれない」までです。</p>
+<hr />
+<h2 id="_7">やってはいけないこと</h2>
+<ul>
+<li><strong>トップページに全員を集める。</strong> AIが示すのは具体的なページです。深い階層に着地する前提で作ります</li>
+<li><strong>着地ページから会社紹介を読ませる。</strong> 説明はもう済んでいます</li>
+<li><strong>問い合わせ前に会員登録を要求する。</strong> 裏取りに来た人は離脱します</li>
+<li><strong>チャットボットで応対を完結させようとする。</strong> AIの回答を確認しに来た人に、またAIを出すことになります</li>
+</ul>
+<hr />
+<h2 id="_8">着地ページのチェックリスト</h2>
+<p>AI経由で来た人が最初に開くページを、次の観点で確認してください。<strong>トップページではなく、実際に着地している下層ページです。</strong></p>
+<table>
+<thead>
+<tr>
+<th>確認</th>
+<th>満たしているか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最初の画面に、対応できる条件が書かれているか</td>
+<td>材質・寸法・ロット・納期</td>
+</tr>
+<tr>
+<td>そのページだけで、対応可否が判断できるか</td>
+<td>他ページを回らせない</td>
+</tr>
+<tr>
+<td>連絡先が、画面をスクロールせずに見えるか</td>
+<td>電話・フォームへの導線</td>
+</tr>
+<tr>
+<td>数字が入っているか</td>
+<td>「多数」「豊富」ではなく件数・年数</td>
+</tr>
+<tr>
+<td>写真があるか</td>
+<td>実物の写真。イメージ写真ではない</td>
+</tr>
+<tr>
+<td>更新日が分かるか</td>
+<td>古いままだと裏取りの材料にならない</td>
+</tr>
+<tr>
+<td><strong>対応外が書かれているか</strong></td>
+<td>範囲が確定する</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「他ページを回らせない」が要点です。</strong> 会社概要 → 事業内容 → 事例 → 問い合わせ、と回遊させる設計は、比較検討中の人には長すぎます。</p>
+<hr />
+<h2 id="_9">問い合わせフォームの設計</h2>
+<p>裏取りに来た人を止めてしまう典型が、フォームです。</p>
+<table>
+<thead>
+<tr>
+<th>よくある設定</th>
+<th>起きること</th>
+<th>対処</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>必須項目が10個以上</td>
+<td>途中で離脱</td>
+<td>必須は社名・氏名・連絡先・内容の4つに</td>
+</tr>
+<tr>
+<td>会員登録が必要</td>
+<td>ほぼ離脱</td>
+<td>登録なしで送れるようにする</td>
+</tr>
+<tr>
+<td>「ご相談内容」が自由記述のみ</td>
+<td>何を書けばよいか分からず離脱</td>
+<td>例文をプレースホルダに入れる</td>
+</tr>
+<tr>
+<td>送信後に何も表示されない</td>
+<td>届いたか不安になる</td>
+<td>受付完了と、返信の目安日数を表示</td>
+</tr>
+<tr>
+<td>添付ファイル不可</td>
+<td>図面が送れない</td>
+<td>添付を許可する（容量の目安も書く）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>そして「どこで知りましたか」の選択肢に、生成AIを入れてください。</strong> AI検索経由の流入は参照元が判別できないことが多く、<strong>直接聞くのが最も確実な計測手段</strong>です（<a href="../aeo-kpi-measurement/">AEOの効果はどう測るか</a>）。</p>
+<hr />
+<h2 id="_10">電話が鳴る前提で作る</h2>
+<p>BtoBの中小企業では、<strong>AIで候補を見つけた人が、フォームではなく電話をかけてくることがあります。</strong></p>
+<ul>
+<li>電話番号を画像にしない（タップで発信できない、AIも読めない）</li>
+<li>受付時間を明記する</li>
+<li>「技術的な質問だけでも構いません」と書く</li>
+</ul>
+<p><strong>Gartnerの調査で69%が営業担当に裏取りを依頼しているという数字は、電話や問い合わせという形で表れます。</strong> 受け皿は、Webの中だけの話ではありません。</p>
+<p>そして、電話を受けた側の対応も設計に含まれます。<strong>「AIで見て電話しました」という一次接触は、これまでの飛び込みや紹介とは前提が違います。</strong> 相手はすでに事業内容の説明を受けており、確認したいのは条件と実在性です。会社案内を最初から説明し直すより、「どのような案件でしょうか」から入るほうが噛み合います。</p>
+<p>社内で共有しておくのは次の3点です。</p>
+<ul>
+<li><strong>AI経由の問い合わせが来ることを、電話を取る人に伝えておく</strong>（「ネットで見た」と区別がつかないため、聞き方を決めておく）</li>
+<li><strong>その場で対応可否の一次判断ができる人につなぐ導線を用意する</strong></li>
+<li><strong>問い合わせの経路を記録する</strong>（フォームの選択肢と同じ項目を、電話でも1問聞く）</li>
+</ul>
+<p><strong>3点目を続けると、AI経由の引き合いが実際にあるのかどうかが、半年で分かります。</strong> これは推測ではなく、自社で取れる唯一の実データです。</p>
+<hr />
+<h2 id="_11">この記事で言えないこと（限界）</h2>
+<ul>
+<li><strong>当社は受け皿ページの前後比較をしていません。</strong> 「この構成にしたら問い合わせが増えた」という実測はありません</li>
+<li>Search Consoleの数字は<strong>当サイト1件・10日間</strong>の実測です。他サイトで同じ分布になるとは限りません</li>
+<li><strong>AI検索経由の流入を、当社は分離して計測できていません。</strong> 参照元が判別できないケースが多いためです</li>
+<li>「連絡のハードルを下げる一文」は経験に基づく見解で、実験で検証したものではありません</li>
+</ul>
+<hr />
+<h2 id="_12">まとめ</h2>
+<ul>
+<li>AI検索経由の訪問者は、<strong>すでにAIから説明を受けた状態</strong>で来る。会社紹介から読ませない</li>
+<li>当サイトの実測で最も効率が良かったのは<strong>コーナー一覧ページ</strong>（表示7.2%でクリックの32%、CTR 14.55%）。個別記事ではない</li>
+<li>受け皿に置くのは<strong>①条件（対応外を含む）②裏付けの数字 ③連絡のハードルを下げる一文 ④どこで知ったかの選択肢</strong></li>
+<li>BtoB購買担当者の<strong>69%が営業担当に裏取りを依頼</strong>している（Gartner、2025年8〜9月実施・2026年5月20日公表）。裏取りは標準動作</li>
+<li>ゼロクリックで終わるのは<strong>一般的な質問</strong>。<strong>具体的な発注クエリは来訪になる</strong></li>
+<li><strong>AI経由で実際に発注に至ったのは21.1%</strong>（Piftee・2026年5〜6月）。入口が一つ増えるかもしれない、までが言えること</li>
+</ul>
+<p>自社の現状は<a href="../aeo-self-check-30min/">自社がAIにどう説明されているかを、30分で調べる手順</a>で測れます。効果の測り方は<a href="../aeo-kpi-measurement/">AEOの効果はどう測るか</a>にまとめました。</p>
+<hr />
+<p><em>本記事で引用した当社の実測：Search Console（2026年7月20〜29日、ai-oni.com）、2026年7月18日Perplexity 3クエリ。外部調査：Gartner（n=645、2025年8〜9月調査／2026年5月20日公表、<a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights">https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights</a>）、Piftee（2026年5〜6月・n=196）。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-effect-measurement/">
+<div class="card-media"><img src="../../static/img/article-ai-effect-measurement.jpg" alt="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録</h3>
+<p class="card-summary">AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ctr-zero-clicks/">
+<div class="card-media"><img src="../../static/img/article-toe-ctr-zero-clicks.jpg" alt="検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因</h3>
+<p class="card-summary">順位が付いていてもクリックされないことがあります。株式会社TOEが自社メディアのSearch Consoleを10日ぶん数えたところ、10位以内に155ページ出て562回表示され、そのうち140ページは1件もクリックされていませんでした。原因を3つに切り分け、逆に最も効率の良かったページの共通点も出します。AI検索対策（AEO）とWeb制作を事業とする当社の、自己点検の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-training-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-training-selection.jpg" alt="AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目</h3>
+<p class="card-summary">AI研修の比較サイトは料金と時間数を並べますが、研修後に定着するかはそこでは決まりません。株式会社TOEが自社で「使われなかった仕組み」を作った実測（実行0通・承認待ちは29件から37件に増加）と公的調査から、研修を選ぶ前に社内で決めておくことを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-aeo">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI検索対策</span>
+    <h2 class="cta-title">ChatGPT に自社の名前は出てきますか</h2>
+    <p class="cta-body">お客様が AI に質問したとき、自社が答えに出るかどうかを実際に測ります。出ない場合は、どの記述が足りないのかまでお伝えします。</p>
+    <a class="btn btn-primary cta-action" href="../../check/?utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=aeo&amp;utm_content=aeo-zero-click-funnel">無料でAI検索の見え方を調べる</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

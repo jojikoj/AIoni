@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIエージェントの承認は「フローを置けば済む」のか？ · AIの鬼</title>
+  <meta name="description" content="2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではありません。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす · AIの鬼">
+  <meta property="og:description" content="2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではありません。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-guideline-1-2-approval-not-a-checkbox.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-guideline-1-2-approval-not-a-checkbox.jpg">
+  <meta name="twitter:title" content="AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす · AIの鬼">
+  <meta name="twitter:description" content="2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではありません。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす","item":"https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/"}]},{"@type":"Article","headline":"AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす","description":"2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではありません。しかも原文は承認の「形」で止まらず「根拠を考えてから承認せよ」まで踏み込んでいます。承認フローを置くだけでは足りない理由と、中小企業が今日から準備できる3点を、原文と当社の実測から整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/"},"url":"https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-08-19","dateModified":"2026-08-19","image":"https://ai-oni.com/static/img/article-ai-guideline-1-2-approval-not-a-checkbox.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-guideline-1-2-approval-not-a-checkbox/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-guideline-1-2-approval-not-a-checkbox.jpg"
+         alt="AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす</h1>
+<p class="article-lead">2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではありません。しかも原文は承認の「形」で止まらず「根拠を考えてから承認せよ」まで踏み込んでいます。承認フローを置くだけでは足りない理由と、中小企業が今日から準備できる3点を、原文と当社の実測から整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。AI事業者ガイドライン第1.2版は、AIエージェントに「人間の承認フローを置け」と義務づけたわけではありません。原文はソフトロー（法的拘束力のない指針）で、「義務化」という言い方は不正確です。そしてもっと大事なのは、原文が承認という「形」で止まっていない点です。原文は「承認する理由や根拠を、自分で考えてから承認すべき」と、承認の「中身」まで求めています。つまり、読まずに「Allow」を押す承認は、承認フローがあっても要請を満たしていない、と読めます。</p>
+<p>なお、この記事を書いている株式会社TOE（AIの鬼）は、AI導入支援・AI検索対策を売りうる立場です。利害関係者による解説である点を先に明かしておきます。</p>
+<h2 id="_1">何が変わったのか — 原文で確認できること</h2>
+<p>素材にした<a href="https://zenn.dev/exapolicy/articles/fee90e94cbe49d">Zenn AI</a>の解説記事は、ガイドライン本編42ページ＋別添185ページの原文にあたって、次を確認しています。</p>
+<ul>
+<li><strong>AIエージェントが定義された。</strong> 「特定の目標を達成するために、環境を感知し自律的に行動するAIシステム」として第1部の用語定義に加わりました。物理世界に作用する「フィジカルAI」も同時に定義されています。定義されたということは、安全性・透明性・アカウンタビリティといった以降の指針がエージェントにも及ぶ、ということです。</li>
+<li><strong>エージェント固有のリスクが具体化された。</strong> 別添では、外部連携が増えるほど攻撃対象領域が拡大し、データ汚染や悪意あるプロンプト攻撃のリスクが高まること、外部システムと自律連携する過程で挙動が不正に操作され内部データが意図せず外部に送信される（＝機密漏洩）可能性が記述されています。</li>
+<li><strong>記録と判断が「説明責任」の前提として結ばれている。</strong> 共通の指針7）アカウンタビリティは、トレーサビリティの向上（データの出所や意思決定を追跡・遡求可能に保つ）と文書化（記録を一定期間保管し参照可能に）を挙げます。脚注では文書化を「適切なツールで記録が残されていれば差し支えない」としています。</li>
+</ul>
+<p>一方、解説でよく見かける「承認フローの義務化」「監査証跡の4要素」「最小権限の原則」といった具体の実装リストは、素材の記事が本編・別添を機械検索して精読した範囲では明文として確認できなかった、とされています。たとえば「最小権限」という語は本編・別添に登場しない、と。</p>
+<h2 id="_2">「方向」と「具体」を分けて読む</h2>
+<p>ここが本記事のいちばん実務的なポイントです。原文にある「方向」と、解説側で膨らんだ「具体」を混ぜないことです。</p>
+<table>
+<thead>
+<tr>
+<th>論点</th>
+<th>原文で確認できること（方向）</th>
+<th>解説で拡大した部分（具体）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>人間の判断の介在</td>
+<td>共通の指針の中核階層（「重要である」の書き分け側）に位置づけ</td>
+<td>「承認フローの義務化」という実装要件</td>
+</tr>
+<tr>
+<td>記録・トレーサビリティ</td>
+<td>アカウンタビリティの前提として明記（形式は問わない）</td>
+<td>「監査証跡の4要素」の具体リスト</td>
+</tr>
+<tr>
+<td>権限管理</td>
+<td>攻撃面の拡大・意図しない外部送信のリスクとして記述</td>
+<td>「最小権限の原則」（語として原文に無い）</td>
+</tr>
+<tr>
+<td>位置づけ</td>
+<td>ソフトロー・共通の指針の必須要件</td>
+<td>「義務化」（法的拘束を連想させる表現）</td>
+</tr>
+</tbody>
+</table>
+<p>「義務化」は法的拘束を連想させて不正確ですが、「任意の参考情報」でもありません。人間の判断の介在は、原文が「〜することが重要である」と書き分けた中核階層の一項目です。各主体が取り組む必須要件として位置づけられ、業界標準の規範として機能していく性質のもの、という理解になります。エージェントが対象として定義された以上、この要件はエージェントにも及びます。</p>
+<p>解説が「間違い」なのではありません。EU AI Act（こちらはハードローで、第14条に人間による監視の明文規定があります）など他制度の要求や実務上の推奨が、紹介に混ざって流通しているのだと素材の記事は見ています。教訓は残ります——<strong>要約は前提（どの制度か、指針か義務か、原文か推奨か）が剥がれて流通する</strong>。この記事自体も要約です。自分の業務に効く話ほど、リンク先の原文で確かめる価値があります。</p>
+<h2 id="_3">なぜ「承認フローを置くだけ」では足りないのか</h2>
+<p>原文は「人間の判断を介在させよ」で止まっていません。介在させる際に、人間の判断が<strong>自動化バイアス</strong>（AIへの過度な信頼・依存）に左右されないような対策を講じるべき、と続けています。その対策として脚注に置かれているのが、「承認する理由や根拠を独自に考えてから承認すべき」という一文です。</p>
+<p>これは重い要請です。承認フローを置くだけなら簡単です。しかし、繰り返される承認ダイアログにクリックが機械化し、読まずに「Allow」を押すようになった瞬間、承認は存在しても判断は存在しません。セキュリティのポップアップを毎回反射で閉じている状態を思い出せば分かります。ガイドラインが警戒しているのは、この<strong>形骸化</strong>です。</p>
+<p>そして、その場の注意力は繰り返しに構造的に負けます。素材の記事が有効だとしている整理は、<strong>判断の場を移す</strong>ことです。承認疲れしたクリックの瞬間ではなく、冷静な時間に「この種の操作は許可する」「この種の情報が含まれるなら止める」を事前のルール（ポリシー）として書いておき、毎回の判定はルールに任せる。人間の判断が最終である原則は変わらず、判断のタイミングだけが形骸化しない場所へ移ります。同じ承認を何度も繰り返している自分に気づいたら、それはそのパターンをルールへ昇格させるシグナルだ、というわけです。</p>
+<h2 id="_4">中小企業にとって何が変わるのか — 当社の実測と突き合わせる</h2>
+<p>ここからが「中小企業にとって」の話です。ガイドラインが警戒する「要約は前提が剥がれて流通する」という構造は、実は生成AI検索そのものにも当てはまります。当社の実測で言えることを並べます。</p>
+<ul>
+<li>2026年8月1日、福岡県の金属加工業45社を生成AIで実測したところ、公式サイトを根拠に説明できたのは42社（93%）でしたが、<strong>同名他社と区別されていなかったのは3社（7%）</strong>でした。AIは、出所を取り違えたまま、それらしい答えを出します。</li>
+<li>外部調査でも、Gartner（2026年5月・n=645）ではBtoB購買担当者の<strong>51%がAIで誤情報に遭遇</strong>し、69%が裏取りを依頼していました。SparkToro / Gumshoe.aiの計測では、同一質問での<strong>再現率は100回に1回未満</strong>でした。</li>
+</ul>
+<p>つまり、AIエージェントであれAI検索であれ、「それらしい出力を鵜呑みにする」構造リスクは同じです。ガイドラインが「根拠を考えてから承認せよ」と言うのは、中小企業の現場では「AIの答えを、出所を確かめてから使え」と読み替えられます。総務や営業でAIエージェントを回すなら、この一手間を仕組みに組み込めるかが分かれ目になります。</p>
+<p>実務者が今日から準備できることは3つです。</p>
+<ol>
+<li><strong>出してよい情報の基準を書き出す</strong> — エージェントが外部に送ってよいもの・いけないものを、その場の判断ではなく事前のルールとして明文化する。</li>
+<li><strong>接続先と権限を棚卸しする</strong> — 何と連携し、何にアクセスできる状態かを把握し、「便利だから全部」を「このタスクに要るものだけ」へ絞る。</li>
+<li><strong>記録を残す</strong> — 何が参照され、何が外部に送られ、人間がどこで承認したかを残す。原文は「適切なツールで記録が残されていれば差し支えない」としているので、ツールの形式に縛られる必要はありません。後から検証できる状態が作れていれば十分です。</li>
+</ol>
+<p>同じ論点を別角度から掘った記事として、<a href="../ai-guidelines-1-2-human-approval-agent/">AIエージェントに人間の承認は「義務化」されたのか？— AI事業者ガイドライン第1.2版を原文で確認する</a>と、<a href="../ai-guidelines-1-2-human-approval-agent/">AIエージェントに人間の承認は「義務化」されたのか？— ガイドライン第1.2版が本当に求めていること</a>も併せてご覧ください。エージェントが画面を操作して外部と連携する構造そのものは、<a href="../spacexai-grok-bot-always-on-agent-for-sme/">既存ツールをそのまま使いながらAIが画面を操作する時代──Grok Botは中小企業の「システム刷新」問題を解くのか</a>で扱っています。</p>
+<h2 id="_5">この記事で言えないこと</h2>
+<ul>
+<li>ガイドライン第1.2版が今後、実際の運用や取引条件でどう扱われるか（義務化・罰則化されるか）は、素材からは分かりません。現時点ではソフトローです。</li>
+<li>「承認フローの義務化」「監査証跡の4要素」「最小権限」が原文に<strong>無い</strong>とする判断は、素材の記事が本編42ページ＋別添185ページを機械検索し該当箇所を精読した範囲のもので、全文の逐語精読ではありません。見落としの可能性は残ります。</li>
+<li>上記の3つの準備をすれば事故が防げる、リスクが何割下がる、といった効果は当社では測っていません。効果は保証できません。</li>
+<li>当社の福岡45社・Gartner・SparkToroの数字は、AIの出力信頼性に関する実測であって、ガイドライン適合性を評価したものではありません。</li>
+</ul>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>第1.2版でAIエージェント・フィジカルAIが定義され、攻撃面の拡大や意図しない外部送信（機密漏洩）のリスクが原文に具体的に書かれました。</li>
+<li>人間の判断の介在は共通の指針の中核（必須要件）ですが、「義務化」は不正確です。ソフトローであり、「承認フロー義務化・監査4要素・最小権限」の具体リストは原文で確認できません——方向は原文、具体は解説の拡大です。</li>
+<li>原文は承認の「形」で止まらず「根拠を考えてから承認せよ」まで求めています。読まずにクリックする承認では、それを満たせません。</li>
+<li>注意力は繰り返しに負けます。判断の場を事前のルール設計へ移し、繰り返す承認はルールに昇格させることで、原文の要請を注意力ではなく仕組みで満たせます。</li>
+<li>当社実測では同名他社と混同3社（7%）、外部調査でも誤情報遭遇51%・再現率100回に1回未満。AIの出力は出所を確かめてから使う——ガイドラインの「根拠を考えて承認」は、中小企業では「AIの答えを裏取りしてから使う」と読み替えられます。</li>
+</ul>
+<p><em>この記事はZenn AI（Exapolicy）の解説記事「AIエージェントに人間の承認が義務化」は本当か — AI事業者ガイドライン第1.2版を原文で読む」を素材に、当社の福岡県金属加工業45社の実測、Gartner（2026年5月・n=645）・SparkToro / Gumshoe.aiの外部調査とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-guideline-1-2-obligation-myth/">
+<div class="card-media"><img src="../../static/img/article-ai-guideline-1-2-obligation-myth.jpg" alt="AIエージェントの人間承認は「義務化」されたのか？— ガイドライン第1.2版が中小企業にとって何を変えるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの人間承認は「義務化」されたのか？— ガイドライン第1.2版が中小企業にとって何を変えるのか</h3>
+<p class="card-summary">2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントとフィジカルAIが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではなく、中核の必須要件です。しかも原文は「根拠を考えてから承認せよ」まで踏み込んでいます。中小企業が今日から準備できる3点を、原文と当社の運用実態から整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-guidelines-1-2-human-approval-agent/">
+<div class="card-media"><img src="../../static/img/article-ai-guidelines-1-2-human-approval-agent.jpg" alt="AIエージェントに人間の承認は「義務化」されたのか？— AI事業者ガイドライン第1.2版を原文で確認する" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントに人間の承認は「義務化」されたのか？— AI事業者ガイドライン第1.2版を原文で確認する</h3>
+<p class="card-summary">2026年3月31日公表のAI事業者ガイドライン第1.2版で、AIエージェントとフィジカルAIが定義されました。「人間の承認が義務化された」という紹介が流れていますが、原文はソフトロー。義務ではなく中核の必須要件で、原文はさらに「根拠を考えてから承認せよ」まで踏み込んでいます。中小企業が今日から準備できる3点を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/hf-ibm-uc-berkeley-diagnose/">
+<div class="card-media"><img src="../../static/img/article-hf-ibm-uc-berkeley-diagnose.jpg" alt="業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">業務AIエージェントの「成功率」だけ見ていると、なぜ改善できないのか — 310トレースを失敗の型で数え直した結果</h3>
+<p class="card-summary">IBM Research と UC Berkeley が、IT運用タスクを実行したAIエージェントの実行トレース310本を「失敗の型」で分類しました。失敗した実行1回には平均2.6〜5.3個の問題が同時に起きており、成功率という単一の数字が改善の役に立たない理由が数字で示されています。中小企業がPoCの評価条件をどう書くべきかまで整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-guideline-1-2-approval-not-a-checkbox">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

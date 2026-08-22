@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIクローラは許可すべきか拒否すべきか · AIの鬼</title>
+  <meta name="description" content="主要25サイトを実測したところ、AIクローラを拒否していたのは6サイト、うち3つが新聞社でした。拒否すべきか許可すべきかは立場で変わります。判断の分かれ目と、実際の robots.txt の書き方、確認方法を並べます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/aeo-robots-decision/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/aeo-robots-decision/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方 · AIの鬼">
+  <meta property="og:description" content="主要25サイトを実測したところ、AIクローラを拒否していたのは6サイト、うち3つが新聞社でした。拒否すべきか許可すべきかは立場で変わります。判断の分かれ目と、実際の robots.txt の書き方、確認方法を並べます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/aeo-robots-decision/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-aeo-robots-decision.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-aeo-robots-decision.jpg">
+  <meta name="twitter:title" content="AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方 · AIの鬼">
+  <meta name="twitter:description" content="主要25サイトを実測したところ、AIクローラを拒否していたのは6サイト、うち3つが新聞社でした。拒否すべきか許可すべきかは立場で変わります。判断の分かれ目と、実際の robots.txt の書き方、確認方法を並べます。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方","item":"https://ai-oni.com/articles/aeo-robots-decision/"}]},{"@type":"Article","headline":"AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方","description":"主要25サイトを実測したところ、AIクローラを拒否していたのは6サイト、うち3つが新聞社でした。拒否すべきか許可すべきかは立場で変わります。判断の分かれ目と、実際の robots.txt の書き方、確認方法を並べます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/aeo-robots-decision/"},"url":"https://ai-oni.com/articles/aeo-robots-decision/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AEO対策室","datePublished":"2026-08-13","dateModified":"2026-08-13","image":"https://ai-oni.com/static/img/article-aeo-robots-decision.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/aeo-robots-decision/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-aeo-robots-decision.jpg"
+         alt="AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AEO対策室</span>      <h1>AIクローラは許可すべきか拒否すべきか — 判断基準と robots.txt の書き方</h1>
+<p class="article-lead">主要25サイトを実測したところ、AIクローラを拒否していたのは6サイト、うち3つが新聞社でした。拒否すべきか許可すべきかは立場で変わります。判断の分かれ目と、実際の robots.txt の書き方、確認方法を並べます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月13日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：主要25サイト（取得成功23）でAIクローラを拒否していたのは<strong>6サイト</strong>、うち<strong>3つが新聞社</strong>でした。拒否は現時点で少数派です。中小企業の大半は<strong>許可のままでよい</strong>。見つけてほしい立場と、読ませない選択は両立しません。出したくない領域だけを部分的に拒否できます。</p>
+<h2 id="_1">先に立場を明かします</h2>
+<p>株式会社TOEは福岡のWeb制作・AI開発の会社で、サイト改修を請け負いうる<strong>利害関係者</strong>です。この記事の土台は、<strong>2026年7月22日に主要25サイトの robots.txt を取得して機械判定した実測</strong>です。「許可すれば引用されます」とは書きません。測っていないからです。</p>
+<hr />
+<h2 id="_2">結論（先に表で）</h2>
+<table>
+<thead>
+<tr>
+<th>立場</th>
+<th>判断</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>見つけてほしい会社</strong>（製造業・BtoB・地域企業）</td>
+<td>許可</td>
+<td>読まれなければ、そもそもAIの答えに出ようがない</td>
+</tr>
+<tr>
+<td><strong>記事そのものが商品のメディア</strong></td>
+<td>拒否も選択肢</td>
+<td>読まれても訪問が返らない可能性がある</td>
+</tr>
+<tr>
+<td><strong>会員制・有料コンテンツを持つサイト</strong></td>
+<td>部分的に拒否</td>
+<td>有料部分だけを拒否する</td>
+</tr>
+<tr>
+<td><strong>判断がつかない</strong></td>
+<td>許可のまま様子を見る</td>
+<td>拒否は後からでもできる。逆は取り返しに時間がかかる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>多くの中小企業にとっては「許可（＝何もしない）」が既定の答えです。</strong> ただし、自社が意図せず拒否していないかの確認は必要です。</p>
+<hr />
+<h2 id="robotstxt">前提：robots.txt とは何か</h2>
+<p>サイトの直下に置くテキストファイル（<code>example.com/robots.txt</code>）で、<strong>クローラに「来ていい／来るな」を伝えるもの</strong>です。</p>
+<p>重要な性質が2つあります。</p>
+<ul>
+<li><strong>強制力はありません。</strong> 「お願い」であって、無視するクローラも存在します</li>
+<li><strong>拒否＝ブロック成功ではありません。</strong> 拒否していても学習に使われている可能性、許可していてもAI検索に出ない可能性、どちらもあります</li>
+</ul>
+<p>対象になる代表的なAIクローラは次の6種です。</p>
+<table>
+<thead>
+<tr>
+<th>クローラ</th>
+<th>運営</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPTBot</td>
+<td>OpenAI</td>
+</tr>
+<tr>
+<td>ClaudeBot</td>
+<td>Anthropic</td>
+</tr>
+<tr>
+<td>CCBot</td>
+<td>Common Crawl（多くのAIの学習元になる）</td>
+</tr>
+<tr>
+<td>Google-Extended</td>
+<td>Google（AI向け）</td>
+</tr>
+<tr>
+<td>PerplexityBot</td>
+<td>Perplexity</td>
+</tr>
+<tr>
+<td>Bytespider</td>
+<td>ByteDance／TikTok</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="25">実測：主要25サイトはどうしていたか</h2>
+<p>2026年7月22日、25サイトの robots.txt を取得しました（取得成功23サイト）。<strong>AIクローラを1つ以上拒否していたのは6サイト</strong>でした。</p>
+<table>
+<thead>
+<tr>
+<th>サイト</th>
+<th>拒否していたクローラ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>朝日新聞</td>
+<td>6種すべて</td>
+</tr>
+<tr>
+<td>読売新聞</td>
+<td>6種すべて</td>
+</tr>
+<tr>
+<td>The New York Times</td>
+<td>6種すべて</td>
+</tr>
+<tr>
+<td>Amazon.co.jp</td>
+<td>6種すべて</td>
+</tr>
+<tr>
+<td>Yahoo! JAPAN</td>
+<td>GPTBot・Google-Extended</td>
+</tr>
+<tr>
+<td>Zenn</td>
+<td>Bytespider</td>
+</tr>
+</tbody>
+</table>
+<p><strong>拒否していた6サイトのうち3つが新聞社</strong>で、いずれも6種すべてを拒否していました。一方、日経・Qiita・note・楽天・メルカリ・トヨタ・OpenAI・GitHub・Wikipedia など17サイトは、明示的な拒否を置いていませんでした。詳細は<a href="../ai-crawler-robots/">主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか</a>にあります。</p>
+<table>
+<thead>
+<tr>
+<th>立場</th>
+<th>傾向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>報道機関</td>
+<td>拒否が明確（記事＝商品を守る）</td>
+</tr>
+<tr>
+<td>ECプラットフォーム</td>
+<td>一部拒否</td>
+</tr>
+<tr>
+<td>テック・AI企業</td>
+<td>拒否していない</td>
+</tr>
+<tr>
+<td>一般企業・多くのメディア</td>
+<td>明示的な設定なし</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「拒否する」という明確な行動を取っているサイトは、まだ少数派</strong>でした。</p>
+<hr />
+<h2 id="_3">判断の分かれ目</h2>
+<h3 id="_4">拒否を検討してよい場合</h3>
+<ul>
+<li><strong>記事・写真・データそのものが売り物</strong>である（報道、有料レポート、素材配布）</li>
+<li><strong>読まれても訪問が返らない</strong>ことが実害になる。Cloudflareの集計では、AIボットの大量アクセスに対して返ってくる訪問はごく僅かだという数字が出ています（<a href="../co-cloudflare-crawl-to-click-gap/">AIボットは38,065ページ読んで訪問1件</a>）</li>
+<li><strong>サーバー負荷が実際に問題になっている</strong></li>
+</ul>
+<h3 id="_5">許可のままでよい場合（大半の企業）</h3>
+<ul>
+<li><strong>見つけてもらうことが目的</strong>である。製造業・建設業・士業・地域企業のほとんどがここです</li>
+<li>自社サイトの中身は<strong>カタログ的な情報</strong>で、それ自体を売っているわけではない</li>
+<li><strong>拒否すると、AIの答えに出る可能性が消える</strong>。当社の実測では、発注クエリに対して個社サイトが引用元に出ていました（3クエリ・引用12ドメイン中8件が個社サイト）</li>
+</ul>
+<p><strong>「AIに学習されるのが嫌だ」という感情は理解できますが、それと「AIの答えに出たい」は両立しません。</strong> どちらを取るかを決める必要があります。</p>
+<h3 id="_6">部分的に拒否する場合</h3>
+<p>会員限定ページ・有料記事・見積書のPDFなど、<strong>出したくない領域だけを拒否</strong>できます。全体を拒否する必要はありません。</p>
+<hr />
+<h2 id="_7">書き方</h2>
+<h3 id="_8">何もしない（＝許可）</h3>
+<p>robots.txt に AIクローラの記述がなければ、通常は来訪を許容している状態です。<strong>多くの企業はこれで構いません。</strong></p>
+<h3 id="_9">特定のクローラだけ拒否する</h3>
+<pre><code>User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+</code></pre>
+<h3 id="_10">一部のディレクトリだけ拒否する</h3>
+<pre><code>User-agent: GPTBot
+Disallow: /members/
+Disallow: /download/
+</code></pre>
+<h3 id="_11">明示的に許可する（意思表示として）</h3>
+<pre><code>User-agent: GPTBot
+Allow: /
+</code></pre>
+<p>Cloudflare と Medium は、明示的な許可の記述を置いていました。<strong>動作としては書かないのと同じですが、意思表示にはなります。</strong></p>
+<hr />
+<h2 id="5">自社の状態を確認する手順（5分）</h2>
+<ol>
+<li>ブラウザで <code>＜自社ドメイン＞/robots.txt</code> を開く</li>
+<li><code>Disallow: /</code> という行があるか探す</li>
+<li>その直前の <code>User-agent:</code> が何かを見る</li>
+</ol>
+<p><strong>ここで意図しない拒否が見つかることがあります。</strong> 特に多いのが次の2つです。</p>
+<table>
+<thead>
+<tr>
+<th>よくある事故</th>
+<th>何が起きるか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>テスト環境の設定（<code>User-agent: * / Disallow: /</code>）が本番に残っている</td>
+<td>検索エンジンにもAIにも一切読まれない</td>
+</tr>
+<tr>
+<td>制作会社が入れた設定を誰も把握していない</td>
+<td>意図せず特定のクローラを拒否している</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>User-agent: *</code> に対して <code>Disallow: /</code> が付いていたら、それは全クローラの全面拒否です。</strong> 至急確認してください。</p>
+<hr />
+<h2 id="_12">拒否しても届かないもの、許可しても届かないもの</h2>
+<p><strong>robots.txt はAI検索対策の入口であって、対策そのものではありません。</strong></p>
+<ul>
+<li>許可していても、<strong>書いてある内容が薄ければ引用されません</strong></li>
+<li>許可していても、<strong>同名の会社と混ざっていれば自社として認識されません</strong>（<a href="../aeo-name-collision/">AIが別の会社の説明を返してくるとき、何をすればいいのか</a>）</li>
+<li>拒否していても、<strong>すでに学習されたデータや第三者のページ経由で説明されることはあります</strong></li>
+</ul>
+<p>やることの順序は<a href="../aeo-first-90-days/">AI検索対策は何から始めるか — 中小企業の最初の90日</a>に整理しています。robots.txt の確認は、その最初の30日に入る作業です。</p>
+<hr />
+<h2 id="robotstxt-3">robots.txt と混同されやすい3つ</h2>
+<p>「AIに読ませない」の手段として、別のものが混同されることがあります。<strong>役割が違います。</strong></p>
+<table>
+<thead>
+<tr>
+<th>手段</th>
+<th>何をするもの</th>
+<th>AI検索との関係</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>robots.txt</td>
+<td>クローラの来訪可否を伝える</td>
+<td>読みに来るかどうか</td>
+</tr>
+<tr>
+<td>noindex</td>
+<td>検索結果に載せないよう伝える</td>
+<td>索引に載るかどうか</td>
+</tr>
+<tr>
+<td>sitemap.xml</td>
+<td>存在するURLを申告する</td>
+<td>見つけてもらいやすくなる</td>
+</tr>
+<tr>
+<td>ログイン制限</td>
+<td>サーバー側で実際に見せない</td>
+<td>確実に読まれない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>確実に読ませたくないなら、robots.txt ではなくログイン制限です。</strong> robots.txt は「お願い」であり、強制力がありません。</p>
+<p>逆に<strong>「読ませたいのに読まれていない」ときは、robots.txt より先に確認すべきものがあります。</strong></p>
+<ul>
+<li>会社概要や事業内容が、<strong>画像・PDFの中の文字</strong>になっていないか</li>
+<li>JavaScriptでしか表示されない構成になっていないか</li>
+<li>sitemap.xml が古いまま、新しいページが載っていないか</li>
+<li>サーバーが特定のアクセスを遮断していないか</li>
+</ul>
+<p>当社は自社の別サイトを実測したとき、無作為抽出したURLの<strong>約半数がGoogleに未認識（URL is unknown to Google）</strong>という結果でした。<strong>この段階では、robots.txt の設定より先に「そもそも発見されているか」を見る必要があります。</strong></p>
+<hr />
+<h2 id="10">確認チェックリスト（10分）</h2>
+<p>制作会社に任せている場合でも、次は自社で確認できます。</p>
+<table>
+<thead>
+<tr>
+<th>確認</th>
+<th>方法</th>
+<th>危険な状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>robots.txt の中身</td>
+<td><code>＜ドメイン＞/robots.txt</code> を開く</td>
+<td><code>User-agent: *</code> に <code>Disallow: /</code></td>
+</tr>
+<tr>
+<td>sitemap の場所</td>
+<td>robots.txt 内の <code>Sitemap:</code> 行</td>
+<td>記載なし・古いURL</td>
+</tr>
+<tr>
+<td>sitemap の中身</td>
+<td>そのURLを開く</td>
+<td>更新が止まっている</td>
+</tr>
+<tr>
+<td>主要ページのnoindex</td>
+<td>ページのソースで <code>noindex</code> を検索</td>
+<td>会社概要・事例ページに付いている</td>
+</tr>
+<tr>
+<td>会社概要の文字</td>
+<td>ページ上で文字を選択できるか</td>
+<td>選択できない＝画像の中の文字</td>
+</tr>
+</tbody>
+</table>
+<p><strong>5番目が最も多い問題です。</strong> 会社概要の表が画像1枚になっているサイトは珍しくありません。文字が選択できなければ、AIも読めません。</p>
+<hr />
+<h2 id="_13">拒否から許可へ戻す場合</h2>
+<p>過去に拒否していて、方針を変える場合の注意点です。</p>
+<ul>
+<li><strong>robots.txt を書き換えても、すぐには読みに来ません。</strong> クローラの巡回間隔があります</li>
+<li><strong>拒否していた期間の内容が、そのまま入るわけではありません</strong></li>
+<li><strong>戻した後は、正しく読まれているかを測る</strong>（<a href="../aeo-self-check-30min/">自社がAIにどう説明されているかを、30分で調べる手順</a>）</li>
+</ul>
+<p><strong>拒否は数分で戻せますが、回復には時間がかかります。</strong> この非対称性が、冒頭の表で「判断がつかないなら許可のまま様子を見る」と書いた理由です。</p>
+<hr />
+<h2 id="_14">この記事で言えないこと（限界）</h2>
+<ul>
+<li><strong>許可が引用につながることを、当社は証明していません。</strong> 前後比較をしていません</li>
+<li>実測は<strong>25サイトの恣意的な抽出</strong>（うち取得成功23）です。全ウェブの分布ではありません</li>
+<li>判定は <code>Disallow: /</code> の機械判定です。<strong>複雑な記述は取りこぼす可能性があります</strong></li>
+<li><strong>robots.txt に強制力はありません。</strong> 拒否が実際に効いているかは測っていません</li>
+<li>クローラの名称・仕様は変わります。この記事の6種は2026年7月時点のものです</li>
+</ul>
+<hr />
+<h2 id="_15">まとめ</h2>
+<ul>
+<li>実測（2026年7月22日・25サイト、取得成功23）：<strong>AIクローラを拒否していたのは6サイト</strong></li>
+<li><strong>うち3つが新聞社</strong>で、いずれも6種すべてを拒否。記事＝商品を守る立場がはっきり出ていた</li>
+<li>17サイトは明示的な拒否なし。<strong>拒否は現時点で少数派</strong></li>
+<li>中小企業の大半は<strong>許可のままでよい</strong>。見つけてほしい立場と、読ませない選択は両立しない</li>
+<li>全面拒否は部分拒否で代替できる。<strong>出したくない領域だけを拒否する</strong></li>
+<li><strong>まず <code>＜自社ドメイン＞/robots.txt</code> を開く。</strong> テスト設定が本番に残っている事故が実際にある</li>
+</ul>
+<p>自社が実際にAIから見えているかは<a href="../aeo-self-check-30min/">自社がAIにどう説明されているかを、30分で調べる手順</a>で確認できます。</p>
+<hr />
+<p><em>本記事の実測データ：2026年7月22日、日本と海外の主要25サイトの <code>/robots.txt</code> を取得し、6種のAIクローラそれぞれに <code>Disallow: /</code> があるかを機械判定した結果です（n=25、取得成功23）。robots.txt の実効性は評価していません。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-crawler-robots/">
+<div class="card-media"><img src="../../static/img/article-ai-crawler-robots.jpg" alt="主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">主要25サイトのrobots.txtで、AIクローラは拒否されているか許可されているか</h3>
+<p class="card-summary">ChatGPTやClaudeなどのAIが記事を読みに来るクローラを、主要サイトは許可しているのか拒否しているのか。25サイトのrobots.txtを実際に取得して数えました。拒否していたのは主に新聞社でした。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-company-profile-page/">
+<div class="card-media"><img src="../../static/img/article-aeo-company-profile-page.jpg" alt="AIが読む「会社概要ページ」の書き方 — 45社の実測から分かった7項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">AIが読む「会社概要ページ」の書き方 — 45社の実測から分かった7項目</h3>
+<p class="card-summary">福岡県の金属加工業45社を実測したところ、AIが説明の根拠にできていた項目とできていなかった項目がはっきり分かれました。ほぼ全社が満たしていた6項目と、31%しか満たしていなかった1項目。会社概要ページに何を書くべきかを、その実測から逆算します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-product-page-writing/">
+<div class="card-media"><img src="../../static/img/article-aeo-product-page-writing.jpg" alt="発注クエリで引用される製品・サービスページの書き方 — 引用された箇所を12サイト分読んで分かったこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">発注クエリで引用される製品・サービスページの書き方 — 引用された箇所を12サイト分読んで分かったこと</h3>
+<p class="card-summary">「アルミの切削加工を小ロットで頼める工場を福岡県で」のような発注クエリで、AIが引用したのは材質・板厚・数量・工程が書かれた箇所でした。抽象的なキャッチコピーの箇所は引用されていません。実測で引用された文の型を並べます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-aeo">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI検索対策</span>
+    <h2 class="cta-title">ChatGPT に自社の名前は出てきますか</h2>
+    <p class="cta-body">お客様が AI に質問したとき、自社が答えに出るかどうかを実際に測ります。出ない場合は、どの記述が足りないのかまでお伝えします。</p>
+    <a class="btn btn-primary cta-action" href="../../check/?utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=aeo&amp;utm_content=aeo-robots-decision">無料でAI検索の見え方を調べる</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

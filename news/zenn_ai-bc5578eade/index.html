@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIに「会話の圧縮」されても、「約束」は守らせる法｜要点と実務への影響 · AIの鬼</title>
+  <meta name="description" content="ここが業務で使う上で重大なのは、「タスクの目的は覚えてくれるのにルールは忘れる」という非対称性です。Codexの要約プロンプトを見ると、要約の目的は「タスク継続」であり、細かい約束は削ぎ落とされるよう設計されています。">
+  <link rel="canonical" href="https://ai-oni.com/news/zenn_ai-bc5578eade/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/zenn_ai-bc5578eade/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIに「会話の圧縮」されても、「約束」は守らせる法｜要点と実務への影響 · AIの鬼">
+  <meta property="og:description" content="ここが業務で使う上で重大なのは、「タスクの目的は覚えてくれるのにルールは忘れる」という非対称性です。Codexの要約プロンプトを見ると、要約の目的は「タスク継続」であり、細かい約束は削ぎ落とされるよう設計されています。">
+  <meta property="og:url" content="https://ai-oni.com/news/zenn_ai-bc5578eade/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="AIに「会話の圧縮」されても、「約束」は守らせる法｜要点と実務への影響 · AIの鬼">
+  <meta name="twitter:description" content="ここが業務で使う上で重大なのは、「タスクの目的は覚えてくれるのにルールは忘れる」という非対称性です。Codexの要約プロンプトを見ると、要約の目的は「タスク継続」であり、細かい約束は削ぎ落とされるよう設計されています。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"AIに「会話の圧縮」されても、「約束」は守らせる法","item":"https://ai-oni.com/news/zenn_ai-bc5578eade/"}]},{"@type":"NewsArticle","@id":"https://ai-oni.com/news/zenn_ai-bc5578eade/","url":"https://ai-oni.com/news/zenn_ai-bc5578eade/","headline":"AIに「会話の圧縮」されても、「約束」は守らせる法","description":"ここが業務で使う上で重大なのは、「タスクの目的は覚えてくれるのにルールは忘れる」という非対称性です。Codexの要約プロンプトを見ると、要約の目的は「タスク継続」であり、細かい約束は削ぎ落とされるよう設計されています。","inLanguage":"ja-JP","isPartOf":{"@id":"https://ai-oni.com/#website"},"isAccessibleForFree":true,"datePublished":"2026-08-18T01:10:10+00:00","author":{"@type":"Organization","name":"AIの鬼 編集部","url":"https://ai-oni.com/about/"},"publisher":{"@id":"https://ai-oni.com/#organization"},"isBasedOn":{"@type":"NewsArticle","headline":"AIに「会話の圧縮」されても、「約束」は守らせる法","url":"https://zenn.dev/knowledgesense/articles/8bccdac779d21a","publisher":{"@type":"Organization","name":"Zenn AI"}},"citation":{"@type":"NewsArticle","headline":"AIに「会話の圧縮」されても、「約束」は守らせる法","url":"https://zenn.dev/knowledgesense/articles/8bccdac779d21a","publisher":{"@type":"Organization","name":"Zenn AI"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/news/zenn_ai-bc5578eade/"},"image":"https://ai-oni.com/static/img/news-dev-10.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/zenn_ai-bc5578eade/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Zenn AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+<span class="tag-hash">#開発・実装</span>        <span class="src">Zenn AI</span>
+<time datetime="2026-08-18T01:10:10+00:00">2026年8月18日</time>      </div>
+      <h1>AIに「会話の圧縮」されても、「約束」は守らせる法</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="../../static/img/news-dev-10.svg"
+           alt="AIに「会話の圧縮」されても、「約束」は守らせる法（内容を表す図ではないイメージ画像）" loading="lazy">
+      <figcaption>イメージ</figcaption>
+    </figure>
+
+    <div class="news-body">
+<p>2026年7月、ペンシルベニア州立大学の研究チームが論文「Lost in Compaction: Evaluating Side-Constraint Loss under Context Compaction」を発表しました。Claude CodeやCodexなどのAIエージェントが会話のラリー数が増えてコンテキスト上限に達すると、それまでの会話を自動要約する処理が走ります。その過程で、「XXするときは、必ずYYしてね」といった指示（Session Constraints）が大量に落ちることが判明しました。実験では、圧縮後に生き残る約束は、モデルによって6.7%から最大98%までばらつき、平均では83%が忘れられるという結果が示されています。</p><p>ここが業務で使う上で重大なのは、「タスクの目的は覚えてくれるのにルールは忘れる」という非対称性です。Codexの要約プロンプトを見ると、要約の目的は「タスク継続」であり、細かい約束は削ぎ落とされるよう設計されています。プロンプトで何度も繰り返したり強調したりしても、保持率は40%弱が限界です。論文が提案した解決策は、「小さな言語モデル（SLM）を別途用意して、会話からセッション全体に適用される制約だけを抽出し、圧縮後の要約の末尾に連結する」というもので、これにより保持率が90%超えまで劇的に改善しました。つまり「要約と約束の分離」という地道な設計工夫で、AIの弱点をカバーできるということです。それは、モデルの性能を信頼するのではなく、エージェントが何を忘れやすいかを冷徹に観測し、そこに構造的な対策を打つというエンジニアリングの発想です。</p><p>エージェントに業務指示を出すときは、「大事なルール」が圧縮時に消えてしまうリスクを認識する必要があります。プロンプトの工夫だけでは足りず、本当に守らせたい指示（「コマンド実行前に必ず承認を取る」など）は、別の仕組みで監視・保持することが実務上不可欠です。AIに仕事を任せるなら、AIが何を忘れるのかを知る方が、AIが何ができるのかを知るより重要になります。</p>    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://zenn.dev/knowledgesense/articles/8bccdac779d21a" target="_blank" rel="noopener nofollow">
+        Zenn AIで元記事を読む →
+      </a>
+    </p>
+
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        ニュースの背景を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/hf-openenv-practice/">
+<div class="card-media"><img src="../../static/img/article-hf-openenv-practice.jpg" alt="AIエージェントへの指示は「会議ID」と「来週の営業会議」で成功率がどれだけ変わるのか？約90%と約40%" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントへの指示は「会議ID」と「来週の営業会議」で成功率がどれだけ変わるのか？約90%と約40%</h3>
+<p class="card-summary">OpenEnvのCalendar Gym環境で、AIエージェントのタスク成功率は対象を識別子（ID）で明示した場合に約90%、同じタスクを自然言語で表現した場合に約40%でした。失敗の半数超はツール引数の書式ミスか実行順序の誤りです。発信元はこの評価環境の提供者であり、n数や評価モデル名は開示されていません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-keiei-db-auto/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと</h3>
+<p class="card-summary">当社は経営業務をcron+AIエージェントで自動化し、経営データを社内の「_経営DB/」フォルダへ毎日・毎週、自動蓄積しています。その実行ログ20,109行を数えたら、処理完了を示す✅マークは4,749回、週次統合ジョブは586回動いていました。営業の危険度採点、経理の警告再生成、ダッシュボード生成からPDF化・Google Drive転送まで、人間は完成したものを見るだけです。ただし正直に書きます。この4,749という数字は「実行した回数」であって、「中身が正しい」ことの保証ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/writer-palmyra-x6-harness-cost-reduction/">
+<div class="card-media"><img src="../../static/img/article-writer-palmyra-x6-harness-cost-reduction.jpg" alt="モデルを替えるより動かし方を磨くほうがAIコストは下がるのか ― WriterがPalmyra X6とハーネス最適化で最大50%削減を打ち出した" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">モデルを替えるより動かし方を磨くほうがAIコストは下がるのか ― WriterがPalmyra X6とハーネス最適化で最大50%削減を打ち出した</h3>
+<p class="card-summary">WriterがPalmyra X6とハーネス（AIを動かす枠組み）の改善を組み合わせ、基本タスクのコストを最大50%削減できると発表しました。注目点はモデルの性能よりも、ハーネスの最適化が信頼性の高いコスト削減手段だとWriter自身の研究が示している点です。「最新モデルを追い続けることに企業は疲れた」というCEOの言葉は、中小企業がまず着手すべき順序を示唆しています。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=zenn_ai-bc5578eade">無料で相談する</a>
+  </div>
+</aside>
+
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

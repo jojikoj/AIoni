@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AEOの効果はどう測るか · AIの鬼</title>
+  <meta name="description" content="同じ質問を繰り返しても同じブランドが再現される確率は100回に1回未満、という調査があります。この前提だと「引用回数が先月より2回増えた」は成果ではありません。測ってよいものと、数えても意味がないものを分けます。">
+  <link rel="canonical" href="https://ai-oni.com/articles/aeo-kpi-measurement/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/aeo-kpi-measurement/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AEOの効果はどう測るか — 測れる指標と、測ってはいけない指標 · AIの鬼">
+  <meta property="og:description" content="同じ質問を繰り返しても同じブランドが再現される確率は100回に1回未満、という調査があります。この前提だと「引用回数が先月より2回増えた」は成果ではありません。測ってよいものと、数えても意味がないものを分けます。">
+  <meta property="og:url" content="https://ai-oni.com/articles/aeo-kpi-measurement/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-aeo-kpi-measurement.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-aeo-kpi-measurement.jpg">
+  <meta name="twitter:title" content="AEOの効果はどう測るか — 測れる指標と、測ってはいけない指標 · AIの鬼">
+  <meta name="twitter:description" content="同じ質問を繰り返しても同じブランドが再現される確率は100回に1回未満、という調査があります。この前提だと「引用回数が先月より2回増えた」は成果ではありません。測ってよいものと、数えても意味がないものを分けます。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AEOの効果はどう測るか — 測れる指標と、測ってはいけない指標","item":"https://ai-oni.com/articles/aeo-kpi-measurement/"}]},{"@type":"Article","headline":"AEOの効果はどう測るか — 測れる指標と、測ってはいけない指標","description":"同じ質問を繰り返しても同じブランドが再現される確率は100回に1回未満、という調査があります。この前提だと「引用回数が先月より2回増えた」は成果ではありません。測ってよいものと、数えても意味がないものを分けます。当サイト自身の数字も出します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/aeo-kpi-measurement/"},"url":"https://ai-oni.com/articles/aeo-kpi-measurement/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AEO対策室","datePublished":"2026-08-13","dateModified":"2026-08-13","image":"https://ai-oni.com/static/img/article-aeo-kpi-measurement.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/aeo-kpi-measurement/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-aeo-kpi-measurement.jpg"
+         alt="AEOの効果はどう測るか — 測れる指標と、測ってはいけない指標" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AEO対策室</span>      <h1>AEOの効果はどう測るか — 測れる指標と、測ってはいけない指標</h1>
+<p class="article-lead">同じ質問を繰り返しても同じブランドが再現される確率は100回に1回未満、という調査があります。この前提だと「引用回数が先月より2回増えた」は成果ではありません。測ってよいものと、数えても意味がないものを分けます。当サイト自身の数字も出します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月13日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：AI検索の「引用回数」と「順位」は<strong>指標になりません</strong>。同じ質問での再現率は100回に1回未満という調査があり、当社の実測でも引用ドメインは1件も重複しませんでした。使えるのは、①特定できるか ②説明に誤りがあるか ③参照元に入るか（0か1か） ④Search Console ⑤問い合わせ の5つです。</p>
+<h2 id="_1">先に立場を明かします</h2>
+<p>株式会社TOEは福岡のWeb制作・AI開発の会社で、AI検索対策のサービスを売りうる<strong>利害関係者</strong>です。<strong>効果測定の話は、売る側にとって最も都合が悪い領域です。</strong> それでも書くのは、ここを曖昧にしたまま契約すると、成果の判定ができなくなるからです。</p>
+<hr />
+<h2 id="_2">結論（先に表で）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>測れるか</th>
+<th>扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIが自社を特定できるか（できる／できない）</td>
+<td>○</td>
+<td><strong>使える。</strong> 粗いが安定している</td>
+</tr>
+<tr>
+<td>AIの説明に事実誤りがあるか</td>
+<td>○</td>
+<td><strong>使える。</strong> 直す対象が明確になる</td>
+</tr>
+<tr>
+<td>参照元に自社サイトが入るか</td>
+<td>△</td>
+<td>試行を重ねれば傾向は見える</td>
+</tr>
+<tr>
+<td>Search Console の表示回数・クリック</td>
+<td>○</td>
+<td><strong>使える。</strong> ただしAI検索経由とは限らない</td>
+</tr>
+<tr>
+<td>問い合わせ件数・受注</td>
+<td>○</td>
+<td><strong>最終指標。</strong> ただし要因の切り分けは困難</td>
+</tr>
+<tr>
+<td>「引用された回数」の月次比較</td>
+<td><strong>×</strong></td>
+<td><strong>数えても意味がない。</strong> 誤差に埋もれる</td>
+</tr>
+<tr>
+<td>AI検索での「順位」</td>
+<td><strong>×</strong></td>
+<td>順位という概念が成立しない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>分かれ目は、その数字が翌週も再現するかどうかです。</strong></p>
+<hr />
+<h2 id="_3">なぜ「回数」が使えないのか</h2>
+<p>SparkToro / Gumshoe.ai の調査（600人・2,961回実行）によれば、<strong>同じ質問を繰り返しても、同じブランドが再現される確率は100回に1回未満</strong>でした。</p>
+<p>当社がPerplexityで3クエリを測ったときも、<strong>引用ドメインは1件も重複しませんでした</strong>（<a href="../ai-search-measurement/">ChatGPTやPerplexityで自社が出るか、実際に測ってみました</a>）。</p>
+<p>これが意味するのは次のことです。</p>
+<ul>
+<li>「10回聞いて3回出ました」を順位のように扱うのは危険です。誤差に埋もれます</li>
+<li>「先月より2回増えました」という報告は、<strong>ただのノイズかもしれません</strong></li>
+<li>意味があるのは、せいぜい<strong>「まったく出ないか／たまに出るか」という粗い判定</strong>まで。0回と10回の差には意味がありますが、10回と13回の差には意味がありません</li>
+</ul>
+<p>SparkToroのRand Fishkin氏は「同一プロンプトで引用ブランドが99%以上一致しない以上、対策の効果は測定不能だ」と指摘しています。日本でも、SEOコンサルタントの辻正浩氏が2026年4月のWeb担当者Forumで、AI検索対策は「基本的に多くのWebサイトには現段階では【不要】」「AI検索対応は新しいことではなく、SEOでやるべきことをしっかりやることだ」と述べています。</p>
+<p><strong>当社が測った限り、この批判は妥当だと考えています。</strong></p>
+<hr />
+<h2 id="_4">では何を測るのか</h2>
+<h3 id="1">1. 特定できるか／できないか（○）</h3>
+<p><strong>最も安定している指標です。</strong> 社名で3回聞いて、</p>
+<ul>
+<li>3回とも会社を特定できた → 特定できている</li>
+<li>3回とも「情報が見つかりません」「複数の企業が該当します」 → 特定できていない</li>
+<li>混在する → 不安定</li>
+</ul>
+<p>この3段階なら、月をまたいでも比較できます。<strong>当社が45社を測ったときも、この粗さで判定しました</strong>（<a href="../kansoku-fukuoka-kinzoku-45/">福岡県の金属加工業45社をAIに聞いたら、42社は説明できた</a>）。1社3回、複数回のうち一度でも確認できた事実は「確認できる事実」として扱う——つまり<strong>実態より甘い側に倒した</strong>集計です。それでも項目間の差ははっきり出ました。</p>
+<h3 id="2">2. 説明の中に誤りがあるか（○）</h3>
+<p>これは回数ではなく<strong>内容</strong>なので、揺れの影響を受けにくい指標です。</p>
+<table>
+<thead>
+<tr>
+<th>見る点</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>所在地が違う</td>
+<td>別の県の同名企業の住所が返る</td>
+</tr>
+<tr>
+<td>事業内容が違う</td>
+<td>扱っていない製品が挙がる</td>
+</tr>
+<tr>
+<td>規模が違う</td>
+<td>従業員数・設立年が別会社のもの</td>
+</tr>
+<tr>
+<td>存在しない実績</td>
+<td>受賞・取引先が事実と異なる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>誤りが1つ見つかれば、それは直す対象です。</strong> 回数を数える必要はありません。対処は<a href="../aeo-wrong-answer-fix/">AIが自社について誤ったことを答えたときの対処手順</a>にまとめました。</p>
+<h3 id="3">3. 参照元に自社サイトが入るか（△）</h3>
+<p>回数として扱わず、<strong>「入ることがあるか／一度も入らないか」</strong>で見ます。</p>
+<p>当社が自社を測ったとき、AIが根拠にした6サイトに自社サイトは<strong>1つも入っていませんでした</strong>。これは「0か1か」の判定なので、意味のある観測です。</p>
+<h3 id="4-search-console">4. Search Console（○ ただし解釈に注意）</h3>
+<p>Google検索側の数字は、日次で安定して取れます。<strong>AI検索の指標ではありませんが、土台の状態は分かります。</strong></p>
+<p>当サイトの実測を出します。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>2026年7月20〜29日</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ニュース個別142ページ</td>
+<td>表示の51.8%を占めてCTR 2.03%</td>
+</tr>
+<tr>
+<td>自社記事73ページ</td>
+<td>表示の21.1%でCTR 4.35%</td>
+</tr>
+<tr>
+<td><strong>コーナー一覧ページ</strong></td>
+<td>表示7.2%で<strong>クリックの32%</strong>、CTR <strong>14.55%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>最も効率が良かったのはコーナー一覧ページでした。</strong> 記事でもニュースでもありません。理由は「名前で何が読めるか分かる」ためだと考えています。</p>
+<p><strong>この種の数字は、AI検索の効果測定ではありません。</strong> ただし、「クロールされているか」「索引されているか」という土台は、ここでしか確認できません。索引状況は Search Console の URL検査で1URLずつ確認できます。当社が別メディアで無作為抽出して測ったときは、<strong>インデックス済み51% / Googleに未認識48%</strong>という分布でした。<strong>この段階でタイトルや説明文を改善しても、効果は測れません。</strong></p>
+<h3 id="5">5. 問い合わせ・受注（○ 最終指標）</h3>
+<p>最終的にはここですが、<strong>要因の切り分けは困難です。</strong></p>
+<p>外部調査（Piftee・2026年5〜6月・n=196、うち製造業37名）では、発注先探しで生成AIを使った経験は75.0%、AI経由で知らない企業を見つけた人は82.3%に上る一方、<strong>実際にAI経由で発注に至ったのは21.1%</strong>でした。Gartnerの調査（n=645、2025年8〜9月実施・2026年5月20日公表）では、BtoB購買担当者の<strong>51%がAIで誤情報に遭遇し、69%が営業担当に裏取りを依頼</strong>しています。</p>
+<p><strong>AIは候補を見つける入口としては使われ始めていますが、発注の意思決定はまだ人間がしています。</strong> 問い合わせフォームに「当社をどこで知りましたか」の選択肢を置くのが、いちばん確実です。</p>
+<hr />
+<h2 id="_5">測定を仕組みにするときのルール</h2>
+<p>当社が自社の測定に課しているルールです。</p>
+<ul>
+<li><strong>試行回数と測定日を必ず書く</strong></li>
+<li><strong>取得できなかったエンジンは「取得失敗」と書き、埋めない</strong></li>
+<li><strong>サンプル数が少ないときは「参考値」と明記する</strong></li>
+<li><strong>推定値には「推定」と付し、実測と混ぜない</strong></li>
+<li><strong>集計後の数字ではなく、取得した生データを月別に保存する</strong></li>
+</ul>
+<p>最後の1点が重要です。<strong>集計だけ残すと、後から解釈を変えられなくなります。</strong> AIの引用先は数か月で大きく変わるので、生データがないと「何が変わったのか」が言えません。</p>
+<hr />
+<h2 id="_6">報告を受ける側のチェックポイント</h2>
+<p>外部に依頼している場合、<strong>次の報告が来たら疑ってください。</strong></p>
+<table>
+<thead>
+<tr>
+<th>報告の文言</th>
+<th>なぜ疑うか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「AI検索での順位が3位に上昇しました」</td>
+<td>AI検索に順位という概念がありません</td>
+</tr>
+<tr>
+<td>「引用回数が先月比40%増加」</td>
+<td>試行回数と測定日が書かれていなければ誤差と区別できません</td>
+</tr>
+<tr>
+<td>「構造化データ実装により引用が2倍」</td>
+<td>独立実験では引用増は確認されていません</td>
+</tr>
+<tr>
+<td>「AI検索経由の流入が増えました」</td>
+<td>参照元が判別できないケースが多く、切り分けの根拠が要ります</td>
+</tr>
+</tbody>
+</table>
+<p>判断材料は<a href="../aeo-vendor-checklist/">AEO業者・ツールを発注する前のチェックリスト</a>にまとめました。</p>
+<hr />
+<h2 id="_7">月次レポートの型</h2>
+<p>社内で回す前提の、最小の報告書です。<strong>A4で1枚に収まります。</strong></p>
+<pre><code>【AI検索 月次記録】2026年8月分
+
+■ 測定条件
+測定日 : 2026-08-13
+エンジン: ChatGPT（検索モード）／Perplexity
+質問   : ①社名 ②「〇〇加工 小ロット 福岡」 ③「〇〇の試作 依頼」
+試行   : 各3回
+
+■ 結果（0か1かの判定）
+自社を特定できたか      : ChatGPT 3/3、Perplexity 3/3
+説明に事実誤りがあったか: 1件（設立年が5年ずれ）
+参照元に自社サイト      : ChatGPT 2/3、Perplexity 0/3
+発注クエリで自社が挙がる: ②で1回、③で0回
+
+■ 先月からの変化
+・設立年の誤りは先月も出ていた → 会社概要ページに西暦で明記済み（8/5）
+・Perplexityの参照元に自社が入らない状態が2か月継続
+
+■ 今月やったこと
+・会社概要に設立年・従業員数を追記
+・加工事例を2件追加（材質・板厚・工程つき）
+
+■ 来月やること
+・納入実績を業界別に整理して掲載
+</code></pre>
+<p><strong>「先月からの変化」に回数の増減を書かないでください。</strong> 書くのは、<strong>誤りが消えたか／参照元に入るようになったか</strong>という質的な変化です。</p>
+<hr />
+<h2 id="_8">社内で報告するときの言い方</h2>
+<p>経営会議でこの話をすると、必ず「で、効果はあったのか」と聞かれます。<strong>そこで数字を作らないことが重要です。</strong></p>
+<table>
+<thead>
+<tr>
+<th>聞かれたこと</th>
+<th>誠実な答え方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>順位は上がったか</td>
+<td>「AI検索に順位はありません。特定できるかどうかで見ています」</td>
+</tr>
+<tr>
+<td>何回引用されたか</td>
+<td>「回数は誤差が大きく、指標になりません」</td>
+</tr>
+<tr>
+<td>効果はあったのか</td>
+<td>「誤りが1件消えました。受注への効果は測れていません」</td>
+</tr>
+<tr>
+<td>いつ結果が出るか</td>
+<td>「保証できません。やっているのは、聞かれたときに正しく答えられる材料を置くことです」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>この説明ができないまま予算を取ると、翌期に説明できなくなります。</strong> 効果が測れないことを最初に共有しておくのが、結果的にいちばん安全です。</p>
+<p>当社は自社サイトについて、<strong>修正の効果をまだ測れていません。</strong> 指名検索の数字は7月末から改善していません。それも含めて公開しています。</p>
+<hr />
+<h2 id="_9">この記事で言えないこと（限界）</h2>
+<ul>
+<li><strong>当社は施策の前後比較をしていません。</strong> 「この指標が動いたから効果があった」と言える実測を持っていません</li>
+<li>引用した外部調査（SparkToro / Gumshoe.ai、Piftee、Gartner）は当社の実測ではありません</li>
+<li>Search Consoleの数字は<strong>当サイト1件の実測</strong>で、他サイトで同じ分布になるとは限りません</li>
+<li>AI検索側の計測手段は今後変わる可能性があります。測れないと書いたものが、測れるようになるかもしれません</li>
+</ul>
+<hr />
+<h2 id="_10">まとめ</h2>
+<ul>
+<li><strong>同一質問での再現率は100回に1回未満</strong>という調査がある（SparkToro / Gumshoe.ai）。当社の実測でも引用ドメインは1件も重複しなかった</li>
+<li>したがって<strong>「引用回数」「AI検索での順位」は指標にならない</strong></li>
+<li>使えるのは<strong>①特定できるか ②説明に誤りがあるか ③参照元に入るか（0か1か） ④Search Console ⑤問い合わせ</strong></li>
+<li>当サイトの実測では、<strong>最も効率が良かったのはコーナー一覧ページ</strong>（表示7.2%でクリックの32%、CTR 14.55%）</li>
+<li>測定は<strong>試行回数と測定日を必ず書く。取得失敗は埋めない。生データを残す</strong></li>
+<li>「順位が上がりました」「引用が2倍」という報告は、<strong>前提の確認をしてから受け取る</strong></li>
+</ul>
+<p>まず現状を測るところからは<a href="../aeo-self-check-30min/">自社がAIにどう説明されているかを、30分で調べる手順</a>にあります。</p>
+<hr />
+<p><em>本記事で引用した当社の実測：2026年7月18日Perplexity 3クエリ、2026年8月1日 福岡県金属加工業45社、Search Console（2026年7月20〜29日）。外部調査：SparkToro / Gumshoe.ai（600人・2,961回実行、<a href="https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/">https://sparktoro.com/blog/new-research-ais-are-highly-inconsistent-when-recommending-brands-or-products-marketers-should-take-care-when-tracking-ai-visibility/</a>）、Piftee（2026年5〜6月・n=196）、Gartner（n=645、2025年8〜9月調査／2026年5月20日公表、<a href="https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights">https://www.gartner.com/en/newsroom/press-releases/2026-05-20-gartner-survey-finds-sixty-nine-percent-of-b-two-b-buyers-turn-to-sales-reps-to-validate-ai-generated-insights</a>）、辻正浩氏（Web担当者Forum・2026年4月13日）。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-effect-measurement/">
+<div class="card-media"><img src="../../static/img/article-ai-effect-measurement.jpg" alt="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録</h3>
+<p class="card-summary">AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ctr-zero-clicks/">
+<div class="card-media"><img src="../../static/img/article-toe-ctr-zero-clicks.jpg" alt="検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因</h3>
+<p class="card-summary">順位が付いていてもクリックされないことがあります。株式会社TOEが自社メディアのSearch Consoleを10日ぶん数えたところ、10位以内に155ページ出て562回表示され、そのうち140ページは1件もクリックされていませんでした。原因を3つに切り分け、逆に最も効率の良かったページの共通点も出します。AI検索対策（AEO）とWeb制作を事業とする当社の、自己点検の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-keiei-db-auto/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと</h3>
+<p class="card-summary">当社は経営業務をcron+AIエージェントで自動化し、経営データを社内の「_経営DB/」フォルダへ毎日・毎週、自動蓄積しています。その実行ログ20,109行を数えたら、処理完了を示す✅マークは4,749回、週次統合ジョブは586回動いていました。営業の危険度採点、経理の警告再生成、ダッシュボード生成からPDF化・Google Drive転送まで、人間は完成したものを見るだけです。ただし正直に書きます。この4,749という数字は「実行した回数」であって、「中身が正しい」ことの保証ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-aeo">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI検索対策</span>
+    <h2 class="cta-title">ChatGPT に自社の名前は出てきますか</h2>
+    <p class="cta-body">お客様が AI に質問したとき、自社が答えに出るかどうかを実際に測ります。出ない場合は、どの記述が足りないのかまでお伝えします。</p>
+    <a class="btn btn-primary cta-action" href="../../check/?utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=aeo&amp;utm_content=aeo-kpi-measurement">無料でAI検索の見え方を調べる</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

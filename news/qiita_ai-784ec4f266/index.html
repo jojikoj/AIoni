@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理…｜要点と実務への影響 · AIの鬼</title>
+  <meta name="description" content="AIの鬼から見ると、ここに業界全体の誤解がある。ChatGPTやClaudeのような大型言語モデルが「ブラックボックスで動く魔法」という風潮が強まるなか、「数学は勉強しなくていい…">
+  <link rel="canonical" href="https://ai-oni.com/news/qiita_ai-784ec4f266/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/qiita_ai-784ec4f266/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由｜要点と実務への影響 · AIの鬼">
+  <meta property="og:description" content="AIの鬼から見ると、ここに業界全体の誤解がある。ChatGPTやClaudeのような大型言語モデルが「ブラックボックスで動く魔法」という風潮が強まるなか、「数学は勉強しなくていい…">
+  <meta property="og:url" content="https://ai-oni.com/news/qiita_ai-784ec4f266/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由｜要点と実務への影響 · AIの鬼">
+  <meta name="twitter:description" content="AIの鬼から見ると、ここに業界全体の誤解がある。ChatGPTやClaudeのような大型言語モデルが「ブラックボックスで動く魔法」という風潮が強まるなか、「数学は勉強しなくていい…">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由","item":"https://ai-oni.com/news/qiita_ai-784ec4f266/"}]},{"@type":"NewsArticle","@id":"https://ai-oni.com/news/qiita_ai-784ec4f266/","url":"https://ai-oni.com/news/qiita_ai-784ec4f266/","headline":"ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由","description":"AIの鬼から見ると、ここに業界全体の誤解がある。ChatGPTやClaudeのような大型言語モデルが「ブラックボックスで動く魔法」という風潮が強まるなか、「数学は勉強しなくていい…","inLanguage":"ja-JP","isPartOf":{"@id":"https://ai-oni.com/#website"},"isAccessibleForFree":true,"datePublished":"2026-07-23T09:13:13+00:00","author":{"@type":"Organization","name":"AIの鬼 編集部","url":"https://ai-oni.com/about/"},"publisher":{"@id":"https://ai-oni.com/#organization"},"isBasedOn":{"@type":"NewsArticle","headline":"ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由","url":"https://qiita.com/okayuice/items/093d556e4dfe0f8c1484","publisher":{"@type":"Organization","name":"Qiita AI"}},"citation":{"@type":"NewsArticle","headline":"ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由","url":"https://qiita.com/okayuice/items/093d556e4dfe0f8c1484","publisher":{"@type":"Organization","name":"Qiita AI"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/news/qiita_ai-784ec4f266/"}}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/qiita_ai-784ec4f266/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Qiita AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+        <span class="src">Qiita AI</span>
+<time datetime="2026-07-23T09:13:13+00:00">2026年7月23日</time>      </div>
+      <h1>ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-user-contents.imgix.net%2Fhttps%253A%252F%252Fcdn.qiita.com%252Fassets%252Fpublic%252Farticle-ogp-background-afbab5eb44e0b055cce1258705637a91.png%3Fixlib%3Drb-4.1.1%26w%3D1200%26blend64%3DaHR0cHM6Ly9xaWl0YS11c2VyLXByb2ZpbGUtaW1hZ2VzLmltZ2l4Lm5ldC9odHRwcyUzQSUyRiUyRnNlY3VyZS5ncmF2YXRhci5jb20lMkZhdmF0YXIlMkZjZjRmYmFiODEyNTc0ZTEwZTExYWY5ZGIxM2QwMjI5Mj9peGxpYj1yYi00LjEuMSZhcj0xJTNBMSZmaXQ9Y3JvcCZtYXNrPWVsbGlwc2UmYmc9RkZGRkZGJmZtPXBuZzMyJnM9NDIxMzEyYzE5ZGExYzgxNGE4MzU2MjUxYTkwMTcxMjM%26blend-x%3D120%26blend-y%3D462%26blend-w%3D90%26blend-h%3D90%26blend-mode%3Dnormal%26mark64%3DaHR0cHM6Ly9xaWl0YS1vcmdhbml6YXRpb24taW1hZ2VzLmltZ2l4Lm5ldC9odHRwcyUzQSUyRiUyRnMzLWFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb20lMkZxaWl0YS1vcmdhbml6YXRpb24taW1hZ2UlMkZmMGY5ODM4NGQzMDM0Y2QwMTMwZDIyOTAxMzQzNTcxYTZlYTMyYjgxJTJGb3JpZ2luYWwuanBnJTNGMTY0NzI3NjcyOT9peGxpYj1yYi00LjEuMSZ3PTQ0Jmg9NDQmZml0PWNyb3AmbWFzaz1jb3JuZXJzJmNvcm5lci1yYWRpdXM9OCZiZz1GRkZGRkYmYm9yZGVyPTIlMkNGRkZGRkYmZm09cG5nMzImcz0xNzNhMzdmM2JlYWU5ZDU3ODBlMmQ5OTE1N2E2YTQxZQ%26mark-x%3D186%26mark-y%3D515%26mark-w%3D40%26mark-h%3D40%26s%3D4fd884b0c6214b84eef2d9d1e19e577a?ixlib=rb-4.1.1&amp;amp;w=1200&amp;amp;fm=jpg&amp;amp;mark64=aHR0cHM6Ly9xaWl0YS11c2VyLWNvbnRlbnRzLmltZ2l4Lm5ldC9-dGV4dD9peGxpYj1yYi00LjEuMSZ3PTk2MCZoPTMyNCZ0eHQ9JUUzJTgzJTg3JUUzJTgyJUEzJUUzJTgzJUJDJUUzJTgzJTk3JUUzJTgzJUE5JUUzJTgzJUJDJUUzJTgzJThCJUUzJTgzJUIzJUUzJTgyJUIwJUUzJTgyJTkyJUU1JUFEJUE2JUUzJTgxJUI2JUU1JTg5JThEJUUzJTgxJUFCJUUzJTgzJUFEJUUzJTgyJUI4JUUzJTgyJUI5JUUzJTgzJTg2JUUzJTgyJUEzJUUzJTgzJTgzJUUzJTgyJUFGJUU1JTlCJTlFJUU1JUI4JUIwJUUzJTgyJTkyJUU1JUFEJUE2JUUzJTgyJTkzJUUzJTgxJUE3JUUzJTgxJThBJUUzJTgxJThEJUUzJTgxJTlGJUUzJTgxJTg0JUU3JTkwJTg2JUU3JTk0JUIxJnR4dC1hbGlnbj1sZWZ0JTJDdG9wJnR4dC1jb2xvcj0lMjMxRTIxMjEmdHh0LWZvbnQ9SGlyYWdpbm8lMjBTYW5zJTIwVzYmdHh0LXNpemU9NTYmdHh0LXBhZD0wJnM9YTA0ODdkMjQ5OTZkMGI2MGY2NDlkZDY2NjA3N2U2MmQ&amp;amp;mark-x=120&amp;amp;mark-y=112&amp;amp;blend64=aHR0cHM6Ly9xaWl0YS11c2VyLWNvbnRlbnRzLmltZ2l4Lm5ldC9-dGV4dD9peGxpYj1yYi00LjEuMSZ3PTgzOCZoPTU4JnR4dD0lNDBva2F5dWljZSZ0eHQtY29sb3I9JTIzMUUyMTIxJnR4dC1mb250PUhpcmFnaW5vJTIwU2FucyUyMFc2JnR4dC1zaXplPTM2JnR4dC1wYWQ9MCZzPWVjMTJlZmRiYmE0ZGUyNzI5NGM4YzY3Nzg2NGU1ZmRj&amp;amp;blend-x=242&amp;amp;blend-y=454&amp;amp;blend-w=838&amp;amp;blend-h=46&amp;amp;blend-fit=crop&amp;amp;blend-crop=left%2Cbottom&amp;amp;blend-mode=normal&amp;amp;txt64=5qCq5byP5Lya56S-V29ya3MgSHVtYW4gSW50ZWxsaWdlbmNl&amp;amp;txt-x=242&amp;amp;txt-y=539&amp;amp;txt-width=838&amp;amp;txt-clip=end%2Cellipsis&amp;amp;txt-color=%231E2121&amp;amp;txt-font=Hiragino%20Sans%20W6&amp;amp;txt-size=28&amp;amp;s=ba760d9de914a23f55d1c098ae38effd" alt="ディープラーニングを学ぶ前にロジスティック回帰を学んでおきたい理由（画像: Qiita AI）"
+           loading="lazy" referrerpolicy="no-referrer"
+           onerror="this.closest('figure').style.display='none'">
+      <figcaption>画像: Qiita AI（配信元より）</figcaption>
+    </figure>
+
+    <div class="news-body">
+<p>ディープラーニングの人気が全てを飲み込んでいる時代だが、実は多くのエンジニアが基礎となる統計的機械学習、特にロジスティック回帰を十分に理解しないままニューラルネットワークに飛び込んでいる。この記事は新卒エンジニアが実感した気づき——AIの内部構造を理解したいなら、複雑な層構造の前に、シンプルな数学モデルから順序立てて学ぶべき——を伝えている。確率、勾配降下法、正則化といった概念は、ディープラーニングでも同じく登場する。基礎を飛ばして応用に入ると、後々パラメータ調整がなぜ機能するのか理解できず、手探りのプロンプト調整に陥ってしまう。</p><p>AIの鬼から見ると、ここに業界全体の誤解がある。ChatGPTやClaudeのような大型言語モデルが「ブラックボックスで動く魔法」という風潮が強まるなか、「数学は勉強しなくていい、使えば十分」という甘い言説が蔓延している。だが実務では違う。プロンプトをファインチューニングするだけでは解決しない問題——モデルの適用限界、コスト効率、精度の天井——にぶつかったとき、その問題がなぜ発生しているのかを理解する力は、基礎学習の有無で大きく異なる。ロジスティック回帰はその入口だ。確率的思考、損失関数、最適化といった概念を一度手で動かして理解すれば、複雑なモデルも本質的には同じ原理で動いていることに気づく。新卒がこの気づきに早期に達するのは、実は組織にとって非常に大きな資産になる。</p><p>中小企業がAIを導入するとき、外部のコンサルや既製ツールに頼るだけでは、いずれ限界にぶつかる。自社の固有なデータや問題に対して、なぜそのモデルを選んだのか、精度の限界は何か、を説明できる人材を持つことが差別化に直結する。ロジスティック回帰を学ぶことは、そうした実務的な判断力を養う最短経路だと考えてほしい。</p>    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://qiita.com/okayuice/items/093d556e4dfe0f8c1484" target="_blank" rel="noopener nofollow">
+        Qiita AIで元記事を読む →
+      </a>
+    </p>
+
+    <section class="news-related">
+      <h2>この話題に関連する、TOEの実践・観測記録</h2>
+      <p class="news-related-lead">
+        ニュースの背景を、当社が実際にAIを動かした一次記録から補足します。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-mars/">
+<div class="card-media"><img src="../../static/img/article-ai-mars.jpg" alt="社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%）" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">社内データにAIを「たどらせる」方式は、追加学習なしでどこまで当たるのか（Macro F1 66.29%／最難関40.83%）</h3>
+<p class="card-summary">知識グラフを段階的にたどらせてSPARQLを生成する手法MARSが、ファインチューニングなしで既存手法を上回った。ただし最高でもMacro F1は66.29%、最難関ベンチマークでは40.83%。社内DBへの自然文質問AIを検討する中小企業が、精度の天井をどう見積もり、どこに人を残すべきかを一次資料の数字から読む。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-wraft/">
+<div class="card-media"><img src="../../static/img/article-ai-wraft.jpg" alt="AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIに文書チェックを任せるなら、1つのプロンプトで全部やらせるのと工程ごとに分けるのと、どちらが精度が出るのか？</h3>
+<p class="card-summary">論証エッセイの自動採点システムWrAFTは、採点・表層修正・深層コメントの3工程を分割し、それぞれ別のLLMと手法を割り当てた。採点はファインチューニングでRMSE 0.57→0.44に改善したが、深いコメントではファインチューニング版が出力欠落を起こし素のプロンプトに負けた。工程分割の実証データを中小企業の文書チェック業務に引き写して読む。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-onpolicy-delta-distillation/">
+<div class="card-media"><img src="../../static/img/article-ai-onpolicy-delta-distillation.jpg" alt="小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">小型AIに推論力を教え込めるか — 100ステップの追加学習で数学スコアが45.8→70.3になった実験</h3>
+<p class="card-summary">自社で動かせる小型モデルに「考える力」を後から足せるのか。2026年7月公開の研究は、教師モデルの出力をそのまま真似させるのではなく、教師とその土台モデルの差分だけを学ばせる方法を14ベンチマークで実測しました。伸びた数字と、伸びなかった条件を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=qiita_ai-784ec4f266">無料で相談する</a>
+  </div>
+</aside>
+
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

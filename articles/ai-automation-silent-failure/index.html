@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AI自動化は「エラーを出さずに止まる」 · AIの鬼</title>
+  <meta name="description" content="自動化はエラーを出して止まるとは限りません。処理は最後まで走り、ログにも完了と出て、数字が増えないことだけが唯一の兆候になります。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-automation-silent-failure/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-automation-silent-failure/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと · AIの鬼">
+  <meta property="og:description" content="自動化はエラーを出して止まるとは限りません。処理は最後まで走り、ログにも完了と出て、数字が増えないことだけが唯一の兆候になります。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-automation-silent-failure/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-automation-silent-failure.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-automation-silent-failure.jpg">
+  <meta name="twitter:title" content="AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと · AIの鬼">
+  <meta name="twitter:description" content="自動化はエラーを出して止まるとは限りません。処理は最後まで走り、ログにも完了と出て、数字が増えないことだけが唯一の兆候になります。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと","item":"https://ai-oni.com/articles/ai-automation-silent-failure/"}]},{"@type":"Article","headline":"AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと","description":"自動化はエラーを出して止まるとは限りません。処理は最後まで走り、ログにも完了と出て、数字が増えないことだけが唯一の兆候になります。株式会社TOEが自社で見つけた12件（発火率91%抜け、実行0通、翻訳が7%で停滞など）を型に整理し、発注時に契約で決めておくことをまとめました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-automation-silent-failure/"},"url":"https://ai-oni.com/articles/ai-automation-silent-failure/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"失敗の鬼","datePublished":"2026-08-01","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-ai-automation-silent-failure.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-automation-silent-failure/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-automation-silent-failure.jpg"
+         alt="AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと</h1>
+<p class="article-lead">自動化はエラーを出して止まるとは限りません。処理は最後まで走り、ログにも完了と出て、数字が増えないことだけが唯一の兆候になります。株式会社TOEが自社で見つけた12件（発火率91%抜け、実行0通、翻訳が7%で停滞など）を型に整理し、発注時に契約で決めておくことをまとめました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月1日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：AI自動化で本当に怖いのは、エラーを出して止まることではありません。<strong>処理は最後まで走り、ログにも「完了」と出て、数字が増えないことだけが唯一の兆候になる</strong>壊れ方です。当社は自社の自動化を数え直して<strong>12件</strong>見つけました。ひどいものは、5.3日で動くはずの11回のうち実際に動いたのは1回（<strong>91%が抜けていた</strong>）。別のものは、エラー名が「timeout 900s」なのに実際のプロセスは<strong>139分間生きていました</strong>。発注するなら、機能の要件より先に「<strong>止まったときどうやって気づくか</strong>」を決めてください。</p>
+<p>株式会社TOEはAI開発を事業としており、この記事は<strong>提供する側が書いています</strong>。中立の第三者ではありません。そのうえで、自社で実際に起きたことだけを載せます。都合の悪い数字も含めてです。</p>
+<h2 id="12">実測した12件</h2>
+<p>すべて当社の自動化で、実行ログを数えて確認したものです。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>何が起きていたか</th>
+<th>実測</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>毎日決まった時刻に動く処理が、<strong>起動すらしていなかった</strong></td>
+<td>5.3日で11回動くはずが<strong>1回だけ</strong>（91%が抜け）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>タイムアウトが<strong>記録の上だけ効いていた</strong></td>
+<td>エラー名は「timeout 900s」、実際は<strong>139分間生存</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>メディア更新が<strong>3日間止まっていた</strong></td>
+<td>誰も気づかず。監査ログを見たら<strong>記録が残っていなかった</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>要約の工程だけが<strong>黙って止まっていた</strong></td>
+<td>収集600件・翻訳621件は動いていたのに、要約は0件</td>
+</tr>
+<tr>
+<td>5</td>
+<td>決裁の仕組みが<strong>使われなかった</strong></td>
+<td>実行<strong>0通</strong>、承認待ちは29件→<strong>37件に増加</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>一括処理が<strong>75%失敗</strong></td>
+<td>553件中<strong>414件</strong>が失敗。モデル指定の書き忘れ</td>
+</tr>
+<tr>
+<td>7</td>
+<td>点検レポートが<strong>死んだ項目を数えていた</strong></td>
+<td>表示されない項目を集計し、ずっと「<strong>0%</strong>」と報告</td>
+</tr>
+<tr>
+<td>8</td>
+<td>本文取得が<strong>常に空を返していた</strong></td>
+<td>ライブラリ未導入。全件「本文なし」として静かに積み上がる</td>
+</tr>
+<tr>
+<td>9</td>
+<td>翻訳が<strong>7%で止まっていた</strong></td>
+<td>2,000件を一度に処理 → 打ち切られて保存前に消える</td>
+</tr>
+<tr>
+<td>10</td>
+<td>更新通知が<strong>毎回「全ページ更新」</strong></td>
+<td>686件すべてを毎日通知。差分ではないので信用されなくなる</td>
+</tr>
+<tr>
+<td>11</td>
+<td>画像取得が<strong>毎回やり直し</strong></td>
+<td>2,300件を一度に処理、保存は最後の1回だけ</td>
+</tr>
+<tr>
+<td>12</td>
+<td>出典検証が<strong>未検証を隠していた</strong></td>
+<td>45件しか確認できないのに「実在しないもの0件」と報告</td>
+</tr>
+</tbody>
+</table>
+<p><strong>12件すべてでエラーは出ていません。</strong> 7〜12は2026年8月1日にサイトを点検して見つけたもので、それまで誰も気づいていませんでした。</p>
+<h2 id="4">4つの型に分けられる</h2>
+<p>12件を並べると、壊れ方は4つに整理できます。</p>
+<table>
+<thead>
+<tr>
+<th>型</th>
+<th>中身</th>
+<th>気づけない理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 動いていない</strong></td>
+<td>起動しない、途中で消える（#1 #2 #3 #4）</td>
+<td>「毎朝動いている」という思い込みが、ログを見る動機を奪う</td>
+</tr>
+<tr>
+<td><strong>B. 空を返す</strong></td>
+<td>依存が無い、条件に当たらない（#8）</td>
+<td>呼び出し側は「該当なし」と解釈する。<strong>エラーではなく正常系に見える</strong></td>
+</tr>
+<tr>
+<td><strong>C. 毎回やり直して消える</strong></td>
+<td>一度に全部処理し、保存前に打ち切られる（#9 #10 #11）</td>
+<td>処理自体は成功する。<strong>進捗を記録していないので、何度回しても同じ</strong></td>
+</tr>
+<tr>
+<td><strong>D. 数える対象が違う</strong></td>
+<td>死んだ項目を集計、失敗を集計から落とす（#7 #12）</td>
+<td>数字は出る。<strong>その数字が何を数えているかを疑わない限り気づけない</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cが最も多く、最も長く放置されます。</strong> 毎回ゼロからやり直す設計は、進捗を記録しない限り「何もしていない」のと区別がつきません。当社の翻訳は、これで何日も7%のままでした。</p>
+<h2 id="5">発注時に決めておく5項目</h2>
+<p>機能の要件より先に、これを契約や仕様に入れてください。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>決めること</th>
+<th>決めないとどうなるか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>止まったとき、どうやって気づくか</strong></td>
+<td>3日間気づかない。当社で実際に起きた</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>何回動くはずか</strong>（回数の期待値）</td>
+<td>「動いている気がする」で終わる。数えると91%抜けが出る</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>1回あたりの処理件数の上限</strong></td>
+<td>全件を一度に回して、途中で打ち切られ全損する</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>途中経過を保存するか</strong></td>
+<td>保存しないと、事故は「全損」になる</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>失敗件数もレポートに出すか</strong></td>
+<td>成功数だけ出すと、母数が減っていることに気づけない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1番が最重要です。</strong> 当社は「ジョブを1本増やすたびに、これが止まったらどうやって気づくかを一緒に決める」という運用に変えました。後回しにして3日ぶん取りこぼしたためです。</p>
+<h2 id="_1">自社で今すぐ確認できること</h2>
+<p>外注していても、社内で作っていても、この3つは今日確認できます。</p>
+<ol>
+<li><strong>実行ログの回数を数える。</strong> 「1日1回動くはず」なら、過去7日で7回あるか。当社は11回中1回だった</li>
+<li><strong>出力の件数を先週と比べる。</strong> 増えていなければ、動いていない可能性がある</li>
+<li><strong>レポートの数字が何を数えているか確かめる。</strong> 当社の点検レポートは、表示されない項目を数えて「0%」と出し続けていた</li>
+</ol>
+<p><strong>感触ではなく回数を数えるのが要点です。</strong> 数えると、0や91%といった数字が出てきます。</p>
+<h2 id="_2">この記事で言えないこと</h2>
+<ul>
+<li><strong>他社の自動化の品質は評価していません。</strong> 当社は提供する側で、その立場にありません</li>
+<li><strong>12件を防ぐ完全な方法も書けません。</strong> 当社も8月1日に新たに6件見つけたばかりです</li>
+<li>ここに載せたのは、当社の実行ログから数えた事実だけです</li>
+</ul>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>怖いのはエラーで止まることではなく、<strong>処理が最後まで走り、ログに「完了」と出て、数字だけが増えない</strong>壊れ方</li>
+<li>当社で<strong>12件</strong>見つけた。91%が発火せず／timeoutが効かず139分生存／3日間停止に気づかず／実行0通／553件中414件失敗、ほか</li>
+<li>壊れ方は4つの型 — <strong>動いていない／空を返す／毎回やり直して消える／数える対象が違う</strong></li>
+<li><strong>最も多く最も長く放置されるのは「毎回やり直して消える」型。</strong> 進捗を記録しない設計は「何もしていない」と区別がつかない</li>
+<li>発注時に決める5項目 — <strong>止まったとき気づく方法／回数の期待値／1回の処理上限／途中保存／失敗件数のレポート</strong></li>
+<li><strong>1番目が最重要。</strong> ジョブを1本増やすたびに「止まったらどう気づくか」を一緒に決める</li>
+<li>今すぐできる確認は3つ — <strong>実行回数を数える／出力件数を先週と比べる／レポートが何を数えているか確かめる</strong></li>
+</ul>
+<p>個別の記録は<a href="../toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら</a>、<a href="../toe-automation-stops-silently/">自動化が3日間止まっていたのに、誰も気づかなかった</a>、<a href="../batch-414-failure/">AI処理414件を失敗させた話</a>にあります。</p>
+<hr />
+<p><strong>この記事の立場</strong>
+株式会社TOEはAI開発を事業としており、提供する側が書いています。中立の第三者ではありません。他社の自動化は評価せず、自社の実行ログから数えた事実だけを載せています。</p>
+<p><strong>実測値の出所</strong>
+- #1〜#6: 株式会社TOEの実行ログおよびcron設定（2026年7月）
+- #7〜#12: 同じく、2026年8月1日にサイトとツールを点検して発見したもの</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-training-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-training-selection.jpg" alt="AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目</h3>
+<p class="card-summary">AI研修の比較サイトは料金と時間数を並べますが、研修後に定着するかはそこでは決まりません。株式会社TOEが自社で「使われなかった仕組み」を作った実測（実行0通・承認待ちは29件から37件に増加）と公的調査から、研修を選ぶ前に社内で決めておくことを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-automation-stops-silently/">
+<div class="card-media"><img src="../../static/img/news-policy-14.svg" alt="自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">自動化が3日間止まっていたのに、誰も気づかなかった — 「動かなかった通知」がない仕組みの怖さ</h3>
+<p class="card-summary">弊社で毎朝動いている経営ブリーフィングの自動生成が、開発ツールの更新をきっかけに3日間止まりました。エラー通知は一切来ず、気づいたのは人間です。頼りにしていた監査ログにも記録は残っていませんでした。自動化を業務に組み込む前に決めておくべき「止まったらどう気づくか」を、この失敗から書きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-effect-measurement/">
+<div class="card-media"><img src="../../static/img/article-ai-effect-measurement.jpg" alt="AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI導入の効果はどう測るか — 「動いている気がする」で止まらない5項目と、当社が数え間違えた記録</h3>
+<p class="card-summary">AI導入の効果が語れないのは、測っていないからです。ただし測り方を間違えると、数字は出るのに実態と合いません。株式会社TOEは週次レポートで「0%」を出し続け、そもそも表示されない項目を数えていました。自社で数え直して出てきた数字（91%が発火せず、要約0件、140ページがクリック0）と、最初に測る5項目を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-automation-silent-failure">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-08-22 01:30 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>
