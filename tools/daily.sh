@@ -187,6 +187,16 @@ fi
 python3 "$(dirname "$0")/trend_news.py" || echo "今週ネタskip"
 python3 "$(dirname "$0")/trend_intake.py" || echo "検索語ネタskip"
 
+# 5c. データを Neon へ写す（2026-08-23 追加）
+#
+#     ⚠️ 写しであって正本ではない。サイトが読むのは今までどおりファイルのまま。
+#     ここが失敗しても収集・生成・公開は何も影響を受けない。
+#     いきなり正本を移すと、DBが落ちた日にサイトごと止まるため、まず写しを作り、
+#     別のマシンから読み書きできることを確かめてから寄せていく。
+#
+#     接続先（~/.config/media/neon_url）が無い実行機では何もせず素通りする。
+media_step "Neonへ同期" python3 tools/sync_neon.py
+
 # 6. 収集データと記事を origin へ戻す。
 #    実行機のローカルにしか無いと、別マシンで作業したとき土台が食い違う。
 #    対象は media.json の artifacts（data / content）だけ。以前は `git add -A` で
