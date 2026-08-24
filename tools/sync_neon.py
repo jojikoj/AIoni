@@ -52,16 +52,30 @@ def _iso(raw: str | None):
 
 
 def news_rows() -> list[dict]:
+    """news.json の各件を行にする。
+
+    ⚠️ `raw` に元の1件を丸ごと（body_src を除いて）残す。列に切り出しているのは
+       検索・索引に使う分だけで、image（サムネイル/ogp画像）・body_ja・source_id は
+       列に無い。列だけで運用すると、サイトがビルド時にDBから読むよう
+       切り替えた瞬間に一覧・個別ページの画像が消える——記事の frontmatter で
+       一度やった見落としと同じ形。raw があれば、列を後から増やし忘れても
+       ビルド側で raw から拾い直せる。
+
+       body_src だけは raw からも除く。tools/trim_news.py が「使い終わった
+       解説生成済みの原文」を落とす設計と矛盾しないようにするため
+       （raw に含めると、trim 後の news.json より Neon 側のほうが重くなる）。
+    """
     try:
         items = json.loads(NEWS.read_text(encoding="utf-8")).get("items", [])
     except (OSError, json.JSONDecodeError) as e:
         print(f"⚠️ news.json を読めません: {e}", file=sys.stderr)
         return []
     rows = []
-    for it in items:
+    for seq, it in enumerate(items):
         url = (it.get("url") or "").strip()
         if not url:
             continue  # 主キーが無い行は入れない
+        raw = {k: v for k, v in it.items() if k != "body_src"}
         rows.append({
             "url": url,
             "title": (it.get("title") or "")[:1000] or "(無題)",
@@ -71,6 +85,8 @@ def news_rows() -> list[dict]:
             "source": it.get("source"),
             "lang": it.get("lang"),
             "published": _iso(it.get("published")),
+            "seq": seq,  # news.json での並び順。同時刻の記事のタイブレークに使う
+            "raw": neon.as_json(raw),
         })
     return rows
 

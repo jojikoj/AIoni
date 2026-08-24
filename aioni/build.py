@@ -20,7 +20,9 @@ import json
 import os
 import re
 import shutil
+import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 import markdown
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -28,13 +30,57 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from . import business, config, indexnow, seo, topics
 from .i18n import t as _t
 
+sys.path.insert(0, str(Path.home() / "claude_AIR/TOEcompany/メディア事業部/共通/運用"))
+try:
+    import neon  # noqa: E402
+except ImportError:
+    neon = None  # 共通運用フォルダが無い実行機（あり得る）。ファイルのみで動く
+
 
 # --- データ読み込み -----------------------------------------------------
+#
+# ⚠️ 2026-08-24、サイトの読み出し先をファイルからNeon(DB)へ寄せ始めた。
+#    正本は今もファイル（data/*.json・content/articles/*.ja.md）——
+#    日次の収集・生成・trim_news.py はすべてファイルに書く。DBは「ビルドが
+#    読みに行く先」を切り替えただけで、書き込み側の構造は変えていない。
+#
+#    **DBが読めない・空・件数がおかしいときは、必ずファイルに戻る。**
+#    ここで無言に倒れると「ビルドは通ったが中身が古い/空」という、
+#    このプロジェクトで何度も踏んだ壊れ方を再現する。フォールバックしたら
+#    必ず1行ログに出す。
 def _load_json(name: str) -> dict:
     path = config.DATA_DIR / name
     if not path.exists():
         return {"items": [], "generated_at": None}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+# ニュース1件が持つべき最低限の件数。DBから拾えた件数がこれを大きく下回るなら
+# 「接続はできたが中身がおかしい」可能性が高いのでファイルへフォールバックする。
+# ファイル側の件数と比較するのではなく固定値にしているのは、この関数の中で
+# ファイルを読まずに判定したいため（DBが正常な限りファイルI/Oを増やさない）。
+_NEWS_SANITY_MIN = 100
+
+
+def load_news() -> list[dict]:
+    """news.json 相当を返す。Neonが読めればそちら優先、駄目ならファイル。
+
+    DB側の1行は `raw`（body_src を除く元の1件）をそのまま持っている。
+    ここで返す形は、ファイルからロードした場合と完全に同じ辞書のリストになる
+    ——呼び出し側（このモジュールの残り全部）はどちらから来たか意識しない。
+    """
+    if neon is not None:
+        # seq（news.json での元の並び順）で確定させる。published だけだと
+        # 同時刻の記事のタイブレークがPostgres任せになり、ファイル読みと
+        # 順序が変わってしまう（一覧の並び・重複記事の代表選びが変わる実害あり）。
+        rows = neon.fetch_or_none(
+            "select raw from aioni.news where raw is not null order by seq nulls last")
+        if rows is not None and len(rows) >= _NEWS_SANITY_MIN:
+            return [r[0] for r in rows]
+        if rows is not None:
+            print(f"⚠️ Neonのニュースが{len(rows)}件しかありません"
+                  f"（{_NEWS_SANITY_MIN}件未満）。ファイルにフォールバックします", file=sys.stderr)
+    return _load_json("news.json").get("items", [])
 
 
 # --- 日付整形 -----------------------------------------------------------
@@ -280,15 +326,46 @@ def _parse_frontmatter(text: str) -> tuple[dict, str]:
     return meta, m.group(2)
 
 
-def load_articles(lang: str) -> list[dict]:
-    """content/articles/<slug>.<lang>.md を読み込む。"""
+_ARTICLES_SANITY_MIN = 20
+
+
+def _iter_article_sources(lang: str):
+    """(slug, meta, body) を返す。Neonが読めればそちら優先、駄目ならファイル。
+
+    Neon側の frontmatter 列は、記事mdの先頭ブロックを丸ごと保存したもの
+    （tools/sync_neon.py の article_rows 参照）。ファイルから読んだときと
+    同じ (meta, body) の形にして返すので、以降のパース・レンダリングは
+    データの出どころを意識しない。
+    """
+    if lang == "ja" and neon is not None:
+        # slug昇順で確定させる。ファイル読みは glob() が返すパスのソート順
+        # （＝slugのアルファベット順）なので、DBもそれに合わせないと
+        # 関連記事マッチングの並び依存で結果が変わる（2026-08-24 実データで発見。
+        # 順序無指定だとPostgresは毎回の実行順を保証しない）。
+        rows = neon.fetch_or_none(
+            "select slug, frontmatter, body from aioni.articles "
+            "where frontmatter is not null order by slug")
+        if rows is not None and len(rows) >= _ARTICLES_SANITY_MIN:
+            for slug, meta, body in rows:
+                yield slug, meta, body or ""
+            return
+        if rows is not None:
+            print(f"⚠️ Neonの記事が{len(rows)}件しかありません"
+                  f"（{_ARTICLES_SANITY_MIN}件未満）。ファイルにフォールバックします", file=sys.stderr)
+
     if not config.ARTICLES_DIR.exists():
-        return []
-    md = markdown.Markdown(extensions=["extra", "toc", "sane_lists"])
-    articles = []
+        return
     for path in sorted(config.ARTICLES_DIR.glob(f"*.{lang}.md")):
         slug = path.name[: -len(f".{lang}.md")]
         meta, body = _parse_frontmatter(path.read_text(encoding="utf-8"))
+        yield slug, meta, body
+
+
+def load_articles(lang: str) -> list[dict]:
+    """記事の一覧を組み立てる。中身は Neon かファイルのどちらか（上を参照）。"""
+    md = markdown.Markdown(extensions=["extra", "toc", "sane_lists"])
+    articles = []
+    for slug, meta, body in _iter_article_sources(lang):
         md.reset()
         html = md.convert(body)
         tag = meta.get("tag", "")
@@ -813,7 +890,7 @@ class Builder:
         self.asset_ver = self._asset_version()
         self.year = self.now.year
         self.base_url = os.environ.get("SITE_BASE_URL", config.SITE_BASE_URL).rstrip("/")
-        self.news_raw = _load_json("news.json").get("items", [])
+        self.news_raw = load_news()
         self.papers_raw = _load_json("papers.json").get("items", [])
         # 注目論文の日本語読み解き（tools/gen_paper_readings.py が生成）。
         # 無ければ個別ページを作らないだけで、ビルドは通る。

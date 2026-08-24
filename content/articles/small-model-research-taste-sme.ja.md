@@ -7,6 +7,7 @@ date: 2026-08-23
 hero: article-small-model-research-taste-sme.jpg
 image_prompt: A Japanese small-business owner in her fifties sitting at a cluttered desk in a small metalworking workshop office during late morning, bright daylight through a side window, shot on Fujifilm X-T5 with 35mm f1.4 lens, coffee mug and worn notebook on the desk, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 order: 30
+---
 
 「大きいモデルほど賢い」という常識に、小さいモデルが一撃を入れました。DeepMind出身者が立ち上げたロンドンのAIラボInherentが、科学論文を独立して複製するAIエージェント「Faraday」を公開し、論文複製タスクでAnthropicのClaude Opus 4.8とOpenAIのGPT-5.5を上回ったと発表しました。Faradayが使うのは270億パラメータのQwen 3.6。相手は「はるかに大きい」フロンティア級です。中小企業にとっての読みどころは、性能そのものより「どうやって勝ったか」にあります。
 
