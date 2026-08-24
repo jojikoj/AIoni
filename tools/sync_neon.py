@@ -76,40 +76,24 @@ def news_rows() -> list[dict]:
 
 
 def article_rows() -> list[dict]:
-    """記事の frontmatter を読む。
+    """記事の frontmatter と本文を読む。
 
-    PyYAML に頼らない。frontmatter は `key: value` の1行1項目しか使っておらず、
-    そのために依存を1つ増やすと、入っていない実行機で黙って0件になる。
+    ⚠️ frontmatter は列に切り出すだけでなく**丸ごと**入れる。
+       記事は author・order・hero（見出し画像）・image_prompt も持っていて、
+       列だけ持っているとDBから戻したときに画像と並び順が失われる。
+       「DBから元通りに戻せる」ことが、正本をDBへ移す前提になる。
     """
     rows = []
     for p in sorted(ARTICLES.glob("*.ja.md")):
-        try:
-            text = p.read_text(encoding="utf-8")
-        except OSError:
-            continue
-        meta, body = {}, text
-        if text.startswith("---"):
-            parts = text.split("---", 2)
-            if len(parts) >= 3:
-                for line in parts[1].splitlines():
-                    if ":" in line:
-                        k, _, v = line.partition(":")
-                        meta[k.strip()] = v.strip()
-                body = parts[2].lstrip("\n")
-        published = None
-        raw = meta.get("date")
-        if raw:
-            try:
-                published = datetime.strptime(raw[:10], "%Y-%m-%d").date()
-            except ValueError:
-                published = None
+        meta, body = neon.read_frontmatter(p)
         rows.append({
             "slug": p.name[: -len(".ja.md")],
             "title": meta.get("title") or p.stem,
             "excerpt": meta.get("excerpt"),
             "tag": meta.get("tag"),
-            "published": published,
+            "published": neon.as_date(meta.get("date")),
             "body": body,
+            "frontmatter": neon.as_json(meta),
         })
     return rows
 
