@@ -76,6 +76,20 @@
     </section>
     {% endif %}
 
+    {# 話題が重ならないときは「関連」と名乗らない。編集部の記録として出す。 #}
+    {% if related_more %}
+    <section class="news-related">
+      <h2>編集部の実践記録から</h2>
+      <p class="news-related-lead">
+        当社が自社の業務でAIを動かし、処理件数・所要時間・失敗件数まで
+        実際に測った記録です。
+      </p>
+      <div class="grid grid-articles">
+        {% for a in related_more %}{{ article_card(a, lang, t, rel) }}{% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
     {{ service_banner(cta, cta_kind, rel, news.slug) }}
 
   </div>

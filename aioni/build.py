@@ -682,6 +682,9 @@ def news_meta(item: dict, lang: str) -> tuple[str, str]:
 #
 # 日本語は形態素解析なしで扱うため、2文字の連続（バイグラム）で照合する。
 # 「AIエージェント」と「エージェント」のような部分一致も拾える。
+# 関連ありと見なす下限。実測で決めた値（relevance_ranked の docstring）。
+_RELEVANCE_MIN = 10
+
 _TOKEN_ASCII = re.compile(r"[A-Za-z][A-Za-z0-9.+#-]{2,}")
 # どの記事にも出るため、一致しても関連性の証拠にならない語
 _STOPWORDS = {"ai", "the", "and", "for", "with", "から", "する", "した", "して",
@@ -705,22 +708,67 @@ def _keyset(*texts: str) -> set[str]:
     return {k for k in keys if k not in _STOPWORDS and len(k) >= 2}
 
 
-def relevance_ranked(news_item: dict, pool: list[dict], limit: int = 3,
-                     min_score: int = 4) -> list[dict]:
-    """ニュース1件に対して、関連度の高い自社記事を limit 本返す。
+def prepare_match_keys(pool: list[dict]) -> None:
+    """照合用のキーを記事ごとに1回だけ作る。
 
-    min_score に届く記事が limit 本に足りなければ、残りは呼び出し側が
-    埋める（無関係なものを「関連」として並べたくないため、ここでは
-    水増ししない）。
+    題のキーと本文のキーを分けて持つ。判定の主役は題どうしの重なりで、
+    本文は僅差を分けるためだけに使う（理由は relevance_ranked を参照）。
     """
-    nkeys = _keyset(news_item.get("display_title", ""),
-                    news_item.get("title", ""),
-                    (news_item.get("body_long") or "")[:600])
-    if not nkeys:
+    for a in pool:
+        a["_tkeys"] = _keyset(a.get("title", ""))
+        a["_akeys"] = {k for k in a["_tkeys"] if k.isascii()}
+        a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
+
+
+def relevance_ranked(news_item: dict, pool: list[dict], limit: int = 3,
+                     min_score: int = _RELEVANCE_MIN) -> list[dict]:
+    """ニュース1件に対して、本当に関連する自社記事だけを limit 本返す。
+
+    足りなければ足りないまま返す。呼び出し側が水増しするのは構わないが、
+    その分は「関連記事」として見せてはいけない（news_article.html）。
+
+    2026-08-26 に採点方法を入れ替えた。それまでは
+
+        score = len(ニュースのキー集合 & 記事のキー集合)
+
+    という素の共通数で、キーはどちらも「題＋本文600字」から作った日本語
+    バイグラムだった。バイグラムは1文字ずらしの総当たりなので600字から
+    500個以上できる。集合が大きいほど偶然の一致が増えるため、無関係でも
+    重なりが閾値を超える。実測（本文ありニュース1,669件×記事262本）:
+
+        min_score=10 … 1,669件すべてが「関連あり」判定（100%）
+        min_score=24 … 1,668件が「関連あり」判定（99.9%）
+
+    閾値をどう上げても全件が通る＝実質ふるいになっていなかった。実際の
+    組み合わせも「World humanoid robot games」に承認フローの記事、
+    「Stability AI」にLLM比較の記事が付いており、ニュース側の
+    「この話題に関連する、TOEの実践・観測記録」は名ばかりだった。
+
+    直した採点:
+      ・主役は**題どうし**の重なり。本文は最大2点の僅差調整に落とす
+      ・題に含まれる英数語（製品名・モデル名）の一致は3倍で数える。
+        kimi / sakana / jetson のような語は、一致すれば同じ話題である
+        可能性が高い（日本語バイグラムと違い偶然では重ならない）
+      ・閾値10。実測（無作為400件）で「関連あり」は4%まで下がり、
+        残ったのは「生成AI開発会社の選び方」↔「AI開発会社の選び方」
+        「マルチエージェント設計の実践書」↔「マルチエージェントは単独AIを
+        90.2%上回るか」のように、題を並べて納得できるものだけになった。
+
+    262本の記事に対してニュースの96%が「該当なし」になるのは正しい。
+    自社記事が無い話題のほうが多い、というのが実態であるため。
+    """
+    ntkeys = _keyset(news_item.get("display_title", ""),
+                     news_item.get("title", ""))
+    if not ntkeys:
         return []
+    nakeys = {k for k in ntkeys if k.isascii()}
+    nbkeys = _keyset((news_item.get("body_long") or "")[:600])
     scored = []
     for a in pool:
-        score = len(nkeys & a["_keys"])
+        # 題どうしの重なり＋英数語の一致（3倍）＋本文の重なり（最大2点）
+        score = (len(ntkeys & a.get("_tkeys", set()))
+                 + len(nakeys & a.get("_akeys", set())) * 3
+                 + min(len(nbkeys & a.get("_keys", set())), 30) / 15.0)
         if score >= min_score:
             scored.append((score, a))
     # 同点は order の小さい（＝上位に置きたい）記事を優先
@@ -1182,8 +1230,7 @@ class Builder:
 
         # 記事詳細（articles/<slug>/ → depth 2）
         # 関連記事の照合キーを先に1回だけ作る（記事×記事の全組み合わせを回すため）
-        for a in articles:
-            a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
+        prepare_match_keys(articles)
         rel_hits = 0
         for a in articles:
             path = f"articles/{a['slug']}/"
@@ -1223,8 +1270,7 @@ class Builder:
         related_pool = [a for a in articles if a.get("category")
                         in ("jissen", "aeo", "kaisetsu", "shippai")]
         # 照合用キーを1回だけ作る（記事×ニュースの全組み合わせを回すため）
-        for a in related_pool:
-            a["_keys"] = _keyset(a.get("title", ""), a.get("excerpt", ""))
+        prepare_match_keys(related_pool)
         matched_count = 0
         # 同じ記事を Qiita と Zenn の両方に投稿している著者がいるため、
         # 配信元が違うのに <title> が完全一致するページが生まれる
@@ -1311,17 +1357,22 @@ class Builder:
             rel3 = relevance_ranked(n, related_pool) if related_pool else []
             if rel3:
                 matched_count += 1
+            # 本当に関連する記事と、ただの読み物としての補充を分けて渡す。
+            # 混ぜて「この話題に関連する」という見出しを付けると、記事が
+            # 無い96%のページで事実と違う説明を出すことになる。
+            more: list[dict] = []
             if related_pool and len(rel3) < 3:
                 chosen = {a["slug"] for a in rel3}
                 start = (idx * 3) % len(related_pool)
                 rotated = related_pool[start:] + related_pool[:start]
                 for a in rotated:
                     if a["slug"] not in chosen:
-                        rel3.append(a)
+                        more.append(a)
                         chosen.add(a["slug"])
-                    if len(rel3) >= 3:
+                    if len(rel3) + len(more) >= 3:
                         break
             ctx["related"] = rel3
+            ctx["related_more"] = more
             # 以前はニュース個別ページの JSON-LD が空文字だった（=構造化データ皆無）。
             # パン粉と、自社で書いた要約であることの明示を入れる。
             # 他社記事そのものを自作記事として申告はしない（seo.py の方針）。
