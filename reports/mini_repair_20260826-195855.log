@@ -1,0 +1,34 @@
+===== claude_AIR 復旧 Wed Aug 26 19:58:55 JST 2026 =====
+host: kojimajoujinoMac-mini / 小嶋譲司のMac mini
+--- 復旧前 ---
+fatal: .git/index: index file smaller than expected
+HEAD=30821576e 2026-08-25 07:55:36 +0900 auto: sync toe-workspace 2026-08-25 07:55
+--- 1. 残留ロックと中断rebaseの掃除 ---
+index.lock を除去
+中断rebase なし
+--- 2. 未コミットを退避コミット（捨てない）---
+fatal: .git/index: index file smaller than expected
+未コミットなし
+--- 3. detached なら退避ブランチに固定してから main へ ---
+branch 'main' set up to track 'origin/main'.
+--- 4. 同期を通す ---
+fatal: .git/index: index file smaller than expected
+fatal: .git/index: index file smaller than expected
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+--- 5. 同期の常駐を入れる ---
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.autopull.plist
+  今すぐ1回試す: bash /Users/kojimajouji/.claude/scripts/auto-pull.sh && echo OK
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.autopush.plist
+  今すぐ1回試す: bash /Users/kojimajouji/.claude/scripts/auto-push.sh && echo OK
+  毎時＋ログイン時に、詰まりの回収と同期の実行を行います。
+  停止したいとき: launchctl unload /Users/kojimajouji/Library/LaunchAgents/info.toe.syncwatchdog.plist
+-	0	info.toe.autopush
+23129	0	info.toe.syncwatchdog
+23098	0	info.toe.autopull
+--- 復旧後 ---
+fatal: .git/index: index file smaller than expected
+HEAD=30821576e 2026-08-25 07:55:36 +0900 auto: sync toe-workspace 2026-08-25 07:55
+--- 共通フレーム（今夜の日次が要る）---
+-rw-r--r--  1 kojimajouji  staff  13855 Aug 21 15:56 /Users/kojimajouji/claude_AIR/TOEcompany/メディア事業部/共通/運用/media-daily.sh
