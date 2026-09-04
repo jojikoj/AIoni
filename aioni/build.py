@@ -955,6 +955,10 @@ class Builder:
         # 記事が1本も無いカテゴリページ。どちらも「中身が無いものは
         # 検索結果に出さない、中身が入れば自動で戻る」という同じ扱い。
         self.noindex_paths: dict[str, set[str]] = {l: set() for l in config.LANGS}
+        # ニュース個別ページの実公開日（sitemap の lastmod 用）。
+        # ビルド日を入れると毎日全ニュースを「今日更新した」と申告する嘘になり、
+        # lastmod が信用されず新着の発見が遅れる（2026-09-04 修正）。
+        self.news_lastmod: dict[str, str] = {}
         # 記事ページ以外（トップ・一覧・ニュース）がSNSに貼られたときの画像。
         # 2026-08-01 まで static/img/ogp.png を指していたが、そのファイルは
         # 存在せず404だった（配信元にもリポジトリにも無い）。つまり X や
@@ -1297,6 +1301,9 @@ class Builder:
         dup_merged = 0
         for idx, n in enumerate(news):
             npath = f"news/{n['slug']}/"
+            pub = str(n.get("published") or "")[:10]
+            if pub:
+                self.news_lastmod[npath] = pub
             npage_url = self._url_for(lang, npath)
             title_tail, ndesc = news_meta(n, lang)
             key = n.get("display_title", "")
@@ -1633,10 +1640,14 @@ class Builder:
         # canonical を他へ向けたページと、noindex にしたページ（中身の無い
         # ニュース個別ページ・記事0本のカテゴリ）は除く
         articles_ja = load_articles(config.DEFAULT_LANG)
+        # 90日クリック0・表示ほぼ0のニュースソース（2026-09-04 実測）。
+        # sitemap から外し、クロール予算を稼ぐソースと記事に回す。ページは残す。
+        dead_src = re.compile(r"news/(arstechnica|huggingface|deepmind|googleai)[-_]")
         sitemap_paths = {
             l: [p for p in paths
                 if p not in self.noncanonical.get(l, set())
-                and p not in self.noindex_paths.get(l, set())]
+                and p not in self.noindex_paths.get(l, set())
+                and not dead_src.match(p)]
             for l, paths in self.paths_by_lang.items()
         }
         # 記事だけは実際の更新日を渡す。一覧やニュースは毎日中身が
@@ -1644,6 +1655,8 @@ class Builder:
         # 「毎日全記事を更新している」という嘘の申告になる。
         art_lastmod = {f"articles/{a['slug']}/": (a.get("updated") or a["date"])
                        for a in articles_ja if a.get("date")}
+        # ニュース個別も公開後は不変なので実公開日を出す（2026-09-04）。
+        art_lastmod.update(self.news_lastmod)
         (config.DIST_DIR / "sitemap.xml").write_text(
             seo.build_sitemap(self.base_url, sitemap_paths, self.now,
                               art_lastmod),
