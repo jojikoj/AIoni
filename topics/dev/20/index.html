@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>開発・実装 · AIの鬼</title>
+  <meta name="description" content="API・RAG（検索拡張生成）・AIエージェントの実装に関する話題を集めています。使えるライブラリ、プロンプトの組み立て方、社内データとつなぐ方法など、自分で作る側に必要な情報です。">
+  <link rel="canonical" href="https://ai-oni.com/topics/dev/20/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/topics/dev/20/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="開発・実装 · AIの鬼">
+  <meta property="og:description" content="API・RAG（検索拡張生成）・AIエージェントの実装に関する話題を集めています。使えるライブラリ、プロンプトの組み立て方、社内データとつなぐ方法など、自分で作る側に必要な情報です。">
+  <meta property="og:url" content="https://ai-oni.com/topics/dev/20/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="開発・実装 · AIの鬼">
+  <meta name="twitter:description" content="API・RAG（検索拡張生成）・AIエージェントの実装に関する話題を集めています。使えるライブラリ、プロンプトの組み立て方、社内データとつなぐ方法など、自分で作る側に必要な情報です。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"開発・実装","item":"https://ai-oni.com/topics/dev/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"「孫さんはOpenAIだが、僕はAnthropic」 SBI北尾会長が語る「AI投資5億円→増収27億円」の勝算","url":"https://www.itmedia.co.jp/business/articles/2608/21/news038.html"},{"@type":"ListItem","position":2,"name":"Slack、AIとチームで協働する「Slack Code」を発表 ClaudeやDevinを専用チャネルで操作","url":"https://www.itmedia.co.jp/news/article/2608/21/2000000667/"},{"@type":"ListItem","position":3,"name":"P100向けにllama.cppをビルド","url":"https://zenn.dev/ibuky/articles/b89bbba9372f4d"},{"@type":"ListItem","position":4,"name":"カルビーが挑むジャガイモ収量の限界――自社開発AIでサプライチェーン最適化","url":"https://monoist.itmedia.co.jp/mn/articles/2608/21/news046.html"},{"@type":"ListItem","position":5,"name":"Ramp launches its own AI model router, called Router","url":"https://techcrunch.com/2026/08/20/ramp-launches-its-own-ai-model-router-called-router/"},{"@type":"ListItem","position":6,"name":"初めてのAI駆動開発。「コードは1行も書かない」縛りで勤怠管理アプリを1ヶ月で本番公開した全8ステップ","url":"https://qiita.com/inoyu-qiita/items/912b038105f5cf057224"},{"@type":"ListItem","position":7,"name":"# MAS AXIOMとCapsule技術で実現する「論点整合性」と「制約技術」","url":"https://zenn.dev/void09/articles/3db34b2f068ae1"},{"@type":"ListItem","position":8,"name":"Cloudflare OSをAWSで作るなら、どんな構成になるのか","url":"https://zenn.dev/makichan/articles/56ba2ecb368d74"},{"@type":"ListItem","position":9,"name":"なぜ【色】は感覚で決めて良いと思っているのか","url":"https://zenn.dev/g_kamoshirenai/articles/a16be17595dcef"},{"@type":"ListItem","position":10,"name":"AIに「正しく作る」を寄せる。でも「正しいものを作る」は人間が決める","url":"https://zenn.dev/tohru_ohnishi/articles/5c57896f3c1812"},{"@type":"ListItem","position":11,"name":"DeepSeek Harnessのプラグインエコシステムを探索する","url":"https://zenn.dev/suuuuuu135/articles/df9fd0de105ac1"},{"@type":"ListItem","position":12,"name":"grill-me / grilling をローカルLLM向けに改変してみた","url":"https://zenn.dev/nanakusataro/articles/9417aa2b568c20"},{"@type":"ListItem","position":13,"name":"AIコーディングエージェントと進めるUnityゲーム開発：Phase1で仕様書駆動の土台を作った","url":"https://zenn.dev/kas_blog/articles/20260819-unity-ai-coding-agent-spec-driven-phase1"},{"@type":"ListItem","position":14,"name":"Codex スキルの作り方【2026 年版】— `SKILL.md`、保存場所、呼び出し方","url":"https://zenn.dev/koenigwolf/articles/096627ff85e0b4"},{"@type":"ListItem","position":15,"name":"タスク41件をAIループに任せたら、詰まっていたのは実装より判断だった","url":"https://zenn.dev/shimo4228/articles/ai-task-loop-judge-bottleneck"},{"@type":"ListItem","position":16,"name":"Claude Codeで、許可リストに書いてあるのにブロックされた話","url":"https://zenn.dev/tottoko_hamu/articles/2026-08-08-223624"},{"@type":"ListItem","position":17,"name":"AIレビューを開発フローに組み込んでみた","url":"https://zenn.dev/keisuke1306/articles/04-ai-code-review-workflow"},{"@type":"ListItem","position":18,"name":"Claude Code 完全攻略ガイド ――AI時代の次世代コーディング・ワークフロー","url":"https://zenn.dev/pakku8914/books/claude_code_master_course"},{"@type":"ListItem","position":19,"name":"最近話題の「AI時代の開発者5つのアーキタイプ」について考える","url":"https://qiita.com/Toyo_m/items/ee1f9493d61f1c8c4743"},{"@type":"ListItem","position":20,"name":"個人開発で作っているAIツール「SeiSei AI」と「NanoPic」の紹介","url":"https://qiita.com/evanmo666/items/b6ce296d74052d49f1f9"},{"@type":"ListItem","position":21,"name":"日本精工が「国産人型ロボ」開発を後押し スタートアップのアトムと協力、アクチュエータの検証など","url":"https://www.itmedia.co.jp/aiplus/article/2608/20/2000000655/"},{"@type":"ListItem","position":22,"name":"# AIが「できたか分からない」と言ったとき、もう一度やらせてはいけない## ―― 外部API・二重実行・Commit-Unknownか","url":"https://zenn.dev/humanos_lab/articles/93ff5a31a19c91"},{"@type":"ListItem","position":23,"name":"Prompt / Context / Harness / Loop / Graph で振り返る acomo の AI 駆動開発","url":"https://zenn.dev/acomo/articles/progress-acomo-2026-08-20-01-32-52"},{"@type":"ListItem","position":24,"name":"【開催報告】組込み開発を加速させる「AI駆動開発」1Dayセミナー","url":"https://zenn.dev/fixstars/articles/seminar_report_20260731"},{"@type":"ListItem","position":25,"name":"Stripe、AIモデルゲートウェイのOpenRouter買収 400以上のAIモデルを束ねる中立基盤は維持","url":"https://www.itmedia.co.jp/news/article/2608/20/2000000639/"},{"@type":"ListItem","position":26,"name":"#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦","url":"https://zenn.dev/chisatom/articles/4e604fc40c9465"},{"@type":"ListItem","position":27,"name":"Claude Code サブエージェント制限はどう変わったか——200体撤廃・20並列上限をv2.1.221で確かめた","url":"https://zenn.dev/kujira_ai/articles/043735a2da03b6"},{"@type":"ListItem","position":28,"name":"AIエージェントにAPIキーを渡さない — trustlessを作った理由","url":"https://zenn.dev/neomaru/articles/trustless-why-no-secrets-for-agents"},{"@type":"ListItem","position":29,"name":"OpenAI、ZDRを維持したまま悪用検知へ ログ保持を求めるAnthropicに対抗","url":"https://www.itmedia.co.jp/aiplus/article/2608/20/2000000638/"},{"@type":"ListItem","position":30,"name":"止まらないエージェントを実行前に見つける静的解析ツールIAL-Scan","url":"https://zenn.dev/okssusucha/articles/20260710-infinite-agentic-loops-ial-scan"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/topics/dev/20/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../../jissen/" class="">AI実践室</a>
+      <a href="../../../aeo/" class="">AEO対策室</a>
+      <a href="../../../shippai/" class="">失敗の鬼</a>
+      <a href="../../../shigoto/" class="">AI仕事術</a>
+      <a href="../../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../../weekly/" class="">今週のAI</a>
+      <a href="../../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../../news/" class="">ニュース</a>
+      <a href="../../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../../check/" class="">AI検索チェック</a>
+      <a href="../../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>開発・実装</h1>
+    <p class="page-sub">API・RAG・エージェント開発の実装知見</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <a class="chip " href="../../models/">#新モデル</a>
+      <a class="chip " href="../../tools/">#業務ツール</a>
+      <a class="chip on" href="../../dev/">#開発・実装</a>
+      <a class="chip " href="../../business/">#企業動向</a>
+      <a class="chip " href="../../policy/">#規制・法制度</a>
+      <a class="chip " href="../../research/">#研究動向</a>
+      <a class="chip " href="../../infra/">#半導体・インフラ</a>
+      <a class="chip " href="../../japan/">#国内動向</a>
+    </div>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/itmedia_ai-39dfb7209a/">
+    <img src="../../../../static/img/news-business-00.svg"
+         alt="「孫さんはOpenAIだが、僕はAnthropic」 SBI北尾会長が語る「AI投資5億円→増収27億円」の勝算（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/itmedia_ai-39dfb7209a/">「孫さんはOpenAIだが、僕はAnthropic」 SBI北尾会長が語る「AI投資5億円→増収27億円」の勝算</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-08-20T22:00:00+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/itmedia_ai-ab5fce7ce8/">
+    <img src="../../../../static/img/news-models-12.svg"
+         alt="Slack、AIとチームで協働する「Slack Code」を発表 ClaudeやDevinを専用チャネルで操作（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/itmedia_ai-ab5fce7ce8/">Slack、AIとチームで協働する「Slack Code」を発表 ClaudeやDevinを専用チャネルで操作</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T21:37:48+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-8a031823b7/">
+    <img src="../../../../static/img/news-models-03.svg"
+         alt="P100向けにllama.cppをビルド（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-8a031823b7/">P100向けにllama.cppをビルド</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T21:13:14+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/itmedia_ai-eac9ca8cd6/">
+    <img src="../../../../static/img/news-dev-12.svg"
+         alt="カルビーが挑むジャガイモ収量の限界――自社開発AIでサプライチェーン最適化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/itmedia_ai-eac9ca8cd6/">カルビーが挑むジャガイモ収量の限界――自社開発AIでサプライチェーン最適化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T21:00:00+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/techcrunch_ai-cb6503028d/">
+    <img src="../../../../static/img/news-models-02.svg"
+         alt="Ramp、独自AIモデルルーター『Router』をローンチ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/techcrunch_ai-cb6503028d/">Ramp、独自AIモデルルーター『Router』をローンチ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T16:46:00+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/qiita_ai-ba28dd2905/">
+    <img src="../../../../static/img/news-dev-09.svg"
+         alt="初めてのAI駆動開発。「コードは1行も書かない」縛りで勤怠管理アプリを1ヶ月で本番公開した全8ステップ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/qiita_ai-ba28dd2905/">初めてのAI駆動開発。「コードは1行も書かない」縛りで勤怠管理アプリを1ヶ月で本番公開した全8ステップ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T16:24:11+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-b82aa09c06/">
+    <img src="../../../../static/img/news-models-12.svg"
+         alt="# MAS AXIOMとCapsule技術で実現する「論点整合性」と「制約技術」（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-b82aa09c06/"># MAS AXIOMとCapsule技術で実現する「論点整合性」と「制約技術」</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T15:40:24+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-617fa74ff3/">
+    <img src="../../../../static/img/news-dev-15.svg"
+         alt="Cloudflare OSをAWSで作るなら、どんな構成になるのか（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-617fa74ff3/">Cloudflare OSをAWSで作るなら、どんな構成になるのか</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T15:38:58+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-e15f949f40/">
+    <img src="../../../../static/img/news-dev-15.svg"
+         alt="なぜ【色】は感覚で決めて良いと思っているのか（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-e15f949f40/">なぜ【色】は感覚で決めて良いと思っているのか</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T15:23:56+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-a3f6592281/">
+    <img src="../../../../static/img/news-dev-02.svg"
+         alt="AIに「正しく作る」を寄せる。でも「正しいものを作る」は人間が決める（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-a3f6592281/">AIに「正しく作る」を寄せる。でも「正しいものを作る」は人間が決める</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T15:10:07+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-048fcfc0ca/">
+    <img src="../../../../static/img/news-tools-00.svg"
+         alt="DeepSeek Harnessのプラグインエコシステムを探索する（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-048fcfc0ca/">DeepSeek Harnessのプラグインエコシステムを探索する</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-20T15:04:47+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-f262352324/">
+    <img src="../../../../static/img/news-models-03.svg"
+         alt="grill-me / grilling をローカルLLM向けに改変してみた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-f262352324/">grill-me / grilling をローカルLLM向けに改変してみた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T14:08:21+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-c0e9a4b1a2/">
+    <img src="../../../../static/img/news-dev-01.svg"
+         alt="AIコーディングエージェントと進めるUnityゲーム開発：Phase1で仕様書駆動の土台を作った（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-c0e9a4b1a2/">AIコーディングエージェントと進めるUnityゲーム開発：Phase1で仕様書駆動の土台を作った</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T13:09:36+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-8a91459c56/">
+    <img src="../../../../static/img/news-models-12.svg"
+         alt="Codex スキルの作り方【2026 年版】— `SKILL.md`、保存場所、呼び出し方（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-8a91459c56/">Codex スキルの作り方【2026 年版】— `SKILL.md`、保存場所、呼び出し方</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T12:06:52+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-983eed6474/">
+    <img src="../../../../static/img/news-dev-04.svg"
+         alt="タスク41件をAIループに任せたら、詰まっていたのは実装より判断だった（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-983eed6474/">タスク41件をAIループに任せたら、詰まっていたのは実装より判断だった</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T10:23:12+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-3b83f65b77/">
+    <img src="../../../../static/img/news-models-11.svg"
+         alt="Claude Codeで、許可リストに書いてあるのにブロックされた話（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-3b83f65b77/">Claude Codeで、許可リストに書いてあるのにブロックされた話</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T10:21:58+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-aa4e7f52d9/">
+    <img src="../../../../static/img/news-models-02.svg"
+         alt="AIレビューを開発フローに組み込んでみた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-aa4e7f52d9/">AIレビューを開発フローに組み込んでみた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T10:00:05+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-273e5b8b1f/">
+    <img src="../../../../static/img/news-dev-11.svg"
+         alt="Claude Code 完全攻略ガイド ――AI時代の次世代コーディング・ワークフロー（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-273e5b8b1f/">Claude Code 完全攻略ガイド ――AI時代の次世代コーディング・ワークフロー</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T09:33:35+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/qiita_ai-d2de5bc061/">
+    <img src="../../../../static/img/news-dev-00.svg"
+         alt="最近話題の「AI時代の開発者5つのアーキタイプ」について考える（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/qiita_ai-d2de5bc061/">最近話題の「AI時代の開発者5つのアーキタイプ」について考える</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T09:32:54+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/qiita_ai-376f7187df/">
+    <img src="../../../../static/img/news-tools-07.svg"
+         alt="個人開発で作っているAIツール「SeiSei AI」と「NanoPic」の紹介（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/qiita_ai-376f7187df/">個人開発で作っているAIツール「SeiSei AI」と「NanoPic」の紹介</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-20T09:28:19+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/itmedia_ai-f7bac4aa22/">
+    <img src="../../../../static/img/news-dev-10.svg"
+         alt="日本精工が「国産人型ロボ」開発を後押し スタートアップのアトムと協力、アクチュエータの検証など（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/itmedia_ai-f7bac4aa22/">日本精工が「国産人型ロボ」開発を後押し スタートアップのアトムと協力、アクチュエータの検証など</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T07:47:56+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-39d165cd7c/">
+    <img src="../../../../static/img/news-dev-13.svg"
+         alt="# AIが「できたか分からない」と言ったとき、もう一度やらせてはいけない## ―― 外部API・二重実行・Commit-Unknownか（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-39d165cd7c/"># AIが「できたか分からない」と言ったとき、もう一度やらせてはいけない## ―― 外部API・二重実行・Commit-Unknownか</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T03:15:13+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-a800f41cd1/">
+    <img src="../../../../static/img/news-dev-12.svg"
+         alt="Prompt / Context / Harness / Loop / Graph で振り返る acomo の AI 駆動開発（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-a800f41cd1/">Prompt / Context / Harness / Loop / Graph で振り返る acomo の AI 駆動開発</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T03:00:26+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-3c5555fb49/">
+    <img src="../../../../static/img/news-dev-11.svg"
+         alt="【開催報告】組込み開発を加速させる「AI駆動開発」1Dayセミナー（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-3c5555fb49/">【開催報告】組込み開発を加速させる「AI駆動開発」1Dayセミナー</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T01:51:45+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/itmedia_ai-fc6eaccce6/">
+    <img src="../../../../static/img/news-models-12.svg"
+         alt="Stripe、AIモデルゲートウェイのOpenRouter買収 400以上のAIモデルを束ねる中立基盤は維持（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/itmedia_ai-fc6eaccce6/">Stripe、AIモデルゲートウェイのOpenRouter買収 400以上のAIモデルを束ねる中立基盤は維持</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T01:43:52+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-6b9e3647e6/">
+    <img src="../../../../static/img/news-dev-07.svg"
+         alt="#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-6b9e3647e6/">#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T00:58:21+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-7bc799f6fe/">
+    <img src="../../../../static/img/news-models-06.svg"
+         alt="Claude Code サブエージェント制限はどう変わったか——200体撤廃・20並列上限をv2.1.221で確かめた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-7bc799f6fe/">Claude Code サブエージェント制限はどう変わったか——200体撤廃・20並列上限をv2.1.221で確かめた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T00:52:29+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-3918660faa/">
+    <img src="../../../../static/img/news-dev-15.svg"
+         alt="AIエージェントにAPIキーを渡さない — trustlessを作った理由（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-3918660faa/">AIエージェントにAPIキーを渡さない — trustlessを作った理由</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T00:40:05+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/itmedia_ai-42d7c1b4ad/">
+    <img src="../../../../static/img/news-models-04.svg"
+         alt="OpenAI、ZDRを維持したまま悪用検知へ ログ保持を求めるAnthropicに対抗（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/itmedia_ai-42d7c1b4ad/">OpenAI、ZDRを維持したまま悪用検知へ ログ保持を求めるAnthropicに対抗</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-20T00:39:01+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../news/zenn_ai-dc31d20c06/">
+    <img src="../../../../static/img/news-dev-12.svg"
+         alt="止まらないエージェントを実行前に見つける静的解析ツールIAL-Scan（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../news/zenn_ai-dc31d20c06/">止まらないエージェントを実行前に見つける静的解析ツールIAL-Scan</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-20T00:04:31+00:00">2026.08.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">Zenn AI</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../19/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../18/">18</a><a class="pager-num" href="../19/">19</a><span class="pager-num on" aria-current="page">20</span>
+<a class="pager-num" href="../21/">21</a><a class="pager-num" href="../22/">22</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../52/">52</a>  </span>
+<a class="pager-btn" href="../21/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../../jissen/">AI実践室</a>
+          <a href="../../../aeo/">AEO対策室</a>
+          <a href="../../../shippai/">失敗の鬼</a>
+          <a href="../../../shigoto/">AI仕事術</a>
+          <a href="../../../kaisetsu/">AI解体新書</a>
+          <a href="../../../weekly/">今週のAI</a>
+          <a href="../../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../../news/">ニュース</a>
+          <a href="../../../papers/">研究動向</a>
+          <a href="../../../topics/models/">トピック</a>
+          <a href="../../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../../about/">運営会社</a>
+          <a href="../../../faq/">よくある質問</a>
+          <a href="../../../advertise/">広告掲載</a>
+<a href="../../../check/">AI検索チェック</a>          <a href="../../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

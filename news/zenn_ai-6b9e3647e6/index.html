@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>#7 実録・AIチームとアプリを作る（前編）｜要点と実務への影響 · AIの鬼</title>
+  <meta name="description" content="AIチームが劇的に速くしたのは「既知の仕様に基づく調査と実装」である。RevenueCat比較レポート352行、手順書555行——こうした「調べて形にする」作業はAIの得意領域で、確かに人間の何倍も早い。">
+  <link rel="canonical" href="https://ai-oni.com/news/zenn_ai-6b9e3647e6/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/zenn_ai-6b9e3647e6/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦｜要点と実務への影響 · AIの鬼">
+  <meta property="og:description" content="AIチームが劇的に速くしたのは「既知の仕様に基づく調査と実装」である。RevenueCat比較レポート352行、手順書555行——こうした「調べて形にする」作業はAIの得意領域で、確かに人間の何倍も早い。">
+  <meta property="og:url" content="https://ai-oni.com/news/zenn_ai-6b9e3647e6/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦｜要点と実務への影響 · AIの鬼">
+  <meta name="twitter:description" content="AIチームが劇的に速くしたのは「既知の仕様に基づく調査と実装」である。RevenueCat比較レポート352行、手順書555行——こうした「調べて形にする」作業はAIの得意領域で、確かに人間の何倍も早い。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦","item":"https://ai-oni.com/news/zenn_ai-6b9e3647e6/"}]},{"@type":"NewsArticle","@id":"https://ai-oni.com/news/zenn_ai-6b9e3647e6/","url":"https://ai-oni.com/news/zenn_ai-6b9e3647e6/","headline":"#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦","description":"AIチームが劇的に速くしたのは「既知の仕様に基づく調査と実装」である。RevenueCat比較レポート352行、手順書555行——こうした「調べて形にする」作業はAIの得意領域で、確かに人間の何倍も早い。","inLanguage":"ja-JP","isPartOf":{"@id":"https://ai-oni.com/#website"},"isAccessibleForFree":true,"datePublished":"2026-08-20T00:58:21+00:00","author":{"@type":"Organization","name":"AIの鬼 編集部","url":"https://ai-oni.com/about/"},"publisher":{"@id":"https://ai-oni.com/#organization"},"isBasedOn":{"@type":"NewsArticle","headline":"#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦","url":"https://zenn.dev/chisatom/articles/4e604fc40c9465","publisher":{"@type":"Organization","name":"Zenn AI"}},"citation":{"@type":"NewsArticle","headline":"#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦","url":"https://zenn.dev/chisatom/articles/4e604fc40c9465","publisher":{"@type":"Organization","name":"Zenn AI"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/news/zenn_ai-6b9e3647e6/"},"image":"https://ai-oni.com/static/img/news-dev-07.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/zenn_ai-6b9e3647e6/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Zenn AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+<span class="tag-hash">#開発・実装</span>        <span class="src">Zenn AI</span>
+<time datetime="2026-08-20T00:58:21+00:00">2026年8月20日</time>      </div>
+      <h1>#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="../../static/img/news-dev-07.svg"
+           alt="#7 実録・AIチームとアプリを作る（前編） — 課金導入40日間と、プレゼンまで48時間の総力戦（内容を表す図ではないイメージ画像）" loading="lazy">
+      <figcaption>イメージ</figcaption>
+    </figure>
+
+    <div class="news-body">
+<p>Claude Codeの6体マルチエージェント運用を5ヶ月続けた著者が、旅行記録アプリへのアプリ内課金導入を通じて学んだことは、AI時代の開発チームが本当はどう動くべきかを示している。記事は「課金導入に40日かかった」という一見ネガティブな結果を詳しく取り上げるが、そこに隠れているのは「何が速くなって、何が速くならないか」という現実だ。</p><p>AIチームが劇的に速くしたのは「既知の仕様に基づく調査と実装」である。RevenueCat比較レポート352行、手順書555行——こうした「調べて形にする」作業はAIの得意領域で、確かに人間の何倍も早い。だが「外部サービスのUIが想定と違う」「権限設定で詰まった」「解けない問題が出た」という現実との接点では、人間の出番は少しも減っていない。むしろ印象的なのは、エージェントが「推定で進めた」誤りを反省し、「外部システムの前提条件は推定ではなく実機確認」という原則を刻んだくだりだ。AI時代のチームとは、AIがツールとして完全に従属する状態を意味していない。むしろ人間が判断を下し、AIがそれを実行する分業体制だ。</p><p>実務への含意は明確だ。AI導入で期待すべきは「総開発時間の短縮」ではなく「人間の時間をビジネス判断と外部対応に集中させること」である。記事で感心させられるのは、プレゼン48時間前に「並び替え機能は見せるが反映はまだ」と判断した場面だ。徹夜で無理やり直すのではなく、誠実に「まだです」と見せる。そういう判断を下せる人間がいる組織が、AIを使いこなせる組織になる。</p>    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://zenn.dev/chisatom/articles/4e604fc40c9465" target="_blank" rel="noopener nofollow">
+        Zenn AIで元記事を読む →
+      </a>
+    </p>
+
+
+    <section class="news-related">
+      <h2>編集部の実践記録から</h2>
+      <p class="news-related-lead">
+        当社が自社の業務でAIを動かし、処理件数・所要時間・失敗件数まで
+        実際に測った記録です。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/inherent-faraday-small-model-vs-large-sme/">
+<div class="card-media"><img src="../../static/img/article-inherent-faraday-small-model-vs-large-sme.jpg" alt="27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか</h3>
+<p class="card-summary">DeepMind出身者のロンドンのラボInherentが、論文複製エージェント「Faraday」でClaude Opus 4.8とGPT-5.5に勝ったと発表しました。鍵はサイズではなく報酬設計で仕込んだ「研究のセンス」。特定業務に絞れば小さいモデルがコストと速度で有利になる、という話を当社の実測と突き合わせます。ただし成果は保証しません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/vivant-fugaku-quantum/">
+<div class="card-media"><img src="../../static/img/article-vivant-fugaku-quantum.jpg" alt="VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した</h3>
+<p class="card-summary">2026年8月23日放送のVIVANT第2シーズン第15話に「計算能力400ペタフロップス、スーパーコンピューター富岳級のAIハヤト」が登場しました。この数字は実在の富岳（442.01ペタフロップス）とほぼ一致します。ただし富岳は量子コンピュータではありません。当社のMacBook Air M2で実効性能を測ると160.8ギガフロップス、富岳との差は約275万倍でした。さらに量子シミュレータを自作してショアのアルゴリズムを走らせ、12量子ビットで15の素因数分解に成功しています。スパコン・AI・量子の違いを実測で切り分けます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/faraday-borrow-not-build-sme/">
+<div class="card-media"><img src="../../static/img/article-faraday-borrow-not-build-sme.jpg" alt="話題のAIは「自前のコードツールを作らなかった」──中小企業はAIで何を作り、何を借りるべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">話題のAIは「自前のコードツールを作らなかった」──中小企業はAIで何を作り、何を借りるべきか？</h3>
+<p class="card-summary">DeepMind出身者のロンドンのラボInherentが、論文複製エージェントFaradayでClaude Opus 4.8とGPT-5.5を上回ったと発表しました。見出しは「小さいモデルが勝った」ですが、中小企業が真似できるのはモデルの大小より、Inherentの3つの設計判断です。コードツールは自作せずGPT-5.5 Codexを借り、報酬設計で「センス」を仕込み、迎合しないエージェントを狙う。当社は小型モデルの学習は測っていません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=zenn_ai-6b9e3647e6">無料で相談する</a>
+  </div>
+</aside>
+
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

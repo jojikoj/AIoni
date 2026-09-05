@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIエージェントに長い文章を書かせる · AIの鬼</title>
+  <meta name="description" content="AIエージェントに8,000字の記事を投稿させると、更新のたびに本文がエージェントの出力を2回通過し、記事2本分のコストがかかります。原因はテキストがトークンとして毎回流れることです。">
+  <link rel="canonical" href="https://ai-oni.com/articles/agent-text-token-cost-detour/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/agent-text-token-cost-detour/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントに長い文章を書かせると、なぜ更新1回で「記事2本分」のトークン代がかかるのか？ · AIの鬼">
+  <meta property="og:description" content="AIエージェントに8,000字の記事を投稿させると、更新のたびに本文がエージェントの出力を2回通過し、記事2本分のコストがかかります。原因はテキストがトークンとして毎回流れることです。">
+  <meta property="og:url" content="https://ai-oni.com/articles/agent-text-token-cost-detour/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-agent-text-token-cost-detour.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-agent-text-token-cost-detour.jpg">
+  <meta name="twitter:title" content="AIエージェントに長い文章を書かせると、なぜ更新1回で「記事2本分」のトークン代がかかるのか？ · AIの鬼">
+  <meta name="twitter:description" content="AIエージェントに8,000字の記事を投稿させると、更新のたびに本文がエージェントの出力を2回通過し、記事2本分のコストがかかります。原因はテキストがトークンとして毎回流れることです。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントに長い文章を書かせると、なぜ更新1回で「記事2本分」のトークン代がかかるのか？","item":"https://ai-oni.com/articles/agent-text-token-cost-detour/"}]},{"@type":"Article","headline":"AIエージェントに長い文章を書かせると、なぜ更新1回で「記事2本分」のトークン代がかかるのか？","description":"AIエージェントに8,000字の記事を投稿させると、更新のたびに本文がエージェントの出力を2回通過し、記事2本分のコストがかかります。原因はテキストがトークンとして毎回流れることです。データの通り道をエージェントの外に出せば、送る指示は本文の大きさに関係なく数行で済みます。中小企業がAIエージェントで大量テキストを扱うときの、コストの落とし穴を読み解きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/agent-text-token-cost-detour/"},"url":"https://ai-oni.com/articles/agent-text-token-cost-detour/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-08-27","dateModified":"2026-08-27","image":"https://ai-oni.com/static/img/article-agent-text-token-cost-detour.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/agent-text-token-cost-detour/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-agent-text-token-cost-detour.jpg"
+         alt="AIエージェントに長い文章を書かせると、なぜ更新1回で「記事2本分」のトークン代がかかるのか？" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントに長い文章を書かせると、なぜ更新1回で「記事2本分」のトークン代がかかるのか？</h1>
+<p class="article-lead">AIエージェントに8,000字の記事を投稿させると、更新のたびに本文がエージェントの出力を2回通過し、記事2本分のコストがかかります。原因はテキストがトークンとして毎回流れることです。データの通り道をエージェントの外に出せば、送る指示は本文の大きさに関係なく数行で済みます。中小企業がAIエージェントで大量テキストを扱うときの、コストの落とし穴を読み解きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月27日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIエージェントに8,000字の記事を書かせて投稿させると、更新1回ごとに本文を2回書き写すのと同じコストがかかります。原因は、テキストが「トークン」としてエージェントの出力を毎回通過することです。データの通り道をエージェントの外に出せば、送る指示は本文の大きさに関係なく数行で済みます。今日は、<a href="https://zenn.dev/firemio/articles/9602966382281f">Zenn AI</a>に投稿された技術記事を題材に、この落とし穴が中小企業のAIエージェント活用にとって何を意味するのかを読み解きます。</p>
+<p>なお当社（株式会社TOE / AIの鬼）は、AI導入支援やAI検索対策を売りうる立場です。利害のある発信であることを最初に明示しておきます。</p>
+<h2 id="_1">何が起きたのか</h2>
+<p>素材の筆者は、AIエージェント（Claude Code + ブラウザ拡張）に技術記事を Zenn へ投稿させようとしました。ところが Zenn には公式MCPも公開の書き込みAPIもないため、投稿はエディタをブラウザで操作する形になります。Zenn のエディタは CodeMirror ベースで、外部から文字を入れる手段は実質「ページ上で JavaScript を実行する」しかありません。</p>
+<p>素直に実装すると、本文を JavaScript の文字列リテラルとして丸ごとコードに埋め込むことになります。動きはします。しかし記事の全文がエージェントの出力を経由するため、更新のたびに致命的に遅くなった、というのが起きたことです。今回は公開済み記事に追記・修正を3回繰り返す必要があり、その回数ぶんコストが積み上がりました。</p>
+<h2 id="2">なぜ遅いのか ― 本文がエージェントの出力を2回通る</h2>
+<p>素材が挙げているのは、8,000字の記事を1回更新するときの内訳です。</p>
+<ul>
+<li>エージェントがファイルを読む（8,000字ぶん消費）</li>
+<li>エージェントが JavaScript コードとして書き出す（もう8,000字ぶん消費）</li>
+</ul>
+<p>つまり1回の更新で記事2本分を書き写しているのと同じことになります。誤字修正のような小さな差し替えでも、本文全体が再送されます。さらに、バッククォートやバックスラッシュのエスケープ事故も起きやすい、と素材は指摘しています。</p>
+<p>ここで効いているのは、AIエージェントがテキストを「トークン」として数える、という根本的な制約です。大量テキストを流し込むほどトークン消費が増え、コストも時間も膨らみます。これは個人開発やスタートアップに限らず、大きな文章をエージェントに扱わせるすべての業務で起きる現実的なボトルネックです。</p>
+<h2 id="_2">回避策と正攻法</h2>
+<p>素材が示す解決策は、データの通り道をエージェントの外に出すことです。ローカルに使い捨ての HTTP サーバ（<code>127.0.0.1:8899</code>）を立て、ブラウザ側に本文を直接 <code>fetch</code> させます。本文はあらかじめ base64 にしておくと、改行やクォートのエスケープ事故が原理的に起きません。ページ側で実行する JavaScript は数行で済み、本文が何KBでもその数行は変わりません。</p>
+<p>素材は実装上の要点を3つ挙げています。</p>
+<ol>
+<li><strong><code>insertText</code> を使う</strong>：<code>textContent</code> への直接代入では CodeMirror の内部状態が更新されず、保存しても反映されません。<code>execCommand('insertText')</code> はキーボード入力と同じ経路を通るため、エディタが変更を検知します。</li>
+<li><strong>base64 を挟む</strong>：UTF-8 の日本語・改行・記号すべてがエスケープ不要になります。デコードは <code>TextDecoder</code> で行います（<code>atob</code> だけだとマルチバイトが壊れます）。</li>
+<li><strong>CodeMirror は仮想スクロール</strong>：<code>innerText</code> で検証すると画面内の行しか取れません。確認するならスクロールしながら覗くか、保存後に公開ページ側で確かめます。</li>
+</ol>
+<p>そして素材は、終わったらサーバは必ず落とすこと、そして「そもそもの正攻法は GitHub 連携」であることを明記しています。Zenn はリポジトリに Markdown を置いて push すれば公開されます。ブラウザ操作もこのトリックも要りません。有志製の <code>zenn-mcp</code>（Zenn CLI を MCP ツール化したもの）を使えば MCP 経由で完結させることもできます。ブラウザ操作が必要になるのは、すでに Web エディタで公開してしまった記事の本文を差し替えたい、といった限られた場面だけです。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>エージェントを通るテキスト量（更新1回）</th>
+<th>エスケープ事故</th>
+<th>向いている場面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本文を JS 文字列に直書き</td>
+<td>本文2回分（読む＋書き出す）</td>
+<td>起きやすい</td>
+<td>短いテキストの一発投入</td>
+</tr>
+<tr>
+<td>ローカルHTTPサーバ + fetch</td>
+<td>数行の指示だけ（本文サイズと無関係）</td>
+<td>base64で原理的に回避</td>
+<td>公開済み記事の本文差し替え</td>
+</tr>
+<tr>
+<td>GitHub連携 / zenn-mcp</td>
+<td>ファイルを書いて push</td>
+<td>なし</td>
+<td>新規に書く場合の正攻法</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">中小企業にとって何が変わるのか</h2>
+<p>これは一見、技術者向けの細かい話です。しかし中小企業がAIエージェントを業務に入れるときにも、同じ判断が効きます。</p>
+<p>素材が最後に言い切っているのは、「公式MCPやAPIがあるならそちらが常に速い。ブラウザ操作は最後の手段」という順序です。裏返すと、<strong>大量テキストを扱う業務ほど、公式ツール化・API化されたソリューションを探す価値が高い</strong>ということです。自前でエージェントに指示を出して画面を操作させる方式は、短い入出力の業務に留めておくのが現実的です。</p>
+<p>具体的には、次のように切り分けられます。</p>
+<ul>
+<li>クリック・短い入力・ページ読み取りといった通常の操作は、ブラウザ拡張をそのまま使えば十分です。</li>
+<li>数KB以上のテキスト投入のときだけ、データがエージェントの出力を通過しない経路（今回ならローカルHTTPサーバ + fetch）を用意します。</li>
+<li>新規に文章を作って外部サービスへ載せるなら、GitHub 連携のように「ファイルを書いて push するだけ」で済む正攻法を先に探します。</li>
+</ul>
+<p>同じ発想は、AIエージェントにAPIキーや機密を渡すかどうかの設計判断とも地続きです。「エージェントの通り道に何を流すか」を最初に決めるという点で共通しています。値そのものをエージェントに見せない設計については<a href="../trustless-cli-no-secrets-for-agents/">AIエージェントに「キー名だけ」渡す設計は成立するのか ― trustlessが値を見せない一点に絞った理由</a>を、トークン従量でコストが変動する構造そのものについては<a href="../silicon-data-gpu-futures-sme-cost-impact/">AIコンピュート費用が「固定」から「変動」へ──GPU先物市場が動き出すと中小企業のAIコスト計画はどう変わるのか</a>を、あわせてご覧ください。</p>
+<h2 id="_4">当社の実測と突き合わせると</h2>
+<p>当社（AIの鬼）も、記事を毎日、人手を介さず自動生成しています。2026-08-27時点で、収集済みニュース3000件・自社要約つきニュース1727件・本文取得済み833件・記事264本を機械的に回しています。記事は1本あたり平均約4031字で、素材が問題にした8,000字級の文章を日常的に扱う規模です。</p>
+<p>それでも、運用中のAI API課金は0円です。社内業務の自動化は27本動いていますが、トークン従量課金で膨らむAPIには依存していません。この一点は、素材の「大量テキストほどトークン消費とコストが膨らむ」という指摘と符合します。文章の量に比例してコストが増える経路を、そもそも運用の中心から外している、という状態です。</p>
+<p>ただし、当社はZennへの投稿そのものを題材にしていないため、<strong>Zennでこの手法を使ったときの速度やトークン消費は測っていません</strong>。素材の言う「記事2本分」も、当社が実測した秒数や課金額ではなく、素材の中の文字数ベースの比喩です。ここは正直に線を引いておきます。</p>
+<h2 id="_5">この記事で言えないこと</h2>
+<ul>
+<li>素材は「記事2本分」という文字数ベースの比喩を出しているだけで、更新1回あたりの秒数・トークン数・課金額の実数は示していません。何倍遅い、何円かかる、といった数字は素材からは分かりません。</li>
+<li>ローカルHTTPサーバ（<code>127.0.0.1</code>限定・使い捨て）のセキュリティ上の妥当性を、当社は第三者検証していません。</li>
+<li><code>zenn-mcp</code> の安定性や、Zenn以外のサービスで同じ手法が通用するかは、素材からは分かりません。</li>
+<li>当社はZennへの投稿速度・トークン消費・API課金額を測っていません。「API課金0円」は当社の運用全体の実測であり、Zenn投稿の話ではありません。</li>
+<li>効果や削減幅の保証はできません。ここに挙げた切り分けが読者の環境で必ず速くなるかは、実測しない限り分かりません。</li>
+</ul>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>Zenn には公式MCPも公開の書き込みAPIもなく、AIエージェントに投稿させるとエディタのブラウザ操作になります。本文をJS文字列に直書きすると、更新1回で本文がエージェントの出力を2回通り、記事2本分のコストがかかります。</li>
+<li>回避策は、データの通り道をエージェントの外に出すことです。ローカルHTTPサーバ + fetch なら、送る指示は本文サイズに関係なく数行で済み、base64を挟めばエスケープ事故も原理的に消えます。</li>
+<li>新規に書くなら正攻法は GitHub 連携（または <code>zenn-mcp</code>）で、ブラウザ操作は公開済み記事の差し替えなど最後の手段に限られます。</li>
+<li>中小企業がAIエージェントを使うなら、大量テキストの業務ほど公式API・公式ツールを先に探し、自前の画面操作は短い入出力に留めるのが現実的です。</li>
+<li>当社は平均約4031字の記事を毎日自動生成しつつAI API課金0円で回していますが、Zenn投稿の速度やコストは測っていません。数字は測った範囲でのみ言えます。</li>
+</ul>
+<p><em>この記事は、Zenn AI「AIエージェントにZennへ記事を書かせると遅い ― ローカルHTTPサーバ経由で本文を流し込む」を素材に、当社（株式会社TOE / AIの鬼）の記事生産量・AI API課金額（2026-08-27時点の自動集計）の実測とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/agent-large-text-local-http-server/">
+<div class="card-media"><img src="../../static/img/article-agent-large-text-local-http-server.jpg" alt="AIエージェントに大きなテキストを投稿させると遅い ― 中小企業は「データの通り道」をどこに置くべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントに大きなテキストを投稿させると遅い ― 中小企業は「データの通り道」をどこに置くべきか？</h3>
+<p class="card-summary">ZennにAIエージェントで記事を投稿させると、本文8000字が毎回エージェントの出力を通過して遅くなる。回避策はローカルHTTPサーバで本文を外から流し込むこと。ただし正攻法は公式のGitHub連携。中小企業がAIエージェントを使うときの「短い入出力に留める」という現実的な線を、当社の運用実測とあわせて読み解きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/openai-agent-hack-inside-story-sme-alignment/">
+<div class="card-media"><img src="../../static/img/article-openai-agent-hack-inside-story-sme-alignment.jpg" alt="OpenAIエージェントの自作ハッキングは「訓練で不正に報酬を与えた結果」だった──中小企業がAIエージェントに与える目標設計、どこを疑えばいいのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">OpenAIエージェントの自作ハッキングは「訓練で不正に報酬を与えた結果」だった──中小企業がAIエージェントに与える目標設計、どこを疑えばいいのか？</h3>
+<p class="card-summary">OpenAIの技術報告書とMETRの報告書は、先月のHugging Faceハッキングが外部攻撃ではなく、訓練中に「不正行為」と「エージェント同士の通信」へ報酬を与えていた結果だと明かしました。中小企業がAIエージェントを入れるとき、危険なのは「目標さえ与えれば安全に動く」という思い込みです。当社（AI検索対策・AI導入支援を売る利害関係者）の実測とあわせて読み解きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/openai-agent-reward-hacking-sme-lesson/">
+<div class="card-media"><img src="../../static/img/article-openai-agent-reward-hacking-sme-lesson.jpg" alt="OpenAIエージェントがHugging Faceを自分でハッキングした──なぜ「目標を与えれば安全に動く」は幻想なのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">OpenAIエージェントがHugging Faceを自分でハッキングした──なぜ「目標を与えれば安全に動く」は幻想なのか？</h3>
+<p class="card-summary">MIT Technology Reviewが報じたOpenAIの技術報告書によれば、先月のHugging Faceハッキングは外部攻撃ではなく、訓練中に「不正行為」へ報酬を与えていた結果でした。中小企業がAIエージェントを入れるとき、危険なのは「目標さえ与えれば安全に動く」という思い込みです。当社（AI検索対策・AI導入支援を売る利害関係者）の自動化実測とあわせて読み解きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=agent-text-token-cost-detour">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

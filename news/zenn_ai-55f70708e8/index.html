@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キー…｜要点と実務への影響 · AIの鬼</title>
+  <meta name="description" content="ここが AIの鬼として引っかかるのは、開発者たちが心の奥底で持っている「でも小規模だから」という幻想だ。スターが0なら、個人プロジェクトなら、見つかるのは何日も先だろう。その感覚は完全に通用しない。">
+  <link rel="canonical" href="https://ai-oni.com/news/zenn_ai-55f70708e8/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/zenn_ai-55f70708e8/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話｜要点と実務への影響 · AIの鬼">
+  <meta property="og:description" content="ここが AIの鬼として引っかかるのは、開発者たちが心の奥底で持っている「でも小規模だから」という幻想だ。スターが0なら、個人プロジェクトなら、見つかるのは何日も先だろう。その感覚は完全に通用しない。">
+  <meta property="og:url" content="https://ai-oni.com/news/zenn_ai-55f70708e8/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話｜要点と実務への影響 · AIの鬼">
+  <meta name="twitter:description" content="ここが AIの鬼として引っかかるのは、開発者たちが心の奥底で持っている「でも小規模だから」という幻想だ。スターが0なら、個人プロジェクトなら、見つかるのは何日も先だろう。その感覚は完全に通用しない。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話","item":"https://ai-oni.com/news/zenn_ai-55f70708e8/"}]},{"@type":"NewsArticle","@id":"https://ai-oni.com/news/zenn_ai-55f70708e8/","url":"https://ai-oni.com/news/zenn_ai-55f70708e8/","headline":"「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話","description":"ここが AIの鬼として引っかかるのは、開発者たちが心の奥底で持っている「でも小規模だから」という幻想だ。スターが0なら、個人プロジェクトなら、見つかるのは何日も先だろう。その感覚は完全に通用しない。","inLanguage":"ja-JP","isPartOf":{"@id":"https://ai-oni.com/#website"},"isAccessibleForFree":true,"datePublished":"2026-08-12T13:26:16+00:00","author":{"@type":"Organization","name":"AIの鬼 編集部","url":"https://ai-oni.com/about/"},"publisher":{"@id":"https://ai-oni.com/#organization"},"isBasedOn":{"@type":"NewsArticle","headline":"「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話","url":"https://zenn.dev/imu_imu/articles/leaked-api-key-honeypot","publisher":{"@type":"Organization","name":"Zenn AI"}},"citation":{"@type":"NewsArticle","headline":"「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話","url":"https://zenn.dev/imu_imu/articles/leaked-api-key-honeypot","publisher":{"@type":"Organization","name":"Zenn AI"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/news/zenn_ai-55f70708e8/"},"image":"https://ai-oni.com/static/img/news-dev-08.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/zenn_ai-55f70708e8/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="on">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="news-detail">
+  <div class="wrap wrap-narrow">
+
+    <nav class="crumb">
+      <a href="../../news/">ニュース</a> ›
+      <span>Zenn AI</span>
+    </nav>
+
+    <header class="news-detail-head">
+      <div class="news-detail-meta">
+<span class="tag-hash">#開発・実装</span>        <span class="src">Zenn AI</span>
+<time datetime="2026-08-12T13:26:16+00:00">2026年8月12日</time>      </div>
+      <h1>「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話</h1>
+    </header>
+
+    <figure class="news-detail-media">
+      <img src="../../static/img/news-dev-08.svg"
+           alt="「あなたのAPIキーはもう盗まれています」公開リポジトリに囮キーを撒いたら5分で発火した話（内容を表す図ではないイメージ画像）" loading="lazy">
+      <figcaption>イメージ</figcaption>
+    </figure>
+
+    <div class="news-body">
+<p>公開GitHubリポジトリにAPIキーを置いて5分で盗まれた。これが実験結果だ。やったことはシンプル。無害な囮キー（Canarytoken）を .env ファイルに入れわざと .gitignore から外し、公開リポジトリに push した。見かけ上は「個人開発者がうっかりミスした」ようなハニーポット。スターは0、誰も見ていないはずのリポジトリだ。ところが数分後、そのキーが実際に叩かれた。犯人は人間ではなく自動スキャナ。GitHubの新規コミットを24時間監視し、APIキーらしき文字列を見つけたら即座に試す機械が、世界中で常時動いている。</p><p>ここが AIの鬼として引っかかるのは、開発者たちが心の奥底で持っている「でも小規模だから」という幻想だ。スターが0なら、個人プロジェクトなら、見つかるのは何日も先だろう。その感覚は完全に通用しない。公開した瞬間、スケール無視で機械が見ている。しかも攻撃者にとってこのスキャンはコストがほぼゼロ。やらない理由がない。秘密を置く場所を「コード内」「ハードコード」から「環境変数」「.gitignore」へ移すこと。そこは対策の第一歩だ。だが読んでほしい実験の第2部も、問題はそこで終わらない。一度公開リポジトリに出たキーは、Git履歴に永遠に残る。ファイルを消しても過去のコミットには生きている。だからファイルを削除することより先に、そのAPIキーそのものを無効化（ローテート）するしかない。キー管理の本気度は「秘密を隠すレイヤーをいくつ積むか」で決まる。環境変数に入れて .gitignore で除外するだけでなく、さらに一段踏み込んで Claude Code などのAIツール自体に .env への読み取り権限を与えない設定も理想だ。開発スピードは落ちるが、「秘密をコンテキストに漏らさない」という最後の砦ができる。</p><p>明日からのアクション：秘密をハードコードするな、環境変数に入れて .gitignore で除外しろ。そしていますぐリポジトリの git log を見て「.env が公開されていないか」を確認しろ。されていたなら、該当するすべてのAPIキーをローテーションしろ。コーヒーを淹れている間に盗まれる。それが現代だ。</p>    </div>
+    <p class="news-body-note">※ 上記は配信元記事をもとにAIの鬼編集部が要約・再構成したものです。正確な内容は出典元をご確認ください。</p>
+
+    <p class="news-source-link">
+      このニュースの全文は、配信元でお読みいただけます。
+      <a href="https://zenn.dev/imu_imu/articles/leaked-api-key-honeypot" target="_blank" rel="noopener nofollow">
+        Zenn AIで元記事を読む →
+      </a>
+    </p>
+
+
+    <section class="news-related">
+      <h2>編集部の実践記録から</h2>
+      <p class="news-related-lead">
+        当社が自社の業務でAIを動かし、処理件数・所要時間・失敗件数まで
+        実際に測った記録です。
+      </p>
+      <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-wrong-answer-fix/">
+<div class="card-media"><img src="../../static/img/article-aeo-wrong-answer-fix.jpg" alt="AIが自社について誤ったことを答えたとき、どう直すのか — 削除依頼より先にやること" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">AIが自社について誤ったことを答えたとき、どう直すのか — 削除依頼より先にやること</h3>
+<p class="card-summary">AIに間違った説明をされても、その回答を直接消すことはできません。できるのは、AIが根拠にしている情報を変えることだけです。誤りの出所を特定する手順と、出所別の対処を整理しました。BtoB購買担当者の51%がAIで誤情報に遭遇したという調査もあります。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/aeo-zero-click-funnel/">
+<div class="card-media"><img src="../../static/img/article-aeo-zero-click-funnel.jpg" alt="AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AEO対策室</span>      <h3 class="card-title">AI経由で来た訪問者をどう受けるか — 説明済みの人が最初に開くページを設計する</h3>
+<p class="card-summary">AI検索経由の訪問者は、すでにAIから説明を受けた状態で来ます。会社紹介から読ませる構成は、その人には遅い。当サイトの実測では、記事でもニュースでもなくコーナー一覧ページのCTRが14.55%で最も高く、クリックの32%を占めていました。受け皿の作り方を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/databricks-dasf-v3-agentic-ai-lethal-trifecta/">
+<div class="card-media"><img src="../../static/img/article-databricks-dasf-v3-agentic-ai-lethal-trifecta.jpg" alt="AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントを動かす前に「何を持たせないか」を決める——DASFv3.0の「致命的な三位一体」とは何か</h3>
+<p class="card-summary">2026年3月にDatabricksが公開したDASF v3.0は、AIエージェント特有の35個のリスク・6個のコントロールを追加した。核心は「機密データへのアクセス・外部入力の処理・状態変更の能力」が同時に揃うとリスクが急増するという「致命的な三位一体」だ。中小企業でも権限設計の段階で三要素のうち一つを欠かせばリスクは大きく下がる。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+      </div>
+    </section>
+
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=zenn_ai-55f70708e8">無料で相談する</a>
+  </div>
+</aside>
+
+
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

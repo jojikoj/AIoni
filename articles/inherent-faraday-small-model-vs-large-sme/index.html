@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>27億のモデルが270億級に勝った？ · AIの鬼</title>
+  <meta name="description" content="DeepMind出身者のロンドンのラボInherentが、論文複製エージェント「Faraday」でClaude Opus 4.8とGPT-5.5に勝ったと発表しました。鍵はサイズではなく報酬設計で仕込んだ「研究のセンス」。">
+  <link rel="canonical" href="https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか · AIの鬼">
+  <meta property="og:description" content="DeepMind出身者のロンドンのラボInherentが、論文複製エージェント「Faraday」でClaude Opus 4.8とGPT-5.5に勝ったと発表しました。鍵はサイズではなく報酬設計で仕込んだ「研究のセンス」。">
+  <meta property="og:url" content="https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-inherent-faraday-small-model-vs-large-sme.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-inherent-faraday-small-model-vs-large-sme.jpg">
+  <meta name="twitter:title" content="27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか · AIの鬼">
+  <meta name="twitter:description" content="DeepMind出身者のロンドンのラボInherentが、論文複製エージェント「Faraday」でClaude Opus 4.8とGPT-5.5に勝ったと発表しました。鍵はサイズではなく報酬設計で仕込んだ「研究のセンス」。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか","item":"https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/"}]},{"@type":"Article","headline":"27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか","description":"DeepMind出身者のロンドンのラボInherentが、論文複製エージェント「Faraday」でClaude Opus 4.8とGPT-5.5に勝ったと発表しました。鍵はサイズではなく報酬設計で仕込んだ「研究のセンス」。特定業務に絞れば小さいモデルがコストと速度で有利になる、という話を当社の実測と突き合わせます。ただし成果は保証しません。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/"},"url":"https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-08-24","dateModified":"2026-08-24","image":"https://ai-oni.com/static/img/article-inherent-faraday-small-model-vs-large-sme.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/inherent-faraday-small-model-vs-large-sme/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-inherent-faraday-small-model-vs-large-sme.jpg"
+         alt="27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>27億のモデルが270億級に勝った？──中小企業は「小さくて勘の良いAI」を業務に絞って持てるのか</h1>
+<p class="article-lead">DeepMind出身者のロンドンのラボInherentが、論文複製エージェント「Faraday」でClaude Opus 4.8とGPT-5.5に勝ったと発表しました。鍵はサイズではなく報酬設計で仕込んだ「研究のセンス」。特定業務に絞れば小さいモデルがコストと速度で有利になる、という話を当社の実測と突き合わせます。ただし成果は保証しません。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月24日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。2026年8月22日にTechCrunch AIが報じたInherentの発表は、「大きいモデルほど高性能」という一本道に横から一撃を入れた事例です。ただし、これは中小企業がすぐ真似できる方法の紹介ではありません。読み解くべきは「サイズではなく、報酬の設計で何を仕込んだか」という一点です。株式会社TOE（AIの鬼）はAI導入支援・AI検索対策を売りうる立場なので、そのつもりで割り引いて読んでください。</p>
+<h2 id="faraday">何が起きたのか──Faradayという論文複製エージェント</h2>
+<p>Google DeepMind出身者が立ち上げたロンドンのAIラボInherentが、科学論文を独立して複製するAIエージェント「Faraday」をリリースしました。「複製」とは、公開済みの論文の結論を<strong>事前に教えられずに</strong>、自力で再現してみせることです。人間の科学者にとっても標準的な訓練で、共同創業者兼チーフサイエンティストのEdward Hughes氏は「多くの博士課程の学生が、実際これから始める」と述べています。</p>
+<p>Inherentはステルスを抜けてから数週間、シード5,000万ドルを調達したばかりのスタートアップです。従業員は十数名で、全員がロンドンのKing's Crossのオフィスに出社して働いています。年末までに人員を「約20〜25名」へ増やす計画だとされています。</p>
+<p>Hughes氏がTechCrunchに強調したのは、フロンティアモデルに勝ったという結果そのものより「どうやってそこに至ったか」でした。</p>
+<h2 id="_1">「小さいモデルが勝った」の中身と、数字の食い違い</h2>
+<p>注目点はサイズです。Inherentによれば、Faradayは論文複製タスクで、Anthropicの<strong>Claude Opus 4.8</strong>とOpenAIの<strong>GPT-5.5</strong>という、いずれもはるかに大きいフロンティア級のモデルを上回りました。一方でFaraday自身が動いているのは、比較的小さな「Qwen 3.6」というモデルです。</p>
+<p>ここで素材の中に食い違いがあります。英語の元記事は「27 billion parameters（270億パラメータ）」と書いており、当サイトの既存記事<a href="../small-model-research-taste-sme/">小さいモデルが大型モデルに勝った──中小企業は「勘の良い部下」を安く育てられるのか？</a>も270億としています。一方、日本語の要約リード文は「27億パラメータ」と書いています。<strong>どちらが正しいか素材からは確定できません</strong>が、英語原文と当サイト既存記事の側は270億（27 billion）で一致しているため、本記事はそちらを採ります。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>Faraday（Inherent）</th>
+<th>Claude Opus 4.8（Anthropic）</th>
+<th>GPT-5.5（OpenAI）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ベースモデル</td>
+<td>Qwen 3.6</td>
+<td>―</td>
+<td>―</td>
+</tr>
+<tr>
+<td>パラメータ</td>
+<td>270億（英語原文。要約リードは27億と食い違い）</td>
+<td>「much larger／frontier-scale」とのみ。素材に数値なし</td>
+<td>同左。素材に数値なし</td>
+</tr>
+<tr>
+<td>論文複製タスク</td>
+<td>上回った側</td>
+<td>上回られた側</td>
+<td>上回られた側</td>
+</tr>
+<tr>
+<td>コーディング担当</td>
+<td>自前で作らず <strong>GPT-5.5 Codex</strong> を使わせている</td>
+<td>―</td>
+<td>―</td>
+</tr>
+</tbody>
+</table>
+<p>面白いのは最下段です。Inherentは自前のコーディングツールを作らず、Faradayに<strong>OpenAIのGPT-5.5 Codex</strong>を使わせています。人間の科学者が既存ソフトを使うのと同じ理屈だ、というのが会社の説明です。「小さいモデルが勝った」といっても、大手のツールを部品として使っている点は落とせません。</p>
+<h2 id="_2">中小企業にとって何が変わるのか</h2>
+<p>Inherentが示したのは、単なる効率性ではありません。Faradayには「何が実験する価値のある問題か」を学ぶ機構、Hughes氏の言う「研究のセンス（research taste）」が仕込まれています。これを教えるために使われているのが強化学習で、従うべきルールを細かく指定するのではなく、良い結果に報酬を与えて学ばせる方法です。</p>
+<p>中小企業への含意は、以下のように整理できます。</p>
+<ul>
+<li><strong>汎用の大型モデルと、業務特化の小型モデルは目的が違う。</strong> 大型は間口が広く汎用性がありますが、特定業務に絞れば、カスタマイズした小さいモデルがトークンコストと実行速度の両面で有利になり得ます。</li>
+<li><strong>「センス」を仕込む投資が先。</strong> 小さいモデルを「調べ屋」「勘の良い部下」として使うなら、その前に報酬の軸を業務に合わせて作り込む工程が要る、という話です。ツールを買えば済む話ではありません。</li>
+<li><strong>ただし、Inherentがやったのは論文複製という研究課題です。</strong> これがそのまま見積作成や受発注のような一般業務に移せるとは、素材からは言えません。</li>
+</ul>
+<p>なお「モデルを最新に買い替えるより動かし方を直すほうが安い」という論点は、当サイトでも<a href="../writer-harness-over-model-cost-cut-for-smes/">モデルを最新に買い替えるより「動かし方」を直すほうがAIコストは下がるのか</a>で扱っています。Inherentの「自前で作らずGPT-5.5 Codexを使わせる」という判断は、この「動かし方」側の工夫に近い発想です。</p>
+<h2 id="_3">当社の実測と突き合わせる</h2>
+<p>当社はモデルのパラメータ数を測る立場にはありません。測っているのは「AI検索に何が引用されるか」の側です。ここに、Faradayの話と地続きの発見があります。</p>
+<p>2026年7月18日にPlaywright経由でPerplexityへ3クエリを投げた実測では、引用されたのは「0.03mm〜1.0mmの極薄板溶接に対応」「1点から製作」のような<strong>具体的な記述</strong>の箇所で、「高品質」「短納期」のような抽象的なキャッチコピーではありませんでした。2026年8月1日の福岡県金属加工業45社の実測（Gemini Flash-Lite＋Google検索グラウンディング）でも、公式サイトを根拠に説明できたのは42社（93%）で、項目別では事業内容100%・主力製品98%に対し、報道・業界メディアでの言及は31%（14社）にとどまりました。</p>
+<p>つまり、大きいモデルでも小さいモデルでも、<strong>AIが拾うのは具体で書かれた事実</strong>だという点は共通しています。「研究のセンス」を仕込むのと、自社サイトに具体的な事実を置くのは別の話ですが、「抽象語では引かれない」という方向は一致しています。プリンストン大学ほかの外部調査「GEO」（KDD 2024、10,000クエリ・9手法）でも、記述の具体化・数値と出典の追加で可視性が30〜40%向上したと報告されています。</p>
+<p>なお当社が運用中のAI API課金は現在0円で、大型モデルの契約コストを日々払って比較しているわけではありません。この記事は「小さいモデルなら安い」を保証するものではなく、その効果を当社は測っていません。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li>Faradayが「勝った」論文複製タスクの具体的な指標・件数・評価基準は、素材からは分かりません。</li>
+<li>Qwen 3.6のパラメータ数は、素材内で270億と27億が食い違っています。確定できません。</li>
+<li>Claude Opus 4.8・GPT-5.5の正確なパラメータ数は素材に書かれていません（「はるかに大きい／フロンティア級」とだけ）。</li>
+<li>この論文複製の手法が、中小企業の一般業務（見積・受発注・総務など）にそのまま移せるかは、素材からは分かりません。</li>
+<li>「小さいモデルはコストと速度で有利」という一般論の実際の削減率を、当社は測っていません。効果は保証しません。</li>
+<li>株式会社TOEはAI検索対策・AI導入支援を売りうる利害関係者です。この点を割り引いてお読みください。</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Inherent（DeepMind出身者のロンドンのラボ）が論文複製エージェント「Faraday」で、Claude Opus 4.8とGPT-5.5を上回ったと発表しました（TechCrunch AI、2026-08-22）。</li>
+<li>Faradayが動くのはQwen 3.6（英語原文で270億パラメータ／日本語要約リードは27億と食い違い）。焦点はサイズではなく、報酬設計で仕込んだ「研究のセンス」です。</li>
+<li>Faradayはコーディングを自前で作らず、OpenAIのGPT-5.5 Codexを部品として使っています。「小さいモデル単独で完結」ではありません。</li>
+<li>中小企業への含意は「業務を絞れば小型モデルがコストと速度で有利になり得る」こと。ただし、その前に業務に合わせた報酬の作り込みが要り、当社はその効果を測っていません。</li>
+<li>AIが拾うのは具体で書かれた事実、という点は当社のPerplexity実測・福岡45社実測・外部調査「GEO」でも一致しています。抽象的なキャッチコピーは引かれません。</li>
+</ul>
+<p><em>この記事は <a href="https://techcrunch.com/2026/08/22/inherent-founded-by-deepmind-alumni-says-its-ai-teammate-just-outperformed-anthropic-and-openai-at-replicating-research/">TechCrunch AI</a> の報道を素材に、当社のPerplexity引用調査（2026年7月18日）・福岡県金属加工業45社の実測（2026年8月1日）、およびプリンストン大学ほか「GEO: Generative Engine Optimization」（KDD 2024）の外部調査とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/small-model-research-taste-sme/">
+<div class="card-media"><img src="../../static/img/article-small-model-research-taste-sme.jpg" alt="小さいモデルが大型モデルに勝った──中小企業は「勘の良い部下」を安く育てられるのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">小さいモデルが大型モデルに勝った──中小企業は「勘の良い部下」を安く育てられるのか？</h3>
+<p class="card-summary">DeepMind出身者のロンドンのラボInherentが、270億パラメータのQwen 3.6で動くエージェントFaradayを公開し、論文複製タスクでClaude Opus 4.8とGPT-5.5を上回ったと発表しました。鍵は報酬設計で「研究のセンス」を仕込んだこと。特定業務に絞れば、小さいモデルがコストと速度で有利になる、という話を当社の実測と突き合わせます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/inherent-small-model-claim-sme/">
+<div class="card-media"><img src="../../static/img/article-inherent-small-model-claim-sme.jpg" alt="Inherentの「小型AIが大型に勝った」は中小企業に何を意味するのか？──報道の数字が食い違う" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">Inherentの「小型AIが大型に勝った」は中小企業に何を意味するのか？──報道の数字が食い違う</h3>
+<p class="card-summary">DeepMind出身者のロンドンのラボInherentが、論文複製エージェントFaradayでClaude Opus 4.8とGPT-5.5を上回ったと発表しました。勝因はサイズではなく報酬設計で仕込んだ「研究のセンス」です。ただしQwenの規模は素材内で27億とも270億とも書かれ食い違っています。中小企業が真似できる一点と、当社が測っていないことを分けて示します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/faraday-borrow-not-build-sme/">
+<div class="card-media"><img src="../../static/img/article-faraday-borrow-not-build-sme.jpg" alt="話題のAIは「自前のコードツールを作らなかった」──中小企業はAIで何を作り、何を借りるべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">話題のAIは「自前のコードツールを作らなかった」──中小企業はAIで何を作り、何を借りるべきか？</h3>
+<p class="card-summary">DeepMind出身者のロンドンのラボInherentが、論文複製エージェントFaradayでClaude Opus 4.8とGPT-5.5を上回ったと発表しました。見出しは「小さいモデルが勝った」ですが、中小企業が真似できるのはモデルの大小より、Inherentの3つの設計判断です。コードツールは自作せずGPT-5.5 Codexを借り、報酬設計で「センス」を仕込み、迎合しないエージェントを狙う。当社は小型モデルの学習は測っていません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=inherent-faraday-small-model-vs-large-sme">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

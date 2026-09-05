@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>営業活動をAIで支援する — 実例と限界 · AIの鬼</title>
+  <meta name="description" content="商談の記録入力、訪問先の選定、社内向けAIレコメンド。公表されている実例と数字をもとに、営業AIで何ができて何ができないかを整理しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-sales-support/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-sales-support/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="営業活動をAIで支援する — 実例と限界 · AIの鬼">
+  <meta property="og:description" content="商談の記録入力、訪問先の選定、社内向けAIレコメンド。公表されている実例と数字をもとに、営業AIで何ができて何ができないかを整理しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-sales-support/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-sales-support.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-sales-support.jpg">
+  <meta name="twitter:title" content="営業活動をAIで支援する — 実例と限界 · AIの鬼">
+  <meta name="twitter:description" content="商談の記録入力、訪問先の選定、社内向けAIレコメンド。公表されている実例と数字をもとに、営業AIで何ができて何ができないかを整理しました。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"営業活動をAIで支援する — 実例と限界","item":"https://ai-oni.com/articles/ai-sales-support/"}]},{"@type":"Article","headline":"営業活動をAIで支援する — 実例と限界","description":"商談の記録入力、訪問先の選定、社内向けAIレコメンド。公表されている実例と数字をもとに、営業AIで何ができて何ができないかを整理しました。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-sales-support/"},"url":"https://ai-oni.com/articles/ai-sales-support/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI仕事術","datePublished":"2026-07-19","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-ai-sales-support.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-sales-support/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-sales-support.jpg"
+         alt="営業活動をAIで支援する — 実例と限界" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI仕事術</span>      <h1>営業活動をAIで支援する — 実例と限界</h1>
+<p class="article-lead">商談の記録入力、訪問先の選定、社内向けAIレコメンド。公表されている実例と数字をもとに、営業AIで何ができて何ができないかを整理しました。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：営業支援AIで公表されている効果は、<strong>記録と入力の手間を減らす</strong>ところに集中しています。商談要点の整理と議事録作成の工数が約50%減、Salesforceへの登録件数が前年同期比で約20%増、という数字が出ています。一方で「<strong>入力がゼロになる</strong>」ではなく「<strong>入力の手間が減る</strong>」が実態に近く、専門用語や社内の略称が多い業界では確認・修正の工程が残ります。訪問先をAIに選ばせる使い方は、20年分のデータ蓄積があって初めて精度が出ています。</p>
+<p>「AIで営業を効率化」という言葉はよく見かけますが、実際に何をどこまで自動化できているのかは、記事によって書いてあることがバラバラです。「商談後の報告書作成が要らなくなる」といった威勢のよい謳い文句も多く、どこまでが実態でどこからが宣伝文句なのか、外からは判断しづらいのが正直なところだと思います。</p>
+<p>この記事では、企業が自社の実績として公表している数字だけを拾い、営業支援AIの現在地を整理します。実名も数字も出さずに「劇的に改善」とだけ書かれている記事は除外し、公表資料や事例ページで確認できたものに絞りました。うまくいっている部分と、まだ数字が出ていない部分の両方を書きます。</p>
+<h2 id="_1">商談の記録・入力を代わりにやらせる</h2>
+<p>営業AIの中でもっとも導入が広がっているのが、商談内容の録音・要約・SFA（営業支援システム。商談履歴や見込み客の情報を一元管理する仕組み）への自動入力です。商談中は会話に集中し、記録作業をAIに任せるという発想です。</p>
+<p>図面・測量関連のソフトウェアを扱う株式会社インフォマティクスは、AI音声解析サービス「bellSalesAI」を導入しています。同サービスを提供するベルフェイス株式会社の発表によると、商談要点の整理と議事録作成にかかる工数が約50%削減され、あわせて対面営業活動のSalesforceへの登録件数が前年同期比で約20%増加したとされています。これは提供元であるベルフェイス社が自社サービスの導入事例として公表した数字である点は踏まえて読む必要があります（出典：ベルフェイス株式会社プレスリリース、2026年4月8日、https://www.atpress.ne.jp/news/581172）。入力の手間が減ったことで、そもそも記録に残す商談自体が増えたと読み取れます。</p>
+<p>この種のツールに共通するのは、「話した内容をテキスト化する」だけでなく「SFAのどの項目に何を入れるか」まで踏み込んでいる点です。入力ルールが担当者ごとにばらついていた会社ほど、効果を実感しやすいと考えられます。</p>
+<h2 id="ai">訪問先・提案先をAIに選ばせる</h2>
+<p>記録の自動化の次に進んでいるのが、「誰に何を提案しに行くか」自体をAIに提案させる取り組みです。</p>
+<p>大塚商会は、20年以上蓄積した商談データと売上明細データをもとに、営業担当者へ訪問先候補を自動提案する「AI行き先案内」を導入しています。分析基盤を提供するdotData社の導入事例ページによると、AI行き先案内で提案したAI商談は2020年上期から2021年上期の1年で約3倍の7万4300件に増加し、全体の商談件数も2021年第1四半期に8.4%の増加率を達成したと報告されています。また、特徴量設計にかかる処理も従来の数カ月から数日に短縮されたとされています。こちらもツール提供元が自社サイトに掲載している事例である点には留意が必要です（出典：dotData導入事例、https://jp.dotdata.com/resources/case-study/how-otsuka-shokai-increased-their-business-deals/）。</p>
+<p>この事例のポイントは、AIが商談の中身を考えているわけではなく、「誰に会いに行くべきか」という優先順位づけに使われている点です。提案内容や話し方は引き続き営業担当者が担っています。</p>
+<h2 id="ai_1">全社規模でAIを使う企業の場合</h2>
+<p>一方で、営業に限らず生成AIを全社的に使い込んでいる企業もあります。株式会社リコーは、社内のSFA/CRMに独自開発の生成AIレコメンド機能を組み込み、2024年5月に3拠点で試験導入したのち、同年8月には全国48拠点・約7400人の営業担当者に本格展開したと公表しています。顧客の属性や購買履歴、商談履歴をもとに提案内容の候補を示し、あわせて「なぜその提案に至ったか」の理由も表示する仕組みです(出典：リコー、https://jp.ricoh.com/release/2024/0729_1)。</p>
+<p>ただしこのリリースでは、導入規模は明記されている一方、商談成約率や工数削減といった定量的な成果は公表されていません。7400人規模で使われているという事実だけでも導入の本気度はうかがえますが、「数字で効果が語られていない事例もある」ことは、営業AIを検討するうえで知っておいてよい点だと思います。</p>
+<p>パナソニック コネクトのように、自社向けAIアシスタント「ConnectAI」を国内約11,600人の社員に展開し、2024年のAI活用による業務時間削減効果が44.8万時間に達したと公表している企業もあります（出典：パナソニック コネクト プレスリリース、https://news.panasonic.com/jp/press/jn250707-2）。ただしこの数字はプログラミング、手順書などのドキュメント作成、文書レビューといった用途を含む全社的な効果であり、営業活動に限定した数字ではない点には注意が必要です。</p>
+<h2 id="_2">うまくいかない部分・限界</h2>
+<p>公表されている事例の多くは、成功した部分だけを切り取って発表されています。実際に営業現場でAIを使う場合、いくつか壁があることも書いておきます。</p>
+<table>
+<thead>
+<tr>
+<th>壁</th>
+<th>中身</th>
+<th>どう受け止めるか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>提案を鵜呑みにできない</strong></td>
+<td>過去データに基づくため既存の取引パターンを踏襲しやすい。新規開拓や、履歴の薄い顧客・新商品では精度が落ちる</td>
+<td>提案は candidate であって決定ではない</td>
+</tr>
+<tr>
+<td><strong>要約がずれる</strong></td>
+<td>専門用語や社内独自の略称が多い業界では、確認・修正の工程が残る</td>
+<td>「入力がゼロ」ではなく「入力の手間が減る」</td>
+</tr>
+<tr>
+<td><strong>学習する土台が薄い</strong></td>
+<td>SFAの入力ルールや商談データが整っていないと効果が出るまで時間がかかる</td>
+<td>大塚商会は<strong>20年分</strong>の蓄積があって精度が出た</td>
+</tr>
+<tr>
+<td><strong>コストと運用負荷</strong></td>
+<td>録音・要約系は月額課金が多く、人数が多いほど費用が増える。録音・解析には社内ルールの整備も要る</td>
+<td>導入して終わりではなく、<strong>誰が運用ルールを管理するか</strong>を決める</td>
+</tr>
+</tbody>
+</table>
+<p>1つ目は、AIが提案した訪問先や提案内容をそのまま鵜呑みにできない点です。過去のデータに基づく提案は、既存の取引パターンを踏襲しやすく、新規開拓や変則的な商談には弱い傾向があります。データが少ない新商品や、担当者の異動直後で履歴が薄い顧客では、精度が落ちやすいというのは、AI活用の解説記事でも繰り返し指摘されている点です。</p>
+<p>2つ目は、議事録や入力の自動化についても、専門用語や社内独自の略称が多い業界では、AIの要約がずれることがあり、結局担当者による確認・修正の工程が残るケースがあるという点です。「入力がゼロになる」というより「入力の手間が減る」と捉えたほうが実態に近いと考えられます。</p>
+<p>3つ目は、SFAへの入力ルールや商談データの蓄積が元々整っていない会社では、AIが学習する土台自体が薄く、効果が出るまでに時間がかかることです。大塚商会の事例も、20年分のデータ蓄積があったからこそ精度が出ています。データがない状態からいきなり高精度な提案を期待するのは現実的ではありません。</p>
+<p>4つ目は、コストと運用負荷です。録音・要約系のツールは月額課金のものが多く、営業人数が多い会社ほど費用がかさみます。また、顧客との会話を録音・解析することになるため、業種によっては情報管理や顧客への説明について社内でのルール整備が別途必要になります。導入して終わりではなく、運用ルールを誰が管理するかを決めておく必要があります。</p>
+<h2 id="_3">では自社では何から始めるか</h2>
+<p>以上を踏まえると、いきなり「訪問先をAIに選ばせる」ような高度な活用から始めるのは、多くの中小企業にとってハードルが高いかもしれません。まずは商談の録音・要約・SFA入力といった、比較的リスクの小さい記録業務の自動化から試す、という選択肢が考えられます。ここであれば、精度が多少ずれても営業活動そのものへの影響は限定的です。</p>
+<p>その上で、SFAや案件管理に蓄積されたデータの量と質を見直し、「そもそもAIに学習させられるだけのデータが社内にあるか」を確認する段階を挟むのも一つのやり方です。データが薄い場合は、AIツールの導入より先に、商談記録を残す運用を整えるほうが遠回りに見えて近道になることもあります。どちらから着手するかは、自社の営業データの蓄積状況を見ながら判断するのがよいと思います。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>公表されている効果は<strong>記録と入力の手間を減らす</strong>ところに集中している。商談要点の整理と議事録作成の工数が<strong>約50%減</strong>、SFAへの登録件数が<strong>前年同期比 約20%増</strong></li>
+<li>ただし「入力がゼロになる」ではなく「<strong>入力の手間が減る</strong>」が実態。専門用語や社内の略称が多い業界では、確認・修正の工程が残る</li>
+<li>訪問先をAIに選ばせる使い方は、<strong>20年分のデータ蓄積</strong>があって初めて精度が出ている。データが無い状態から高精度を期待するのは現実的ではない</li>
+<li>提案は既存の取引パターンを踏襲しやすく、<strong>新規開拓や履歴の薄い顧客には弱い</strong></li>
+<li>始めるなら<strong>記録業務の自動化から</strong>。精度が多少ずれても営業活動そのものへの影響は限定的</li>
+<li>データが薄いなら、AIツールの導入より先に<strong>商談記録を残す運用を整える</strong>ほうが近道になることがある</li>
+<li>録音・解析には社内ルールの整備が要る。<strong>誰が運用ルールを管理するか</strong>を決めておく</li>
+</ul>
+<p>ツールの選び方は<a href="../ai-tool-selection/">AIツールの選び方</a>に、どの業務から始めるかは<a href="../ai-first-step-smb/">中小企業が最初にAI化すべき業務の見つけ方</a>に整理しています。</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-accounting-tasks/">
+<div class="card-media"><img src="../../static/img/article-ai-accounting-tasks.jpg" alt="経理業務のAI化 — 何が自動化できて何ができないか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">経理業務のAI化 — 何が自動化できて何ができないか</h3>
+<p class="card-summary">花王グループなどの公表事例をもとに、経理業務でAIが実際に削減しているのは何の時間なのか、そして生成AIの誤り（ハルシネーション）がなぜ経理では特に危険なのかを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-workflow-automation/">
+<div class="card-media"><img src="../../static/img/article-ai-workflow-automation.jpg" alt="業務フローにAIを組み込むときの設計" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">業務フローにAIを組み込むときの設計</h3>
+<p class="card-summary">「AIツールを使う」ことと「業務フローに組み込む」ことは別物です。公表されている実例の数字から、工程単位で設計することの意味と、うまく定着しない場合の共通点を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-inventory-demand/">
+<div class="card-media"><img src="../../static/img/article-ai-inventory-demand.jpg" alt="在庫管理・需要予測にAIを使う" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">在庫管理・需要予測にAIを使う</h3>
+<p class="card-summary">コンビニや石油元売りが公表している発注時間・誤差率の実数字から、需要予測AIで何が変わるのか、どこに向かないのかを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-sales-support">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

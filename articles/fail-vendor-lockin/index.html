@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIベンダーに依存して身動きが取れなくなる構造 · AIの鬼</title>
+  <meta name="description" content="2025年6月のChatGPT大規模障害と、企業幹部への調査データをもとに、特定のAIベンダーへの依存がなぜ業務停止リスクにつながるのかを整理します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/fail-vendor-lockin/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/fail-vendor-lockin/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIベンダーに依存して身動きが取れなくなる構造 · AIの鬼">
+  <meta property="og:description" content="2025年6月のChatGPT大規模障害と、企業幹部への調査データをもとに、特定のAIベンダーへの依存がなぜ業務停止リスクにつながるのかを整理します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/fail-vendor-lockin/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-fail-vendor-lockin.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-fail-vendor-lockin.jpg">
+  <meta name="twitter:title" content="AIベンダーに依存して身動きが取れなくなる構造 · AIの鬼">
+  <meta name="twitter:description" content="2025年6月のChatGPT大規模障害と、企業幹部への調査データをもとに、特定のAIベンダーへの依存がなぜ業務停止リスクにつながるのかを整理します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIベンダーに依存して身動きが取れなくなる構造","item":"https://ai-oni.com/articles/fail-vendor-lockin/"}]},{"@type":"Article","headline":"AIベンダーに依存して身動きが取れなくなる構造","description":"2025年6月のChatGPT大規模障害と、企業幹部への調査データをもとに、特定のAIベンダーへの依存がなぜ業務停止リスクにつながるのかを整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/fail-vendor-lockin/"},"url":"https://ai-oni.com/articles/fail-vendor-lockin/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"失敗の鬼","datePublished":"2026-07-19","dateModified":"2026-08-01","image":"https://ai-oni.com/static/img/article-fail-vendor-lockin.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/fail-vendor-lockin/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-fail-vendor-lockin.jpg"
+         alt="AIベンダーに依存して身動きが取れなくなる構造" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>AIベンダーに依存して身動きが取れなくなる構造</h1>
+<p class="article-lead">2025年6月のChatGPT大規模障害と、企業幹部への調査データをもとに、特定のAIベンダーへの依存がなぜ業務停止リスクにつながるのかを整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年7月19日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：米国企業の経営幹部500人への調査では、<strong>74%が主要なAIベンダーへの依存で「日常業務に支障が出る」以上</strong>と答えています。そして<strong>89%が「4週間以内に別ベンダーへ移行できる」と考えている</strong>一方、実際に移行を試みた企業でスムーズにいったのは<strong>42%だけ</strong>でした。見通しと実態のあいだに差があります。中小企業でも打てる手はあり、要点は「<strong>止まったときの人手の代替手順を残しておく</strong>」ことです。</p>
+<p>特定のAIサービスを日々の業務に深く組み込むほど、そのサービスが止まったとき、あるいは料金や仕様が変わったときの影響は大きくなります。これは新しい話ではなく、クラウドサービス全般で以前から指摘されてきた「ベンダーロックイン」の問題です。生成AIの場合、業務への組み込み方によっては、この依存が一段と強くなりやすい面があります。この記事では、実際に起きた障害の事例と、企業幹部への調査データをもとに、この構造を整理します。</p>
+<h2 id="20256chatgpt">何が起きたか — 2025年6月のChatGPT大規模障害</h2>
+<p>2025年6月10日、ChatGPT、動画生成サービスのSora、APIを含むOpenAIの複数のサービスで、世界規模の障害が発生しました。海外メディアの報道によると、障害は米国東部時間の未明に始まり、応答が返ってこない、サーバーエラーが出るといった不具合が世界各地のユーザーから報告されました。OpenAIが修正を適用し復旧を確認するまでには10時間以上を要しています（出典：The Register「OpenAI experiencing global ChatGPT, Sora system degradation」、TechCrunch「ChatGPT is having a partial outage」、OpenAI公式ステータスページ）。</p>
+<p>この障害そのものは、その後復旧しています。しかし、この一件は、業務のさまざまな場面でChatGPTやOpenAIのAPIを組み込んでいた企業にとって、「自社がコントロールできない外部要因で、業務が一時的に止まりうる」ことを具体的に示す出来事になりました。</p>
+<h2 id="_1">調査データが示す依存の実態</h2>
+<p>複数サービスを連携させる自動化ツールを提供するZapierが、米国企業の経営幹部500人を対象に実施した調査があります。同社の発表によると、回答者の74%が、主要なAIベンダーへの依存について「日常業務に支障が出る」または「完全に依存している」と回答しました。この74%の内訳は、主要機能に支障が出るとした47%と、業務の大部分またはほぼすべてを特定のAIベンダーに依存しているとした27%の合計です。</p>
+<p>同じ調査で注目すべきなのは、実際に別のAIプラットフォームへの移行を試みた企業のうち、スムーズに移行できたのは42%にとどまり、残る58%は「失敗した、あるいは想定よりはるかに多くの手間がかかった」と回答している点です。一方で、経営幹部の89%が「4週間以内に別のベンダーへ移行できる」と考えていました。実際の移行経験と見通しのあいだに差がある、という結果になっています（出典：Zapier公式ブログ「AI Vendor Lock-In Survey」https://zapier.com/blog/ai-vendor-lock-in-survey/ ）。</p>
+<p>なお、この調査を実施したZapierは、複数のサービスを組み合わせて使う自動化ツールを販売している事業者であり、ベンダー依存のリスクを示すことに商業上の利害があります。独立した第三者調査ではない点は割り引いて読む必要があります。</p>
+<p>一方で、乗り換え先が事実上存在しないわけではありません。米国の法人向け支出データでは、有料の生成AI採用率でAnthropicが41%、OpenAIが39.5%と拮抗し、月次で順位が入れ替わる程度の差しかない状況も観測されています（<a href="/articles/co-ramp-ai-index-spend-intensity/">有料採用率でAnthropicがOpenAIを初めて上回った件</a>）。選択肢自体は複数ある市場だからこそ、「乗り換えられる余地」を最初から設計に織り込んでおく意味があります。</p>
+<h2 id="_2">なぜ起きるか</h2>
+<p>ベンダーロックインが起きやすい理由は、生成AIならではの事情がいくつか重なっています。</p>
+<p>一つ目は、AIへの指示文（プロンプト）や、AIの出力を前提に組んだ業務フロー・社内ツールが、特定のサービスの挙動に最適化されてしまうことです。あるAIサービス向けに細かく調整したプロンプトや連携の仕組みは、別のサービスにそのまま移せるとは限りません。</p>
+<p>二つ目は、社内のデータや過去のやり取りの蓄積が、特定のサービスのプラットフォーム内に閉じてしまうことです。ChatGPTのカスタムGPTや、特定のAIプラットフォーム上に構築した社内アプリケーションなどは、そのプラットフォームを離れると作り直しが必要になる場合があります。</p>
+<p>三つ目は、こうした依存の度合いを、導入時点では正確に見積もりにくいことです。上記の調査でも、多くの企業が「いざとなれば乗り換えられる」と考える一方で、実際に移行を試みた企業では想定より手間がかかったという回答が多数を占めていました。国内の調査でも、生成AIをめぐる課題として「活用すべき業務の範囲」を挙げた企業が40.0%にのぼり、情報の正確性50.4%、専門人材・ノウハウ不足41.3%に次ぐ位置を占めています（<a href="/articles/jp-tdb-seisei-ai-doko-2026/">企業の生成AI活用動向</a>）。どこまで任せるかを見定めきれないまま組み込むと、依存の深さも把握しづらくなります。</p>
+<h2 id="_3">中小企業でも起こりうるか</h2>
+<p>起こり得ます。むしろ、複数のAIベンダーを並行して検証・比較する余力がない中小企業のほうが、一つのサービスに一本化しやすく、結果として依存度が高まりやすい面があります。国内の中小企業を対象とした調査では、生成AIの利用を「個人任せ」にしている企業が64.9%を占め、会社として導入しているのは16.2%にとどまりました（<a href="/articles/jp-shokochukin-sme-genai-2026/">中小企業の生成AI活用実態</a>）。担当者ごとの判断で特定のサービスに寄っていくと、会社として代替手段を把握しないまま依存が進む構造になりやすいといえます。</p>
+<p>見積書の作成、問い合わせ対応、社内文書の下書きなど、複数の業務プロセスに一つの生成AIサービスを組み込んでいる場合、そのサービスに障害が起きる、あるいは値上げや仕様変更があったときの影響は、業務全体に及びます。バックアップの手段がなければ、障害の間は該当業務が完全に止まってしまう可能性があります。</p>
+<h2 id="_4">避けるには</h2>
+<p>ベンダーロックインのリスクを完全になくすことは難しいものの、次の点を押さえておくと、依存による影響を小さくできます。</p>
+<table>
+<thead>
+<tr>
+<th>備え</th>
+<th>中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>代替手順を残す</strong></td>
+<td>サービスが止まったとき、その業務を一時的にどう回すか。完全自動化の前の<strong>人の手による手順</strong>を消さずに残しておく</td>
+</tr>
+<tr>
+<td><strong>固有機能に寄りかかりすぎない</strong></td>
+<td>業務上重要な処理は、特定サービス固有の機能への依存を抑える。プロンプトやデータを<strong>汎用性の高い形</strong>で管理しておくと移行の負担が減る</td>
+</tr>
+<tr>
+<td><strong>ステータスページを把握</strong></td>
+<td>契約しているサービスの障害情報をどこで見るか、事前に確認しておく</td>
+</tr>
+</tbody>
+</table>
+<p>まず、AIサービスが止まった場合に、その業務を一時的にどう回すかを、あらかじめ決めておくことです。完全に自動化する前の、人の手による代替手順を残しておくと、障害時の影響を抑えられます。</p>
+<p>次に、業務上重要な処理については、特定のサービスに固有の機能へ過度に依存しない設計を心がけることです。汎用性の高い形でプロンプトやデータを管理しておけば、将来的に別のサービスへ移行する際の負担を減らせます。</p>
+<p>また、契約しているAIサービスの障害情報を確認できるステータスページを事前に把握しておき、障害発生時にすぐに状況を確認できるようにしておくことも、実務上の備えになります。</p>
+<h2 id="_5">自社で確認すべきこと</h2>
+<p>自社の業務の中で、特定のAIサービスが止まった場合に、完全に停止してしまう業務がないかを洗い出してみてください。該当する業務があれば、そのサービスが数時間から半日程度使えなくなった場合の代替手順を、簡単でよいので用意しておくことをおすすめします。</p>
+<p>あわせて、「今のAIサービスから別のサービスに乗り換えるとしたら、どのくらいの時間と手間がかかるか」を一度具体的に考えてみてください。上記の調査結果を踏まえれば、実際に試みると想定より難航する可能性は見込んでおいたほうがよさそうです。</p>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>経営幹部500人の調査で、<strong>74%が主要ベンダーへの依存で「日常業務に支障が出る」以上</strong>（主要機能に支障47%＋業務の大部分を依存27%）</li>
+<li><strong>89%が「4週間以内に移行できる」と考えている</strong>が、実際に移行を試みてスムーズにいったのは<strong>42%</strong>。残り58%は失敗したか想定よりはるかに手間がかかった</li>
+<li><strong>見通しと実態に差がある。</strong> 移行の容易さは、試すまで分からない</li>
+<li>打てる手は3つ — <strong>人手の代替手順を残す／固有機能に寄りかかりすぎない／ステータスページを把握する</strong></li>
+<li>自社で確認するのは「<strong>そのサービスが止まったら完全に停止する業務があるか</strong>」。あれば、数時間〜半日の代替手順を簡単でよいので用意する</li>
+</ul>
+<p>止まった自動化に気づけなかった記録は<a href="../toe-media-watchdog/">止まったメディア更新を、見張り役が自動で叩き起こしていた話</a>に、ツールの選び方は<a href="../ai-tool-selection/">AIツールの選び方</a>にあります。</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-logistics-cases/">
+<div class="card-media"><img src="../../static/img/article-ai-logistics-cases.jpg" alt="運送・物流業のAI活用事例" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">運送・物流業のAI活用事例</h3>
+<p class="card-summary">ヤマト運輸・佐川急便などの公表データをもとに、配送ルート最適化や需要予測でAIが何を変えたのか、そして現場で「使われない」ケースがなぜ起きるのかを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-accounting-tasks/">
+<div class="card-media"><img src="../../static/img/article-ai-accounting-tasks.jpg" alt="経理業務のAI化 — 何が自動化できて何ができないか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">経理業務のAI化 — 何が自動化できて何ができないか</h3>
+<p class="card-summary">花王グループなどの公表事例をもとに、経理業務でAIが実際に削減しているのは何の時間なのか、そして生成AIの誤り（ハルシネーション）がなぜ経理では特に危険なのかを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-hr-recruiting/">
+<div class="card-media"><img src="../../static/img/article-ai-hr-recruiting.jpg" alt="AI面接・AI採用のバイアス対策 — Amazonが廃止した理由と、日本で先に整理する4項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI面接・AI採用のバイアス対策 — Amazonが廃止した理由と、日本で先に整理する4項目</h3>
+<p class="card-summary">AI採用でバイアスが問題になるのは、AIが差別しようとするからではなく、過去の採用データの偏りをそのまま学習して増幅するからです。Amazonが採用AIを廃止した経緯とHireVueが顔分析をやめた前例をもとに、日本で運用する場合に先に整理すべき4項目と、バイアスへの具体的な対策を整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=fail-vendor-lockin">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

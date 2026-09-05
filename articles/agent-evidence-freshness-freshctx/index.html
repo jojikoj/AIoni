@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIエージェントの推論には「賞味期限」があるのか · AIの鬼</title>
+  <meta name="description" content="推論は正しい、ツールも正常、それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/agent-evidence-freshness-freshctx/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/agent-evidence-freshness-freshctx/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントの推論には「賞味期限」があるのか — 実行直前に証拠を再検証するFreshCtxで中小企業の自動判断は何が変わるのか · AIの鬼">
+  <meta property="og:description" content="推論は正しい、ツールも正常、それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/agent-evidence-freshness-freshctx/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-agent-evidence-freshness-freshctx.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-agent-evidence-freshness-freshctx.jpg">
+  <meta name="twitter:title" content="AIエージェントの推論には「賞味期限」があるのか — 実行直前に証拠を再検証するFreshCtxで中小企業の自動判断は何が変わるのか · AIの鬼">
+  <meta name="twitter:description" content="推論は正しい、ツールも正常、それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントの推論には「賞味期限」があるのか — 実行直前に証拠を再検証するFreshCtxで中小企業の自動判断は何が変わるのか","item":"https://ai-oni.com/articles/agent-evidence-freshness-freshctx/"}]},{"@type":"Article","headline":"AIエージェントの推論には「賞味期限」があるのか — 実行直前に証拠を再検証するFreshCtxで中小企業の自動判断は何が変わるのか","description":"推論は正しい、ツールも正常、それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。オープンソース化されたFreshCtxが何を再検証するのか、中小企業の自動判断で何が変わるのかを、当社の自動運用の実測とあわせて読み解きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/agent-evidence-freshness-freshctx/"},"url":"https://ai-oni.com/articles/agent-evidence-freshness-freshctx/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-08-30","dateModified":"2026-08-30","image":"https://ai-oni.com/static/img/article-agent-evidence-freshness-freshctx.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/agent-evidence-freshness-freshctx/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-agent-evidence-freshness-freshctx.jpg"
+         alt="AIエージェントの推論には「賞味期限」があるのか — 実行直前に証拠を再検証するFreshCtxで中小企業の自動判断は何が変わるのか" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントの推論には「賞味期限」があるのか — 実行直前に証拠を再検証するFreshCtxで中小企業の自動判断は何が変わるのか</h1>
+<p class="article-lead">推論は正しい、ツールも正常、それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。オープンソース化されたFreshCtxが何を再検証するのか、中小企業の自動判断で何が変わるのかを、当社の自動運用の実測とあわせて読み解きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月30日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>AIエージェントが誤ったアクションを実行する原因は、ハルシネーションだけではありません。2026年8月28日にZenn AIで公開された「FreshCtx」の記事は、推論が論理的に正しく、ツールも仕様どおり動いても、<strong>推論してから実行するまでの間に現実が変わると判断が破綻する</strong>という失敗パターンを指摘し、それを扱うPython製ランタイムをオープンソース化したと発表しました。この記事はその中身を、中小企業のAI自動判断という視点で読み解きます。なお当社（株式会社TOE / AIの鬼）はAI検索対策・AI導入支援を売りうる立場であり、その前提で読んでください。</p>
+<h2 id="_1">何が新しいのか — 「推論の賞味期限切れ」という分類</h2>
+<p>これまでAIの信頼性の話は「モデルが誤情報を生成する（ハルシネーション）」に寄っていました。FreshCtxの主張は別の失敗を切り出す点にあります。</p>
+<p>記事が挙げる時系列はこうです。</p>
+<table>
+<thead>
+<tr>
+<th>時刻</th>
+<th>出来事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10:00</td>
+<td>エージェントがシステム状態を観測</td>
+</tr>
+<tr>
+<td>10:01</td>
+<td>その証拠をもとに推論</td>
+</tr>
+<tr>
+<td>10:05</td>
+<td>元の証拠が変化</td>
+</tr>
+<tr>
+<td>10:15</td>
+<td>以前の判断を実行</td>
+</tr>
+</tbody>
+</table>
+<p>10:01時点で完全に正しかった推論が、10:15には使えなくなっている。推論が論理的に間違ったのではなく、<strong>古くなった（stale）</strong>のだ、というのが核です。</p>
+<p>記事の具体例は在庫ドリフトです。エージェントが「在庫12、注文数10 → この注文は処理できる」と判断する。この推論自体は正しい。しかし実行前に別の取引が8個を消費し、在庫が4になる。古い推論のまま実行すれば、誤ったアクションになります。これはモデルの知能不足ではなく、実行時の証拠鮮度（evidence freshness）の問題だ、というわけです。</p>
+<h2 id="_2">なぜモデルが賢くなっても解決しないのか</h2>
+<p>ここが中小企業にとって重要な点です。ハルシネーションなら「モデルが優秀になれば減る」という期待が持てます。しかし証拠鮮度の問題は<strong>モデルの性能と無関係</strong>です。最強のAIを使っていても、古い証拠に基づく推論なら実行時に破綻します。</p>
+<p>エージェントは1回で完結せず、時間をまたいで動きます。記事はその流れを「観測 → 推論 → 計画 → 待機 → ツール呼び出し → 承認待ち → 実行」と書いています。この待機や承認待ちの間に、ファイル・Gitコミット・データベースレコード・APIリソース・在庫・設定が変わりうる。別のエージェントや人間が先に操作することもある。危険なのは「生成時に正しかった推論は実行時にも正しい」と暗黙に仮定することだ、と記事は指摘します。</p>
+<p>つまりエージェント型のAI活用が増えるほど、この問題は避けにくくなります。在庫管理や機械稼働状況の自動判断をAIに任せるなら、「証拠の有効性を実行直前に再検証する」という概念を先に知っておかないと、表面上は何も問題なく見えるまま数字が狂い始める、という構図です。</p>
+<h2 id="memoryrag">Memory・RAG・認可とは何が違うのか</h2>
+<p>FreshCtxの記事は、既存の仕組みとの違いを丁寧に切り分けています。素材から整理すると次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>仕組み</th>
+<th>答える問い</th>
+<th>FreshCtxとの違い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory</td>
+<td>エージェントが以前何を観測したか</td>
+<td>記憶しても、その内容が今も真とは限らない</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>ある時点で正しい情報を検索して取り込む</td>
+<td>検索の後に証拠が変化すると防げない</td>
+</tr>
+<tr>
+<td>認可</td>
+<td>この主体はこのアクションを実行してよいか</td>
+<td>権限があっても古い推論で誤実行しうる</td>
+</tr>
+<tr>
+<td>FreshCtx</td>
+<td>この推論が依存する証拠は今も有効か</td>
+<td>実行境界で鮮度シグナルを提供する</td>
+</tr>
+</tbody>
+</table>
+<p><code>inventory = 12</code> を完璧に記憶していても、それは古い情報を正確に保存しているだけかもしれません。RAGで時刻Aに新鮮だった情報が、時刻Bでも新鮮とは限りません。認可が十分でも、古い推論に基づけば誤ったアクションは実行できてしまう。FreshCtxはこれらを置き換えるのではなく、<strong>実行の直前に「証拠がまだ有効か」を確かめる層</strong>を足す、という位置づけです。</p>
+<p>エージェントとRAGなどの違いを整理したい方には、社内での線引きをまとめた<a href="../ai-internal-rules/">生成AIの社内ルールに何を書くか — 規定があるのは3.7%。当社が実際に運用している7つの線引き</a>もあわせてどうぞ。</p>
+<h2 id="freshctx">FreshCtxは具体的に何をするのか</h2>
+<p>記事によると、FreshCtxは再検証を「第一級ランタイムプリミティブ」として組み込む設計です。エージェントは推論が依存した証拠を宣言し、アクション実行前にFreshCtxがその証拠を再検証します。現在のランタイムは証拠の状態を4つに区別します。</p>
+<ul>
+<li><strong>FRESH</strong>（変わっていない）</li>
+<li><strong>CHANGED</strong>（変化した）</li>
+<li><strong>EXPIRED</strong>（失効した）</li>
+<li><strong>UNAVAILABLE</strong>（検証できない）</li>
+</ul>
+<p>CHANGED・EXPIRED・UNAVAILABLEのとき、ランタイムポリシーが「古い推論が黙って実行に進むこと」を止められます。</p>
+<p>v0.1で再検証できる証拠ソースは、ファイルシステム／Gitの状態／HTTPリソース／PostgreSQLデータソース／MCPで読み取り可能なリソース。アダプターは拡張可能とされています。配布は <code>pip install freshctx</code> で、GitHub・PyPI・Webが公開されています。記事は「巨大なAIフレームワークを目指さない」と明言し、MemoryプラットフォームでもベクトルDBでも認可エンジンでもなく、<strong>宣言された証拠を実行前に再検証して古い推論を無効化する、その一点だけ</strong>を行うと述べています。</p>
+<p>「値を見せない」「キーを渡さない」といった、エージェントの実行境界を狭く設計する発想は最近まとまって出てきています。関連して<a href="../trustless-cli-no-secrets-for-agents/">AIエージェントに「キー名だけ」渡す設計は成立するのか ― trustlessが値を見せない一点に絞った理由</a>、<a href="../openai-agent-reward-hacking-sme-lesson/">AIエージェントがHugging Faceを自分でハッキングした──なぜ「目標を与えれば安全に動く」は幻想なのか？</a>も、同じ「エージェントは想定どおり動くとは限らない」という文脈にあります。</p>
+<h2 id="_3">当社の実測と突き合わせると何が言えるか</h2>
+<p>当社は社内業務の自動化を27本運用し、ニュース収集・要約・記事生成を人手を介さず毎日自動で回しています（2026-08-29時点で収集済みニュース3000件・自社要約つき1841件・本文取得済み933件・記事270本、運用中のAI API課金は0円）。この自動化は「観測して判断して実行する」流れを含みますが、当社は<strong>FreshCtxのような証拠鮮度の再検証を実装しておらず、その効果を測っていません</strong>。この記事は導入事例ではなく、外部の発表の読み解きです。</p>
+<p>言えるのは、当社の自動化が扱っているのが主に「記事を書く・公開する」という、実行前後で外部状態が矛盾しても致命傷になりにくい領域だ、ということです。逆に在庫・決済・インフラ・機械稼働のように、<strong>実行の瞬間の数字が結果を左右する領域</strong>では、証拠鮮度の問題が現実の損失に直結します。FreshCtxの記事が挙げる在庫ドリフトは、まさに日本の製造業の在庫管理・受発注に重なります。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li>FreshCtxが実運用で誤実行をどれだけ防ぐか、その効果は素材に数字がなく、<strong>素材からは分かりません</strong>。</li>
+<li>FreshCtxの導入コスト・保守負担・既存システムへの組み込み難易度は素材に記載がなく、分かりません。</li>
+<li>中小企業のどの業務でこの再検証が費用対効果に見合うかは、当社は測っていません。</li>
+<li>当社の自動化27本に証拠鮮度の問題が起きているかどうかも、計測していないため分かりません。</li>
+<li>「aiエージェント 総務」のような総務業務での具体的な適用可否は、素材に事例がなく分かりません。</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>AIエージェントの失敗には、ハルシネーションとは別に「推論の賞味期限切れ（証拠鮮度）」がある、というのがFreshCtxの核です。</li>
+<li>この問題はモデルの性能と無関係で、推論から実行までの時間差と、その間の現実の変化から生まれます。</li>
+<li>FreshCtxは実行直前に宣言済みの証拠を再検証し、FRESH／CHANGED／EXPIRED／UNAVAILABLEで古い推論の実行を止める、狭い設計のオープンソースです。</li>
+<li>Memory・RAG・認可とは別の問いに答える層で、既存構成を置き換えず足す位置づけです。</li>
+<li>在庫・決済・機械稼働など「実行の瞬間の数字が効く」自動判断を本番に出す中小企業は、この概念を先に知っておく価値があります。ただし当社は導入・効果測定をしておらず、ここでは効果を保証できません。</li>
+</ul>
+<p><em>この記事は<a href="https://zenn.dev/freshctx_dev/articles/b214bb81fc75d4">Zenn AI</a>のFreshCtx公開記事を素材に、当社（株式会社TOE / AIの鬼）の自動運用の実測（自動化27本・記事270本・AI API課金0円、2026-08-29時点）とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/agent-reasoning-freshness-freshctx-oss/">
+<div class="card-media"><img src="../../static/img/article-agent-reasoning-freshness-freshctx-oss.jpg" alt="AIエージェントの推論に「賞味期限」があるとは？ — FreshCtxが実行直前に証拠を再検証する仕組みで、中小企業の自動判断は何が変わるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの推論に「賞味期限」があるとは？ — FreshCtxが実行直前に証拠を再検証する仕組みで、中小企業の自動判断は何が変わるのか</h3>
+<p class="card-summary">モデルはハルシネーションを起こしていない、推論も間違っていない、ツールも正常に動いた。それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。オープンソース化されたFreshCtxが何を再検証するのか、中小企業の自動判断で何が変わるのかを、当社の自動運用の実測とあわせて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/freshctx-evidence-freshness-runtime/">
+<div class="card-media"><img src="../../static/img/article-freshctx-evidence-freshness-runtime.jpg" alt="AIエージェントの推論は実行するころには古いのか — FreshCtxが実行直前に証拠を再検証する仕組みで中小企業の自動判断は何が変わるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの推論は実行するころには古いのか — FreshCtxが実行直前に証拠を再検証する仕組みで中小企業の自動判断は何が変わるのか</h3>
+<p class="card-summary">モデルはハルシネーションを起こしていない、推論も間違っていない、ツールも正常に動いた。それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。オープンソース化されたFreshCtxが何を再検証するのか、中小企業の自動判断で何が変わるのかを、当社の自動運用の実測とあわせて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/agent-reasoning-shelf-life-freshctx-oss/">
+<div class="card-media"><img src="../../static/img/article-agent-reasoning-shelf-life-freshctx-oss.jpg" alt="AIエージェントの推論に「賞味期限」があるとは？ — FreshCtxがオープンソース化され、中小企業の自動判断で何が変わるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの推論に「賞味期限」があるとは？ — FreshCtxがオープンソース化され、中小企業の自動判断で何が変わるのか</h3>
+<p class="card-summary">モデルはハルシネーションを起こしていない、推論も間違っていない、ツールも正常に動いた。それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。オープンソース化されたFreshCtxが何を再検証するのか、中小企業の自動判断で何が変わるのかを、当社の自動運用の実測とあわせて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=agent-evidence-freshness-freshctx">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

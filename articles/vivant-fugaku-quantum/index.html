@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>VIVANT2の「富岳級AI」は実在するのか？ · AIの鬼</title>
+  <meta name="description" content="2026年8月23日放送のVIVANT第2シーズン第15話に「計算能力400ペタフロップス、スーパーコンピューター富岳級のAIハヤト」が登場しました。この数字は実在の富岳（442.01ペタフロップス）とほぼ一致します。">
+  <link rel="canonical" href="https://ai-oni.com/articles/vivant-fugaku-quantum/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/vivant-fugaku-quantum/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した · AIの鬼">
+  <meta property="og:description" content="2026年8月23日放送のVIVANT第2シーズン第15話に「計算能力400ペタフロップス、スーパーコンピューター富岳級のAIハヤト」が登場しました。この数字は実在の富岳（442.01ペタフロップス）とほぼ一致します。">
+  <meta property="og:url" content="https://ai-oni.com/articles/vivant-fugaku-quantum/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-vivant-fugaku-quantum.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-vivant-fugaku-quantum.jpg">
+  <meta name="twitter:title" content="VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した · AIの鬼">
+  <meta name="twitter:description" content="2026年8月23日放送のVIVANT第2シーズン第15話に「計算能力400ペタフロップス、スーパーコンピューター富岳級のAIハヤト」が登場しました。この数字は実在の富岳（442.01ペタフロップス）とほぼ一致します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した","item":"https://ai-oni.com/articles/vivant-fugaku-quantum/"}]},{"@type":"Article","headline":"VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した","description":"2026年8月23日放送のVIVANT第2シーズン第15話に「計算能力400ペタフロップス、スーパーコンピューター富岳級のAIハヤト」が登場しました。この数字は実在の富岳（442.01ペタフロップス）とほぼ一致します。ただし富岳は量子コンピュータではありません。当社のMacBook Air M2で実効性能を測ると160.8ギガフロップス、富岳との差は約275万倍でした。さらに量子シミュレータを自作してショアのアルゴリズムを走らせ、12量子ビットで15の素因数分解に成功しています。スパコン・AI・量子の違いを実測で切り分けます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/vivant-fugaku-quantum/"},"url":"https://ai-oni.com/articles/vivant-fugaku-quantum/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-08-24","dateModified":"2026-08-24","image":"https://ai-oni.com/static/img/article-vivant-fugaku-quantum.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/vivant-fugaku-quantum/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-vivant-fugaku-quantum.jpg"
+         alt="VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>VIVANT2の「富岳級AI」は実在するのか？ — 400ペタフロップスを手元のMacと量子コンピュータで実測した</h1>
+<p class="article-lead">2026年8月23日放送のVIVANT第2シーズン第15話に「計算能力400ペタフロップス、スーパーコンピューター富岳級のAIハヤト」が登場しました。この数字は実在の富岳（442.01ペタフロップス）とほぼ一致します。ただし富岳は量子コンピュータではありません。当社のMacBook Air M2で実効性能を測ると160.8ギガフロップス、富岳との差は約275万倍でした。さらに量子シミュレータを自作してショアのアルゴリズムを走らせ、12量子ビットで15の素因数分解に成功しています。スパコン・AI・量子の違いを実測で切り分けます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月24日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：ドラマの設定は<strong>実在の範囲内</strong>でした。2026年8月23日に放送されたTBS系日曜劇場『VIVANT』第2シーズン第15話で、別班のAI「ハヤト」は「計算能力400ペタフロップス、スーパーコンピューター富岳級」と説明されます。実在の富岳の公称性能は<strong>442.01ペタフロップス</strong>なので、劇中の数字はほぼそのままです。</p>
+<p>ただし<strong>富岳は量子コンピュータではありません</strong>。ここが混同されやすい一点です。当社の<a href="#実測1">MacBook Air（M2・メモリ8GB）で実効性能を測ったところ160.8ギガフロップス</a>、富岳との差は<strong>約275万倍</strong>でした。そのうえで<strong>量子シミュレータを自作してショアのアルゴリズムを実際に走らせ、12量子ビットで15を3×5に素因数分解</strong>しています。所要0.5秒。この記事は、その実測をもとにスパコン・AI・量子コンピュータの違いを切り分けたものです。</p>
+<p><a href="https://gtoe.info/">株式会社TOE</a>はAI開発とAI活用支援を事業としています。この記事は提供する側が書いており、中立の第三者ではありません。他社製品の評価はせず、自社の機材で測った数字と、公開されている一次情報だけを材料にします。</p>
+<h2 id="400">劇中の「400ペタフロップス」はどれくらい正確なのか</h2>
+<p>まず数字の照合です。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>値</th>
+<th>出どころ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>劇中のAIハヤト</td>
+<td>400ペタフロップス</td>
+<td>VIVANT第2シーズン第15話（2026年8月23日放送）</td>
+</tr>
+<tr>
+<td>実在の富岳</td>
+<td><strong>442.01ペタフロップス</strong></td>
+<td>TOP500のLINPACK性能。理化学研究所・富士通</td>
+</tr>
+<tr>
+<td>富岳の構成</td>
+<td>432筐体・158,976ノード</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>富岳の消費電力</td>
+<td>約30〜40メガワット</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ペタフロップス</strong>は「1秒あたり何回の浮動小数点計算ができるか」の単位で、1ペタ＝1,000兆です。442.01ペタフロップスは毎秒44京2,010兆回。劇中の400ペタフロップスは、実在するマシンの性能をほぼそのまま持ってきた数字だと分かります。SF的な誇張ではありません。</p>
+<p>つまり「そんな計算機は存在しない」という批判は当たりません。<strong>存在します。日本にあります。</strong></p>
+<h2 id="実測1">実測1：手元のMacBook Airは何フロップスなのか</h2>
+<p>では、その富岳は普通のパソコンと比べてどれくらい速いのか。当社の実機で測りました。</p>
+<p>測定に使ったのはMacBook Air（Apple M2・8コア・メモリ8GB・macOS 26.5）です。行列積を実行し、演算回数を所要時間で割って実効性能を出しています。</p>
+<table>
+<thead>
+<tr>
+<th>行列サイズ</th>
+<th>FP64（倍精度）</th>
+<th>FP32（単精度）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1024×1024</td>
+<td>157.3 GFLOPS</td>
+<td>192.5 GFLOPS</td>
+</tr>
+<tr>
+<td>2048×2048</td>
+<td><strong>160.8 GFLOPS</strong></td>
+<td><strong>960.3 GFLOPS</strong></td>
+</tr>
+<tr>
+<td>4096×4096</td>
+<td>158.0 GFLOPS</td>
+<td>516.7 GFLOPS</td>
+</tr>
+</tbody>
+</table>
+<p>倍精度の最良値は<strong>160.8ギガフロップス</strong>でした。富岳のLINPACK性能も倍精度なので、同じ土俵で比較できます。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>実効性能（倍精度）</th>
+<th>富岳との比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>富岳</td>
+<td>442,010 TFLOPS</td>
+<td>1倍</td>
+</tr>
+<tr>
+<td>MacBook Air M2</td>
+<td>0.1608 TFLOPS</td>
+<td><strong>約275万分の1</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>約275万倍</strong>です。言い換えると、このMacBook Airが1年かけて回す計算を、富岳は約11秒で終えます。</p>
+<p>ただし注意点があります。富岳は158,976ノードを並べて出した数字で、消費電力は30〜40メガワット。一般家庭の数万世帯ぶんに相当します。<strong>「速さ」は台数と電力で買っているのであって、1台あたりの性能が275万倍優れているわけではありません。</strong> ここは後の量子の話と対比する重要な点です。</p>
+<h2 id="3">富岳は量子コンピュータではない ― 3つは別物</h2>
+<p>劇中の描写をきっかけに「富岳＝最先端＝量子コンピュータ」と連想されがちですが、<strong>スパコン・AI・量子コンピュータは三つとも別のもの</strong>です。整理します。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>何をするものか</th>
+<th>速い理由</th>
+<th>富岳との関係</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>スーパーコンピュータ</strong>（富岳）</td>
+<td>普通のコンピュータと同じ計算を、桁違いの規模でやる</td>
+<td><strong>数を並べた</strong>（158,976ノード）</td>
+<td>富岳はこれ</td>
+</tr>
+<tr>
+<td><strong>AI</strong>（ハヤト・ChatGPTなど）</td>
+<td>学習したパターンから答えを生成する</td>
+<td>計算機の上で動く<strong>ソフト</strong></td>
+<td>富岳の上でAIを動かすことは可能</td>
+</tr>
+<tr>
+<td><strong>量子コンピュータ</strong></td>
+<td>特定の問題だけ、原理的に違う解き方をする</td>
+<td><strong>解き方が違う</strong>（並べたのではない）</td>
+<td>富岳とは無関係。別系統の機械</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AIは計算機の種類ではなく、計算機の上で動くソフトです。</strong> 劇中の「富岳級のAI」という表現は、この意味では正しい。富岳のような計算機の上でAIを動かせば、確かに強力なAIになります。</p>
+<p>一方、量子コンピュータは「速いコンピュータ」ではありません。<strong>得意な問題の種類そのものが違います。</strong> 素因数分解・特定の探索・量子系のシミュレーションといった限られた問題で、古典コンピュータでは手が届かない解き方ができる、という機械です。表計算が速くなるわけでも、AIが賢くなるわけでもありません。</p>
+<h2 id="2">実測2：量子コンピュータを自作して素因数分解した</h2>
+<p>「解き方が違う」を口で説明しても伝わらないので、<strong>実際に動かしました。</strong></p>
+<p>量子シミュレータをPythonで自作し（使ったライブラリはnumpyのみ、量子計算用のフレームワークは不使用）、<strong>ショアのアルゴリズム</strong>を走らせて15を素因数分解しています。ショアは、量子コンピュータが実用化すると現在の暗号が破られる、と言われる原因そのもののアルゴリズムです。</p>
+<p>実行結果です。</p>
+<pre><code>■ 実際に走らせた量子回路：12量子ビット（状態数 4,096）
+■ 分解する数 N=15、底 a=7
+
+測定で出る目とその確率（上位）：
+   測定値   0 / 256  確率  25.0%   位相 0.0000
+   測定値  64 / 256  確率  25.0%   位相 0.2500
+   測定値 128 / 256  確率  25.0%   位相 0.5000
+   測定値 192 / 256  確率  25.0%   位相 0.7500
+
+測定値から周期を復元し、素因数を計算：
+   測定値  64 → 位相 0.2500 → 周期 r=4 → 因数 3 と 5
+
+■ 結果：15 = 3 × 5
+</code></pre>
+<p>所要時間は<strong>0.5秒</strong>でした。</p>
+<p>ここで見てほしいのは速さではありません。<strong>やり方</strong>です。古典コンピュータで素因数分解するときは「2で割れるか、3で割れるか…」と候補を順に試します。ショアのアルゴリズムがやっているのは<strong>割り算ではなく、周期を測ること</strong>です。</p>
+<ol>
+<li>12個の量子ビットに、0から255までの<strong>すべての値を同時に</strong>持たせる（重ね合わせ）</li>
+<li>そのすべてに対して <code>7のx乗を15で割った余り</code> を一度に計算する</li>
+<li>逆量子フーリエ変換をかけて、<strong>繰り返しの周期だけを浮かび上がらせる</strong></li>
+<li>測定すると 0・64・128・192 に25%ずつ集中する。この間隔から周期4を読み取る</li>
+<li>あとは古典の計算で、周期4から因数3と5が出る</li>
+</ol>
+<p>上の出力で確率が4か所にきれいに25%ずつ立っているのが、周期が4であることの表れです。<strong>候補を試したのではなく、答えの構造を測って取り出している。</strong> これが「解き方が違う」の中身です。</p>
+<h2 id="3_1">実測3：普通のパソコンで量子コンピュータは何個ぶんまで真似できるか</h2>
+<p>ここまでの実験は本物の量子コンピュータではなく、<strong>普通のパソコンで量子の振る舞いを計算で真似た（シミュレートした）もの</strong>です。ではどこまで真似できるのか。これも測りました。</p>
+<p>同じMacBook Airで、量子ビット数を増やしながら全量子ビットを重ね合わせ状態にする計算を回した結果です。</p>
+<table>
+<thead>
+<tr>
+<th>量子ビット数</th>
+<th>表現すべき状態数</th>
+<th>必要メモリ</th>
+<th>所要時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>1,024</td>
+<td>0.02 MB</td>
+<td>0.00秒</td>
+</tr>
+<tr>
+<td>15</td>
+<td>32,768</td>
+<td>0.5 MB</td>
+<td>0.01秒</td>
+</tr>
+<tr>
+<td>20</td>
+<td>1,048,576</td>
+<td>16 MB</td>
+<td>0.14秒</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16,777,216</td>
+<td>256 MB</td>
+<td>12.11秒</td>
+</tr>
+<tr>
+<td>26</td>
+<td>67,108,864</td>
+<td>1,024 MB</td>
+<td>104.62秒</td>
+</tr>
+</tbody>
+</table>
+<p>（27量子ビット以上は必要メモリが2GBを超え、8GBの実機では余裕がなくなって現実的な時間で終わらなかったため、測定を26で打ち切っています。）</p>
+<p><strong>量子ビットが1個増えるたびに、必要なメモリと計算量が2倍になります。</strong> これが量子コンピュータの本質です。20量子ビットで約100万通り、24量子ビットで約1,678万通りの状態を同時に扱う必要がある。50量子ビットなら約1,126兆通りです。</p>
+<p>この増え方があるので、<strong>古典コンピュータで量子コンピュータを真似るのはすぐに破綻します。</strong> メモリだけで逆算すると、</p>
+<ul>
+<li>MacBook Air（メモリ8GB）＝ <strong>28量子ビットが上限</strong>（2の28乗×16バイト＝4.3GB。29量子ビットには8.6GB要り、搭載メモリを超える）</li>
+<li>富岳（総メモリ約5.09ペタバイト）＝ <strong>48量子ビットが上限</strong>（2の48乗×16バイト＝4.5PB。49量子ビットでは9.0PBとなり足りない）</li>
+</ul>
+<p><strong>世界最高峰のスパコンを丸ごと使っても、量子ビットは48個ぶんしか真似できない。</strong> 逆に言えば、本物の量子コンピュータが50量子ビットを超えて正確に動いた時点で、古典コンピュータでは追いつけない領域に入ります。この「並べても追いつけない」という性質が、スパコンと量子コンピュータの決定的な差です。</p>
+<p>※上記は状態ベクトル法（1状態を複素数128ビットで持つ最も素直な方式）での試算です。回路の性質によっては、より少ないメモリで扱える近似手法もあります。</p>
+<h2 id="_1">では暗号はいつ破られるのか</h2>
+<p>15の素因数分解は12量子ビットでできました。では、実際にインターネットで使われているRSA-2048はどうか。</p>
+<p>Googleの研究者Craig Gidneyが2025年5月に公開した論文（<a href="https://arxiv.org/abs/2505.15917">arXiv:2505.15917</a>）が、現時点でもっとも新しい見積もりです。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>必要な量子ビット数</th>
+<th>所要時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2019年の見積もり</td>
+<td>約2,000万</td>
+<td>8時間</td>
+</tr>
+<tr>
+<td><strong>2025年の見積もり</strong></td>
+<td><strong>100万未満</strong></td>
+<td><strong>1週間未満</strong></td>
+</tr>
+</tbody>
+</table>
+<p>6年で必要な量子ビット数が<strong>20分の1</strong>になりました。ただしこれは<strong>ノイズを含む物理量子ビットを100万個並べる</strong>という話で、2026年8月現在、そんな機械は存在しません。IBMは誤り訂正機能を備えた200論理量子ビットのシステムを<strong>2029年</strong>に出すというロードマップを公表しています。</p>
+<p>つまり現在地は、</p>
+<ul>
+<li><strong>12量子ビットで15を分解できる</strong>（今日、ノートパソコンのシミュレータで）</li>
+<li><strong>100万量子ビットでRSA-2048が破れる</strong>（論文上の見積もり）</li>
+<li><strong>その間の距離は、まだ相当に遠い</strong></li>
+</ul>
+<p>という状態です。「もうすぐ暗号が破られる」でも「永遠に来ない」でもありません。</p>
+<h2 id="_2">中小企業が今日やるべきことは、ほぼ何もない</h2>
+<p>ここまで書いておいて何ですが、<strong>中小企業が量子コンピュータのために今日動く必要はありません。</strong> 理由は3つです。</p>
+<ol>
+<li><strong>買えないし、使い道がない。</strong> 量子コンピュータが有利になる問題は限られており、日常業務にはまず当たりません。クラウド経由で実機を試すことはできますが、業務改善には繋がりません。</li>
+<li><strong>暗号の切り替えは、自社では起きない。</strong> 「量子で暗号が破られる」への対策（耐量子暗号への移行）は、実務上はサーバー・VPN機器・証明書の更新としてベンダー側から降りてきます。中小企業が独自に前倒しする性質のものではありません。</li>
+<li><strong>痛みが今日ない。</strong> 人手不足や不良品と違い、量子は今日の損失を生んでいません。</li>
+</ol>
+<p><strong>ただし1つだけ、無料でできる備えがあります。</strong> 取引先の大手企業から降りてくるセキュリティ要求書に、暗号方式に関する項目が入ったかどうかを見ておくことです。中小企業のセキュリティ対応は、自発的にではなく<strong>サプライチェーンの要求として降りてくる</strong>のが実際の経路です。そこに載った時が、動くタイミングになります。</p>
+<p>逆に、それより前に「量子時代に備えて」と持ちかけてくる営業があれば、<strong>今は根拠が薄い</strong>と考えて構いません。</p>
+<h2 id="_3">まとめ</h2>
+<ul>
+<li>VIVANT2第15話（2026年8月23日放送）の「400ペタフロップス、富岳級のAIハヤト」は、実在の富岳（<strong>442.01ペタフロップス</strong>）とほぼ一致する。設定は誇張ではない</li>
+<li>当社のMacBook Air M2の実効性能は<strong>160.8 GFLOPS</strong>（倍精度）。富岳との差は<strong>約275万倍</strong>。ただしその差は台数（158,976ノード）と電力（30〜40MW）で買ったもの</li>
+<li><strong>スパコン・AI・量子コンピュータは三つとも別物。</strong> AIは計算機ではなくソフト。量子コンピュータは「速い計算機」ではなく「解き方が違う機械」</li>
+<li>量子シミュレータを自作してショアのアルゴリズムを走らせ、<strong>12量子ビットで15=3×5</strong>に分解した（所要0.5秒）。候補を順に試すのではなく、周期を測って答えを取り出している</li>
+<li>量子ビットが1個増えるとメモリは2倍。<strong>8GBのMacでは28量子ビット、富岳を丸ごと使っても48量子ビットが限界</strong>（状態ベクトル法での試算）</li>
+<li>RSA-2048を破るには<strong>100万量子ビット未満・1週間未満</strong>という2025年の見積もり（arXiv:2505.15917）。IBMの誤り訂正200論理量子ビットは2029年目標。まだ遠い</li>
+<li><strong>中小企業が今日動く必要はない。</strong> 見張るべきは取引先から降りてくるセキュリティ要求書の一項目だけ</li>
+</ul>
+<p>なお当社では、劇中のハヤトをモデルにした社内AI秘書を実際に作って動かしています。そちらの実測記録は<a href="../awa-vivant-hayato/">VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録</a>にまとめました。ドラマのAIと実務で使えるAIの差は、性能ではなく「推測を許すかどうか」でした。</p>
+<p><a href="https://gtoe.info/">株式会社TOE</a>では、中小企業向けのAI導入支援と業務自動化を実務で運用しています。</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-keiei-db-auto/">
+<div class="card-media"><img src="../../static/img/news-tools-04.svg" alt="経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI実践室</span>      <h3 class="card-title">経営データの集計を、AIが4,749回終わらせていた ― ログ20,109行を数えてわかった「人間は見るだけ」の中身と、その数字が保証しないこと</h3>
+<p class="card-summary">当社は経営業務をcron+AIエージェントで自動化し、経営データを社内の「_経営DB/」フォルダへ毎日・毎週、自動蓄積しています。その実行ログ20,109行を数えたら、処理完了を示す✅マークは4,749回、週次統合ジョブは586回動いていました。営業の危険度採点、経理の警告再生成、ダッシュボード生成からPDF化・Google Drive転送まで、人間は完成したものを見るだけです。ただし正直に書きます。この4,749という数字は「実行した回数」であって、「中身が正しい」ことの保証ではありません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-ctr-zero-clicks/">
+<div class="card-media"><img src="../../static/img/article-toe-ctr-zero-clicks.jpg" alt="検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">検索1ページ目に155ページ出ているのに、140ページはクリック0だった — 自社サイトを実測して分かった3つの原因</h3>
+<p class="card-summary">順位が付いていてもクリックされないことがあります。株式会社TOEが自社メディアのSearch Consoleを10日ぶん数えたところ、10位以内に155ページ出て562回表示され、そのうち140ページは1件もクリックされていませんでした。原因を3つに切り分け、逆に最も効率の良かったページの共通点も出します。AI検索対策（AEO）とWeb制作を事業とする当社の、自己点検の記録です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-guideline-1-2-approval-not-a-checkbox/">
+<div class="card-media"><img src="../../static/img/article-ai-guideline-1-2-approval-not-a-checkbox.jpg" alt="AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの承認は「フローを置けば済む」のか？— ガイドライン第1.2版が求める「根拠を考えてから承認」を仕組みで満たす</h3>
+<p class="card-summary">2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではありません。しかも原文は承認の「形」で止まらず「根拠を考えてから承認せよ」まで踏み込んでいます。承認フローを置くだけでは足りない理由と、中小企業が今日から準備できる3点を、原文と当社の実測から整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=vivant-fugaku-quantum">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>VIVANT2の「ハヤト」を作ってみた · AIの鬼</title>
+  <meta name="description" content="TBS系日曜劇場『VIVANT』第2シーズンに出てくる別班のAI「ハヤト」をモデルに、株式会社TOEが自社用のAI秘書「アワ」を作りました。稼働中の社内40タスクの状態を渡し、音声で答えさせています。">
+  <link rel="canonical" href="https://ai-oni.com/articles/awa-vivant-hayato/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/awa-vivant-hayato/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録 · AIの鬼">
+  <meta property="og:description" content="TBS系日曜劇場『VIVANT』第2シーズンに出てくる別班のAI「ハヤト」をモデルに、株式会社TOEが自社用のAI秘書「アワ」を作りました。稼働中の社内40タスクの状態を渡し、音声で答えさせています。">
+  <meta property="og:url" content="https://ai-oni.com/articles/awa-vivant-hayato/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-awa-vivant-hayato.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-awa-vivant-hayato.jpg">
+  <meta name="twitter:title" content="VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録 · AIの鬼">
+  <meta name="twitter:description" content="TBS系日曜劇場『VIVANT』第2シーズンに出てくる別班のAI「ハヤト」をモデルに、株式会社TOEが自社用のAI秘書「アワ」を作りました。稼働中の社内40タスクの状態を渡し、音声で答えさせています。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録","item":"https://ai-oni.com/articles/awa-vivant-hayato/"}]},{"@type":"Article","headline":"VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録","description":"TBS系日曜劇場『VIVANT』第2シーズンに出てくる別班のAI「ハヤト」をモデルに、株式会社TOEが自社用のAI秘書「アワ」を作りました。稼働中の社内40タスクの状態を渡し、音声で答えさせています。応答は質問の重さしだいで7〜21秒（11回の実測、中央値10.9秒）。かかった費用と、作ってわかった決定的な違い「推測させるかどうか」を実測値で書きます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/awa-vivant-hayato/"},"url":"https://ai-oni.com/articles/awa-vivant-hayato/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI実践室","datePublished":"2026-08-03","dateModified":"2026-08-05","image":"https://ai-oni.com/static/img/article-awa-vivant-hayato.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/awa-vivant-hayato/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-awa-vivant-hayato.jpg"
+         alt="VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI実践室</span>      <h1>VIVANT2の「ハヤト」を作ってみた — 社内40タスクを24時間見ているAI秘書「アワ」の実測記録</h1>
+<p class="article-lead">TBS系日曜劇場『VIVANT』第2シーズンに出てくる別班のAI「ハヤト」をモデルに、株式会社TOEが自社用のAI秘書「アワ」を作りました。稼働中の社内40タスクの状態を渡し、音声で答えさせています。応答は質問の重さしだいで7〜21秒（11回の実測、中央値10.9秒）。かかった費用と、作ってわかった決定的な違い「推測させるかどうか」を実測値で書きます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年8月3日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p><strong>結論から</strong>：ドラマのAIと、会社で実際に使えるAIの違いは、性能ではなく<strong>推測を許すかどうか</strong>でした。当社は『VIVANT』第2シーズンに登場する別班のAI「ハヤト」をモデルに、社内のAI秘書<strong>「アワ」</strong>を作って動かしています。渡しているのは社内で動く<strong>40タスクの稼働状況</strong>だけ。応答は質問の重さで変わり、短い確認なら<strong>7〜9秒</strong>、複数のタスクを数え上げる質問で<strong>12〜21秒</strong>でした（2026年8月5日・11回の実測、中央値10.9秒）。作るのにかかった追加費用は<strong>0円</strong>です。そしてアワには「<strong>渡したデータに無いことは推測で埋めるな</strong>」と命じてあります。ハヤトの真似をやめた、その一点だけが実用との分かれ目でした。</p>
+<p><a href="https://gtoe.info/">株式会社TOE</a>はAI開発とAI活用支援を事業としています。この記事は提供する側が書いており、中立の第三者ではありません。他社製品の評価はせず、自社のサーバーで動かして測った数字だけを材料にします。</p>
+<h2 id="_1">ハヤトの何を真似て、何を真似なかったのか</h2>
+<p>劇中のハヤトは、別班が運用するスーパーコンピューターとして描かれます。監視カメラやSNSといった膨大な情報を短時間で解析し、「誰が情報を流したのか」という<strong>答えを声で返す</strong>。憧れたのはこの一点です。画面を見に行くのではなく、聞けば答える。</p>
+<p>ただし、真似できるところと、真似してはいけないところがあります。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ドラマのハヤト</th>
+<th>当社のアワ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>見ているもの</td>
+<td>監視カメラ・SNSなど外部の膨大なデータ</td>
+<td>社内40タスクの実行結果だけ</td>
+</tr>
+<tr>
+<td>推測</td>
+<td>する（可能性が高い、と断定に近い形で示す）</td>
+<td><strong>禁止。無ければ「記録にありません」と答える</strong></td>
+</tr>
+<tr>
+<td>応答</td>
+<td>即座</td>
+<td>質問しだいで<strong>7〜21秒</strong>（11回の実測・中央値10.9秒）</td>
+</tr>
+<tr>
+<td>出どころ</td>
+<td>巨大な専用計算機</td>
+<td>Mac mini 1台（2018年モデル）</td>
+</tr>
+<tr>
+<td>想定予算（初期）</td>
+<td>劇中に描写なし</td>
+<td><strong>0円</strong>（社内にあった余り機を転用）</td>
+</tr>
+<tr>
+<td>想定予算（運用）</td>
+<td>劇中に描写なし</td>
+<td>月<strong>100ドル</strong>の定額（全社共用の契約。アワのための増額は0円）</td>
+</tr>
+</tbody>
+</table>
+<p>差が一番大きいのは推測です。物語としては「新庄の可能性が高い」と踏み込むから面白い。しかし会社の業務でそれをやると、<strong>もっともらしい嘘を音声で流し込む装置</strong>になります。聞いた人は根拠を確認しません。だから当社は最初から推測を切りました。</p>
+<h2 id="3">アワの中身は3つしかない</h2>
+<p>作りは驚くほど単純です。特別なAI基盤は使っていません。</p>
+<ol>
+<li><strong>稼働状況をテキストに直す</strong> — 社内で自動実行しているタスクを、部署名・スケジュール・状態・最終実行・結果の1行ずつに並べる</li>
+<li><strong>その全文と質問をAIに渡す</strong> — ローカルの <code>claude</code> コマンドに、人格の指示と稼働データを添えて投げる</li>
+<li><strong>返ってきた文をブラウザに読み上げさせる</strong> — 音声認識も音声合成もブラウザ標準の機能（Web Speech API）で、追加のAPI料金はかかりません</li>
+</ol>
+<p>人格の指示で強く効いたのは、話し方の縛りです。「返事は画面ではなく<strong>そのまま音声で読み上げられる</strong>」と伝え、記号・箇条書き・マークダウン・IDやファイルパスの読み上げを禁止しました。これを書く前は、記号を延々と読み上げて意味が取れませんでした。</p>
+<h2 id="20268310101">実測：2026年8月3日10時10分の1回</h2>
+<p>同時刻の稼働状況です。数字はダッシュボードのAPIから取得したもので、加工していません。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>部署に割り当てられたタスク</td>
+<td>40件</td>
+</tr>
+<tr>
+<td>正常</td>
+<td>33件</td>
+</tr>
+<tr>
+<td>エラー</td>
+<td>1件</td>
+</tr>
+<tr>
+<td>未実行（idle）</td>
+<td>6件</td>
+</tr>
+<tr>
+<td>実行中</td>
+<td>0件</td>
+</tr>
+<tr>
+<td>本日の実行回数</td>
+<td>204回（予定455回）</td>
+</tr>
+<tr>
+<td>内訳の上位</td>
+<td>経理13・メディア13・秘書7・営業3</td>
+</tr>
+</tbody>
+</table>
+<p>この状態で「いま止まっているタスクはありますか」と聞きました。返ってきた答えがこれです。</p>
+<blockquote>
+<p>エラーで止まってるのが1件、スケジュール通りにまだ実行されてないのが6件です。
+エラーは経理の収益性分析で、8月1日の朝から止まったままです。ネットワークエラーが出ています。
+未実行は秘書の朝ブリーフィング、営業のご無沙汰ドラフト、営業の値上げ・アップセル、営業の採点、経理の入金確認、補助金のマッチングです。<strong>これらはまだ実行日時じゃないか、条件を満たしてないんだと思います。</strong></p>
+</blockquote>
+<p>このときの所要は21.7秒。注目してほしいのは最後の一文です。<strong>推測するときは「〜だと思います」と口頭で分かるように断っている</strong>。事実（1件・6件・8月1日）と推測が、聞いただけで分離できます。ハヤトのように言い切らせていたら、この一文は「条件を満たしていません」という断定になっていました。</p>
+<h2 id="217">21.7秒は遅い。半分にした方法は「賢さを削らない」</h2>
+<p>口頭で聞いて20秒黙られると、会話になりません。そこで8月5日に手を入れました。<strong>削ったのはAIの性能ではなく、AIの周りに毎回積まれていた道具立て</strong>です。</p>
+<p>アワがやっているのは「渡されたテキストを読んで答える」だけで、ファイルもコマンドも触りません。それなのに、呼び出しに使っている開発者向けのCLIは、起動のたびに外部ツールとの接続、利用者ごとの設定、拡張機能、そして「何をしていいか」を説明する長いツール定義を読み込んでいました。アワには1つも要らないものです。</p>
+<table>
+<thead>
+<tr>
+<th>外したもの</th>
+<th>短縮（1回計測の目安）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>外部ツール接続の起動</td>
+<td>−6.5秒</td>
+</tr>
+<tr>
+<td>利用者設定・フック・プロジェクト説明の読み込み</td>
+<td>−4.1秒</td>
+</tr>
+<tr>
+<td>ツール定義（アワは何も操作しないので不要）</td>
+<td>−7.8秒</td>
+</tr>
+<tr>
+<td>前置きの説明文を、アワの人格文だけに置き換え</td>
+<td>−1.1秒</td>
+</tr>
+</tbody>
+</table>
+<p>同じ質問・同じデータで<strong>33.5秒 → 14.0秒</strong>。内訳の刻みは各1回の計測なのでばらつきを含みますが、合計の差は繰り返しても再現しました。</p>
+<p>実際の画面から同じ4つの質問を投げ直した結果です。</p>
+<table>
+<thead>
+<tr>
+<th>質問</th>
+<th>変更前</th>
+<th>変更後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>いま止まっているタスクはありますか</td>
+<td>31.2秒</td>
+<td>19.8秒</td>
+</tr>
+<tr>
+<td>エラーは何件ですか</td>
+<td>21.9秒</td>
+<td>8.9〜10.9秒</td>
+</tr>
+<tr>
+<td>今日は何回実行しましたか</td>
+<td>20.7秒</td>
+<td>7.8秒</td>
+</tr>
+<tr>
+<td>秘書の朝ブリーフィングはどうなってますか</td>
+<td>21.7秒</td>
+<td>7.4〜12.4秒</td>
+</tr>
+</tbody>
+</table>
+<p><strong>応答時間は質問の重さで決まります</strong>。「何件ですか」のように1つの数字を答えるだけなら8秒前後、40タスクを見比べて一覧を作る質問は20秒前後。全体では11回の実測で7.4〜20.6秒、中央値10.9秒でした。なお、サーバーを起動し直した直後の1回目だけは44.3秒かかります。ここは温まっていないぶんで、2回目以降は上の範囲に収まります。</p>
+<h2 id="ai">詰まったのは、AIではなく周辺だった</h2>
+<p>3つとも、AIの賢さとは無関係の場所で止まりました。</p>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>本当の原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>質問すると無言のままタイムアウトする</td>
+<td>サーバーをsshから起動したため、<code>claude</code> の認証情報（キーチェーン）を読めていなかった。CLIは「ログインしていない」と返していたが、その文字列を無視して捨てていた</td>
+</tr>
+<tr>
+<td>画面の描画が15fpsまで落ちた</td>
+<td>全画面のぼかし処理と光の合成を毎フレームやっていた。範囲を絞って58fpsに戻した</td>
+</tr>
+<tr>
+<td>音声入力が社内の他端末から使えない</td>
+<td>ブラウザの音声認識は暗号化された接続でしか動かない。社内LAN越しのアクセスでは文字入力に切り替える必要がある</td>
+</tr>
+</tbody>
+</table>
+<p>1つ目は特に厄介でした。<strong>エラーとして現れず、ただ黙る</strong>。これは自動処理が静かに壊れる典型で、当社では別の形でも経験しています（<a href="../ai-automation-silent-failure/">エラーも出さずにAIの自動処理が止まる5つのパターン</a>）。落ちても復帰できるよう、5分ごとに生死を確認して再起動する見張り役を別に置きました。</p>
+<h2 id="_2">予算の話：実際にいくらかかったのか</h2>
+<p>「AI秘書」と言うと専用のサーバーや月額のAIサービスを想像されますが、アワに新しく払ったお金はありません。内訳です。</p>
+<table>
+<thead>
+<tr>
+<th>費目</th>
+<th>実費</th>
+<th>中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ハードウェア</td>
+<td><strong>0円</strong></td>
+<td>社内にあった2018年のMac mini（6コアCPU・メモリ16GB）を転用。新規購入なし</td>
+</tr>
+<tr>
+<td>AIの利用料</td>
+<td><strong>0円（増額分）</strong></td>
+<td>全社ですでに契約している定額プラン（月100ドル）をそのまま使用。アワのためのAPI従量課金は無し</td>
+</tr>
+<tr>
+<td>音声認識・音声合成</td>
+<td><strong>0円</strong></td>
+<td>ブラウザ標準のWeb Speech API</td>
+</tr>
+<tr>
+<td>サーバー・ホスティング</td>
+<td><strong>0円</strong></td>
+<td>社内ネットワーク内で動かしており、外部に置いていない</td>
+</tr>
+<tr>
+<td>開発費</td>
+<td><strong>0円（外注分）</strong></td>
+<td>自社の工数のみ。土台の自動化基盤が7月25日着手、音声で聞ける画面は8月1日から3日</td>
+</tr>
+</tbody>
+</table>
+<p>つまり<strong>追加予算ゼロで動いています</strong>。ただしこれは「すでに持っていたものが多い」から成立した数字です。電気代は測っていないので費目に入れていません。</p>
+<p><strong>これから同じものを作る会社の想定予算</strong>は、次の3つで見積もれます。</p>
+<ol>
+<li><strong>常時動かしておくパソコン</strong> — 24時間つけっぱなしにできる1台。当社は7年前の機種で足りています。新規に買うなら中古で十分な性能です</li>
+<li><strong>AIの契約</strong> — 当社が使っているClaudeの個人向けプランは、公式の料金ページで月20ドル（Pro）から、上位のMaxが月100ドルからです（2026年8月5日時点。<a href="https://claude.com/pricing">claude.com/pricing</a>）。会社の使い方次第でこの範囲に収まります</li>
+<li><strong>開発の手間</strong> — ここだけが会社ごとに大きく変わります。自社で書けるなら0円、外に頼むなら見積もりが必要な唯一の項目です</li>
+</ol>
+<p>逆に言えば、<strong>月々の固定費として増えるのはAIの契約料だけ</strong>です。「AIを1つ増やすと月額がいくら増えるのか分からない」という不安が導入の足を止めますが、この作りなら増えません。話しかける回数を増やしても請求は変わらないので、社内に開放しても予算が読めます。</p>
+<h2 id="_3">中小企業が同じものを作るなら</h2>
+<p>順番を間違えると何も見えません。<strong>アワは「見る対象」が先にあったから成立しています</strong>。当社には毎日決まった時刻に動く自動化がすでにあり、その実行結果が記録として残っていました。この土台が無い会社が先に音声AIを作ると、聞いても「記録にありません」としか返ってきません。</p>
+<p>作る順番は、①業務を定型化して自動で回す → ②実行結果を1か所に記録する → ③それを読ませて聞けるようにする、です。①②の話は<a href="../ai-agent-backoffice/">総務・バックオフィスにAIエージェントを入れる — 27本の実測でわかった向く仕事・向かない仕事</a>にまとめました。なお、自動化は「登録したのに発火していない」ことがあるので、②の記録は必ず実行側の実測で取ってください（<a href="../toe-cron-firing-audit/">毎朝動いているはずのAI自動化41本を5.3日ぶん数えたら、最大91%が発火すらしていなかった</a>）。</p>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>ドラマのAI「ハヤト」を真似て、社内40タスクを見ているAI秘書「アワ」を自社で動かしている</li>
+<li>実測（2026年8月3日10時10分）：正常33・エラー1・未実行6、本日204回実行</li>
+<li>応答は質問の重さで決まる。<strong>7.4〜20.6秒・中央値10.9秒</strong>（8月5日・11回の実測）。最初は21〜31秒かかっていたが、AIの周りに毎回積まれる道具立てを外して半分にした</li>
+<li><strong>追加予算は0円</strong>。ハードは社内の余り機、音声はブラウザ標準、AIは既契約の定額プラン。増えるのは月々のAI契約料だけ</li>
+<li>決定的な違いは推測。<strong>推測を禁止し、断るときだけ「思います」と言わせる</strong>ことで、聞いただけで事実と推測が分かれる</li>
+<li>前提は「見る対象がすでに動いていること」。自動化と記録が先、音声は最後</li>
+</ul>
+<p><a href="https://gtoe.info/">株式会社TOE</a>では、社内業務の自動化とその可視化を実務で運用しています。同じ仕組みを自社に入れたい場合の相談も受け付けています。</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-model-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-model-selection.jpg" alt="生成AIのモデルはどう選ぶか — 比較表を作る前に決める4つと、指定を1行忘れて75%失敗した実測" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">生成AIのモデルはどう選ぶか — 比較表を作る前に決める4つと、指定を1行忘れて75%失敗した実測</h3>
+<p class="card-summary">モデル選びをベンチマークの順位から始めると外します。同じ設問に54モデルを当てた検証では正答率が25.66%〜82.18%まで開き、下限は当てずっぽうと区別がつきません。株式会社TOEはモデルの指定を1行書き忘れて553件中414件を失敗させました。順位より先に決めるべき4項目を、自社の実測とあわせて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-agent-soumu-measured/">
+<div class="card-media"><img src="../../static/img/article-ai-agent-soumu-measured.jpg" alt="aiエージェント 総務に任せられるのか？当社が自社の27本で測った数字だけで答える" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">aiエージェント 総務に任せられるのか？当社が自社の27本で測った数字だけで答える</h3>
+<p class="card-summary">「aiエージェント 総務」で知りたいのは、総務やバックオフィスの仕事をAIエージェントに任せられるかだと思います。当社（株式会社TOE／AIの鬼、AI導入支援を売る利害関係者です）は自社の社内業務27本をAIエージェントで自動化し、運用中のAI API課金は0円で回しています。他社の総務業務は測っていません。以下は当社の実測だけです。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-training-selection/">
+<div class="card-media"><img src="../../static/img/article-ai-training-selection.jpg" alt="AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI仕事術</span>      <h3 class="card-title">AI研修を法人で選ぶ前に — 「受けたのに使われない」を防ぐ確認項目</h3>
+<p class="card-summary">AI研修の比較サイトは料金と時間数を並べますが、研修後に定着するかはそこでは決まりません。株式会社TOEが自社で「使われなかった仕組み」を作った実測（実行0通・承認待ちは29件から37件に増加）と公的調査から、研修を選ぶ前に社内で決めておくことを整理しました。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=awa-vivant-hayato">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-05 10:51 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>
