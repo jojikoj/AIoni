@@ -84,6 +84,12 @@ def latest_review() -> str:
     return files[-1].read_text(encoding="utf-8")[:4000]
 
 
+def auto_facts_text() -> str:
+    """data/facts_auto.md（collect_facts.py の出力）。無ければ空。"""
+    f = ROOT / "data" / "facts_auto.md"
+    return f.read_text(encoding="utf-8") if f.exists() else "（自社実測なし）"
+
+
 def build_prompt() -> str:
     return f"""あなたは「AIの鬼」というメディアの「中の鬼」というコーナーの書き手です。
 株式会社TOEという福岡の会社が、自社でAIを動かしている記録を書いています。
@@ -104,6 +110,9 @@ def build_prompt() -> str:
   素材の数字どうしを割ったり掛けたりして作った値は書けません
   （検査で弾かれ、記事ごと捨てられます）。素材に書いてある表記のまま引く。
   比較したいときは「40と8」のように、両方の実数を並べて読者に見せること。
+- **数字を丸めない。** 素材が「1,187ページ」なら「1,000ページ単位」「約1,200」
+  とは書かない。桁を落とした瞬間に素材と照合できなくなり、記事ごと捨てられます。
+  大きさの感覚を出したいなら、実数をそのまま書いて言葉で補うこと。
 - うまくいった話より、外した話・意外だった話を優先する。
 - 教訓で締めない。読者に「あなたも〜しましょう」と言わない。
 - 1,500〜2,500字。薄い長文にしない。書くことが尽きたら短く終える。
@@ -124,6 +133,12 @@ date: {datetime.date.today()}
 ---
 
 （本文）
+
+## 素材0: 当社サイトの実測（自動集計。ここにある数字はそのまま使ってよい）
+
+```
+{auto_facts_text()}
+```
 
 ## 素材1: 検索の実測（Search Console。表示・クリック・平均順位）
 
@@ -178,6 +193,18 @@ def main() -> int:
             if age < EVERY_N_DAYS:
                 print(f"   中の鬼は{age}日前（{latest}）に出したばかりなので今日は作らない")
                 return 0
+
+    # 素材を書く直前に自社実測を取り直す。daily.sh では「自社実測の収集」が
+    # 旬ネタ記事の公開より前に走るため、その日の記事本数が1本古いまま中の鬼に
+    # 渡っていた。書き手はgitの記録（新しい本数）を見て書き、検査は古い本数と
+    # 照合するので、正しい数字が「裏の取れない数字」で落ちる
+    # （2026-09-08 朝 '292本'、夜 '293本' で2回とも不合格）。
+    try:
+        sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+        import collect_facts
+        collect_facts.main()
+    except Exception as e:  # 取り直せなくても書く（古い素材で検査されるだけ）
+        print(f"   ⚠️ 自社実測の取り直しに失敗: {e}")
 
     model = os.environ.get("AIONI_ARTICLE_MODEL", "sonnet")
     try:

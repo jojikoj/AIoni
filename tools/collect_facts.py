@@ -142,6 +142,41 @@ def article_facts() -> list[str]:
     return out
 
 
+def site_facts() -> list[str]:
+    """サイトの構造（何ページ公開し、何ページを検索から外しているか）。
+
+    中の鬼が「1,000ページ単位で伏せた」のように、自分たちがやった施策の
+    規模を書こうとして、正確な数を持っていないまま丸めて落ちていた
+    （2026-09-08、検査『裏の取れない数字 1,000ページ』）。ここに実数を置く。
+    dist/ は直近のビルド結果なので、公開している姿そのもの。
+    """
+    dist = ROOT / "dist"
+    sm = dist / "sitemap.xml"
+    if not sm.exists():
+        return []
+    locs = re.findall(r"<loc>https?://[^/<]+(/[^<]*)</loc>", sm.read_text(encoding="utf-8"))
+    by_sec: dict[str, int] = collections.defaultdict(int)
+    for path in locs:
+        seg = path.strip("/").split("/")[0] or "トップ"
+        by_sec[seg] += 1
+    out = [f"- サイトマップに載せているURLは{len(locs)}本"
+           + "（" + " / ".join(f"{k}{v}本" for k, v in
+                              sorted(by_sec.items(), key=lambda z: -z[1])[:5]) + "）。"]
+    # noindex にしている個別ページ（ニュース）の数。ビルド済みHTMLを直接数える。
+    news_dir = dist / "news"
+    if news_dir.exists():
+        total = noindex = 0
+        for html in news_dir.glob("*/index.html"):
+            total += 1
+            head = html.read_text(encoding="utf-8", errors="ignore")[:4000]
+            if "noindex" in head:
+                noindex += 1
+        if total:
+            out.append(f"- ニュース個別ページは{total}本あり、うち{noindex}本を noindex"
+                       f"（検索に出さない設定）にしている。検索に出しているのは{total - noindex}本。")
+    return out
+
+
 def ops_facts() -> list[str]:
     """日次が実際に回っているか。
 
@@ -175,6 +210,7 @@ def build() -> str:
     for title, facts in [("検索の実測", search_facts()),
                          ("生産量（自動化の実績）", production_facts()),
                          ("記事の構成", article_facts()),
+                         ("サイトの構造（公開している姿）", site_facts()),
                          ("自社メディアの運用", ops_facts())]:
         if facts:
             L.append(f"■ {title}")
