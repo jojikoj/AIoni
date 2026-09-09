@@ -20,6 +20,7 @@ import json
 import os
 import re
 import shutil
+import time
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1620,8 +1621,19 @@ class Builder:
     def write_extras(self) -> None:
         # 静的アセット
         dest = config.DIST_DIR / "static"
-        if dest.exists():
-            shutil.rmtree(dest)
+        # 消し終える前に中身が増える（Spotlight や別プロセスの書き込み）と
+        # rmtree は ENOTEMPTY で落ちる。ここで落ちると公開そのものが止まるので
+        # 数回やり直す（2026-09-09、AIの鬼の公開が Errno 66 で止まった）。
+        for attempt in range(3):
+            if not dest.exists():
+                break
+            try:
+                shutil.rmtree(dest)
+            except OSError as e:
+                if attempt == 2:
+                    raise
+                print(f"  static/ の掃除をやり直します（{e}）")
+                time.sleep(1)
         shutil.copytree(config.STATIC_DIR, dest)
 
         # .nojekyll（GitHub Pagesで _ 始まりを配信させる）
