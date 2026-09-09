@@ -115,7 +115,7 @@ fi
 media_step "原文の整理" python3 tools/trim_news.py
 
 # 4. 内部リンク検査 → ビルド → 公開 → IndexNow
-media_step "公開" ./tools/deploy.sh
+media_step_required "公開" ./tools/deploy.sh
 
 # 5. 状況を1行で残す（週次の振り返りで読む）
 #    ⚠️ 2026-07-30 修正: ここは body_ja を数えていた。body_ja はサイトが

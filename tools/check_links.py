@@ -30,6 +30,12 @@ FOREIGN = re.compile(r"[가-힯Ѐ-ӿ฀-๿]")
 # （例：AIの回答に一語だけロシア語が紛れた愛嬌を紹介する記事）
 FOREIGN_OK_FILES = {"ai-life-consultation-3models.ja.md"}
 
+# バッククォートで囲った箇所は「その文字そのものを見せている」ので検査から外す。
+# 2026-09-06〜09、なりすまし手口（ラテン e をキリル е に置き換える）を解説した記事が
+# この検査に落ち、AIの鬼の公開が3日ぶん丸ごと止まった。記事の内容は正しく、
+# 落とすべきは「地の文に紛れ込んだ」ぶんだけ。
+CODE_SPAN = re.compile(r"`[^`]*`")
+
 
 def check_foreign_chars() -> list[tuple[str, str, str]]:
     bad = []
@@ -37,7 +43,7 @@ def check_foreign_chars() -> list[tuple[str, str, str]]:
         if f.name in FOREIGN_OK_FILES:
             continue
         for i, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
-            m = FOREIGN.search(line)
+            m = FOREIGN.search(CODE_SPAN.sub(lambda x: " " * len(x.group(0)), line))
             if m:
                 bad.append((f.name, f"{i}行目: …{line[max(0, m.start() - 15):m.end() + 15]}…",
                             f"日本語記事に紛れ込まない文字「{m.group(0)}」"))
