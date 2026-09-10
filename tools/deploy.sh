@@ -8,9 +8,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 ROOT=$(pwd)
 
-# 【一時】mini の claude_AIR 同期詰まりを遠隔で直すための踏み台。在るときだけ走る。
-# 直ったら _repair_once.sh ごと消すので、この2行も一緒に消える予定（2026-08-13）。
-[ -f "$ROOT/tools/_repair_once.sh" ] && bash "$ROOT/tools/_repair_once.sh" || true
+# （2026-09-09 撤去）ここには mini の同期を直すための一時的な踏み台
+# _repair_once.sh の呼び出しがあった。役目は済んだのに残り続け、公開のたびに
+# claude_AIR で 400件超の rebase をやり直しては detached HEAD と衝突マーカーを
+# 作り直していた。ssh で mini に入れるようになった今は不要なので消した。
 
 # --- 古いコードで公開を上書きしないための確認 ---------------------------
 #
