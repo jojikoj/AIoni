@@ -73,6 +73,8 @@ def collect_news() -> dict:
     all_items: list[dict] = []
     per_source = {}
     for src in config.NEWS_SOURCES:
+        if src.get("retired"):
+            continue
         try:
             items = sources.fetch_news_source(src)
             all_items.extend(items)

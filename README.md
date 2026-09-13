@@ -16,7 +16,7 @@ arXiv の研究プレプリントを集約する。
 | 区分 | 内容 | 規模 | 出どころ |
 |---|---|---|---|
 | 記事 | 編集部が書く実践記録・実測・解説 | 208本 | `content/articles/*.ja.md` |
-| ニュース | 国内外のAIニュースを1日2回集約 | 保持3000件・一覧600件 | 15ソース（OpenAI / Google AI / Hugging Face / MIT Tech Review / TechCrunch / The Verge / ITmedia AI+ / Zenn / Qiita ほか） |
+| ニュース | 国内外のAIニュースを1日2回集約 | 保持3000件・一覧600件 | 13ソース（OpenAI / Google AI / Hugging Face / MIT Tech Review / TechCrunch / The Verge / ITmedia AI+ ほか。Zenn / Qiita は 2026-09-13 に収集停止） |
 | 研究動向 | cs.AI / cs.CL / cs.LG / cs.CV の最新プレプリント | 最大250件 | arXiv API |
 
 記事は7カテゴリに分かれる（`config.ARTICLE_CATEGORIES`）。
@@ -62,8 +62,9 @@ arXiv の研究プレプリントを集約する。
   短くすると、Googleにインデックスされた頃にはページが消えて404になる（config.py のコメント参照）。
 - **一覧と保持を分離**: 一覧に出すのは `NEWS_LIST_LIMIT`（600件）。個別ページは保持分すべて作る。
 - **翻訳キャッシュ**: 訳した記事は `data/translations.json` にURLキーで保存し、次回は再翻訳しない。
-- **薄いページは noindex**: 自社の解説（`body_long`）が無いニュース個別ページと、記事0本の
-  カテゴリページは `noindex` にし sitemap からも外す。中身が入れば自動で index に戻る。
+- **ニュース個別ページは全件 noindex**: 自社の解説（`body_long`）の有無にかかわらず
+  `noindex, follow` にし sitemap からも外す。検索で戦うのは自社の記事だけ
+  （経緯は build.py のコメント）。記事0本のカテゴリページも noindex で、記事が入れば自動で index に戻る。
 - **ページ分割**: 一覧は1ページ30件（`PAGE_SIZE`）。2ページ目以降は `noindex, follow`。
 
 ## セットアップ

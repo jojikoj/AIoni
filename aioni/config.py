@@ -282,6 +282,9 @@ DEFAULT_LANG = "ja"
 # AI関連キーワードに一致した記事だけを採用する（sources.py の is_ai_related）。
 #
 # 2026-07-19 に全件生存確認済み。Ledge.ai と Anthropic 公式は RSS が無く不採用。
+#
+# "retired": True のソースは新しく収集しない（collect_all.py が飛ばす）。
+# 収集済みの記事と個別ページは残すので、404 は出ない。
 NEWS_SOURCES = [
     # --- 日本語ソース（実務向け・主軸）---
     # 読者は国内の経営者・情シス。日本語オリジナル記事の比率を重視する。
@@ -289,10 +292,15 @@ NEWS_SOURCES = [
      "url": "https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", "type": "rss"},
     {"id": "ainow", "name": "AINOW", "lang": "ja",
      "url": "https://ainow.ai/feed/", "type": "rss"},
+    # Zenn / Qiita は 2026-09-13 に収集を止めた。個人が書いた技術記事を当社が
+    # 要約し直して載せる形で、sitemap に載っていたニュース個別2,156本のうち
+    # 1,232本（57%）がこの2つだった。量産ページの大半を占め（build.py の
+    # ニュース noindex の経緯参照）、書き手から見ても自分の記事の焼き直しが
+    # 他社サイトに並ぶだけなので、載せ続ける理由が無い。
     {"id": "zenn_ai", "name": "Zenn AI", "lang": "ja",
-     "url": "https://zenn.dev/topics/ai/feed", "type": "rss"},
+     "url": "https://zenn.dev/topics/ai/feed", "type": "rss", "retired": True},
     {"id": "qiita_ai", "name": "Qiita AI", "lang": "ja",
-     "url": "https://qiita.com/tags/ai/feed", "type": "rss"},
+     "url": "https://qiita.com/tags/ai/feed", "type": "rss", "retired": True},
     # 総合IT系（AI関連記事のみ採用）
     {"id": "publickey", "name": "Publickey", "lang": "ja",
      "url": "https://www.publickey1.jp/atom.xml", "type": "rss", "topic_filter": True},
