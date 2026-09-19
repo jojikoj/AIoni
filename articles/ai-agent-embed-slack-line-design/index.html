@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>ai-agent-embed-slack-line… · AIの鬼</title>
+  <meta name="description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-agent-embed-slack-line-design/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-agent-embed-slack-line-design/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="ai-agent-embed-slack-line-design · AIの鬼">
+  <meta property="og:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-agent-embed-slack-line-design/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/news-default-12.svg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/news-default-12.svg">
+  <meta name="twitter:title" content="ai-agent-embed-slack-line-design · AIの鬼">
+  <meta name="twitter:description" content="株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"ai-agent-embed-slack-line-design","item":"https://ai-oni.com/articles/ai-agent-embed-slack-line-design/"}]},{"@type":"Article","headline":"ai-agent-embed-slack-line-design","description":"","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-agent-embed-slack-line-design/"},"url":"https://ai-oni.com/articles/ai-agent-embed-slack-line-design/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"image":"https://ai-oni.com/static/img/news-default-12.svg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-agent-embed-slack-line-design/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/news-default-12.svg"
+         alt="ai-agent-embed-slack-line-design" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+      <h1>ai-agent-embed-slack-line-design</h1>
+      <div class="article-meta">
+      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <hr />
+<p>title: SlackやLINEにAIエージェントを差し込む設計は本当に「簡単」なのか──中小企業の現場で何が変わるのか
+excerpt: 専用アプリを作るより、現場が毎日開くSlackやLINEにAIエージェントを差し込むほうが習慣化コストは低い。ただしSlackとLINEは会話の単位も権限もレスポンスの制約も違い、同じ設計を持ち込むと片方で破綻します。素材の設計論と当社の実測を突き合わせ、中小企業が最初に決めるべき境界線を整理します。
+tag: AI解体新書
+author: AIの鬼 編集部
+date: 2026-09-13
+hero: article-ai-agent-embed-slack-line-design.jpg
+image_prompt: A Japanese small-business staffer in their 30s glancing at a smartphone chat app at a cluttered office desk in late morning, bright daylight through a window, shot on Canon EOS R6 with 35mm lens, coffee cup and sticky notes and worn keyboard showing signs of daily use, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
+order: 30</p>
+<p>株式会社TOE（AIの鬼）はAI導入支援・AI検索対策を売りうる立場です。その前提で書きます。結論から言います。AIエージェントを現場に入れる最初のつまずきは「モデルの性能」ではなく「現場の入口をどこにするか」であり、SlackやLINEに差し込むのは習慣化コストが低くて筋がいい一方、「チャット連携なら簡単」という先入観は複雑さを見落としている、というのが今回の素材の主張です。実装難度は新規UIのほうがむしろ低い、とまで書かれています。</p>
+<p>今回の題材は、Qiita AIに2026年9月12日に公開された「AIエージェントをSlack・LINEなど現場のツールに組み込む設計」です（すきま経営からの転載と明記されています）。書き手がクライアントワークで固めてきた設計の考え方をまとめたもので、特定の製品発表や数値の入った調査ではありません。同じ出来事を扱った他社の報道は、今回は0件です。</p>
+<h2 id="ui">なぜ専用UIではなくチャットツールなのか</h2>
+<p>素材の主張はシンプルです。AI導入の初期フェーズで専用Webアプリを作る案は、たいてい筋が悪い。理由は、現場の人が新しいツールを覚えるコストと、それを毎日開きにいく習慣化コストの両方が発生するからです。一方でSlackやLINEは、現場の人がすでに1日に何十回も開いている場所です。そこに差し込めば「新しいツールを使う」のではなく「いつものやり取りの延長でAIが応答するようになった」という体験になります。</p>
+<p>中小企業の目線に引き寄せると、これは「TeamsのCopilotのように、既にある画面の中でAIが動く」形が定着しやすい、という話とつながります。導入初期に必要なのは高機能なUIではなく、この心理的ハードルの低さだ、と素材は言い切っています。専用UIは、チャット経由の運用が定着し要求が明確になった後で検討すれば十分間に合う、という順序です。</p>
+<p>この「動かし方から入る」発想は、当社が別記事で扱ったコスト最適化の話とも通じます。モデルを最新に買い替えるより動かし方を直すほうが効く場面がある、という論点です（<a href="../writer-palmyra-x6-harness-cost-reduction/">モデルを替えるより動かし方を磨くほうがAIコストは下がるのか ― WriterがPalmyra X6とハーネス最適化で最大50%削減を打ち出した</a>）。入口も同じで、豪華な新規UIより既存の入口を磨くほうが実運用に乗りやすい、というのが素材の立場です。</p>
+<h2 id="slackline">SlackとLINEは「会話の単位」も権限も違う</h2>
+<p>「チャット連携なら簡単」という先入観を、素材は明確に否定します。SlackとLINEは設計思想もAPIの制約もまったく違い、同じコードをそのまま持ち込むとどちらか一方で必ず破綻する、というのが核心です。素材から読み取れる違いを表にまとめます。</p>
+<table>
+<thead>
+<tr>
+<th>論点</th>
+<th>Slack</th>
+<th>LINE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会話の単位</td>
+<td>スレッドがあり、話題をスレッドに閉じ込められる。スレッドIDをコンテキストの単位にできる</td>
+<td>スレッドがない。1つのトーク内に話題が時系列で並ぶ</td>
+</tr>
+<tr>
+<td>コンテキストの区切り</td>
+<td>スレッド単位で区切れば複数話題が同時進行しても混線しない</td>
+<td>区切りワード（「新しい相談」等）か一定時間の無応答でリセットする自前設計が必要</td>
+</tr>
+<tr>
+<td>権限管理</td>
+<td>「誰が話しかけたか」は取れるが「何を聞いていいか」の判定はツール側にない</td>
+<td>同上。ツール側に権限判定ロジックはない</td>
+</tr>
+<tr>
+<td>レスポンスタイム</td>
+<td>Webhookに応答タイムアウトの制約あり</td>
+<td>同じくWebhookに応答タイムアウトの制約あり</td>
+</tr>
+</tbody>
+</table>
+<p>権限について素材が勧めるのは、チャンネルやグループ単位でAIが扱える情報の範囲を切り分け、社外秘を扱うチャンネルとそうでないチャンネルで接続するバックエンドやコンテキストのソースを完全に分離する設計です。後から直そうとすると、権限漏れを疑って過去ログを全部洗い直す羽目になる、と警告しています。ここは、AIエージェントに権限や鍵をどう渡すかを最初に決めるべきだ、という当社の既存記事とも重なります（<a href="../why-agents-should-never-see-api-keys/">AIエージェントに渡したAPIキーは回収できない ― 中小企業は「渡さない」を最初に選べるのか？</a>）。</p>
+<p>レスポンスタイムについては、Webhookを受けたら即座に「受け付けました」的な仮応答か受信確認のリアクションだけ返し、実際の処理は非同期のジョブキューに積んで完了後に同じチャンネル・トークへ送り返す構成が挙げられています。同期的にAIの処理完了を待つ設計は、ツール呼び出しを挟む複雑なタスクを扱わせ始めた瞬間にタイムアウトで壊れる、という指摘です。</p>
+<h2 id="_1">「動いているのに使われない」を運用で吸収する</h2>
+<p>素材が業務導入のよくある失敗として挙げるのは、技術的に動いているのに現場で使われないパターンです。原因の大半は「ツールは動いているが、その中で起きた誤答や誤動作を現場で吸収する仕組みがない」こと。AIは自信のない回答も断定的な文体で返しがちで、それを人間の回答と同じ重みで受け取ると誤答が業務判断に混ざり込みます。</p>
+<p>対策として素材が必ず入れているのは二つです。一つは、AIの発言だとひと目でわかる見た目の区別（Slackならbotアイコンと名前、LINEならリッチメニューや応答テンプレートの文言）と、回答末尾に「間違っている可能性がある領域」を明示する一文。もう一つは、回答が良かった・悪かったをボタン一つで返せる簡易フィードバック（Slackならリアクション絵文字、LINEならクイックリプライ）を最初から仕込むことです。これがないと精度が業務で足りているかを感覚でしか判断できなくなり、回収したフィードバックは評価データセットの改善サンプルにも使える、と書かれています。</p>
+<p>これは「PoC死」を避ける話でもあります。既存ツールの中でAIが動く設計が業種を問わず現場刷新を減らす、という論点は当社も別記事で扱いました（<a href="../spacexai-grok-bot-always-on-agent-for-sme/">既存ツールをそのまま使いながらAIが画面を操作する時代──Grok Botは中小企業の「システム刷新」問題を解くのか</a>）。</p>
+<h2 id="_2">当社の実測と突き合わせると何が言えるか</h2>
+<p>当社（AIの鬼）は社内業務の自動化を27本運用し、AI秘書のブリーフィングは毎朝8:00、運用中のAI API課金は0円です。2026-09-13時点で収集済みニュース3000件・記事302本を人手を介さず毎日自動で生産しており、直近7日で記事は294本から302本へ増えました（1日あたり約1.1本）。つまり「入口を既存の運用に寄せて自動で回し続ける」構成は、当社の内側では現に止まらず動いています。</p>
+<p>ただし「使われるか」は別問題です。当サイトの直近28日は検索表示208回・クリック1回（CTR 0.5%）、前の7日と比べた表示の増減は−42%でした。技術的に動いていることと、外の人に届いて使われることは一致しない――素材が言う「動いているのに使われない」は、メディア運用という別の形で当社自身にも当てはまっています。この点は運用の実測として率直に書いておきます。</p>
+<h2 id="_3">この記事で言えないこと</h2>
+<ul>
+<li>素材は特定製品の発表や数値入りの調査ではなく、書き手の設計論です。効果の大きさ（何%改善した等）は素材に一切書かれておらず、当社も測っていません。</li>
+<li>SlackとLINEの具体的なタイムアウト秒数・APIの詳細仕様は素材に数値として書かれていません。「Webhookに応答タイムアウトの制約がある」ことまでが素材から言えることです。</li>
+<li>「差し込むほうが使われる」の定量的な裏づけ（習慣化率・利用回数）は素材にありません。心理的ハードルが低い、という定性的な主張です。</li>
+<li>当社はSlack・LINEへのAIエージェント組み込みの効果を自社案件で測定していません。上記の当社実測は、あくまで自社メディア運用と社内自動化の数字です。</li>
+<li>この設計をそのまま導入すれば現場で使われる、という保証はできません。効果は環境によって変わり、当社は測っていません。</li>
+</ul>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>最初のつまずきは「モデルの性能」ではなく「現場の入口をどこにするか」。専用UIより、現場が毎日開くSlack・LINEに差し込むほうが習慣化コストが低く、導入初期はこちらが筋がいい、というのが素材の主張です。</li>
+<li>「チャット連携なら簡単」は先入観。SlackとLINEは会話の単位・権限・レスポンスの制約が違い、同じ設計を持ち込むと片方で破綻します。実装難度はむしろ新規UIのほうが低い、と素材は言います。</li>
+<li>LINEはスレッドがないため、区切りワードやタイムアウトで会話単位を自前で作る必要があります。権限はチャンネル・グループ単位でバックエンドごと分離し、レスポンスはWebhookの制約に合わせて非同期ジョブ化します。</li>
+<li>「動いているのに使われない」を防ぐには、AIの発言だとわかる見た目の区別・誤答時の注記・ボタン一つのフィードバック回収を最初から組み込むこと。</li>
+<li>当社は「毎日自動で回す」構成を社内で運用中（自動化27本・API課金0円・記事302本）ですが、届いて使われるかは別問題で、当サイトの直近28日はCTR0.5%・表示−42%です。効果の数値は素材にも当社にもなく、測っていません。</li>
+</ul>
+<p><em>この記事は<a href="https://qiita.com/Ohmiya-Mizuki/items/d9b3d972fe3cfbc97e25">Qiita AI</a>の「AIエージェントをSlack・LINEなど現場のツールに組み込む設計」を素材に、株式会社TOE（AIの鬼）の自社実測（社内自動化27本・API課金0円・記事302本・直近28日の検索表示208回/クリック1回/CTR0.5%・表示前週比−42%、いずれも2026-09-13時点）とあわせて書きました。</em></p>
+  </div>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-agent-embed-slack-line-design">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-19 10:36 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>

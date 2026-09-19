@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIエージェントがSSHで社内サーバーを操作しデプロイま… · AIの鬼</title>
+  <meta name="description" content="TailscaleがAIゲートウェイ「Aperture」を正式リリースし、「Tailscale MCP」「Tailscale SSH MCP」を追加しました。">
+  <link rel="canonical" href="https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントがSSHで社内サーバーを操作しデプロイまでやる時代──Tailscale「Aperture」のMCPで中小企業のインフラ運用はどこが変わるのか · AIの鬼">
+  <meta property="og:description" content="TailscaleがAIゲートウェイ「Aperture」を正式リリースし、「Tailscale MCP」「Tailscale SSH MCP」を追加しました。">
+  <meta property="og:url" content="https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-tailscale-mcp-ai-operates-servers-via-ssh.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-tailscale-mcp-ai-operates-servers-via-ssh.jpg">
+  <meta name="twitter:title" content="AIエージェントがSSHで社内サーバーを操作しデプロイまでやる時代──Tailscale「Aperture」のMCPで中小企業のインフラ運用はどこが変わるのか · AIの鬼">
+  <meta name="twitter:description" content="TailscaleがAIゲートウェイ「Aperture」を正式リリースし、「Tailscale MCP」「Tailscale SSH MCP」を追加しました。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントがSSHで社内サーバーを操作しデプロイまでやる時代──Tailscale「Aperture」のMCPで中小企業のインフラ運用はどこが変わるのか","item":"https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/"}]},{"@type":"Article","headline":"AIエージェントがSSHで社内サーバーを操作しデプロイまでやる時代──Tailscale「Aperture」のMCPで中小企業のインフラ運用はどこが変わるのか","description":"TailscaleがAIゲートウェイ「Aperture」を正式リリースし、「Tailscale MCP」「Tailscale SSH MCP」を追加しました。AIエージェントがネットワーク自体を操作してノードを追加し、SSHでサーバーに接続してデプロイまで行えます。ただし新規ノード追加には人間の承認が要り、全操作が監査ログに残ります。インフラ運用担当が少ない中小企業にとって何が変わるのか、当社の測ったこと・測っていないことと分けて整理します。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/"},"url":"https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-09-16","dateModified":"2026-09-16","image":"https://ai-oni.com/static/img/article-tailscale-mcp-ai-operates-servers-via-ssh.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=2e09907c" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=2e09907c">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/tailscale-mcp-ai-operates-servers-via-ssh/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-tailscale-mcp-ai-operates-servers-via-ssh.jpg"
+         alt="AIエージェントがSSHで社内サーバーを操作しデプロイまでやる時代──Tailscale「Aperture」のMCPで中小企業のインフラ運用はどこが変わるのか" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントがSSHで社内サーバーを操作しデプロイまでやる時代──Tailscale「Aperture」のMCPで中小企業のインフラ運用はどこが変わるのか</h1>
+<p class="article-lead">TailscaleがAIゲートウェイ「Aperture」を正式リリースし、「Tailscale MCP」「Tailscale SSH MCP」を追加しました。AIエージェントがネットワーク自体を操作してノードを追加し、SSHでサーバーに接続してデプロイまで行えます。ただし新規ノード追加には人間の承認が要り、全操作が監査ログに残ります。インフラ運用担当が少ない中小企業にとって何が変わるのか、当社の測ったこと・測っていないことと分けて整理します。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年9月16日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>Tailscaleが、AIゲートウェイ「Aperture」を正式リリース（GA）しました。今回いちばん実務に効くのは権限管理の話ではなく、<strong>AIエージェントがネットワーク自体を操作してサーバーをノードとして追加し、SSHで接続して操作・デプロイまで行える</strong>ようになった点です。専任のインフラ担当を置けない中小企業にとって、「サーバーの面倒を見る作業」をAIに指示で回せるかどうかが現実の論点になります。ただし新規ノード追加には人間の承認が要り、全操作は監査ログに残ります。</p>
+<h2 id="ai2mcp">追加されたのは「AIがネットワークを触る」2つのMCP</h2>
+<p>Tailscaleはメッシュ型VPNサービスを提供する会社です。その上に載る「Aperture」は、AIサービスのAPIキーをゲートウェイに預け、各ノードに鍵を配らずAIを使うための仕組みとして登場しました。Tailscaleで構築したVPN（Tailnet）の中なら、どのノードからでもAperture経由でAIサービスにアクセスできます。公式アカウントの告知投稿の日付は2026年8月26日です。</p>
+<p>今回、新たに「Tailscale MCP」と「Tailscale SSH MCP」が追加されました（MCPはModel Context Protocol）。AIエージェントがこの2つを使うと、次のことができます。</p>
+<ul>
+<li>Tailscaleネットワークそのものを操作して、ノードを追加する</li>
+<li>Tailscaleネットワーク内のノードへSSHで接続する</li>
+</ul>
+<p>つまりAIエージェントに指示するだけで、特定のサーバーをノードとして追加し、SSH接続してサーバーを操作したり、サービスをデプロイしたりできる、という位置づけです。これまで人が端末を開いてコマンドを打っていた作業を、AIエージェントのワークフローの一部として指示で動かせるようになった、と読めます。</p>
+<h2 id="apertureui">指示はどこから出すのか──Aperture独自のチャットUI</h2>
+<p>素材で一つ押さえておきたいのが、接続するAIの前提です。Aperture経由で接続するAI（素材ではClaude・Gemini・ローカルのAIなどが例）は、ユーザーが使っているTailscaleネットワークの構成やノードの情報を最初から持っているわけではありません。そのため、単にApertureで接続したAIエージェントにネットワークやノードの操作を指示しても、適切な結果は期待できない、と素材は明記しています。</p>
+<p>そこで用意されているのが<strong>Aperture独自のチャットUI</strong>です。このチャットUIから指示を出すと、背後にいるAIエージェントが自動的にTailscale MCP・Tailscale SSH MCPを使い、Tailscaleネットワーク自身や対象ノードへの操作を実行します。さらにAperture経由で、ネットワーク内のノードにさまざまなサービスのデプロイを任せることも可能になる、とされています。</p>
+<h2 id="_1">歯止め：アクセス制御は維持、新規ノード追加は人間の承認</h2>
+<p>AIがSSHでサーバーを触れると聞くと身構えますが、素材には歯止めも書かれています。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>Aperture上のAI操作での扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>既存のアクセス制御設定</td>
+<td>Tailscaleで設定済みのものが維持される</td>
+</tr>
+<tr>
+<td>新規マシンのノード追加</td>
+<td>人間の承認が必要</td>
+</tr>
+<tr>
+<td>操作の記録</td>
+<td>すべて監査ログに残る</td>
+</tr>
+<tr>
+<td>指示の出し方</td>
+<td>Aperture独自のチャットUI経由</td>
+</tr>
+<tr>
+<td>使われる仕組み</td>
+<td>Tailscale MCP / Tailscale SSH MCP</td>
+</tr>
+</tbody>
+</table>
+<p>ポイントは、AIが勝手に新しいマシンをネットワークへ引き込めない、という一点です。ノードの追加という「入口を増やす」操作だけは人間が承認する設計になっており、それ以外の操作もログに残ります。素材が繰り返し強調するのは「何をしたか」がイベントログに残り、その記録が改ざん不可能な形で保持される点です。AIは「信頼する存在」から「番人が付く存在」へ、というのがTailscaleの説明です。</p>
+<h2 id="_2">中小企業にとって何が変わるのか</h2>
+<p>インフラ運用の担当が1人、あるいは兼任という中小企業は珍しくありません。サーバーの追加、SSHでの設定変更、サービスのデプロイといった作業は、その一人に依存しがちです。Apertureが示すのは、こうした作業を「AIエージェントに指示して回す」形に寄せられる可能性です。しかも各ノードにAPIキーを配らず、操作は監査ログに残り、新規ノード追加だけは人間が止められます。</p>
+<p>ただし注意すべきは、これは「AIが判断して勝手にインフラを整える」話ではないという点です。指示の出し口はAperture独自のチャットUIで、そこに人間が「何をさせるか」を打ち込みます。自動化されるのは操作の実行部分であって、何をやらせるかの判断は人間側に残ります。</p>
+<p>「渡さない設計」という発想自体は、当サイトで繰り返し扱ってきました。API鍵を渡すと回収できない問題は<a href="../why-agents-should-never-see-api-keys/">AIエージェントに渡したAPIキーは回収できない ― 中小企業は「渡さない」を最初に選べるのか？</a>で、Aperture全体の権限まわりの読み解きは<a href="../tailscale-aperture-agent-permissions/">AIエージェントにAPIキーを丸ごと渡さず社内サーバーを操作させられるのか──Tailscale「Aperture」正式リリースで中小企業の何が変わるのか</a>で整理しています。今回の記事は、その中でも「AIがSSHでサーバーを操作しデプロイまでやる」という運用面に絞って見ています。</p>
+<h2 id="_3">当社の実測と突き合わせる</h2>
+<p>株式会社TOE（AIの鬼を運営）は、AI検索対策・AI導入支援を売りうる利害関係者です。その前提で、突き合わせられる自社の数字だけを出します。</p>
+<ul>
+<li>当社は社内業務の自動化を27本運用しています。ニュース収集・要約・記事化は人手を介さず毎日自動で回り、2026-09-16時点で収集済みニュース3000件・自社要約つき1596件・本文取得済み1331件・記事308件まで積み上がっています。日次の自動更新は53日分の記録があり、最後に動いたのは2026-09-16です。</li>
+<li>ただし、運用中のAI API課金は0円です。AI秘書のブリーフィングは毎朝8:00に出しています。</li>
+<li>重要な点として、<strong>当社はApertureを導入・運用しておらず、AIにSSHでサーバーを操作させる運用もしていません。</strong> 上の27本の自動化は、Aperture・Tailscale MCPを使わずに組んだものです。</li>
+</ul>
+<p>つまり当社が言えるのは「鍵を配らずに自動化を毎日回すこと自体は現に成立している」ところまでです。ApertureのMCPでサーバー操作を任せたら何が起きるか（速度、成功率、事故がどれだけ防げるか）は、当社では一切測っていません。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li>Apertureの価格・課金体系・無料枠の有無は、素材からは分かりません。</li>
+<li>Tailscale MCP / Tailscale SSH MCP経由の操作の速度・成功率・エラー時の挙動は、素材に数値がなく分かりません。</li>
+<li>「改ざん不可能な監査ログ」がどの技術で担保されているかの詳細は、素材からは分かりません。</li>
+<li>Aperture経由でデプロイできる「さまざまなサービス」の具体的な範囲や制限は、素材からは分かりません。</li>
+<li>同じ出来事を扱った他社の報道は0件だったため、報道間の食い違いは確認できていません。</li>
+<li>当社はApertureもAIによるSSHサーバー操作も使っていないため、効果・成果は測っていません。本記事は仕組みの読み解きです。</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Tailscaleが、AIゲートウェイ「Aperture」を正式リリースしました（告知投稿は2026年8月26日）。</li>
+<li>新たに「Tailscale MCP」「Tailscale SSH MCP」が加わり、AIエージェントがネットワーク自体を操作してノードを追加し、SSHで接続して操作・デプロイまで行えるようになりました。</li>
+<li>指示はAperture独自のチャットUIから出し、背後のAIエージェントがMCPを使って実行します。接続するAIはネットワーク構成を最初から知らないため、このUIが前提になります。</li>
+<li>歯止めとして、既存のアクセス制御は維持され、新規ノード追加には人間の承認が要り、全操作が監査ログに残ります。</li>
+<li>当社は鍵を配らない自動化を27本・API課金0円で運用していますが、ApertureもAIによるSSHサーバー操作も使っておらず、その効果は測っていません。</li>
+</ul>
+<p><em>この記事は<a href="https://www.publickey1.jp/blog/26/tailscalevpnaiapertureaitailscale.html">Publickey</a>の報道を素材に、株式会社TOE（AIの鬼）の社内自動化27本・AI API課金0円・日次自動更新53日分という自社実測とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/tailscale-aperture-agent-permissions/">
+<div class="card-media"><img src="../../static/img/article-tailscale-aperture-agent-permissions.jpg" alt="AIエージェントにAPIキーを丸ごと渡さず社内サーバーを操作させられるのか──Tailscale「Aperture」正式リリースで中小企業の何が変わるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントにAPIキーを丸ごと渡さず社内サーバーを操作させられるのか──Tailscale「Aperture」正式リリースで中小企業の何が変わるのか</h3>
+<p class="card-summary">TailscaleがAIゲートウェイ「Aperture」を正式リリースしました。AIエージェントにAPIキーの全権や無制限アクセスを渡さず、タスク単位の細かい権限と改ざん不可の監査ログを持たせる仕組みです。新しいMCPで社内ネットワークやノードの操作もできます。中小企業にとって何が変わるか、当社の実測とあわせて読み解きます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-guideline-1-2-obligation-myth/">
+<div class="card-media"><img src="../../static/img/article-ai-guideline-1-2-obligation-myth.jpg" alt="AIエージェントの人間承認は「義務化」されたのか？— ガイドライン第1.2版が中小企業にとって何を変えるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの人間承認は「義務化」されたのか？— ガイドライン第1.2版が中小企業にとって何を変えるのか</h3>
+<p class="card-summary">2026年3月31日公表のAI事業者ガイドライン第1.2版でAIエージェントとフィジカルAIが定義されました。「人間の承認が義務化」との紹介がありますが、原文はソフトローで義務ではなく、中核の必須要件です。しかも原文は「根拠を考えてから承認せよ」まで踏み込んでいます。中小企業が今日から準備できる3点を、原文と当社の運用実態から整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/freshctx-evidence-freshness-runtime/">
+<div class="card-media"><img src="../../static/img/article-freshctx-evidence-freshness-runtime.jpg" alt="AIエージェントの推論は実行するころには古いのか — FreshCtxが実行直前に証拠を再検証する仕組みで中小企業の自動判断は何が変わるのか" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントの推論は実行するころには古いのか — FreshCtxが実行直前に証拠を再検証する仕組みで中小企業の自動判断は何が変わるのか</h3>
+<p class="card-summary">モデルはハルシネーションを起こしていない、推論も間違っていない、ツールも正常に動いた。それでもアクションが間違う。原因は推論してから実行するまでに現実が変わる「証拠鮮度」の問題です。オープンソース化されたFreshCtxが何を再検証するのか、中小企業の自動判断で何が変わるのかを、当社の自動運用の実測とあわせて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=tailscale-mcp-ai-operates-servers-via-ssh">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-19 10:36 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=2e09907c" defer></script>
+</body>
+</html>
