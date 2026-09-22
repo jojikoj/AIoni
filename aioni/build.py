@@ -1656,10 +1656,17 @@ class Builder:
         # 90日クリック0・表示ほぼ0のニュースソース（2026-09-04 実測）。
         # sitemap から外し、クロール予算を稼ぐソースと記事に回す。ページは残す。
         dead_src = re.compile(r"news/(arstechnica|huggingface|deepmind|googleai)[-_]")
+        # 転送先を設定した旧URL。この後で meta refresh + noindex の1枚に
+        # 上書きされるので、sitemap に残すと「載せてくれ」と「載せるな」を
+        # 同時に出すことになる。旧スラッグの原稿が content/ に残っていると
+        # _write を通って sitemap に入ってしまうため、ここで明示的に外す
+        # （2026-09-22 実測。ai-guideline-1-2-obligation-myth の1件）。
+        redirected = {p.strip("/") + "/" for p in config.REDIRECTS}
         sitemap_paths = {
             l: [p for p in paths
                 if p not in self.noncanonical.get(l, set())
                 and p not in self.noindex_paths.get(l, set())
+                and p.strip("/") + "/" not in redirected
                 and not dead_src.match(p)]
             for l, paths in self.paths_by_lang.items()
         }
