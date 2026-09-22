@@ -250,6 +250,102 @@ ARTICLE_CATEGORIES = [
 
 CATEGORY_BY_TAG = {c["tag"]: c for c in ARTICLE_CATEGORIES}
 
+# --- コーナー入口のハブ化（2026-09-22） -----------------------------------
+# 実測（2026-07-20〜29、2026-08-13）で最も効率がよかったのはコーナーの入口
+# （/naka/ 2.3位・CTR27%、/shippai/ 8.4位・CTR16.7%）で、記事個別ではない。
+# 一方で入口ページは記事カードが並ぶだけで、「何が読めるか」「どこから読むか」を
+# 書いていなかった。入口に「読み方」と「まず読む10本」を固定で置く。
+#
+# featured は GA4（直近70日のPV。2026-09-22 実測）で実際に読まれた順。
+# 足りない分は build.py が公開日の新しい順で補う。
+# 実測が無いコーナー（数字が薄いもの）は、読まれた順と主張しない。
+CATEGORY_HUB = {
+    "naka": {
+        "howto": (
+            "中の鬼は、AIと毎日仕事をしている中の人の雑記です。数えてみたら妙だった話、"
+            "深夜に機械へ敬語で頼んだ記録、AIに謝られた回数——実測まじりのユーモアで書いています。"
+            "読む順番はありません。「まず読む10本」は、直近70日で実際によく読まれた順です。"
+        ),
+        "featured_label": "よく読まれている10本",
+        "featured": [
+            "naka-forgiveness", "naka-kuchiguse-ranking", "naka-apology-pro",
+            "naka-ai-enlightened", "naka-kuyou-not-dead", "naka-tanomu-kara",
+            "naka-token-one-day", "naka-ai-excuses", "naka-hakata-ben",
+            "naka-midnight-keigo", "naka-nothing-3am", "naka-why-were-you-made",
+        ],
+    },
+    "jissen": {
+        "howto": (
+            "AI実践室は、株式会社TOEが自社の業務でAIを動かした一次記録です。処理件数・所要時間・"
+            "失敗件数は実ログから取り、推測で数字を作りません。まず全体像がつかめる記事から入り、"
+            "次に自社に近い業務（見積・メール返信・議事録・監視）の記事へ進むのが早道です。"
+            "うまくいかなかった件は「失敗の鬼」に分けて置いています。"
+        ),
+        "featured_label": "まず読む10本",
+        "featured": ["awa-vivant-hayato", "zero-cost-media", "jissen-mitsumori-agent",
+                     "jissen-ai-reply-draft", "toe-keiei-db-auto", "toe-searchconsole-unattended",
+                     "toe-media-watchdog", "toe-site-audit-1day"],
+    },
+    "shippai": {
+        "howto": (
+            "失敗の鬼は、AI導入と自動化で当社に実際に起きた失敗の記録です。原因・気づくまでの日数・"
+            "直し方まで書き、教訓は「あなたの会社がAIを入れるときに何を決めておくか」に落とします。"
+            "導入前に読むなら、まず下の10本を通しで見てください。同じ失敗の大半は、"
+            "誰が最後に確認するかと、止まったときに誰が気づくかを決めていないことから起きています。"
+        ),
+        "featured_label": "まず読む10本",
+        "featured": ["ai-failure-cases-own", "batch-414-failure", "ai-automation-silent-failure",
+                     "toe-automation-stops-silently", "ai-tool-not-adopted", "toe-tool-not-used",
+                     "ai-hallucination-check", "toe-ai-output-check", "toe-not-everything-automatable",
+                     "fail-vendor-lockin"],
+    },
+    "aeo": {
+        "howto": (
+            "AEO対策室は、ChatGPT・Perplexity・Google AI Overviews に自社を見つけさせ、正しく説明させる"
+            "ための実務を扱います。他社の説明ではなく、当社サイトで実際に測った数字（表示回数・順位・"
+            "AI検索の引用）を根拠にします。効果が測れていないことは「測れていない」と書きます。"
+            "まず実測のレポートを読み、そのあと手順の記事へ進んでください。"
+        ),
+        "featured_label": "まず読む10本",
+        "featured": ["ai-search-measurement", "toe-ctr-zero-clicks", "toe-fix-worked-70percent",
+                     "aeo-first-90-days", "aeo-self-check-30min", "aeo-kpi-measurement",
+                     "aeo-company-profile-page", "aeo-llms-txt-writing", "aeo-wrong-answer-fix",
+                     "aeo-zero-click-funnel"],
+    },
+    "shigoto": {
+        "howto": (
+            "AI仕事術は、中小企業がAIを実務に入れるための実践ガイドです。最初の一歩・費用の構造・"
+            "ツールの選び方を、当社が実際に払った金額と使った時間で説明します。「AIとは何か」の一般論は"
+            "書きません。まず費用と最初の一歩の記事を読み、次に自社の業務に近い記事へ進んでください。"
+        ),
+        "featured_label": "まず読む10本",
+        "featured": ["ai-cost-structure", "ai-life-consultation-3models", "ai-single-char-prompt",
+                     "manufacturing-ai-where-to-start", "ai-model-selection", "ai-internal-rules",
+                     "ai-effect-measurement", "ai-vendor-selection-criteria", "ai-agent-soumu-measured",
+                     "ai-accident-examples-measured"],
+    },
+    "kaisetsu": {
+        "howto": (
+            "AI解体新書は、AIの研究・調査・企業事例を中小企業の実務の言葉に読み解くコーナーです。"
+            "一次資料（論文・調査の原文）に当たり、数字は原文の値を確認して載せます。"
+            "調査系の記事から入ると、他の記事の前提が揃います。解説だけで終わらせず、"
+            "当社で実際に試した結果は AI実践室に分けています。"
+        ),
+        "featured_label": "まず読む10本",
+        "featured": ["jp-jilpt-256-ai-workplace-worker-survey", "ai-meeting-minutes",
+                     "ai-agent-tool-connections-permissions", "rogue-ai-agent-sme-escalation-guardrails",
+                     "ai-labs-incident-reporting-sme-oversight"],
+    },
+    "weekly": {
+        "howto": (
+            "今週のAIは、毎日集めるニュースから中小企業が知っておくべきものだけを選んだ週次のまとめです。"
+            "網羅はしません。「自社の業務に関係があるか」で選び、関係する当社の実測記事があればそこへつなぎます。"
+        ),
+        "featured_label": "最近の号",
+        "featured": [],
+    },
+}
+
 # --- 旧URLの転送先 ------------------------------------------------------
 # コーナーを畳んだり名前を変えたときに、旧URLを404にしないための対応表。
 # build.py が dist/<旧パス>/index.html に meta refresh の1枚を書き出す。

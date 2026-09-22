@@ -31,8 +31,38 @@
   </div>
 </section>
 
+{#
+  コーナーの入口に「読み方」と「まず読む10本」を固定で置く（2026-09-22）。
+  入口ページは実測で最も効率がよい（/naka/ CTR27%）のに、記事カードが
+  並ぶだけで「何が読めるか」「どこから読むか」を書いていなかった。
+#}
+{% if hub %}
+<section class="section section-tight hub">
+  <div class="wrap">
+    <div class="hub-howto prose">
+      <h2>このコーナーの読み方</h2>
+      <p>{{ hub.howto }}</p>
+    </div>
+    {% if hub.featured %}
+    <div class="hub-featured">
+      <h2>{{ hub.featured_label }}</h2>
+      <ol class="hub-list">
+        {% for a in hub.featured %}
+        <li>
+          <a href="{{ rel }}articles/{{ a.slug }}/">{{ a.title }}</a>
+          {% if a.excerpt %}<span class="hub-excerpt">{{ a.excerpt|truncate(72, True, '…') }}</span>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
 <section class="section">
   <div class="wrap">
+    {% if hub %}<h2 class="hub-all">すべての記事（新しい順）</h2>{% endif %}
     {% if articles %}
     <div class="grid grid-articles">
       {% for a in articles %}{{ article_card(a, lang, t, rel) }}{% endfor %}

@@ -1221,6 +1221,20 @@ class Builder:
                             page_description=cat["desc"], noindex=empty)
             ctx["articles"] = items
             ctx["category"] = cat
+            # 入口のハブ化: 「読み方」と「まず読む10本」を固定表示（config.CATEGORY_HUB）。
+            # featured に無い分は公開日の新しい順で補い、常に10本まで出す。
+            hub = config.CATEGORY_HUB.get(cat["id"])
+            if hub and items:
+                by_slug = {a["slug"]: a for a in items}
+                picked = [by_slug[s] for s in hub.get("featured", []) if s in by_slug]
+                for a in items:
+                    if len(picked) >= 10:
+                        break
+                    if a not in picked:
+                        picked.append(a)
+                ctx["hub"] = {"howto": hub["howto"],
+                              "featured_label": hub.get("featured_label", "まず読む10本"),
+                              "featured": picked[:10]}
             if lang == "ja" and cat["id"] in _CATEGORY_SEARCH_TITLE:
                 ctx["page_title"] = _CATEGORY_SEARCH_TITLE[cat["id"]]
             ctx["pagination"] = None
