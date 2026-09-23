@@ -107,8 +107,12 @@ def _call(payload: dict) -> dict | None:
     prompt = PROMPT_HEAD + json.dumps(payload, ensure_ascii=False, indent=1)
     try:
         proc = subprocess.run(
-            [CLAUDE_BIN, "--model", MODEL, "-p", prompt],
-            capture_output=True, text=True, timeout=TIMEOUT,
+            # ⚠️ `--tools ""` を必ず付け、プロンプトは stdin で渡す。
+            #    引数渡し＋ツール有効だと CLI が「記事を書く」をタスクと解釈して
+            #    リポ直下に article_bodies_*.json 等を自分で書き散らす
+            #    （2026-09-23 に114件見つかった）。publish_daily.gen_with_claude と同じ型。
+            [CLAUDE_BIN, "-p", "--model", MODEL, "--tools", ""],
+            input=prompt, capture_output=True, text=True, timeout=TIMEOUT,
         )
     except (subprocess.TimeoutExpired, OSError) as e:
         print(f"    [claude] 呼び出し失敗: {type(e).__name__}", file=sys.stderr)

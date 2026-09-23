@@ -55,3 +55,13 @@ static/search-*.json
 
 # Neon からの書き戻し検証用（restore_neon.py の既定の出力先）
 _restore/
+
+# claude CLI の副作用ファイル。tools/gen_news_summaries.py が --tools "" 無しで
+# 呼んでいた時期に、CLI が勝手にリポ直下へ書き散らした JSON（2026-09-23 に114件）。
+# どのスクリプトも読まない。呼び出しは直したが、再発しても追跡に入らないようにする。
+/article_bodies*.json
+/output_*.json
+/generated_articles*.json
+/*解説記事*.json
+/reports/push*.log
+/scripts/article_bodies_tmp.json

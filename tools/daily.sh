@@ -86,7 +86,18 @@ export AIONI_ARTICLE_MODEL="${AIONI_ARTICLE_MODEL:-opus}"
 #     人が記事を書かない運用にした以上、素材が増える経路はここだけになる。
 media_step "自社実測の収集" python3 tools/collect_facts.py
 
-media_step "旬ネタ記事" python3 tools/publish_daily.py
+# 3b. 旬ネタ記事（火・金の朝の回だけ）
+#
+#     ⚠️ 2026-09-23 方向転換。9/13 にサイト単位の評価低下（Scaled content abuse）と
+#     見て量産ページを外したのに、旬ネタ記事だけは毎日2本（直近2週で25本）出続けて
+#     いて矛盾していた。AI要約記事の量産をやめ、実測コンテンツ（中の鬼・実践室）・
+#     コーナー入口・検索されている語に応える商用クエリ記事（3c）に絞る。
+#     旬ネタは火・金の朝の回（12時前）だけ。収集・解説生成・deploy は毎回そのまま。
+if { [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; } && [ "$((10#$(date +%H)))" -lt 12 ]; then
+  media_step "旬ネタ記事" python3 tools/publish_daily.py
+else
+  echo "旬ネタ記事: 方向転換により火・金のみ（skip）"
+fi
 
 # 3c. 仕事につながる検索語で1本（火・金だけ）
 #
