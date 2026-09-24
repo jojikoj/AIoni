@@ -1122,7 +1122,7 @@ class Builder:
                    hero_copy=config.HERO_COPY, hero_sub=config.HERO_SUB,
                    hero_sub_sp=config.HERO_SUB_SP,
                    practice=practice, observation=observation, explainer=explainer,
-                   naka=naka,
+                   naka=naka, sister=config.SISTER_MEDIA,
                    proof_stats=config.PROOF_STATS,
                    news_count=len(news))
         ctx["jsonld"] = seo.build_jsonld(
@@ -1234,7 +1234,10 @@ class Builder:
                         picked.append(a)
                 ctx["hub"] = {"howto": hub["howto"],
                               "featured_label": hub.get("featured_label", "まず読む10本"),
-                              "featured": picked[:10]}
+                              "featured": picked[:10],
+                              # 姉妹媒体（補助金の鬼）への文脈リンク。
+                              # 置いてあるコーナーだけに出る（config.CATEGORY_HUB）。
+                              "sister": hub.get("sister")}
             if lang == "ja" and cat["id"] in _CATEGORY_SEARCH_TITLE:
                 ctx["page_title"] = _CATEGORY_SEARCH_TITLE[cat["id"]]
             ctx["pagination"] = None

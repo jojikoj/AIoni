@@ -60,6 +60,26 @@
 </section>
 {% endif %}
 
+{#
+  姉妹媒体「補助金の鬼」への文脈リンク（2026-09-24）。
+  費用・制度の話が出るコーナーにだけ出す。フッターの相互リンクは増やさない。
+#}
+{% if hub and hub.sister %}
+<section class="section section-tight sister">
+  <div class="wrap">
+    <div class="sister-box">
+      <h2 class="sister-heading">{{ hub.sister.heading }}</h2>
+      <p class="sister-desc">{{ hub.sister.desc }}</p>
+      <ul class="sister-links">
+        {% for l in hub.sister.links %}
+        <li><a href="{{ l.url }}" rel="noopener" target="_blank">{{ l.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <section class="section">
   <div class="wrap">
     {% if hub %}<h2 class="hub-all">すべての記事（新しい順）</h2>{% endif %}

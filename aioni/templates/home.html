@@ -187,6 +187,33 @@
 
 {#
   ========================================================================
+  6b. 同じ鬼が作っている媒体（2026-09-24）
+  「鬼の正体」で何をやっている会社かを明かした直後に、実際に動かしている
+  他の媒体を見せる。リンク先はトップではなく下層（締切一覧・県別）にする。
+  フッターの相互リンクは増やさない。ここは本文領域の導線。
+  ========================================================================
+#}
+{% if sister %}
+<section class="block block-tint sister-home">
+  {{ sec_head('媒体', sister.heading, '', '') }}
+  <div class="sister-grid">
+    {% for m in sister.media %}
+    <div class="sister-box">
+      <h3 class="sister-heading">{{ m.name }}<span class="sister-host">{{ m.host }}</span></h3>
+      <p class="sister-desc">{{ m.desc }}</p>
+      <ul class="sister-links">
+        {% for l in m.links %}
+        <li><a href="{{ l.url }}" rel="noopener" target="_blank">{{ l.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{#
+  ========================================================================
   7. 資料 — 集約データはここまで下げる。主役にしない（指示書19章）。
   ========================================================================
 #}

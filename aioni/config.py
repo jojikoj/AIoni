@@ -313,6 +313,22 @@ CATEGORY_HUB = {
                      "aeo-zero-click-funnel"],
     },
     "shigoto": {
+        # 費用・ツール選びを扱うコーナー。「いくらかかるか」の次に必ず
+        # 「制度で軽くできないか」が来るので、ここに補助金の鬼への導線を置く。
+        "sister": {
+            "heading": "費用を制度で軽くできるかを調べる",
+            "desc": ("AI導入の費用を公的な制度で軽くできるかは、当社が運営する補助金メディア"
+                     "「補助金の鬼」で調べられます。締切順に並べているので、"
+                     "いま間に合う制度から確認できます。"),
+            "links": [
+                {"url": "https://hojokin.website/deadline",
+                 "label": "締切が近い補助金の一覧"},
+                {"url": "https://hojokin.website/deadline/tokyo",
+                 "label": "東京都の補助金 締切一覧"},
+                {"url": "https://hojokin.website/deadline/fukuoka",
+                 "label": "福岡県の補助金 締切一覧"},
+            ],
+        },
         "howto": (
             "AI仕事術は、中小企業がAIを実務に入れるための実践ガイドです。最初の一歩・費用の構造・"
             "ツールの選び方を、当社が実際に払った金額と使った時間で説明します。「AIとは何か」の一般論は"
@@ -325,6 +341,21 @@ CATEGORY_HUB = {
                      "ai-accident-examples-measured"],
     },
     "kaisetsu": {
+        # 研修・人材育成・設備投資の解説が集まるコーナー。記事側で
+        # 人材開発支援助成金に何度も触れるので、制度そのものはここへ逃がす。
+        "sister": {
+            "heading": "制度そのものを調べる",
+            "desc": ("記事で触れた助成金・補助金の対象や補助率は、"
+                     "当社が運営する補助金メディア「補助金の鬼」にまとめています。"),
+            "links": [
+                {"url": "https://hojokin.website/subsidies/jinzai-kaihatsu",
+                 "label": "人材開発支援助成金"},
+                {"url": "https://hojokin.website/subsidies/it-dounyu",
+                 "label": "IT導入補助金（デジタル化・AI導入補助金）"},
+                {"url": "https://hojokin.website/deadline",
+                 "label": "締切が近い補助金の一覧"},
+            ],
+        },
         "howto": (
             "AI解体新書は、AIの研究・調査・企業事例を中小企業の実務の言葉に読み解くコーナーです。"
             "一次資料（論文・調査の原文）に当たり、数字は原文の値を確認して載せます。"
@@ -345,6 +376,41 @@ CATEGORY_HUB = {
         "featured": [],
     },
 }
+
+# --- トップに出す姉妹媒体（2026-09-24） ----------------------------------
+# フッターの相互リンクは増やさない（8月の崩落と重なった形なので触らない）。
+# ここはトップの本文領域に置く、読者にとって意味のある導線。
+# リンク先はトップではなく下層（締切一覧・県別）にする。
+# 実測の根拠: 補助金の鬼はAIの鬼からの1本だけが発見経路で、下層へ
+# クロールが流れていない（2026-09-24 URL検査API）。
+SISTER_MEDIA = {
+    "heading": "同じ鬼が作っている媒体",
+    "media": [
+        {
+            "name": "補助金の鬼",
+            "host": "hojokin.website",
+            "desc": ("全国の補助金・助成金を、国のjGrantsから毎日取り込んで"
+                     "締切順に並べているデータベースです。日次の更新にAIは使っていません。"),
+            "links": [
+                {"url": "https://hojokin.website/deadline",
+                 "label": "締切が近い補助金の一覧"},
+                {"url": "https://hojokin.website/deadline/tokyo",
+                 "label": "東京都の補助金 締切一覧"},
+                {"url": "https://hojokin.website/deadline/osaka",
+                 "label": "大阪府の補助金 締切一覧"},
+            ],
+        },
+        {
+            "name": "UchUchU",
+            "host": "uchuchu.tech",
+            "desc": "宇宙産業のニュースと企業情報を集めている媒体です。",
+            "links": [
+                {"url": "https://uchuchu.tech/", "label": "UchUchU を見る"},
+            ],
+        },
+    ],
+}
+
 
 # --- 旧URLの転送先 ------------------------------------------------------
 # コーナーを畳んだり名前を変えたときに、旧URLを404にしないための対応表。
