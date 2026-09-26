@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>半導体・インフラ · AIの鬼</title>
+  <meta name="description" content="GPU・データセンター・計算資源・電力など、AIを動かす土台の話題を集めています。調達のしやすさと価格は、AIを自社で持つか外部サービスを使うかの判断に直接効きます。">
+  <link rel="canonical" href="https://ai-oni.com/topics/infra/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/topics/infra/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="半導体・インフラ · AIの鬼">
+  <meta property="og:description" content="GPU・データセンター・計算資源・電力など、AIを動かす土台の話題を集めています。調達のしやすさと価格は、AIを自社で持つか外部サービスを使うかの判断に直接効きます。">
+  <meta property="og:url" content="https://ai-oni.com/topics/infra/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="半導体・インフラ · AIの鬼">
+  <meta name="twitter:description" content="GPU・データセンター・計算資源・電力など、AIを動かす土台の話題を集めています。調達のしやすさと価格は、AIを自社で持つか外部サービスを使うかの判断に直接効きます。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"半導体・インフラ","item":"https://ai-oni.com/topics/infra/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"最高峰のスペックに変態ギミック全部盛り！ シャオミ「Xiaomi 18 Pro Max」は今年一番ワクワクするスマホだ","url":"https://ascii.jp/elem/000/004/437/4437431/?rss"},{"@type":"ListItem","position":2,"name":"Crusoe abandons $1.25B plan to use Boom turbines at AI data centers","url":"https://techcrunch.com/2026/09/25/crusoe-abandons-1-25b-plan-to-use-boom-turbines-at-ai-data-centers/"},{"@type":"ListItem","position":3,"name":"Ahead of US IPO, British AI neocloud Nscale secures $3.36B in convertible financing","url":"https://techcrunch.com/2026/09/25/ahead-of-u-s-ipo-british-ai-neocloud-nscale-secures-3-36b-in-convertible-finacing/"},{"@type":"ListItem","position":4,"name":"Sony and UMG are suing Suno again","url":"https://www.theverge.com/ai-artificial-intelligence/1000758/suno-sony-umg-lawsuit-ai-music"},{"@type":"ListItem","position":5,"name":"TechCrunch Disrupt 2026: Ricursive Intelligence’s Anna Goldie and Azalia Mirhoseini on when AI starts designing its own hardware","url":"https://techcrunch.com/2026/09/25/techcrunch-disrupt-2026-ricursive-intelligences-anna-goldie-and-azalia-mirhoseini-on-when-ai-starts-designing-its-own-hardware/"},{"@type":"ListItem","position":6,"name":"デスクを広々使える！ 12.7cm四方の超小型「Mac mini M6」、AIワークフローも軽快","url":"https://ascii.jp/elem/000/004/437/4437264/?rss"},{"@type":"ListItem","position":7,"name":"日本発スタートアップのエッジAIチップがNVIDIA超え、AI処理性能は3.36PFLOPS","url":"https://monoist.itmedia.co.jp/mn/articles/2609/25/news063.html"},{"@type":"ListItem","position":8,"name":"New Jersey fines data center $1.1M after drone pics expose 62 gas generators","url":"https://arstechnica.com/tech-policy/2026/09/new-jersey-fines-data-center-1-1m-after-satellite-pics-expose-62-gas-generators/"},{"@type":"ListItem","position":9,"name":"Oracle sends force majeure notice on its New Mexico Stargate data center","url":"https://techcrunch.com/2026/09/24/oracle-sends-force-majeure-notice-on-its-new-mexico-stargate-data-center/"},{"@type":"ListItem","position":10,"name":"Jensen Huang talks about AI and climate change like a supervillain","url":"https://www.theverge.com/tech/1000140/jensen-huang-nvidia-ai-energy-climate-change-supervillain"},{"@type":"ListItem","position":11,"name":"Google's first Suncatcher orbital data center test launches October 1","url":"https://arstechnica.com/google/2026/09/googles-first-suncatcher-orbital-data-center-test-launches-october-1/"},{"@type":"ListItem","position":12,"name":"Google is sending an AI satellite into space next week","url":"https://www.theverge.com/tech/1000015/google-ai-satellite-space-project-suncatcher"},{"@type":"ListItem","position":13,"name":"AMD、エージェント型AI時代における「EPYC」の優位性を解説したホワイトペーパーとブログ記事を公開","url":"https://ascii.jp/elem/000/004/437/4437070/?rss"},{"@type":"ListItem","position":14,"name":"Google AIサブスクに「Colab」有料特典をバンドル 「高性能GPU」にアクセス可能に","url":"https://www.itmedia.co.jp/aiplus/article/2609/24/2000001685/"},{"@type":"ListItem","position":15,"name":"How to Use NVIDIA Warp and MjWarp to Accelerate Robotics Simulation and Learning Workflows","url":"https://huggingface.co/blog/nvidia/how-to-use-nvidia-warp-and-mjwarp"},{"@type":"ListItem","position":16,"name":"Data centers are black boxes, but California wants to change that","url":"https://www.theverge.com/policy/999412/data-center-water-electricity-disclosure-bills"},{"@type":"ListItem","position":17,"name":"Advancing Private AI Compute with secure, server-side memory","url":"https://deepmind.google/blog/advancing-private-ai-compute-with-secure-server-side-memory/"},{"@type":"ListItem","position":18,"name":"今押さえたい「半導体」の基礎知識 極小チップが“AI時代の戦略物資”になった、納得の理由","url":"https://www.itmedia.co.jp/business/articles/2609/23/news004.html"},{"@type":"ListItem","position":19,"name":"Qualcomm launches two new smartphone chips with emphasis on AI","url":"https://techcrunch.com/2026/09/22/qualcomm-launches-two-new-smartphone-chips-with-emphasis-on-ai/"},{"@type":"ListItem","position":20,"name":"Andreessen Horowitz is launching an ‘academy’ with no homework and partnerships with Palantir, Google, and Meta","url":"https://www.theverge.com/ai-artificial-intelligence/998813/andreessen-horowitz-ai-academy"},{"@type":"ListItem","position":21,"name":"Five AI safety sessions every founder should have on their TechCrunch Disrupt 2026 agenda","url":"https://techcrunch.com/2026/09/22/five-ai-safety-sessions-every-founder-should-have-on-their-techcrunch-disrupt-2026-agenda/"},{"@type":"ListItem","position":22,"name":"Everyone can find a reason to dislike data center construction","url":"https://techcrunch.com/2026/09/22/everyone-can-find-a-reason-to-dislike-data-center-construction/"},{"@type":"ListItem","position":23,"name":"Nscale’s IPO will test Wall Street’s appetite for concentrated AI bets once again","url":"https://techcrunch.com/2026/09/22/nscales-ipo-will-test-wall-streets-appetite-for-concentrated-ai-bets-once-again/"},{"@type":"ListItem","position":24,"name":"California tightens rules on AI data center energy and water use","url":"https://www.theverge.com/ai-artificial-intelligence/998453/california-ai-data-center-bills"},{"@type":"ListItem","position":25,"name":"Uravation、クラウドAIが使えない企業向け「ローカルLLM導入支援」サービスを提供開始","url":"https://ascii.jp/elem/000/004/436/4436581/?rss"},{"@type":"ListItem","position":26,"name":"AMD「Ryzen AI Embedded X100」のリアルタイムAI制御が、Jetsonの弱点であるCPU性能を突く","url":"https://ascii.jp/elem/000/004/435/4435155/?rss"},{"@type":"ListItem","position":27,"name":"エヌビディアCEO「誰かと夕食をすると、その翌日に相手の株価が2倍になる」 GPUを巡る巨額マネーの行方","url":"https://www.itmedia.co.jp/business/articles/2609/21/news024.html"},{"@type":"ListItem","position":28,"name":"No one is surprised that Nvidia’s Jensen Huang thinks AI fears are overblown","url":"https://www.theverge.com/ai-artificial-intelligence/997936/nvidia-jensen-huang-ai-fears-overblown"},{"@type":"ListItem","position":29,"name":"Humans, not rogue AI, are still the biggest cybersecurity risk to energy systems","url":"https://www.theverge.com/science/997834/ai-cyberattack-energy-critical-infrastructure"},{"@type":"ListItem","position":30,"name":"AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？","url":"https://kn.itmedia.co.jp/kn/article/2609/19/2000001624/"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=0e5f4c80" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=0e5f4c80">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/topics/infra/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>半導体・インフラ</h1>
+    <p class="page-sub">GPU・データセンター・計算資源・電力</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <a class="chip " href="../models/">#新モデル</a>
+      <a class="chip " href="../tools/">#業務ツール</a>
+      <a class="chip " href="../dev/">#開発・実装</a>
+      <a class="chip " href="../business/">#企業動向</a>
+      <a class="chip " href="../policy/">#規制・法制度</a>
+      <a class="chip " href="../research/">#研究動向</a>
+      <a class="chip on" href="../infra/">#半導体・インフラ</a>
+      <a class="chip " href="../japan/">#国内動向</a>
+    </div>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../news/ascii-21abe339a4/">
+    <img src="../../../static/img/news-models-09.svg"
+         alt="最高峰のスペックに変態ギミック全部盛り！ シャオミ「Xiaomi 18 Pro Max」は今年一番ワクワクするスマホだ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/ascii-21abe339a4/">最高峰のスペックに変態ギミック全部盛り！ シャオミ「Xiaomi 18 Pro Max」は今年一番ワクワクするスマホだ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-09-26T03:00:00+00:00">2026.09.26</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-303ad55583/">
+    <img src="../../../static/img/news-business-05.svg"
+         alt="Crusoe、AI データセンター向けBoomタービン計画を中止（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-303ad55583/">Crusoe、AI データセンター向けBoomタービン計画を中止</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-09-25T23:11:10+00:00">2026.09.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-e3ed29775d/">
+    <img src="../../../static/img/news-business-07.svg"
+         alt="英AI企業Nscale、米IPO控えて33.6億ドルの転換社債調達（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-e3ed29775d/">英AI企業Nscale、米IPO控えて33.6億ドルの転換社債調達</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-09-25T18:33:59+00:00">2026.09.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-706759721f/">
+    <img src="../../../static/img/news-policy-02.svg"
+         alt="SonyとUMG、Sunoを再び提訴（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-706759721f/">SonyとUMG、Sunoを再び提訴</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-09-25T15:51:56+00:00">2026.09.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-6c0af3a449/">
+    <img src="../../../static/img/news-infra-04.svg"
+         alt="Ricursive IntelligenceのGoldieとMirhoseini、AIハードウェア設計を語る（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-6c0af3a449/">Ricursive IntelligenceのGoldieとMirhoseini、AIハードウェア設計を語る</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-25T15:00:00+00:00">2026.09.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/ascii-6c7e698de0/">
+    <img src="../../../static/img/news-infra-13.svg"
+         alt="デスクを広々使える！ 12.7cm四方の超小型「Mac mini M6」、AIワークフローも軽快（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/ascii-6c7e698de0/">デスクを広々使える！ 12.7cm四方の超小型「Mac mini M6」、AIワークフローも軽快</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-25T08:00:00+00:00">2026.09.25</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/itmedia_ai-5d5ee9271b/">
+    <img src="../../../static/img/news-models-07.svg"
+         alt="日本発スタートアップのエッジAIチップがNVIDIA超え、AI処理性能は3.36PFLOPS（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/itmedia_ai-5d5ee9271b/">日本発スタートアップのエッジAIチップがNVIDIA超え、AI処理性能は3.36PFLOPS</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-09-24T21:45:00+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/arstechnica_ai-e64c35c9e5/">
+    <img src="https://cdn.arstechnica.net/wp-content/uploads/2026/09/DataOne-drone-image-via-Sustain-SJ-500x500-1790271993.jpg" alt="ニュージャージー州、ドローン画像で露出した62台のガス発電機でデータセンターに110万ドルの罰金（画像: Ars Technica AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/arstechnica_ai-e64c35c9e5/">ニュージャージー州、ドローン画像で露出した62台のガス発電機でデータセンターに110万ドルの罰金</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-09-24T18:20:58+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Ars Technica AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-57d9461ca6/">
+    <img src="../../../static/img/news-infra-12.svg"
+         alt="OracleがニューメキシコのStargateデータセンターに不可抗力通知（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-57d9461ca6/">OracleがニューメキシコのStargateデータセンターに不可抗力通知</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-24T18:11:44+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-3ab9cbba8c/">
+    <img src="../../../static/img/news-infra-10.svg"
+         alt="Jensen Huang、AIと気候変動について悪役のように語る（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-3ab9cbba8c/">Jensen Huang、AIと気候変動について悪役のように語る</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-24T18:04:44+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/arstechnica_ai-cd729cf3bb/">
+    <img src="https://cdn.arstechnica.net/wp-content/uploads/2026/09/suncatcher-500x500-1790264280.png" alt="Google、軌道上データセンター「Suncatcher」の初試験を10月1日開始（画像: Ars Technica AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/arstechnica_ai-cd729cf3bb/">Google、軌道上データセンター「Suncatcher」の初試験を10月1日開始</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-24T16:16:34+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">Ars Technica AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-bd3f02787f/">
+    <img src="../../../static/img/news-infra-08.svg"
+         alt="GoogleがAI衛星を来週打ち上げ、宇宙での性能検証へ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-bd3f02787f/">GoogleがAI衛星を来週打ち上げ、宇宙での性能検証へ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-24T14:15:17+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/ascii-b956767869/">
+    <img src="../../../static/img/news-infra-08.svg"
+         alt="AMD、エージェント型AI時代における「EPYC」の優位性を解説したホワイトペーパーとブログ記事を公開（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/ascii-b956767869/">AMD、エージェント型AI時代における「EPYC」の優位性を解説したホワイトペーパーとブログ記事を公開</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-24T11:40:00+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/itmedia_ai-89fec2cb7b/">
+    <img src="../../../static/img/news-models-11.svg"
+         alt="Google AIサブスクに「Colab」有料特典をバンドル 「高性能GPU」にアクセス可能に（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/itmedia_ai-89fec2cb7b/">Google AIサブスクに「Colab」有料特典をバンドル 「高性能GPU」にアクセス可能に</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-09-24T00:47:12+00:00">2026.09.24</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/huggingface-a70f8ac64e/">
+    <img src="../../../static/img/news-tools-06.svg"
+         alt="NVIDIA WarpとMjWarpを用いたロボット工学シミュレーション・学習ワークフローの高速化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/huggingface-a70f8ac64e/">NVIDIA WarpとMjWarpを用いたロボット工学シミュレーション・学習ワークフローの高速化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-09-23T18:41:40+00:00">2026.09.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-211a6281fe/">
+    <img src="../../../static/img/news-infra-01.svg"
+         alt="データセンターは「ブラックボックス」だがカリフォルニア州が透明化を推進（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-211a6281fe/">データセンターは「ブラックボックス」だがカリフォルニア州が透明化を推進</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-23T18:22:57+00:00">2026.09.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/deepmind-4c4abcff4a/">
+    <img src="https://lh3.googleusercontent.com/CsJavGl89SJwjdXVDdaKtAEpLbqHa_nzOW89VTThwA8rgYr9Gf3CSiUWk18i5thA57k8zhwdwmvf3F2yagtJ-P1ag-9ppxsPXcUe99DRY9asIRP2yA=w528-h297-n-nu-rw-lo" alt="Private AI Computeがセキュアなサーバーサイドメモリをサポート（画像: Google DeepMind）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/deepmind-4c4abcff4a/">Private AI Computeがセキュアなサーバーサイドメモリをサポート</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-23T16:00:57+00:00">2026.09.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google DeepMind</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/itmedia_ai-f6901e695e/">
+    <img src="../../../static/img/news-infra-09.svg"
+         alt="今押さえたい「半導体」の基礎知識 極小チップが“AI時代の戦略物資”になった、納得の理由（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/itmedia_ai-f6901e695e/">今押さえたい「半導体」の基礎知識 極小チップが“AI時代の戦略物資”になった、納得の理由</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-22T23:00:00+00:00">2026.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-948ab460c8/">
+    <img src="../../../static/img/news-models-00.svg"
+         alt="Qualcomm、AI重視の新スマートフォンチップ2種を発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-948ab460c8/">Qualcomm、AI重視の新スマートフォンチップ2種を発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-09-22T20:00:00+00:00">2026.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-97f4d9447d/">
+    <img src="../../../static/img/news-business-04.svg"
+         alt="Andreessen Horowitzが新「アカデミー」立ち上げ、複数テック企業と提携（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-97f4d9447d/">Andreessen Horowitzが新「アカデミー」立ち上げ、複数テック企業と提携</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-09-22T16:34:08+00:00">2026.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-0c0fc63e5b/">
+    <img src="../../../static/img/news-policy-14.svg"
+         alt="TechCrunch Disrupt 2026でAI安全性に関する5つのセッン開催（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-0c0fc63e5b/">TechCrunch Disrupt 2026でAI安全性に関する5つのセッン開催</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#規制・法制度</span><time datetime="2026-09-22T15:00:00+00:00">2026.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-6ee2a82c9b/">
+    <img src="../../../static/img/news-infra-12.svg"
+         alt="データセンター建設、誰もが反対する理由（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-6ee2a82c9b/">データセンター建設、誰もが反対する理由</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-22T13:00:00+00:00">2026.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/techcrunch_ai-0f7edaaa76/">
+    <img src="../../../static/img/news-business-10.svg"
+         alt="Nscale IPO、集中型AI投資への市場の関心を問う（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/techcrunch_ai-0f7edaaa76/">Nscale IPO、集中型AI投資への市場の関心を問う</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-09-22T12:23:05+00:00">2026.09.22</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-c4d22e79dc/">
+    <img src="../../../static/img/news-infra-09.svg"
+         alt="カリフォルニア州、AIデータセンターのエネルギー・水利用規制を強化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-c4d22e79dc/">カリフォルニア州、AIデータセンターのエネルギー・水利用規制を強化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-21T20:29:45+00:00">2026.09.21</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/ascii-d0b4549bc0/">
+    <img src="../../../static/img/news-tools-11.svg"
+         alt="Uravation、クラウドAIが使えない企業向け「ローカルLLM導入支援」サービスを提供開始（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/ascii-d0b4549bc0/">Uravation、クラウドAIが使えない企業向け「ローカルLLM導入支援」サービスを提供開始</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-09-21T04:07:08+00:00">2026.09.21</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/ascii-6a30945dcb/">
+    <img src="../../../static/img/news-models-13.svg"
+         alt="AMD「Ryzen AI Embedded X100」のリアルタイムAI制御が、Jetsonの弱点であるCPU性能を突く（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/ascii-6a30945dcb/">AMD「Ryzen AI Embedded X100」のリアルタイムAI制御が、Jetsonの弱点であるCPU性能を突く</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-09-21T03:00:00+00:00">2026.09.21</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/itmedia_ai-0c575aaef6/">
+    <img src="../../../static/img/news-infra-14.svg"
+         alt="エヌビディアCEO「誰かと夕食をすると、その翌日に相手の株価が2倍になる」 GPUを巡る巨額マネーの行方（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/itmedia_ai-0c575aaef6/">エヌビディアCEO「誰かと夕食をすると、その翌日に相手の株価が2倍になる」 GPUを巡る巨額マネーの行方</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-20T23:00:00+00:00">2026.09.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-cb03d7f13b/">
+    <img src="../../../static/img/news-research-01.svg"
+         alt="Nvidia の Jensen Huang が AI 懸念は誇張と主張、驚きなし（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-cb03d7f13b/">Nvidia の Jensen Huang が AI 懸念は誇張と主張、驚きなし</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2026-09-20T18:50:18+00:00">2026.09.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/verge_ai-d11b689309/">
+    <img src="../../../static/img/news-infra-03.svg"
+         alt="エネルギーシステムへの最大脅威は暴走 AI ではなく人間（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/verge_ai-d11b689309/">エネルギーシステムへの最大脅威は暴走 AI ではなく人間</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#半導体・インフラ</span><time datetime="2026-09-20T12:00:00+00:00">2026.09.20</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../news/itmedia_ai-7f6136d1e5/">
+    <img src="../../../static/img/news-tools-01.svg"
+         alt="AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../news/itmedia_ai-7f6136d1e5/">AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-09-18T22:00:00+00:00">2026.09.18</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<span class="pager-btn disabled">← 前へ</span>  <span class="pager-nums">
+<span class="pager-num on" aria-current="page">1</span>
+<a class="pager-num" href="2/">2</a><a class="pager-num" href="3/">3</a><span class="pager-gap">…</span>
+<a class="pager-num" href="13/">13</a>  </span>
+<a class="pager-btn" href="2/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-09-26 22:15 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=0e5f4c80" defer></script>
+</body>
+</html>
