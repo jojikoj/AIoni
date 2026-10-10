@@ -1,6 +1,7 @@
 ---
 title: MicrosoftがNvidia搭載AI PCとWindows 11刷新版を発表──2,600ドルのPCを買わない中小企業に先に届くのは「エージェントの囲い込み」機能なのか？
 excerpt: Microsoftが10月7日に発表したNvidia「RTX Spark」搭載PCは2,600ドルからで、狙いは開発者です。中小企業に先に届くのは、Windows 11の全ユーザーに提供されるエージェント隔離機能「Execution Containers」です。買う前に、AIに触らせるファイルと通信先を決める作業が残ります。株式会社TOEはAI導入支援を売りうる立場です。
+meta_desc: 2,600ドルのNvidia搭載PCより先に、Windows 11の全ユーザーに届く「Execution Containers」で何を決めるべきかを解説。AIに触らせるファイルと通信先の決め方、4媒体の報道の食い違いも整理します。
 tag: AI解体新書
 author: AIの鬼 編集部
 date: 2026-10-09
