@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIニュース · AIの鬼</title>
+  <meta name="description" content="Qiita AI — 国内外の開発元発表とメディアを横断して集約。">
+  <link rel="canonical" href="https://ai-oni.com/news/source/qiita_ai/11/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/news/source/qiita_ai/11/">
+<meta name="robots" content="noindex, follow">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIニュース · AIの鬼">
+  <meta property="og:description" content="Qiita AI — 国内外の開発元発表とメディアを横断して集約。">
+  <meta property="og:url" content="https://ai-oni.com/news/source/qiita_ai/11/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="AIニュース · AIの鬼">
+  <meta name="twitter:description" content="Qiita AI — 国内外の開発元発表とメディアを横断して集約。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"ニュース","item":"https://ai-oni.com/news/"},{"@type":"ListItem","position":3,"name":"Qiita AI","item":"https://ai-oni.com/news/source/qiita_ai/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"「このツールにはフックが無い」と思い込んで指示書で補った話","url":"https://qiita.com/berrylove/items/a10d1f5fe1ef5e2cb32d"},{"@type":"ListItem","position":2,"name":"IBM Bob にリファクタリングを頼んだら、頼み方を学ぶことになった","url":"https://qiita.com/IG_Matsuo/items/2ecbe856bf596046c32f"},{"@type":"ListItem","position":3,"name":"人間承認を減らしたAIコーディングエージェントにおける外部検証フィードバックの役割","url":"https://qiita.com/taiga-shiokawa/items/fe405e3281da2d074c2d"},{"@type":"ListItem","position":4,"name":"【AI駆動開発 4】繰り返しはスキル化する — 手順を「人の頭の中」から出す","url":"https://qiita.com/kawamon-idealive/items/621a2fce6af6b44ac2d9"},{"@type":"ListItem","position":5,"name":"テストが本番相当のデータを3回壊した話 — 疑うべきは『他人』より『自分』だった","url":"https://qiita.com/berrylove/items/fb248172bcff7d7af223"},{"@type":"ListItem","position":6,"name":"Qwen 3.8 27BのThinkingが延々ループするので、Thinkingを切らずにvLLM側で止めた","url":"https://qiita.com/suupaagorira/items/e2e14f3a70c9e1aa6d9b"},{"@type":"ListItem","position":7,"name":"92%が使っても成果は7%——Anthropic「Claude Corps」225億円の中身","url":"https://qiita.com/kinamocchi_tech/items/0175ee85a6d90bbf4c35"},{"@type":"ListItem","position":8,"name":"DeepSeek Harness がオープンソースに：すべてはプラグイン","url":"https://qiita.com/mguozhen/items/bd8e9a87968a5f3e5c0e"},{"@type":"ListItem","position":9,"name":"「議事録地獄」をAIエージェントに任せてみた 〜Noumiで会議記録の作成・承認フローを見直す〜","url":"https://qiita.com/limeiduo0/items/dba42937525d9c77ecaa"},{"@type":"ListItem","position":10,"name":"# MLflow GUIで始めるプロンプト改善 #4-1：場面構成と文字数範囲を明示して再評価する(失敗)","url":"https://qiita.com/kazuharu2022/items/b15ec5c90f83b9cf588f"},{"@type":"ListItem","position":11,"name":"PowerQueryでニューラルネット","url":"https://qiita.com/torimaro/items/648b89ae83a542c5ff17"},{"@type":"ListItem","position":12,"name":"From SEO to GEO to Agent Readiness — SEOからGEO、そしてAgent Readinessへ","url":"https://qiita.com/buidl25/items/c46655b0307b384598d4"},{"@type":"ListItem","position":13,"name":"Foundry Tools - Voice Live 動向 (2026-08) - SDK と 2026-06-01-preview について","url":"https://qiita.com/miyaura/items/8a07b6e803073ff92149"},{"@type":"ListItem","position":14,"name":"なぜAI4社CEOは自分を縛る法律を求めたのか——合成DNAスクリーニング義務化書簡の中身","url":"https://qiita.com/kinamocchi_tech/items/12bc93a8437eac6aad04"},{"@type":"ListItem","position":15,"name":"【2026年版】Claudeモデル徹底比較 — ChatGPT・Geminiとの違いと使い分けガイド","url":"https://qiita.com/nakahashi-naoto/items/597e06b90a8f10e2947e"},{"@type":"ListItem","position":16,"name":"ブラウザでAI動画編集を実現する：React・WebGPU・Workerで多軌道タイムラインを安定化した設計","url":"https://qiita.com/MartinDelophy/items/4181a9bf597c13e55b96"},{"@type":"ListItem","position":17,"name":"Things That Have Spots: A TypeScript Validator for Category-Puzzle Explanations","url":"https://qiita.com/cnblion/items/0b0d5d2eff287a3fe2f7"},{"@type":"ListItem","position":18,"name":"30秒の音声で「自分の声」を作って Microsoft Foundry エージェントを喋らせる - Personal Voice の申請から実装まで","url":"https://qiita.com/miyaura/items/86bef638d0ac226bd135"},{"@type":"ListItem","position":19,"name":"なぜサブエージェント呼び出しでmodel/effortを明示するのか","url":"https://qiita.com/YujiNaramoto/items/a47d6242ba6392526004"},{"@type":"ListItem","position":20,"name":"Cloudflare AI Searchで低コストRAGを作る：文書登録からWorkers連携・引用表示まで","url":"https://qiita.com/rootontech/items/7f2ac1cac4a2f04e4fd2"},{"@type":"ListItem","position":21,"name":"プロデル、調査 その144","url":"https://qiita.com/ohisama@github/items/b1fd58bc2fee9682fe6a"},{"@type":"ListItem","position":22,"name":"Claude Codeのステータスラインを設定して、使用中のモデルやブランチ、利用料金をいつでもすぐに見れるようにした","url":"https://qiita.com/dachshund129/items/44a4dcab63e864dbefbd"},{"@type":"ListItem","position":23,"name":"個人開発でGeminiを採用した理由","url":"https://qiita.com/SolitaireEgg/items/7f0443a27e3ab5a08f75"},{"@type":"ListItem","position":24,"name":"OCI Data Catalog 第2回：Object Storage上のOracle Databaseマニュアルと文書インベントリParquetをカタログ化してみてみた","url":"https://qiita.com/shirok/items/bb431a6bd37fb1ef0cd6"},{"@type":"ListItem","position":25,"name":"話者分離の「精度◯%」は比較できない — DERの測定条件と、会議で35〜45%まで落ちる理由","url":"https://qiita.com/17jikaeru/items/136a57e32764bfbc8943"},{"@type":"ListItem","position":26,"name":"NASA月面ローバーも動かすRust製ビヘイビアツリー「bonsai」で追いかけっこAIを作る","url":"https://qiita.com/yonaka15/items/428fb3e7bf55b8adbee8"},{"@type":"ListItem","position":27,"name":"AI時代の全体像をつかむ4冊【技術＋戦略】","url":"https://qiita.com/koukyo/items/efaef9b1be47da766551"},{"@type":"ListItem","position":28,"name":"Sakana AIの「Fugu」は、マルチエージェントを\"1つのモデル\"として売る。Devin Fusionと同じ流れの話","url":"https://qiita.com/startdevin/items/1004df61bbb0717b3033"},{"@type":"ListItem","position":29,"name":"ローカルLLM RAGでOOM対策：VQ-Cacheによる量子化キャッシュ","url":"https://qiita.com/TOAI/items/be8a23139991cf35a73f"},{"@type":"ListItem","position":30,"name":"AGENTS.md設計ガイド — エージェントに効く規約ファイルの書き方","url":"https://qiita.com/snowcode_jp/items/2c2e45796a57795dfaa5"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../../../static/img/favicon.svg?v=0e5f4c80" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../../static/css/style.css?v=0e5f4c80">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/news/source/qiita_ai/11/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../../../jissen/" class="">AI実践室</a>
+      <a href="../../../../aeo/" class="">AEO対策室</a>
+      <a href="../../../../shippai/" class="">失敗の鬼</a>
+      <a href="../../../../shigoto/" class="">AI仕事術</a>
+      <a href="../../../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../../../weekly/" class="">今週のAI</a>
+      <a href="../../../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../../../news/" class="on">ニュース</a>
+      <a href="../../../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../../../check/" class="">AI検索チェック</a>
+      <a href="../../../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>Qiita AI</h1>
+    <p class="page-sub">国内外の開発元発表とメディアを横断して集約。</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <details class="filter-fold" open>
+      <summary>配信元で絞り込む</summary>
+      <div class="filter-bar">
+        <a class="chip " href="../../../">すべて</a>
+        <a class="chip " href="../../../source/itmedia_ai/">ITmedia AI+</a>
+        <a class="chip " href="../../../source/ainow/">AINOW</a>
+        <a class="chip " href="../../../source/zenn_ai/">Zenn AI</a>
+        <a class="chip on" href="../../../source/qiita_ai/">Qiita AI</a>
+        <a class="chip " href="../../../source/publickey/">Publickey</a>
+        <a class="chip " href="../../../source/ascii/">ASCII.jp</a>
+        <a class="chip " href="../../../source/openai/">OpenAI</a>
+        <a class="chip " href="../../../source/deepmind/">Google DeepMind</a>
+        <a class="chip " href="../../../source/googleai/">Google AI</a>
+        <a class="chip " href="../../../source/huggingface/">Hugging Face</a>
+        <a class="chip " href="../../../source/mit_tr/">MIT Technology Review</a>
+        <a class="chip " href="../../../source/techcrunch_ai/">TechCrunch AI</a>
+        <a class="chip " href="../../../source/verge_ai/">The Verge AI</a>
+        <a class="chip " href="../../../source/venturebeat_ai/">VentureBeat AI</a>
+        <a class="chip " href="../../../source/arstechnica_ai/">Ars Technica AI</a>
+      </div>
+    </details>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-a2a0b44f71/">
+    <img src="../../../../../static/img/news-models-15.svg"
+         alt="「このツールにはフックが無い」と思い込んで指示書で補った話（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-a2a0b44f71/">「このツールにはフックが無い」と思い込んで指示書で補った話</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-16T19:42:38+00:00">2026.08.16</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-b8570e4110/">
+    <img src="../../../../../static/img/news-dev-01.svg"
+         alt="IBM Bob にリファクタリングを頼んだら、頼み方を学ぶことになった（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-b8570e4110/">IBM Bob にリファクタリングを頼んだら、頼み方を学ぶことになった</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-14T09:08:43+00:00">2026.08.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-450515f6dd/">
+    <img src="../../../../../static/img/news-dev-06.svg"
+         alt="人間承認を減らしたAIコーディングエージェントにおける外部検証フィードバックの役割（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-450515f6dd/">人間承認を減らしたAIコーディングエージェントにおける外部検証フィードバックの役割</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-11T09:24:48+00:00">2026.08.11</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-23570fae90/">
+    <img src="../../../../../static/img/news-dev-14.svg"
+         alt="【AI駆動開発 4】繰り返しはスキル化する — 手順を「人の頭の中」から出す（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-23570fae90/">【AI駆動開発 4】繰り返しはスキル化する — 手順を「人の頭の中」から出す</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-07-29T06:06:14+00:00">2026.07.29</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-0faae82524/">
+    <img src="../../../../../static/img/news-models-05.svg"
+         alt="テストが本番相当のデータを3回壊した話 — 疑うべきは『他人』より『自分』だった（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-0faae82524/">テストが本番相当のデータを3回壊した話 — 疑うべきは『他人』より『自分』だった</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-11T19:09:31+00:00">2026.08.11</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-da3d657d3f/">
+    <img src="../../../../../static/img/news-models-13.svg"
+         alt="Qwen 3.8 27BのThinkingが延々ループするので、Thinkingを切らずにvLLM側で止めた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-da3d657d3f/">Qwen 3.8 27BのThinkingが延々ループするので、Thinkingを切らずにvLLM側で止めた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-19T20:40:05+00:00">2026.08.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-fc69fdd333/">
+    <img src="../../../../../static/img/news-models-03.svg"
+         alt="92%が使っても成果は7%——Anthropic「Claude Corps」225億円の中身（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-fc69fdd333/">92%が使っても成果は7%——Anthropic「Claude Corps」225億円の中身</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-08T17:18:10+00:00">2026.08.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-3ae1905d01/">
+    <img src="../../../../../static/img/news-models-13.svg"
+         alt="DeepSeek Harness がオープンソースに：すべてはプラグイン（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-3ae1905d01/">DeepSeek Harness がオープンソースに：すべてはプラグイン</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-14T09:02:32+00:00">2026.08.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-b64e73152c/">
+    <img src="../../../../../static/img/news-tools-05.svg"
+         alt="「議事録地獄」をAIエージェントに任せてみた 〜Noumiで会議記録の作成・承認フローを見直す〜（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-b64e73152c/">「議事録地獄」をAIエージェントに任せてみた 〜Noumiで会議記録の作成・承認フローを見直す〜</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-11T08:58:51+00:00">2026.08.11</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-f5fc28ab8d/">
+    <img src="../../../../../static/img/news-models-11.svg"
+         alt="# MLflow GUIで始めるプロンプト改善 #4-1：場面構成と文字数範囲を明示して再評価する(失敗)（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-f5fc28ab8d/"># MLflow GUIで始めるプロンプト改善 #4-1：場面構成と文字数範囲を明示して再評価する(失敗)</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-19T20:24:13+00:00">2026.08.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-ba2e099ec8/">
+    <img src="../../../../../static/img/news-default-14.svg"
+         alt="PowerQueryでニューラルネット（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-ba2e099ec8/">PowerQueryでニューラルネット</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-08-12T09:26:36+00:00">2026.08.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-d9b5d89249/">
+    <img src="../../../../../static/img/news-tools-02.svg"
+         alt="From SEO to GEO to Agent Readiness — SEOからGEO、そしてAgent Readinessへ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-d9b5d89249/">From SEO to GEO to Agent Readiness — SEOからGEO、そしてAgent Readinessへ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-19T20:11:04+00:00">2026.08.19</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-9c6f559f2e/">
+    <img src="../../../../../static/img/news-dev-15.svg"
+         alt="Foundry Tools - Voice Live 動向 (2026-08) - SDK と 2026-06-01-preview について（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-9c6f559f2e/">Foundry Tools - Voice Live 動向 (2026-08) - SDK と 2026-06-01-preview について</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-12T09:16:18+00:00">2026.08.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-173aaf25e7/">
+    <img src="../../../../../static/img/news-business-05.svg"
+         alt="なぜAI4社CEOは自分を縛る法律を求めたのか——合成DNAスクリーニング義務化書簡の中身（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-173aaf25e7/">なぜAI4社CEOは自分を縛る法律を求めたのか——合成DNAスクリーニング義務化書簡の中身</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-08-08T17:10:03+00:00">2026.08.08</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-def89aa50e/">
+    <img src="../../../../../static/img/news-models-05.svg"
+         alt="【2026年版】Claudeモデル徹底比較 — ChatGPT・Geminiとの違いと使い分けガイド（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-def89aa50e/">【2026年版】Claudeモデル徹底比較 — ChatGPT・Geminiとの違いと使い分けガイド</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-14T09:00:14+00:00">2026.08.14</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-6296380f67/">
+    <img src="../../../../../static/img/news-models-15.svg"
+         alt="ブラウザでAI動画編集を実現する：React・WebGPU・Workerで多軌道タイムラインを安定化した設計（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-6296380f67/">ブラウザでAI動画編集を実現する：React・WebGPU・Workerで多軌道タイムラインを安定化した設計</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-11T08:27:57+00:00">2026.08.11</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-ba801b5bdd/">
+    <img src="../../../../../static/img/news-default-11.svg"
+         alt="Things That Have Spots: A TypeScript Validator for Category-Puzzle Explanations（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-ba801b5bdd/">Things That Have Spots: A TypeScript Validator for Category-Puzzle Explanations</a></h3>
+    <div class="tile-meta">
+<time datetime="2026-08-13T08:52:34+00:00">2026.08.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-77d706a73c/">
+    <img src="../../../../../static/img/news-dev-07.svg"
+         alt="30秒の音声で「自分の声」を作って Microsoft Foundry エージェントを喋らせる - Personal Voice の申請から実装まで（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-77d706a73c/">30秒の音声で「自分の声」を作って Microsoft Foundry エージェントを喋らせる - Personal Voice の申請から実装まで</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-12T09:16:18+00:00">2026.08.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-6ffebebe72/">
+    <img src="../../../../../static/img/news-dev-14.svg"
+         alt="なぜサブエージェント呼び出しでmodel/effortを明示するのか（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-6ffebebe72/">なぜサブエージェント呼び出しでmodel/effortを明示するのか</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-04T21:35:53+00:00">2026.08.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-b48d22fee1/">
+    <img src="../../../../../static/img/news-dev-14.svg"
+         alt="Cloudflare AI Searchで低コストRAGを作る：文書登録からWorkers連携・引用表示まで（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-b48d22fee1/">Cloudflare AI Searchで低コストRAGを作る：文書登録からWorkers連携・引用表示まで</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-17T21:44:29+00:00">2026.08.17</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-dcdc1daa43/">
+    <img src="../../../../../static/img/news-tools-10.svg"
+         alt="プロデル、調査 その144（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-dcdc1daa43/">プロデル、調査 その144</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-17T21:39:11+00:00">2026.08.17</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-99315e85c3/">
+    <img src="../../../../../static/img/news-models-05.svg"
+         alt="Claude Codeのステータスラインを設定して、使用中のモデルやブランチ、利用料金をいつでもすぐに見れるようにした（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-99315e85c3/">Claude Codeのステータスラインを設定して、使用中のモデルやブランチ、利用料金をいつでもすぐに見れるようにした</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-12T09:13:33+00:00">2026.08.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-761e435329/">
+    <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-user-contents.imgix.net%2Fhttps%253A%252F%252Fcdn.qiita.com%252Fassets%252Fpublic%252Farticle-ogp-background-afbab5eb44e0b055cce1258705637a91.png%3Fixlib%3Drb-4.1.1%26w%3D1200%26blend64%3DaHR0cHM6Ly9xaWl0YS11c2VyLXByb2ZpbGUtaW1hZ2VzLmltZ2l4Lm5ldC9odHRwcyUzQSUyRiUyRmxoMy5nb29nbGV1c2VyY29udGVudC5jb20lMkZhJTJGQUNnOG9jSVlHdlV1cVR3c0dBYjRFaFZBUFhxZHE5OWVtOTQtQm1ETEJJckE3OEowdHclM0RzOTYtYz9peGxpYj1yYi00LjEuMSZhcj0xJTNBMSZmaXQ9Y3JvcCZtYXNrPWVsbGlwc2UmYmc9RkZGRkZGJmZtPXBuZzMyJnM9NjgzZThhM2UzZGUxZWY0ODY0NWVjOGZhODZiY2I1N2U%26blend-x%3D120%26blend-y%3D467%26blend-w%3D82%26blend-h%3D82%26blend-mode%3Dnormal%26s%3D28cbe75b437be68e6323c9d63cd972b9?ixlib=rb-4.1.1&amp;amp;w=1200&amp;amp;fm=jpg&amp;amp;mark64=aHR0cHM6Ly9xaWl0YS11c2VyLWNvbnRlbnRzLmltZ2l4Lm5ldC9-dGV4dD9peGxpYj1yYi00LjEuMSZ3PTk2MCZoPTMyNCZ0eHQ9JUU1JTgwJThCJUU0JUJBJUJBJUU5JTk2JThCJUU3JTk5JUJBJUUzJTgxJUE3R2VtaW5pJUUzJTgyJTkyJUU2JThFJUExJUU3JTk0JUE4JUUzJTgxJTk3JUUzJTgxJTlGJUU3JTkwJTg2JUU3JTk0JUIxJnR4dC1hbGlnbj1sZWZ0JTJDdG9wJnR4dC1jb2xvcj0lMjMxRTIxMjEmdHh0LWZvbnQ9SGlyYWdpbm8lMjBTYW5zJTIwVzYmdHh0LXNpemU9NTYmdHh0LXBhZD0wJnM9MWVlMzAyMjRhMGE2MDI0ZDcxYmYwYjAyMTM0YjRlZTM&amp;amp;mark-x=120&amp;amp;mark-y=112&amp;amp;blend64=aHR0cHM6Ly9xaWl0YS11c2VyLWNvbnRlbnRzLmltZ2l4Lm5ldC9-dGV4dD9peGxpYj1yYi00LjEuMSZ3PTgzOCZoPTU4JnR4dD0lNDBTb2xpdGFpcmVFZ2cmdHh0LWNvbG9yPSUyMzFFMjEyMSZ0eHQtZm9udD1IaXJhZ2lubyUyMFNhbnMlMjBXNiZ0eHQtc2l6ZT0zNiZ0eHQtcGFkPTAmcz0yYzg5NTc1YjRmMTc3NTdhOTBlNDZkYWI5NjRlMzNmZA&amp;amp;blend-x=242&amp;amp;blend-y=480&amp;amp;blend-w=838&amp;amp;blend-h=46&amp;amp;blend-fit=crop&amp;amp;blend-crop=left%2Cbottom&amp;amp;blend-mode=normal&amp;amp;s=a81c021ee070c35e6d939d30bab506cc" alt="個人開発でGeminiを採用した理由（画像: Qiita AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-761e435329/">個人開発でGeminiを採用した理由</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-07-23T07:21:42+00:00">2026.07.23</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-d694def080/">
+    <img src="../../../../../static/img/news-dev-00.svg"
+         alt="OCI Data Catalog 第2回：Object Storage上のOracle Databaseマニュアルと文書インベントリParquetをカタログ化してみてみた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-d694def080/">OCI Data Catalog 第2回：Object Storage上のOracle Databaseマニュアルと文書インベントリParquetをカタログ化してみてみた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-04T21:28:25+00:00">2026.08.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-02c2001413/">
+    <img src="../../../../../static/img/news-models-04.svg"
+         alt="話者分離の「精度◯%」は比較できない — DERの測定条件と、会議で35〜45%まで落ちる理由（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-02c2001413/">話者分離の「精度◯%」は比較できない — DERの測定条件と、会議で35〜45%まで落ちる理由</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-04T21:23:14+00:00">2026.08.04</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-9b2124edec/">
+    <img src="../../../../../static/img/news-dev-13.svg"
+         alt="NASA月面ローバーも動かすRust製ビヘイビアツリー「bonsai」で追いかけっこAIを作る（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-9b2124edec/">NASA月面ローバーも動かすRust製ビヘイビアツリー「bonsai」で追いかけっこAIを作る</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-08-15T09:37:02+00:00">2026.08.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-b05bd29699/">
+    <img src="../../../../../static/img/news-tools-06.svg"
+         alt="AI時代の全体像をつかむ4冊【技術＋戦略】（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-b05bd29699/">AI時代の全体像をつかむ4冊【技術＋戦略】</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-13T06:45:36+00:00">2026.08.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-474399e516/">
+    <img src="../../../../../static/img/news-models-05.svg"
+         alt="Sakana AIの「Fugu」は、マルチエージェントを&#34;1つのモデル&#34;として売る。Devin Fusionと同じ流れの話（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-474399e516/">Sakana AIの「Fugu」は、マルチエージェントを&#34;1つのモデル&#34;として売る。Devin Fusionと同じ流れの話</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-07-26T11:29:02+00:00">2026.07.26</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-e239c53b5a/">
+    <img src="../../../../../static/img/news-models-11.svg"
+         alt="ローカルLLM RAGでOOM対策：VQ-Cacheによる量子化キャッシュ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-e239c53b5a/">ローカルLLM RAGでOOM対策：VQ-Cacheによる量子化キャッシュ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-08-15T09:18:43+00:00">2026.08.15</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="../../../../news/qiita_ai-bd07a30766/">
+    <img src="../../../../../static/img/news-tools-07.svg"
+         alt="AGENTS.md設計ガイド — エージェントに効く規約ファイルの書き方（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="../../../../news/qiita_ai-bd07a30766/">AGENTS.md設計ガイド — エージェントに効く規約ファイルの書き方</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-08-21T09:17:10+00:00">2026.08.21</time>    </div>
+    <div class="tile-src">
+      <span class="src">Qiita AI</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<a class="pager-btn" href="../10/" rel="prev">← 前へ</a>
+  <span class="pager-nums">
+<a class="pager-num" href="../">1</a><span class="pager-gap">…</span>
+<a class="pager-num" href="../9/">9</a><a class="pager-num" href="../10/">10</a><span class="pager-num on" aria-current="page">11</span>
+<a class="pager-num" href="../12/">12</a><a class="pager-num" href="../13/">13</a><a class="pager-num" href="../14/">14</a>  </span>
+<a class="pager-btn" href="../12/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../../../jissen/">AI実践室</a>
+          <a href="../../../../aeo/">AEO対策室</a>
+          <a href="../../../../shippai/">失敗の鬼</a>
+          <a href="../../../../shigoto/">AI仕事術</a>
+          <a href="../../../../kaisetsu/">AI解体新書</a>
+          <a href="../../../../weekly/">今週のAI</a>
+          <a href="../../../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../../../news/">ニュース</a>
+          <a href="../../../../papers/">研究動向</a>
+          <a href="../../../../topics/models/">トピック</a>
+          <a href="../../../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../../../about/">運営会社</a>
+          <a href="../../../../faq/">よくある質問</a>
+          <a href="../../../../advertise/">広告掲載</a>
+<a href="../../../../check/">AI検索チェック</a>          <a href="../../../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-10-10 22:14 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../../../static/js/main.js?v=0e5f4c80" defer></script>
+</body>
+</html>

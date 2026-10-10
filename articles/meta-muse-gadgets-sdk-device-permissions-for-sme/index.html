@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>MetaがAIエージェント「Muse」につなぐ自作ガジェット… · AIの鬼</title>
+  <meta name="description" content="Metaが10月2日に発表した「Muse Gadgets」は、ESP32やRaspberry PiをAIエージェント「Muse」につなぐSDKです。中小企業にとっての変化は、AIが触れる範囲がPCの中から手元の機器へ広がることです。">
+  <link rel="canonical" href="https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="MetaがAIエージェント「Muse」につなぐ自作ガジェット向けSDKを公開──Raspberry PiやプリンタまでAIに触らせる前に、中小企業は何を決めるべきか？ · AIの鬼">
+  <meta property="og:description" content="Metaが10月2日に発表した「Muse Gadgets」は、ESP32やRaspberry PiをAIエージェント「Muse」につなぐSDKです。中小企業にとっての変化は、AIが触れる範囲がPCの中から手元の機器へ広がることです。">
+  <meta property="og:url" content="https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-meta-muse-gadgets-sdk-device-permissions-for-sme.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-meta-muse-gadgets-sdk-device-permissions-for-sme.jpg">
+  <meta name="twitter:title" content="MetaがAIエージェント「Muse」につなぐ自作ガジェット向けSDKを公開──Raspberry PiやプリンタまでAIに触らせる前に、中小企業は何を決めるべきか？ · AIの鬼">
+  <meta name="twitter:description" content="Metaが10月2日に発表した「Muse Gadgets」は、ESP32やRaspberry PiをAIエージェント「Muse」につなぐSDKです。中小企業にとっての変化は、AIが触れる範囲がPCの中から手元の機器へ広がることです。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"MetaがAIエージェント「Muse」につなぐ自作ガジェット向けSDKを公開──Raspberry PiやプリンタまでAIに触らせる前に、中小企業は何を決めるべきか？","item":"https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/"}]},{"@type":"Article","headline":"MetaがAIエージェント「Muse」につなぐ自作ガジェット向けSDKを公開──Raspberry PiやプリンタまでAIに触らせる前に、中小企業は何を決めるべきか？","description":"Metaが10月2日に発表した「Muse Gadgets」は、ESP32やRaspberry PiをAIエージェント「Muse」につなぐSDKです。中小企業にとっての変化は、AIが触れる範囲がPCの中から手元の機器へ広がることです。Meta自身が「楽しむために作ったもの」と説明し、自己責任での利用を呼び掛けています。先に決めるのは、どの機器まで触らせるかです。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/"},"url":"https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-10-06","dateModified":"2026-10-06","image":"https://ai-oni.com/static/img/article-meta-muse-gadgets-sdk-device-permissions-for-sme.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=0e5f4c80" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=0e5f4c80">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/meta-muse-gadgets-sdk-device-permissions-for-sme/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-meta-muse-gadgets-sdk-device-permissions-for-sme.jpg"
+         alt="MetaがAIエージェント「Muse」につなぐ自作ガジェット向けSDKを公開──Raspberry PiやプリンタまでAIに触らせる前に、中小企業は何を決めるべきか？" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>MetaがAIエージェント「Muse」につなぐ自作ガジェット向けSDKを公開──Raspberry PiやプリンタまでAIに触らせる前に、中小企業は何を決めるべきか？</h1>
+<p class="article-lead">Metaが10月2日に発表した「Muse Gadgets」は、ESP32やRaspberry PiをAIエージェント「Muse」につなぐSDKです。中小企業にとっての変化は、AIが触れる範囲がPCの中から手元の機器へ広がることです。Meta自身が「楽しむために作ったもの」と説明し、自己責任での利用を呼び掛けています。先に決めるのは、どの機器まで触らせるかです。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年10月6日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>Metaが2026年10月2日（現地時間）に発表した「Muse Gadgets」で中小企業にとって変わるのは、AIエージェントが触れる範囲が、PCの画面の中からプリンタやRaspberry Pi、Linuxマシンといった手元の機器へ広がることです。Meta自身は「ハッカーがハッカーのために、ただ楽しむために作ったもの」と説明し、自己責任での利用を呼び掛けています。導入するかどうかの前に、どの機器とコマンドまで触らせるかを決めるのが先です。</p>
+<h2 id="muse-gadgets">Muse Gadgetsで何が公開されたのか</h2>
+<p><a href="https://www.itmedia.co.jp/news/article/2610/03/2000001984/">ITmedia AI+</a>によると、Muse Gadgetsは、パーソナルAIエージェント「Muse」と連携するデバイスを自作するための「サイドプロジェクト」です。Museは、Metaが9月に米国で提供を始めたサービスで、チャット形式で指示を受けて、メールの送信、旅行の予約、フォームへの入力を代行します。今回は、市販のESP32搭載ボードやRaspberry PiにSDKを組み込み、手持ちのディスプレイ、ボタン、センサー、アクチュエーターをMuseにつなげるようにしました。デバイス向けSDKとファームウェアは、Apache License 2.0のもとGitHubで公開されています。</p>
+<table>
+<thead>
+<tr>
+<th>構成要素</th>
+<th>素材に書かれている中身</th>
+<th>提供条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP32 Device SDK</td>
+<td>ESP32搭載ボードへの画面の追加と画像表示、音声の入出力、センサーの組み込み</td>
+<td>Apache License 2.0、GitHubで公開</td>
+</tr>
+<tr>
+<td>Linux Device SDK</td>
+<td>Raspberry PiやLinuxマシンのガジェット化。独自コマンドの追加で、システム管理の作業やHome Assistantの操作をMuseに委任</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Muse Home Link</td>
+<td>Meta製のデバイス。自宅のWi-Fiに接続し、対応機器やローカルのHTTP APIを備えた自作機器へMuseがアクセス。コミュニティ作成の「スキル」で、環境によっては照明の点灯、テレビの操作、プリンタへの文書送信</td>
+<td>米国のMuseサブスクリプション契約者に1人1台まで無料。10月から先着順で出荷。申し込みは注文ではなく順番待ちの登録</td>
+</tr>
+<tr>
+<td>対応する市販デバイス</td>
+<td>Waveshare「ESP32-S3-Touch-AMOLED-1.75C」（1.75インチ円形AMOLEDタッチディスプレイ、スピーカー、マイク、バッテリー搭載、プッシュトゥトーク）、Raspberry Pi 5など現在7種類。テレビのHDMI端子に挿すスティック型は「近日公開」</td>
+<td>他社の製品。Metaは推奨も保証もしない</td>
+</tr>
+<tr>
+<td>Discordコミュニティ</td>
+<td>「#projects」チャンネルで共有した自作ガジェットが、Webサイトで紹介される場合あり</td>
+<td>記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>Metaは、いじった結果の「副作用」として、ボードが動かなくなる、保証が無効になる、電圧低下が起きる、破産する、を挙げています。The Verge AIも、Metaの注意書き「Proceed at your own risk!」を引用しています。冗談まじりの書き方ですが、動作を請け合う文言が素材に1つも無い点は、業務で使うかどうかの判断材料になります。</p>
+<h2 id="_1">報道を突き合わせると、どこが食い違っているのか</h2>
+<p>ITmedia AI+とThe Verge AIを並べると、次の5点で書き方が違います。</p>
+<table>
+<thead>
+<tr>
+<th>論点</th>
+<th>ITmedia AI+</th>
+<th>The Verge AI</th>
+<th>素材から言えること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>何がオープンソースか</td>
+<td>デバイス向けSDKとファームウェア</td>
+<td>「code that the company open sourced」。素材に付いていた日本語要約は「Museのコードをオープンソース化」</td>
+<td>Muse本体の公開は、どちらの本文にも書かれていない</td>
+</tr>
+<tr>
+<td>Museは有料か無料か</td>
+<td>Home Linkの対象は「Museサブスクリプション契約者」</td>
+<td>別記事で、Museと競合の「Instinct」は「少なくとも今は」無料</td>
+<td>サブスクリプションの料金と中身は分からない</td>
+</tr>
+<tr>
+<td>Home Linkの台数</td>
+<td>記載なし（1人1台、先着順）</td>
+<td>5,000台を製造。Meta Superintelligence LabsのNat Friedman氏の発言</td>
+<td>矛盾ではなく、片方だけにある情報</td>
+</tr>
+<tr>
+<td>HDMIスティック型</td>
+<td>「近日公開」</td>
+<td>提案例の1つ。時期の記載なし</td>
+<td>今すぐ作れるとは言えない</td>
+</tr>
+<tr>
+<td>作例</td>
+<td>円形AMOLEDのボード、Raspberry Pi 5など7種類</td>
+<td>カラーE Inkディスプレイへのリマインダー表示、小型タッチスクリーン（DIY版「Muse Charm」のような見た目）</td>
+<td>7種類すべての名前は素材にない</td>
+</tr>
+</tbody>
+</table>
+<p>1行目は判断に直結します。公開されたと明記されているのは端末側のSDKとファームウェアまでで、指示を受けて代行するMuse本体がどこで動くかは、今回の素材に書かれていません。日本語要約は「クラウド上の賢いサービスではなく、自分たちの環境に落とし込める部品として開放した」と読んでいますが、Muse本体を自社の環境だけで動かせるとは、素材からは言えません。</p>
+<p>2行目も未解決です。当サイトの既存記事<a href="../meta-muse-personal-agent-sme-credentials/">Metaの代行AI「Muse」は中小企業の何を変えるのか？──メール・決済・買い物を「つなぐ」前に確かめること</a>では、Museは米国で無料提供が始まり、iOSの初速はダウンロード8.3万件で2位だったと書きました。無料のサービスに「サブスクリプション契約者」がいる理由は、素材のどこにも説明がありません。</p>
+<p>「同じ出来事の別報道」として集めたArs Technica AIの記事は、Muse Gadgetsの話ではありませんでした。見出しは「AIエージェント悪用に対抗、Appleがフルディスクアクセス権限を変更」で、素材にあるのは「MetaはFDAではMuseのメッセージ読み取りに対応できないと主張し、Appleはこれに異を唱えている」という趣旨の1文だけです。FDAは見出しのフルディスクアクセスを指すと読めます。変更の中身も時期も分かりません。読み取れるのは、Museにどこまでの権限を渡すかが、OSの提供元とのあいだで争点になっていることです。</p>
+<h2 id="_2">中小企業にとって何が変わるのか</h2>
+<p>当サイトがこれまでMuseについて書いてきたのは、PCとアカウントの中の話でした。Museを動かすには、メール・決済・ログイン情報をMetaに預ける必要があります。<a href="../meta-muse-openclaw-agent-security-for-sme/">MetaのMuseはOpenClawの焼き直しなのか？中小企業が個人向けAIエージェントを業務に入れる前に確かめること</a>では、Metaが利用者データにアクセスできることと、学習利用が初期設定で有効なことを扱いました。<a href="../meta-muse-zero-day-local-privilege-escalation/">AIエージェントが「マルウェアの代わり」になるとき──MetaのMuseゼロデイは中小企業の何を変えるのか？</a>では、macOSアプリのゼロデイ脆弱性を扱いました。攻撃者がエージェントの権限を借りて写真撮影や悪意あるファイルの書き込みを実行でき、Metaは「ローカル権限昇格であり実害は低い」と説明しています。</p>
+<p>今回の発表で足されるのは、次の2つの経路です。</p>
+<ul>
+<li>Muse Home Link：Wi-Fiにつながり、対応機器と、ローカルのHTTP APIを備えた自作機器へMuseがアクセスします。例には「プリンタへの文書送信」が入っています。</li>
+<li>Linux Device SDK：独自コマンドを足すと、Museに「システム管理の作業」を任せられます。</li>
+</ul>
+<p>ゼロデイの記事で確かめた構造は、エージェントに与えた権限が、乗っ取られたときにそのまま攻撃者の権限になる、というものでした。この構造に照らすと、Linux Device SDKに足したコマンドと、Home Linkから届く機器は、そのままエージェントの権限の一覧に加わります。Muse GadgetsやMuse Home Linkに脆弱性があるとは、素材のどこにも書かれていません。言えるのは、権限の範囲を広げる操作が利用者自身の手に渡った、ということです。</p>
+<p>ESP32 Device SDKには音声の入出力も入っています。マイク付きのボードを事務所に置けば、音声の入口が1つ増えます。その音声がどこへ送られ、どう保存されるかは、素材から分かりません。</p>
+<p>Home Linkの説明は「自宅のWi-Fi」で、事務所での利用を想定した記述は素材にありません。対象も米国のMuseサブスクリプション契約者です。日本から申し込めるかは分からないので、日本の中小企業にとっては、今日の導入判断ではなく、同じ型の製品が届く前に基準を作っておく話になります。</p>
+<p>The Verge AIに付いていた日本語要約は、中小製造業が自社製品にAI機能を組み込む敷居が下がった、と読んでいます。素材で確かめられるのは次の4点です。</p>
+<ul>
+<li>SDKは「Museにつなぐ」ための部品です。</li>
+<li>ライセンスはApache License 2.0です。</li>
+<li>対応する市販デバイスを、Metaは推奨も保証もしていません。</li>
+<li>Meta自身が、この取り組みをサイドプロジェクトと呼んでいます。</li>
+</ul>
+<p>製品に組み込めば、その機能はMuseの提供地域と提供条件に左右されると読むのが自然です。SDKを読んで仕組みを学ぶ価値はありますが、量産品の機能として顧客に約束できる段階だとは、素材からは言えません。</p>
+<p>素材には「スマートフォン黎明期のアプリストアと同じ戦略」という見立てもありました。Discordで自作ガジェットを共有する場と、コミュニティが作る「スキル」は実際に用意されています。ただ、Meta自身の説明は「楽しむために作ったもの」で、戦略だと裏づける発言は素材にありません。</p>
+<h2 id="openaidotsai">OpenAIの「Dots」と並べると、AIの代行はどこで止まるのか</h2>
+<p>The Verge AIの別記事は、OpenAIの新しいエージェント基盤「Dots」を試しています。Dotsは最上位のアカウントから先に提供され、記者は月額100ドルのProアカウントで試しました。仮想マシンからBlenderやGIMPを最初から使え、デスクトップ版のChatGPTアプリ経由で自分のPCにもアクセスさせられます。片方のウィンドウでチャットし、もう片方で仮想マシン上の操作を追う画面は、Museと似ていると書かれています。</p>
+<p>記者が新しいインターネット回線の設置予約を任せたところ、Dotは、記者がまとめて削除していたメールから100ドルの割引を見つけました。ところが予約は「human check」で止まりました。Dotの説明は、この確認にはマウスの長押しが必要で、自分のブラウザ操作では対応していない、というものです。</p>
+<p>これはDotsのテストで、Museのテストではありません。MuseがHome Link経由で照明やプリンタをどの程度確実に操作できるかを示す数字は、素材にありません。Meta自身も「環境によっては」と条件を付けています。ウェブの予約1件でも人の手が要る場面が残っている、という観察から中小企業が持ち帰れるのは、代行が途中で止まったときに誰が引き取るかを先に決めておく、という段取りです。</p>
+<h2 id="_3">当社の実測と突き合わせると何が言えるのか</h2>
+<p>先に利害関係を書きます。当サイトを運営する株式会社TOEは、AI検索対策とAI導入支援を売りうる立場です。AIエージェントの導入が進むほど当社の商機は増えるので、その前提で読んでください。</p>
+<p>当社はMuse、Muse Gadgets、Muse Home Linkのいずれも実機で試していません。操作の成功率、応答時間、消費電力、通信内容は測っていません。</p>
+<p>当社が持っている自動化の数字は次のとおりです。</p>
+<ul>
+<li>社内業務の自動化は27本で、AI秘書のブリーフィングは毎朝8:00に動いています。運用中のAI API課金は0円です。</li>
+<li>2026年10月5日時点で、収集済みニュースは3000件、自社要約つきニュースは2114件、本文取得済みは828件、記事は325本です。</li>
+<li>日次の自動更新は72日分の記録があり、最後に動いたのは2026年10月5日です。</li>
+</ul>
+<p>この数字が示すのは、ニュースの収集と要約という決まった処理を、72日分の記録のあいだ毎日回せている、ということまでです。外部のエージェントに照明やプリンタを操作させた実測は、当社にはありません。「機器を任せても安定する」とも「危ない」とも、当社の数字からは言えません。</p>
+<p>当社自身に返ってくる点が1つあります。当サイトも要約を自動で付けている側です。今回、The Verge AIの報道に付いていた日本語要約は「Museのコードをオープンソース化」と書いていましたが、ITmedia AI+の本文は「デバイス向けSDKとファームウェア」でした。要約だけを読んで「Muse本体が手元で動く」と受け取ると、判断を誤ります。Gartnerの調査（2026年5月・n=645）では、BtoB購買担当者の51%がAIで誤情報に遭遇し、69%が裏取りを依頼しています。公開範囲のように判断が分かれる箇所は、原文で確かめてください。</p>
+<h2 id="_4">中小企業が先に決めておくこと</h2>
+<p>素材から導ける確認項目は5つです。</p>
+<ol>
+<li>業務に入れる前提の製品かどうかを確かめます。Metaの説明は「楽しむために作ったもの」「自己責任」で、対応デバイスには推奨も保証もありません。止まったときの問い合わせ先は素材にありません。</li>
+<li>どのコマンドまで足すかを決めます。Linux Device SDKは、独自コマンドを足した分だけMuseにできることが増えます。試すなら、足したコマンドを一覧にし、システム管理に関わるものは最初の一覧から外してください。</li>
+<li>同じWi-Fiに何があるかを書き出します。Home LinkはWi-Fiにつながり、ローカルのHTTP APIを備えた機器にアクセスします。届く範囲が素材から分からない以上、プリンタやLinuxマシンなど、つながっている機器の一覧が判断の前提になります。</li>
+<li>何を預けているかを確認します。Museはメール・決済・ログイン情報を預けて動かす仕組みで、学習利用は初期設定で有効です。ガジェットを足す前に、この設定を見直す順番です。</li>
+<li>止まったときに誰が引き取るかを決めます。Dotsの例のとおり、代行は人間確認の手前で止まることがあります。</li>
+</ol>
+<p>権限を丸ごと渡さない設計そのものは、<a href="../why-agents-should-never-see-api-keys/">AIエージェントに渡したAPIキーは回収できない ― 中小企業は「渡さない」を最初に選べるのか？</a>と<a href="../tailscale-aperture-agent-permissions/">AIエージェントにAPIキーを丸ごと渡さず社内サーバーを操作させられるのか──Tailscale「Aperture」正式リリースで中小企業の何が変わるのか</a>で扱っています。</p>
+<h2 id="_5">この記事で言えないこと</h2>
+<ul>
+<li>Museが日本で使えるか、Muse Home Linkに日本から申し込めるかは、素材から分かりません。</li>
+<li>Museサブスクリプションの料金と内容、無料提供との関係は分かりません。</li>
+<li>Muse本体が公開されたのか、SDKを使うのにMuseのアカウントや契約が要るのかは分かりません。</li>
+<li>ガジェットのマイクやセンサーから入ったデータをMetaがどう扱うか、学習に使うかは分かりません。</li>
+<li>Muse Home Linkが同じWi-Fiのどの範囲の機器に届くのか、「スキル」に審査があるのかは分かりません。</li>
+<li>Muse Home Linkの形状について、素材の要約には「USB-Cデバイス」とありましたが、ITmedia AI+の本文にその記述は見当たりません。</li>
+<li>Apache License 2.0の条文は素材に含まれていません。自社製品への組み込み条件は、条文を自分で確認してください。</li>
+<li>対応する市販デバイス7種類のうち、素材に名前があるのは2種類です。</li>
+<li>Appleのフルディスクアクセス権限の変更内容と時期は分かりません。</li>
+<li>当社はMuse、Muse Gadgets、Muse Home Linkを実機で試していません。操作の成功率、応答時間、消費電力、通信内容は測っていません。</li>
+<li>導入による効果は保証できません。</li>
+</ul>
+<h2 id="_6">まとめ</h2>
+<ul>
+<li>Metaは2026年10月2日（現地時間）、ESP32とRaspberry Pi向けのSDKとファームウェアをApache License 2.0でGitHubに公開しました。公開が明記されているのは端末側までです。</li>
+<li>Muse Home Linkは米国のMuseサブスクリプション契約者に1人1台まで無料で、The Verge AIによると製造数は5,000台です。日本から申し込めるかは分かりません。</li>
+<li>中小企業にとっての変化は、AIエージェントの権限の一覧に、Home Linkから届く機器と、自分で足したコマンドが加わることです。</li>
+<li>Meta自身が「楽しむために作ったもの」と説明し、自己責任での利用を呼び掛けています。業務で使う前提の記述は素材にありません。</li>
+<li>OpenAIのDotsは、回線の設置予約1件で人間確認に止まりました。止まったときに誰が引き取るかを先に決めてください。</li>
+<li>当社は実機で試していません。72日分の日次更新記録は、ニュースの収集と要約という処理のもので、機器の操作については何も言えません。</li>
+</ul>
+<p><em>この記事はITmedia AI+の報道を素材に、The Verge AIとArs Technica AIの関連報道、当サイトの既存記事3本、Gartnerの調査（2026年5月・n=645）、当社（株式会社TOE）の自動化運用の実測とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/meta-muse-openclaw-agent-security-for-sme/">
+<div class="card-media"><img src="../../static/img/article-meta-muse-openclaw-agent-security-for-sme.jpg" alt="MetaのMuseはOpenClawの焼き直しなのか？中小企業が個人向けAIエージェントを業務に入れる前に確かめること" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">MetaのMuseはOpenClawの焼き直しなのか？中小企業が個人向けAIエージェントを業務に入れる前に確かめること</h3>
+<p class="card-summary">MetaのAIエージェント「Muse」はOpenClawと同じファイル名や文言を使っていますが、Metaは「ゼロから構築した」と説明しています。中小企業が確かめるべきなのは、模倣かどうかより安全面です。Metaが利用者データにアクセスできること、学習利用が初期設定で有効なこと、乗っ取りにつながるゼロデイ脆弱性の指摘があることを、業務で使う前に確認してください。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/meta-muse-gadgets-open-source-scope-for-sme/">
+<div class="card-media"><img src="../../static/img/article-meta-muse-gadgets-open-source-scope-for-sme.jpg" alt="MetaのMuse Gadgetsで「自社製品にAIを組み込む敷居」は下がったのか？公開されたのはSDKとファームウェア、中小製造業が試作前に確かめる4点" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">MetaのMuse Gadgetsで「自社製品にAIを組み込む敷居」は下がったのか？公開されたのはSDKとファームウェア、中小製造業が試作前に確かめる4点</h3>
+<p class="card-summary">Metaが10月2日に発表したMuse Gadgetsで公開されたのは、デバイス向けSDKとファームウェアです。Muse本体は9月に米国で始まったサービスのままです。「自社製品にAIを組み込む敷居が下がった」と言えるのは、ボードをMuseにつなぐコードを入手できる範囲までで、日本での利用可否や利用条件は素材からは分かりません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/microsoft-nvidia-ai-pc-execution-containers-for-sme/">
+<div class="card-media"><img src="../../static/img/article-microsoft-nvidia-ai-pc-execution-containers-for-sme.jpg" alt="MicrosoftがNvidia搭載AI PCとWindows 11刷新版を発表──2,600ドルのPCを買わない中小企業に先に届くのは「エージェントの囲い込み」機能なのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">MicrosoftがNvidia搭載AI PCとWindows 11刷新版を発表──2,600ドルのPCを買わない中小企業に先に届くのは「エージェントの囲い込み」機能なのか？</h3>
+<p class="card-summary">Microsoftが10月7日に発表したNvidia「RTX Spark」搭載PCは2,600ドルからで、狙いは開発者です。中小企業に先に届くのは、Windows 11の全ユーザーに提供されるエージェント隔離機能「Execution Containers」です。買う前に、AIに触らせるファイルと通信先を決める作業が残ります。株式会社TOEはAI導入支援を売りうる立場です。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=meta-muse-gadgets-sdk-device-permissions-for-sme">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-10-10 22:14 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=0e5f4c80" defer></script>
+</body>
+</html>
