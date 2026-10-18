@@ -102,6 +102,8 @@ def article_rows() -> list[dict]:
     rows = []
     for p in sorted(ARTICLES.glob("*.ja.md")):
         meta, body = neon.read_frontmatter(p)
+        if not meta.get("title"):
+            raise ValueError(f"記事 {p.name} の frontmatter/title が不正です")
         rows.append({
             "slug": p.name[: -len(".ja.md")],
             "title": meta.get("title") or p.stem,

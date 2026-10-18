@@ -7,6 +7,7 @@ date: 2026-09-11
 hero: article-meta-muse-personal-agent-sme-credentials.jpg
 image_prompt: A Japanese small-business owner in her 40s sitting at a cluttered home-office desk in late morning, bright daylight from a side window, glancing at a smartphone in her hand with a slightly cautious expression, coffee mug and paper notebook nearby, shot on a Canon EOS R6 with a 35mm f1.8 lens, shallow depth of field, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 order: 30
+---
 
 Metaが、日常の作業を代行するパーソナルAIエージェント「Muse」を発表しました。メール送信・旅行予約・Webフォーム入力・買い物までを自律してこなし、まずは米国で無料提供が始まっています。中小企業にとっての要点は一つで、Museを動かすには**メール・カレンダー・決済・ログイン情報をMetaに預ける**必要がある、という点です。この記事は、その1件だけを素材どおりに整理し、当社が測れている部分と測れていない部分を分けて示します。なお当社（株式会社TOE／AIの鬼）はAI導入支援・AI検索対策を売りうる立場であることを先に明示しておきます。
 

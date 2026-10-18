@@ -367,6 +367,10 @@ def load_articles(lang: str) -> list[dict]:
     md = markdown.Markdown(extensions=["extra", "toc", "sane_lists"])
     articles = []
     for slug, meta, body in _iter_article_sources(lang):
+        # frontmatter が閉じていない記事を slug タイトルで公開しない。
+        # Neon の古い行を読んだ場合も同じ検査で公開を止める。
+        if not isinstance(meta, dict) or not meta.get("title"):
+            raise ValueError(f"記事 {slug} ({lang}) の frontmatter/title が不正です")
         md.reset()
         html = md.convert(body)
         tag = meta.get("tag", "")

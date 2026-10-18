@@ -7,6 +7,7 @@ date: 2026-09-13
 hero: article-ai-agent-embed-slack-line-design.jpg
 image_prompt: A Japanese small-business staffer in their 30s glancing at a smartphone chat app at a cluttered office desk in late morning, bright daylight through a window, shot on Canon EOS R6 with 35mm lens, coffee cup and sticky notes and worn keyboard showing signs of daily use, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 order: 30
+---
 
 株式会社TOE（AIの鬼）はAI導入支援・AI検索対策を売りうる立場です。その前提で書きます。結論から言います。AIエージェントを現場に入れる最初のつまずきは「モデルの性能」ではなく「現場の入口をどこにするか」であり、SlackやLINEに差し込むのは習慣化コストが低くて筋がいい一方、「チャット連携なら簡単」という先入観は複雑さを見落としている、というのが今回の素材の主張です。実装難度は新規UIのほうがむしろ低い、とまで書かれています。
 

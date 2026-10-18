@@ -7,6 +7,7 @@ date: 2026-09-03
 hero: article-cheap-flash-top-intelligence-agent-cost.jpg
 image_prompt: A small business owner in his 40s reviewing a laptop at a cluttered office desk with coffee mug and paper notes near a bright window, late morning, bright daylight, shot on Fujifilm X-T4 with 35mm f1.4 lens, unretouched documentary photograph, realistic, plain unmarked surfaces, no text, no logos, no signage
 order: 30
+---
 
 ## 何が起きたのか（結論先）
 
