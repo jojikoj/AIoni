@@ -60,7 +60,6 @@
     <p class="hero-band-sub"><span class="hero-band-sub-pc">{{ hero_sub }}</span><span class="hero-band-sub-sp">{{ hero_sub_sp }}</span></p>
   </div>
 </section>
-{% if lang == "ja" %}{% with training_placement="home_banner" %}{% include "training-banner.html" %}{% endwith %}{% endif %}
 
 
 {#
@@ -82,6 +81,7 @@
 {% if practice %}
 <section class="block">
   {{ sec_head('実践', 'AIの鬼 実践記録', rel ~ 'jissen/', 'すべて見る') }}
+  {% if lang == "ja" %}{% with training_placement="home_banner" %}{% include "training-banner.html" %}{% endwith %}{% endif %}
   <div class="atile-grid">
     {{ article_tile(practice[0], rel, asset, 'lead') }}
     {% for a in practice[1:6] %}{{ article_tile(a, rel, asset, '') }}{% endfor %}

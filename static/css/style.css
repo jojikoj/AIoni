@@ -1614,37 +1614,46 @@ h1, h2, h3 {
 .sister-links a:hover { text-decoration: underline; }
 .sister { padding-top: 0; }
 
-/* TOE AI training: shared, responsive campaign banner (2026-10). */
+/* TOE AI training: photo campaign banner (2026-10-21). */
 .toe-training-wrap { box-sizing:border-box; width:calc(100% - 48px); max-width:1080px; margin:32px auto; color:#102332; font-family:Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
 .toe-training-wrap * { box-sizing:border-box; }
+.block > .toe-training-wrap { width:100%; max-width:none; margin:24px 0 32px; }
 .toe-training-wrap .toe-training-disclosure { margin:0 0 7px; color:#56636c; font-size:11px; font-weight:500; line-height:1.5; letter-spacing:.04em; }
-.toe-training-wrap .toe-training-banner { display:grid; grid-template-columns:minmax(0,1fr) 164px; grid-template-rows:auto auto auto; align-items:center; column-gap:24px; row-gap:12px; padding:24px 32px; background:#fff; border:1px solid #b7d2df; border-left:8px solid #00a0e9; border-radius:0; color:#102332; text-decoration:none; box-shadow:none; transition:border-color .2s; }
+.toe-training-wrap .toe-training-banner { position:relative; display:grid; grid-template-columns:52% 48%; min-height:330px; padding:0; overflow:hidden; background:#fff; border:1px solid #b7d2df; border-left:8px solid #00a0e9; border-radius:0; color:#102332; text-decoration:none; box-shadow:none; transition:border-color .2s; }
 .toe-training-wrap .toe-training-banner:hover { border-color:#0077b0; color:#102332; text-decoration:none; }
 .toe-training-wrap .toe-training-banner:focus-visible { outline:3px solid #0077b0; outline-offset:4px; }
+.toe-training-wrap .toe-training-copy { grid-column:1; grid-row:1; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:20px; padding:30px 26px 30px 32px; }
+.toe-training-wrap .toe-training-visual { position:relative; display:block; grid-column:2; grid-row:1; min-width:0; min-height:330px; overflow:hidden; background:#e4eff4; }
+.toe-training-wrap .toe-training-photo { position:absolute; inset:0; display:block; width:100%; height:100%; max-width:none; margin:0; object-fit:cover; object-position:48% 42%; border:0; border-radius:0; }
+.toe-training-wrap .toe-training-image-note { position:absolute; left:7px; bottom:6px; z-index:1; padding:2px 5px; background:rgba(255,255,255,.9); color:#364650; font-size:9px; line-height:1.5; }
 .toe-training-wrap .toe-training-brand { display:flex; align-items:center; gap:14px; font-size:13px; font-weight:700; line-height:1.4; letter-spacing:.06em; }
 .toe-training-wrap .toe-training-brand img { display:block; width:69px; height:24px; object-fit:contain; margin:0; border:0; border-radius:0; }
-.toe-training-wrap .toe-training-title { display:block; margin:0; font-size:clamp(24px,2.5vw,32px); font-weight:900; letter-spacing:-.045em; line-height:1.48; }
-.toe-training-wrap .toe-training-title span { color:#0077b0; }
-.toe-training-wrap .toe-training-action { display:flex; align-items:center; justify-content:space-between; gap:20px; justify-self:start; padding:11px 18px; background:#0077b0; color:#fff; font-size:14px; font-weight:700; line-height:1.5; }
-.toe-training-wrap .toe-training-grant { grid-column:2; grid-row:1 / 4; display:flex; flex-direction:column; align-items:center; justify-content:center; width:164px; height:164px; border-radius:50%; background:#fff000; color:#102332; line-height:1.2; text-align:center; }
-.toe-training-wrap .toe-training-deadline { font-size:19px; font-weight:900; margin-bottom:7px; }
-.toe-training-wrap .toe-training-label { font-size:12px; font-weight:700; }
+.toe-training-wrap .toe-training-title { display:block; margin:0; font-size:clamp(25px,2.45vw,34px); font-weight:900; letter-spacing:-.045em; line-height:1.5; }
+.toe-training-wrap .toe-training-title > span { color:#0077b0; }
+.toe-training-wrap .toe-training-action { display:flex; align-items:center; justify-content:space-between; gap:28px; padding:12px 20px; background:#0077b0; color:#fff; font-size:16px; font-weight:700; line-height:1.5; }
+.toe-training-wrap .toe-training-grant { position:absolute; z-index:2; right:18px; bottom:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:136px; height:136px; border-radius:50%; background:#fff000; color:#102332; line-height:1.2; text-align:center; }
+.toe-training-wrap .toe-training-deadline { font-size:17px; font-weight:900; margin-bottom:5px; }
+.toe-training-wrap .toe-training-label { font-size:11px; font-weight:700; }
 .toe-training-wrap .toe-training-rate { display:flex; align-items:baseline; gap:2px; white-space:nowrap; }
-.toe-training-wrap .toe-training-rate small { font-size:14px; font-weight:800; }
-.toe-training-wrap .toe-training-rate b { font-family:Arial,sans-serif; font-size:54px; font-weight:900; line-height:1.05; letter-spacing:-.06em; }
-.toe-training-wrap .toe-training-rate > span { font-size:23px; font-weight:800; }
-.toe-training-wrap .toe-training-note { display:block; margin-top:5px; font-size:10px; font-weight:600; line-height:1.4; }
-@media (max-width:600px) {
+.toe-training-wrap .toe-training-rate small { font-size:12px; font-weight:800; }
+.toe-training-wrap .toe-training-rate b { font-family:Arial,sans-serif; font-size:47px; font-weight:900; line-height:1.05; letter-spacing:-.06em; }
+.toe-training-wrap .toe-training-rate > span { font-size:21px; font-weight:800; }
+.toe-training-wrap .toe-training-note { display:block; margin-top:4px; font-size:9px; font-weight:600; line-height:1.4; }
+@media (max-width:760px) {
  .toe-training-wrap { width:calc(100% - 32px); margin:24px auto; }
- .toe-training-wrap .toe-training-banner { grid-template-columns:minmax(0,1fr) 116px; gap:16px 10px; padding:20px 16px; border-left-width:5px; }
- .toe-training-wrap .toe-training-brand { grid-column:1 / -1; font-size:12px; gap:10px; }
- .toe-training-wrap .toe-training-title { grid-column:1 / -1; font-size:24px; letter-spacing:-.055em; }
- .toe-training-wrap .toe-training-action { grid-column:1; grid-row:3; display:flex; gap:10px; padding:12px; font-size:14px; }
- .toe-training-wrap .toe-training-grant { grid-column:2; grid-row:3; width:116px; height:116px; }
- .toe-training-wrap .toe-training-deadline { font-size:15px; margin-bottom:4px; }
+ .block > .toe-training-wrap { width:100%; }
+ .toe-training-wrap .toe-training-banner { display:flex; flex-direction:column; border-left-width:5px; }
+ .toe-training-wrap .toe-training-visual { order:0; width:100%; min-height:0; height:210px; }
+ .toe-training-wrap .toe-training-photo { object-position:50% 35%; }
+ .toe-training-wrap .toe-training-copy { order:1; padding:22px 20px; gap:16px; }
+ .toe-training-wrap .toe-training-brand { font-size:12px; gap:10px; }
+ .toe-training-wrap .toe-training-title { font-size:clamp(21px,6vw,26px); letter-spacing:-.055em; }
+ .toe-training-wrap .toe-training-action { gap:26px; padding:12px 18px; font-size:15px; }
+ .toe-training-wrap .toe-training-grant { top:94px; right:10px; bottom:auto; width:108px; height:108px; }
+ .toe-training-wrap .toe-training-deadline { font-size:14px; margin-bottom:4px; }
  .toe-training-wrap .toe-training-label { font-size:10px; }
- .toe-training-wrap .toe-training-rate small { font-size:11px; }
- .toe-training-wrap .toe-training-rate b { font-size:39px; }
- .toe-training-wrap .toe-training-rate > span { font-size:17px; }
- .toe-training-wrap .toe-training-note { font-size:9px; margin-top:3px; }
+ .toe-training-wrap .toe-training-rate small { font-size:10px; }
+ .toe-training-wrap .toe-training-rate b { font-size:36px; }
+ .toe-training-wrap .toe-training-rate > span { font-size:16px; }
+ .toe-training-wrap .toe-training-note { font-size:8px; margin-top:3px; }
 }
