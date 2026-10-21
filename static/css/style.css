@@ -1657,3 +1657,72 @@ h1, h2, h3 {
  .toe-training-wrap .toe-training-rate > span { font-size:16px; }
  .toe-training-wrap .toe-training-note { font-size:8px; margin-top:3px; }
 }
+
+/* Horizontal training banner that follows scrolling. */
+.toe-training-floating { position:fixed; z-index:55; left:50%; bottom:12px; transform:translateX(-50%); width:calc(100% - 48px); max-width:1000px; margin:0; }
+.toe-training-floating[hidden] { display:none !important; }
+.toe-training-floating .toe-training-disclosure { position:absolute; bottom:100%; left:0; margin:0; padding:1px 6px; background:rgba(255,255,255,.94); font-size:9px; }
+.toe-training-floating .toe-training-banner { display:grid; grid-template-columns:160px minmax(0,1fr) 92px 160px; column-gap:18px; height:124px; min-height:124px; padding:0 22px 0 0; box-shadow:0 4px 24px rgba(16,35,50,.17); }
+.toe-training-floating .toe-training-visual { grid-column:1; grid-row:1; min-height:0; height:122px; width:160px; }
+.toe-training-floating .toe-training-photo { object-position:50% 35%; }
+.toe-training-floating .toe-training-copy { display:flex; grid-column:2; grid-row:1; gap:6px; padding:8px 0; }
+.toe-training-floating .toe-training-brand { gap:8px; font-size:11px; }
+.toe-training-floating .toe-training-brand img { width:46px; height:16px; }
+.toe-training-floating .toe-training-title { font-size:22px; line-height:1.4; }
+.toe-training-floating .toe-training-action { grid-column:4; grid-row:1; justify-content:center; gap:12px; padding:13px 8px; font-size:15px; }
+.toe-training-floating .toe-training-grant { position:static; grid-column:3; grid-row:1; width:92px; height:92px; }
+.toe-training-floating .toe-training-deadline { font-size:12px; margin-bottom:3px; }
+.toe-training-floating .toe-training-label { font-size:9px; }
+.toe-training-floating .toe-training-rate small { font-size:9px; }
+.toe-training-floating .toe-training-rate b { font-size:31px; }
+.toe-training-floating .toe-training-rate > span { font-size:14px; }
+.toe-training-floating .toe-training-note { font-size:7px; margin-top:3px; }
+.toe-training-floating .toe-training-image-note { font-size:7px; left:3px; bottom:3px; padding:1px 2px; }
+.toe-training-close { position:absolute; top:-13px; right:-10px; z-index:3; display:grid; place-items:center; width:30px; height:30px; padding:0; border:1px solid #9baeb9; border-radius:50%; background:#fff; color:#102332; font:23px/1 Arial,sans-serif; cursor:pointer; box-shadow:0 2px 5px rgba(16,35,50,.14); }
+.toe-training-close:focus-visible { outline:3px solid #0077b0; outline-offset:3px; }
+@media (max-width:900px) {
+ .toe-training-floating .toe-training-banner { grid-template-columns:132px minmax(0,1fr) 82px 134px; column-gap:12px; padding-right:14px; }
+ .toe-training-floating .toe-training-visual { width:132px; }
+ .toe-training-floating .toe-training-title { font-size:18px; }
+ .toe-training-floating .toe-training-grant { width:82px; height:82px; }
+ .toe-training-floating .toe-training-deadline { font-size:11px; }
+ .toe-training-floating .toe-training-rate b { font-size:28px; }
+ .toe-training-floating .toe-training-action { font-size:13px; gap:8px; }
+}
+@media (max-width:600px) {
+ .toe-training-floating { width:calc(100% - 16px); bottom:max(8px,env(safe-area-inset-bottom)); }
+ .toe-training-floating .toe-training-banner { display:grid; grid-template-columns:76px minmax(0,1fr) 72px; gap:8px; height:108px; min-height:108px; padding:0 8px 0 0; }
+ .toe-training-floating .toe-training-visual { order:initial; grid-column:1; grid-row:1; width:76px; height:106px; }
+ .toe-training-floating .toe-training-copy { order:initial; grid-column:2; grid-row:1; align-self:start; padding:9px 0 0; gap:5px; }
+ .toe-training-floating .toe-training-brand { font-size:8px; gap:5px; white-space:nowrap; }
+ .toe-training-floating .toe-training-brand img { width:31px; height:11px; }
+ .toe-training-floating .toe-training-title { font-size:14px; line-height:1.35; letter-spacing:-.055em; }
+ .toe-training-floating .toe-training-action { position:absolute; left:89px; bottom:8px; padding:3px 10px; gap:10px; font-size:12px; line-height:1.5; }
+ .toe-training-floating .toe-training-grant { grid-column:3; grid-row:1; width:72px; height:72px; }
+ .toe-training-floating .toe-training-deadline { font-size:9px; margin-bottom:2px; }
+ .toe-training-floating .toe-training-label { font-size:8px; }
+ .toe-training-floating .toe-training-rate small { font-size:7px; }
+ .toe-training-floating .toe-training-rate b { font-size:25px; }
+ .toe-training-floating .toe-training-rate > span { font-size:12px; }
+ .toe-training-floating .toe-training-note { font-size:6px; margin-top:2px; }
+ .toe-training-floating .toe-training-image-note { display:none; }
+ .toe-training-close { width:28px; height:28px; top:-15px; right:0; font-size:21px; }
+}
+@media (max-width:360px) {
+ .toe-training-floating .toe-training-banner { grid-template-columns:62px minmax(0,1fr) 65px; gap:6px; padding-right:6px; }
+ .toe-training-floating .toe-training-visual { width:62px; }
+ .toe-training-floating .toe-training-action { left:73px; }
+ .toe-training-floating .toe-training-title { font-size:13px; }
+ .toe-training-floating .toe-training-brand { font-size:7px; }
+ .toe-training-floating .toe-training-grant { width:65px; height:65px; }
+ .toe-training-floating .toe-training-deadline { font-size:8px; }
+ .toe-training-floating .toe-training-rate b { font-size:23px; }
+ .toe-training-floating .toe-training-note { font-size:5.7px; }
+}
+
+/* Keep the compact CTA and grant badge centered within the horizontal strip. */
+.toe-training-floating .toe-training-banner { align-items:center; }
+.toe-training-floating .toe-training-action { align-self:center; height:auto; }
+@media (max-width:600px) {
+ .toe-training-floating .toe-training-action { grid-column:auto; grid-row:auto; width:max-content; }
+}
