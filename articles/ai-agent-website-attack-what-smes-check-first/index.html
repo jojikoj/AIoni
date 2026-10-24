@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>AIエージェントが日本企業のWebサイトを8時間弱・10段階… · AIの鬼</title>
+  <meta name="description" content="クラウド型WAFのビットフォレストが、日本企業のWebサイトへのAIエージェントによる攻撃を3つのIPアドレスから観測しました。中小企業が先にやるべきことは、特別なAI対策ではなくOS・CMSの更新と管理画面の脆弱性解消です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？ · AIの鬼">
+  <meta property="og:description" content="クラウド型WAFのビットフォレストが、日本企業のWebサイトへのAIエージェントによる攻撃を3つのIPアドレスから観測しました。中小企業が先にやるべきことは、特別なAI対策ではなくOS・CMSの更新と管理画面の脆弱性解消です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-ai-agent-website-attack-what-smes-check-first.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-ai-agent-website-attack-what-smes-check-first.jpg">
+  <meta name="twitter:title" content="AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？ · AIの鬼">
+  <meta name="twitter:description" content="クラウド型WAFのビットフォレストが、日本企業のWebサイトへのAIエージェントによる攻撃を3つのIPアドレスから観測しました。中小企業が先にやるべきことは、特別なAI対策ではなくOS・CMSの更新と管理画面の脆弱性解消です。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？","item":"https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/"}]},{"@type":"Article","headline":"AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？","description":"クラウド型WAFのビットフォレストが、日本企業のWebサイトへのAIエージェントによる攻撃を3つのIPアドレスから観測しました。中小企業が先にやるべきことは、特別なAI対策ではなくOS・CMSの更新と管理画面の脆弱性解消です。同社も「攻撃者がAIエージェントを使っていても対策は大きく変わらない」としています。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/"},"url":"https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-10-16","dateModified":"2026-10-16","image":"https://ai-oni.com/static/img/article-ai-agent-website-attack-what-smes-check-first.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=61a63edb" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=61a63edb">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/ai-agent-website-attack-what-smes-check-first/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-ai-agent-website-attack-what-smes-check-first.jpg"
+         alt="AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？</h1>
+<p class="article-lead">クラウド型WAFのビットフォレストが、日本企業のWebサイトへのAIエージェントによる攻撃を3つのIPアドレスから観測しました。中小企業が先にやるべきことは、特別なAI対策ではなくOS・CMSの更新と管理画面の脆弱性解消です。同社も「攻撃者がAIエージェントを使っていても対策は大きく変わらない」としています。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年10月16日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論を先に書きます。攻撃者がAIエージェントを使い始めても、中小企業が最初にやることは変わりません。OSやCMSを更新して、管理画面の脆弱性を解消することです。変わるのは、「うちは小さいから大丈夫」という言い訳が使えなくなることです。</p>
+<p>なお、AIの鬼を運営する株式会社TOEは、AI検索対策・AI導入支援を売りうる利害関係者です。WAFやセキュリティ製品の性能は、当社では測っていません。</p>
+<h2 id="3ip3">何が観測されたのか──3つのIPアドレス、3通りの攻撃</h2>
+<p>クラウド型WAFを提供するビットフォレストは2026年10月14日、同社の技術ブログ「WAF Tech Blog」で、日本企業のWebサイトに対するAIエージェントによる攻撃を観測したと報告しました。この報告は<a href="https://www.itmedia.co.jp/aiplus/article/2610/15/2000002284/">ITmedia AI+</a>が10月15日に伝えています。</p>
+<p>同社は、攻撃元がAIエージェントかどうかを判定する仕組みをWAFに導入しました。その結果、10月10日夜から14日までに、少なくとも3つのIPアドレスからの攻撃を確認したとのことです。</p>
+<table>
+<thead>
+<tr>
+<th>攻撃元</th>
+<th>続いた時間</th>
+<th>段階</th>
+<th>確認された中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPアドレス①</td>
+<td>8時間弱</td>
+<td>10段階</td>
+<td>毎秒約35件・約1万件の高速スキャン、既知の脆弱性への攻撃、約250件のログイン総当たりなど。ツールを切り替えながら実行</td>
+</tr>
+<tr>
+<td>IPアドレス②</td>
+<td>記載なし</td>
+<td>5段階</td>
+<td>問い合わせフォームへの連投を含む</td>
+</tr>
+<tr>
+<td>IPアドレス③</td>
+<td>記載なし</td>
+<td>記載なし</td>
+<td>約1000件のスキャンのみ</td>
+</tr>
+</tbody>
+</table>
+<p>同社によると、3つの攻撃は特徴が異なり、攻撃主体は別々の可能性があります。①で使われた具体的なツール名は、素材には書かれていません。</p>
+<p>目を引くのは①の「10段階」です。スキャンで止まらず、既知の脆弱性を突き、ログインを総当たりするというように、手口が順に切り替わっています。同社は、サーバの応答を読み取って次の行動を修正することをAIエージェントの特徴に挙げています。応答を見て次の手を選ぶ相手にとっては、自社サイトが返す応答の一つひとつが次の段階の材料になります。これは当編集部の読みで、素材にこう書かれているわけではありません。</p>
+<h2 id="ai">「AIエージェントの攻撃」と言い切れるのはどこまでか</h2>
+<p>判定方法の詳細は公開されていません。理由について同社は「見分ける方法を公開すると攻撃者側に対策されてしまうため」と説明しています。公開されたのは大枠だけです。応答を読んで行動を直すというAIエージェントの特徴を逆手に取り、次のような従来型の攻撃と区別できるようにWAFの挙動を調整した、という内容です。</p>
+<ul>
+<li>「単純なリクエストを連続して送るだけ」の攻撃</li>
+<li>「単純に『curl』や『sqlmap』を実行するだけ」の攻撃</li>
+</ul>
+<p>導入前の検証では、高性能モデル8種による攻撃を検出できたとしています。8種には、中国Alibabaの「Qwen 3.8 Flash Next」と中国Z.aiの「GLM-5.3 Flash」が含まれます。ただし、この8種は導入前の検証で使ったモデルです。今回の3件の攻撃にどのモデルが使われたのかは、素材に書かれていません。残る6種の名前も分かりません。</p>
+<p>報告のうち、言い切っている部分と推測の部分を分けると次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>報告での扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3つのIPアドレスからのAIエージェントによる攻撃</td>
+<td>観測した（「少なくとも」3つ）</td>
+</tr>
+<tr>
+<td>検知したものがAIエージェントであること</td>
+<td>「間違いなくAIエージェントである」と断定</td>
+</tr>
+<tr>
+<td>AIエージェントを漏れなく見つけること</td>
+<td>「漏れなく列挙することはできない」と明言</td>
+</tr>
+<tr>
+<td>判定の方法</td>
+<td>非公開</td>
+</tr>
+<tr>
+<td>3つの攻撃が別々の主体によるものか</td>
+<td>可能性にとどまる</td>
+</tr>
+<tr>
+<td>今後ほぼすべての攻撃者がAIエージェントを使うこと</td>
+<td>同社の推測</td>
+</tr>
+</tbody>
+</table>
+<p>つまり「見逃しはありうるが、誤認はしない」という設計です。裏返せば、検知されなかった攻撃にAIエージェントが含まれていないとは言えません。「3つ」は観測できた最低限の数であり、全体の数ではありません。</p>
+<p>同じ出来事を扱った他社の報道は、当編集部が集めた範囲では0件でした。ITmedia AI+の記事も、ビットフォレストの技術ブログを伝えたものです。別の立場から報告を裏付ける情報は、素材の中にありません。また、報告したのはWAFを提供する当事者で、有効策にもWAFの導入を挙げています。報告を疑う根拠があるという意味ではありません。第三者による検証が素材に無い、という点を押さえておく必要があります。</p>
+<h2 id="_1">中小企業にとって何が変わるのか</h2>
+<p>一番大事なのは、ビットフォレスト自身が「攻撃者がAIエージェントを使っていても対策は大きく変わらない」としている点です。同社が挙げた有効策は次の2つです。</p>
+<ul>
+<li>脆弱性の解消</li>
+<li>シグネチャ（既知の攻撃パターン）のみに依存しないWAFの導入</li>
+</ul>
+<p>「AIエージェント対策」と名の付く何かを先に買う理由は、この報告からは出てきません。</p>
+<p>変わるのは、狙われる側の前提です。同社は「AIエージェントはあまりにも便利で優秀なので、攻撃者が使わないわけがない」と述べ、今後はほぼすべての攻撃者が使うようになると推測しています。攻撃のコストが下がれば、「規模が小さい会社のサイトは後回しにされる」という期待は持てなくなります。</p>
+<p>①と②で狙われたのは、ログイン、問い合わせフォーム、既知の脆弱性でした。ログイン画面と問い合わせフォームは、中小企業のコーポレートサイトにもごく普通にある部品です。</p>
+<p>当社の実測とも突き合わせます。当社は2026年8月1日、福岡県の金属加工業45社について、生成AI（Gemini Flash-Lite＋Google検索グラウンディング、1社3回）が公式サイトを根拠に会社を説明できるかを測りました。説明できたのは42社（93%）です。AI検索から見ると、中小企業の公式サイトは「AIに読まれる入口」として働いています。そして今回の報告は、同じ日本企業のWebサイトが、別の目的のAIエージェントからは攻撃される対象にもなることを示しています。当社は「AIに読まれるサイト」づくりを勧める立場です。だからこそ、AIに読まれることと、古いまま放置してよいことは別の話だとはっきり書いておきます。</p>
+<p>もう1つの実測もあります。当社は2026年7月22日、主要25サイトのrobots.txtを取得しました（成功23）。結果は次のとおりです。</p>
+<ul>
+<li>AIクローラを1つ以上拒否していたサイト：6</li>
+<li>そのうち6種すべてを拒否していた新聞社：3</li>
+<li>明示的な拒否がなかったサイト：17</li>
+</ul>
+<p>robots.txtはクローラに向けた宣言のファイルです。今回のような攻撃を止められるかどうかは、素材には書かれていません。攻撃者がそれに従うと見込んで、安心材料にしないほうが安全です。</p>
+<h2 id="_2">明日からの点検──観測された攻撃から逆算する</h2>
+<p>素材にある攻撃の中身を、自社サイトで確かめる問いに置き換えました。</p>
+<table>
+<thead>
+<tr>
+<th>観測された攻撃</th>
+<th>自社サイトで確かめる問い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高速スキャン（①毎秒約35件・約1万件、③約1000件）</td>
+<td>旧サイトや使っていないページを公開したままにしていないか</td>
+</tr>
+<tr>
+<td>既知の脆弱性への攻撃（①）</td>
+<td>OS・CMS・プラグインは更新されているか。更新の担当者は決まっているか</td>
+</tr>
+<tr>
+<td>ログイン総当たり（①約250件）</td>
+<td>管理画面のURLとアカウントを誰が把握しているか。使っていないアカウントが残っていないか</td>
+</tr>
+<tr>
+<td>問い合わせフォームへの連投（②）</td>
+<td>連投されたとき、誰の受信箱に何が届き、誰が気づくか</td>
+</tr>
+<tr>
+<td>有効策として挙げられたWAF</td>
+<td>WAFは入っているか。入っているなら、シグネチャだけに頼る方式か</td>
+</tr>
+</tbody>
+</table>
+<p>取りかかる順番は、上の3行にある「古いまま放置された箇所」の解消が先です。当編集部が明日の一言にするなら、「攻撃者がAIを使うかどうかより、古いまま放置された箇所が入口になる前提で点検する」です。サイトの保守を制作会社やホスティング会社に任せている場合は、この表をそのまま質問として渡せます。</p>
+<p>ただし、どの点検でどれだけ攻撃が減るのかは、当社では測っていません。どのWAF製品が「シグネチャのみに依存しない」方式に当たるのかも、素材からは分かりません。</p>
+<h2 id="ai_1">AIエージェントを使う側として</h2>
+<p>当社も社内業務の自動化を27本運用していて、AIエージェントを使う側でもあります。サーバの応答を読んで次の行動を修正するという特徴は、攻撃で使われても業務で使われても同じです。業務で使うときに権限をどこまで渡すかは、次の2本の記事で扱いました。</p>
+<ul>
+<li><a href="../why-agents-should-never-see-api-keys/">AIエージェントに渡したAPIキーは回収できない ― 中小企業は「渡さない」を最初に選べるのか？</a></li>
+<li><a href="../tailscale-aperture-agent-permissions/">AIエージェントにAPIキーを丸ごと渡さず社内サーバーを操作させられるのか──Tailscale「Aperture」正式リリースで中小企業の何が変わるのか</a></li>
+</ul>
+<p>攻撃される側としての点検と、自社で使う側としての権限設計は、あわせて見直すと抜けが少なくなります。</p>
+<h2 id="_3">この記事で言えないこと</h2>
+<ul>
+<li>攻撃を受けた日本企業の社名・業種・規模・社数は、素材に書かれていません。中小企業が含まれていたかどうかも分かりません。</li>
+<li>攻撃が成功したのか、情報流出や改ざんなどの被害があったのかは、素材からは分かりません。</li>
+<li>実際の3件の攻撃に使われたAIモデルは分かりません。検証で検出できた8種のうち、名前が出ているのは2種だけです。</li>
+<li>判定方法は非公開で、見逃しや誤検知がどれくらいあるのかは分かりません。</li>
+<li>IPアドレスの所在地や攻撃主体は、素材に書かれていません。②と③の攻撃が続いた時間も分かりません。</li>
+<li>同じ出来事を扱った他社の報道は0件で、別の情報源による裏付けはありません。</li>
+<li>「今後はほぼすべての攻撃者がAIエージェントを使う」は同社の推測です。時期や根拠となるデータは示されていません。</li>
+<li>当社は、WAFの性能、上の点検項目の効果、自社サイトへの攻撃状況のいずれも測っていません。</li>
+<li>robots.txtの設定が今回のような攻撃に効くかどうかは、素材にも当社の実測にもありません。</li>
+</ul>
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>ビットフォレストは2026年10月10日夜〜14日に、日本企業のWebサイトへのAIエージェントによる攻撃を、少なくとも3つのIPアドレスから観測しました。うち1つは8時間弱にわたり、10段階で手口を変えていました。</li>
+<li>判定は「検知すれば間違いなくAIエージェント、ただし漏れなくは見つけられない」という設計で、「3つ」は最低限の数です。判定方法は非公開で、他社の報道による裏付けもありません。</li>
+<li>同社は「攻撃者がAIエージェントを使っても対策は大きく変わらない」とし、脆弱性の解消と、シグネチャのみに依存しないWAFを有効策に挙げています。</li>
+<li>中小企業にとって変わるのは「うちは小さいから大丈夫」が通らなくなることで、点検の中身は変わりません。まずOS・CMSの更新と、管理画面の脆弱性解消を終わらせてください。</li>
+<li>公式サイトはAIに読まれる入口（当社の実測では、福岡県の金属加工業45社中42社）であると同時に、攻撃の入口にもなります。どの点検がどれだけ効くかは、当社は測っていません。</li>
+</ul>
+<p><em>この記事は、ITmedia AI+の報道（ビットフォレストがWAF Tech Blogで公開した報告を伝えたもの）を素材に、当社（株式会社TOE / AIの鬼）の実測とあわせて書きました。使った実測は、2026年8月1日の福岡県金属加工業45社の調査、2026年7月22日の主要25サイトのrobots.txt調査、社内業務の自動化27本の運用状況です。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-agent-sprawl-reco-inventory-for-sme/">
+<div class="card-media"><img src="../../static/img/article-ai-agent-sprawl-reco-inventory-for-sme.jpg" alt="未把握のAIエージェントが1社で21,000個とRecoが主張──5500万ドル調達のいま、中小企業はAIツールの棚卸しを先にやるべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">未把握のAIエージェントが1社で21,000個とRecoが主張──5500万ドル調達のいま、中小企業はAIツールの棚卸しを先にやるべきか？</h3>
+<p class="card-summary">AIエージェントのセキュリティ企業Recoが5500万ドルを調達し、累計は1億4000万ドルになりました。同社はFortune 100の顧客1社で未把握のエージェント21,000個を見つけたと述べています。中小企業が先にやることは製品選びではなく、社内で動くAIツールと自動化の棚卸しです。ただし数字はすべて売り手側の発言で、他社報道での裏取りはできていません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/claude-duet-always-on-agent-what-smes-delegate/">
+<div class="card-media"><img src="../../static/img/article-claude-duet-always-on-agent-what-smes-delegate.jpg" alt="Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？</h3>
+<p class="card-summary">Claude Duetは、毎朝のブリーフと日中の見張りで経営者の受信箱を代わりに読むエージェントです。ただ、まだ「研修中の秘書」の段階です。Anthropic自身が誤読を認めており、利用はPro・Max加入者のウェイトリスト制です。中小企業が先にやるべきことは導入ではなく、「何を読ませ、お金と削除と社外送信を誰が押すか」を社内ルールに書くことです。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/faraday-borrow-not-build-sme/">
+<div class="card-media"><img src="../../static/img/article-faraday-borrow-not-build-sme.jpg" alt="話題のAIは「自前のコードツールを作らなかった」──中小企業はAIで何を作り、何を借りるべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">話題のAIは「自前のコードツールを作らなかった」──中小企業はAIで何を作り、何を借りるべきか？</h3>
+<p class="card-summary">DeepMind出身者のロンドンのラボInherentが、論文複製エージェントFaradayでClaude Opus 4.8とGPT-5.5を上回ったと発表しました。見出しは「小さいモデルが勝った」ですが、中小企業が真似できるのはモデルの大小より、Inherentの3つの設計判断です。コードツールは自作せずGPT-5.5 Codexを借り、報酬設計で「センス」を仕込み、迎合しないエージェントを狙う。当社は小型モデルの学習は測っていません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=ai-agent-website-attack-what-smes-check-first">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+<aside class="toe-training-wrap" aria-label="株式会社TOEの法人向けAI研修">
+  <p class="toe-training-disclosure">PR｜運営会社TOEのAI研修</p>
+  <a class="toe-training-banner" href="https://ai-training-lp-rouge.vercel.app/?utm_source=aioni&amp;utm_medium=display&amp;utm_campaign=toe_ai_training_202610&amp;utm_content=article_banner">
+    <span class="toe-training-visual"><img class="toe-training-photo" src="../../static/img/toe-training-photo-v2.webp" alt="パソコンで提案の準備を進める社員と経営者のイメージ" width="1100" height="733" loading="lazy"><small class="toe-training-image-note">AI生成のイメージ写真</small></span>
+    <span class="toe-training-copy">
+      <span class="toe-training-brand"><img src="../../static/img/toe-training-logo.png" alt="TOE" width="573" height="200" loading="lazy"><span>法人向けAI研修</span></span>
+      <strong class="toe-training-title">見積も、提案も。<br><span>社長ひとりで抱えない。</span></strong>
+      <span class="toe-training-body">見積・提案・顧客対応を題材に、AIで下書きや情報整理を学ぶ法人研修です。</span>
+      <span class="toe-training-action">無料30分相談<span aria-hidden="true">→</span></span>
+    </span>
+    <span class="toe-training-grant">
+      <span class="toe-training-deadline">まもなく終了</span>
+      <span class="toe-training-label">助成率</span>
+      <span class="toe-training-rate"><small>最大</small><b>75</b><span>%</span></span>
+      <small class="toe-training-note">中小企業・要件あり</small>
+    </span>
+  </a>
+</aside>
+<script src="../../static/js/toe-training-banner-v3.js" defer></script>    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-10-24 11:09 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=61a63edb" defer></script>
+</body>
+</html>
