@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Anthropicが発表した常時稼働エージェント「Claud… · AIの鬼</title>
+  <meta name="description" content="Claude Duetは、毎朝のブリーフと日中の見張りで経営者の受信箱を代わりに読むエージェントです。ただ、まだ「研修中の秘書」の段階です。Anthropic自身が誤読を認めており、利用はPro・Max加入者のウェイトリスト制です。">
+  <link rel="canonical" href="https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？ · AIの鬼">
+  <meta property="og:description" content="Claude Duetは、毎朝のブリーフと日中の見張りで経営者の受信箱を代わりに読むエージェントです。ただ、まだ「研修中の秘書」の段階です。Anthropic自身が誤読を認めており、利用はPro・Max加入者のウェイトリスト制です。">
+  <meta property="og:url" content="https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-claude-duet-always-on-agent-what-smes-delegate.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-claude-duet-always-on-agent-what-smes-delegate.jpg">
+  <meta name="twitter:title" content="Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？ · AIの鬼">
+  <meta name="twitter:description" content="Claude Duetは、毎朝のブリーフと日中の見張りで経営者の受信箱を代わりに読むエージェントです。ただ、まだ「研修中の秘書」の段階です。Anthropic自身が誤読を認めており、利用はPro・Max加入者のウェイトリスト制です。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？","item":"https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/"}]},{"@type":"Article","headline":"Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？","description":"Claude Duetは、毎朝のブリーフと日中の見張りで経営者の受信箱を代わりに読むエージェントです。ただ、まだ「研修中の秘書」の段階です。Anthropic自身が誤読を認めており、利用はPro・Max加入者のウェイトリスト制です。中小企業が先にやるべきことは導入ではなく、「何を読ませ、お金と削除と社外送信を誰が押すか」を社内ルールに書くことです。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/"},"url":"https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-10-23","dateModified":"2026-10-23","image":"https://ai-oni.com/static/img/article-claude-duet-always-on-agent-what-smes-delegate.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=61a63edb" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=61a63edb">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/claude-duet-always-on-agent-what-smes-delegate/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-claude-duet-always-on-agent-what-smes-delegate.jpg"
+         alt="Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>Anthropicが発表した常時稼働エージェント「Claude Duet」に、中小企業の経営者は何を任せ、何を自分で押すべきか？</h1>
+<p class="article-lead">Claude Duetは、毎朝のブリーフと日中の見張りで経営者の受信箱を代わりに読むエージェントです。ただ、まだ「研修中の秘書」の段階です。Anthropic自身が誤読を認めており、利用はPro・Max加入者のウェイトリスト制です。中小企業が先にやるべきことは導入ではなく、「何を読ませ、お金と削除と社外送信を誰が押すか」を社内ルールに書くことです。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年10月23日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>結論から書きます。Claude Duetは、経営者の受信箱を毎朝要約し、日中も見張ってくれる常時稼働エージェントです。ただし2026年10月時点では、Anthropic自身が「誤読することがある」と認める研修中の秘書です。中小企業がいま決めるべきことは導入するかどうかではありません。「何を読ませるか」と「お金・削除・社外への送信を誰が押すか」です。</p>
+<h2 id="claude-duet">Claude Duetは何をするエージェントなのか</h2>
+<p><a href="https://www.theverge.com/ai-artificial-intelligence/1015843/anthropic-claude-duet-ai-agent">The Verge AI</a>によると、Anthropicは専門職と小規模事業者向けのAIエージェント「Claude Duet」をリサーチプレビューとして公開しました。MetaのMuseやOpenAIのDotsに対抗する製品という位置づけです。ITmedia AI+は発表日を10月21日（現地時間）としています。Anthropicは「多忙を極め、管理し切れないプロフェッショナルや中小企業の経営者のために開発した」と説明しているそうです。基盤のモデルは「Claude Opus 5.5」で、iOS・Androidの単独アプリとWeb版のClaudeから使えます。</p>
+<p>素材から読み取れる機能は次の5つです。</p>
+<ul>
+<li>毎朝、接続したアプリの重要事項を短いブリーフにまとめて届けます。ITmediaはGmailとSlackを例に挙げています。</li>
+<li>日中は接続したアプリを見張り、注意が必要なときだけメッセージを送ります。</li>
+<li>会議の日程調整のような事務作業から、数十のツールを使うダッシュボード作成、財務・売上の予測、試作、Webアプリの構築まで頼めます（The Verge）。</li>
+<li>Claudeのメモリ、スキル、接続アプリを引き継ぎます。ITmediaによれば「Claude Marketplace」のコネクタとプラグインも使えます。</li>
+<li>ブラウザを持つ仮想マシンで作業するため、ノートPCやスマートフォンを閉じた後も作業が続きます（ITmedia）。</li>
+</ul>
+<p>The Vergeは弱点も伝えています。Anthropicは現状を「early version」と呼んでいます。スレッドを誤読したり、何が緊急かの判断を外したりする可能性があることも自ら認めています。チケット予約のような個人的な用事は「まだ強くない」そうです。</p>
+<p>画面を操作して仕事を進めるエージェントは、当サイトの<a href="../spacexai-grok-bot-always-on-agent-for-sme/">既存ツールをそのまま使いながらAIが画面を操作する時代──Grok Botは中小企業の「システム刷新」問題を解くのか</a>でも取り上げました。Duetの特徴は、作業を代わりにやるだけではない点です。「毎朝のブリーフ」と「日中の見張り」を通じて、経営者がどこに注意を向けるかまで預かろうとしています。</p>
+<h2 id="3">3本の報道に矛盾はないが、書いている範囲が違う</h2>
+<p>同じ発表を扱ったThe Verge、ITmedia AI+、TechCrunchの3本を並べました。3本とも、Pro・Maxプランの利用者がウェイトリスト（待機リスト）に登録して使う形だと書いており、この点は一致しています。違うのは、どこまで書いているかです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>The Verge</th>
+<th>ITmedia AI+</th>
+<th>TechCrunch（手元の素材）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日付</td>
+<td>記事の公開日は2026-10-21</td>
+<td>10月21日（現地時間）に公開</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>対象プラン</td>
+<td>Pro・Max</td>
+<td>Pro・Max（プランに含まれる）</td>
+<td>Pro・Max</td>
+</tr>
+<tr>
+<td>地域</td>
+<td>米国の加入者</td>
+<td>記載なし</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>競合</td>
+<td>MetaのMuse、OpenAIのDots</td>
+<td>記載なし</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>接続先</td>
+<td>Claudeの接続アプリ</td>
+<td>Gmail、Slack、Claude Marketplaceのコネクタとプラグイン</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>作業環境</td>
+<td>ブラウザ付きの仮想マシン</td>
+<td>独自ブラウザ付きの仮想マシン。PCやスマホを閉じても継続</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>共有を拒否する情報</td>
+<td>クレジットカード番号など、最も厳しい階層の情報</td>
+<td>クレジットカード、身分証明書</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>送信先の確認</td>
+<td>記載なし</td>
+<td>常にチェック</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>健康・家計の情報</td>
+<td>記載なし</td>
+<td>明示的に指示した場合のみ外部へ送信</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>利用制限</td>
+<td>記載なし</td>
+<td>Claudeと同様</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>弱点の自己申告</td>
+<td>誤読、緊急度の判断ミス、チケット予約などの個人的な用事</td>
+<td>記載なし</td>
+<td>記載なし</td>
+</tr>
+</tbody>
+</table>
+<p>互いに矛盾する記述は見つかりませんでした。気をつけたいのは次の3点です。</p>
+<p>1つ目は地域です。「米国の加入者」という条件を書いているのはThe Vergeだけで、ITmediaとTechCrunchの素材には地域の記載がありません。The Vergeの記述どおりなら、日本の会社はいま申し込んでも使えません。日本での提供時期には、3本とも触れていません。</p>
+<p>2つ目は機微な情報の線引きです。拒否する情報の例として、The Vergeはクレジットカード番号だけを挙げ、ITmediaは身分証明書も挙げています。さらにITmediaだけが、健康や家計などの情報は「明示的に指示した場合のみ外部に送信する」と書いています。2本を合わせると、最も厳しい階層の情報は拒否し、それ以外は指示があれば送る、という二段構えだと読めます。</p>
+<p>3つ目はTechCrunchです。手元の素材から読み取れるのは、見出し「Claude Duet app is Anthropic's bet on agents」と提供形態だけです。機能や安全設計の記述はないため、他の2本と同じ重さでは比べられません。</p>
+<h2 id="_1">守りの設計は、どの事故を止め、どの事故を止めないのか</h2>
+<p>素材に書かれた設計を、想定される事故ごとに並べます。</p>
+<table>
+<thead>
+<tr>
+<th>想定される事故</th>
+<th>素材にある設計</th>
+<th>残る穴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>勝手な送金・削除</td>
+<td>大きな操作の前に利用者へ承認を求める（The Verge）</td>
+<td>「大きな操作」の範囲は素材に記載なし</td>
+</tr>
+<tr>
+<td>カード番号・身分証の漏えい</td>
+<td>専用の分類器と安全用のシステムプロンプトで共有の依頼を拒否（The Verge・ITmedia）</td>
+<td>拒否の精度を示す数字は素材になし</td>
+</tr>
+<tr>
+<td>宛先違いの送信</td>
+<td>メール・メッセージの送信先を常にチェック（ITmedia）</td>
+<td>人への確認か自動の照合かは記載なし</td>
+</tr>
+<tr>
+<td>健康・家計情報の外部送信</td>
+<td>明示的に指示した場合のみ送信（ITmedia）</td>
+<td>指示する人の判断次第</td>
+</tr>
+<tr>
+<td>重要な連絡の見落とし・誤読</td>
+<td>対策の記述なし（Anthropicは誤読と緊急度の判断ミスの可能性を明言）</td>
+<td>ブリーフから漏れた連絡に人が気づく手段の記述なし</td>
+</tr>
+</tbody>
+</table>
+<p>要点は表の最後の行です。承認制と分類器が止めるのは「やってはいけない操作」で、「読み違い」は止めません。送金の承認ボタンを人が押す設計でも、判断の材料がDuetの要約だけなら、誤読した要約を根拠に承認してしまうおそれがあります。朝のブリーフを信じて動く人ほど、ブリーフに載らなかった連絡に気づきにくくなります。</p>
+<p>ITmediaが伝える「明示的に指示した場合のみ送る」も、安全を指示する人の判断に預ける設計です。たとえば「この資料を送っておいて」と頼んだとき、資料に家計や健康の情報が混ざっていないかを確かめるのは、Duetではなく頼んだ本人です。</p>
+<p>能力より先に止める仕組みを決めるという順番は、<a href="../superintelligence-slowdown-sme-guardrails/">AI企業が「ペースダウンしよう、でも中国より速く」と言い始めた──中小企業のAI導入で先に決めるべきは能力より暴走防止か？</a>でも問いかけました。Duetはその順番を製品の側に組み込んだ例です。ただし、社内ルールの代わりにはなりません。</p>
+<h2 id="_2">当社の実測と突き合わせると言えること</h2>
+<p>先に利害関係を書いておきます。株式会社TOEはAI導入支援やAI検索対策を売りうる利害関係者です。エージェント製品の評判は、当社の商売と無関係ではありません。</p>
+<p>当社は社内業務の自動化を27本運用しており、AI秘書のブリーフィングを毎朝8:00に出しています。運用中のAI API課金は0円です。「毎朝AIからブリーフを受け取る」という形そのものは、当社では自前の仕組みで回しています。ただし、Duetと当社の仕組みを比べたことはありません。Duetはウェイトリスト制で、The Vergeの記述では米国の加入者向けのため、当社は触っていません。当社のブリーフィングで浮いた時間や、見落としの件数も測っていません。</p>
+<p>自動化を回して言えるのは、「止まらずに動いていること」と「成果物が増えること」は別の数字だという点です。当サイトの日次の自動更新には89日分の記録があり、最後に動いたのは2026年10月22日です。一方、記事の本数は直近7日で332本のまま、1本も増えていません。この集計は本数を数えているだけで、増えなかった理由までは分かりません。常時稼働のエージェントを入れるなら、「動いているか」とは別に「何が仕上がったか」「何を見落としたか」を数える物差しを最初から用意しておく必要があります。</p>
+<p>AIの読み違いを前提にした運用は、外部調査の数字とも重なります。Gartner（2026年5月・n=645）によると、BtoB購買担当者の51%がAIで誤情報に出会い、69%が裏取りを依頼していました。購買の場面の調査なので、Duetのブリーフとは対象が違います。それでも、AIの出力を人が確かめ直すのは例外ではない、という前提に立つ材料にはなります。</p>
+<p>費用はどうでしょうか。リサーチプレビューはPro・Maxプランに含まれ、ITmediaによればClaudeと同様の利用制限がかかります。追加料金の記載は素材にありません。当サイトの<a href="../claude-fable-agent-price-cut-for-smes/">Claude Fable 5.1の「最大45%値下げ」は中小企業のAIエージェント費用を本当に下げるのか？</a>では、下がるのはトークン単価であって請求額ではないと書きました。プランの枠の中で動くDuetで気にすべきなのは、単価よりも「常時見張らせると枠をどれだけ使うか」です。ただ、その量は素材からは分かりません。</p>
+<h2 id="_3">中小企業が導入前に書き出しておくこと</h2>
+<p>Duetが日本で使えるかどうかに関係なく、次の4つは今週中に書き出せます。製品の設計に頼らず社内ルールにしておけば、Duet、Muse、Dotsのどれを検討するときも同じ物差しで比べられます。</p>
+<ol>
+<li><strong>読ませるアプリを決めます。</strong> ITmediaが例に挙げるGmailやSlackのように、接続はアプリ単位です。取引先の見積や社員の個人的な連絡が混ざる受信箱を、そのままつなぐかどうかを先に決めます。</li>
+<li><strong>人が押す操作を決めます。</strong> Duetは送金や削除の前に承認を求めますが、それとは別に「お金・削除・社外への送信は人が押す」と社内ルールに書いておきます。</li>
+<li><strong>「送ってよい」と指示できる人を決めます。</strong> 健康や家計の情報は、指示すれば外部へ送る設計です。誰が、どの種類の情報について送る指示を出してよいかを決めておきます。</li>
+<li><strong>最初に任せる仕事を選びます。</strong> 会議の日程調整やダッシュボードの試作のように、間違えても人が後から直せる仕事から始めます。チケット予約のような個人的な用事は、Anthropic自身が「まだ強くない」としているので後回しにします。</li>
+</ol>
+<p>使い始めの時期は、ブリーフと元の受信箱を人が突き合わせる時間も取ってください。素材には誤読の頻度を示す数字がないので、自社の受信箱で確かめるしかありません。エージェントに渡すものを最小にする考え方は、<a href="../why-agents-should-never-see-api-keys/">AIエージェントに渡したAPIキーは回収できない ― 中小企業は「渡さない」を最初に選べるのか？</a>で書いた、「渡さない」を先に選ぶ発想と同じです。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li>日本での提供時期と、日本語のメールやSlackをどこまで正しく読めるか。地域を書いているのはThe Vergeだけで、その条件は米国の加入者です。</li>
+<li>正式版の時期と、リサーチプレビュー後の料金。Pro・Maxプランの金額も素材にはありません。</li>
+<li>Duetの利用が、Claude本体の利用枠とどう関係するか。ITmediaは「Claudeと同様の利用制限」とだけ書いています。</li>
+<li>分類器がどれだけ確実に拒否するか、誤読や緊急度の判断ミスがどのくらいの頻度で起きるか。精度や頻度の数字は素材にありません。</li>
+<li>承認を求める「大きな操作」の範囲。「送信先を常にチェック」が人への確認なのか、自動の照合なのか。</li>
+<li>読ませたメールやSlackの内容がどこに、どれだけの期間残るか。3本とも触れていません。</li>
+<li>複数の社員で使えるか、承認を本人以外の担当者に回せるか。</li>
+<li>MetaのMuse、OpenAIのDotsとの機能・価格の比較。The Vergeが競合と位置づけているだけで、比べる材料は素材にありません。</li>
+<li>当社はDuetを触っていないため、ブリーフの質や浮く時間は測っていません。当社自身のAI秘書ブリーフィングの効果も測っていません。</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Claude Duetは、2026年10月21日（現地時間）にリサーチプレビューとして公開された、専門職と中小企業経営者向けの常時稼働エージェントです。基盤はClaude Opus 5.5です。</li>
+<li>利用はPro・Max加入者のウェイトリスト制で、The Vergeは米国の加入者に限ると書いています。日本での提供時期は素材からは分かりません。</li>
+<li>送金・削除前の承認、カード番号や身分証の共有拒否、送信先の確認は「やってはいけない操作」を止めますが、誤読は止めません。誤読の可能性はAnthropic自身が認めています。</li>
+<li>当社は毎朝8:00のAI秘書ブリーフィングと27本の社内自動化をAI API課金0円で回していますが、Duetとの比較も効果も測っていません。動き続けることと成果物が増えることは、別の数字で見る必要があります。</li>
+<li>導入より先に、「何を読ませるか」「お金・削除・社外送信を誰が押すか」「送ってよいと指示できるのは誰か」を社内ルールに書いておけば、製品を替えてもその準備は残ります。</li>
+</ul>
+<p><em>この記事は、The Verge AI・ITmedia AI+・TechCrunch AIによるClaude Duetの報道を素材に、Gartner（2026年5月・n=645）の調査、株式会社TOE（AIの鬼）の社内自動化とサイト運用の実測とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-agent-website-attack-what-smes-check-first/">
+<div class="card-media"><img src="../../static/img/article-ai-agent-website-attack-what-smes-check-first.jpg" alt="AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">AIエージェントが日本企業のWebサイトを8時間弱・10段階で攻撃──中小企業は「AI対策」より先に何を点検すべきか？</h3>
+<p class="card-summary">クラウド型WAFのビットフォレストが、日本企業のWebサイトへのAIエージェントによる攻撃を3つのIPアドレスから観測しました。中小企業が先にやるべきことは、特別なAI対策ではなくOS・CMSの更新と管理画面の脆弱性解消です。同社も「攻撃者がAIエージェントを使っていても対策は大きく変わらない」としています。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/ai-agent-sprawl-reco-inventory-for-sme/">
+<div class="card-media"><img src="../../static/img/article-ai-agent-sprawl-reco-inventory-for-sme.jpg" alt="未把握のAIエージェントが1社で21,000個とRecoが主張──5500万ドル調達のいま、中小企業はAIツールの棚卸しを先にやるべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">未把握のAIエージェントが1社で21,000個とRecoが主張──5500万ドル調達のいま、中小企業はAIツールの棚卸しを先にやるべきか？</h3>
+<p class="card-summary">AIエージェントのセキュリティ企業Recoが5500万ドルを調達し、累計は1億4000万ドルになりました。同社はFortune 100の顧客1社で未把握のエージェント21,000個を見つけたと述べています。中小企業が先にやることは製品選びではなく、社内で動くAIツールと自動化の棚卸しです。ただし数字はすべて売り手側の発言で、他社報道での裏取りはできていません。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/grok-bot-training-stop-rules-before-delegating/">
+<div class="card-media"><img src="../../static/img/article-grok-bot-training-stop-rules-before-delegating.jpg" alt="常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？</h3>
+<p class="card-summary">Uravationが法人向け「Grok Bot 業務活用研修」（3時間・1回）を始めました。教えるのは操作方法ではありません。Botの役割、動いてよい起点、結果を読む人、送信・公開・購入・削除などの前で止まるルールを、自社向けに決めることが中身です。価格と効果は素材からは分かりません。ただ、決める項目そのものは研修を受ける前でも社内で書き出せます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=claude-duet-always-on-agent-what-smes-delegate">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+<aside class="toe-training-wrap" aria-label="株式会社TOEの法人向けAI研修">
+  <p class="toe-training-disclosure">PR｜運営会社TOEのAI研修</p>
+  <a class="toe-training-banner" href="https://ai-training-lp-rouge.vercel.app/?utm_source=aioni&amp;utm_medium=display&amp;utm_campaign=toe_ai_training_202610&amp;utm_content=article_banner">
+    <span class="toe-training-visual"><img class="toe-training-photo" src="../../static/img/toe-training-photo-v2.webp" alt="パソコンで提案の準備を進める社員と経営者のイメージ" width="1100" height="733" loading="lazy"><small class="toe-training-image-note">AI生成のイメージ写真</small></span>
+    <span class="toe-training-copy">
+      <span class="toe-training-brand"><img src="../../static/img/toe-training-logo.png" alt="TOE" width="573" height="200" loading="lazy"><span>法人向けAI研修</span></span>
+      <strong class="toe-training-title">見積も、提案も。<br><span>社長ひとりで抱えない。</span></strong>
+      <span class="toe-training-body">見積・提案・顧客対応を題材に、AIで下書きや情報整理を学ぶ法人研修です。</span>
+      <span class="toe-training-action">無料30分相談<span aria-hidden="true">→</span></span>
+    </span>
+    <span class="toe-training-grant">
+      <span class="toe-training-deadline">まもなく終了</span>
+      <span class="toe-training-label">助成率</span>
+      <span class="toe-training-rate"><small>最大</small><b>75</b><span>%</span></span>
+      <small class="toe-training-note">中小企業・要件あり</small>
+    </span>
+  </a>
+</aside>
+<script src="../../static/js/toe-training-banner-v3.js" defer></script>    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-10-31 10:49 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=61a63edb" defer></script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>常駐AIエージェント「Grok Bot」に仕事を任せる前 · AIの鬼</title>
+  <meta name="description" content="Uravationが法人向け「Grok Bot 業務活用研修」（3時間・1回）を始めました。教えるのは操作方法ではありません。">
+  <link rel="canonical" href="https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？ · AIの鬼">
+  <meta property="og:description" content="Uravationが法人向け「Grok Bot 業務活用研修」（3時間・1回）を始めました。教えるのは操作方法ではありません。">
+  <meta property="og:url" content="https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-grok-bot-training-stop-rules-before-delegating.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-grok-bot-training-stop-rules-before-delegating.jpg">
+  <meta name="twitter:title" content="常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？ · AIの鬼">
+  <meta name="twitter:description" content="Uravationが法人向け「Grok Bot 業務活用研修」（3時間・1回）を始めました。教えるのは操作方法ではありません。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？","item":"https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/"}]},{"@type":"Article","headline":"常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？","description":"Uravationが法人向け「Grok Bot 業務活用研修」（3時間・1回）を始めました。教えるのは操作方法ではありません。Botの役割、動いてよい起点、結果を読む人、送信・公開・購入・削除などの前で止まるルールを、自社向けに決めることが中身です。価格と効果は素材からは分かりません。ただ、決める項目そのものは研修を受ける前でも社内で書き出せます。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/"},"url":"https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Organization","name":"AIの鬼 編集部"},"articleSection":"AI解体新書","datePublished":"2026-10-30","dateModified":"2026-10-30","image":"https://ai-oni.com/static/img/article-grok-bot-training-stop-rules-before-delegating.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=61a63edb" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=61a63edb">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/grok-bot-training-stop-rules-before-delegating/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../kaisetsu/" class="">AI解体新書</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-grok-bot-training-stop-rules-before-delegating.jpg"
+         alt="常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">AI解体新書</span>      <h1>常駐AIエージェント「Grok Bot」に仕事を任せる前に、中小企業は何を「止まる決まり」として書いておくべきか？</h1>
+<p class="article-lead">Uravationが法人向け「Grok Bot 業務活用研修」（3時間・1回）を始めました。教えるのは操作方法ではありません。Botの役割、動いてよい起点、結果を読む人、送信・公開・購入・削除などの前で止まるルールを、自社向けに決めることが中身です。価格と効果は素材からは分かりません。ただ、決める項目そのものは研修を受ける前でも社内で書き出せます。</p>      <div class="article-meta">
+<span>AIの鬼 編集部</span><time>2026年10月30日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>Uravationが始めた法人向け「Grok Bot 業務活用研修」は、常駐するAIエージェントの操作を覚える研修ではありません。任せる前に「Botの役割」「動いてよい起点」「結果を読む人」「送信や公開の前で止まるルール」を自社の言葉で書かせる、3時間の研修です。中小企業にとっては、AIエージェントを入れるときの最初の仕事が、ツール選びから社内ルールの下書きに移ったことになります。価格と効果は素材からは分かりません。</p>
+<p>最初にお断りしておきます。この記事を書いている株式会社TOEは、AI検索対策やAI導入支援を売る立場にあり、研修会社の商品を論じるうえでは利害関係者です。また、当社はGrok Botを使っておらず、その動作は測っていません。</p>
+<h2 id="_1">何が発表されたのか</h2>
+<p><a href="https://ascii.jp/elem/000/004/447/4447038/?rss">ASCII.jp</a>が2026年10月29日に伝えた内容は次のとおりです。生成AIの研修・コンサルティング・開発を行う株式会社Uravation（本社：東京都文京区、代表取締役：佐藤 傑）が、法人向けの「Grok Bot 業務活用研修」の提供を始めました。</p>
+<p>Grok Botは、名前と仕事を持った複数の「Bot」をクラウドのコンピューターで作業させ、定時や外部からの呼び出し（webhook）で動かせるAIエージェントです。素材ではSpaceXSI（xAI）とCursorの製品と説明されています。Uravationはこれらの会社と提携しておらず、公式の研修ではないと明記しています。製品について書かれている内容は、2026年10月25日時点の公式の手引きで同社が確かめた範囲です。</p>
+<p>研修の形は次のとおりです。</p>
+<ul>
+<li>3時間1回で、オンラインか訪問で行います</li>
+<li>題材は従業員80名の架空の専門商社で、最後の40分で受講者が自社の業務で任せる仕事を決めます</li>
+<li>受講者1人1台のPCが必要です</li>
+<li>受講者ごとに受講証明が出ますが、資格や認定ではありません</li>
+</ul>
+<p>同じ出来事を扱った他社の報道は、今回集めた範囲では0件でした。別の報道と突き合わせることはできないため、以下はUravationの発表と、それを載せたASCII.jpの記事だけに基づいています。</p>
+<h2 id="3">3時間で何を決めるのか</h2>
+<table>
+<thead>
+<tr>
+<th>開始</th>
+<th>扱う内容</th>
+<th>決めること・持ち帰るもの</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00</td>
+<td>Grok Botでできることと、会社で使う前の確認</td>
+<td>プラン・プライバシーモード・データの置き場所を公式の手引きで確かめる。会社で使う前のチェック表につながる</td>
+</tr>
+<tr>
+<td>0:25</td>
+<td>Botの役割の決め方</td>
+<td>Bot1体に1つの仕事。役割文に書く5点と、動いてよい起点を「利用者の直接の指示」と「そのBotの定時のルーティン」に限る1文。役割文のひな形を持ち帰る</td>
+</tr>
+<tr>
+<td>0:55</td>
+<td>ルーティンを1本設計する</td>
+<td>起点（定時かwebhook）、情報源、返すものと置き場所、結果を読む人、データが無い時の扱い、試しに実行するときの注意。ルーティン1本分の指示文のひな形を持ち帰る</td>
+</tr>
+<tr>
+<td>1:45</td>
+<td>「先に確認」のルールと、手元のパソコン・共有のコンピューターの扱い</td>
+<td>止まる操作を自社の言葉で書く。ログインは本人が画面を引き取って入力する。共有のコンピューターにパスワードやAPIキーを置かない</td>
+</tr>
+<tr>
+<td>2:20</td>
+<td>自社の業務で任せる仕事を決める演習</td>
+<td>「Botの役割と任せる仕事の設計シート」を自社の業務で記入する</td>
+</tr>
+<tr>
+<td>2:50</td>
+<td>発表とまとめ</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>チェック表の項目は、契約、プライバシーモード、手元のパソコンでの実行、「先に確認」のルール、使い終えた時の片付けの5つです。一方、「役割文に書く5点」が何なのかは素材に書かれていません。</p>
+<h2 id="_2">なぜ「止まる決まり」から始めるのか</h2>
+<p>理由は素材から2つ読み取れます。</p>
+<p>1つ目は製品のつくりです。Uravationが引用する公式の手引きによれば、同じ利用者のBotはすべて1台のコンピューターを共有し、ファイルやログインも共有します。そのため、Botを分けても安全の境界にはなりません。「経理用のBot」と「営業用のBot」を分ければ権限も分かれる、という考え方はこの説明に合いません。共有のコンピューターにパスワードやAPIキーを置かないという研修の決まりも、ここから来ています。AIエージェントに鍵を持たせる危うさは、当サイトの<a href="../why-agents-should-never-see-api-keys/">AIエージェントに渡したAPIキーは回収できない ― 中小企業は「渡さない」を最初に選べるのか？</a>でも扱いました。</p>
+<p>2つ目はUravation自身の失敗です。同社は2026年9月から、自社の定時の調べ物にGrok Botを使ってきたとしています。その中で起きたこととして、次の2つを挙げています。</p>
+<ul>
+<li>「どの依頼で動いてよいか」を役割文に書いていなかったBotが、別のBotに頼まれて動き出した</li>
+<li>毎朝の結果を誰も読んでいない週が続いた</li>
+</ul>
+<p>1つ目が研修の「起点を限る1文」に、2つ目が「結果を読む人」に、それぞれそのまま対応しています。ただし、これは研修を売る会社自身の発表で、第三者が確かめた話ではありません。</p>
+<p>Botは利用者がパソコンを閉じている間も作業を続けます。Bot同士がグループの中で仕事を渡し合うこともできます。つまり、人が見ていない時間に、人の知らない依頼で仕事が始まりえます。それを前提にすれば、能力より先に止める決まりを書くという順番は筋が通っています。ASCII.jpの記事も、新人に業務範囲と「迷ったら上司に聞く」ルールを先に渡すのと同じだと評し、AIエージェントは採用面接より先に社内規程を書かされる存在になった、と表現しています。</p>
+<p>Grok Botという製品そのものについては、<a href="../spacexai-grok-bot-always-on-agent-for-sme/">既存ツールをそのまま使いながらAIが画面を操作する時代──Grok Botは中小企業の「システム刷新」問題を解くのか</a>でも取り上げています。</p>
+<h2 id="3_1">「止まる操作」の一覧は、素材の中だけでも3通りあります</h2>
+<p>人が確認する操作として挙がっているものは、同じ素材の中でも出どころによって違います。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ASCII.jpの解説</th>
+<th>公式の手引き（発表文での引用）</th>
+<th>研修の「先に確認」</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>人に届く送信</td>
+<td>挙げている</td>
+<td>挙げている</td>
+<td>挙げている</td>
+</tr>
+<tr>
+<td>公開・投稿</td>
+<td>挙げている</td>
+<td>挙げている</td>
+<td>挙げている</td>
+</tr>
+<tr>
+<td>購入・申込</td>
+<td>挙げている</td>
+<td>挙げている</td>
+<td>挙げている</td>
+</tr>
+<tr>
+<td>削除・上書き</td>
+<td>挙げている</td>
+<td>挙げている（削除）</td>
+<td>挙げている</td>
+</tr>
+<tr>
+<td>本番の変更</td>
+<td>挙げていない</td>
+<td>挙げている</td>
+<td>記載なし</td>
+</tr>
+<tr>
+<td>共有と権限の変更</td>
+<td>挙げていない</td>
+<td>記載なし</td>
+<td>挙げている</td>
+</tr>
+<tr>
+<td>社内の情報を外へ渡す操作</td>
+<td>挙げていない</td>
+<td>記載なし</td>
+<td>挙げている</td>
+</tr>
+</tbody>
+</table>
+<p>ASCII.jpの解説は「送信・公開・購入・削除の四つは必ず人が確認する」と4つに絞っています。公式の手引きは発表文の中で「送信・公開・購入・削除・本番の変更など」と「など」付きで引用されています。研修は「本番の変更」を書かない代わりに、「共有と権限の変更」と「社内の情報を外へ渡す操作」を加えています。どれかが間違っているわけではなく、拾っている範囲が違うということです。</p>
+<p>社内向けの一文を書くなら、7つを全部並べておくほうが漏れは少ないと当社は考えます。特に「社内の情報を外へ渡す操作」は、公式の手引きの次の説明とあわせて読むべき項目です。</p>
+<ul>
+<li>Botのコンピューターは現在米国で動いている</li>
+<li>委託先の会社のモデルを使うことがある</li>
+</ul>
+<h2 id="_3">研修の前提が、そのまま中小企業の関門になります</h2>
+<p>研修が置いている前提は、導入しようとする会社にとっての確認事項でもあります。</p>
+<ul>
+<li><strong>プラン</strong>：公式の手引きによれば、Grok BotはThe X SubscriptionのPremium以上のプランや、Cursorの有料プラン・チーム向けプランなどで使えます。料金は素材に書かれていません。</li>
+<li><strong>契約の形</strong>：研修は、会社で契約したチーム向けのプランで、学習に使われない設定（プライバシーモード）を管理者が確かめたアカウントを前提にしています。個人で契約したアカウントを会社の業務に使う方法は扱いません。</li>
+<li><strong>扱う情報</strong>：顧客の情報や個人情報を扱う業務は、社内の規程と契約を確かめるまで任せない設計です。</li>
+<li><strong>扱わないこと</strong>：アカウントの代理設定、プランの購入や契約の手続き、Botの構築やルーティン運用の代行、社内規程や契約の審査は含みません。</li>
+</ul>
+<p>社員が個人のアカウントで試している段階の会社は、手を動かす演習の前提を満たしません。ただ、アカウントが無くても、研修の画面での実演と演習シートの記入で受講はできるとされています。</p>
+<p>いちばん重い判断である「規程と契約の審査」は研修の外にあります。設計シートを持ち帰っても、顧客情報を任せてよいかどうかの判断は自社に残ります。</p>
+<p>当サイトが取り上げたUravationの研修は、これで3件目です。</p>
+<table>
+<thead>
+<tr>
+<th>研修</th>
+<th>発表・報道</th>
+<th>時間</th>
+<th>価格</th>
+<th>決めさせること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全40コース</td>
+<td>2026年8月25日</td>
+<td>12時間コース／6時間ライト版</td>
+<td>この記事の素材外</td>
+<td>8職務×5つのAI環境から選ぶ</td>
+</tr>
+<tr>
+<td>Claude Cowork導入研修</td>
+<td>2026年9月21日</td>
+<td>2日間・12時間前後</td>
+<td>400,000円／名（税別）</td>
+<td>何を任せ、何を人が確認するかを受講者の実業務で決める</td>
+</tr>
+<tr>
+<td>Grok Bot 業務活用研修</td>
+<td>2026年10月29日</td>
+<td>3時間（1回）</td>
+<td>素材に記載なし</td>
+<td>Botの役割、起点、結果を読む人、止まるルール</td>
+</tr>
+</tbody>
+</table>
+<p>「任せる線引き」が中心だった点は、<a href="../claude-cowork-delegation-line-training-for-smes/">Coworkが標準機能になった今、中小企業が先に決めるべきは「どこまでAIに任せるか」の線引きか？</a>で読んだCowork研修と同じです。時間は短くなっていますが、今回は価格が分からないため費用の比較はできません。人材開発支援助成金については<a href="../uravation-40-courses-what-remains-and-subsidy/">法人AI研修「全40コース」は受講後に何が手元に残り、助成金は本当に使えるのか？</a>で検討しました。今回の研修が対象になるかどうかは、素材からは分かりません。</p>
+<h2 id="27">当社の自動化27本と突き合わせると何が言えるか</h2>
+<p>当社はGrok Botではなく、Claude Codeで社内業務の自動化を27本回しています。運用中のAI API課金は0円です。AI秘書のブリーフィングは毎朝8:00に出ます。当サイトの日次の自動更新は96日分の記録があり、最後に動いたのは2026年10月29日です。同日時点の生産量は、収集済みニュース3000件、自社要約つきニュース2339件、記事335本です。収集・要約・記事の作成は、人手を介さず毎日自動で動いています。</p>
+<p>この運用を研修の項目に当てはめると、2つのことが言えます。</p>
+<p>1つ目は「公開」です。研修は公開と投稿を「先に確認」の操作に入れています。当社の仕組みは人手を介さずに記事まで作っており、研修の基準に照らせば「公開の前で人が止まる」設計にはなっていません。一方で、ニュースの個別ページ6503本はすべてnoindex（検索に出さない設定）にしており、サイトマップに載せているのは370本です。</p>
+<p>2つ目は「結果を読む人」です。直近7日で記事は334本から335本に増えました。ところが、検索の直近7日（2026年10月21〜27日）は表示26回・クリック0回で、直近28日でも表示67回・クリック1回です。自動で作ることと、読まれることは、別の数字として現れています。社内の朝8:00のブリーフィングを誰がどれだけ読んでいるかは、測っていません。自動化が動き続けていることと、その結果が読まれて使われていることは、別々に確かめないと分からない。この点は、Uravationが自社の失敗として書いた内容と一致します。</p>
+<p>研修を受けるかどうかに関係なく、次の5点は社内で先に書き出せます。</p>
+<ol>
+<li>任せたい定型の調べ物や報告を1つ選び、Bot1体に1つの仕事として書く</li>
+<li>役割文に「利用者の直接の指示と、このBotの定時のルーティン以外では動かない」という1文を入れる</li>
+<li>起点（定時かwebhook）、情報源、結果の置き場所、結果を読む人の名前、データが無い時の扱いを決める</li>
+<li>上の表の7つの操作の前では止まる、と書く</li>
+<li>会社契約のプランか、管理者がプライバシーモードを確かめたか、顧客情報・個人情報を扱う業務かを確認し、共有のコンピューターにパスワードやAPIキーを置かない</li>
+</ol>
+<p>素材から読み取れる研修の価値は、この作業を架空の専門商社の記入例と演習シートを使って3時間で埋め、発表まで持っていく点にあります。自社で書き出してみて詰まったところがあれば、そこが研修にお金を払う理由になります。</p>
+<h2 id="_4">この記事で言えないこと</h2>
+<ul>
+<li>研修の価格、申込状況、受講した企業の数は素材に書かれていません</li>
+<li>受講後に誤送信や想定外の動作が減るかどうかといった研修の効果は、素材からは分かりません。当社も測っていません</li>
+<li>「役割文に書く5点」の中身は素材に書かれていません</li>
+<li>Grok Botのプラン料金と性能は素材に書かれていません。当社はGrok Botを使っておらず、測っていません</li>
+<li>公式の手引きの本文は当社で読んでいません。手引きの内容は、すべてUravationの発表文を通したものです</li>
+<li>Uravationが挙げた自社の失敗2件は同社自身の発表で、第三者による確認はありません。他社の報道は0件でした</li>
+<li>この研修が人材開発支援助成金の対象になるかどうかは、素材からは分かりません</li>
+<li>当社の朝8:00のブリーフィングを誰がどれだけ読んでいるかは、測っていません</li>
+</ul>
+<h2 id="_5">まとめ</h2>
+<ul>
+<li>Uravationの「Grok Bot 業務活用研修」は3時間1回です。Botの役割、動いてよい起点、ルーティンと結果を読む人、送信や公開の前で止まるルール、手元と共有のコンピューターの扱いを自社向けに決めます。価格と効果は素材からは分かりません。</li>
+<li>公式の手引きによれば、同じ利用者のBotは1台のコンピューター、ファイル、ログインを共有します。Botを分けても安全の境界にはならないので、パスワードやAPIキーは共有のコンピューターに置かない前提で設計します。</li>
+<li>止まる操作の一覧は素材の中で3通りあります。全部を合わせると、送信、公開・投稿、購入・申込、削除・上書き、本番の変更、共有と権限の変更、社内の情報を外へ渡す操作の7つです。</li>
+<li>研修は会社契約のチーム向けプランとプライバシーモードの確認を前提にしており、社内規程や契約の審査は扱いません。顧客情報・個人情報を任せるかどうかの判断は、研修の外に残ります。</li>
+<li>当社の自動化27本も「公開の前で人が止まる」設計にはなっておらず、自動で作ることと読まれることは別の数字に出ています。研修の項目は、受講の有無にかかわらず先に社内で書き出せます。</li>
+</ul>
+<p><em>この記事は、ASCII.jp「Uravation、法人向け「Grok Bot 業務活用研修」を提供開始」（2026年10月29日）を素材に、株式会社TOE／AIの鬼の社内業務自動化27本、日次自動更新の記録、記事の生産量、Search Console（2026年10月21〜27日ほか）の実測とあわせて書きました。</em></p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/claude-code-nonprogrammer-automation-training/">
+<div class="card-media"><img src="../../static/img/article-claude-code-nonprogrammer-automation-training.jpg" alt="非エンジニアがClaude Codeで定型業務を自動化する研修は、中小企業で本当に回るのか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">非エンジニアがClaude Codeで定型業務を自動化する研修は、中小企業で本当に回るのか？</h3>
+<p class="card-summary">Uravationが2026年8月25日、8職務×5つのAI環境で選ぶ法人向け生成AI研修「全40コース」を提供開始しました。目玉は「プログラミング経験不要」を掲げるClaude Codeの自動化コース8本。素材からは「何を教えるか」までは分かりますが、成果は素材に書かれていません。当社がClaude Codeで社内自動化27本を回している実測と突き合わせ、中小企業が見るべき点を整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/claude-cowork-delegation-line-training-for-smes/">
+<div class="card-media"><img src="../../static/img/article-claude-cowork-delegation-line-training-for-smes.jpg" alt="Coworkが標準機能になった今、中小企業が先に決めるべきは「どこまでAIに任せるか」の線引きか？" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">Coworkが標準機能になった今、中小企業が先に決めるべきは「どこまでAIに任せるか」の線引きか？</h3>
+<p class="card-summary">Uravationが2026年9月21日、法人向け「Claude Cowork導入研修」を提供開始しました。2日間・12時間前後、400,000円／名（税別）。技術研修ではなく「何を任せ、何を人が確認するか」を受講者の実業務で決める設計です。中小企業が研修に払う前に自社で決められることは何か、素材と当社の実測で切り分けます。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/meta-muse-agent-actions-what-to-verify/">
+<div class="card-media"><img src="../../static/img/article-meta-muse-agent-actions-what-to-verify.jpg" alt="MetaのMuseは中小企業の「誰がボタンを押すか」を変えるのか？──AIが自律で買い物とメール削除まで実行する前に確かめること" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">AI解体新書</span>      <h3 class="card-title">MetaのMuseは中小企業の「誰がボタンを押すか」を変えるのか？──AIが自律で買い物とメール削除まで実行する前に確かめること</h3>
+<p class="card-summary">MetaのパーソナルAIエージェント「Muse」が2026年9月8日、米国で無料提供を開始しました。メール送信・旅行予約・買い物までAIが自律実行します。中小企業が確かめるべきは「何ができるか」ではなく、メール・決済・ログイン情報をMetaに預けてよいか、実行結果を誰が裏取りするかです。素材から読み取れる事実と、当社が測れていない部分を分けて整理します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=grok-bot-training-stop-rules-before-delegating">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+<aside class="toe-training-wrap" aria-label="株式会社TOEの法人向けAI研修">
+  <p class="toe-training-disclosure">PR｜運営会社TOEのAI研修</p>
+  <a class="toe-training-banner" href="https://ai-training-lp-rouge.vercel.app/?utm_source=aioni&amp;utm_medium=display&amp;utm_campaign=toe_ai_training_202610&amp;utm_content=article_banner">
+    <span class="toe-training-visual"><img class="toe-training-photo" src="../../static/img/toe-training-photo-v2.webp" alt="パソコンで提案の準備を進める社員と経営者のイメージ" width="1100" height="733" loading="lazy"><small class="toe-training-image-note">AI生成のイメージ写真</small></span>
+    <span class="toe-training-copy">
+      <span class="toe-training-brand"><img src="../../static/img/toe-training-logo.png" alt="TOE" width="573" height="200" loading="lazy"><span>法人向けAI研修</span></span>
+      <strong class="toe-training-title">見積も、提案も。<br><span>社長ひとりで抱えない。</span></strong>
+      <span class="toe-training-body">見積・提案・顧客対応を題材に、AIで下書きや情報整理を学ぶ法人研修です。</span>
+      <span class="toe-training-action">無料30分相談<span aria-hidden="true">→</span></span>
+    </span>
+    <span class="toe-training-grant">
+      <span class="toe-training-deadline">まもなく終了</span>
+      <span class="toe-training-label">助成率</span>
+      <span class="toe-training-rate"><small>最大</small><b>75</b><span>%</span></span>
+      <small class="toe-training-note">中小企業・要件あり</small>
+    </span>
+  </a>
+</aside>
+<script src="../../static/js/toe-training-banner-v3.js" defer></script>    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../kaisetsu/">AI解体新書</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://hojokin.website/" rel="noopener" target="_blank">補助金の鬼</a>
+          <a href="https://uchuchu.tech/" rel="noopener" target="_blank">UchUchU</a>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-10-31 10:49 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=61a63edb" defer></script>
+</body>
+</html>
