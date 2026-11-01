@@ -569,7 +569,6 @@ def main() -> int:
         "## 案件の現在地\n" + collect_handoffs(since),
         "## 送信したメール\n" + collect_sent_mail(since),
     ) if x)
-    (PRIVATE / "最新の材料.txt").write_text(material, encoding="utf-8")
 
     used = [p.get("topic", "") for p in state["published"]][-30:]
     try:
