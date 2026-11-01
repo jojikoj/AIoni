@@ -97,7 +97,9 @@ def _claude_call(payload: dict) -> dict | None:
     prompt = _PROMPT + json.dumps(payload, ensure_ascii=False, indent=1)
     try:
         proc = subprocess.run(
-            [CLAUDE_BIN, "--model", BATCH_MODEL, "-p", prompt],
+            # ユーザー設定（Stop フック・出力スタイル）を読ませない。道具も渡さない。
+            [CLAUDE_BIN, "-p", "--tools", "", "--model", BATCH_MODEL,
+             "--setting-sources", "project,local", prompt],
             capture_output=True, text=True, timeout=CLAUDE_TIMEOUT,
         )
     except (subprocess.TimeoutExpired, OSError) as e:
