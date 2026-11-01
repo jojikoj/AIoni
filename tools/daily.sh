@@ -50,7 +50,14 @@ media_step "本文取得" python3 -m aioni.collectors.fulltext --limit=40
 #    「出典リンクと関連記事だけ」の薄いページになっていた。
 #    2026-08-01: 20→35 に増量。未生成のページは noindex になる（thin_news）＝
 #    検索に出ないため、消化を優先する。haiku なので追加コストは無い。
-media_step "解説生成" python3 tools/gen_news_summaries.py --limit=35
+#    2026-11-01: 停止。ニュース個別ページを作らなくなり（config.NEWS_DETAIL_PAGES）、
+#    body_long を表示する場所が無くなった。旬ネタ記事（3b）も止めたので素材としても不要。
+#    毎日 35 回の claude 呼び出しを戻すときは AIONI_NEWS_SUMMARIES=1。
+if [ "${AIONI_NEWS_SUMMARIES:-0}" = "1" ]; then
+  media_step "解説生成" python3 tools/gen_news_summaries.py --limit=35
+else
+  echo "解説生成: 個別ページ廃止により停止（AIONI_NEWS_SUMMARIES=1 で再開）"
+fi
 
 # 3b. その日の旬ネタから記事を1本作って公開する（2026-08-13 追加・同日方針変更）
 #
@@ -93,10 +100,13 @@ media_step "自社実測の収集" python3 tools/collect_facts.py
 #     いて矛盾していた。AI要約記事の量産をやめ、実測コンテンツ（中の鬼・実践室）・
 #     コーナー入口・検索されている語に応える商用クエリ記事（3c）に絞る。
 #     旬ネタは火・金の朝の回（12時前）だけ。収集・解説生成・deploy は毎回そのまま。
-if { [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; } && [ "$((10#$(date +%H)))" -lt 12 ]; then
+#     ⚠️ 2026-11-01 停止。旬ネタ記事の行き先 AI解体新書をサイトから外した
+#     （config.RETIRED_TAGS）。判定（12/1・1/5）までは AI が外部資料から書く記事を
+#     1本も増やさない。再開は AIONI_AUTO_ARTICLES=1。
+if [ "${AIONI_AUTO_ARTICLES:-0}" = "1" ] && { [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; } && [ "$((10#$(date +%H)))" -lt 12 ]; then
   media_step "旬ネタ記事" python3 tools/publish_daily.py
 else
-  echo "旬ネタ記事: 方向転換により火・金のみ（skip）"
+  echo "旬ネタ記事: サイト縮小（2026-11-01）により停止（AIONI_AUTO_ARTICLES=1 で再開）"
 fi
 
 # 3c. 仕事につながる検索語で1本（火・金だけ）
@@ -106,8 +116,11 @@ fi
 #     「aiエージェント 総務」19表示・61位、「ai研修 法人 選定」9表示・92位
 #     のように、需要は実在するのに当社が読まれる位置にいない語を埋めていく。
 #     素材（当社の実測）で答えられない語は、書かずに見送る。
-if [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; then
+#     2026-11-01 停止（3b と同じ理由。9/23 以降は GSC の商用語が 0 件で実際にも 0 本）。
+if [ "${AIONI_AUTO_ARTICLES:-0}" = "1" ] && { [ "$(date +%u)" = "2" ] || [ "$(date +%u)" = "5" ]; }; then
   media_step "商用クエリ記事" python3 tools/publish_commercial.py
+else
+  echo "商用クエリ記事: サイト縮小（2026-11-01）により停止（AIONI_AUTO_ARTICLES=1 で再開）"
 fi
 
 # 3d. 役目を終えた原文(body_src)を落とす

@@ -362,18 +362,48 @@ def _iter_article_sources(lang: str):
         yield slug, meta, body
 
 
+def _unlink_retired(html: str, retired_slugs: set[str]) -> str:
+    """外した記事への <a> をアンカーテキストだけにする（404 への内部リンクを残さない）。
+
+    slug 昇順で読むので、外した記事がまだ集まり切っていない時点の記事も通る。
+    そのため retired_slugs だけでなく、ファイル側の tag でも判定する。
+    """
+    def _is_retired(slug: str) -> bool:
+        if slug in retired_slugs:
+            return True
+        for path in config.ARTICLES_DIR.glob(f"{slug}.*.md"):
+            meta, _ = _parse_frontmatter(path.read_text(encoding="utf-8"))
+            return meta.get("tag", "") in config.RETIRED_TAGS
+        return False
+
+    def _sub(m: re.Match) -> str:
+        return m.group(2) if _is_retired(m.group(1)) else m.group(0)
+
+    return re.sub(
+        r'<a\s[^>]*href="(?:https?://ai-oni\.com)?/?(?:\.\./)*articles/([a-z0-9\-]+)/?[^"]*"[^>]*>(.*?)</a>',
+        _sub, html, flags=re.S)
+
+
 def load_articles(lang: str) -> list[dict]:
     """記事の一覧を組み立てる。中身は Neon かファイルのどちらか（上を参照）。"""
     md = markdown.Markdown(extensions=["extra", "toc", "sane_lists"])
     articles = []
+    # サイトから外した棚（config.RETIRED_TAGS）の記事は作らない。
+    # 残す記事の本文からそこへの内部リンクを外すため、slug を先に集める。
+    retired_slugs: set[str] = set()
     for slug, meta, body in _iter_article_sources(lang):
         # frontmatter が閉じていない記事を slug タイトルで公開しない。
         # Neon の古い行を読んだ場合も同じ検査で公開を止める。
         if not isinstance(meta, dict) or not meta.get("title"):
             raise ValueError(f"記事 {slug} ({lang}) の frontmatter/title が不正です")
+        tag = meta.get("tag", "")
+        if tag in config.RETIRED_TAGS:
+            retired_slugs.add(slug)
+            continue
         md.reset()
         html = md.convert(body)
-        tag = meta.get("tag", "")
+        if retired_slugs or config.RETIRED_TAGS:
+            html = _unlink_retired(html, retired_slugs)
         cat = config.CATEGORY_BY_TAG.get(tag)
         # hero 指定が無い記事には、カテゴリに応じたイメージ写真を当てる。
         # 一覧でグレーの矩形が並ぶと、記事そのものが読まれなくなるため。
@@ -938,6 +968,8 @@ class Builder:
             autoescape=select_autoescape(["html", "xml"]),
             trim_blocks=True, lstrip_blocks=True,
         )
+        # ニュースのタイルが個別ページへ飛ぶか配信元へ飛ぶか（macros.news_tile）
+        self.env.globals["news_detail_pages"] = config.NEWS_DETAIL_PAGES
         self.now = datetime.now(timezone.utc)
         self.build_time = self.now.strftime("%Y-%m-%d %H:%M UTC")
         self.asset_ver = self._asset_version()
@@ -1173,8 +1205,12 @@ class Builder:
                 page_desc = list_desc
                 if pno > 1:
                     page_desc = f"{list_desc}（{pno}ページ目）"
+                # 2026-11-01 /papers/ は1ページ目も noindex（config.PAPERS_NOINDEX）
+                list_noindex = pno > 1 or (active == "papers" and config.PAPERS_NOINDEX)
+                if list_noindex:
+                    self.noindex_paths[lang].add(path)
                 ctx = self._ctx(lang, depth=depth, active=active, path=path,
-                                noindex=pno > 1, page_description=page_desc)
+                                noindex=list_noindex, page_description=page_desc)
                 ctx["page_title"] = (
                     None if pno == 1 else
                     f"{_t(f'{active}.title', lang)}（{pno}/{len(chunks)}ページ）")
@@ -1298,6 +1334,11 @@ class Builder:
         # 照合用キーを1回だけ作る（記事×ニュースの全組み合わせを回すため）
         prepare_match_keys(related_pool)
         matched_count = 0
+        # 2026-11-01 ニュース個別ページは作らない（config.NEWS_DETAIL_PAGES）。
+        # 一覧（/news/）は残し、タイルは配信元へ直接リンクする（macros.news_tile）。
+        news_detail = news if config.NEWS_DETAIL_PAGES else []
+        if not config.NEWS_DETAIL_PAGES and news:
+            print(f"  [{lang}] ニュース個別ページは作らない設定（{len(news)}件を一覧のみ）")
         # 同じ記事を Qiita と Zenn の両方に投稿している著者がいるため、
         # 配信元が違うのに <title> が完全一致するページが生まれる
         # （2026-07-30 実測で4組）。重複するものだけ配信元名を足して区別する。
@@ -1311,7 +1352,7 @@ class Builder:
         canonical_of: dict[str, str] = {}
         body_counts: dict[str, int] = {}
         canonical_by_body: dict[str, str] = {}
-        for n in news:
+        for n in news_detail:
             key = n.get("display_title", "")
             title_counts[key] = title_counts.get(key, 0) + 1
             canonical_of.setdefault(key, f"news/{n['slug']}/")
@@ -1321,7 +1362,7 @@ class Builder:
                 canonical_by_body.setdefault(body, f"news/{n['slug']}/")
 
         dup_merged = 0
-        for idx, n in enumerate(news):
+        for idx, n in enumerate(news_detail):
             npath = f"news/{n['slug']}/"
             pub = str(n.get("published") or "")[:10]
             if pub:
@@ -1414,8 +1455,8 @@ class Builder:
                        (n.get("display_title", ""), npage_url)])
             html = self.env.get_template("news_article.html").render(**ctx)
             self._write(lang, f"news/{n['slug']}", html)
-        if news:
-            print(f"  [{lang}] 関連記事の実マッチ {matched_count}/{len(news)}件"
+        if news_detail:
+            print(f"  [{lang}] 関連記事の実マッチ {matched_count}/{len(news_detail)}件"
                   f" / 重複ニュースをcanonical統合 {dup_merged}件")
 
         # 注目論文の個別ページ（papers/<arxiv_id>/ → depth 2）
@@ -1428,8 +1469,12 @@ class Builder:
             ppage_url = self._url_for(lang, ppath)
             pr = dict(pr)
             pr["published_display"] = fmt_date(pr.get("published"), lang)
+            # 2026-11-01 論文ページは noindex（config.PAPERS_NOINDEX）。読者には見せる。
+            if config.PAPERS_NOINDEX:
+                self.noindex_paths[lang].add(ppath)
             ctx = self._ctx(lang, depth=2, active="papers", path=ppath,
-                            page_description=_clip(pr.get("one_line", ""), 110))
+                            page_description=_clip(pr.get("one_line", ""), 110),
+                            noindex=config.PAPERS_NOINDEX)
             ctx["paper"] = pr
             # ここも本当に関連する記事だけを出す（無ければ出さない）
             ctx["related"] = relevance_ranked(

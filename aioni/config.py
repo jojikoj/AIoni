@@ -225,13 +225,8 @@ ARTICLE_CATEGORIES = [
         "desc": "中小企業がAIを実務に入れるための実践ガイド。最初の一歩・費用・ツール選び。",
         "eyebrow": "実務",
     },
-    {
-        "id": "kaisetsu",
-        "tag": "AI解体新書",
-        "name": "AI解体新書",
-        "desc": "AIの最新研究・調査・企業事例を、中小企業向けに読み解く。一次資料に当たって数字を確かめる。",
-        "eyebrow": "解説",
-    },
+    # AI解体新書（外部の研究・調査の読み解き、211本）は 2026-11-01 にサイトから外した。
+    # 下の RETIRED_TAGS を参照。コーナーの入口 /kaisetsu/ は REDIRECTS で /articles/ へ。
     {
         "id": "weekly",
         "tag": "今週のAI",
@@ -249,6 +244,28 @@ ARTICLE_CATEGORIES = [
 ]
 
 CATEGORY_BY_TAG = {c["tag"]: c for c in ARTICLE_CATEGORIES}
+
+# --- サイトの縮小（2026-11-01） ------------------------------------------
+# Google の検索表示は 8/14〜16 にサイト単位で落ち（週 745→45）、ニュース個別を
+# 全件 noindex にした 9/13 以降も戻らなかった（10月は 28日で表示 72・クリック 3、
+# 指名「aiの鬼」85位、トップページの最終クロール 9/17）。index にある 336 本の
+# 記事のうち 211 本が外部資料の読み解き（AI解体新書）で、07-19〜20 に 206 本を
+# 一括投入している。Bing は同じ中身で指名 2〜3 位＝中身を読めないのではなく、
+# Google が「大量生成サイト」と評価していると見る方が数字に合う。
+# 手当ては、Google が見るサイトを「当社の一次記録」だけにすること。
+#
+#   RETIRED_TAGS    … この tag の記事はビルドしない（URL は 404 になる）。
+#                     md と Neon の行は残すので、戻すときは集合を空にするだけ。
+#   NEWS_DETAIL_PAGES … False なら /news/<slug>/（6,850 枚、全件 noindex 済）を作らない。
+#                     一覧のタイルは配信元の記事へ直接リンクする。
+#   PAPERS_NOINDEX  … True なら /papers/ 配下（一覧・個別とも）を noindex にし sitemap から外す。
+#                     90日で表示 202・クリック 0、拾っているのは英語の論文題名だけだった。
+#
+# 判定は 2026-12-01（4週）と 2027-01-05（9週）。指名「aiの鬼」の順位と
+# トップページの最終クロール日で見る（運用/レポート/2026-11-01_AIの鬼_縮小.md）。
+RETIRED_TAGS = {"AI解体新書"}
+NEWS_DETAIL_PAGES = False
+PAPERS_NOINDEX = True
 
 # --- コーナー入口のハブ化（2026-09-22） -----------------------------------
 # 実測（2026-07-20〜29、2026-08-13）で最も効率がよかったのはコーナーの入口
@@ -420,15 +437,17 @@ SISTER_MEDIA = {
 REDIRECTS = {
     # 2026-08-13 「AI検索観測所」を畳み、AI検索まわりは AEO対策室 に集約。
     "kansoku/": "aeo/",
+    # 2026-11-01 AI解体新書をサイトから外した（RETIRED_TAGS）。入口は記事一覧へ。
+    "kaisetsu/": "articles/",
     # 2026-08-20 AI事業者ガイドライン第1.2版の「義務化は不正確」を、同じ論点で
     # 3本書いていた（8/18に2本、8/20に1本）。4本ともGoogleにインデックスされて
     # おらず、同じ検索意図を奪い合っていた。被リンクが3本ある1本に集約し、
     # 8/20版だけが持っていた当社の実測は本命へ移した。
     # 論点の違う「承認フローを置くだけでは足りない」（8/19）はそのまま残す。
-    "articles/ai-guideline-agent-approval-not-obligation/":
-        "articles/ai-guidelines-1-2-human-approval-agent/",
-    "articles/ai-guideline-1-2-obligation-myth/":
-        "articles/ai-guidelines-1-2-human-approval-agent/",
+    # 2026-11-01 集約先の ai-guidelines-1-2-human-approval-agent も AI解体新書で
+    # サイトから外したため、転送先を記事一覧に変えた。
+    "articles/ai-guideline-agent-approval-not-obligation/": "articles/",
+    "articles/ai-guideline-1-2-obligation-myth/": "articles/",
 }
 
 

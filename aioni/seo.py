@@ -558,8 +558,13 @@ def build_search_index(lang: str, news: list[dict], papers: list[dict],
         slug = n.get("slug")
         if not slug:                       # 念のため。slugが無ければ出さない
             continue
-        idx.append({"t": title, "d": desc[:160], "u": f"news/{slug}/",
-                    "k": "news", "s": n.get("source", "")})
+        if config.NEWS_DETAIL_PAGES:
+            idx.append({"t": title, "d": desc[:160], "u": f"news/{slug}/",
+                        "k": "news", "s": n.get("source", "")})
+        elif n.get("url"):
+            # 個別ページを作らない設定では配信元へ直接（x=1 は外部リンク）
+            idx.append({"t": title, "d": desc[:160], "u": n["url"],
+                        "k": "news", "s": n.get("source", ""), "x": 1})
     for p in papers:
         idx.append({"t": p.get("title", ""), "d": p.get("summary", "")[:160],
                     "u": p.get("url", ""), "k": "paper",

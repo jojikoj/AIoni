@@ -159,8 +159,11 @@
 #}
 {% macro news_tile(item, lang, t, rel='') %}
 {% set title = item.get('title_' ~ lang) or item.title %}
+{# 2026-11-01 個別ページ（/news/<slug>/）を作らない設定では配信元へ直接飛ばす #}
+{% set tile_href = (rel ~ 'news/' ~ item.slug ~ '/') if news_detail_pages else item.url %}
+{% set tile_attrs = '' if news_detail_pages else ' target="_blank" rel="noopener"' %}
 <article class="news-tile">
-  <a class="tile-media" href="{{ rel }}news/{{ item.slug }}/">
+  <a class="tile-media" href="{{ tile_href }}"{{ tile_attrs|safe }}>
     {% if item.image %}
     <img src="{{ item.image }}" alt="{{ title }}（画像: {{ item.source }}）" loading="lazy" referrerpolicy="no-referrer"
          onerror="this.closest('.tile-media').classList.add('no-img')">
@@ -172,7 +175,7 @@
     {% endif %}
   </a>
   <div class="tile-body">
-    <h3 class="tile-title"><a href="{{ rel }}news/{{ item.slug }}/">{{ title }}</a></h3>
+    <h3 class="tile-title"><a href="{{ tile_href }}"{{ tile_attrs|safe }}>{{ title }}</a></h3>
     <div class="tile-meta">
       {% for tp in item.topic_labels or [] %}<span class="tag-hash">#{{ tp }}</span>{% endfor %}
       {% if item.published_short %}<time datetime="{{ item.published }}">{{ item.published_short }}</time>{% endif %}
