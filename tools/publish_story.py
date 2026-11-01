@@ -332,7 +332,8 @@ JSONだけを返してください。
 
 
 def write_article(event: dict, today: str, existing: list[tuple[str, str]], feedback: str = "") -> tuple[str, dict]:
-    links = "\n".join(f"- /articles/{s}/ {t}" for s, t in existing)
+    # slug に社名が入っている記事はリンクの候補から外す
+    links = "\n".join(f"- /articles/{s}/ {t}" for s, t in existing if not s.startswith("toe-"))
     redo = f"\n前の下書きは次の理由で落ちました。必ず直してください。\n{feedback}\n" if feedback else ""
     example = EXAMPLE.read_text(encoding="utf-8").split("---\n", 2)[-1] if EXAMPLE.exists() else ""
     prompt = f"""次の出来事をもとに、ブログ記事を1本書いてください。
@@ -464,9 +465,16 @@ def compare_with_facts(event: dict, article: str) -> dict:
 {article}
 </article>
 
-元の出来事から変えられずに残っている固有の細部（名前、役職、業種、地域、事業の中身、特徴のある数字、特徴のある言い回し）を挙げてください。
-公開されている技術情報（脆弱性の名前や手順など、誰の案件かと関係ないもの）は挙げなくて構いません。
-また、元の出来事に無いことを事実のように書いて話を大きく変えている箇所があれば挙げてください。
+次のものを挙げてください。
+leaks（元のまま残っているもの）:
+- お客さん・取引先・外部の人に関する固有の細部（名前、役職、業種、地域、事業の中身、特徴のある言い回し）。
+- お客さんの言葉をほぼそのまま使っている箇所。
+- 実際の値のまま使っている数字（丸めたものや比率は挙げない）。
+- 公開されている技術情報（脆弱性の名前や手順など、誰の案件かと関係ないもの）は挙げない。
+invented（話を変えているもの）:
+- 話の結果を変えている箇所。起きていないことを、お客さんや第三者がしたことにしている箇所。
+- 場面の小さな描写（朝だった、コーヒーを飲んでいた）や、筆者自身の気持ちは挙げない。
+front matter の date・order・author・hero は見ない。
 
 JSONだけを返してください。
 {{"ok": true か false,
@@ -598,10 +606,12 @@ def main() -> int:
             except Exception as e:  # noqa: BLE001
                 log(f"⚠️ 検査が動かないので公開しない: {e}")
                 return 1
-            if rt.get("risk") != "none":
+            # low は「一般的すぎて特定に結びつかない細部」。これで落とすと毎週公開できなくなる
+            # （2026-11-01 の試運転で、筆者自身の会社の話まで low に挙がった）。報告には載せる。
+            # risk が読めないときは high と同じ扱いにして止める。
+            if rt.get("risk") not in ("none", "low"):
                 reasons += [f"特定の恐れ（{rt.get('risk')}）: {f.get('quote')} → {f.get('why')}" for f in rt.get("findings", [])]
-                if rt.get("risk") == "low" and not reasons:
-                    reasons.append("特定の恐れ（low）")
+                reasons = reasons or [f"特定の検査の結果が読めない: {rt}"]
             if not cmp_.get("ok"):
                 reasons += [f"元のまま残っている: {f.get('quote')} → {f.get('why')}" for f in cmp_.get("leaks", [])]
                 reasons += [f"元に無いこと: {f.get('quote')} → {f.get('why')}" for f in cmp_.get("invented", [])]
@@ -639,6 +649,8 @@ def main() -> int:
     body = re.sub(r"^---\n.*?\n---\n", "", text, count=1, flags=re.S)
     send_report(f"【AIの鬼】今週の記事を公開しました: {title}",
                 f"{url}\n\n元の出来事: {event.get('topic')}\n変えた点:\n{info['changes']}\n\n"
+                f"特定の検査（{rt.get('risk')}）で挙がった細部:\n"
+                + "".join(f"- {f.get('quote')} → {f.get('why')}\n" for f in rt.get("findings", [])) + "\n"
                 f"取り下げるときは ~/AIoni/data/retired_slugs.txt に {slug} を足して tools/deploy.sh。\n\n"
                 f"---- 本文 ----\n{body}")
     log(f"✅ 公開: {url}")
