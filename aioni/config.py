@@ -248,22 +248,34 @@ CATEGORY_BY_TAG = {c["tag"]: c for c in ARTICLE_CATEGORIES}
 # --- サイトの縮小（2026-11-01） ------------------------------------------
 # Google の検索表示は 8/14〜16 にサイト単位で落ち（週 745→45）、ニュース個別を
 # 全件 noindex にした 9/13 以降も戻らなかった（10月は 28日で表示 72・クリック 3、
-# 指名「aiの鬼」85位、トップページの最終クロール 9/17）。index にある 336 本の
-# 記事のうち 211 本が外部資料の読み解き（AI解体新書）で、07-19〜20 に 206 本を
+# 指名「aiの鬼」85位、トップページの最終クロール 9/17）。記事 336 本のうち 211 本が
+# 外部資料の読み解き（AI解体新書）で、07-19〜20 の2日で 160 本（うち解体新書 128 本）を
 # 一括投入している。Bing は同じ中身で指名 2〜3 位＝中身を読めないのではなく、
 # Google が「大量生成サイト」と評価していると見る方が数字に合う。
-# 手当ては、Google が見るサイトを「当社の一次記録」だけにすること。
+# 手当ては、Google が見るサイトを、実際に読まれた記事と当社の出来事だけにすること。
 #
 #   RETIRED_TAGS    … この tag の記事はビルドしない（URL は 404 になる）。
 #                     md と Neon の行は残すので、戻すときは集合を空にするだけ。
+#   RETIRED_SLUGS   … 個別に外す記事（data/retired_slugs.txt）。基準はファイルの先頭に書いてある。
 #   NEWS_DETAIL_PAGES … False なら /news/<slug>/（6,850 枚、全件 noindex 済）を作らない。
 #                     一覧のタイルは配信元の記事へ直接リンクする。
 #   PAPERS_NOINDEX  … True なら /papers/ 配下（一覧・個別とも）を noindex にし sitemap から外す。
 #                     90日で表示 202・クリック 0、拾っているのは英語の論文題名だけだった。
 #
-# 判定は 2026-12-01（4週）と 2027-01-05（9週）。指名「aiの鬼」の順位と
-# トップページの最終クロール日で見る（運用/レポート/2026-11-01_AIの鬼_縮小.md）。
+# 判定は 2026-12-01。指名「aiの鬼」の順位とトップページの最終クロール日で見て、
+# 戻っていなければドメインを替える（運用/レポート/2026-11-01_AIの鬼_縮小.md）。
 RETIRED_TAGS = {"AI解体新書"}
+
+
+def _slug_lines(name: str) -> set[str]:
+    path = DATA_DIR / name
+    if not path.exists():
+        return set()
+    return {l.strip() for l in path.read_text(encoding="utf-8").splitlines()
+            if l.strip() and not l.startswith("#")}
+
+
+RETIRED_SLUGS = _slug_lines("retired_slugs.txt")
 
 # --- 記事の署名（2026-11-01 小嶋さん指示） ------------------------------------
 # 全記事の署名は「中島高次」（運営者＝株式会社TOE代表のペンネーム）。
@@ -455,6 +467,9 @@ REDIRECTS = {
     "articles/ai-guideline-agent-approval-not-obligation/": "articles/",
     "articles/ai-guideline-1-2-obligation-myth/": "articles/",
 }
+# 2026-11-01 note の記事からリンクされている、外した記事。note は外部からの数少ない経路なので、
+# 404 にせず記事一覧へ送る。
+REDIRECTS.update({f"articles/{s}/": "articles/" for s in _slug_lines("retired_note_links.txt")})
 
 
 LANGS = ["ja"]

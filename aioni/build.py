@@ -363,24 +363,12 @@ def _iter_article_sources(lang: str):
 
 
 def _unlink_retired(html: str, retired_slugs: set[str]) -> str:
-    """外した記事への <a> をアンカーテキストだけにする（404 への内部リンクを残さない）。
-
-    slug 昇順で読むので、外した記事がまだ集まり切っていない時点の記事も通る。
-    そのため retired_slugs だけでなく、ファイル側の tag でも判定する。
-    """
-    def _is_retired(slug: str) -> bool:
-        if slug in retired_slugs:
-            return True
-        for path in config.ARTICLES_DIR.glob(f"{slug}.*.md"):
-            meta, _ = _parse_frontmatter(path.read_text(encoding="utf-8"))
-            return meta.get("tag", "") in config.RETIRED_TAGS
-        return False
-
+    """外した記事への <a> をアンカーテキストだけにする（404 への内部リンクを残さない）。"""
     def _sub(m: re.Match) -> str:
-        return m.group(2) if _is_retired(m.group(1)) else m.group(0)
+        return m.group(2) if m.group(1) in retired_slugs else m.group(0)
 
     return re.sub(
-        r'<a\s[^>]*href="(?:https?://ai-oni\.com)?/?(?:\.\./)*articles/([a-z0-9\-]+)/?[^"]*"[^>]*>(.*?)</a>',
+        r'<a\s[^>]*href="(?:https?://ai-oni\.com)?/?(?:\.\./)*(?:articles/)?([a-z0-9\-]+)/?[^"]*"[^>]*>(.*?)</a>',
         _sub, html, flags=re.S)
 
 
@@ -388,22 +376,22 @@ def load_articles(lang: str) -> list[dict]:
     """記事の一覧を組み立てる。中身は Neon かファイルのどちらか（上を参照）。"""
     md = markdown.Markdown(extensions=["extra", "toc", "sane_lists"])
     articles = []
-    # サイトから外した棚（config.RETIRED_TAGS）の記事は作らない。
+    # サイトから外した記事（config.RETIRED_TAGS / RETIRED_SLUGS）は作らない。
     # 残す記事の本文からそこへの内部リンクを外すため、slug を先に集める。
-    retired_slugs: set[str] = set()
-    for slug, meta, body in _iter_article_sources(lang):
+    sources = list(_iter_article_sources(lang))
+    retired_slugs = {slug for slug, meta, _ in sources
+                     if slug in config.RETIRED_SLUGS
+                     or (isinstance(meta, dict) and meta.get("tag", "") in config.RETIRED_TAGS)}
+    for slug, meta, body in sources:
         # frontmatter が閉じていない記事を slug タイトルで公開しない。
         # Neon の古い行を読んだ場合も同じ検査で公開を止める。
         if not isinstance(meta, dict) or not meta.get("title"):
             raise ValueError(f"記事 {slug} ({lang}) の frontmatter/title が不正です")
-        tag = meta.get("tag", "")
-        if tag in config.RETIRED_TAGS:
-            retired_slugs.add(slug)
+        if slug in retired_slugs:
             continue
+        tag = meta.get("tag", "")
         md.reset()
-        html = md.convert(body)
-        if retired_slugs or config.RETIRED_TAGS:
-            html = _unlink_retired(html, retired_slugs)
+        html = _unlink_retired(md.convert(body), retired_slugs)
         cat = config.CATEGORY_BY_TAG.get(tag)
         # hero 指定が無い記事には、カテゴリに応じたイメージ写真を当てる。
         # 一覧でグレーの矩形が並ぶと、記事そのものが読まれなくなるため。

@@ -39,7 +39,12 @@ media_step "収集" python3 -m aioni.collectors.collect_all
 # 2. 記事本文の取得（body_src に保存。次段の素材になる）
 #    1回あたりの件数を絞る。全件を一度に回すと数時間かかるため、
 #    毎日少しずつ消化して未処理を減らす設計にしている。
-media_step "本文取得" python3 -m aioni.collectors.fulltext --limit=40
+#    2026-11-01: ニュース個別ページを作らなくなったので、解説生成（3）と一緒に止めた。
+if [ "${AIONI_NEWS_SUMMARIES:-0}" = "1" ]; then
+  media_step "本文取得" python3 -m aioni.collectors.fulltext --limit=40
+else
+  echo "本文取得: 個別ページ廃止により停止（AIONI_NEWS_SUMMARIES=1 で再開）"
+fi
 
 # 3. 個別ページに表示する約800字の解説（body_long）を生成する。
 #
@@ -123,6 +128,13 @@ else
   echo "商用クエリ記事: サイト縮小（2026-11-01）により停止（AIONI_AUTO_ARTICLES=1 で再開）"
 fi
 
+# 3c2. 週に1本の記事（2026-11-01 小嶋さん指示「全体で週一本」）
+#
+#     作業履歴とメールから実際にあった出来事を選び、関係先が特定されない形に変えて書く。
+#     記事を増やす経路はこれだけ。金曜の朝に動き、落ちたら週末のうちに取り返す。
+#     今週の分が公開済みなら、この工程は何もせず終わる。公開は工程の中で deploy まで進める。
+media_step "週次記事" python3 tools/publish_story.py
+
 # 3d. 役目を終えた原文(body_src)を落とす
 #
 #     ⚠️ 2026-08-21 追加。data/news.json は毎日まるごと git にコミットされる。
@@ -192,7 +204,10 @@ fi
 #
 #    2026-08-16: 下書き止まりから自動公開へ。人が記事を書かない方針が
 #    確定したため、下書きのまま置くと永久に公開されない。
-media_step "中の鬼" python3 tools/gen_naka_draft.py
+#    2026-11-01: 停止。記事は全体で週1本（3c2）にした。再開は AIONI_AUTO_ARTICLES=1。
+if [ "${AIONI_AUTO_ARTICLES:-0}" = "1" ]; then
+  media_step "中の鬼" python3 tools/gen_naka_draft.py
+fi
 
 # 9. 既存記事の加筆（水曜だけ・週1本）
 #
@@ -200,7 +215,8 @@ media_step "中の鬼" python3 tools/gen_naka_draft.py
 #    そこに新記事を足すと今度は自社どうしの共食いになるので、既存を厚くする。
 #    既存本文は1文字も変えず、「## まとめ」の直前に追記するだけ。
 #    元ファイルは content/_reinforce_backup/ に退避される。
-if [ "$(date +%u)" = "3" ]; then
+#    2026-11-01: 停止（無人で本文を足し続けると、残した記事まで生成物に戻るため）。
+if [ "${AIONI_AUTO_ARTICLES:-0}" = "1" ] && [ "$(date +%u)" = "3" ]; then
   media_step "既存記事の加筆" python3 tools/reinforce_article.py
 fi
 
@@ -208,8 +224,11 @@ fi
 # 主軸は trend_news.py（この1週間に実際に起きたことから選ぶ → _旬ネタ/今週.md）。
 # trend_intake.py はGoogleサジェスト起点で、返るのは「ai エージェント とは」のような
 # 定常的な検索意図。旬ではないうえ既存226記事とカニバるので、補助として残す。
-python3 "$(dirname "$0")/trend_news.py" || echo "今週ネタskip"
-python3 "$(dirname "$0")/trend_intake.py" || echo "検索語ネタskip"
+# 2026-11-01: 旬ネタ記事を止めたので、提案も止めた。
+if [ "${AIONI_AUTO_ARTICLES:-0}" = "1" ]; then
+  python3 "$(dirname "$0")/trend_news.py" || echo "今週ネタskip"
+  python3 "$(dirname "$0")/trend_intake.py" || echo "検索語ネタskip"
+fi
 
 # 5c. データを Neon へ写す（2026-08-23 追加）
 #
