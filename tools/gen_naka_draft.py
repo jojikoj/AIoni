@@ -128,7 +128,7 @@ front matter から本文まで、そのまま .md ファイルになる形で�
 title: （25〜40字。問いか、意外な事実。「〜してみた」は使わない）
 excerpt: （100〜150字。何が起きたかを具体的に）
 tag: 中の鬼
-author: AIの鬼 編集部
+author: 中島高次
 date: {datetime.date.today()}
 ---
 

@@ -128,7 +128,10 @@ def _article(base: str, a: dict, url: str, lang: str) -> dict:
         "isAccessibleForFree": True,
     }
     if a.get("author"):
-        node["author"] = {"@type": "Organization", "name": a["author"]}
+        # 署名は人（ペンネーム）。所属と紹介先は運営会社ページ。
+        node["author"] = {"@type": "Person", "name": a["author"],
+                          "url": f"{base}/about/#author",
+                          "worksFor": {"@id": f"{base}/#organization"}}
     # 記事の種別（front matter の tag）を機械にも渡す。
     # 「中の鬼」はエッセイ、「AI解体新書」は解説というように書き方が違うので、
     # これが無いと外から見たとき全部を同じ型（表・まとめ見出しが要る解説記事）

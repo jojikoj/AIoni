@@ -50,7 +50,7 @@ NEWS = ROOT / "data" / "news.json"
 REJECTED = ROOT / "content" / "_aeo_rejected"
 PREVIEW = ROOT / "content" / "_aeo_preview"
 
-AUTHOR = "AIの鬼 編集部"
+AUTHOR = "中島高次"
 
 # AI検索・AEOの話かどうか。当たれば AEO対策室、外れれば AI解体新書。
 #

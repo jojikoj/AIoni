@@ -118,7 +118,7 @@ def build(data: dict, industry: str, date: str, slug: str, source_note: str = ""
           f"を尋ね、AIが根拠にしたサイトを実際に調べました。公式サイトが根拠として使われたのは{n3}社"
           f"（{pct(n3, total)}）。同じ質問を1社あたり{votes}回投げ、判定が一致したものだけを載せています。")
     a("tag: AEO対策室")
-    a("author: AIの鬼 編集部")
+    a("author: 中島高次")
     a(f"date: {date}")
     a(f"hero: article-{slug}.jpg")
     a("image_prompt: A factory office desk with a laptop showing a search result page, "

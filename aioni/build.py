@@ -432,7 +432,8 @@ def load_articles(lang: str) -> list[dict]:
             "category": cat["id"] if cat else "",
             "category_name": cat["name"] if cat else tag,
             "category_eyebrow": cat["eyebrow"] if cat else "",
-            "author": meta.get("author", ""),
+            # 署名は全記事 config.ARTICLE_AUTHOR（front matter の値は使わない）
+            "author": config.ARTICLE_AUTHOR,
             "hero": hero,
             # hero がファイル名だけならサイト内の画像として解決する
             "hero_is_local": bool(hero) and not hero.startswith("http"),

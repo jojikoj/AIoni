@@ -264,6 +264,12 @@ CATEGORY_BY_TAG = {c["tag"]: c for c in ARTICLE_CATEGORIES}
 # 判定は 2026-12-01（4週）と 2027-01-05（9週）。指名「aiの鬼」の順位と
 # トップページの最終クロール日で見る（運用/レポート/2026-11-01_AIの鬼_縮小.md）。
 RETIRED_TAGS = {"AI解体新書"}
+
+# --- 記事の署名（2026-11-01 小嶋さん指示） ------------------------------------
+# 全記事の署名は「中島高次」（運営者＝株式会社TOE代表のペンネーム）。
+# front matter の author（既存は「AIの鬼 編集部」）はビルド時にこれで上書きする。
+# md と Neon を 336 本書き換えなくて済み、生成ツールが古い署名を書いても本番は揃う。
+ARTICLE_AUTHOR = "中島高次"
 NEWS_DETAIL_PAGES = False
 PAPERS_NOINDEX = True
 
