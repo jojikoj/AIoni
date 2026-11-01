@@ -210,7 +210,13 @@ def main() -> int:
     try:
         # `--tools ""` は必須。付けないと CLI が「記事を書く」を作業として
         # 解釈し、自分で content/ にファイルを置いて標準出力には報告だけ返す。
-        r = subprocess.run(["claude", "-p", "--model", model, "--tools", ""],
+        # ⚠️ --setting-sources project,local: ユーザー設定(~/.claude/settings.json)を読ませない。
+        # 2026-10-31 前後にそこが変わり（outputStyle「結果のみ」等）、-p の応答が記事本文ではなく
+        # 「残作業はありません」「差し替えてください」という作業報告になった。
+        # front matter で始まらず中の鬼が捨てられた（旬ネタ記事・商用クエリ記事も同じ呼び方）。
+        # 無人実行の生成は、人の対話用の設定に左右されない形で呼ぶ。
+        r = subprocess.run(["claude", "-p", "--model", model, "--tools", "",
+                            "--setting-sources", "project,local"],
                            input=build_prompt(), capture_output=True,
                            text=True, timeout=900)
     except FileNotFoundError:
