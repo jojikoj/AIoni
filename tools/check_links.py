@@ -10,6 +10,7 @@ from __future__ import annotations
 import pathlib
 import re
 import sys
+from urllib.parse import unquote, urlsplit
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ARTICLES = ROOT / "content" / "articles"
@@ -37,6 +38,16 @@ FOREIGN_OK_FILES = {"ai-life-consultation-3models.ja.md"}
 CODE_SPAN = re.compile(r"`[^`]*`")
 
 
+def static_file_exists(link: str) -> bool:
+    """静的画像等は許可リストではなく、公開元ファイルの実在で検査する。"""
+    path = unquote(urlsplit(link).path)
+    if not path.startswith("/static/"):
+        return False
+    static = (ROOT / "static").resolve()
+    target = (ROOT / path.lstrip("/")).resolve()
+    return static in target.parents and target.is_file()
+
+
 def check_foreign_chars() -> list[tuple[str, str, str]]:
     bad = []
     for f in sorted(ARTICLES.glob("*.ja.md")):
@@ -59,7 +70,7 @@ def main() -> int:
             if m:
                 if m.group(1) not in slugs:
                     bad.append((f.name, link, "記事が存在しない"))
-            elif link not in STATIC_PATHS:
+            elif link not in STATIC_PATHS and not static_file_exists(link):
                 bad.append((f.name, link, "未知のパス"))
 
     for name, link, why in bad:
