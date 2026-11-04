@@ -59,9 +59,27 @@ git -c user.email=noreply@anthropic.com -c user.name=deploy \
 # 詳細は UchUchU/tools/deploy.sh と同じ。gh のトークンを実行時に使う。
 REPO="github.com/jojikoj/AIoni.git"
 if _t=$(gh auth token 2>/dev/null) && [ -n "$_t" ]; then
-  git -c credential.helper= push -q -f "https://x-access-token:${_t}@${REPO}" HEAD:gh-pages
+  _url="https://x-access-token:${_t}@${REPO}"
+  _push() { git -c credential.helper= push -q -f "$_url" HEAD:gh-pages; }
 else
-  git push -q -f "https://${REPO}" HEAD:gh-pages
+  _push() { git push -q -f "https://${REPO}" HEAD:gh-pages; }
+fi
+# 2026-11-04 18:48: GitHub 側が一時的に "Internal Server Error"（remote rejected）を返し、
+# 1回の失敗で日次が丸ごと失敗扱いになった。一時的な5xxは待てば通るので、
+# 間隔を空けて最大4回まで試す。-f の全上書きなので再試行しても結果は同じ（冪等）。
+# 4回とも失敗したら従来どおり異常終了する（握りつぶさない）。
+_ok=0
+for _i in 1 2 3 4; do
+  if _push; then _ok=1; break; fi
+  if [ "$_i" -lt 4 ]; then
+    _wait=$((_i * 20))
+    echo "⚠️ gh-pages への push に失敗（${_i}/4回目）。${_wait}秒後に再試行します" >&2
+    sleep "$_wait"
+  fi
+done
+if [ "$_ok" -ne 1 ]; then
+  echo "❌ gh-pages への push が4回とも失敗しました（GitHub 側の障害か認証切れ）" >&2
+  exit 1
 fi
 echo "✅ gh-pages へ push しました"
 
