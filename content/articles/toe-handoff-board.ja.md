@@ -91,6 +91,7 @@ Claude Codeには過去の会話を再開する `--resume` という機能があ
 - [成果物フォルダをGoogle Driveへ自動ミラー同期 — 54日で448回動いた73行のスクリプトと、コードに存在しなかった除外設定](/articles/toe-drive-mirror-sync/)
 - [自動化26本に「見張り役」の画面を付けたら、そもそも全部止まっていた — DB不要・追加コストゼロのダッシュボード](/articles/toe-agent-dashboard/)
 - [AI自動化は「エラーを出さずに止まる」— 自社で見つけた12件の実測と、発注時に決めておくこと](/articles/ai-automation-silent-failure/)
+- [AIエージェントのワークフローを組む — 毎日無人で回している8工程の設計と、実際に壊れた4か所](/articles/ai-agent-workflow-build/)
 
 ## まとめ
 
