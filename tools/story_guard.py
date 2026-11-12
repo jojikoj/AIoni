@@ -76,13 +76,29 @@ def names_in_material(text: str) -> set[str]:
         found.add(m)
     for m in re.findall(r"([一-龥ァ-ヶー]{2,8})(?:様|さん)", text):
         found.add(m)
-    for m in re.findall(r"(?:株式会社|有限会社|合同会社)\s*([一-龥ぁ-んァ-ヶーA-Za-z0-9&]{2,20})", text):
+    # 法人格と名前は同じ行にある。\s にすると改行をまたいで、メール署名の
+    # 「…です\n株式会社〇〇」から「です」を会社名として拾ってしまい、毎回不合格になる。
+    for m in re.findall(r"(?:株式会社|有限会社|合同会社)[ \t　]*([一-龥ぁ-んァ-ヶーA-Za-z0-9&]{2,20})", text):
         found.add(m)
-    for m in re.findall(r"([一-龥ぁ-んァ-ヶーA-Za-z0-9&]{2,20})\s*(?:株式会社|有限会社|合同会社)", text):
-        found.add(m)
+    for m in re.findall(r"([一-龥ぁ-んァ-ヶーA-Za-z0-9&]{2,20})[ \t　]*(?:株式会社|有限会社|合同会社)", text):
+        # 前に付く語は、名前でなく文末（です・ます）や説明語（制作会社）のことがある
+        if not _is_plain_word(m):
+            found.add(m)
     # 公開の技術名・媒体名は固有名として止めない
     allow = {"php.net", "github.com", "wordpress.org", "ai-oni.com", "gmail.com"}
-    return {f for f in found if f not in COMMON and f.lower() not in allow and len(f) >= 2}
+    return {f for f in found if f not in COMMON and f.lower() not in allow and len(f) >= 2
+            and not f.endswith("会社")}
+
+
+def _is_plain_word(word: str) -> bool:
+    """名前ではなく普通の言葉（「です」「会社」「制作会社」）なら True。
+
+    法人格の前から拾った語は、名前でなく文の切れ端や説明語のことがある。これを固有名として
+    止めると、「会社」と書いただけの記事が毎回落ちる。ひらがなだけの短い語（です・ます・ください）と、
+    「会社」で終わる語（会社・制作会社・親会社）は普通の言葉として扱う。
+    一覧（blocklist.txt）にある名前は別に検査しているので、ここを緩めても名前は止まる。
+    """
+    return bool(re.fullmatch(r"[ぁ-ん]{1,4}", word)) or word.endswith("会社")
 
 
 def check(text: str, material: str = "", allow_hosts: tuple[str, ...] = ()) -> list[dict]:
