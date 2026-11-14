@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>新モデル · AIの鬼</title>
+  <meta name="description" content="ChatGPT・Claude・Gemini・Llama など、新しいAIモデルの発表とアップデートを集めています。性能の比較、扱えるデータの種類、公開されている重みの有無など、導入を検討するときに要る情報を毎日更新します。">
+  <link rel="canonical" href="https://ai-oni.com/topics/models/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/topics/models/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="新モデル · AIの鬼">
+  <meta property="og:description" content="ChatGPT・Claude・Gemini・Llama など、新しいAIモデルの発表とアップデートを集めています。性能の比較、扱えるデータの種類、公開されている重みの有無など、導入を検討するときに要る情報を毎日更新します。">
+  <meta property="og:url" content="https://ai-oni.com/topics/models/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/oni-identity.jpg">
+  <meta name="twitter:title" content="新モデル · AIの鬼">
+  <meta name="twitter:description" content="ChatGPT・Claude・Gemini・Llama など、新しいAIモデルの発表とアップデートを集めています。性能の比較、扱えるデータの種類、公開されている重みの有無など、導入を検討するときに要る情報を毎日更新します。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"新モデル","item":"https://ai-oni.com/topics/models/"}]},{"@type":"ItemList","name":"AIニュース","numberOfItems":30,"itemListElement":[{"@type":"ListItem","position":1,"name":"ChatGPT Wallet lets OpenAI’s Dots agents make purchases for you","url":"https://www.theverge.com/ai-artificial-intelligence/1033425/openai-chatgpt-wallet"},{"@type":"ListItem","position":2,"name":"ChatGPT’s new Wallet lets AI agents shop and check out for you","url":"https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/"},{"@type":"ListItem","position":3,"name":"Introducing ChatGPT Wallet","url":"https://openai.com/index/introducing-chatgpt-wallet"},{"@type":"ListItem","position":4,"name":"llama.cpp v1.0.0 : A stronger foundation for the local AI ecosystem","url":"https://huggingface.co/blog/ggml-org/llama-cpp-v1"},{"@type":"ListItem","position":5,"name":"Claude’s Duet agent is a little neurotic and surprisingly helpful","url":"https://www.theverge.com/ai-artificial-intelligence/1032518/claude-duet-ai-agent-hands-on"},{"@type":"ListItem","position":6,"name":"これは勝ち組AIグラスの予感！ AI快適、カメラ便利、のRokid製モデルの最新版はさらに良くなってた","url":"https://ascii.jp/elem/000/004/450/4450422/?rss"},{"@type":"ListItem","position":7,"name":"SHINING 3D、AI搭載モバイル3Dスキャナー「EINSTAR EZ GO」を発表","url":"https://ascii.jp/elem/000/004/451/4451540/?rss"},{"@type":"ListItem","position":8,"name":"Fable 5.2凄すぎ！ コードだけで本格3Dゲームを生成、容量はわずか1.4MB","url":"https://ascii.jp/elem/000/004/451/4451507/?rss"},{"@type":"ListItem","position":9,"name":"Googleの社内専用コーディングAI「GfG」、その全容 Geminiに社内データ1兆トークン学習させ開発 所要時間半減の業務も","url":"https://www.itmedia.co.jp/news/article/2611/13/2000003110/"},{"@type":"ListItem","position":10,"name":"「好機が来た」――なぜ今Sakana AIは、イチからAIモデルを作るのか “新たな一手”のねらいを聞いた","url":"https://www.itmedia.co.jp/aiplus/article/2611/13/2000003141/"},{"@type":"ListItem","position":11,"name":"M365障害、ChatGPT／Claudeのコネクタにも影響 「ほとんどのリクエストで動作しない」","url":"https://www.itmedia.co.jp/aiplus/article/2611/13/2000003164/"},{"@type":"ListItem","position":12,"name":"Google、高速で低価格の「Gemini 4 Hydrogen」発表 無料ユーザーも利用可能","url":"https://www.itmedia.co.jp/news/article/2611/13/2000003162/"},{"@type":"ListItem","position":13,"name":"JR九州の非IT部門がGeminiでPythonアプリを内製開発 2?3カ月で完成させた方法","url":"https://kn.itmedia.co.jp/kn/article/2611/13/2000003142/"},{"@type":"ListItem","position":14,"name":"Google’s new Gemini model is better at understanding complicated questions","url":"https://www.theverge.com/ai-artificial-intelligence/1032505/google-search-ai-mode-gemini-4-hydrogen"},{"@type":"ListItem","position":15,"name":"NVIDIAのAIモデル「Nemotron」が日本語合成データセットを素早く投入できる理由","url":"https://monoist.itmedia.co.jp/mn/articles/2611/13/news055.html"},{"@type":"ListItem","position":16,"name":"Google’s latest Search upgrade promises better answers to your most complicated questions","url":"https://techcrunch.com/2026/11/12/googles-latest-search-upgrade-promises-better-answers-to-your-most-complicated-questions/"},{"@type":"ListItem","position":17,"name":"Google rolls out Gemini 4 Hydrogen, finally replacing 3.8 Flash","url":"https://arstechnica.com/google/2026/11/google-rolls-out-gemini-4-hydrogen-finally-replacing-3-8-flash/"},{"@type":"ListItem","position":18,"name":"Nectar launches an AI agent to automate creator discovery and outreach for brands","url":"https://techcrunch.com/2026/11/12/nectar-launches-an-ai-agent-to-automate-creator-discovery-and-outreach-for-brands/"},{"@type":"ListItem","position":19,"name":"Google faces calls for AI moratoriums in schools after Gemini pilot backlash","url":"https://arstechnica.com/tech-policy/2026/11/families-fight-to-keep-googles-disturbing-ai-off-school-issued-chromebooks/"},{"@type":"ListItem","position":20,"name":"Jensen Huang’s exit puts Nvidia’s support for open source in question","url":"https://techcrunch.com/2026/11/12/jensen-huangs-exit-puts-nvidias-support-for-open-source-in-question/"},{"@type":"ListItem","position":21,"name":"Introducing Gemini 4 Hydrogen","url":"https://deepmind.google/blog/introducing-gemini-4-hydrogen/"},{"@type":"ListItem","position":22,"name":"Google Search gets a major upgrade with Gemini 4 Hydrogen","url":"https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/"},{"@type":"ListItem","position":23,"name":"AI chatbots are recommending fake retail websites, study finds","url":"https://www.theverge.com/ai-artificial-intelligence/1032020/gemini-chatgpt-perplexity-shopping-test-risky-fake-websites-citations"},{"@type":"ListItem","position":24,"name":"NVIDIAがジェンスン・フアンCEOの辞任を発表＝暫定CEOにはコレット・クレス氏が就任","url":"https://ascii.jp/elem/000/004/451/4451169/?rss"},{"@type":"ListItem","position":25,"name":"Nvidia CEO Jensen Huang has resigned. What happens next?","url":"https://www.theverge.com/ai-artificial-intelligence/1030422/nvidia-jensen-huang-ai-china-alice-huang"},{"@type":"ListItem","position":26,"name":"Google pushes privacy angle as Gemini-powered smartglasses debut starting at $395","url":"https://arstechnica.com/google/2026/11/google-pushes-privacy-angle-as-gemini-powered-smartglasses-debut-starting-at-395/"},{"@type":"ListItem","position":27,"name":"Nvidia CEO Jensen Huang resigns amid spy, affair scandals","url":"https://www.theverge.com/ai-artificial-intelligence/1031689/jensen-huang-nvidia-ceo-resigns"},{"@type":"ListItem","position":28,"name":"Gondola doubles revenue as its team builds more with Codex","url":"https://openai.com/business/customer-stories/gondola"},{"@type":"ListItem","position":29,"name":"「JAPAN AI」、「GPT-6 Luna」の国内推論に対応","url":"https://ascii.jp/elem/000/004/451/4451154/?rss"},{"@type":"ListItem","position":30,"name":"EpicAI、日本品質管理学会にて、生成AIによる故障解析（FTA）の品質評価に関する研究を発表","url":"https://ascii.jp/elem/000/004/451/4451157/?rss"}]}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=61a63edb" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=61a63edb">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/topics/models/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<section class="page-head">
+  <div class="wrap">
+    <h1>新モデル</h1>
+    <p class="page-sub">新しいAIモデルの発表・性能・アップデート</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <a class="chip on" href="../models/">#新モデル</a>
+      <a class="chip " href="../tools/">#業務ツール</a>
+      <a class="chip " href="../dev/">#開発・実装</a>
+      <a class="chip " href="../business/">#企業動向</a>
+      <a class="chip " href="../policy/">#規制・法制度</a>
+      <a class="chip " href="../research/">#研究動向</a>
+      <a class="chip " href="../infra/">#半導体・インフラ</a>
+      <a class="chip " href="../japan/">#国内動向</a>
+    </div>
+    <div class="tile-grid">
+<article class="news-tile">
+  <a class="tile-media" href="https://www.theverge.com/ai-artificial-intelligence/1033425/openai-chatgpt-wallet" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-06.svg"
+         alt="ChatGPT Wallet公開、Dotsエージェントが購入を代行可能に（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.theverge.com/ai-artificial-intelligence/1033425/openai-chatgpt-wallet" target="_blank" rel="noopener">ChatGPT Wallet公開、Dotsエージェントが購入を代行可能に</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T20:45:10+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-14.svg"
+         alt="ChatGPTの新Walletで、AIエージェントが代わりに買い物と決済を実行（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/" target="_blank" rel="noopener">ChatGPTの新Walletで、AIエージェントが代わりに買い物と決済を実行</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T16:00:12+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://openai.com/index/introducing-chatgpt-wallet" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-10.svg"
+         alt="ChatGPT Walletを発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://openai.com/index/introducing-chatgpt-wallet" target="_blank" rel="noopener">ChatGPT Walletを発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T15:00:00+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://huggingface.co/blog/ggml-org/llama-cpp-v1" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-06.svg"
+         alt="llama.cpp v1.0.0を公開、ローカルAIエコシステムの基盤を強化（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://huggingface.co/blog/ggml-org/llama-cpp-v1" target="_blank" rel="noopener">llama.cpp v1.0.0を公開、ローカルAIエコシステムの基盤を強化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T14:05:22+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">Hugging Face</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.theverge.com/ai-artificial-intelligence/1032518/claude-duet-ai-agent-hands-on" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-00.svg"
+         alt="Claudeのエージェント「Duet」は少し神経質だが、意外なほど役に立つ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.theverge.com/ai-artificial-intelligence/1032518/claude-duet-ai-agent-hands-on" target="_blank" rel="noopener">Claudeのエージェント「Duet」は少し神経質だが、意外なほど役に立つ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T14:00:00+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://ascii.jp/elem/000/004/450/4450422/?rss" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-03.svg"
+         alt="これは勝ち組AIグラスの予感！ AI快適、カメラ便利、のRokid製モデルの最新版はさらに良くなってた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://ascii.jp/elem/000/004/450/4450422/?rss" target="_blank" rel="noopener">これは勝ち組AIグラスの予感！ AI快適、カメラ便利、のRokid製モデルの最新版はさらに良くなってた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T08:30:00+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://ascii.jp/elem/000/004/451/4451540/?rss" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-14.svg"
+         alt="SHINING 3D、AI搭載モバイル3Dスキャナー「EINSTAR EZ GO」を発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://ascii.jp/elem/000/004/451/4451540/?rss" target="_blank" rel="noopener">SHINING 3D、AI搭載モバイル3Dスキャナー「EINSTAR EZ GO」を発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T08:04:59+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://ascii.jp/elem/000/004/451/4451507/?rss" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-12.svg"
+         alt="Fable 5.2凄すぎ！ コードだけで本格3Dゲームを生成、容量はわずか1.4MB（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://ascii.jp/elem/000/004/451/4451507/?rss" target="_blank" rel="noopener">Fable 5.2凄すぎ！ コードだけで本格3Dゲームを生成、容量はわずか1.4MB</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T07:45:00+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.itmedia.co.jp/news/article/2611/13/2000003110/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-15.svg"
+         alt="Googleの社内専用コーディングAI「GfG」、その全容 Geminiに社内データ1兆トークン学習させ開発 所要時間半減の業務も（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.itmedia.co.jp/news/article/2611/13/2000003110/" target="_blank" rel="noopener">Googleの社内専用コーディングAI「GfG」、その全容 Geminiに社内データ1兆トークン学習させ開発 所要時間半減の業務も</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T03:00:00+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.itmedia.co.jp/aiplus/article/2611/13/2000003141/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-13.svg"
+         alt="「好機が来た」――なぜ今Sakana AIは、イチからAIモデルを作るのか “新たな一手”のねらいを聞いた（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.itmedia.co.jp/aiplus/article/2611/13/2000003141/" target="_blank" rel="noopener">「好機が来た」――なぜ今Sakana AIは、イチからAIモデルを作るのか “新たな一手”のねらいを聞いた</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T01:44:00+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.itmedia.co.jp/aiplus/article/2611/13/2000003164/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-14.svg"
+         alt="M365障害、ChatGPT／Claudeのコネクタにも影響 「ほとんどのリクエストで動作しない」（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.itmedia.co.jp/aiplus/article/2611/13/2000003164/" target="_blank" rel="noopener">M365障害、ChatGPT／Claudeのコネクタにも影響 「ほとんどのリクエストで動作しない」</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-13T00:08:39+00:00">2026.11.13</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.itmedia.co.jp/news/article/2611/13/2000003162/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-08.svg"
+         alt="Google、高速で低価格の「Gemini 4 Hydrogen」発表 無料ユーザーも利用可能（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.itmedia.co.jp/news/article/2611/13/2000003162/" target="_blank" rel="noopener">Google、高速で低価格の「Gemini 4 Hydrogen」発表 無料ユーザーも利用可能</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T23:04:46+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://kn.itmedia.co.jp/kn/article/2611/13/2000003142/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-tools-01.svg"
+         alt="JR九州の非IT部門がGeminiでPythonアプリを内製開発 2?3カ月で完成させた方法（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://kn.itmedia.co.jp/kn/article/2611/13/2000003142/" target="_blank" rel="noopener">JR九州の非IT部門がGeminiでPythonアプリを内製開発 2?3カ月で完成させた方法</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#業務ツール</span><time datetime="2026-11-12T22:00:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.theverge.com/ai-artificial-intelligence/1032505/google-search-ai-mode-gemini-4-hydrogen" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-12.svg"
+         alt="Google、複雑な質問の理解力を高めた新Geminiモデルを発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.theverge.com/ai-artificial-intelligence/1032505/google-search-ai-mode-gemini-4-hydrogen" target="_blank" rel="noopener">Google、複雑な質問の理解力を高めた新Geminiモデルを発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T21:55:32+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://monoist.itmedia.co.jp/mn/articles/2611/13/news055.html" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-dev-13.svg"
+         alt="NVIDIAのAIモデル「Nemotron」が日本語合成データセットを素早く投入できる理由（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://monoist.itmedia.co.jp/mn/articles/2611/13/news055.html" target="_blank" rel="noopener">NVIDIAのAIモデル「Nemotron」が日本語合成データセットを素早く投入できる理由</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#開発・実装</span><time datetime="2026-11-12T21:45:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">ITmedia AI+</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://techcrunch.com/2026/11/12/googles-latest-search-upgrade-promises-better-answers-to-your-most-complicated-questions/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-11.svg"
+         alt="Google検索の最新アップグレード、複雑な質問により的確な回答を提供へ（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://techcrunch.com/2026/11/12/googles-latest-search-upgrade-promises-better-answers-to-your-most-complicated-questions/" target="_blank" rel="noopener">Google検索の最新アップグレード、複雑な質問により的確な回答を提供へ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T19:27:45+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://arstechnica.com/google/2026/11/google-rolls-out-gemini-4-hydrogen-finally-replacing-3-8-flash/" target="_blank" rel="noopener">
+    <img src="https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-6-500x500.jpg" alt="GoogleがGemini 4 Hydrogenを公開、3.8 Flashを置き換えへ（画像: Ars Technica AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://arstechnica.com/google/2026/11/google-rolls-out-gemini-4-hydrogen-finally-replacing-3-8-flash/" target="_blank" rel="noopener">GoogleがGemini 4 Hydrogenを公開、3.8 Flashを置き換えへ</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T19:23:03+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Ars Technica AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://techcrunch.com/2026/11/12/nectar-launches-an-ai-agent-to-automate-creator-discovery-and-outreach-for-brands/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-02.svg"
+         alt="Nectar、ブランド向けにクリエイター発掘と営業を自動化するAIエージェントを発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://techcrunch.com/2026/11/12/nectar-launches-an-ai-agent-to-automate-creator-discovery-and-outreach-for-brands/" target="_blank" rel="noopener">Nectar、ブランド向けにクリエイター発掘と営業を自動化するAIエージェントを発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T19:11:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://arstechnica.com/tech-policy/2026/11/families-fight-to-keep-googles-disturbing-ai-off-school-issued-chromebooks/" target="_blank" rel="noopener">
+    <img src="https://cdn.arstechnica.net/wp-content/uploads/2026/11/Win-win-500x500-1794505063.jpeg" alt="Geminiの試験導入に反発、学校でのAI一時停止を求める声がGoogleに（画像: Ars Technica AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://arstechnica.com/tech-policy/2026/11/families-fight-to-keep-googles-disturbing-ai-off-school-issued-chromebooks/" target="_blank" rel="noopener">Geminiの試験導入に反発、学校でのAI一時停止を求める声がGoogleに</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T18:57:45+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Ars Technica AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://techcrunch.com/2026/11/12/jensen-huangs-exit-puts-nvidias-support-for-open-source-in-question/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-business-09.svg"
+         alt="ジェンスン・フアン氏の退任で、Nvidiaのオープンソース支援に懸念（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://techcrunch.com/2026/11/12/jensen-huangs-exit-puts-nvidias-support-for-open-source-in-question/" target="_blank" rel="noopener">ジェンスン・フアン氏の退任で、Nvidiaのオープンソース支援に懸念</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#企業動向</span><time datetime="2026-11-12T18:39:23+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">TechCrunch AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://deepmind.google/blog/introducing-gemini-4-hydrogen/" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-14.svg"
+         alt="Gemini 4 Hydrogenを発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://deepmind.google/blog/introducing-gemini-4-hydrogen/" target="_blank" rel="noopener">Gemini 4 Hydrogenを発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T18:00:50+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google DeepMind</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/" target="_blank" rel="noopener">
+    <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/HydrogenUI_socialshare.max-600x600.format-webp.webp" alt="Google検索、Gemini 4 Hydrogenで大幅に強化（画像: Google AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/" target="_blank" rel="noopener">Google検索、Gemini 4 Hydrogenで大幅に強化</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T18:00:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Google AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.theverge.com/ai-artificial-intelligence/1032020/gemini-chatgpt-perplexity-shopping-test-risky-fake-websites-citations" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-05.svg"
+         alt="AIチャットボットが偽の小売サイトを推奨か、調査で判明（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.theverge.com/ai-artificial-intelligence/1032020/gemini-chatgpt-perplexity-shopping-test-risky-fake-websites-citations" target="_blank" rel="noopener">AIチャットボットが偽の小売サイトを推奨か、調査で判明</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T17:00:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://ascii.jp/elem/000/004/451/4451169/?rss" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-13.svg"
+         alt="NVIDIAがジェンスン・フアンCEOの辞任を発表＝暫定CEOにはコレット・クレス氏が就任（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://ascii.jp/elem/000/004/451/4451169/?rss" target="_blank" rel="noopener">NVIDIAがジェンスン・フアンCEOの辞任を発表＝暫定CEOにはコレット・クレス氏が就任</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T15:10:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.theverge.com/ai-artificial-intelligence/1030422/nvidia-jensen-huang-ai-china-alice-huang" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-09.svg"
+         alt="Nvidia CEOのジェンスン・フアン氏が辞任、今後はどうなるのか（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.theverge.com/ai-artificial-intelligence/1030422/nvidia-jensen-huang-ai-china-alice-huang" target="_blank" rel="noopener">Nvidia CEOのジェンスン・フアン氏が辞任、今後はどうなるのか</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T15:01:31+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://arstechnica.com/google/2026/11/google-pushes-privacy-angle-as-gemini-powered-smartglasses-debut-starting-at-395/" target="_blank" rel="noopener">
+    <img src="https://cdn.arstechnica.net/wp-content/uploads/2026/11/WP_ALDEN-Carousel_Lifestyle-copy-500x500.jpg" alt="Googleがプライバシーを前面に、Gemini搭載スマートグラスを395ドルから発売（画像: Ars Technica AI）" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.closest('.tile-media').classList.add('no-img')">
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://arstechnica.com/google/2026/11/google-pushes-privacy-angle-as-gemini-powered-smartglasses-debut-starting-at-395/" target="_blank" rel="noopener">Googleがプライバシーを前面に、Gemini搭載スマートグラスを395ドルから発売</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T14:50:17+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">Ars Technica AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://www.theverge.com/ai-artificial-intelligence/1031689/jensen-huang-nvidia-ceo-resigns" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-07.svg"
+         alt="NvidiaのJensen Huang CEO、スパイ疑惑と不倫問題の中で辞任（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://www.theverge.com/ai-artificial-intelligence/1031689/jensen-huang-nvidia-ceo-resigns" target="_blank" rel="noopener">NvidiaのJensen Huang CEO、スパイ疑惑と不倫問題の中で辞任</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T13:53:16+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">The Verge AI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://openai.com/business/customer-stories/gondola" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-models-03.svg"
+         alt="Gondola、Codexの活用で開発を拡大し売上を倍増（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://openai.com/business/customer-stories/gondola" target="_blank" rel="noopener">Gondola、Codexの活用で開発を拡大し売上を倍増</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#新モデル</span><time datetime="2026-11-12T12:00:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">OpenAI</span>
+<span class="mt-mark">自動翻訳</span>    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://ascii.jp/elem/000/004/451/4451154/?rss" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-japan-04.svg"
+         alt="「JAPAN AI」、「GPT-6 Luna」の国内推論に対応（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://ascii.jp/elem/000/004/451/4451154/?rss" target="_blank" rel="noopener">「JAPAN AI」、「GPT-6 Luna」の国内推論に対応</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#国内動向</span><time datetime="2026-11-12T09:00:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+<article class="news-tile">
+  <a class="tile-media" href="https://ascii.jp/elem/000/004/451/4451157/?rss" target="_blank" rel="noopener">
+    <img src="../../../static/img/news-research-14.svg"
+         alt="EpicAI、日本品質管理学会にて、生成AIによる故障解析（FTA）の品質評価に関する研究を発表（内容を表す図ではないイメージ画像）" loading="lazy">
+    <span class="stock-mark">イメージ</span>
+  </a>
+  <div class="tile-body">
+    <h3 class="tile-title"><a href="https://ascii.jp/elem/000/004/451/4451157/?rss" target="_blank" rel="noopener">EpicAI、日本品質管理学会にて、生成AIによる故障解析（FTA）の品質評価に関する研究を発表</a></h3>
+    <div class="tile-meta">
+<span class="tag-hash">#研究動向</span><time datetime="2026-11-12T08:50:00+00:00">2026.11.12</time>    </div>
+    <div class="tile-src">
+      <span class="src">ASCII.jp</span>
+    </div>
+  </div>
+</article>
+    </div>
+    <nav class="pager" aria-label="pagination">
+<span class="pager-btn disabled">← 前へ</span>  <span class="pager-nums">
+<span class="pager-num on" aria-current="page">1</span>
+<a class="pager-num" href="2/">2</a><a class="pager-num" href="3/">3</a><span class="pager-gap">…</span>
+<a class="pager-num" href="103/">103</a>  </span>
+<a class="pager-btn" href="2/" rel="next">次へ →</a>
+</nav>
+
+  </div>
+</section>
+    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-11-14 09:48 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=61a63edb" defer></script>
+</body>
+</html>

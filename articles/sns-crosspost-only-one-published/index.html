@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>SNS一斉公開をAIに任せたら一つにしか出ていなかった · AIの鬼</title>
+  <meta name="description" content="複数のSNSへの毎日の動画公開をAIに任せていたら、前日分は動画サイトにしか出ていなかった。投稿済みの表示なのに失敗していた投稿、管理画面に出てこない予約もあった。公開の確かめ方を変えた記録。">
+  <link rel="canonical" href="https://ai-oni.com/articles/sns-crosspost-only-one-published/">
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="ja" href="https://ai-oni.com/articles/sns-crosspost-only-one-published/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIの鬼">
+  <meta property="og:title" content="「全部のSNSに出したよな？」と聞いたら、出ていたのは一つだけだった · AIの鬼">
+  <meta property="og:description" content="複数のSNSへの毎日の動画公開をAIに任せていたら、前日分は動画サイトにしか出ていなかった。投稿済みの表示なのに失敗していた投稿、管理画面に出てこない予約もあった。公開の確かめ方を変えた記録。">
+  <meta property="og:url" content="https://ai-oni.com/articles/sns-crosspost-only-one-published/">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://ai-oni.com/static/img/article-sns-crosspost-only-one-published.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="576">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-oni.com/static/img/article-sns-crosspost-only-one-published.jpg">
+  <meta name="twitter:title" content="「全部のSNSに出したよな？」と聞いたら、出ていたのは一つだけだった · AIの鬼">
+  <meta name="twitter:description" content="複数のSNSへの毎日の動画公開をAIに任せていたら、前日分は動画サイトにしか出ていなかった。投稿済みの表示なのに失敗していた投稿、管理画面に出てこない予約もあった。公開の確かめ方を変えた記録。">
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="AIの鬼"
+        href="https://ai-oni.com/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ai-oni.com/#organization","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"url":"https://ai-oni.com/","description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","logo":{"@type":"ImageObject","url":"https://ai-oni.com/static/img/oni-identity.jpg"},"parentOrganization":{"@type":"Organization","name":"株式会社TOE","url":"https://gtoe.info/"},"publishingPrinciples":"https://ai-oni.com/about/","ownershipFundingInfo":"https://ai-oni.com/about/","sameAs":["https://gtoe.info/","https://note.com/jojinja"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"福岡県","streetAddress":"〒810-0004 福岡県福岡市中央区渡辺通1丁目9-3 1丁目ビル203号"}},{"@type":"WebSite","@id":"https://ai-oni.com/#website","url":"https://ai-oni.com/","name":"AIの鬼","alternateName":["AIoni","AI-ONI"],"description":"株式会社TOEが自社の業務でAIを動かした記録と、ChatGPT・Perplexity・AI Overviews を実際に測った結果を公開する、中小企業のためのAI実践・実測ラボ。うまくいった話も失敗も、数字のまま。最新の研究・調査は中小企業向けに読み解き、国内外のニュースも選別して届けます。経営者・情報システム担当向け。","inLanguage":"ja-JP","publisher":{"@id":"https://ai-oni.com/#organization"},"about":[{"@type":"Thing","name":"Artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q11660"},{"@type":"Thing","name":"Machine learning","sameAs":"https://www.wikidata.org/wiki/Q2539"},{"@type":"Thing","name":"Large language model","sameAs":"https://www.wikidata.org/wiki/Q115033245"},{"@type":"Thing","name":"Generative artificial intelligence","sameAs":"https://www.wikidata.org/wiki/Q117222789"},{"@type":"Thing","name":"Deep learning","sameAs":"https://www.wikidata.org/wiki/Q197536"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://ai-oni.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ai-oni.com/"},{"@type":"ListItem","position":2,"name":"実践記録","item":"https://ai-oni.com/articles/"},{"@type":"ListItem","position":3,"name":"「全部のSNSに出したよな？」と聞いたら、出ていたのは一つだけだった","item":"https://ai-oni.com/articles/sns-crosspost-only-one-published/"}]},{"@type":"Article","headline":"「全部のSNSに出したよな？」と聞いたら、出ていたのは一つだけだった","description":"AIに任せた毎日の動画公開は、前日分が動画サイトにしか出ていなかった。「投稿しました」の表示も当てにならない。公開の数分後に、SNSごとのプロフィールを開いて確かめるようにした。","inLanguage":"ja-JP","mainEntityOfPage":{"@type":"WebPage","@id":"https://ai-oni.com/articles/sns-crosspost-only-one-published/"},"url":"https://ai-oni.com/articles/sns-crosspost-only-one-published/","publisher":{"@id":"https://ai-oni.com/#organization"},"isAccessibleForFree":true,"author":{"@type":"Person","name":"中島高次","url":"https://ai-oni.com/about/#author","worksFor":{"@id":"https://ai-oni.com/#organization"}},"articleSection":"失敗の鬼","datePublished":"2026-11-13","dateModified":"2026-11-13","image":"https://ai-oni.com/static/img/article-sns-crosspost-only-one-published.jpg"}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap">
+  </noscript>
+  <link rel="icon" href="../../static/img/favicon.svg?v=61a63edb" type="image/svg+xml">
+  <link rel="stylesheet" href="../../static/css/style.css?v=61a63edb">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNQPGVMWWW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* 社内からのアクセスに印を付ける。
+       GA4 の「内部トラフィックの定義」は除外したいIPを直接書く作りで、事務所の回線が
+       動的IPのため、ルーターが再起動するたびに黙って壊れる（2026-08-16 に実際に壊れ、
+       14.12.28.195 → 110.133.36.96 に変わったあと自分たちのアクセスが数字に混ざった）。
+       IPではなくブラウザ側に印を持たせれば、回線が変わっても壊れない。
+         印を付ける: 末尾に ?internal=1 を付けて一度開く
+         印を消す  : 末尾に ?internal=0 を付けて開く
+       印が付いたブラウザは traffic_type=internal を送るので、GA4 側の
+       「内部トラフィックを除外」フィルタがそのまま効く（フィルタは有効にしておくこと）。 */
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('internal')) {
+          if (q.get('internal') === '0') localStorage.removeItem('toe-internal');
+          else localStorage.setItem('toe-internal', '1');
+        }
+        if (localStorage.getItem('toe-internal') === '1') {
+          gtag('set', { traffic_type: 'internal' });
+        }
+      } catch (e) {}
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-SNQPGVMWWW');
+  </script>
+  <!-- Language routing: Japanese browsers get /, everyone else gets /en/.
+       Runs before paint to avoid a flash. A manual choice always wins. -->
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem("aioni-lang")) return;        // 手動選択を尊重
+      if (sessionStorage.getItem("aioni-redirected")) return; // 1セッション1回だけ
+      var cur = "ja";
+      var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      var want = nav.indexOf("ja") === 0 ? "ja" : "en";
+      if (want === cur) return;
+      var target = want === "ja" ? "https://ai-oni.com/articles/sns-crosspost-only-one-published/" : "";
+      if (!target) return;
+      sessionStorage.setItem("aioni-redirected", "1");
+      location.replace(target);
+    } catch (e) {}
+  })();
+  </script>
+</head>
+<body data-lang="ja">
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="side-brand" href="../../">
+      <span class="side-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="40" height="40" fill="none"><path d="M8 7.5 L8 3.5 L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 7.5 L24 3.5 L20.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="5.5" y="7.5" width="21" height="21" rx="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 18.5 L15 22 L21 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="side-name">AIの鬼</span>
+      <span class="side-tag">AI実践・実測ラボ</span>
+    </a>
+
+    <form class="side-search" action="../../search/" method="get" role="search">
+      <input type="search" name="q" placeholder="記事を検索"
+             aria-label="検索">
+    </form>
+
+    <nav class="side-nav">
+      <a href="../../" class="">ホーム</a>
+
+      <span class="side-navhead">実践</span>
+      <a href="../../jissen/" class="">AI実践室</a>
+      <a href="../../aeo/" class="">AEO対策室</a>
+      <a href="../../shippai/" class="">失敗の鬼</a>
+      <a href="../../shigoto/" class="">AI仕事術</a>
+      <a href="../../weekly/" class="">今週のAI</a>
+      <a href="../../naka/" class="">中の鬼</a>
+
+      <span class="side-navhead">資料</span>
+      <a href="../../news/" class="">ニュース</a>
+      <a href="../../papers/" class="">研究動向</a>
+
+      <span class="side-navsep"></span>
+      <a href="../../check/" class="">AI検索チェック</a>
+      <a href="../../contact/" class="cta ">お問い合わせ</a>
+    </nav>
+
+  </aside>
+
+  <div class="main-col">
+    <header class="mobile-bar">
+      <a class="mb-brand" href="../../">AIの鬼</a>
+      <button class="nav-toggle" aria-label="menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+<article class="article">
+  <div class="wrap article-cover">
+    <img src="../../static/img/article-sns-crosspost-only-one-published.jpg"
+         alt="「全部のSNSに出したよな？」と聞いたら、出ていたのは一つだけだった" loading="eager">
+  </div>
+  <header class="article-hero">
+    <div class="wrap article-hero-inner">
+<span class="pill accent">失敗の鬼</span>      <h1>「全部のSNSに出したよな？」と聞いたら、出ていたのは一つだけだった</h1>
+<p class="article-lead">AIに任せた毎日の動画公開は、前日分が動画サイトにしか出ていなかった。「投稿しました」の表示も当てにならない。公開の数分後に、SNSごとのプロフィールを開いて確かめるようにした。</p>      <div class="article-meta">
+<span>中島高次</span><time>2026年11月13日</time>      </div>
+    </div>
+  </header>
+  <div class="wrap article-body prose">
+    <p>その日の昼前、私はAIに、この先しばらくの動画の公開予定を渡した。渡し終えてから、一言だけ付け足した。「全部のSNSに出すんだぞ。忘れるなよ」。送ってから、ふと気になって、もう一通送った。「昨日の分も、もちろん全部に出てるよな？」</p>
+<p>聞き方からして、私は「はい」しか想定していなかった。</p>
+<h2 id="ai">毎日の公開を、AIに丸ごと任せていた</h2>
+<p>うちでは、自分たちで作った短い動画を、毎日夕方に1本ずつ出している。出す先は動画サイトと、いくつかのSNSだ。動画サイトには長いものと縦長の短いものの両方を出し、ほかのSNSにも同じ動画を流す。</p>
+<p>この作業を、事務所に置いてあるもう1台のパソコンで動いているAIに任せていた。公開の予約を入れ、時間が来たら出ていることを確かめ、何かあれば報告する。そういう約束のつもりだった。</p>
+<p>私が毎日見ていたのは動画サイトだけだ。動画サイトに出ていれば、ほかにも出ているものだと思っていた。</p>
+<h2 id="_1">返ってきたのは「いいえ」だった</h2>
+<p>少しして、AIから返事が来た。言い回しを少し変えるが、中身はこうだ。「出ていません。昨日の分は動画サイトにしか載っていません。申し訳ありません」。</p>
+<p>確かめさせると、前の日の1本は、動画サイト以外のSNSには1本も出ていなかった。私は丸一日、全部に出ていると思い込んでいたことになる。</p>
+<p>AIはそのまま段取りを組み直し、その日の午後のうちに、出ていなかったSNS全部へ出し直すことにした。私は「頼む」とだけ返した。怒る気が起きなかったのは、自分でも1回も見に行っていなかったからだ。「全部に出して」と頼んだのは私で、「全部」がどこを指すのかも、出たかどうかを誰がどう確かめるのかも、決めていなかった。</p>
+<h2 id="_2">同じ日に、もう一つ古い画面を見ていた</h2>
+<p>この日、AIはもう一つ外していた。</p>
+<p>予約してある短い動画の表紙（再生前に出る1枚の画像）について、AIは「下の端で文字が重なっています」と報告してきた。ところが、その表紙は前の晩に直してあって、予約にはもう直したバージョンが入っていた。AIは直す前の古いものを見て報告していたのだ。指摘すると「間違った報告をしました、すみません」と訂正が来た。</p>
+<p>一つ目は「出ていないのに出ている」と思っていた話で、二つ目は「直っているのに直っていない」と言った話だ。向きは逆でも、どちらも今の実物を見ないで話している点は同じだった。</p>
+<h2 id="_3">「投稿しました」と出ても、出ていなかった</h2>
+<p>午後の出し直しでは、確かめ方を変えた。投稿したら、そのSNSの自分のプロフィール画面を開いて、誰でも見られる状態で並んでいるかを見る。写真のSNSと短い動画のSNSは、これで出ているのを確かめられた。</p>
+<p>短文のSNSは違った。投稿の操作は「投稿しました」の扱いで終わっていたのに、プロフィールを開くと、どこにも無い。失敗していた。</p>
+<p>原因は動画の中身の方式だった。出し直しに使った動画は、動画サイトからダウンロードしたものだった。その動画は、映像がAV1、音声がOpusという方式で保存されていた。どちらもファイルを小さくするための保存のしかたで、AV1は映像の、Opusは音声の方式の名前だ。SNSによって受け付ける方式は違っていて、短文のSNSはこの組み合わせを受け付けなかった。見た目は同じ動画でも、中身の方式が合わなければ弾かれる。そして弾かれたことが、投稿した側の画面にはっきり出るとは限らない。</p>
+<p>ボタンを押したことと、世の中に出たことは別の出来事だった。私はずっと、この二つを同じものとして数えていた。</p>
+<h2 id="_4">予約したのに、一覧に出てこない</h2>
+<p>予約の見え方も、SNSごとに違った。</p>
+<p>写真のSNSでは、パソコンのブラウザから入れた予約が、予約の一覧に出てこなかった。一覧に出ないので、日時を変えることも、取り消すこともできない。入れたはずのものが、触れない場所にある。いろいろ試させたが動かせなかったので、写真のSNSだけは、元の予定のまま出すことに私が決めた。</p>
+<p>もう一つ、実名で使う人が多いSNSにも同じ動画を流すつもりでいたが、こちらには出さないことにした。「全部に出す」と言い出したのは私だが、その全部を一つ減らしたのも私だ。</p>
+<h2 id="sns">公開の数分後に、SNSごとに開いて見る</h2>
+<p>それからは手順を一つ足した。公開の時間が来たら、その数分後に、AIがSNSごとに公開されているページを開いて見る。出ていれば○、無ければ×を並べた一覧にして、私に送ってくる。</p>
+<p>翌日の1本では、この一覧が初めて届いた。動画サイト、短文のSNS、短い動画のSNSで、出ているのを確かめた。前の日まで私が知らなかった「出たかどうか」が、毎日、SNSの数だけ並んで届くようになった。</p>
+<p>この手の、AIの報告をそのまま信じて痛い目を見た話は、<a href="/articles/ai-failure-cases-own/">AI導入で当社が実際にやらかした12件</a>にもまとめている。報告が実物とずれていた話なら、<a href="/articles/php-emergency-closed-wrong-way/">サイトを緊急で閉じた夜、AIの「閉じました」は閉じていなかった</a>も同じ根っこだ。</p>
+<h2 id="ai_1">担当の人やAIに、今日ひとつ頼めること</h2>
+<p>複数のSNSへの投稿を、社員や外の制作会社、あるいはAIに任せているなら、今日のうちに一つ頼んでみるといい。「いちばん最近の投稿が、それぞれのSNSに出ているか、プロフィール画面を開いて見せてほしい」。管理画面の「投稿済み」や「予約済み」の表示を見せられたら、それとは別に、誰でも見られる側の画面を見せてもらう。</p>
+<p>続けるなら、公開の時間の数分後に、SNSごとの○×を並べて報告してもらう形にしておく。そのとき「その画面は、いつ開いたものか」も一緒に書いてもらう。前の晩の画面や、直す前のバージョンを見た報告が混じるのを防げる。</p>
+<p>予約投稿を使っているなら、入れた予約が一覧に出て、あとから日時を変えたり消したりできるかも、一度確かめておくといい。出られなくなった予約は、取り消しもきかない。</p>
+<p>今日の夕方も、数分後に一覧が届くはずだ。</p>
+<hr />
+<p>※お客さんが特定されないよう、やり取りや数字などの細部は変えて書いている。</p>
+  </div>
+  <section class="wrap section article-related">
+    <h2 class="section-title">あわせて読む</h2>
+    <div class="grid grid-articles">
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/toe-own-visibility-10/">
+<div class="card-media"><img src="../../static/img/article-toe-own-visibility-10.jpg" alt="AI検索対策を売る会社が自社を測ったら10点だった — 同名の別サービスに説明を持っていかれていた" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">AI検索対策を売る会社が自社を測ったら10点だった — 同名の別サービスに説明を持っていかれていた</h3>
+<p class="card-summary">自社サイトのAI可視性を測ったところ100点満点中10点、判定は「AIに認識されていません」でした。AIが根拠にしていたのは同じ名前の別サービスばかりで、当サイトは参照元に一つも入っていません。何が起きていたのか、調べて分かった原因と、その日のうちに直したことを実測値のまま公開します。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/naka-2026-08-24/">
+<div class="card-media"><img src="../../static/img/article-naka-2026-08-24.jpg" alt="「クリック率20%」は、私が書いた記事の数字ではなかった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">中の鬼</span>      <h3 class="card-title">「クリック率20%」は、私が書いた記事の数字ではなかった</h3>
+<p class="card-summary">このコーナーだけCTRが20%ある、とずっと言ってきた。今月その20%が何を数えた値なのか確かめたら、記事24本の合計は表示40・クリック2で、20%は目次ページ1枚（41表示・8クリック）の数字だった。せっせと書いた本体は、ほとんど読まれていない。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+<article class="card article-card">
+  <a class="article-card-inner" href="../../articles/php-emergency-closed-wrong-way/">
+<div class="card-media"><img src="../../static/img/article-php-emergency-closed-wrong-way.jpg" alt="サイトを緊急で閉じた夜、AIの「閉じました」は閉じていなかった" loading="lazy"></div>    <div class="card-body">
+<span class="pill accent">失敗の鬼</span>      <h3 class="card-title">サイトを緊急で閉じた夜、AIの「閉じました」は閉じていなかった</h3>
+<p class="card-summary">WordPressの中でサイトを閉じても、PHPの脆弱性は防げない。AIの「閉じました」が閉じていなかった夜の話と、同じ週に外した4つの判断、今日のうちに制作会社へ聞いておくことを書く。</p>      <span class="card-link">続きを読む →</span>
+    </div>
+  </a>
+</article>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <aside class="cta-banner cta-dounyu">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">AI導入相談</span>
+    <h2 class="cta-title">自社のどの業務からAIを入れるべきか</h2>
+    <p class="cta-body">株式会社TOEが自社で実際に動かしている仕組みをもとに、御社の業務のどこから始めるのが現実的かをご相談いただけます。売り込みはしません。</p>
+    <a class="btn btn-primary cta-action" href="../../contact/?service=dounyu&amp;utm_source=aioni&amp;utm_medium=article_cta&amp;utm_campaign=dounyu&amp;utm_content=sns-crosspost-only-one-published">無料で相談する</a>
+  </div>
+</aside>
+
+  </div>
+  <div class="wrap article-foot">
+    <a class="btn btn-ghost" href="../../articles/">← 実践記録の一覧へ戻る</a>
+  </div>
+</article>
+<aside class="toe-training-wrap" aria-label="株式会社TOEの法人向けAI研修">
+  <p class="toe-training-disclosure">PR｜運営会社TOEのAI研修</p>
+  <a class="toe-training-banner" href="https://ai-training-lp-rouge.vercel.app/?utm_source=aioni&amp;utm_medium=display&amp;utm_campaign=toe_ai_training_202610&amp;utm_content=article_banner">
+    <span class="toe-training-visual"><img class="toe-training-photo" src="../../static/img/toe-training-photo-v2.webp" alt="パソコンで提案の準備を進める社員と経営者のイメージ" width="1100" height="733" loading="lazy"><small class="toe-training-image-note">AI生成のイメージ写真</small></span>
+    <span class="toe-training-copy">
+      <span class="toe-training-brand"><img src="../../static/img/toe-training-logo.png" alt="TOE" width="573" height="200" loading="lazy"><span>法人向けAI研修</span></span>
+      <strong class="toe-training-title">見積も、提案も。<br><span>社長ひとりで抱えない。</span></strong>
+      <span class="toe-training-body">見積・提案・顧客対応を題材に、AIで下書きや情報整理を学ぶ法人研修です。</span>
+      <span class="toe-training-action">無料30分相談<span aria-hidden="true">→</span></span>
+    </span>
+    <span class="toe-training-grant">
+      <span class="toe-training-deadline">まもなく終了</span>
+      <span class="toe-training-label">助成率</span>
+      <span class="toe-training-rate"><small>最大</small><b>75</b><span>%</span></span>
+      <small class="toe-training-note">中小企業・要件あり</small>
+    </span>
+  </a>
+</aside>
+<script src="../../static/js/toe-training-banner-v3.js" defer></script>    </main>
+
+    <section class="block block-tint block-cta">
+  <div class="sec-head">
+    <span class="sec-ja">御社でもAIを使ってみませんか</span>
+  </div>
+
+  <a class="svc-main" href="../../contact/">
+    <span class="svc-main-body">
+      <span class="svc-eyebrow">まずはここから</span>
+      <span class="svc-title">御社でもAIを使ってみませんか？</span>
+      <span class="svc-desc">
+        御社の実際の業務を題材に、AIで何ができるかを一緒に考えます。
+        「ChatGPTの使い方」を教えるだけの研修ではありません。
+      </span>
+    </span>
+    <span class="svc-main-cta">AI研修・AI活用相談 →</span>
+  </a>
+
+  <div class="svc-sub">
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">AI検索で自社がどう見えるか知りたい</span>
+      <span class="svc-card-desc">
+        ChatGPTやPerplexityで自社が言及されるかを実際に測ります。
+        引用を約束するものではなく、まず現状を測るサービスです。
+      </span>
+      <span class="card-link">AI検索可視性診断 →</span>
+    </a>
+    <a class="svc-card" href="../../contact/">
+      <span class="svc-card-title">Webサイトを改善したい</span>
+      <span class="svc-card-desc">
+        測った結果、サイト側に原因があった場合の改善まで対応します。
+        Web制作25年・1000案件の実績があります。
+      </span>
+      <span class="card-link">SEO・Webサイト改善 →</span>
+    </a>
+  </div>
+</section>
+
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="side-name">AIの鬼</div>
+          <p class="footer-tagline">AI実践・実測ラボ</p>
+          <p class="footer-desc">AIを自分で動かし、自分で測る。株式会社TOEの実践・実測ラボ。運用中にAI APIを使わず、無料の公開データのみで動きます。</p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">実践</h3>
+          <a href="../../jissen/">AI実践室</a>
+          <a href="../../aeo/">AEO対策室</a>
+          <a href="../../shippai/">失敗の鬼</a>
+          <a href="../../shigoto/">AI仕事術</a>
+          <a href="../../weekly/">今週のAI</a>
+          <a href="../../naka/">中の鬼</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">資料</h3>
+          <a href="../../news/">ニュース</a>
+          <a href="../../papers/">研究動向</a>
+          <a href="../../topics/models/">トピック</a>
+          <a href="../../search/">検索</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営・その他</h3>
+          <a href="../../about/">運営会社</a>
+          <a href="../../faq/">よくある質問</a>
+          <a href="../../advertise/">広告掲載</a>
+<a href="../../check/">AI検索チェック</a>          <a href="../../contact/">お問い合わせ</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">運営メディア</h3>
+          <a href="https://gtoe.info/" rel="noopener" target="_blank">株式会社TOE</a>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-head">データ提供</h3>
+          <a href="https://rss.itmedia.co.jp/rss/2.0/aiplus.xml" rel="noopener" target="_blank">ITmedia AI+</a>
+          <a href="https://openai.com/news/" rel="noopener" target="_blank">OpenAI</a>
+          <a href="https://deepmind.google/" rel="noopener" target="_blank">Google DeepMind</a>
+          <a href="https://huggingface.co/blog" rel="noopener" target="_blank">Hugging Face</a>
+          <a href="https://arxiv.org/" rel="noopener" target="_blank">arXiv</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIの鬼</span>
+        <span class="footer-updated">更新: 2026-11-14 09:48 UTC</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="../../static/js/main.js?v=61a63edb" defer></script>
+</body>
+</html>
