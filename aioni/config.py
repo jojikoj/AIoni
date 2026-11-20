@@ -353,15 +353,15 @@ CATEGORY_HUB = {
         "sister": {
             "heading": "費用を制度で軽くできるかを調べる",
             "desc": ("AI導入の費用を公的な制度で軽くできるかは、当社が運営する補助金メディア"
-                     "「補助金の鬼」で調べられます。締切順に並べているので、"
-                     "いま間に合う制度から確認できます。"),
+                     "「補助金の鬼」で調べられます。当社が申請者・IT導入支援事業者として"
+                     "実際に詰まった所も書いています。"),
             "links": [
-                {"url": "https://hojokin.website/deadline",
-                 "label": "締切が近い補助金の一覧"},
-                {"url": "https://hojokin.website/deadline/tokyo",
-                 "label": "東京都の補助金 締切一覧"},
-                {"url": "https://hojokin.website/deadline/fukuoka",
-                 "label": "福岡県の補助金 締切一覧"},
+                {"url": "https://hojokin.website/subsidies/it-dounyu",
+                 "label": "デジタル化・AI導入補助金"},
+                {"url": "https://hojokin.website/subsidies/shoryokuka",
+                 "label": "中小企業省力化投資補助金"},
+                {"url": "https://hojokin.website/search",
+                 "label": "補助金を条件で探す"},
             ],
         },
         "howto": (
@@ -424,15 +424,15 @@ SISTER_MEDIA = {
         {
             "name": "補助金の鬼",
             "host": "hojokin.website",
-            "desc": ("全国の補助金・助成金を、国のjGrantsから毎日取り込んで"
-                     "締切順に並べているデータベースです。日次の更新にAIは使っていません。"),
+            "desc": ("当社が補助金の申請者・IT導入支援事業者として実際にやってきたことと、"
+                     "世界の補助金の顛末を書いているメディアです。"),
             "links": [
-                {"url": "https://hojokin.website/deadline",
-                 "label": "締切が近い補助金の一覧"},
-                {"url": "https://hojokin.website/deadline/tokyo",
-                 "label": "東京都の補助金 締切一覧"},
-                {"url": "https://hojokin.website/deadline/osaka",
-                 "label": "大阪府の補助金 締切一覧"},
+                {"url": "https://hojokin.website/articles",
+                 "label": "記事一覧"},
+                {"url": "https://hojokin.website/subsidies/it-dounyu",
+                 "label": "デジタル化・AI導入補助金"},
+                {"url": "https://hojokin.website/search",
+                 "label": "補助金を条件で探す"},
             ],
         },
         {
